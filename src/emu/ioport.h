@@ -370,6 +370,7 @@ enum ioport_type
 		IPT_UI_AUDIT_FAST,
 		IPT_UI_AUDIT_ALL,
 		IPT_UI_TOGGLE_AUTOFIRE,
+		IPT_UI_SHOW_TIME,
 
 		// additional OSD-specified UI port types (up to 16)
 		IPT_OSD_1,
@@ -1265,7 +1266,7 @@ struct ioport_field_live
 // ======================> ioport_list
 
 // class that holds a list of I/O ports
-class ioport_list : public std::map<std::string, std::unique_ptr<ioport_port>>
+class ioport_list : public std::unordered_map<std::string, std::unique_ptr<ioport_port>>
 {
 	DISABLE_COPYING(ioport_list);
 

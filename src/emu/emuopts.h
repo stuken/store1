@@ -45,6 +45,7 @@
 #define OPTION_SNAPSHOT_DIRECTORY   "snapshot_directory"
 #define OPTION_DIFF_DIRECTORY       "diff_directory"
 #define OPTION_COMMENT_DIRECTORY    "comment_directory"
+#define OPTION_VIDEO_DIRECTORY		"video_directory"
 
 // core state/playback options
 #define OPTION_STATE                "state"
@@ -71,6 +72,7 @@
 #define OPTION_FRAMESKIP            "frameskip"
 #define OPTION_SECONDS_TO_RUN       "seconds_to_run"
 #define OPTION_THROTTLE             "throttle"
+#define OPTION_SYNCREFRESH          "syncrefresh"
 #define OPTION_SLEEP                "sleep"
 #define OPTION_SPEED                "speed"
 #define OPTION_REFRESHSPEED         "refreshspeed"
@@ -106,6 +108,7 @@
 #define OPTION_GAMMA                "gamma"
 #define OPTION_PAUSE_BRIGHTNESS     "pause_brightness"
 #define OPTION_EFFECT               "effect"
+#define OPTION_WIDESTRETCH			"widestretch"
 
 // core vector options
 #define OPTION_BEAM_WIDTH_MIN       "beam_width_min"
@@ -231,6 +234,7 @@ public:
 	const char *snapshot_directory() const { return value(OPTION_SNAPSHOT_DIRECTORY); }
 	const char *diff_directory() const { return value(OPTION_DIFF_DIRECTORY); }
 	const char *comment_directory() const { return value(OPTION_COMMENT_DIRECTORY); }
+	const char *video_directory() const { return value(OPTION_VIDEO_DIRECTORY); }
 
 	// core state/playback options
 	const char *state() const { return value(OPTION_STATE); }
@@ -257,6 +261,7 @@ public:
 	int frameskip() const { return int_value(OPTION_FRAMESKIP); }
 	int seconds_to_run() const { return int_value(OPTION_SECONDS_TO_RUN); }
 	bool throttle() const { return bool_value(OPTION_THROTTLE); }
+	bool sync_refresh() const { return bool_value(OPTION_SYNCREFRESH); }
 	bool sleep() const { return m_sleep; }
 	float speed() const { return float_value(OPTION_SPEED); }
 	bool refresh_speed() const { return m_refresh_speed; }
@@ -292,6 +297,7 @@ public:
 	float gamma() const { return float_value(OPTION_GAMMA); }
 	float pause_brightness() const { return float_value(OPTION_PAUSE_BRIGHTNESS); }
 	const char *effect() const { return value(OPTION_EFFECT); }
+	bool widestretch() const { return bool_value(OPTION_WIDESTRETCH); }
 
 	// core vector options
 	float beam_width_min() const { return float_value(OPTION_BEAM_WIDTH_MIN); }

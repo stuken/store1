@@ -156,7 +156,6 @@ static MACHINE_CONFIG_FRAGMENT( qs1000 )
 	MCFG_CPU_ADD("cpu", I8052, DERIVED_CLOCK(1, 1))
 	MCFG_CPU_PROGRAM_MAP(qs1000_prg_map)
 	MCFG_CPU_IO_MAP(qs1000_io_map)
-	MCFG_MCS51_SERIAL_RX_CB(READ8(qs1000_device, data_to_i8052))
 MACHINE_CONFIG_END
 
 
@@ -244,6 +243,8 @@ void qs1000_device::device_start()
 	m_out_p3_cb.resolve_safe();
 
 	//m_serial_w_cb.resolve_safe();
+
+	//m_cpu->i8051_set_serial_rx_callback(read8_delegate(FUNC(qs1000_device::data_to_i8052),this));
 
 	save_item(NAME(m_serial_data_in));
 	save_item(NAME(m_wave_regs));
@@ -530,8 +531,8 @@ void qs1000_device::sound_stream_update(sound_stream &stream, stream_sample_t **
 					chan.m_addr = (chan.m_addr + (chan.m_acc >> 18)) & QS1000_ADDRESS_MASK;
 					chan.m_acc &= ((1 << 18) - 1);
 
-					outputs[0][samp] += (result * 4 * lvol * vol) >> 12;
-					outputs[1][samp] += (result * 4 * rvol * vol) >> 12;
+					outputs[0][samp] += (result * 8 * lvol * vol) >> 12;
+					outputs[1][samp] += (result * 8 * rvol * vol) >> 12;
 				}
 			}
 			else
@@ -559,8 +560,8 @@ void qs1000_device::sound_stream_update(sound_stream &stream, stream_sample_t **
 					chan.m_addr = (chan.m_addr + (chan.m_acc >> 18)) & QS1000_ADDRESS_MASK;
 					chan.m_acc &= ((1 << 18) - 1);
 
-					outputs[0][samp] += (result * lvol * vol) >> 12;
-					outputs[1][samp] += (result * rvol * vol) >> 12;
+					outputs[0][samp] += (result * 8 * lvol * vol) >> 12;
+					outputs[1][samp] += (result * 8 * rvol * vol) >> 12;
 				}
 			}
 		}

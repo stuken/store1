@@ -75,6 +75,7 @@ NB2TilemapCB(running_machine &machine, UINT16 code, int *tile, int *mask )
 
 void namconb1_state::video_update_common(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect, int bROZ )
 {
+	const rectangle &visarea_sprites = m_screen->visible_area();
 	int pri;
 
 	if( bROZ )
@@ -93,8 +94,28 @@ void namconb1_state::video_update_common(screen_device &screen, bitmap_ind16 &bi
 	{
 		for( pri=0; pri<8; pri++ )
 		{
-			namco_tilemap_draw( screen, bitmap, cliprect, pri );
-			c355_obj_draw(screen, bitmap, cliprect, pri );
+			if (m_pos_irq_level != 0)		// raster interrupt enabled
+			{
+				if (pri == 5 || pri == 6)			// special priority cases
+				{
+					if (cliprect.max_y == visarea_sprites.max_y)	// no raster on sprites?? faster!
+					{
+						namco_tilemap_draw( screen, bitmap, visarea_sprites, pri );
+						c355_obj_draw(screen, bitmap, visarea_sprites, pri );
+						namco_tilemap_draw( screen, bitmap, visarea_sprites, pri + 1 );
+					}
+				}
+				else
+				{	
+					namco_tilemap_draw( screen, bitmap, cliprect, pri );
+					c355_obj_draw(screen, bitmap, cliprect, pri );
+				}
+			}
+			else
+			{	
+				namco_tilemap_draw( screen, bitmap, cliprect, pri );
+				c355_obj_draw(screen, bitmap, cliprect, pri );
+			}
 		}
 	}
 } /* video_update_common */

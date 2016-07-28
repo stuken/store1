@@ -525,7 +525,7 @@ if _OPTIONS["USE_LIBUV"]=="0" then
 	}
 end
 
-if _OPTIONS["targetos"]=="windows" then
+if _OPTIONS["targetos"]=="windows" or _OPTIONS["targetos"]=="winui" then
 	configuration { "x64" }
 		defines {
 			"X64_WINDOWS_ABI",
@@ -570,7 +570,7 @@ configuration { "Release" }
 configuration { }
 
 -- CR/LF setup: use on win32, CR only on everything else
-if _OPTIONS["targetos"]=="windows" then
+if _OPTIONS["targetos"]=="windows" or _OPTIONS["targetos"]=="winui" then
 	defines {
 		"CRLF=3",
 	}
@@ -982,12 +982,6 @@ end
 		end
 	end
 
-if (_OPTIONS["PLATFORM"]=="alpha") then
-	defines {
-		"PTR64=1",
-	}
-end
-
 if (_OPTIONS["PLATFORM"]=="arm") then
 	buildoptions {
 		"-Wno-cast-align",
@@ -998,12 +992,6 @@ if (_OPTIONS["PLATFORM"]=="arm64") then
 	buildoptions {
 		"-Wno-cast-align",
 	}
-	defines {
-		"PTR64=1",
-	}
-end
-
-if (_OPTIONS["PLATFORM"]=="mips64") then
 	defines {
 		"PTR64=1",
 	}

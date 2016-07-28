@@ -274,7 +274,7 @@ if (STANDALONE~=true) then
 		}
 
 	end
-	local rctarget = _subtarget
+	local rctarget = _target
 
 	if _OPTIONS["targetos"]=="windows" and (not override_resources) then
 		rcfile = MAME_DIR .. "scripts/resources/windows/" .. _subtarget .. "/" .. rctarget ..".rc"

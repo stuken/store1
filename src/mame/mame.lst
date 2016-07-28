@@ -18,6 +18,7 @@
 1942h                           // hack (Two Bit Score?)
 1942p                           // prototype
 1942w                           // 12/1984 (c) 1984 + Williams Electronics license (c) 1985
+1942c64							// hack MAMEUIFX
 
 @source:1943.cpp
 1943                            // 6/1987 (c) 1987 (Euro)
@@ -1806,6 +1807,7 @@ llandert                        // (test)           no copyright notice
 meteorho                        // Hoei? bootleg    (c) 1980
 meteorts                        // VCC bootleg      (c) 1979
 spcrocks                        // J.Estevez        (c) 1981
+asteroid6						// hack MAMEUIFX
 
 @source:astinvad.cpp
 astinvad                        // (c) 1980 Stern
@@ -2550,8 +2552,6 @@ bbcmc                           // 1986 BBC Master Compact
 bbcmc_ar                        // 1986 BBC Master Compact (Arabic)
 bbcmet                          // 1986 BBC Master ET
 bbcmt                           // 1986 BBC Master Turbo
-ltmpbp                          // 1985 LTM Portable (B+)
-ltmpm                           // 1986 LTM Portable (Master)
 pro128s                         // 1987 Olivetti Prodest PC 128S
 reutapm                         // 1985 Reuters APM Board
 torchf                          // 1982 Torch CF240
@@ -9346,28 +9346,28 @@ faceoffh                        // 1983 SoftLogic / Entertainment Enterprises
 @source:chicago.cpp
 dmodrbcc                        // (c) 1976 Chicago Coin
 
-@source:chihiro.cpp
-ccfboxa                         // 2009.03.31 Firmware Update For Compact Flash Box (Rev A)
-chihiro                         // 2002.?? Chihiro BIOS
-crtaxihr                        // 2003.02.24 Crazy Taxi High Roller (Rev B)
-ghostsqo                        // 2004.12 Ghost Squad
-ghostsqu                        // 2004.12.09 Ghost Squad (Rev A)
-gundamos                        // 2005.03 Gundam Battle Operating Simulator
-hotd3                           // 2002.10.29 The House of the Dead III
-mj2                             // 2005.02.02 Sega Network Taisen Mahjong MJ 2 (Rev G)
-mj2c                            // 2004.12 Sega Network Taisen Mahjong MJ 2 (Rev C)
-mj2f                            // 2005.02 Sega Network Taisen Mahjong MJ 2 (Rev F)
-mj3                             // 2005.12 Sega Network Taisen Mahjong MJ 3 (Rev F)
-mj3d                            // 2005.12 Sega Network Taisen Mahjong MJ 3 (Rev D)
-mj3evo                          // 2007.06 Sega Network Taisen Mahjong MJ 3 Evolution (Rev B)
-ollie                           // 2004.03 Ollie King
-outr2                           // 2003.12 Outrun 2 (Rev A)
-outr2st                         // 2004.12 Outrun 2 Special Tours (Rev A)
-scg06nt                         // 2005.12 Sega Golf Club 2006: Next Tours (Rev A)
-vcop3                           // 2003.02.26 Virtua Cop 3 (Rev A)
-wangmid                         // 2004.07 Wangan Midnight Maximum Tune (export) (Rev B)
-wangmid2                        // 2005.10 Wangan Midnight Maximum Tune 2 (Export) (Rev A)
-wangmid2j                       // 2005.04 Wangan Midnight Maximum Tune 2 (Japan)
+//@source:chihiro.cpp
+//ccfboxa                         // 2009.03.31 Firmware Update For Compact Flash Box (Rev A)
+//chihiro                         // 2002.?? Chihiro BIOS
+//crtaxihr                        // 2003.02.24 Crazy Taxi High Roller (Rev B)
+//ghostsqo                        // 2004.12 Ghost Squad
+//ghostsqu                        // 2004.12.09 Ghost Squad (Rev A)
+//gundamos                        // 2005.03 Gundam Battle Operating Simulator
+//hotd3                           // 2002.10.29 The House of the Dead III
+//mj2                             // 2005.02.02 Sega Network Taisen Mahjong MJ 2 (Rev G)
+//mj2c                            // 2004.12 Sega Network Taisen Mahjong MJ 2 (Rev C)
+//mj2f                            // 2005.02 Sega Network Taisen Mahjong MJ 2 (Rev F)
+//mj3                             // 2005.12 Sega Network Taisen Mahjong MJ 3 (Rev F)
+//mj3d                            // 2005.12 Sega Network Taisen Mahjong MJ 3 (Rev D)
+//mj3evo                          // 2007.06 Sega Network Taisen Mahjong MJ 3 Evolution (Rev B)
+//ollie                           // 2004.03 Ollie King
+//outr2                           // 2003.12 Outrun 2 (Rev A)
+//outr2st                         // 2004.12 Outrun 2 Special Tours (Rev A)
+//scg06nt                         // 2005.12 Sega Golf Club 2006: Next Tours (Rev A)
+//vcop3                           // 2003.02.26 Virtua Cop 3 (Rev A)
+//wangmid                         // 2004.07 Wangan Midnight Maximum Tune (export) (Rev B)
+//wangmid2                        // 2005.10 Wangan Midnight Maximum Tune 2 (Export) (Rev A)
+//wangmid2j                       // 2005.04 Wangan Midnight Maximum Tune 2 (Japan)
 
 @source:chinagat.cpp
 chinagat                        // TA-0023 (c) 1988 Taito + Romstar license (US)
@@ -9880,6 +9880,8 @@ wofj                            // 31/10/1992 (c) 1992 (Japan) (CPS1 + QSound)
 wofr1                           // 02/10/1992 (c) 1992 (World) (CPS1 + QSound)
 wofu                            // 31/10/1992 (c) 1992 (USA) (CPS1 + QSound)
 wonder3                         // 20/05/1991 (c) 1991 (Japan)
+stridergh						// hack MAMEUIFX
+wofjm							// hack MAMEUIFX
 
 @source:cps2.cpp
 1944                            // 20/06/2000 (c) 2000 Eighting/Raizing (USA)
@@ -10717,8 +10719,7 @@ bouldashj                       // (c) 1990 Data East Corporation (Japan)
 drgninja                        // EG (c) 1988 Data East Corporation (Japan)
 drgninjab                       // bootleg
 drgninjab2                      // bootleg
-ffantasy                        // EX (c) 1989 Data East Corporation (World)
-ffantasyj                       // EV (c) 1989 Data East Corporation (Japan)
+ffantasy                        // EV (c) 1989 Data East Corporation (Japan)
 ffantasya                       // EV (c) 1989 Data East Corporation (Japan)
 ffantasybl                      // bootleg
 hbarrel                         // (c) 1987 Data East USA (US)
@@ -11039,9 +11040,6 @@ dm500                           //
 dm5620                          //
 dm7000                          //
 
-@source:dmax8000.cpp
-dmax8000                        //
-
 @source:dmndrby.cpp
 dmndrby                         // G4001 'DD' (c) 1986
 dmndrbya                        // G4001 'DD' (c) 1986
@@ -11225,7 +11223,6 @@ ougonpai                        // "62" (c) 1991 Dynax
 ougonpaib                       // "62" (c) 1991 bootleg
 quiztvqq                        // "64" Quiz TV Gassyuukoku Q&Q 1992 Dynax
 shpeng                          // (c) 1995 WSAC Systems
-intrgirl                        // (c) 1995 Barko
 sprtmtch                        // "31" (c) 1989 Dynax + Fabtek license
 tenkai                          // (c) 1991 Dynax
 tenkai2b                        // (c) 1991 bootleg
@@ -11748,7 +11745,6 @@ avenger                         // (c) 1975 Electra
 
 @source:electron.cpp
 electron                        // 1983 Acorn Electron
-btm2105                         // 1985 BT Merlin M2105
 
 @source:elekscmp.cpp
 elekscmp                        //
@@ -11809,7 +11805,6 @@ suprglob                        // (c) 1983
 theglob                         // (c) 1983
 theglob2                        // (c) 1983
 theglob3                        // (c) 1983
-beastf                          // (c) 1984
 
 @source:eprom.cpp
 eprom                           // 136069           (c) 1989
@@ -12092,9 +12087,6 @@ fccpu30                         //
 @source:fcscsi.cpp
 fcscsi1                         //
 
-@source:fcisio.cpp
-fcisio1                         //
-
 @source:fcombat.cpp
 fcombat                         // (c) 1985 Jaleco
 
@@ -12138,7 +12130,6 @@ feasgla                         // EAS: Elite A/S Challenger (Glasgow program, E
 fexcel                          //
 fexcelv                         //
 fscc9                           //
-fscc9b                          //
 fscc12                          //
 reversic                        //
 super9cc                        // SU9: Super 9 Sensory Chess Challenger (English)
@@ -12282,8 +12273,8 @@ fccpu1                          //
 pesadelo                        // (c) 1989 Forte II Games
 
 @source:fortecar.cpp
-fortecrd                        // (c) 1994, Fortex Ltd.
-fortecar                        // (c) 1994, Fortex Ltd.
+fortecar                        //
+fortecrd                        //
 
 @source:fp1100.cpp
 fp1100                          //
@@ -12735,6 +12726,7 @@ zerotime                        // hack
 zerotimed                       // hack
 zigzagb                         // (c) 1982 LAX (bootleg)
 zigzagb2                        // (c) 1982 LAX (bootleg)
+donight							// hack MAMEUIFX
 
 @source:galaxold.cpp
 4in1                            // (c) 1981 Armenia / Food and Fun
@@ -13668,8 +13660,8 @@ gstrikera                       // (c) [1993] Human
 gstrikerj                       // (c) [1993] Human
 twrldc94                        // (c) 1994 Tecmo
 twrldc94a                       // (c) 1994 Tecmo
-vgoalsca                        // (c) 199? Tecmo
-vgoalsoc                        // (c) 199? Tecmo
+vgoalsca                        // (c) 199? Temco
+vgoalsoc                        // (c) 199? Temco
 
 @source:gsword.cpp
 gsword                          // AC  (c) 1984 Taito Corporation
@@ -19717,7 +19709,6 @@ dodgectyc                       // (c) 1986 Merit
 dtrvwz5                         // (c) 1987 Merit
 iowapp                          // (c) 1990 Merit
 misdraw                         // (c) 1986 Merit / Big Apple Games
-mpchoice                        // (c) 1986 Merit
 mroundup                        // (c) 1984 Merit
 phrcraze                        // (c) 1986 Merit
 phrcrazea                       // (c) 1986 Merit
@@ -27401,11 +27392,11 @@ murogmbl                        // ???
 @source:mustache.cpp
 mustache                        // (c) 1987 March
 
-@source:mvme147.cpp
-mvme147                         // (c) 1989 Motorola
-
 @source:mvme350.cpp
 mvme350                         //
+
+@source:mvme147.cpp
+mvme147                         // (c) 1989 Motorola
 
 @source:mw18w.cpp
 18w                             // 653 (c) 1979 Midway
@@ -27796,8 +27787,7 @@ truckk                          // 2000.06 Truck Kyousoukyoku (Metro)
 assault                         // (c) 1988
 assaultj                        // (c) 1988 (Japan)
 assaultp                        // (c) 1988 (Japan)
-bubbletr                        // (c) 1992 (World)
-bubbletrj                       // (c) 1992 (Japan)
+bubbletr                        // (c) 1992
 burnforc                        // (c) 1989 (Japan, new version)
 burnforco                       // (c) 1989 (Japan, old version)
 cosmogng                        // (c) 1991 (US)
@@ -28269,7 +28259,6 @@ ryuuha                          // (c) 1987
 secolove                        // (c) 1986
 seiha                           // (c) 1987
 seiham                          // (c) 1987
-swinggal            // (c) 1987 Digital Denshi
 vipclub                         // (c) 1988 Daiichi Denshi
 
 @source:nbmj8891.cpp
@@ -28653,6 +28642,10 @@ wjammers                        // 0065 (c) 1994 Data East Corporation
 zedblade                        // 0076 (c) 1994 NMK
 zintrckb                        // 0211 hack - this is not a genuine MVS proto, its a bootleg made from the CD version
 zupapa                          // 0070 Zupapa - released in 2001, 1994 prototype probably exists
+kof2002xxx						// hack MAMEUIFX
+kof97xxx						// hack MAMEUIFX
+mslug2t							// hack MAMEUIFX
+mslug3v							// hack MAMEUIFX
 
 @source:neopcb.cpp
 kf2k3pcb                        // 0271 (c) 2003 Playmore - JAMMA PCB
@@ -29057,10 +29050,9 @@ uk101                           //
 othello                         // (c) 1984 Success.
 
 @source:othunder.cpp
-othunder                        // B67 (c) 1988 Taito Corporation Japan (World, rev 1)
+othunder                        // B67 (c) 1988 Taito Corporation Japan (World)
 othunderj                       // B67 (c) 1988 Taito Corporation (Japan)
-othundero                       // B67 (c) 1988 Taito Corporation Japan (World)
-othunderu                       // B67 (c) 1988 Taito America Corporation (US, rev 1)
+othunderu                       // B67 (c) 1988 Taito America Corporation (US)
 othunderuo                      // B67 (c) 1988 Taito America Corporation (US)
 
 @source:overdriv.cpp
@@ -29095,7 +29087,7 @@ abscam                          // hack
 acitya                          // (c) 1983 Epos Corporation
 alibaba                         // (c) 1982 Sega
 alibabab                        // Mustafa" and 40 Thieves (Ali Baba bootleg)
-beastfp                         // (c) 1984 Epos Corporation
+beastf                          // (c) 1984 Epos Corporation
 bigbucks                        // (c) 1986 Dynasoft Inc.
 birdiy                          // (c) 1983 Mama Top
 bucaner                         // hack
@@ -29199,6 +29191,8 @@ vanvanb                         // (c) 1983 Karateco (bootleg?)
 vanvank                         // (c) 1983 Karateco (bootleg?)
 woodpeca                        // (c) 1981 Amenip Nova Games Ltd.
 woodpeck                        // (c) 1981 Amenip (Palcom Queen River)
+mrmrspac						// hack MAMEUIFX
+pacminer						// hack MAMEUIFX
 
 @source:palm.cpp
 palmiii                         // Palm III
@@ -30578,9 +30572,6 @@ pockchal
 @source:pockstat.cpp
 pockstat                        // 1999 Sony PocketStation
 
-@source:pofo.cpp
-pofo                            //
-
 @source:poisk1.cpp
 poisk1                          //
 
@@ -30660,6 +30651,9 @@ popobear                        // (c) 2000 BMC
 @source:popper.cpp
 popper                          // (c) 1983 Omori Electric Co., Ltd.
 
+@source:portfoli.cpp
+pofo                            //
+
 @source:portrait.cpp
 portrait                        // (c) 1983 Olympia
 portraita                       // (c) 1983 Olympia
@@ -30709,7 +30703,6 @@ gwnf                            // Genius Winner Notebook Fun (Germany)
 prestige                        // PreComputer Prestige Elite
 snotec                          // Bandai Super Note Club (Japan)
 snotecex                        // Bandai Super Note Club EX (Japan)
-princ                           // Tomy Prin-C (Japan)
 
 @source:primo.cpp
 primoa32                        // Primo A-32
@@ -32008,7 +32001,7 @@ newsin7                         // (c) 1983 ATW USA, Inc.
 newsin7a                        // (c) 1982 ATW USA, Inc.
 triplep                         // (c) 1982 KKI / made by Sanritsu?
 triplepa                        // (c) 1982 KKI / made by Sanritsu?
-turpins                         // (c) 1981 bootleg
+//turpins                         // (c) 1981 bootleg
 
 @source:scregg.cpp
 dommy                           // TA-00?? (c) 1983 (Arcade TV Game List - P.90, Left, 13 from top)
@@ -32623,7 +32616,6 @@ rdft2aa                         // (c) 1997 Seibu Kaihatsu (Dream Island license
 rdft2it                         // (c) 1997 Seibu Kaihatsu
 rdft2j                          // (c) 1997 Seibu Kaihatsu
 rdft2ja                         // (c) 1997 Seibu Kaihatsu
-rdft2jb                         // (c) 1997 Seibu Kaihatsu
 rdft2t                          // (c) 1997 Seibu Kaihatsu
 rdft2u                          // (c) 1997 Seibu Kaihatsu (Fabtek license)
 rdft2us                         // (c) 1997 Seibu Kaihatsu (Fabtek license)
@@ -33286,9 +33278,6 @@ spielbud                        // (c) 1985 ADP
 
 @source:sm1800.cpp
 sm1800                          //
-
-@source:sm7238.cpp
-sm7238                          //
 
 @source:smc777.cpp
 smc777                          //
@@ -34059,13 +34048,10 @@ sun3_460                        //
 sun_s10                         //
 sun_s20                         //
 sun4_20                         //
-sun4_110                        //
 sun4_300                        //
-sun4_400                        //
 sun4_40                         //
 sun4_50                         //
 sun4_60                         //
-sun4_65                         //
 sun4_75                         //
 
 @source:suna16.cpp
@@ -34649,6 +34635,8 @@ raimais                         // B36 (c) 1988 Taito Corporation (Japan)
 raimaisj                        // B36 (c) 1988 Taito Corporation
 raimaisjo                       // B36 (c) 1988 Taito Corporation
 tubeit                          // ??? no copyright message
+sokoban							// hack MAMEUIFX
+speccies						// hack MAMEUIFX
 
 @source:taito_o.cpp
 parentj                         // C42 (c) 199? Taito
@@ -35132,8 +35120,6 @@ bilyard                         // (c) 1988 Terminal
 konek                           // (c) 1988 Terminal
 koroleva                        // (c) 1988 Terminal
 sosterm                         // (c) 1988 Terminal
-gorodki                         // (c) 1988 Terminal
-kot                             // (c) 1988 Terminal
 
 @source:ticalc1x.cpp
 dataman                         //
@@ -35734,10 +35720,6 @@ tutor                           // 1983? Tomy Tutor
 
 @source:tv950.cpp
 tv950                           //
-
-@source:tv990.cpp
-tv990                           // 1992? TeleVideo
-tv995                           // 1994 TeleVideo
 
 @source:tvc.cpp
 tvc64                           //
@@ -37175,8 +37157,8 @@ xsleenaj                        // TA-0019 (c) 1986
 @source:xavix.cpp
 taitons1                        //
 
-@source:xbox.cpp
-xbox                            //
+//@source:xbox.cpp
+//xbox                            //
 
 @source:xerox820.cpp
 bigboard                        //
@@ -37538,3 +37520,6 @@ ts1500                          // Timex Sinclair 1500
 zx80                            // 1980 Sinclair ZX-80
 zx81                            // 1981 Sinclair ZX-81
 zx97                            //
+
+@source:monaco.cpp
+monaco							// simulation MAMEUIFX

@@ -468,7 +468,7 @@ end
 			"LUA_COMPAT_5_1",
 			"LUA_COMPAT_5_2",
 		}
-	if not (_OPTIONS["targetos"]=="windows") and not (_OPTIONS["targetos"]=="asmjs") and not (_OPTIONS["targetos"]=="pnacl") then
+	if not (_OPTIONS["targetos"]=="windows" or _OPTIONS["targetos"]=="winui") and not (_OPTIONS["targetos"]=="asmjs") and not (_OPTIONS["targetos"]=="pnacl") then
 		defines {
 			"LUA_USE_POSIX",
 		}
@@ -612,7 +612,7 @@ end
 		MAME_DIR .. "3rdparty/portmidi/pm_common/pmutil.c",
 	}
 
-	if _OPTIONS["targetos"]=="windows" then
+	if _OPTIONS["targetos"]=="windows" or _OPTIONS["targetos"]=="winui" then
 		files {
 			MAME_DIR .. "3rdparty/portmidi/porttime/ptwinmm.c",
 			MAME_DIR .. "3rdparty/portmidi/pm_win/pmwin.c",
@@ -722,7 +722,6 @@ end
 			"-Wno-uninitialized",
 			"-Wno-unused-function",
 			"-Wno-unused-but-set-variable",
-			"-Wno-format-extra-args", -- temp for mingw 6.1 till update bgfx code
 		}
 	configuration { "rpi" }
 		buildoptions {
@@ -735,7 +734,7 @@ end
 
 	configuration { }
 
-	if _OPTIONS["targetos"]=="windows" then
+	if _OPTIONS["targetos"]=="windows" or _OPTIONS["targetos"]=="winui" then
 		local version = str_to_version(_OPTIONS["gcc_version"])
 		if _OPTIONS["gcc"]~=nil and string.find(_OPTIONS["gcc"], "clang") then
 			buildoptions {
@@ -1029,7 +1028,7 @@ project "uv"
 			MAME_DIR .. "3rdparty/libuv/src/version.c",
 	}
 
-	if _OPTIONS["targetos"]=="windows" then
+	if _OPTIONS["targetos"]=="windows" or _OPTIONS["targetos"]=="winui" then
 		defines {
 			"WIN32_LEAN_AND_MEAN",
 			"_WIN32_WINNT=0x0502",
@@ -1210,8 +1209,6 @@ if _OPTIONS["targetos"]=="android" then
 			targetdir(MAME_DIR .. "android-project/app/src/main/libs/x86_64")
 		end
 	end
-
-	strip()
 else
 	kind "StaticLib"
 end

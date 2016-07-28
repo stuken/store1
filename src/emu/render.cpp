@@ -458,8 +458,6 @@ void render_texture::get_scaled(UINT32 dwidth, UINT32 dheight, render_texinfo &t
 	// are we scaler-free? if so, just return the source bitmap
 	if (m_scaler == nullptr || (m_bitmap != nullptr && swidth == dwidth && sheight == dheight))
 	{
-		if (m_bitmap == nullptr) return;
-
 		// add a reference and set up the source bitmap
 		primlist.add_reference(m_bitmap);
 		texinfo.base = m_bitmap->raw_pixptr(m_sbounds.min_y, m_sbounds.min_x);
@@ -1161,6 +1159,32 @@ const render_screen_list &render_target::view_screens(int viewindex)
 
 void render_target::compute_visible_area(INT32 target_width, INT32 target_height, float target_pixel_aspect, int target_orientation, INT32 &visible_width, INT32 &visible_height)
 {
+	if (m_manager.machine().options().widestretch())
+	{
+		float width, height;
+		float scale;
+
+		// start with the aspect ratio of the square pixel layout
+		width = m_curview->effective_aspect(m_layerconfig);
+		height = 1.0f;
+
+		// first apply target orientation
+		if (target_orientation & ORIENTATION_SWAP_XY)
+			width *= 4.0f/3.0f;
+		else
+			height *= 3.0f/4.0f;
+
+		// based on the height/width ratio of the source and target, compute the scale factor
+		if (width / height > (float)target_width / (float)target_height)
+			scale = (float)target_width / width;
+		else
+			scale = (float)target_height / height;
+
+ 		visible_width = render_round_nearest(width * scale);
+		visible_height = render_round_nearest(height * scale);
+	}
+	else
+	{
 	switch (m_scale_mode)
 	{
 		case SCALE_FRACTIONAL:
@@ -1243,6 +1267,7 @@ void render_target::compute_visible_area(INT32 target_width, INT32 target_height
 			visible_height = render_round_nearest(src_height * yscale);
 			break;
 		}
+	}
 	}
 }
 

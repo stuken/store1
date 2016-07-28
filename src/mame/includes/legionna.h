@@ -13,13 +13,18 @@ public:
 	legionna_state(const machine_config &mconfig, device_type type, const char *tag)
 		: driver_device(mconfig, type, tag),
 			m_spriteram(*this, "spriteram"),
-			m_maincpu(*this, "maincpu"),
-			m_audiocpu(*this, "audiocpu"),
-			m_seibu_sound(*this, "seibu_sound"),
-			m_oki(*this, "oki"),
-			m_gfxdecode(*this, "gfxdecode"),
-			m_palette(*this, "palette"),
-			m_raiden2cop(*this, "raiden2cop")
+		/*m_back_data(*this, "back_data"),
+		m_fore_data(*this, "fore_data"),
+		m_mid_data(*this, "mid_data"),
+		m_textram(*this, "textram"),*/
+		m_maincpu(*this, "maincpu"),
+		m_audiocpu(*this, "audiocpu"),
+		m_seibu_sound(*this, "seibu_sound"),
+		m_oki(*this, "oki"),
+		m_gfxdecode(*this, "gfxdecode"),
+		m_palette(*this, "palette"),
+		m_soundlatch(*this, "soundlatch"),
+		m_raiden2cop(*this, "raiden2cop")
 	{
 		memset(scrollvals, 0, sizeof(UINT16)*6);
 	}
@@ -55,8 +60,8 @@ public:
 	DECLARE_WRITE16_MEMBER(legionna_midground_w);
 	DECLARE_WRITE16_MEMBER(legionna_foreground_w);
 	DECLARE_WRITE16_MEMBER(legionna_text_w);
+	DECLARE_WRITE8_MEMBER(okim_rombank_w);
 	DECLARE_READ16_MEMBER(sound_comms_r);
-	DECLARE_READ16_MEMBER(denjinmk_sound_comms_r);
 	DECLARE_WRITE16_MEMBER(sound_comms_w);
 	DECLARE_WRITE16_MEMBER(denjinmk_setgfxbank);
 	DECLARE_WRITE16_MEMBER(heatbrl_setgfxbank);
@@ -67,6 +72,7 @@ public:
 	DECLARE_DRIVER_INIT(cupsoc);
 	DECLARE_DRIVER_INIT(cupsocs);
 	DECLARE_DRIVER_INIT(olysoc92);
+	DECLARE_DRIVER_INIT(denjinmk);
 	TILE_GET_INFO_MEMBER(get_back_tile_info);
 	TILE_GET_INFO_MEMBER(get_mid_tile_info);
 	TILE_GET_INFO_MEMBER(get_mid_tile_info_denji);
@@ -87,12 +93,13 @@ public:
 	void draw_sprites(screen_device &screen, bitmap_ind16 &bitmap,const rectangle &cliprect);
 	void descramble_legionnaire_gfx(UINT8* src);
 	void common_video_start();
-	void common_video_allocate_ptr();
 	required_device<cpu_device> m_maincpu;
 	required_device<cpu_device> m_audiocpu;
 	optional_device<seibu_sound_device> m_seibu_sound;
 	required_device<okim6295_device> m_oki;
 	required_device<gfxdecode_device> m_gfxdecode;
 	required_device<palette_device> m_palette;
+	optional_device<generic_latch_8_device> m_soundlatch;
 	optional_device<raiden2cop_device> m_raiden2cop;
+
 };

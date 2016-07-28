@@ -35,14 +35,6 @@ function addoptionsfromstring(str)
 	end
 end
 
-function pkgconfigcmd()
-	local pkgconfig = os.getenv("PKG_CONFIG")
-	if pkgconfig == nil then 
-		return "pkg-config" 
-	end
-	return pkgconfig
-end
-
 function osdmodulesbuild()
 
 	removeflags {
@@ -123,15 +115,17 @@ function osdmodulesbuild()
 		ext_includedir("uv"),
 	}
 
-	if _OPTIONS["targetos"]=="windows" then
+	if _OPTIONS["targetos"]=="windows" or _OPTIONS["targetos"]=="winui" then
 		includedirs {
 			MAME_DIR .. "3rdparty/winpcap/Include",
 			MAME_DIR .. "3rdparty/compat/mingw",
 		}
 
-		includedirs {
-			MAME_DIR .. "3rdparty/compat/winsdk-override",
-		}
+		if _OPTIONS["MODERN_WIN_API"]~="1" then
+			includedirs {
+				MAME_DIR .. "3rdparty/compat/winsdk-override",
+			}
+		end
 	end
 
 	if _OPTIONS["NO_OPENGL"]=="1" then
@@ -251,12 +245,11 @@ function qtdebuggerbuild()
 	local version = str_to_version(_OPTIONS["gcc_version"])
 	if _OPTIONS["gcc"]~=nil and (string.find(_OPTIONS["gcc"], "clang") or string.find(_OPTIONS["gcc"], "asmjs")) then
 		configuration { "gmake or ninja" }
-			if (version >= 30600) then
-				buildoptions {
-					"-Wno-inconsistent-missing-override",
-				}
-			end
-		configuration { }
+		if (version >= 30600) then
+			buildoptions {
+				"-Wno-inconsistent-missing-override",
+			}
+		end
 	end
 
 	files {
@@ -335,7 +328,7 @@ function qtdebuggerbuild()
 
 		}
 
-		if _OPTIONS["targetos"]=="windows" then
+		if _OPTIONS["targetos"]=="windows" or _OPTIONS["targetos"]=="winui" then
 			configuration { "mingw*" }
 				buildoptions {
 					"-I$(shell qmake -query QT_INSTALL_HEADERS)",
@@ -352,7 +345,7 @@ function qtdebuggerbuild()
 				}
 			else
 				buildoptions {
-					backtick(pkgconfigcmd() .. " --cflags Qt5Widgets"),
+					backtick("pkg-config --cflags Qt5Widgets"),
 				}
 			end
 		end
@@ -387,7 +380,7 @@ function osdmodulestargetconf()
 
 	if _OPTIONS["NO_USE_MIDI"]~="1" then
 		if _OPTIONS["targetos"]=="linux" then
-			local str = backtick(pkgconfigcmd() .. " --libs alsa")
+			local str = backtick("pkg-config --libs alsa")
 			addlibfromstring(str)
 			addoptionsfromstring(str)
 		elseif _OPTIONS["targetos"]=="macosx" then
@@ -398,7 +391,7 @@ function osdmodulestargetconf()
 	end
 
 	if _OPTIONS["USE_QTDEBUG"]=="1" then
-		if _OPTIONS["targetos"]=="windows" then
+		if _OPTIONS["targetos"]=="windows" or _OPTIONS["targetos"]=="winui" then
 			linkoptions {
 				"-L$(shell qmake -query QT_INSTALL_LIBS)",
 			}
@@ -428,14 +421,14 @@ function osdmodulestargetconf()
 					"Qt5Widgets",
 				}
 			else
-				local str = backtick(pkgconfigcmd() .. " --libs Qt5Widgets")
+				local str = backtick("pkg-config --libs Qt5Widgets")
 				addlibfromstring(str)
 				addoptionsfromstring(str)
 			end
 		end
 	end
 
-	if _OPTIONS["targetos"]=="windows" then
+	if _OPTIONS["targetos"]=="windows" or _OPTIONS["targetos"]=="winui" then
 		links {
 			"gdi32",
 			"dsound",
@@ -523,7 +516,7 @@ newoption {
 
 
 if not _OPTIONS["USE_QTDEBUG"] then
-	if _OPTIONS["targetos"]=="windows" or _OPTIONS["targetos"]=="macosx" or _OPTIONS["targetos"]=="solaris" or _OPTIONS["targetos"]=="haiku" or _OPTIONS["targetos"] == "asmjs" then
+	if _OPTIONS["targetos"]=="windows" or _OPTIONS["targetos"]=="winui" or _OPTIONS["targetos"]=="macosx" or _OPTIONS["targetos"]=="solaris" or _OPTIONS["targetos"]=="haiku" or _OPTIONS["targetos"] == "emscripten" or _OPTIONS["targetos"] == "os2" then
 		_OPTIONS["USE_QTDEBUG"] = "0"
 	else
 		_OPTIONS["USE_QTDEBUG"] = "1"
