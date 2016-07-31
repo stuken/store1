@@ -336,6 +336,88 @@ media_auditor::summary media_auditor::summarize(const char *name, std::ostream *
 	return overall_status;
 }
 
+media_auditor::summary media_auditor::winui_summarize(const char *name, std::ostream *output) const
+{
+	if (m_record_list.empty())
+		return NONE_NEEDED;
+
+	// loop over records
+	summary overall_status = CORRECT;
+	for (audit_record const &record : m_record_list)
+	{
+		// skip anything that's fine
+		if ((record.substatus() == audit_substatus::GOOD)
+			|| (record.substatus() == audit_substatus::GOOD_NEEDS_REDUMP)
+			|| (record.substatus() == audit_substatus::NOT_FOUND_NODUMP)
+			|| (record.substatus() == audit_substatus::FOUND_NODUMP))
+			continue;
+
+		// output the game name, file name, and length (if applicable)
+		if (output)
+		{
+			util::stream_format(*output, "%-12s: %s", name, record.name());
+			if (record.expected_length() > 0)
+				util::stream_format(*output, " (%d bytes)", record.expected_length());
+			*output << " - ";
+		}
+
+		// use the substatus for finer details
+		summary best_new_status = INCORRECT;
+		switch (record.substatus())
+		{
+		case audit_substatus::GOOD_NEEDS_REDUMP:
+			if (output) *output << "NEEDS REDUMP\n";
+			best_new_status = BEST_AVAILABLE;
+			break;
+
+		case audit_substatus::FOUND_NODUMP:
+			if (output) *output << "NO GOOD DUMP KNOWN\n";
+			best_new_status = BEST_AVAILABLE;
+			break;
+
+		case audit_substatus::FOUND_BAD_CHECKSUM:
+			if (output)
+			{
+				util::stream_format(*output, "INCORRECT CHECKSUM:\n");
+				util::stream_format(*output, "EXPECTED: %s\n", record.expected_hashes().macro_string());
+				util::stream_format(*output, "   FOUND: %s\n", record.actual_hashes().macro_string());
+			}
+			break;
+
+		case audit_substatus::FOUND_WRONG_LENGTH:
+			if (output) util::stream_format(*output, "INCORRECT LENGTH: %d bytes\n", record.actual_length());
+			break;
+
+		case audit_substatus::NOT_FOUND:
+			if (output)
+			{
+				device_t *const shared_device = record.shared_device();
+				if (shared_device)
+					util::stream_format(*output, "NOT FOUND (%s)\n", shared_device->shortname());
+				else
+					util::stream_format(*output, "NOT FOUND\n");
+			}
+			break;
+
+		case audit_substatus::NOT_FOUND_NODUMP:
+			if (output) *output << "NOT FOUND - NO GOOD DUMP KNOWN\n";
+			best_new_status = BEST_AVAILABLE;
+			break;
+
+		case audit_substatus::NOT_FOUND_OPTIONAL:
+			if (output) *output << "NOT FOUND BUT OPTIONAL\n";
+			best_new_status = BEST_AVAILABLE;
+			break;
+
+		default:
+			assert(false);
+		}
+
+		// downgrade the overall status if necessary
+		overall_status = (std::max)(overall_status, best_new_status);
+	}
+	return overall_status;
+}
 
 //-------------------------------------------------
 //  audit_regions - validate/count for regions
@@ -557,82 +639,4 @@ media_auditor::audit_record::audit_record(const char *name, media_type type)
 	, m_hashes()
 	, m_shared_device(nullptr)
 {
-}
-
-
-
-// MESSUI - only report problems that the user can fix
-media_auditor::summary media_auditor::winui_summarize(const char *name, std::string *output)
-{
-	if (m_record_list.empty())
-		return NONE_NEEDED;
-
-	// loop over records
-	summary overall_status = CORRECT;
-	for (audit_record const &record : m_record_list)
-	{
-		summary best_new_status = INCORRECT;
-
-		// skip anything that's fine
-		if ( (record.substatus() == audit_substatus::GOOD)
-			|| (record.substatus() == audit_substatus::GOOD_NEEDS_REDUMP)
-			|| (record.substatus() == audit_substatus::NOT_FOUND_NODUMP)
-			|| (record.substatus() == audit_substatus::FOUND_NODUMP)
-			)
-			continue;
-
-		// output the game name, file name, and length (if applicable)
-		//if (output)
-		{
-			output->append(string_format("%-12s: %s", name, record.name()));
-			if (record.expected_length() > 0)
-				output->append(string_format(" (%d bytes)", record.expected_length()));
-			output->append(" - ");
-		}
-
-		// use the substatus for finer details
-		switch (record.substatus())
-		{
-			case audit_substatus::FOUND_NODUMP:
-				if (output) output->append("NO GOOD DUMP KNOWN\n");
-				best_new_status = BEST_AVAILABLE;
-				break;
-
-			case audit_substatus::FOUND_BAD_CHECKSUM:
-				if (output)
-				{
-					output->append("INCORRECT CHECKSUM:\n");
-					output->append(string_format("EXPECTED: %s\n", record.expected_hashes().macro_string().c_str()));
-					output->append(string_format("   FOUND: %s\n", record.actual_hashes().macro_string().c_str()));
-				}
-				break;
-
-			case audit_substatus::FOUND_WRONG_LENGTH:
-				if (output) output->append(string_format("INCORRECT LENGTH: %d bytes\n", record.actual_length()));
-				break;
-
-			case audit_substatus::NOT_FOUND:
-				if (output)
-				{
-					device_t *shared_device = record.shared_device();
-					if (shared_device == NULL)
-						output->append("NOT FOUND\n");
-					else
-						output->append(string_format("NOT FOUND (%s)\n", shared_device->shortname()));
-				}
-				break;
-
-			case audit_substatus::NOT_FOUND_OPTIONAL:
-				if (output) output->append("NOT FOUND BUT OPTIONAL\n");
-				best_new_status = BEST_AVAILABLE;
-				break;
-
-			default:
-				break;
-		}
-
-		// downgrade the overall status if necessary
-		overall_status = MAX(overall_status, best_new_status);
-	}
-	return overall_status;
 }

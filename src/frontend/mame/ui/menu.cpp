@@ -709,13 +709,13 @@ void menu::draw(UINT32 flags)
 
 				// customize subitem text color
 				if (!core_stricmp(subitem_text, _("On")))
-					fgcolor2 = rgb_t(0x00,0xff,0x00);
+					fgcolor2 = UI_GREEN_COLOR;
 
 				if (!core_stricmp(subitem_text, _("Off")))
-					fgcolor2 = rgb_t(0xff,0x00,0x00);
+					fgcolor2 = UI_RED_COLOR;
 
 				if (!core_stricmp(subitem_text, _("Auto")))
-					fgcolor2 = rgb_t(0xff,0xff,0x00);
+					fgcolor2 = UI_YELLOW_COLOR;
 
 				// draw the subitem right-justified
 				ui().draw_text_full(container(), subitem_text, effective_left + item_width, line_y0, effective_width - item_width,

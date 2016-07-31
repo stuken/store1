@@ -48,7 +48,6 @@
 #define OSDOPTION_WINDOW                "window"
 #define OSDOPTION_MAXIMIZE              "maximize"
 #define OSDOPTION_WAITVSYNC             "waitvsync"
-#define OSDOPTION_SYNCREFRESH           "syncrefresh"
 
 #define OSDOPTION_SCREEN                "screen"
 #define OSDOPTION_ASPECT                "aspect"
@@ -60,6 +59,7 @@
 #define OSDOPTION_FILTER                "filter"
 #define OSDOPTION_PRESCALE              "prescale"
 
+#define OSDOPTION_GLSLPATH             	"glslpath"
 #define OSDOPTION_SHADER_MAME           "glsl_shader_mame"
 #define OSDOPTION_SHADER_SCREEN         "glsl_shader_screen"
 #define OSDOPTION_GLSL_FILTER           "gl_glsl_filter"
@@ -68,6 +68,7 @@
 #define OSDOPTION_GL_VBO                "gl_vbo"
 #define OSDOPTION_GL_NOTEXTURERECT      "gl_notexturerect"
 #define OSDOPTION_GL_FORCEPOW2TEXTURE   "gl_forcepow2texture"
+#define OSDOPTION_GLSL_SYNC           	"gl_glsl_sync"
 
 #define OSDOPTION_SOUND                 "sound"
 #define OSDOPTION_AUDIO_LATENCY         "audio_latency"
@@ -114,7 +115,6 @@ public:
 	bool window() const { return bool_value(OSDOPTION_WINDOW); }
 	bool maximize() const { return bool_value(OSDOPTION_MAXIMIZE); }
 	bool wait_vsync() const { return bool_value(OSDOPTION_WAITVSYNC); }
-	bool sync_refresh() const { return bool_value(OSDOPTION_SYNCREFRESH); }
 
 	// per-window options
 	const char *screen() const { return value(OSDOPTION_SCREEN); }
@@ -134,12 +134,14 @@ public:
 	int prescale() const { return int_value(OSDOPTION_PRESCALE); }
 
 	// OpenGL specific options
+	const char *glsl_path() const { return value(OSDOPTION_GLSLPATH); }
 	bool gl_force_pow2_texture() const { return bool_value(OSDOPTION_GL_FORCEPOW2TEXTURE); }
 	bool gl_no_texture_rect() const { return bool_value(OSDOPTION_GL_NOTEXTURERECT); }
 	bool gl_vbo() const { return bool_value(OSDOPTION_GL_VBO); }
 	bool gl_pbo() const { return bool_value(OSDOPTION_GL_PBO); }
 	bool gl_glsl() const { return bool_value(OSDOPTION_GL_GLSL); }
 	bool glsl_filter() const { return bool_value(OSDOPTION_GLSL_FILTER); }
+	bool glsl_sync() const { return bool_value(OSDOPTION_GLSL_SYNC); }
 	const char *shader_mame(int index) const { return value(string_format("%s%d", OSDOPTION_SHADER_MAME, index).c_str()); }
 	const char *shader_screen(int index) const { return value(string_format("%s%d", OSDOPTION_SHADER_SCREEN, index).c_str()); }
 

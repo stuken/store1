@@ -548,7 +548,7 @@ int MameUIMain(HINSTANCE hInstance, LPWSTR lpCmdLine)
 		
 		for (int i = 0; i < __argc; i++)
 		{
-			utf8_argv[i] = ui_utf8_from_wstring(__targv[i]);
+			utf8_argv[i] = win_utf8_from_wstring(__targv[i]);
 			
 			if (utf8_argv[i] == NULL)
 			{
@@ -1995,7 +1995,7 @@ static void CopyToolTipText(LPTOOLTIPTEXT lpttt)
 			_tcscpy(String, szTbStrings[iButton]);
 	}
 	else
-		_tcscpy(String, ui_wstring_from_utf8(GetDriverGameTitle(game)));
+		_tcscpy(String, win_wstring_from_utf8(GetDriverGameTitle(game)));
 
 	lpttt->lpszText = String;
 }
@@ -2250,7 +2250,7 @@ static void EnableSelection(int nGame)
 	TCHAR buf[200];
 	MENUITEMINFO mmi;
 	HMENU hMenu = GetMenu(hMain);
-	TCHAR *t_description = ui_wstring_from_utf8(ConvertAmpersandString(GetDriverGameTitle(nGame)));
+	TCHAR *t_description = win_wstring_from_utf8(ConvertAmpersandString(GetDriverGameTitle(nGame)));
 	
 	if( !t_description )
 		return;
@@ -2351,7 +2351,7 @@ static bool TreeViewNotify(LPNMHDR nm)
 			if (ptvdi->item.pszText == NULL || _tcslen(ptvdi->item.pszText) == 0)
 				return false;
 
-			char *utf8_szText = ui_utf8_from_wstring(ptvdi->item.pszText);
+			char *utf8_szText = win_utf8_from_wstring(ptvdi->item.pszText);
 
 			if (!utf8_szText)
 				return false;
@@ -3289,7 +3289,7 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 			
 			if (IsAuditResultYes(audit_result))
 			{
-				TCHAR* t_command = ui_wstring_from_utf8(command);
+				TCHAR* t_command = win_wstring_from_utf8(command);
 				STARTUPINFO siStartupInfo;
     			PROCESS_INFORMATION piProcessInfo;
     			memset(&siStartupInfo, 0, sizeof(STARTUPINFO));
@@ -3521,7 +3521,7 @@ static const TCHAR *GamePicker_GetItemString(HWND hwndPicker, int nItem, int nCo
 
 	if(utf8_s)
 	{
-		TCHAR* t_s = ui_wstring_from_utf8(utf8_s);
+		TCHAR* t_s = win_wstring_from_utf8(utf8_s);
 		
 		if(!t_s)
 			return s;
@@ -3830,7 +3830,7 @@ bool CommonFileDialog(common_file_dialog_proc cfd, char *filename, int filetype,
 	TCHAR fCurDir[MAX_PATH];
 
 	// convert the filename to UTF-8 and copy into buffer
-	TCHAR *t_filename = ui_wstring_from_utf8(filename);
+	TCHAR *t_filename = win_wstring_from_utf8(filename);
 	
 	if (t_filename != NULL)
 	{
@@ -3862,7 +3862,7 @@ bool CommonFileDialog(common_file_dialog_proc cfd, char *filename, int filetype,
 	{
 		case FILETYPE_INPUT_FILES :
 			path = GetInpDir();
-			of.lpstrInitialDir = ui_wstring_from_utf8(path);
+			of.lpstrInitialDir = win_wstring_from_utf8(path);
 			of.lpstrFilter = TEXT("inputs (*.inp,*.zip)\0*.inp;*.zip\0");
 			of.lpstrDefExt = TEXT("inp");
 			
@@ -3875,7 +3875,7 @@ bool CommonFileDialog(common_file_dialog_proc cfd, char *filename, int filetype,
 		
 		case FILETYPE_SAVESTATE_FILES :
 			path = GetStateDir();
-			of.lpstrInitialDir = ui_wstring_from_utf8(path);
+			of.lpstrInitialDir = win_wstring_from_utf8(path);
 			of.lpstrFilter = TEXT("savestates (*.sta)\0*.sta;\0");
 			of.lpstrDefExt = TEXT("sta");
 			of.lpstrTitle  = TEXT("Select a STA savestate file");
@@ -3883,7 +3883,7 @@ bool CommonFileDialog(common_file_dialog_proc cfd, char *filename, int filetype,
 		
 		case FILETYPE_WAVE_FILES :
 			path = GetAudioDir();
-			of.lpstrInitialDir = ui_wstring_from_utf8(path);
+			of.lpstrInitialDir = win_wstring_from_utf8(path);
 			of.lpstrFilter = TEXT("sounds (*.wav)\0*.wav;\0");
 			of.lpstrDefExt = TEXT("wav");
 			
@@ -3896,7 +3896,7 @@ bool CommonFileDialog(common_file_dialog_proc cfd, char *filename, int filetype,
 		
 		case FILETYPE_MNG_FILES :
 			path = GetVideoDir();
-			of.lpstrInitialDir = ui_wstring_from_utf8(path);
+			of.lpstrInitialDir = win_wstring_from_utf8(path);
 			of.lpstrFilter = TEXT("videos (*.mng)\0*.mng;\0");
 			of.lpstrDefExt = TEXT("mng");
 			
@@ -3909,7 +3909,7 @@ bool CommonFileDialog(common_file_dialog_proc cfd, char *filename, int filetype,
 		
 		case FILETYPE_AVI_FILES :
 			path = GetVideoDir();
-			of.lpstrInitialDir = ui_wstring_from_utf8(path);
+			of.lpstrInitialDir = win_wstring_from_utf8(path);
 			of.lpstrFilter = TEXT("videos (*.avi)\0*.avi;\0");
 			of.lpstrDefExt = TEXT("avi");
 			
@@ -3922,7 +3922,7 @@ bool CommonFileDialog(common_file_dialog_proc cfd, char *filename, int filetype,
 		
 		case FILETYPE_EFFECT_FILES :
 			path = GetArtDir();
-			of.lpstrInitialDir = ui_wstring_from_utf8(path);
+			of.lpstrInitialDir = win_wstring_from_utf8(path);
 			of.lpstrFilter = TEXT("effects (*.png)\0*.png;\0");
 			of.lpstrDefExt = TEXT("png");
 			of.lpstrTitle  = TEXT("Select an overlay PNG effect file");
@@ -3930,7 +3930,7 @@ bool CommonFileDialog(common_file_dialog_proc cfd, char *filename, int filetype,
 		
 		case FILETYPE_SHADER_FILES :
 			path = GetGLSLDir();
-			of.lpstrInitialDir = ui_wstring_from_utf8(path);
+			of.lpstrInitialDir = win_wstring_from_utf8(path);
 			of.lpstrFilter = TEXT("shaders (*.vsh)\0*.vsh;\0");
 			of.lpstrDefExt = TEXT("vsh");
 			of.lpstrTitle  = TEXT("Select a GLSL shader file");
@@ -3946,7 +3946,7 @@ bool CommonFileDialog(common_file_dialog_proc cfd, char *filename, int filetype,
 		case FILETYPE_BGFX_FILES :
 			char temp[MAX_PATH];
 			snprintf(temp, WINUI_ARRAY_LENGTH(temp), "%s\\chains", GetBGFXDir());
-			of.lpstrInitialDir = ui_wstring_from_utf8(temp);
+			of.lpstrInitialDir = win_wstring_from_utf8(temp);
 			of.lpstrFilter = TEXT("chains (*.json)\0*.json;\0");
 			of.lpstrDefExt = TEXT("json");
 			of.lpstrTitle  = TEXT("Select a BGFX chain file");
@@ -3970,7 +3970,7 @@ bool CommonFileDialog(common_file_dialog_proc cfd, char *filename, int filetype,
 			SetCurrentDirectory(fCurDir);
 	}
 
-	char *utf8_filename = ui_utf8_from_wstring(t_filename_buffer);
+	char *utf8_filename = win_utf8_from_wstring(t_filename_buffer);
 	
 	if (utf8_filename != NULL)
 	{
@@ -3983,7 +3983,7 @@ bool CommonFileDialog(common_file_dialog_proc cfd, char *filename, int filetype,
 
 void SetStatusBarText(int part_index, const char *message)
 {
-	TCHAR *t_message = ui_wstring_from_utf8(message);
+	TCHAR *t_message = win_wstring_from_utf8(message);
 	
 	if(!t_message)
 		return;
@@ -4016,9 +4016,9 @@ static void MamePlayBackGame(void)
 	{
 		osd_file::error filerr;
 		char name[MAX_PATH];
-		TCHAR *t_filename = ui_wstring_from_utf8(filename);
+		TCHAR *t_filename = win_wstring_from_utf8(filename);
 		TCHAR *tempname = PathFindFileName(t_filename);
-		char *fname = ui_utf8_from_wstring(tempname);
+		char *fname = win_utf8_from_wstring(tempname);
 		strcpy(name, fname);
 		free(t_filename);
 		free(fname);
@@ -4070,10 +4070,10 @@ static void MameLoadState(void)
 	if (CommonFileDialog(GetOpenFileName, filename, FILETYPE_SAVESTATE_FILES, false))
 	{
 		char name[MAX_PATH];
-		TCHAR *t_filename = ui_wstring_from_utf8(filename);
+		TCHAR *t_filename = win_wstring_from_utf8(filename);
 		TCHAR *tempname = PathFindFileName(t_filename);
 		PathRemoveExtension(tempname);
-		char *fname = ui_utf8_from_wstring(tempname);
+		char *fname = win_utf8_from_wstring(tempname);
 		strcpy(name, fname);
 		free(t_filename);
 		free(fname);
@@ -4095,9 +4095,9 @@ static void MamePlayRecordGame(void)
 	if (CommonFileDialog(GetSaveFileName, filename, FILETYPE_INPUT_FILES, true))
 	{
 		char name[MAX_PATH];
-		TCHAR *t_filename = ui_wstring_from_utf8(filename);
+		TCHAR *t_filename = win_wstring_from_utf8(filename);
 		TCHAR *tempname = PathFindFileName(t_filename);
-		char *fname = ui_utf8_from_wstring(tempname);
+		char *fname = win_utf8_from_wstring(tempname);
 		strcpy(name, fname);
 		free(t_filename);
 		free(fname);
@@ -4145,9 +4145,9 @@ static void MamePlayRecordMNG(void)
 	if (CommonFileDialog(GetSaveFileName, filename, FILETYPE_MNG_FILES, true))
 	{
 		char name[MAX_PATH];
-		TCHAR *t_filename = ui_wstring_from_utf8(filename);
+		TCHAR *t_filename = win_wstring_from_utf8(filename);
 		TCHAR *tempname = PathFindFileName(t_filename);
-		char *fname = ui_utf8_from_wstring(tempname);
+		char *fname = win_utf8_from_wstring(tempname);
 		strcpy(name, fname);
 		free(t_filename);
 		free(fname);
@@ -4169,9 +4169,9 @@ static void MamePlayRecordAVI(void)
 	if (CommonFileDialog(GetSaveFileName, filename, FILETYPE_AVI_FILES, true))
 	{
 		char name[MAX_PATH];
-		TCHAR *t_filename = ui_wstring_from_utf8(filename);
+		TCHAR *t_filename = win_wstring_from_utf8(filename);
 		TCHAR *tempname = PathFindFileName(t_filename);
-		char *fname = ui_utf8_from_wstring(tempname);
+		char *fname = win_utf8_from_wstring(tempname);
 		strcpy(name, fname);
 		free(t_filename);
 		free(fname);
@@ -4451,7 +4451,7 @@ static void UpdateMenu(HMENU hMenu)
 		TCHAR buf[200];
 		int nGame = Picker_GetSelectedItem(hWndList);
 		
-		TCHAR *t_description = ui_wstring_from_utf8(ConvertAmpersandString(GetDriverGameTitle(nGame)));
+		TCHAR *t_description = win_wstring_from_utf8(ConvertAmpersandString(GetDriverGameTitle(nGame)));
 
 		if( !t_description )
 			return;
@@ -4567,7 +4567,7 @@ void InitMainMenu(HMENU hMainMenu)
 
 	for (int i = 0; g_folderData[i].m_lpTitle != NULL; i++)
 	{
-		TCHAR* t_title = ui_wstring_from_utf8(g_folderData[i].m_lpTitle);
+		TCHAR* t_title = win_wstring_from_utf8(g_folderData[i].m_lpTitle);
 		
 		if(!t_title)
 			return;
@@ -4667,7 +4667,7 @@ void InitTreeContextMenu(HMENU hTreeMenu)
 
 	for (int i = 0; g_folderData[i].m_lpTitle != NULL; i++)
 	{
-		TCHAR* t_title = ui_wstring_from_utf8(g_folderData[i].m_lpTitle);
+		TCHAR* t_title = win_wstring_from_utf8(g_folderData[i].m_lpTitle);
 		
 		if(!t_title)
 			return;
@@ -5326,7 +5326,7 @@ static bool CommonListDialog(common_file_dialog_proc cfd, int filetype)
 				SetFileAttributes(szFile, FILE_ATTRIBUTE_NORMAL);
 			}
 
-			SaveGameListToFile(ui_utf8_from_wstring(szFile), filetype);
+			SaveGameListToFile(win_utf8_from_wstring(szFile), filetype);
 			// Save current directory (avoids mame file creation further failure)
 			GetCurrentDirectory(MAX_PATH, list_directory);
 			// Restore current file path
@@ -5390,9 +5390,9 @@ static void SaveGameListToFile(char *szFile, int filetype)
     // Sorting
     if (GetSortColumn() > 0)
 
-       	fprintf(f, "Sorted by <%s> descending order", ui_utf8_from_wstring(column_names[GetSortColumn()]));
+       	fprintf(f, "Sorted by <%s> descending order", win_utf8_from_wstring(column_names[GetSortColumn()]));
     else
-       	fprintf(f, "Sorted by <%s> ascending order", ui_utf8_from_wstring(column_names[-GetSortColumn()]));
+       	fprintf(f, "Sorted by <%s> ascending order", win_utf8_from_wstring(column_names[-GetSortColumn()]));
 
     fprintf(f, ", %d game(s) found.%s", nListCount, CrLf);
 

@@ -55,40 +55,12 @@ bool DriverSupportsSaveState(int driver_index);
 bool DriverIsVertical(int driver_index);
 bool DriverIsMechanical(int driver_index);
 bool DriverIsImperfect(int driver_index);
+WCHAR *win_wstring_from_utf8(const char *utf8string);
+char *win_utf8_from_wstring(const WCHAR *wstring);
 HICON win_extract_icon_utf8(HINSTANCE inst, const char* exefilename, UINT iconindex);
 HANDLE win_find_first_file_utf8(const char* filename, WIN32_FIND_DATA *findfiledata);
 BOOL win_move_file_utf8(const char* existingfilename, const char* newfilename);
 void CenterWindow(HWND hWnd);
 bool IsWindowsSevenOrHigher(void);
-
- //  wstring_from_utf8
- //============================================================
- 
-WCHAR *ui_wstring_from_utf8(const char *utf8string)
-{
-	int char_count;
-	WCHAR *result;
-
-	// convert MAME string (UTF-8) to UTF-16
-	char_count = MultiByteToWideChar(CP_UTF8, 0, utf8string, -1, nullptr, 0);
-	result = (WCHAR *)osd_malloc_array(char_count * sizeof(*result));
-	if (result != nullptr)
-		MultiByteToWideChar(CP_UTF8, 0, utf8string, -1, result, char_count);
- 
-	return result;
-}
-
-char *ui_utf8_from_wstring(const WCHAR *wstring)
-{
-	int char_count;
-	char *result;
-
-	// convert UTF-16 to MAME string (UTF-8)
-	char_count = WideCharToMultiByte(CP_UTF8, 0, wstring, -1, nullptr, 0, nullptr, nullptr);
-	result = (char *)osd_malloc_array(char_count * sizeof(*result));
-	if (result != nullptr)
-		WideCharToMultiByte(CP_UTF8, 0, wstring, -1, result, char_count, nullptr, nullptr);
-	return result;
-}
 
 #endif

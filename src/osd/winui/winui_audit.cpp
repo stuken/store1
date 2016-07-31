@@ -75,18 +75,21 @@ int MameUIVerifyRomSet(int game, bool refresh)
 	if (!RomSetFound(game))
 	{	
 		SetRomAuditResults(game, media_auditor::NOTFOUND);
-		return media_auditor::NOTFOUND;
+		return media_auditor::NOTFOUND;	
 	}
 	
 	driver_enumerator enumerator(MameUIGlobal(), driver_list::driver(game));
 	enumerator.next();
 	media_auditor auditor(enumerator);
 	media_auditor::summary summary = auditor.audit_media(AUDIT_VALIDATE_FAST);
-	std::string summary_string;
-	auditor.winui_summarize(GetDriverGameName(game), &summary_string);
+	util::ovectorstream buffer;
+	buffer.clear();
+	buffer.seekp(0);
+	auditor.winui_summarize(GetDriverGameName(game), &buffer);
+	buffer.put('\0');
 	
 	if (!refresh)
-		DetailsPrintf("%s", summary_string.c_str());
+		DetailsPrintf("%s", &buffer.vec()[0]);
 
 	SetRomAuditResults(game, summary);
 	return summary;
@@ -98,11 +101,12 @@ static int MameUIVerifyRomSetFull(int game)
 	enumerator.next();
 	media_auditor auditor(enumerator);
 	media_auditor::summary summary = auditor.audit_media(AUDIT_VALIDATE_FAST);
-	std::string summary_string;
-	std::ostringstream whatever;
-	auditor.summarize(GetDriverGameName(game), &whatever); // audit one game
-	summary_string = whatever.str();
-	DetailsPrintf("%s", summary_string.c_str());
+	util::ovectorstream buffer;
+	buffer.clear();
+	buffer.seekp(0);
+	auditor.summarize(GetDriverGameName(game), &buffer);
+	buffer.put('\0');
+	DetailsPrintf("%s", &buffer.vec()[0]);
 	SetRomAuditResults(game, summary);
 	return summary;
 }
@@ -116,11 +120,12 @@ int MameUIVerifySampleSet(int game)
 	
 	if (summary != media_auditor::NONE_NEEDED)
 	{
-		std::string summary_string;
-		std::ostringstream whatever;
-		auditor.summarize(GetDriverGameName(game), &whatever);
-		summary_string = whatever.str();
-		DetailsPrintf("%s", summary_string.c_str());
+		util::ovectorstream buffer;
+		buffer.clear();
+		buffer.seekp(0);
+		auditor.summarize(GetDriverGameName(game), &buffer);
+		buffer.put('\0');
+		DetailsPrintf("%s", &buffer.vec()[0]);
 	}
 	
 	return summary;
@@ -440,7 +445,7 @@ static void DetailsPrintf(const char *fmt, ...)
 	va_start(marker, fmt);
 	vsnprintf(buffer, WINUI_ARRAY_LENGTH(buffer), fmt, marker);
 	va_end(marker);
-	TCHAR *t_s = ui_wstring_from_utf8(ConvertToWindowsNewlines(buffer));
+	TCHAR *t_s = win_wstring_from_utf8(ConvertToWindowsNewlines(buffer));
 	
 	if( !t_s || _tcscmp(TEXT(""), t_s) == 0)
 		return;

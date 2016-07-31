@@ -1026,6 +1026,9 @@ int renderer_ogl::draw(const int update)
 	}
 #endif
 
+	if (video_config.glsl_sync)
+		glFinish();		// reduces bottleneck but decrease performance
+
 	auto win = assert_window();
 
 	osd_dim wdim = win->get_size();

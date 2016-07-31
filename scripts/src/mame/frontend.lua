@@ -42,7 +42,7 @@ includedirs {
 	ext_includedir("flac"),
 }
 
-if (_OPTIONS["targetos"] == "windows") then
+if (_OPTIONS["targetos"] == "windows" or _OPTIONS["targetos"]=="winui") then
 	defines {
 		"UI_WINDOWS",
 	}

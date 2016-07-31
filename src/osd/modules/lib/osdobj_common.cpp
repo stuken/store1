@@ -55,7 +55,6 @@ const options_entry osd_options::s_option_entries[] =
 	{ OSDOPTION_WINDOW ";w",                  "0",              OPTION_BOOLEAN,   "enable window mode; otherwise, full screen mode is assumed" },
 	{ OSDOPTION_MAXIMIZE ";max",              "1",              OPTION_BOOLEAN,   "default to maximized windows; otherwise, windows will be minimized" },
 	{ OSDOPTION_WAITVSYNC ";vs",              "0",              OPTION_BOOLEAN,   "enable waiting for the start of VBLANK before flipping screens; reduces tearing effects" },
-	{ OSDOPTION_SYNCREFRESH ";srf",           "0",              OPTION_BOOLEAN,   "enable using the start of VBLANK for throttling instead of the game time" },
 
 	// per-window options
 	{ nullptr,                                nullptr,          OPTION_HEADER,    "OSD PER-WINDOW VIDEO OPTIONS" },
@@ -94,12 +93,14 @@ const options_entry osd_options::s_option_entries[] =
 
 #if USE_OPENGL
 	{ nullptr,                                nullptr,          OPTION_HEADER,    "OpenGL-SPECIFIC OPTIONS" },
+	{ OSDOPTION_GLSLPATH,                     "glsl",      		OPTION_STRING,    "path to glsl shader files" },
 	{ OSDOPTION_GL_FORCEPOW2TEXTURE,          "0",              OPTION_BOOLEAN,   "force power of two textures  (default no)" },
 	{ OSDOPTION_GL_NOTEXTURERECT,             "0",              OPTION_BOOLEAN,   "don't use OpenGL GL_ARB_texture_rectangle (default on)" },
 	{ OSDOPTION_GL_VBO,                       "1",              OPTION_BOOLEAN,   "enable OpenGL VBO,  if available (default on)" },
 	{ OSDOPTION_GL_PBO,                       "1",              OPTION_BOOLEAN,   "enable OpenGL PBO,  if available (default on)" },
 	{ OSDOPTION_GL_GLSL,                      "0",              OPTION_BOOLEAN,   "enable OpenGL GLSL, if available (default off)" },
-	{ OSDOPTION_GLSL_FILTER,                  "1",              OPTION_STRING,    "enable OpenGL GLSL filtering instead of FF filtering 0-plain, 1-bilinear (default)" },
+	{ OSDOPTION_GLSL_FILTER,                  "1",              OPTION_BOOLEAN,   "enable OpenGL GLSL filtering instead of FF filtering 0-plain, 1-bilinear (default)" },
+	{ OSDOPTION_GLSL_SYNC,                    "0",              OPTION_BOOLEAN,   "enable OpenGL synchrony feature with performance loss (default off)" },
 	{ OSDOPTION_SHADER_MAME "0",              OSDOPTVAL_NONE,   OPTION_STRING,    "custom OpenGL GLSL shader set mame bitmap 0" },
 	{ OSDOPTION_SHADER_MAME "1",              OSDOPTVAL_NONE,   OPTION_STRING,    "custom OpenGL GLSL shader set mame bitmap 1" },
 	{ OSDOPTION_SHADER_MAME "2",              OSDOPTVAL_NONE,   OPTION_STRING,    "custom OpenGL GLSL shader set mame bitmap 2" },
@@ -206,8 +207,8 @@ void osd_common_t::register_options()
 	REGISTER_MODULE(m_mod_man, FONT_SDL);
 	REGISTER_MODULE(m_mod_man, FONT_NONE);
 
-	REGISTER_MODULE(m_mod_man, SOUND_XAUDIO2);
 	REGISTER_MODULE(m_mod_man, SOUND_DSOUND);
+	REGISTER_MODULE(m_mod_man, SOUND_XAUDIO2);
 	REGISTER_MODULE(m_mod_man, SOUND_COREAUDIO);
 	REGISTER_MODULE(m_mod_man, SOUND_JS);
 	REGISTER_MODULE(m_mod_man, SOUND_SDL);

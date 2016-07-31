@@ -142,10 +142,10 @@ void menu_main::populate()
 
 	item_append(menu_item_type::SEPARATOR);
 
-//  item_append(_("Quit from Machine"), nullptr, 0, (void *)QUIT_GAME);
+	item_append(_("Quit from Machine"), "", 0, (void *)QUIT_GAME);
 
 	/* add reset and exit menus */
-	item_append(_("Select New Machine"), "", 0, (void *)SELECT_GAME);
+//	item_append(_("Select New Machine"), "", 0, (void *)SELECT_GAME);
 }
 
 menu_main::~menu_main()

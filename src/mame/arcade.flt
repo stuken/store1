@@ -883,6 +883,7 @@ segaxbd.cpp
 segaybd.cpp
 seibuspi.cpp
 seicross.cpp
+seicupbl.cpp
 sengokmj.cpp
 senjyo.cpp
 seta.cpp

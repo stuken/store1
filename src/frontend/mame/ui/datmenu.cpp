@@ -285,7 +285,7 @@ void menu_dats_view::custom_render(void *selectedref, float top, float bottom, f
 	float y2 = origy1 - 2.0f * UI_BOX_TB_BORDER - ui().get_line_height();
 
 	// draw a box
-	ui().draw_outlined_box(container(), x1, y1, x2, y2, UI_GREEN_COLOR);
+	ui().draw_outlined_box(container(), x1, y1, x2, y2, UI_SELECTED_BG_COLOR);
 
 	// take off the borders
 	x1 += UI_BOX_LR_BORDER;
@@ -293,7 +293,7 @@ void menu_dats_view::custom_render(void *selectedref, float top, float bottom, f
 	y1 += UI_BOX_TB_BORDER;
 
 	ui().draw_text_full(container(), driver.c_str(), x1, y1, x2 - x1, ui::text_layout::CENTER, ui::text_layout::NEVER,
-		mame_ui_manager::NORMAL, UI_TEXT_COLOR, UI_TEXT_BG_COLOR, nullptr, nullptr);
+		mame_ui_manager::NORMAL, rgb_t::white,  UI_SELECTED_BG_COLOR, nullptr, nullptr);
 
 	maxwidth = 0;
 	for (auto & elem : m_items_list)
@@ -349,7 +349,7 @@ void menu_dats_view::custom_render(void *selectedref, float top, float bottom, f
 	y2 = origy2 + bottom;
 
 	// draw a box
-	ui().draw_outlined_box(container(), x1, y1, x2, y2, UI_GREEN_COLOR);
+	ui().draw_outlined_box(container(), x1, y1, x2, y2, UI_SELECTED_BG_COLOR);
 
 	// take off the borders
 	x1 += UI_BOX_LR_BORDER;
@@ -358,7 +358,7 @@ void menu_dats_view::custom_render(void *selectedref, float top, float bottom, f
 
 	// draw the text within it
 	ui().draw_text_full(container(), revision.c_str(), x1, y1, x2 - x1, ui::text_layout::CENTER, ui::text_layout::TRUNCATE,
-		mame_ui_manager::NORMAL, UI_TEXT_COLOR, UI_TEXT_BG_COLOR, nullptr, nullptr);
+		mame_ui_manager::NORMAL, rgb_t::white,  UI_SELECTED_BG_COLOR, nullptr, nullptr);
 }
 
 //-------------------------------------------------

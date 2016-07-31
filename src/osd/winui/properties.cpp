@@ -447,7 +447,7 @@ void InitPropertyPage(HINSTANCE hInst, HWND hWnd, OPTIONS_TYPE opt_type, int fol
 			return;
 	}
 	
-	TCHAR *t_description = ui_wstring_from_utf8(tmp);
+	TCHAR *t_description = win_wstring_from_utf8(tmp);
 
 	// If we have no descrption, return.
 	if(!t_description)
@@ -1867,10 +1867,10 @@ static void OptionsToProp(HWND hWnd, windows_options &opts)
 			win_set_window_text_utf8(hCtrl, "None");
 		else
 		{
-			TCHAR *t_filename = ui_wstring_from_utf8(script);
+			TCHAR *t_filename = win_wstring_from_utf8(script);
 			TCHAR *tempname = PathFindFileName(t_filename);
 			PathRemoveExtension(tempname);
-			char *optname = ui_utf8_from_wstring(tempname);
+			char *optname = win_utf8_from_wstring(tempname);
 			strcpy(buffer, optname);
 			free(t_filename);
 			free(optname);
@@ -2110,8 +2110,8 @@ static bool ScreenPopulateControl(datamap *map, HWND dialog, HWND control, windo
 		{
 			//we have to add 1 to account for the "auto" entry
 			char screen_option[32];
-			const char *device = ui_utf8_from_wstring(dd.DeviceName);
-			TCHAR *t_device = ui_wstring_from_utf8(device);
+			const char *device = win_utf8_from_wstring(dd.DeviceName);
+			TCHAR *t_device = win_wstring_from_utf8(device);
 			(void)ComboBox_InsertString(control, i + 1, t_device);
 			(void)ComboBox_SetItemData(control, i + 1, device);
 			snprintf(screen_option, WINUI_ARRAY_LENGTH(screen_option), "screen%d", GetSelectedScreen(dialog));
@@ -2192,7 +2192,7 @@ static bool DefaultInputPopulateControl(datamap *map, HWND dialog, HWND control,
 		while (FindNextFile (hFind, &FindFileData) != 0)
 		{
 			// copy the filename
-			const char *root = ui_utf8_from_wstring(FindFileData.cFileName);
+			const char *root = win_utf8_from_wstring(FindFileData.cFileName);
 			// find the extension
 			char *ext = strrchr(root, '.');
 			
@@ -2209,7 +2209,7 @@ static bool DefaultInputPopulateControl(datamap *map, HWND dialog, HWND control,
 						selected = index;
 
 					// add it as an option
-					TCHAR *t_root = ui_wstring_from_utf8(root);
+					TCHAR *t_root = win_wstring_from_utf8(root);
 					(void)ComboBox_InsertString(control, index, t_root);
 					(void)ComboBox_SetItemData(control, index, root);
 					free(t_root);
@@ -2304,7 +2304,7 @@ static bool ResolutionPopulateControl(datamap *map, HWND dialog, HWND control_, 
 		// determine which screen we're using
 		snprintf(screen_option, WINUI_ARRAY_LENGTH(screen_option), "screen%d", GetSelectedScreen(dialog));
 		const char *screen = opts.value(screen_option);
-		TCHAR *t_screen = ui_wstring_from_utf8(screen);
+		TCHAR *t_screen = win_wstring_from_utf8(screen);
 		// retrieve screen information
 		devmode.dmSize = sizeof(DEVMODE);
 		
@@ -2435,7 +2435,7 @@ static void BuildDataMap(void)
 	datamap_add(properties_datamap, IDC_GLSLPBO,				DM_BOOL,	OSDOPTION_GL_PBO);
 	datamap_add(properties_datamap, IDC_GLSL,					DM_BOOL,	OSDOPTION_GL_GLSL);
 	datamap_add(properties_datamap, IDC_GLSLFILTER,				DM_BOOL,	OSDOPTION_GLSL_FILTER);
-//	datamap_add(properties_datamap, IDC_GLSLSYNC,				DM_BOOL,	OSDOPTION_GLSL_SYNC);
+	datamap_add(properties_datamap, IDC_GLSLSYNC,				DM_BOOL,	OSDOPTION_GLSL_SYNC);
 	datamap_add(properties_datamap, IDC_BGFX_CHAINS,			DM_STRING,	OSDOPTION_BGFX_SCREEN_CHAINS);
 	datamap_add(properties_datamap, IDC_MAME_SHADER0,			DM_STRING,	OSDOPTION_SHADER_MAME "0");
 	datamap_add(properties_datamap, IDC_MAME_SHADER1,			DM_STRING,	OSDOPTION_SHADER_MAME "1");
@@ -2922,7 +2922,7 @@ static void InitializeBIOSUI(HWND hWnd)
 					{
 						const char *name = ROM_GETHASHDATA(rom);
 						const char *biosname = ROM_GETNAME(rom);
-						TCHAR *t_s = ui_wstring_from_utf8(name);
+						TCHAR *t_s = win_wstring_from_utf8(name);
 						
 						if(!t_s)
 							return;
@@ -2955,7 +2955,7 @@ static void InitializeBIOSUI(HWND hWnd)
 				{
 					const char *name = ROM_GETHASHDATA(rom);
 					const char *biosname = ROM_GETNAME(rom);
-					TCHAR *t_s = ui_wstring_from_utf8(name);
+					TCHAR *t_s = win_wstring_from_utf8(name);
 					
 					if(!t_s)
 						return;
@@ -2990,7 +2990,7 @@ static void InitializeLanguageUI(HWND hWnd)
 				if (!(name == "." || name == ".."))
 				{
 					const char *value = core_strdup(entry->name);
-					TCHAR *text = ui_wstring_from_utf8(entry->name);
+					TCHAR *text = win_wstring_from_utf8(entry->name);
 					(void)ComboBox_InsertString(hCtrl, count, text);
 					(void)ComboBox_SetItemData(hCtrl, count, value);
 					count++;
@@ -3025,7 +3025,7 @@ static void InitializePluginsUI(HWND hWnd)
 				if (!(name == "." || name == ".." || name == "json"))
 				{
 					const char *value = core_strdup(entry->name);
-					TCHAR *text = ui_wstring_from_utf8(entry->name);
+					TCHAR *text = win_wstring_from_utf8(entry->name);
 					(void)ComboBox_InsertString(hCtrl, count, text);
 					(void)ComboBox_SetItemData(hCtrl, count, value);
 					count++;
@@ -3052,10 +3052,10 @@ static bool SelectEffect(HWND hWnd)
 	if (CommonFileDialog(GetOpenFileName, filename, FILETYPE_EFFECT_FILES, false))
 	{
 		char option[MAX_PATH];
-		TCHAR *t_filename = ui_wstring_from_utf8(filename);
+		TCHAR *t_filename = win_wstring_from_utf8(filename);
 		TCHAR *tempname = PathFindFileName(t_filename);
 		PathRemoveExtension(tempname);
-		char *optname = ui_utf8_from_wstring(tempname);
+		char *optname = win_utf8_from_wstring(tempname);
 		strcpy(option, optname);
 		free(t_filename);
 		free(optname);
@@ -3103,10 +3103,10 @@ static bool SelectMameShader(HWND hWnd, int slot)
 	if (CommonFileDialog(GetOpenFileName, filename, FILETYPE_SHADER_FILES, false))
 	{
 		char option[MAX_PATH];		
-		TCHAR *t_filename = ui_wstring_from_utf8(filename);
+		TCHAR *t_filename = win_wstring_from_utf8(filename);
 		TCHAR *tempname = PathFindFileName(t_filename);
 		PathRemoveExtension(tempname);
-		char *optname = ui_utf8_from_wstring(tempname);
+		char *optname = win_utf8_from_wstring(tempname);
 		strcpy(option, optname);
 		free(t_filename);
 		free(optname);
@@ -3158,10 +3158,10 @@ static bool SelectScreenShader(HWND hWnd, int slot)
 	if (CommonFileDialog(GetOpenFileName, filename, FILETYPE_SHADER_FILES, false))
 	{
 		char option[MAX_PATH];
-		TCHAR *t_filename = ui_wstring_from_utf8(filename);
+		TCHAR *t_filename = win_wstring_from_utf8(filename);
 		TCHAR *tempname = PathFindFileName(t_filename);
 		PathRemoveExtension(tempname);
-		char *optname = ui_utf8_from_wstring(tempname);
+		char *optname = win_utf8_from_wstring(tempname);
 		strcpy(option, optname);
 		free(t_filename);
 		free(optname);
@@ -3245,13 +3245,13 @@ static bool SelectCheatFile(HWND hWnd)
 	{
 		char option[MAX_PATH];
 		char optvalue[MAX_PATH];
-		TCHAR *t_filename = ui_wstring_from_utf8(filename);
-		TCHAR *t_cheatopt = ui_wstring_from_utf8(filename);
+		TCHAR *t_filename = win_wstring_from_utf8(filename);
+		TCHAR *t_cheatopt = win_wstring_from_utf8(filename);
 		TCHAR *tempname = PathFindFileName(t_filename);
 		PathRemoveExtension(tempname);
 		PathRemoveExtension(t_cheatopt);
-		char *optname = ui_utf8_from_wstring(tempname);
-		char *cheatopt = ui_utf8_from_wstring(t_cheatopt);
+		char *optname = win_utf8_from_wstring(tempname);
+		char *cheatopt = win_utf8_from_wstring(t_cheatopt);
 		strcpy(option, optname);
 		strcpy(optvalue, cheatopt);
 		free(t_filename);
@@ -3335,12 +3335,12 @@ static bool SelectLUAScript(HWND hWnd)
 	{
 		char option[MAX_PATH];
 		char script[MAX_PATH];
-		TCHAR *t_filename = ui_wstring_from_utf8(filename);
+		TCHAR *t_filename = win_wstring_from_utf8(filename);
 		TCHAR *tempname = PathFindFileName(t_filename);
-		char *optvalue = ui_utf8_from_wstring(tempname);
+		char *optvalue = win_utf8_from_wstring(tempname);
 		strcpy(script, optvalue);
 		PathRemoveExtension(tempname);
-		char *optname = ui_utf8_from_wstring(tempname);
+		char *optname = win_utf8_from_wstring(tempname);
 		strcpy(option, optname);
 		free(t_filename);
 		free(optname);
@@ -3473,10 +3473,10 @@ static bool SelectBGFXChains(HWND hWnd)
 	if (CommonFileDialog(GetOpenFileName, filename, FILETYPE_BGFX_FILES, false))
 	{
 		char option[MAX_PATH];
-		TCHAR *t_filename = ui_wstring_from_utf8(filename);
+		TCHAR *t_filename = win_wstring_from_utf8(filename);
 		TCHAR *tempname = PathFindFileName(t_filename);
 		PathRemoveExtension(tempname);
-		char *optname = ui_utf8_from_wstring(tempname);
+		char *optname = win_utf8_from_wstring(tempname);
 		strcpy(option, optname);
 		free(t_filename);
 		free(optname);

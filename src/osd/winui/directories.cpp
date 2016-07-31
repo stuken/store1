@@ -174,8 +174,8 @@ static void DirInfo_SetDir(tDirInfo *pInfo, int nType, int nItem, const TCHAR* p
 	}
 	else
 	{
-		const char *str = ui_utf8_from_wstring(pText);
-		TCHAR *t_str = ui_wstring_from_utf8(str);
+		const char *str = win_utf8_from_wstring(pText);
+		TCHAR *t_str = win_wstring_from_utf8(str);
 		pInfo[nType].m_tDirectory = t_str;
 		t_str = NULL;
 		str = NULL;
@@ -296,7 +296,7 @@ static bool Directories_OnInitDialog(HWND hDlg, HWND hwndFocus, LPARAM lParam)
 
 	for (int i = nDirInfoCount - 1; i >= 0; i--)
 	{
-		t_s = ui_wstring_from_utf8(g_directoryInfo[i].lpName);
+		t_s = win_wstring_from_utf8(g_directoryInfo[i].lpName);
 
 		if(!t_s)
 			return false;
@@ -318,7 +318,7 @@ static bool Directories_OnInitDialog(HWND hDlg, HWND hwndFocus, LPARAM lParam)
 	for (int i = 0; i < nDirInfoCount; i++)
 	{
 		const char *s = g_directoryInfo[i].pfnGetTheseDirs();
-		t_s = ui_wstring_from_utf8(s);
+		t_s = win_wstring_from_utf8(s);
 
 		if(!t_s)
 			return false;
@@ -416,7 +416,7 @@ static int RetrieveDirList(int nDir, int nFlagResult, void (*SetTheseDirs)(const
 				_tcscat(buf, TEXT(";"));
 		}
 
-		char *utf8_buf = ui_utf8_from_wstring(buf);
+		char *utf8_buf = win_utf8_from_wstring(buf);
 		SetTheseDirs(utf8_buf);
 		free(utf8_buf);
 		nResult |= nFlagResult;
@@ -436,7 +436,7 @@ static void Directories_OnOk(HWND hDlg)
 		else
 		{
 			TCHAR *s = FixSlash(DirInfo_Dir(g_pDirInfo, i));
-			char *utf8_s = ui_utf8_from_wstring(s);
+			char *utf8_s = win_utf8_from_wstring(s);
 			g_directoryInfo[i].pfnSetTheseDirs(utf8_s);
 			free(utf8_s);
 		}

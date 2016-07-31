@@ -305,6 +305,7 @@ struct osd_video_config
 	int                 vbo;
 	int                 allowtexturerect;   // allow GL_ARB_texture_rectangle, default: no
 	int                 forcepow2texture;   // force power of two textures, default: no
+	int					glsl_sync;
 
 	// dd, d3d
 	int                 triplebuf;                  // triple buffer

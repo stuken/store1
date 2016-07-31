@@ -1104,7 +1104,7 @@ static void SaveExternalFolders(int parent_index, const char *fname)
 	TREEFOLDER *folder_data;
 	
   	snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\%s", GetGuiDir(), fname);
-	TCHAR *temp = ui_wstring_from_utf8(GetGuiDir());
+	TCHAR *temp = win_wstring_from_utf8(GetGuiDir());
 	CreateDirectory(temp, NULL);
 	free(temp);
   	FILE *f = fopen(filename, "w");
@@ -1370,7 +1370,7 @@ static LPTREEFOLDER NewFolder(const char *lpTitle, UINT nFolderId, int nParent, 
 	memset(lpFolder, 0, sizeof(TREEFOLDER));
 	lpFolder->m_lpTitle = (char *)malloc(strlen(lpTitle) + 1);
 	strcpy((char *)lpFolder->m_lpTitle, lpTitle);
-	lpFolder->m_lptTitle = ui_wstring_from_utf8(lpFolder->m_lpTitle);
+	lpFolder->m_lptTitle = win_wstring_from_utf8(lpFolder->m_lpTitle);
 	lpFolder->m_lpGameBits = NewBits(driver_list::total());
 	lpFolder->m_nFolderId = nFolderId;
 	lpFolder->m_nParent = nParent;
@@ -1600,7 +1600,7 @@ static int InitExtraFolders(void)
 	{
 		while (FindNextFile (hFind, &FindFileData) != 0)
 		{
-			char *file = ui_utf8_from_wstring(FindFileData.cFileName);
+			char *file = win_utf8_from_wstring(FindFileData.cFileName);
 			char inifile[MAX_PATH];
 
 			memset(&inifile, 0, sizeof(inifile));
@@ -1964,7 +1964,7 @@ bool TrySaveExtraFolder(LPTREEFOLDER lpFolder)
 	}
 	
     snprintf(fname, WINUI_ARRAY_LENGTH(fname), "%s\\%s.ini", GetFolderDir(), extra_folder->m_szTitle);
-	TCHAR *temp = ui_wstring_from_utf8(GetFolderDir());
+	TCHAR *temp = win_wstring_from_utf8(GetFolderDir());
 	CreateDirectory(temp, NULL);
 	free(temp);  	
 	FILE *f = fopen(fname, "w");

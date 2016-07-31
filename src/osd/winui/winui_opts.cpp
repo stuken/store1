@@ -1175,14 +1175,14 @@ void SetCfgDir(const char* path)
 
 const char* GetGLSLDir(void)
 {
-	return 0;//return core_opts.value(OSDOPTION_GLSLPATH);
+	return core_opts.value(OSDOPTION_GLSLPATH);
 }
 
 void SetGLSLDir(const char* path)
 {
-//	std::string error_string;
-//	core_opts.set_value(OSDOPTION_GLSLPATH, path, OPTION_PRIORITY_CMDLINE, error_string);
-//	assert(error_string.empty());
+	std::string error_string;
+	core_opts.set_value(OSDOPTION_GLSLPATH, path, OPTION_PRIORITY_CMDLINE, error_string);
+	assert(error_string.empty());
 }
 
 const char* GetBGFXDir(void)
@@ -1926,7 +1926,7 @@ static void FontDecodeString(const char *str, LOGFONT *f)
 	
 	if (ptr != NULL) 
 	{
-		TCHAR *t_ptr = ui_wstring_from_utf8(ptr + 1);
+		TCHAR *t_ptr = win_wstring_from_utf8(ptr + 1);
 		
 		if(!t_ptr)
 			return;
@@ -1939,7 +1939,7 @@ static void FontDecodeString(const char *str, LOGFONT *f)
 /* Encode the given LOGFONT structure into a comma-delimited string */
 static void FontEncodeString(const LOGFONT *f, char *str)
 {
-	char* utf8_FaceName = ui_utf8_from_wstring(f->lfFaceName);
+	char* utf8_FaceName = win_utf8_from_wstring(f->lfFaceName);
 	char tmp[200];
 
 	if(!utf8_FaceName)
@@ -2197,7 +2197,7 @@ void SetDirectories(windows_options &opts)
 	opts.set_value(WINOPTION_HLSLPATH, GetHLSLDir(), OPTION_PRIORITY_CMDLINE, error_string);
 	opts.set_value(OPTION_DIFF_DIRECTORY, GetDiffDir(), OPTION_PRIORITY_CMDLINE, error_string);
 	opts.set_value(OPTION_VIDEO_DIRECTORY, GetVideoDir(), OPTION_PRIORITY_CMDLINE, error_string);
-//	opts.set_value(OSDOPTION_GLSLPATH, GetGLSLDir(), OPTION_PRIORITY_CMDLINE, error_string);
+	opts.set_value(OSDOPTION_GLSLPATH, GetGLSLDir(), OPTION_PRIORITY_CMDLINE, error_string);
 	opts.set_value(OSDOPTION_BGFX_PATH, GetBGFXDir(), OPTION_PRIORITY_CMDLINE, error_string);
 	opts.set_value(OPTION_PLUGINSPATH, GetPluginsDir(), OPTION_PRIORITY_CMDLINE, error_string);
 	opts.set_value(OPTION_LANGUAGEPATH, GetLanguageDir(), OPTION_PRIORITY_CMDLINE, error_string);
@@ -2467,14 +2467,14 @@ void ResetAllGameOptions(void)
 	
 	if ((hFindFile = win_find_first_file_utf8(match.c_str(), &FindFileData)) != INVALID_HANDLE_VALUE)
 	{
-		char *utf8_filename = ui_utf8_from_wstring(FindFileData.cFileName);
+		char *utf8_filename = win_utf8_from_wstring(FindFileData.cFileName);
 		std::string match = std::string(pathname.c_str()).append(PATH_SEPARATOR).append(utf8_filename);
 		free(utf8_filename);
 		osd_file::remove(match);
 
 		while (FindNextFile(hFindFile, &FindFileData) != 0)
 		{
-			char *utf8_filename = ui_utf8_from_wstring(FindFileData.cFileName);
+			char *utf8_filename = win_utf8_from_wstring(FindFileData.cFileName);
 			std::string match = std::string(pathname.c_str()).append(PATH_SEPARATOR).append(utf8_filename);
 			free(utf8_filename);
 			osd_file::remove(match);

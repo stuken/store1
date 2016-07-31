@@ -112,7 +112,7 @@ void dprintf(const char *fmt, ...)
 void ShellExecuteCommon(HWND hWnd, const char *cName)
 {
 	const char *msg = NULL;
-	TCHAR *tName = ui_wstring_from_utf8(cName);
+	TCHAR *tName = win_wstring_from_utf8(cName);
 
 	if(!tName)
 		return;
@@ -514,12 +514,45 @@ bool DriverIsImperfect(int driver_index)
 }
 
 //============================================================
+//  win_wstring_from_utf8
+//============================================================
+
+WCHAR *win_wstring_from_utf8(const char *utf8string)
+{
+	// convert MAME string (UTF-8) to UTF-16
+	int char_count = MultiByteToWideChar(CP_UTF8, 0, utf8string, -1, nullptr, 0);
+	WCHAR *result = (WCHAR *)osd_malloc_array(char_count * sizeof(*result));
+	
+	if (result != nullptr)
+		MultiByteToWideChar(CP_UTF8, 0, utf8string, -1, result, char_count);
+
+	return result;
+}
+
+
+//============================================================
+//  win_utf8_from_wstring
+//============================================================
+
+char *win_utf8_from_wstring(const WCHAR *wstring)
+{
+	// convert UTF-16 to MAME string (UTF-8)
+	int char_count = WideCharToMultiByte(CP_UTF8, 0, wstring, -1, nullptr, 0, nullptr, nullptr);
+	char *result = (char *)osd_malloc_array(char_count * sizeof(*result));
+	
+	if (result != nullptr)
+		WideCharToMultiByte(CP_UTF8, 0, wstring, -1, result, char_count, nullptr, nullptr);
+
+	return result;
+}
+
+//============================================================
 //  win_extract_icon_utf8
 //============================================================
 
 HICON win_extract_icon_utf8(HINSTANCE inst, const char* exefilename, UINT iconindex)
 {
-	TCHAR *t_exefilename = ui_wstring_from_utf8(exefilename);
+	TCHAR *t_exefilename = win_wstring_from_utf8(exefilename);
 
 	if(!t_exefilename)
 		return NULL;
@@ -535,7 +568,7 @@ HICON win_extract_icon_utf8(HINSTANCE inst, const char* exefilename, UINT iconin
 
 HANDLE win_find_first_file_utf8(const char* filename, WIN32_FIND_DATA *findfiledata)
 {
-	TCHAR *t_filename = ui_wstring_from_utf8(filename);
+	TCHAR *t_filename = win_wstring_from_utf8(filename);
 	
 	if(!t_filename)
 		return NULL;
@@ -551,16 +584,14 @@ HANDLE win_find_first_file_utf8(const char* filename, WIN32_FIND_DATA *findfiled
 
 BOOL win_move_file_utf8(const char* existingfilename, const char* newfilename)
 {
-	TCHAR* t_existingfilename;
-	TCHAR* t_newfilename;
 	BOOL result = FALSE;
 
-	t_existingfilename = ui_wstring_from_utf8(existingfilename);
+	TCHAR *t_existingfilename = win_wstring_from_utf8(existingfilename);
 	
 	if( !t_existingfilename )
 		return result;
 
-	t_newfilename = ui_wstring_from_utf8(newfilename);
+	TCHAR *t_newfilename = win_wstring_from_utf8(newfilename);
 	
 	if( !t_newfilename ) 
 	{

@@ -28,6 +28,7 @@
 #include "ui/viewgfx.h"
 #include "imagedev/cassette.h"
 #include "image.h"
+#include <time.h>
 
 
 /***************************************************************************
@@ -183,6 +184,7 @@ mame_ui_manager::mame_ui_manager(running_machine &machine)
 		m_mouse_arrow_texture(nullptr),
 		m_mouse_show(false),
 		m_load_save_hold(false)
+	  	,m_show_time(false)
 {
 }
 
@@ -294,7 +296,7 @@ void mame_ui_manager::display_startup_screens(bool first_time)
 	for (state = 0; state < maxstate && !machine().scheduled_event_pending() && !ui::menu::stack_has_special_main_menu(machine()); state++)
 	{
 		// default to standard colors
-		messagebox_backcolor = UI_BACKGROUND_COLOR;
+		messagebox_backcolor = UI_BOX_COLOR;
 
 		// pick the next state
 		switch (state)
@@ -358,7 +360,7 @@ void mame_ui_manager::set_startup_text(const char *text, bool force)
 
 	// copy in the new text
 	messagebox_text.assign(text);
-	messagebox_backcolor = UI_BACKGROUND_COLOR;
+	messagebox_backcolor = UI_BOX_COLOR;
 
 	// don't update more than 4 times/second
 	if (force || (curtime - lastupdatetime) > osd_ticks_per_second() / 4)
@@ -420,7 +422,7 @@ void mame_ui_manager::update_and_render(render_container &container)
 			if (mouse_target->map_point_container(mouse_target_x, mouse_target_y, container, mouse_x, mouse_y))
 			{
 				const float cursor_size = 0.6 * get_line_height();
-				container.add_quad(mouse_x, mouse_y, mouse_x + cursor_size * container.manager().ui_aspect(&container), mouse_y + cursor_size, UI_TEXT_COLOR, m_mouse_arrow_texture, PRIMFLAG_ANTIALIAS(1) | PRIMFLAG_BLENDMODE(BLENDMODE_ALPHA));
+				container.add_quad(mouse_x, mouse_y, mouse_x + cursor_size * container.manager().ui_aspect(&container), mouse_y + cursor_size, rgb_t::white, m_mouse_arrow_texture, PRIMFLAG_ANTIALIAS(1) | PRIMFLAG_BLENDMODE(BLENDMODE_ALPHA));
 			}
 		}
 	}
@@ -636,7 +638,7 @@ void mame_ui_manager::draw_text_box(render_container &container, ui::text_layout
 
 void mame_ui_manager::draw_message_window(render_container &container, const char *text)
 {
-	draw_text_box(container, text, ui::text_layout::text_justify::LEFT, 0.5f, 0.5f, UI_BACKGROUND_COLOR);
+	draw_text_box(container, text, ui::text_layout::text_justify::LEFT, 0.5f, 0.5f, UI_BOX_COLOR);
 }
 
 
@@ -1269,7 +1271,7 @@ void mame_ui_manager::image_handler_ingame()
 		{
 			float x = 0.2f;
 			float y = 0.5f * get_line_height() + 2.0f * UI_BOX_TB_BORDER;
-			draw_text_box(machine().render().ui_container(), layout, x, y, UI_BACKGROUND_COLOR);
+			draw_text_box(machine().render().ui_container(), layout, x, y, UI_BOX_COLOR);
 		}
 	}
 }
@@ -1298,6 +1300,20 @@ UINT32 mame_ui_manager::handler_ingame(render_container &container)
 	// draw the profiler if visible
 	if (show_profiler())
 		draw_profiler(container);
+
+	if (show_time())
+	{
+		char buf[20];
+		time_t ltime;
+		struct tm *today;
+		float line_height = get_line_height();
+
+		time(&ltime);
+		today = localtime(&ltime);
+
+		snprintf(buf, ARRAY_LENGTH(buf), "%02d:%02d:%02d", today->tm_hour, today->tm_min, today->tm_sec);
+		draw_text_full(container, buf, 0.0f, 1.0f - line_height, 1.0f, ui::text_layout::RIGHT, ui::text_layout::WORD, OPAQUE_, rgb_t::white, rgb_t::black, nullptr, nullptr);
+	}
 
 	// if we're single-stepping, pause now
 	if (single_step())
@@ -1489,6 +1505,9 @@ UINT32 mame_ui_manager::handler_ingame(render_container &container)
 		}
 	}
 
+	if (machine().ui_input().pressed(IPT_UI_SHOW_TIME))
+		set_show_time(!show_time());
+	
 	// check for fast forward
 	if (machine().ioport().type_pressed(IPT_UI_FAST_FORWARD))
 	{
@@ -1744,7 +1763,7 @@ std::vector<ui::menu_item> mame_ui_manager::slider_init(running_machine &machine
 		{
 			void *param = (void *)&exec.device();
 			std::string str = string_format(_("Overclock CPU %1$s"), exec.device().tag());
-			sliders.push_back(slider_alloc(machine, SLIDER_ID_OVERCLOCK + slider_index++, str.c_str(), 10, 1000, 2000, 1, param));
+			sliders.push_back(slider_alloc(machine, SLIDER_ID_OVERCLOCK + slider_index++, str.c_str(), 10, 1000, 4000, 10, param));
 		}
 	}
 
@@ -2469,7 +2488,7 @@ void mame_ui_manager::popup_time_string(int seconds, std::string message)
 {
 	// extract the text
 	messagebox_poptext = message;
-	messagebox_backcolor = UI_BACKGROUND_COLOR;
+	messagebox_backcolor = UI_BOX_COLOR;
 
 	// set a timer
 	m_popup_text_end = osd_ticks() + osd_ticks_per_second() * seconds;

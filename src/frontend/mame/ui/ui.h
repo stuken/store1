@@ -47,25 +47,26 @@ class menu_item;
 #define UI_BOX_TB_BORDER        (UI_TARGET_FONT_HEIGHT * 0.25f)
 
 /* handy colors */
-#define UI_GREEN_COLOR          rgb_t(0xef,0x10,0x60,0x10)
-#define UI_YELLOW_COLOR         rgb_t(0xef,0x60,0x60,0x10)
-#define UI_RED_COLOR            rgb_t(0xf0,0x60,0x10,0x10)
-#define UI_BORDER_COLOR         decode_ui_color(0)
-#define UI_BACKGROUND_COLOR     decode_ui_color(1)
-#define UI_GFXVIEWER_BG_COLOR   decode_ui_color(2)
-#define UI_UNAVAILABLE_COLOR    decode_ui_color(3)
-#define UI_TEXT_COLOR           decode_ui_color(4)
-#define UI_TEXT_BG_COLOR        decode_ui_color(5)
-#define UI_SUBITEM_COLOR        decode_ui_color(6)
-#define UI_CLONE_COLOR          decode_ui_color(7)
-#define UI_SELECTED_COLOR       decode_ui_color(8)
-#define UI_SELECTED_BG_COLOR    decode_ui_color(9)
-#define UI_MOUSEOVER_COLOR      decode_ui_color(10)
-#define UI_MOUSEOVER_BG_COLOR   decode_ui_color(11)
-#define UI_MOUSEDOWN_COLOR      decode_ui_color(12)
-#define UI_MOUSEDOWN_BG_COLOR   decode_ui_color(13)
-#define UI_DIPSW_COLOR          decode_ui_color(14)
-#define UI_SLIDER_COLOR         decode_ui_color(15)
+#define UI_GREEN_COLOR          rgb_t(239,34,177,76)
+#define UI_YELLOW_COLOR         rgb_t(239,198,188,0)
+#define UI_RED_COLOR            rgb_t(239,237,28,36)
+#define UI_BORDER_COLOR         rgb_t(255,0,0,0)
+#define UI_BACKGROUND_COLOR     rgb_t(239,239,239,239)
+#define UI_GFXVIEWER_BG_COLOR   rgb_t(255,0,0,0)
+#define UI_UNAVAILABLE_COLOR    rgb_t(255,127,127,127)
+#define UI_TEXT_COLOR           rgb_t(255,0,0,0)
+#define UI_TEXT_BG_COLOR        rgb_t(239,239,239,239)
+#define UI_SUBITEM_COLOR        rgb_t(255,63,72,204)
+#define UI_CLONE_COLOR          rgb_t(255,127,127,127)
+#define UI_SELECTED_COLOR       rgb_t(255,255,242,0)
+#define UI_SELECTED_BG_COLOR    rgb_t(239,63,72,204)
+#define UI_MOUSEOVER_COLOR      rgb_t(255,255,242,0)
+#define UI_MOUSEOVER_BG_COLOR   rgb_t(239,0,162,232)
+#define UI_MOUSEDOWN_COLOR      rgb_t(255,255,242,0)
+#define UI_MOUSEDOWN_BG_COLOR   rgb_t(239,0,162,232)
+#define UI_DIPSW_COLOR          rgb_t(255,127,127,127)
+#define UI_SLIDER_COLOR         rgb_t(239,34,177,76)
+#define UI_BOX_COLOR			rgb_t(239,127,127,127)
 
 /* cancel return value for a UI handler */
 #define UI_HANDLER_CANCEL       ((UINT32)~0)
@@ -196,6 +197,8 @@ public:
 	bool show_fps_counter();
 	void set_show_profiler(bool show);
 	bool show_profiler() const;
+	void set_show_time(bool show) { m_show_time = show; }
+	bool show_time() const { return m_show_time; } 
 	void show_menu();
 	void show_mouse(bool status);
 	virtual bool is_menu_active() override;
@@ -247,6 +250,7 @@ private:
 	render_texture *        m_mouse_arrow_texture;
 	bool                    m_mouse_show;
 	bool                    m_load_save_hold;
+	bool					m_show_time;
 	ui_options              m_ui_options;
 
 	// static variables
