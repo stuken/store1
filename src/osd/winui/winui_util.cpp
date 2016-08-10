@@ -102,7 +102,6 @@ void dprintf(const char *fmt, ...)
 {
 	char buf[1024];
 	va_list ptr;
-	
 	va_start(ptr, fmt);
 	vsnprintf(buf, WINUI_ARRAY_LENGTH(buf), fmt, ptr);
 	win_output_debug_string_utf8(buf);
@@ -268,28 +267,28 @@ static void SetDriversInfo(void)
 	{
 		struct DriversInfo *gameinfo = &drivers_info[ndriver];
 		int cache = (gameinfo->screenCount & DRIVER_CACHE_SCREEN);
-		
+
 		if (gameinfo->isClone)			
 			cache += DRIVER_CACHE_CLONE;
-		
+
 		if (gameinfo->isHarddisk)		
 			cache += DRIVER_CACHE_HARDDISK;
-		
+
 		if (gameinfo->hasOptionalBIOS)	
 			cache += DRIVER_CACHE_BIOS;
-		
+
 		if (gameinfo->isVector)			
 			cache += DRIVER_CACHE_VECTOR;
-		
+
 		if (gameinfo->usesRoms)			
 			cache += DRIVER_CACHE_ROMS;
-		
+
 		if (gameinfo->usesSamples)		
 			cache += DRIVER_CACHE_SAMPLES;
-		
+
 		if (gameinfo->usesTrackball)	
 			cache += DRIVER_CACHE_TRACKBALL;
-		
+
 		if (gameinfo->usesLightGun)		
 			cache += DRIVER_CACHE_LIGHTGUN;
 
@@ -305,7 +304,8 @@ static void InitDriversInfo(void)
 		struct DriversInfo *gameinfo = &drivers_info[ndriver];
 		machine_config config(*gamedrv, MameUIGlobal());
 		samples_device_iterator sampiter(config.root_device());
-		
+		const rom_entry *rom;
+
 		gameinfo->isClone = (GetParentRomSetIndex(gamedrv) != -1);
 		gameinfo->isBroken = (gamedrv->flags & (MACHINE_NOT_WORKING | MACHINE_UNEMULATED_PROTECTION | MACHINE_MECHANICAL)) ? true : false;
 		gameinfo->isImperfect = (gamedrv->flags & (MACHINE_WRONG_COLORS | MACHINE_IMPERFECT_COLORS | MACHINE_IMPERFECT_GRAPHICS
@@ -322,7 +322,7 @@ static void InitDriversInfo(void)
 		gameinfo->usesSamples = false;
 		gameinfo->usesTrackball = false;
 		gameinfo->usesLightGun = false;
-		
+
 		for (device_t &device : device_iterator(config.root_device()))
 		{
 			for (const rom_entry *region = rom_first_region(device); region != nullptr; region = rom_next_region(region))
@@ -336,10 +336,11 @@ static void InitDriversInfo(void)
 				}
 			}
 		}
-		
+
 		if (gamedrv->rom != nullptr)
 		{
-			for (const rom_entry *rom = gamedrv->rom; !ROMENTRY_ISEND(rom); rom++)
+			auto rom_entries = rom_build_entries(gamedrv->rom);
+			for (rom = rom_entries.data(); !ROMENTRY_ISEND(rom); rom++)
 			{
 				if (ROMENTRY_ISSYSTEM_BIOS(rom))
 					gameinfo->hasOptionalBIOS = true;
@@ -353,25 +354,25 @@ static void InitDriversInfo(void)
 		{
 			ioport_list portlist;
 			std::string errors;
-			
+
 			for (device_t &cfg : device_iterator(config.root_device()))
 			{
 				if (cfg.input_ports())
 					portlist.append(cfg, errors);
 			}
-			
+
 			for (auto &port : portlist)
 			{
 				for (ioport_field &field : port.second->fields())
 				{
 					UINT32 type = field.type();
-					
+
 					if (type == IPT_END)
 						break;
-					
+
 					if (type == IPT_DIAL || type == IPT_PADDLE || type == IPT_TRACKBALL_X || type == IPT_TRACKBALL_Y)
 						gameinfo->usesTrackball = true;
-						
+
 					if (type == IPT_LIGHTGUN_X || type == IPT_LIGHTGUN_Y || type == IPT_AD_STICK_X || type == IPT_AD_STICK_Y)
 						gameinfo->usesLightGun = true;
 				}
@@ -426,7 +427,7 @@ static void InitDriversCache(void)
 static struct DriversInfo* GetDriversInfo(int driver_index)
 {
 	static bool bFirst = true;
-	
+
 	if (bFirst)
 	{
 		bFirst = false;
@@ -522,7 +523,7 @@ WCHAR *win_wstring_from_utf8(const char *utf8string)
 	// convert MAME string (UTF-8) to UTF-16
 	int char_count = MultiByteToWideChar(CP_UTF8, 0, utf8string, -1, nullptr, 0);
 	WCHAR *result = (WCHAR *)osd_malloc_array(char_count * sizeof(*result));
-	
+
 	if (result != nullptr)
 		MultiByteToWideChar(CP_UTF8, 0, utf8string, -1, result, char_count);
 
@@ -539,7 +540,7 @@ char *win_utf8_from_wstring(const WCHAR *wstring)
 	// convert UTF-16 to MAME string (UTF-8)
 	int char_count = WideCharToMultiByte(CP_UTF8, 0, wstring, -1, nullptr, 0, nullptr, nullptr);
 	char *result = (char *)osd_malloc_array(char_count * sizeof(*result));
-	
+
 	if (result != nullptr)
 		WideCharToMultiByte(CP_UTF8, 0, wstring, -1, result, char_count, nullptr, nullptr);
 
@@ -569,7 +570,7 @@ HICON win_extract_icon_utf8(HINSTANCE inst, const char* exefilename, UINT iconin
 HANDLE win_find_first_file_utf8(const char* filename, WIN32_FIND_DATA *findfiledata)
 {
 	TCHAR *t_filename = win_wstring_from_utf8(filename);
-	
+
 	if(!t_filename)
 		return NULL;
 
@@ -587,12 +588,12 @@ BOOL win_move_file_utf8(const char* existingfilename, const char* newfilename)
 	BOOL result = FALSE;
 
 	TCHAR *t_existingfilename = win_wstring_from_utf8(existingfilename);
-	
+
 	if( !t_existingfilename )
 		return result;
 
 	TCHAR *t_newfilename = win_wstring_from_utf8(newfilename);
-	
+
 	if( !t_newfilename ) 
 	{
 		free(t_existingfilename);
@@ -609,7 +610,7 @@ void CenterWindow(HWND hWnd)
 {
 	RECT rcCenter, rcWnd;
 	HWND hWndParent = GetParent(hWnd);
-	
+
 	GetWindowRect(hWnd, &rcWnd);
 	int iWndWidth  = rcWnd.right - rcWnd.left;
 	int iWndHeight = rcWnd.bottom - rcWnd.top;
@@ -633,7 +634,7 @@ void CenterWindow(HWND hWnd)
 
 	if (iScrWidth > iWndWidth)
 		xLeft += ((iScrWidth - iWndWidth) / 2);
-	
+
 	if (iScrHeight > iWndHeight)
 		yTop += ((iScrHeight - iWndHeight) / 2);
 
@@ -644,7 +645,7 @@ void CenterWindow(HWND hWnd)
 bool IsWindowsSevenOrHigher(void) 
 {
 	OSVERSIONINFO osvi;
-	
+
 	memset(&osvi, 0, sizeof(OSVERSIONINFO));
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
    
@@ -652,6 +653,6 @@ bool IsWindowsSevenOrHigher(void)
    
 	if ((osvi.dwMajorVersion >= 6) && (osvi.dwMinorVersion >= 1))
 		return true;
-		
+
 	return false;
 }

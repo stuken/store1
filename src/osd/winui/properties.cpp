@@ -2916,7 +2916,8 @@ static void InitializeBIOSUI(HWND hWnd)
 
 			if (gamedrv->rom != NULL)
 			{
-				for (rom = gamedrv->rom; !ROMENTRY_ISEND(rom); rom++)
+				auto rom_entries = rom_build_entries(gamedrv->rom);
+				for (rom = rom_entries.data(); !ROMENTRY_ISEND(rom); rom++)
 				{
 					if (ROMENTRY_ISSYSTEM_BIOS(rom))
 					{
@@ -2949,7 +2950,8 @@ static void InitializeBIOSUI(HWND hWnd)
 
 		if (gamedrv->rom != NULL)
 		{
-			for (rom = gamedrv->rom; !ROMENTRY_ISEND(rom); rom++)
+			auto rom_entries = rom_build_entries(gamedrv->rom);
+			for (rom = rom_entries.data(); !ROMENTRY_ISEND(rom); rom++)
 			{
 				if (ROMENTRY_ISSYSTEM_BIOS(rom))
 				{
