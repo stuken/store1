@@ -87,6 +87,7 @@ SOUNDS  = {}
 MACHINES  = {}
 VIDEOS = {}
 BUSES  = {}
+FORMATS  = {}
 
 newoption {
 	trigger = "with-tools",
@@ -1313,6 +1314,13 @@ if (not os.isfile(path.join("src", "osd",  _OPTIONS["osd"] .. ".lua"))) then
 end
 dofile(path.join("src", "osd", _OPTIONS["osd"] .. ".lua"))
 dofile(path.join("src", "lib.lua"))
+if (MACHINES["NETLIST"]~=null or _OPTIONS["with-tools"]) then
+dofile(path.join("src", "netlist.lua"))
+end
+--if (STANDALONE~=true) then
+dofile(path.join("src", "formats.lua"))
+formatsProject(_OPTIONS["target"],_OPTIONS["subtarget"])
+--end
 
 group "3rdparty"
 dofile(path.join("src", "3rdparty.lua"))

@@ -30,10 +30,10 @@ function maintargetosdoptions(_target,_subtarget)
 		}
 
 	configuration { "x64", "Release" }
-		targetname "mameuifx"
+		targetname "arcade64"
 
 	configuration { "x32", "Release" }
-		targetname "mameuifx32"
+		targetname "arcade32"
 
 	configuration { }
 

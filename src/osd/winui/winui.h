@@ -79,9 +79,9 @@
 #endif
 
 #ifdef PTR64
-#define MAMEUINAME			"MAMEUIFX64"
+#define MAMEUINAME			"ARCADE64"
 #else
-#define MAMEUINAME			"MAMEUIFX32"
+#define MAMEUINAME			"ARCADE32"
 #endif
 #define MAMENAME			"MAME"
 

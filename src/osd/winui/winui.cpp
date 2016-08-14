@@ -604,9 +604,9 @@ int MameUIMain(HINSTANCE hInstance, LPWSTR lpCmdLine)
 	MameIcon.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP | NIF_INFO;
 	MameIcon.dwInfoFlags = NIIF_USER;
 	MameIcon.uVersion = NOTIFYICON_VERSION;
-	wcscpy(MameIcon.szInfoTitle, TEXT("MAMEUIFX"));
+	wcscpy(MameIcon.szInfoTitle, TEXT("ARCADE"));
 	wcscpy(MameIcon.szInfo, TEXT("Still running...."));
-	wcscpy(MameIcon.szTip, TEXT("MAMEUIFX"));
+	wcscpy(MameIcon.szTip, TEXT("ARCADE"));
 
 	hSplash = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_STARTUP), hMain, StartupProc);
 	SetActiveWindow(hSplash);
@@ -3429,7 +3429,7 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 			return true;
 		
 		case ID_HELP_TROUBLE:
-			ShellExecuteCommon(hMain, "http://mame32fx.altervista.org/forum/");
+			ShellExecuteCommon(hMain, "http://1emulation.com/");
 			SetFocus(hWndList);
 			return true;
 		
