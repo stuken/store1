@@ -18,7 +18,6 @@
 1942h                           // hack (Two Bit Score?)
 1942p                           // prototype
 1942w                           // 12/1984 (c) 1984 + Williams Electronics license (c) 1985
-1942c64							// hack MAMEUIFX
 
 @source:1943.cpp
 1943                            // 6/1987 (c) 1987 (Euro)
@@ -1045,10 +1044,13 @@ dinoeggs                        //
 mystcast                        //
 mystcasta                       //
 pstlpkr                         //
+pstlpkr1                        //
 punchy                          //
+punchy3                         //
 usafootb                        //
 wrldtour                        //
 wrldtour2                       //
+wrldtour3                       //
 
 @source:amaticmg.cpp
 am_mg24                         // (c) 2000 Amatic
@@ -1806,7 +1808,6 @@ llandert                        // (test)           no copyright notice
 meteorho                        // Hoei? bootleg    (c) 1980
 meteorts                        // VCC bootleg      (c) 1979
 spcrocks                        // J.Estevez        (c) 1981
-asteroid6						// hack MAMEUIFX
 
 @source:astinvad.cpp
 astinvad                        // (c) 1980 Stern
@@ -9374,8 +9375,15 @@ scg06nt                         // 2005.12 Sega Golf Club 2006: Next Tours (Rev 
 vcop3a                          // 2003.02.26 Virtua Cop 3 (Rev A)
 vcop3                           // 2003.05.21 Virtua Cop 3 (Rev B)
 wangmid                         // 2004.07 Wangan Midnight Maximum Tune (export) (Rev B)
+wangmidj                        // 2004.06 Wangan Midnight Maximum Tune (Japan) (Rev B)
 wangmid2                        // 2005.10 Wangan Midnight Maximum Tune 2 (Export) (Rev A)
 wangmid2j                       // 2005.04 Wangan Midnight Maximum Tune 2 (Japan)
+questofd                        // 2004.09 Quest of D (CDV-10005C)
+gundcb79                        // 2005.10 Mobile Suit Gundam 0079 Card Builder (CDV-10010)
+gundcb79a                       // 2006.10 Mobile Suit Gundam 0079 Card Builder Ver.2.02 (CDV-10024B)
+gundcb83                        // 2007.01 Mobile Suit Gundam 0083 Card Builder (CDV-10030)
+gundcb83a                       // 2007.01 Mobile Suit Gundam 0083 Card Builder Check Disk (CDV-10031)
+gundcb83b                       // 2008.08 Mobile Suit Gundam 0083 Card Builder Ver.2.10 (CDV-10037B)
 
 @source:chinagat.cpp
 chinagat                        // TA-0023 (c) 1988 Taito + Romstar license (US)
@@ -9891,8 +9899,6 @@ wofj                            // 31/10/1992 (c) 1992 (Japan) (CPS1 + QSound)
 wofr1                           // 02/10/1992 (c) 1992 (World) (CPS1 + QSound)
 wofu                            // 31/10/1992 (c) 1992 (USA) (CPS1 + QSound)
 wonder3                         // 20/05/1991 (c) 1991 (Japan)
-stridergh						// hack MAMEUIFX
-wofjm							// hack MAMEUIFX
 
 @source:cps2.cpp
 1944                            // 20/06/2000 (c) 2000 Eighting/Raizing (USA)
@@ -10144,9 +10150,10 @@ ssf2tu                          // 23/03/1994 (c) 1994 (USA)
 ssf2tur1                        // 23/02/1994 (c) 1994 (USA)
 ssf2u                           // 11/09/1993 (c) 1993 (USA)
 ssf2ud                          //
-ssf2xj                          // 23/02/1994 (c) 1994 (Japan)
-ssf2xjd                         //
-ssf2xjr                         // 23/02/1994 (c) 1994 (Japan)
+ssf2xj                          // 11/03/1994 (c) 1994 (Japan)
+ssf2xjr1                        // 23/02/1994 (c) 1994 (Japan)
+ssf2xjr1d                       //
+ssf2xjr1r                       // 23/02/1994 (c) 1994 (Japan)
 uecology                        // 03/12/1993 (c) 1994 (Japan)
 vampj                           // 05/07/1994 (c) 1994 (Japan)
 vampja                          // 05/07/1994 (c) 1994 (Japan)
@@ -11850,6 +11857,7 @@ poizone                         // (c) 1990 Sisteme
 deluxe5                         // (c) 2000 ESD
 deluxe5a                        // (c) 2000 ESD
 deluxe5b                        // (c) 2000 ESD
+deluxe4u						// (c) 2000 ESD
 hedpanic                        // (c) 2000 ESD
 hedpanicf                       // (c) 2000 ESD + Fuuki, Co. Ltd.
 hedpanico                       // (c) 1999 ESD
@@ -12747,7 +12755,6 @@ zerotime                        // hack
 zerotimed                       // hack
 zigzagb                         // (c) 1982 LAX (bootleg)
 zigzagb2                        // (c) 1982 LAX (bootleg)
-donight							// hack MAMEUIFX
 
 @source:galaxold.cpp
 4in1                            // (c) 1981 Armenia / Food and Fun
@@ -16497,6 +16504,7 @@ kinstp                          // (c) 1994 Rare
 
 @source:kissproto.cpp
 kissp                           //
+kissp2                          //
 
 @source:klax.cpp
 klax                            // 136075           (c) 1989
@@ -19733,7 +19741,8 @@ dodgectyc                       // (c) 1986 Merit
 dtrvwz5                         // (c) 1987 Merit
 iowapp                          // (c) 1990 Merit
 misdraw                         // (c) 1986 Merit / Big Apple Games
-mpchoice                        // (c) 1986 Merit
+mdchoice                        // (c) 1983 Merit
+mpchoice                        // (c) 1983 Merit
 mroundup                        // (c) 1984 Merit
 phrcraze                        // (c) 1986 Merit
 phrcrazea                       // (c) 1986 Merit
@@ -20063,6 +20072,7 @@ term2                           // (c) 1992 Midway
 term2la1                        // (c) 1992 Midway
 term2la2                        // (c) 1992 Midway
 term2la3                        // (c) 1992 Midway
+term2lg1                        // (c) 1992 Midway
 totcarn                         // (c) 1992 Midway
 totcarnp                        // (c) 1992 Midway
 trog                            // (c) 1990 Midway
@@ -28670,10 +28680,6 @@ wjammers                        // 0065 (c) 1994 Data East Corporation
 zedblade                        // 0076 (c) 1994 NMK
 zintrckb                        // 0211 hack - this is not a genuine MVS proto, its a bootleg made from the CD version
 zupapa                          // 0070 Zupapa - released in 2001, 1994 prototype probably exists
-kof2002xxx						// hack MAMEUIFX
-kof97xxx						// hack MAMEUIFX
-mslug2t							// hack MAMEUIFX
-mslug3v							// hack MAMEUIFX
 
 @source:neopcb.cpp
 kf2k3pcb                        // 0271 (c) 2003 Playmore - JAMMA PCB
@@ -29220,8 +29226,6 @@ vanvanb                         // (c) 1983 Karateco (bootleg?)
 vanvank                         // (c) 1983 Karateco (bootleg?)
 woodpeca                        // (c) 1981 Amenip Nova Games Ltd.
 woodpeck                        // (c) 1981 Amenip (Palcom Queen River)
-mrmrspac						// hack MAMEUIFX
-pacminer						// hack MAMEUIFX
 
 @source:palm.cpp
 palmiii                         // Palm III
@@ -30064,6 +30068,7 @@ superpet                        //
 
 @source:peyper.cpp
 gamatros                        //
+hangonp                         //
 nemesisp                        //
 odin                            //
 odin_dlx                        //
@@ -33295,7 +33300,10 @@ slapshot                        // D71 (c) 1994 Taito Corporation (Japan)
 slc1                            //
 
 @source:sleic.cpp
+bikerace                        //
+bikerace2                       //
 sleicpin                        //
+iomoon                          //
 
 @source:slicer.cpp
 slicer                          // 1983 Slicer Computers
@@ -34674,8 +34682,6 @@ raimais                         // B36 (c) 1988 Taito Corporation (Japan)
 raimaisj                        // B36 (c) 1988 Taito Corporation
 raimaisjo                       // B36 (c) 1988 Taito Corporation
 tubeit                          // ??? no copyright message
-sokoban							// hack MAMEUIFX
-speccies						// hack MAMEUIFX
 
 @source:taito_o.cpp
 parentj                         // C42 (c) 199? Taito
@@ -34938,6 +34944,7 @@ tecjmon                         // Talking Electronics Computer
 
 @source:techno.cpp
 xforce                          //
+spcteam                         //
 
 @source:tecmo.cpp
 backfirt                        // bootleg [(c) 1988 Tecmo]
@@ -37572,5 +37579,6 @@ zx80                            // 1980 Sinclair ZX-80
 zx81                            // 1981 Sinclair ZX-81
 zx97                            //
 
-@source:monaco.cpp
-monaco							// simulation MAMEUIFX
+@source:vgmplay.cpp
+vgmplay
+
