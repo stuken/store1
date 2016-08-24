@@ -2,17 +2,17 @@
 // copyright-holders:Chris Kirmse, Mike Haaland, René Single, Mamesick
 
 #pragma once
- 
+
 #ifndef MUI_OPTS_H
 #define MUI_OPTS_H
 
-#define GLOBAL_OPTIONS	-1
-#define FOLDER_OPTIONS	-2
+#define GLOBAL_OPTIONS -1
+#define FOLDER_OPTIONS -2
 
-#define OPTIONS_TYPE_GLOBAL		-1
-#define OPTIONS_TYPE_FOLDER		-2
+#define OPTIONS_TYPE_GLOBAL -1
+#define OPTIONS_TYPE_FOLDER -2
 
-#define UNKNOWN		-1
+#define UNKNOWN -1
 
 #define MUIOPTION_VERSION						"version"
 #define MUIOPTION_EXIT_DIALOG					"confirm_exit"

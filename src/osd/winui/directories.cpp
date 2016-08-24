@@ -123,7 +123,7 @@ INT_PTR CALLBACK DirectoriesDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARA
 				(void)ListView_SetExtendedListViewStyle(GetDlgItem(hDlg, IDC_DIR_LIST), LVS_EX_FULLROWSELECT | LVS_EX_ONECLICKACTIVATE | LVS_EX_DOUBLEBUFFER);
 			else
 				(void)ListView_SetExtendedListViewStyle(GetDlgItem(hDlg, IDC_DIR_LIST), LVS_EX_FULLROWSELECT | LVS_EX_UNDERLINEHOT | LVS_EX_ONECLICKACTIVATE | LVS_EX_DOUBLEBUFFER);
-	
+
 			SetWindowTheme(GetDlgItem(hDlg, IDC_DIR_LIST), L"Explorer", NULL);
 			SetWindowTheme(GetDlgItem(hDlg, IDC_DIR_COMBO), L" ", L" ");
 			return (BOOL)HANDLE_WM_INITDIALOG(hDlg, wParam, lParam, Directories_OnInitDialog);
@@ -289,7 +289,7 @@ static bool Directories_OnInitDialog(HWND hDlg, HWND hwndFocus, LPARAM lParam)
 
 	g_pDirInfo = (tDirInfo *) malloc(sizeof(tDirInfo) * nDirInfoCount);
 
-	if (!g_pDirInfo) 		/* bummer */
+	if (!g_pDirInfo) /* bummer */
 		goto error;
 
 	memset(g_pDirInfo, 0, sizeof(tDirInfo) * nDirInfoCount);
@@ -342,7 +342,7 @@ static bool Directories_OnInitDialog(HWND hDlg, HWND hwndFocus, LPARAM lParam)
 				DirInfo_NumDir(g_pDirInfo, i)++;
 				token = _tcstok(NULL, TEXT(";"));
 			}
-			
+
 			DirInfo_SetModified(g_pDirInfo, i, false);
 		}
 		else
@@ -381,7 +381,7 @@ static void Directories_OnDestroy(HWND hDlg)
 		{
 			if (g_pDirInfo[i].m_Path)
 				free(g_pDirInfo[i].m_Path);
-			
+
 			if (g_pDirInfo[i].m_tDirectory)
 				free(g_pDirInfo[i].m_tDirectory);
 		}
@@ -420,8 +420,8 @@ static int RetrieveDirList(int nDir, int nFlagResult, void (*SetTheseDirs)(const
 		SetTheseDirs(utf8_buf);
 		free(utf8_buf);
 		nResult |= nFlagResult;
-    }
-	
+	}
+
 	return nResult;
 }
 
@@ -441,7 +441,7 @@ static void Directories_OnOk(HWND hDlg)
 			free(utf8_s);
 		}
 	}
-	
+
 	DeleteObject(hBrush);
 	DestroyIcon(hIcon);
 	EndDialog(hDlg, nResult);
@@ -606,16 +606,13 @@ static void Directories_OnCommand(HWND hDlg, int id, HWND hwndCtl, UINT codeNoti
 
 static int CALLBACK BrowseCallbackProc(HWND hWnd, UINT uMsg, LPARAM lParam, LPARAM lpData)
 {
-	/*
-        Called just after the dialog is initialized
-        Select the dir passed in BROWSEINFO.lParam
-    */
+	/* Called just after the dialog is initialized. Select the dir passed in BROWSEINFO.lParam */
 	if (uMsg == BFFM_INITIALIZED)
 	{
 		if ((const char*)lpData != NULL)
 			SendMessage(hWnd, BFFM_SETSELECTION, true, lpData);
 	}
-	
+
 	return 0;
 }
 

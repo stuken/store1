@@ -71,11 +71,11 @@
 #include "screenshot.h"
 
 #ifndef TVS_EX_DOUBLEBUFFER
-#define TVS_EX_DOUBLEBUFFER 		0x0004
+#define TVS_EX_DOUBLEBUFFER		0x0004
 #endif
 
 #ifndef TVM_SETEXTENDEDSTYLE
-#define TVM_SETEXTENDEDSTYLE 		(TV_FIRST + 44)
+#define TVM_SETEXTENDEDSTYLE		(TV_FIRST + 44)
 #endif
 
 #ifdef PTR64
@@ -88,10 +88,10 @@
 #define MAMEUIFX_VERSION	"0.176 (" __DATE__")"
 #define MAME_VERSION		"0.176"
 
-#define SEARCH_PROMPT 		"<search here>"
+#define SEARCH_PROMPT		"<search here>"
 
 /* Highly useful macro for compile-time knowledge of an array size */
-#define WINUI_ARRAY_LENGTH(x)     	(sizeof(x) / sizeof(x[0]))
+#define WINUI_ARRAY_LENGTH(x)		(sizeof(x) / sizeof(x[0]))
 
 /* For future use? though here is the best place to define them */
 #define COLOR_WINXP			RGB(236, 233, 216)
@@ -101,19 +101,19 @@
 #define COLOR_WIN7			RGB(240, 240, 240)
 #define COLOR_WHITE			RGB(255, 255, 255)
 
-#define MM_PLAY_GAME 		(WM_APP + 15000)
+#define MM_PLAY_GAME		(WM_APP + 15000)
 
 #define JOYGUI_MS 			100
 
 #define JOYGUI_TIMER 		1
-#define SCREENSHOT_TIMER 	2
+#define SCREENSHOT_TIMER	2
 
 /* Max size of a sub-menu */
-#define DBU_MIN_WIDTH  		512
-#define DBU_MIN_HEIGHT 		250
+#define DBU_MIN_WIDTH		512
+#define DBU_MIN_HEIGHT		250
 
 //I could not find a predefined value for this event and docs just say it has 1 for the parameter
-#define TOOLBAR_EDIT_ACCELERATOR_PRESSED 		1
+#define TOOLBAR_EDIT_ACCELERATOR_PRESSED		1
 
 #ifndef StatusBar_GetItemRect
 #define StatusBar_GetItemRect(hWnd, iPart, lpRect) \
@@ -126,19 +126,19 @@
 #endif
 
 /* Which edges of a control are anchored to the corresponding side of the parent window */
-#define RA_LEFT     		0x01
-#define RA_RIGHT    		0x02
-#define RA_TOP      		0x04
-#define RA_BOTTOM   		0x08
-#define RA_ALL     			0x0F
-#define RA_END  			0
-#define RA_ID   			1
-#define RA_HWND 			2
+#define RA_LEFT				0x01
+#define RA_RIGHT			0x02
+#define RA_TOP				0x04
+#define RA_BOTTOM			0x08
+#define RA_ALL				0x0F
+#define RA_END				0
+#define RA_ID				1
+#define RA_HWND				2
 
 #define SPLITTER_WIDTH		4
 #define MIN_VIEW_WIDTH		10
 
-#define NUM_TOOLBUTTONS 	WINUI_ARRAY_LENGTH(tbb)
+#define NUM_TOOLBUTTONS     WINUI_ARRAY_LENGTH(tbb)
 #define NUM_TOOLTIPS 		(13)
 
 enum

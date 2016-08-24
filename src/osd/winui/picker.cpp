@@ -57,7 +57,7 @@ static bool ListViewNotify(HWND hWnd, LPNMHDR lpNmHdr)
 		rcClient.left = pt.x;
 		InvalidateRect(hWnd, &rcClient, false);
 	}
-	
+
 	return false;
 }
 
@@ -100,7 +100,7 @@ static bool ListViewContextMenu(HWND hWndPicker, LPARAM lParam)
 		if (pPickerInfo->pCallbacks->pfnOnBodyContextMenu)
 			pPickerInfo->pCallbacks->pfnOnBodyContextMenu(pt);
 	}
-	
+
 	return true;
 }
 
@@ -235,10 +235,10 @@ static void Picker_InternalResetColumnDisplay(HWND hWnd, bool bFirstTime)
 done:
 	if (widths)
 		free(widths);
-	
+
 	if (order)
 		free(order);
-	
+
 	if (shown)
 		free(shown);
 }
@@ -355,7 +355,7 @@ bool SetupPicker(HWND hWndPicker, const struct PickerOptions *pOptions)
 error:
 	if (pPickerInfo)
 		Picker_Free(pPickerInfo);
-	
+
 	return false;
 }
 
@@ -389,7 +389,7 @@ static bool PickerHitTest(HWND hWnd)
 	DWORD res = GetMessagePos();
 	LVHITTESTINFO htInfo;
 
-    memset(&htInfo, 0, sizeof(LVHITTESTINFO));
+	memset(&htInfo, 0, sizeof(LVHITTESTINFO));
 	POINTS p = MAKEPOINTS(res);
 	GetWindowRect(hWnd, &rect);
 	htInfo.pt.x = p.x - rect.left;
@@ -643,11 +643,11 @@ int Picker_InsertItemSorted(HWND hWndPicker, int nParam)
 
 	memset(&lvi, 0, sizeof(LVITEM));
 	lvi.mask     = LVIF_IMAGE | LVIF_TEXT | LVIF_PARAM;
-	lvi.iItem	 = nLow;
+	lvi.iItem = nLow;
 	lvi.iSubItem = 0;
-	lvi.lParam	 = nParam;
+	lvi.lParam = nParam;
 	lvi.pszText  = LPSTR_TEXTCALLBACK;
-	lvi.iImage	 = I_IMAGECALLBACK;
+	lvi.iImage = I_IMAGECALLBACK;
 
 	return ListView_InsertItem(hWndPicker, &lvi);
 }
@@ -656,10 +656,10 @@ int Picker_GetRealColumnFromViewColumn(HWND hWnd, int nViewColumn)
 {
 	struct PickerInfo *pPickerInfo = GetPickerInfo(hWnd);
 	int nRealColumn = 0;
-	
+
 	if (nViewColumn >= 0 && nViewColumn < pPickerInfo->nColumnCount)
 		nRealColumn = pPickerInfo->pnColumnsOrder[nViewColumn];
-	
+
 	return nRealColumn;
 }
 
@@ -739,10 +739,10 @@ bool Picker_HandleNotify(LPNMHDR lpNmHdr)
 				pDispInfo->item.pszText = (TCHAR *) s;
 				bResult = true;
 			}
-			
+
 			break;
 		}
-		
+
 		case LVN_ITEMCHANGED:
 			if ((pnmv->uOldState & LVIS_SELECTED) && !(pnmv->uNewState & LVIS_SELECTED))
 			{
@@ -778,10 +778,10 @@ bool Picker_HandleNotify(LPNMHDR lpNmHdr)
 		case LVN_BEGINDRAG:
 			if (pPickerInfo->pCallbacks->pfnBeginListViewDrag)
 				pPickerInfo->pCallbacks->pfnBeginListViewDrag(pnmv);
-			
+
 			break;
 	}
-	
+
 	return bResult;
 }
 
@@ -801,7 +801,7 @@ int Picker_GetNumColumns(HWND hWnd)
 	if ((nColumnCount = Header_GetItemCount(hwndHeader)) < 1)
 	{
 		nColumnCount = 0;
-		
+
 		for (int i = 0; i < pPickerInfo->nColumnCount ; i++ )
 		{
 			if (shown[i])
@@ -830,7 +830,7 @@ int Picker_GetColumnCount(HWND hWndPicker)
 const TCHAR* const *Picker_GetColumnNames(HWND hWndPicker)
 {
 	struct PickerInfo *pPickerInfo = GetPickerInfo(hWndPicker);
-	
+
 	return pPickerInfo->ppszColumnNames;
 }
 
@@ -839,7 +839,7 @@ bool Picker_SaveColumnWidths(HWND hWndPicker)
 	struct PickerInfo *pPickerInfo = GetPickerInfo(hWndPicker);
 	bool bSuccess = false;
 	int nColumnMax = 0;
-	
+
 	/* allocate space for the column info */
 	int *widths = (int*)malloc(pPickerInfo->nColumnCount * sizeof(*widths));
 	int *order = (int*)malloc(pPickerInfo->nColumnCount * sizeof(*order));

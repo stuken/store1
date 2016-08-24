@@ -6,7 +6,7 @@
 #ifndef SCREENSHOT_H
 #define SCREENSHOT_H
 
-#define WIDTHBYTES(width) 	((width) / 8)
+#define WIDTHBYTES(width) ((width) / 8)
 
 bool LoadScreenShot(int nGame, int nType);
 HANDLE GetScreenShotHandle(void);

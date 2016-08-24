@@ -58,7 +58,7 @@ const char * DirectXDecodeError(HRESULT errorval)
 			return g_ErrorCode[i].szError;
 		}
 	}
-	
+
 	snprintf(tmp, WINUI_ARRAY_LENGTH(tmp), "UNKNOWN: 0x%x", (unsigned int)errorval);
 	return tmp;
 }

@@ -128,7 +128,7 @@ INT_PTR CALLBACK ResetDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPar
 							strcat(temp, MAMEUINAME);
 							strcat(temp, ".\n");
 						}
-			
+
 						strcat(temp, "\nDo you wish to continue?");
 
 						if (win_message_box_utf8(hDlg, temp, "Restore settings", MB_ICONQUESTION | MB_YESNO) == IDYES)
@@ -154,13 +154,13 @@ INT_PTR CALLBACK ResetDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPar
 								ResetInterface();
 								EndDialog(hDlg, 1);
 								return true;
-							}		 
+							}
 							else 
 							{
 								EndDialog(hDlg, 0);
 								return true;
 							}
-						} 
+						}
 						else 
 							// Give the user a chance to change what they want to reset.
 							break;
@@ -177,7 +177,7 @@ INT_PTR CALLBACK ResetDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPar
 
 			break;
 	}
-	
+
 	return false;
 }
 
@@ -188,21 +188,21 @@ static UINT_PTR CALLBACK CCHookProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM l
 	{
 		case WM_INITDIALOG:
 			CenterWindow(hDlg);
-        	hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_MAMEUI_ICON));
-        	SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+			hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_MAMEUI_ICON));
+			SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
 			hBrush = CreateSolidBrush(RGB(240, 240, 240));
 			win_set_window_text_utf8(hDlg, "Choose a color");
 			break;
-	
+
 		case WM_CTLCOLORDLG:
 			return (LRESULT) hBrush;	
-		
+
 		case WM_CTLCOLORSTATIC:
 		case WM_CTLCOLORBTN:
 			hDC = (HDC)wParam;
 			SetBkMode(hDC, TRANSPARENT);
 			return (LRESULT) hBrush;
-			
+
 		case WM_DESTROY:
 			DestroyIcon(hIcon);
 			DeleteObject(hBrush);
@@ -250,7 +250,7 @@ INT_PTR CALLBACK InterfaceDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 				(void)ComboBox_InsertString(GetDlgItem(hDlg, IDC_HISTORY_TAB), i, g_ComboBoxHistoryTab[i].m_pText);
 				(void)ComboBox_SetItemData(GetDlgItem(hDlg, IDC_HISTORY_TAB), i, g_ComboBoxHistoryTab[i].m_pData);
 			}
-		
+
 			if (GetHistoryTab() < MAX_TAB_TYPES) 
 				(void)ComboBox_SetCurSel(GetDlgItem(hDlg, IDC_HISTORY_TAB), GetHistoryTab());
 			else 
@@ -265,10 +265,10 @@ INT_PTR CALLBACK InterfaceDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 			EnableWindow(GetDlgItem(hDlg, IDC_ENABLE_SEVENZIP), GetEnableFastAudit() ? true : false);
 			break;
 		}
-		
+
 		case WM_CTLCOLORDLG:
 			return (LRESULT) hBrush;	
-		
+
 		case WM_CTLCOLORSTATIC:
 		case WM_CTLCOLORBTN:
 			hDC = (HDC)wParam;
@@ -287,7 +287,7 @@ INT_PTR CALLBACK InterfaceDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 				{
 					CHOOSECOLOR cc;
 					COLORREF choice_colors[16];			
-			
+
 					for (int i = 0; i < 16; i++)
 						choice_colors[i] = GetCustomColor(i);
 
@@ -321,7 +321,7 @@ INT_PTR CALLBACK InterfaceDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 					bool bRedrawList = false;
 					bool checked = false;
 					int value = 0;
-			
+
 					SetJoyGUI(Button_GetCheck(GetDlgItem(hDlg, IDC_JOY_GUI)));
 					SetMinimizeTrayIcon(Button_GetCheck(GetDlgItem(hDlg, IDC_DISABLE_TRAY_ICON)));
 					SetExitDialog(Button_GetCheck(GetDlgItem(hDlg, IDC_EXIT_DIALOG)));
@@ -347,12 +347,12 @@ INT_PTR CALLBACK InterfaceDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 					}
 
 					value = SendDlgItemMessage(hDlg, IDC_CYCLETIMESEC, TBM_GETPOS, 0, 0);
-			
+
 					if (GetCycleScreenshot() != value)
 						SetCycleScreenshot(value);
 
 					value = SendDlgItemMessage(hDlg, IDC_SCREENSHOT_BORDERSIZE, TBM_GETPOS, 0, 0);
-			
+
 					if (GetScreenshotBorderSize() != value)
 					{
 						SetScreenshotBorderSize(value);
@@ -360,7 +360,7 @@ INT_PTR CALLBACK InterfaceDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 					}
 
 					checked = Button_GetCheck(GetDlgItem(hDlg, IDC_STRETCH_SCREENSHOT_LARGER));
-			
+
 					if (checked != GetStretchScreenShotLarger())
 					{
 						SetStretchScreenShotLarger(checked);
@@ -368,7 +368,7 @@ INT_PTR CALLBACK InterfaceDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 					}
 
 					checked = Button_GetCheck(GetDlgItem(hDlg, IDC_FILTER_INHERIT));
-			
+
 					if (checked != GetFilterInherit())
 					{
 						SetFilterInherit(checked);
@@ -376,7 +376,7 @@ INT_PTR CALLBACK InterfaceDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 					}
 
 					checked = Button_GetCheck(GetDlgItem(hDlg, IDC_USE_BROKEN_ICON));
-			
+
 					if (checked != GetUseBrokenIcon())
 					{
 						SetUseBrokenIcon(checked);
@@ -384,7 +384,7 @@ INT_PTR CALLBACK InterfaceDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 					}
 
 					checked = Button_GetCheck(GetDlgItem(hDlg, IDC_DISPLAY_NO_ROMS));
-			
+
 					if (checked != GetDisplayNoRomsGames())
 					{
 						SetDisplayNoRomsGames(checked);
@@ -393,7 +393,7 @@ INT_PTR CALLBACK InterfaceDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 
 					int nCurSelection = ComboBox_GetCurSel(GetDlgItem(hDlg, IDC_HISTORY_TAB));
 					int nHistoryTab = 0;
-			
+
 					if (nCurSelection != CB_ERR)
 						nHistoryTab = ComboBox_GetItemData(GetDlgItem(hDlg, IDC_HISTORY_TAB), nCurSelection);
 
@@ -407,10 +407,10 @@ INT_PTR CALLBACK InterfaceDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 						ResizePickerControls(GetMainWindow());
 						UpdateScreenShot();
 					}
-			
+
 					if(bRedrawList)
 						UpdateListView();
-			
+
 					SaveInternalUI();
 					return true;
 				}
@@ -570,7 +570,7 @@ INT_PTR CALLBACK FilterDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPa
 				{
 					ShowWindow(GetDlgItem(hDlg, IDC_INHERITED), false);
 				}
-			
+
 				// Find the matching filter record if it exists
 				lpFilterRecord = FindFilter(folder->m_nFolderId);
 
@@ -580,14 +580,14 @@ INT_PTR CALLBACK FilterDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPa
 					DisableFilterControls(hDlg, lpFilterRecord, &g_lpFilterList[i], dwFilters);
 				}
 			}
-		
+
 			SetFocus(GetDlgItem(hDlg, IDC_FILTER_EDIT));
 			return false;
 		}
-	
+
 		case WM_CTLCOLORDLG:
 			return (LRESULT) hBrush;	
-		
+
 		case WM_CTLCOLORSTATIC:
 		case WM_CTLCOLORBTN:
 			hDC = (HDC)wParam;
@@ -637,11 +637,11 @@ INT_PTR CALLBACK FilterDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPa
 					if (wNotifyCode == BN_CLICKED)
 						EnableFilterExclusions(hDlg, wID);
 			}
-		
+
 			break;
 		}
 	}
-	
+
 	return false;
 }
 
@@ -668,7 +668,7 @@ INT_PTR CALLBACK AboutDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPar
 			win_set_window_text_utf8(GetDlgItem(hDlg, IDC_BUILDVER), tmp);
 			return true;
 		}
-	
+
 		case WM_CTLCOLORDLG:
 			return (LRESULT) hBrush;
 
@@ -680,9 +680,9 @@ INT_PTR CALLBACK AboutDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPar
 
 			if ((HWND)lParam == GetDlgItem(hDlg, IDC_SICKFX))
 				SetTextColor(hDC, RGB(63, 72, 204));
-	
+
 			return (LRESULT) hBrush;
-		
+
 		case WM_COMMAND:
 			switch (GET_WM_COMMAND_ID(wParam, lParam))
 			{
@@ -694,10 +694,10 @@ INT_PTR CALLBACK AboutDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPar
 					EndDialog(hDlg, 0);
 					return true;
 			}
-		
+
 			break;
 	}
-	
+
 	return false;
 }
 
@@ -766,7 +766,7 @@ INT_PTR CALLBACK AddCustomFileDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPA
 								tvis.item = tvi;
 
 								hti_child = TreeView_InsertItem(GetDlgItem(hDlg, IDC_CUSTOM_TREE), &tvis);
-							
+
 								if (folders[jj] == default_selection)
 									(void)TreeView_SelectItem(GetDlgItem(hDlg, IDC_CUSTOM_TREE), hti_child);
 							}
@@ -787,8 +787,8 @@ INT_PTR CALLBACK AddCustomFileDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPA
 		}
 
 		case WM_CTLCOLORDLG:
-			return (LRESULT) hBrush;	
-		
+			return (LRESULT) hBrush;
+
 		case WM_CTLCOLORSTATIC:
 		case WM_CTLCOLORBTN:
 			hDC = (HDC)wParam;
@@ -817,7 +817,7 @@ INT_PTR CALLBACK AddCustomFileDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPA
 					EndDialog(hDlg, 0);
 					return true;
 				}
-		
+
 				case IDCANCEL:
 					DestroyIcon(hIcon);
 					DeleteObject(hBrush);
@@ -827,7 +827,7 @@ INT_PTR CALLBACK AddCustomFileDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPA
 
 			break;
 	}
-	
+
 	return false;
 }
 

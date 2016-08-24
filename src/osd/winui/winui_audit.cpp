@@ -73,11 +73,11 @@ bool IsAuditResultNo(int audit_result)
 int MameUIVerifyRomSet(int game, bool refresh)
 {
 	if (!RomSetFound(game))
-	{	
+	{
 		SetRomAuditResults(game, media_auditor::NOTFOUND);
-		return media_auditor::NOTFOUND;	
+		return media_auditor::NOTFOUND;
 	}
-	
+
 	driver_enumerator enumerator(MameUIGlobal(), driver_list::driver(game));
 	enumerator.next();
 	media_auditor auditor(enumerator);
@@ -87,7 +87,7 @@ int MameUIVerifyRomSet(int game, bool refresh)
 	buffer.seekp(0);
 	auditor.winui_summarize(GetDriverGameName(game), &buffer);
 	buffer.put('\0');
-	
+
 	if (!refresh)
 		DetailsPrintf("%s", &buffer.vec()[0]);
 
@@ -117,7 +117,7 @@ int MameUIVerifySampleSet(int game)
 	enumerator.next();
 	media_auditor auditor(enumerator);
 	media_auditor::summary summary = auditor.audit_samples();
-	
+
 	if (summary != media_auditor::NONE_NEEDED)
 	{
 		util::ovectorstream buffer;
@@ -127,7 +127,7 @@ int MameUIVerifySampleSet(int game)
 		buffer.put('\0');
 		DetailsPrintf("%s", &buffer.vec()[0]);
 	}
-	
+
 	return summary;
 }
 
@@ -162,45 +162,45 @@ INT_PTR CALLBACK AuditWindowProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPar
 			win_set_window_text_utf8(hAudit, "Checking games... Please wait...");
 			hThread = CreateThread(NULL, 0, AuditThreadProc, hAudit, 0, 0);
 			return true;
-	
+
 		case WM_CTLCOLORDLG:
 			return (LRESULT) hBrush;	
-		
+
 		case WM_CTLCOLORSTATIC:
 		case WM_CTLCOLORBTN:
 			hDC = (HDC)wParam;
 			SetBkMode(hDC, TRANSPARENT);
 			SetTextColor(hDC, GetSysColor(COLOR_WINDOWTEXT));
-		
+
 			if ((HWND)lParam == GetDlgItem(hAudit, IDC_ROMS_CORRECT))
 				SetTextColor(hDC, RGB(34, 177, 76));
-		
+
 			if ((HWND)lParam == GetDlgItem(hAudit, IDC_ROMS_INCORRECT))
 				SetTextColor(hDC, RGB(198, 188, 0));
-		
+
 			if ((HWND)lParam == GetDlgItem(hAudit, IDC_ROMS_NOTFOUND))
 				SetTextColor(hDC, RGB(237, 28, 36));
-		
+
 			if ((HWND)lParam == GetDlgItem(hAudit, IDC_ROMS_TOTAL))
 				SetTextColor(hDC, RGB(63, 72, 204));
-		
+
 			return (LRESULT) hBrush;
-		
+
 		case WM_CTLCOLOREDIT:
 			hDC = (HDC)wParam;
 			SetTextColor(hDC, RGB(136, 0, 21));
 			return (LRESULT) GetStockObject(WHITE_BRUSH);
-		
+
 		case WM_COMMAND:
 			switch (GET_WM_COMMAND_ID(wParam, lParam))
 			{
 				case IDCANCEL:
 					DWORD ExitCode = 0;
-		
+
 					if (hThread)
 					{
 						rom_index = -1;
-	
+
 						if (GetExitCodeThread(hThread, &ExitCode) && (ExitCode == STILL_ACTIVE))
 						{
 							PostMessage(hAudit, WM_COMMAND, wParam, lParam);
@@ -214,10 +214,10 @@ INT_PTR CALLBACK AuditWindowProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPar
 					EndDialog(hAudit, 0);
 					break;
 			}
-		
+
 			break;
 	}
-	
+
 	return false;
 }
 
@@ -250,7 +250,7 @@ INT_PTR CALLBACK GameAuditDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 			snprintf(tmp, WINUI_ARRAY_LENGTH(tmp), "Audit results for \"%s\"", GetDriverGameName(rom_index));
 			win_set_window_text_utf8(hAudit, tmp);
 			int iStatus = MameUIVerifyRomSetFull(rom_index);
-		
+
 			switch (iStatus)
 			{
 				case media_auditor::CORRECT:
@@ -264,7 +264,7 @@ INT_PTR CALLBACK GameAuditDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 					audit_icon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_AUDIT_FAIL));
 					break;
 			}
-		
+
 			SendMessage(GetDlgItem(hAudit, IDC_AUDIT_ICON), STM_SETICON, (WPARAM)audit_icon, 0);
 			const char *lpStatus = StatusString(iStatus);
 			win_set_window_text_utf8(GetDlgItem(hAudit, IDC_PROP_ROMS), lpStatus);
@@ -279,7 +279,7 @@ INT_PTR CALLBACK GameAuditDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 				lpStatus = "None required";
 				audit_samples = 2;
 			}
-		
+
 			win_set_window_text_utf8(GetDlgItem(hAudit, IDC_PROP_SAMPLES), lpStatus);
 			strcpy(buffer, "NAME                SIZE      CRC\n");
 			strcat(buffer, "--------------------------------------\n");
@@ -292,33 +292,33 @@ INT_PTR CALLBACK GameAuditDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 					for (const rom_entry *rom = rom_first_file(region); rom != nullptr; rom = rom_next_file(rom))
 					{
 						UINT32 crc = 0;
-					
+
 						if (util::hash_collection(ROM_GETHASHDATA(rom)).crc(crc))
 							crctext = crc;
 						else
 							crctext = 0;
-					
+
 						snprintf(buffer, WINUI_ARRAY_LENGTH(buffer), "%-18s  %09d %08x\n", ROM_GETNAME(rom), ROM_GETLENGTH(rom), crctext);
 						strcat(details, buffer);
 					}
 				}
 			}
-		
+
 			win_set_window_text_utf8(GetDlgItem(hAudit, IDC_ROM_DETAILS), ConvertToWindowsNewlines(details));
 			ShowWindow(hAudit, SW_SHOW);
 			return true;
 		}
-		
+
 		case WM_CTLCOLORDLG:
 			return (LRESULT) hBrush;
-		
+
 		case WM_CTLCOLORSTATIC:
 		case WM_CTLCOLORBTN:
-		{	
+		{
 			hDC = (HDC)wParam;
 			SetBkMode(hDC, TRANSPARENT);
 			SetTextColor(hDC, GetSysColor(COLOR_WINDOWTEXT));
-		
+
 			if ((HWND)lParam == GetDlgItem(hAudit, IDC_PROP_ROMS))
 			{
 				if (audit_color == 0)
@@ -328,7 +328,7 @@ INT_PTR CALLBACK GameAuditDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 				else
 					SetTextColor(hDC, RGB(63, 72, 204));
 			}
-		
+
 			if ((HWND)lParam == GetDlgItem(hAudit, IDC_PROP_SAMPLES))
 			{
 				if (audit_samples == 0)
@@ -338,23 +338,23 @@ INT_PTR CALLBACK GameAuditDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 				else
 					SetTextColor(hDC, RGB(63, 72, 204));
 			}
-		
+
 			return (LRESULT) hBrush;
 		}
-	
+
 		case WM_CTLCOLOREDIT:
 		{
 			hDC = (HDC)wParam;
-		
+
 			if ((HWND)lParam == GetDlgItem(hAudit, IDC_ROM_DETAILS))
 				SetTextColor(hDC, RGB(59, 59, 59));
-		
+
 			if ((HWND)lParam == GetDlgItem(hAudit, IDC_AUDIT_DETAILS_PROP))
 				SetTextColor(hDC, RGB(136, 0, 21));
 
 			return (LRESULT) GetStockObject(WHITE_BRUSH);
 		}
-		
+
 		case WM_COMMAND:
 			switch (GET_WM_COMMAND_ID(wParam, lParam))
 			{
@@ -367,7 +367,7 @@ INT_PTR CALLBACK GameAuditDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 					EndDialog(hDlg, 0);
 					return true;
 			}
-		
+
 			break;
 	}
 
@@ -377,8 +377,8 @@ INT_PTR CALLBACK GameAuditDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 static void ProcessNextRom(void)
 {
 	char buffer[200];
-	
-	if (driver_list::driver(rom_index).name[0] == '_')	// skip __empty driver
+
+	if (driver_list::driver(rom_index).name[0] == '_') // skip __empty driver
 	{
 		rom_index++;
 		return;
@@ -438,7 +438,7 @@ static void DetailsPrintf(const char *fmt, ...)
 		hEdit = GetDlgItem(hAudit, IDC_AUDIT_DETAILS_PROP);
 		scroll = false;
 	}
-	
+
 	if (hEdit == NULL)
 		return;
 
@@ -446,7 +446,7 @@ static void DetailsPrintf(const char *fmt, ...)
 	vsnprintf(buffer, WINUI_ARRAY_LENGTH(buffer), fmt, marker);
 	va_end(marker);
 	TCHAR *t_s = win_wstring_from_utf8(ConvertToWindowsNewlines(buffer));
-	
+
 	if( !t_s || _tcscmp(TEXT(""), t_s) == 0)
 		return;
 
@@ -501,15 +501,15 @@ static bool RomSetFound(int index)
 	const char *gamename = GetDriverGameName(index);
 	const char *chdname = NULL;
 	bool found = false;
-	
+
 	// nothing to do if faster audit option is disabled
 	if (!GetEnableFastAudit())
 		return true;
-	
+
 	// obtain real CHD name from core if game has one
 	if (DriverIsHarddisk(index))
 		chdname = RetrieveCHDName(index);
-	
+
 	// don't search for empty romsets (e.g. pong, breakout)
 	if (!DriverUsesRoms(index))
 		return true;
@@ -521,15 +521,15 @@ static bool RomSetFound(int index)
 
 		// try to search a standard zip romset first
 		snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\%s.zip", rom_path[i], gamename);
-		f = fopen(filename, "r");				
- 
+		f = fopen(filename, "r");
+
 		// if it fails, try with 7zip extension if enabled by the user
 		if (f == NULL && GetEnableSevenZip())
 		{
 			snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\%s.7z", rom_path[i], gamename);
-			f = fopen(filename, "r");				
+			f = fopen(filename, "r");
 		}
-	
+
 		// it could be a merged romset so check if we at least have the parent
 		if (f == NULL && DriverIsClone(index))
 		{
@@ -540,12 +540,12 @@ static bool RomSetFound(int index)
 			if (DriverIsBios(parent))
 				continue;
 
-			if (IsAuditResultYes(parent_found))		// parent already found
+			if (IsAuditResultYes(parent_found)) // parent already found
 			{
 				found = true;
 				break;
 			}
-			else		// re-check if parent exists
+			else // re-check if parent exists
 			{
 				const char *parentname = GetDriverGameName(parent);
 				snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\%s.zip", rom_path[i], parentname);
@@ -556,7 +556,7 @@ static bool RomSetFound(int index)
 					snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\%s.7z", rom_path[i], parentname);
 					f = fopen(filename, "r");
 				}
-				
+
 				if (f != NULL)
 				{
 					fclose(f);
@@ -565,19 +565,19 @@ static bool RomSetFound(int index)
 				}
 			}
 		}
-		
+
 		// maybe is a game with chd and no romset (e.g. taito g-net games)
 		if (f == NULL && DriverIsHarddisk(index))
 		{
 			snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\%s\\%s.chd", rom_path[i], gamename, chdname);
-			f = fopen(filename, "r");				
+			f = fopen(filename, "r");
 		}
 
 		// let's try the last attempt in the root folder
 		if (f == NULL && DriverIsHarddisk(index))
 		{
 			snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\%s.chd", rom_path[i], chdname);
-			f = fopen(filename, "r");				
+			f = fopen(filename, "r");
 		}
 
 		// success, so close the file and call core to audit the rom
@@ -588,7 +588,7 @@ static bool RomSetFound(int index)
 			break;
 		}
 	}
-	
+
 	// return if we found something or not
 	return found;
 }
@@ -602,14 +602,14 @@ static void RetrievePaths(void)
 
 	strcpy(buffer, dirs);
 	token = strtok(buffer, ";");
-	
+
 	if (token == NULL)
 	{
 		strcpy(rom_path[num_path], buffer);
 		num_path = 1;
 		return;
 	}
-	
+
 	while (token != NULL)
 	{
 		strcpy(rom_path[num_path], token);
@@ -638,6 +638,6 @@ static const char * RetrieveCHDName(int romset)
 			}
 		}
 	}
-	
+
 	return name;
 }

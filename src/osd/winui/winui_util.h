@@ -2,7 +2,7 @@
 // copyright-holders:Chris Kirmse, Mike Haaland, René Single, Mamesick
 
 #pragma once 
- 
+
 #ifndef MUI_UTIL_H
 #define MUI_UTIL_H
 

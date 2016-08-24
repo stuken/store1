@@ -7,7 +7,7 @@
 #define DATAFILE_H
 
 #define MAX_TOKEN_LENGTH        256
-#define DATAFILE_TAG 			'$'
+#define DATAFILE_TAG            '$'
 
 int load_driver_history(const game_driver *drv, char *buffer, int bufsize);
 int load_driver_initinfo(const game_driver *drv, char *buffer, int bufsize);

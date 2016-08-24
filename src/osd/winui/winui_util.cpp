@@ -29,15 +29,15 @@ static std::vector<DriversInfo>	drivers_info;
 
 enum
 {
-	DRIVER_CACHE_SCREEN		= 0x000F,
-	DRIVER_CACHE_ROMS		= 0x0010,
-	DRIVER_CACHE_CLONE		= 0x0020,
-	DRIVER_CACHE_BIOS		= 0x0040,
-	DRIVER_CACHE_HARDDISK	= 0x0080,
-	DRIVER_CACHE_SAMPLES	= 0x0100,
-	DRIVER_CACHE_VECTOR		= 0x0200,
-	DRIVER_CACHE_LIGHTGUN	= 0x0400,
-	DRIVER_CACHE_TRACKBALL	= 0x0800,
+	DRIVER_CACHE_SCREEN     = 0x000F,
+	DRIVER_CACHE_ROMS       = 0x0010,
+	DRIVER_CACHE_CLONE      = 0x0020,
+	DRIVER_CACHE_BIOS       = 0x0040,
+	DRIVER_CACHE_HARDDISK   = 0x0080,
+	DRIVER_CACHE_SAMPLES    = 0x0100,
+	DRIVER_CACHE_VECTOR     = 0x0200,
+	DRIVER_CACHE_LIGHTGUN   = 0x0400,
+	DRIVER_CACHE_TRACKBALL  = 0x0800,
 };
 
 string_iterator::string_iterator()
@@ -268,28 +268,28 @@ static void SetDriversInfo(void)
 		struct DriversInfo *gameinfo = &drivers_info[ndriver];
 		int cache = (gameinfo->screenCount & DRIVER_CACHE_SCREEN);
 
-		if (gameinfo->isClone)			
+		if (gameinfo->isClone)
 			cache += DRIVER_CACHE_CLONE;
 
-		if (gameinfo->isHarddisk)		
+		if (gameinfo->isHarddisk)
 			cache += DRIVER_CACHE_HARDDISK;
 
-		if (gameinfo->hasOptionalBIOS)	
+		if (gameinfo->hasOptionalBIOS)
 			cache += DRIVER_CACHE_BIOS;
 
-		if (gameinfo->isVector)			
+		if (gameinfo->isVector)
 			cache += DRIVER_CACHE_VECTOR;
 
-		if (gameinfo->usesRoms)			
+		if (gameinfo->usesRoms)
 			cache += DRIVER_CACHE_ROMS;
 
-		if (gameinfo->usesSamples)		
+		if (gameinfo->usesSamples)
 			cache += DRIVER_CACHE_SAMPLES;
 
-		if (gameinfo->usesTrackball)	
+		if (gameinfo->usesTrackball)
 			cache += DRIVER_CACHE_TRACKBALL;
 
-		if (gameinfo->usesLightGun)		
+		if (gameinfo->usesLightGun)
 			cache += DRIVER_CACHE_LIGHTGUN;
 
 		SetDriverCache(ndriver, cache);
@@ -309,7 +309,7 @@ static void InitDriversInfo(void)
 		gameinfo->isClone = (GetParentRomSetIndex(gamedrv) != -1);
 		gameinfo->isBroken = (gamedrv->flags & (MACHINE_NOT_WORKING | MACHINE_UNEMULATED_PROTECTION | MACHINE_MECHANICAL)) ? true : false;
 		gameinfo->isImperfect = (gamedrv->flags & (MACHINE_WRONG_COLORS | MACHINE_IMPERFECT_COLORS | MACHINE_IMPERFECT_GRAPHICS
-								| MACHINE_NO_SOUND | MACHINE_IMPERFECT_SOUND | MACHINE_IS_INCOMPLETE | MACHINE_NO_SOUND_HW)) ? true : false;
+			| MACHINE_NO_SOUND | MACHINE_IMPERFECT_SOUND | MACHINE_IS_INCOMPLETE | MACHINE_NO_SOUND_HW)) ? true : false;
  		gameinfo->supportsSaveState = (gamedrv->flags & MACHINE_SUPPORTS_SAVE) ? true : false;
 		gameinfo->isVertical = (gamedrv->flags & ORIENTATION_SWAP_XY) ? true : false;
 		gameinfo->isMechanical = (gamedrv->flags & MACHINE_MECHANICAL) ? true : false;
@@ -418,7 +418,7 @@ static void InitDriversCache(void)
 		gameinfo->usesTrackball = (cache & DRIVER_CACHE_TRACKBALL) ? true : false;
 		gameinfo->usesLightGun = (cache & DRIVER_CACHE_LIGHTGUN) ? true : false;
 		gameinfo->isImperfect = (gamedrv->flags & (MACHINE_WRONG_COLORS | MACHINE_IMPERFECT_COLORS | MACHINE_IMPERFECT_GRAPHICS	
-								| MACHINE_NO_SOUND | MACHINE_IMPERFECT_SOUND | MACHINE_IS_INCOMPLETE | MACHINE_NO_SOUND_HW)) ? true : false;
+			| MACHINE_NO_SOUND | MACHINE_IMPERFECT_SOUND | MACHINE_IS_INCOMPLETE | MACHINE_NO_SOUND_HW)) ? true : false;
 		gameinfo->isMechanical = (gamedrv->flags & MACHINE_MECHANICAL) ? true : false;
 		gameinfo->isBIOS = (gamedrv->flags & MACHINE_IS_BIOS_ROOT) ? true : false;
 	}
@@ -648,9 +648,9 @@ bool IsWindowsSevenOrHigher(void)
 
 	memset(&osvi, 0, sizeof(OSVERSIONINFO));
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-   
+
 	GetVersionEx(&osvi);
-   
+
 	if ((osvi.dwMajorVersion >= 6) && (osvi.dwMinorVersion >= 1))
 		return true;
 

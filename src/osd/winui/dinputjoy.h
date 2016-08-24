@@ -6,8 +6,8 @@
 #ifndef DINPUTJOY_H
 #define DINPUTJOY_H
 
-#define MAX_PHYSICAL_JOYSTICKS 		20
-#define MAX_AXES               		20
+#define MAX_PHYSICAL_JOYSTICKS 20
+#define MAX_AXES               20
 
 /*
   limits:

@@ -6,9 +6,9 @@
 #ifndef DIALOGS_H
 #define DIALOGS_H
 
-#define FILTERTEXT_LEN 			256
-#define NUM_EXCLUSIONS  		10
-#define NUMHISTORYTAB 			WINUI_ARRAY_LENGTH(g_ComboBoxHistoryTab)
+#define FILTERTEXT_LEN  256
+#define NUM_EXCLUSIONS  10
+#define NUMHISTORYTAB   WINUI_ARRAY_LENGTH(g_ComboBoxHistoryTab)
 
 const char * GetFilterText(void);
 INT_PTR CALLBACK ResetDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam);

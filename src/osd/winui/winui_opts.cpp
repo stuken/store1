@@ -45,102 +45,102 @@ static plugin_options plugin_opts;			// PLUGIN.INI options
 const options_entry winui_options::s_option_entries[] =
 {
 	// UI options
-	{ NULL,									NULL,       OPTION_HEADER,    	"APPLICATION VERSION" },
-	{ MUIOPTION_VERSION,					"",         OPTION_STRING,		NULL },
+	{ NULL,									NULL,       OPTION_HEADER, "APPLICATION VERSION" },
+	{ MUIOPTION_VERSION,					"",         OPTION_STRING, NULL },
 
-	{ NULL,									NULL,       OPTION_HEADER,		"DISPLAY STATE OPTIONS" },
-	{ MUIOPTION_DEFAULT_GAME,				"puckman",  OPTION_STRING,		NULL },
-	{ MUIOPTION_DEFAULT_FOLDER_ID,			"0",        OPTION_INTEGER,		NULL },
-	{ MUIOPTION_SHOW_IMAGE_SECTION,			"1",        OPTION_BOOLEAN,		NULL },
-	{ MUIOPTION_CURRENT_TAB,				"0",        OPTION_STRING,		NULL },
-	{ MUIOPTION_SHOW_TOOLBAR,				"1",        OPTION_BOOLEAN,		NULL },
-	{ MUIOPTION_SHOW_STATUS_BAR,			"1",        OPTION_BOOLEAN,		NULL },
-	{ MUIOPTION_HIDE_FOLDERS,				"",         OPTION_STRING,		NULL },
-	{ MUIOPTION_SHOW_FOLDER_SECTION,		"1",        OPTION_BOOLEAN,		NULL },
-	{ MUIOPTION_SHOW_TABS,					"1",        OPTION_BOOLEAN,		NULL },
-	{ MUIOPTION_HIDE_TABS,					"", 		OPTION_STRING, 		NULL },
-	{ MUIOPTION_HISTORY_TAB,				"0",        OPTION_INTEGER,		NULL },
-	{ MUIOPTION_SORT_COLUMN,				"0",        OPTION_INTEGER, 	NULL },
-	{ MUIOPTION_SORT_REVERSED,				"0",        OPTION_BOOLEAN,  	NULL },
-	{ MUIOPTION_WINDOW_X,					"0",        OPTION_INTEGER,  	NULL },
-	{ MUIOPTION_WINDOW_Y,					"0",        OPTION_INTEGER,  	NULL },
-	{ MUIOPTION_WINDOW_WIDTH,				"1150",     OPTION_INTEGER,  	NULL },
-	{ MUIOPTION_WINDOW_HEIGHT,				"639",      OPTION_INTEGER,  	NULL },
-	{ MUIOPTION_WINDOW_STATE,				"1",        OPTION_INTEGER,  	NULL },
-	{ MUIOPTION_LIST_COLOR,					"0,0,0",    OPTION_INTEGER,  	NULL },
-	{ MUIOPTION_HISTORY_COLOR,				"0,0,0",    OPTION_INTEGER,  	NULL },
-	{ MUIOPTION_TREE_COLOR,					"0,0,0",    OPTION_INTEGER,  	NULL },
-	{ MUIOPTION_TREEBG_COLOR,				"255,255,255", OPTION_INTEGER, 	NULL },
-	{ MUIOPTION_LISTBG_COLOR,				"255,255,255", OPTION_INTEGER, 	NULL },
-	{ MUIOPTION_HISTORYBG_COLOR,			"255,255,255", OPTION_INTEGER, 	NULL },
-	{ MUIOPTION_CUSTOM_COLOR,				"0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0", 	OPTION_STRING, NULL },
-	{ MUIOPTION_LIST_MODE,					"0",       	OPTION_INTEGER,  	NULL },
-	{ MUIOPTION_SPLITTERS,					"150,498", 	OPTION_STRING,   	NULL },
-	{ MUIOPTION_GUI_FONT,					"-11,0,0,0,400,0,0,0,0,3,2,1,34,Tahoma",  OPTION_STRING, NULL },
-	{ MUIOPTION_LIST_FONT,					"-11,0,0,0,400,0,0,0,0,3,2,1,34,Tahoma",  OPTION_STRING, NULL },
+	{ NULL,									NULL,       OPTION_HEADER, "DISPLAY STATE OPTIONS" },
+	{ MUIOPTION_DEFAULT_GAME,				"puckman",  OPTION_STRING, NULL },
+	{ MUIOPTION_DEFAULT_FOLDER_ID,			"0",        OPTION_INTEGER, NULL },
+	{ MUIOPTION_SHOW_IMAGE_SECTION,			"1",        OPTION_BOOLEAN, NULL },
+	{ MUIOPTION_CURRENT_TAB,				"0",        OPTION_STRING, NULL },
+	{ MUIOPTION_SHOW_TOOLBAR,				"1",        OPTION_BOOLEAN, NULL },
+	{ MUIOPTION_SHOW_STATUS_BAR,			"1",        OPTION_BOOLEAN, NULL },
+	{ MUIOPTION_HIDE_FOLDERS,				"",         OPTION_STRING, NULL },
+	{ MUIOPTION_SHOW_FOLDER_SECTION,		"1",        OPTION_BOOLEAN, NULL },
+	{ MUIOPTION_SHOW_TABS,					"1",        OPTION_BOOLEAN, NULL },
+	{ MUIOPTION_HIDE_TABS,					"",         OPTION_STRING, NULL },
+	{ MUIOPTION_HISTORY_TAB,				"0",        OPTION_INTEGER, NULL },
+	{ MUIOPTION_SORT_COLUMN,				"0",        OPTION_INTEGER, NULL },
+	{ MUIOPTION_SORT_REVERSED,				"0",        OPTION_BOOLEAN, NULL },
+	{ MUIOPTION_WINDOW_X,					"0",        OPTION_INTEGER, NULL },
+	{ MUIOPTION_WINDOW_Y,					"0",        OPTION_INTEGER, NULL },
+	{ MUIOPTION_WINDOW_WIDTH,				"1150",     OPTION_INTEGER, NULL },
+	{ MUIOPTION_WINDOW_HEIGHT,				"639",      OPTION_INTEGER, NULL },
+	{ MUIOPTION_WINDOW_STATE,				"1",        OPTION_INTEGER, NULL },
+	{ MUIOPTION_LIST_COLOR,					"0,0,0",    OPTION_INTEGER, NULL },
+	{ MUIOPTION_HISTORY_COLOR,				"0,0,0",    OPTION_INTEGER, NULL },
+	{ MUIOPTION_TREE_COLOR,					"0,0,0",    OPTION_INTEGER, NULL },
+	{ MUIOPTION_TREEBG_COLOR,				"255,255,255", OPTION_INTEGER, NULL },
+	{ MUIOPTION_LISTBG_COLOR,				"255,255,255", OPTION_INTEGER, NULL },
+	{ MUIOPTION_HISTORYBG_COLOR,			"255,255,255", OPTION_INTEGER, NULL },
+	{ MUIOPTION_CUSTOM_COLOR,				"0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0", OPTION_STRING, NULL },
+	{ MUIOPTION_LIST_MODE,					"0",        OPTION_INTEGER, NULL },
+	{ MUIOPTION_SPLITTERS,					"150,498",  OPTION_STRING, NULL },
+	{ MUIOPTION_GUI_FONT,					"-11,0,0,0,400,0,0,0,0,3,2,1,34,Tahoma", OPTION_STRING, NULL },
+	{ MUIOPTION_LIST_FONT,					"-11,0,0,0,400,0,0,0,0,3,2,1,34,Tahoma", OPTION_STRING, NULL },
 	{ MUIOPTION_HISTORY_FONT,				"-11,0,0,0,400,0,0,0,0,3,2,1,34,Verdana", OPTION_STRING, NULL },
-	{ MUIOPTION_TREE_FONT,					"-11,0,0,0,400,0,0,0,0,3,2,1,34,Tahoma",  OPTION_STRING, NULL },
+	{ MUIOPTION_TREE_FONT,					"-11,0,0,0,400,0,0,0,0,3,2,1,34,Tahoma", OPTION_STRING, NULL },
 	{ MUIOPTION_COLUMN_WIDTHS,				"320,80,110,140,50,160,60,70", OPTION_STRING, NULL },
 	{ MUIOPTION_COLUMN_ORDER,				"0,3,4,6,7,5,1,2", OPTION_STRING, NULL },
 	{ MUIOPTION_COLUMN_SHOWN,				"1,1,1,1,1,1,1,1", OPTION_STRING, NULL },
 
-	{ NULL,									NULL,       OPTION_HEADER,    	"INTERFACE OPTIONS" },
-	{ MUIOPTION_NOROMS_GAMES,       		"1",        OPTION_BOOLEAN,   	NULL },
-	{ MUIOPTION_TRAY_ICON,        			"0",        OPTION_BOOLEAN,   	NULL },
-	{ MUIOPTION_EXIT_DIALOG,        		"1",        OPTION_BOOLEAN,   	NULL },
-	{ MUIOPTION_JOYSTICK_IN_INTERFACE,		"1",        OPTION_BOOLEAN,   	NULL },
-	{ MUIOPTION_INHERIT_FILTER,				"0",        OPTION_BOOLEAN,   	NULL },
-	{ MUIOPTION_USE_BROKEN_ICON,			"0",        OPTION_BOOLEAN,   	NULL },
-	{ MUIOPTION_ENABLE_INDENT,				"0",        OPTION_BOOLEAN,   	NULL },
-	{ MUIOPTION_ENABLE_FASTAUDIT,			"0",        OPTION_BOOLEAN,   	NULL },
-	{ MUIOPTION_ENABLE_SEVENZIP,			"0",        OPTION_BOOLEAN,   	NULL },
-	{ MUIOPTION_STRETCH_SCREENSHOT_LARGER,	"0",        OPTION_BOOLEAN,   	NULL },
-	{ MUIOPTION_CYCLE_SCREENSHOT,			"0",        OPTION_INTEGER,   	NULL },
-	{ MUIOPTION_SCREENSHOT_BORDER_SIZE,		"0",       	OPTION_INTEGER,   	NULL },
-	{ MUIOPTION_SCREENSHOT_BORDER_COLOR,	"-1",       OPTION_INTEGER,   	NULL },
+	{ NULL,									NULL,       OPTION_HEADER, "INTERFACE OPTIONS" },
+	{ MUIOPTION_NOROMS_GAMES,				"1",        OPTION_BOOLEAN, NULL },
+	{ MUIOPTION_TRAY_ICON,					"0",        OPTION_BOOLEAN, NULL },
+	{ MUIOPTION_EXIT_DIALOG,				"1",        OPTION_BOOLEAN, NULL },
+	{ MUIOPTION_JOYSTICK_IN_INTERFACE,		"1",        OPTION_BOOLEAN, NULL },
+	{ MUIOPTION_INHERIT_FILTER,				"0",        OPTION_BOOLEAN, NULL },
+	{ MUIOPTION_USE_BROKEN_ICON,			"0",        OPTION_BOOLEAN, NULL },
+	{ MUIOPTION_ENABLE_INDENT,				"0",        OPTION_BOOLEAN, NULL },
+	{ MUIOPTION_ENABLE_FASTAUDIT,			"0",        OPTION_BOOLEAN, NULL },
+	{ MUIOPTION_ENABLE_SEVENZIP,			"0",        OPTION_BOOLEAN, NULL },
+	{ MUIOPTION_STRETCH_SCREENSHOT_LARGER,	"0",        OPTION_BOOLEAN, NULL },
+	{ MUIOPTION_CYCLE_SCREENSHOT,			"0",        OPTION_INTEGER, NULL },
+	{ MUIOPTION_SCREENSHOT_BORDER_SIZE,		"0",        OPTION_INTEGER, NULL },
+	{ MUIOPTION_SCREENSHOT_BORDER_COLOR,	"-1",       OPTION_INTEGER, NULL },
 
-	{ NULL,									NULL,       OPTION_HEADER,    	"SEARCH PATH OPTIONS" },
-	{ MUIOPTION_FLYER_DIRECTORY,			"flyers",   OPTION_STRING,    	NULL },
-	{ MUIOPTION_CABINET_DIRECTORY,			"cabinets", OPTION_STRING,    	NULL },
-	{ MUIOPTION_MARQUEE_DIRECTORY,			"marquees", OPTION_STRING,    	NULL },
-	{ MUIOPTION_TITLE_DIRECTORY,			"titles",   OPTION_STRING,    	NULL },
-	{ MUIOPTION_CPANEL_DIRECTORY,			"cpanel",   OPTION_STRING,	  	NULL },
-	{ MUIOPTION_PCB_DIRECTORY,			    "pcb",      OPTION_STRING,    	NULL },
-	{ MUIOPTION_SCORES_DIRECTORY,			"scores",   OPTION_STRING,    	NULL },
-	{ MUIOPTION_BOSSES_DIRECTORY,			"bosses",   OPTION_STRING,    	NULL },
-	{ MUIOPTION_VERSUS_DIRECTORY,			"versus",   OPTION_STRING,    	NULL },
-	{ MUIOPTION_ENDS_DIRECTORY,				"ends",   	OPTION_STRING,    	NULL },
-	{ MUIOPTION_GAMEOVER_DIRECTORY,			"gameover", OPTION_STRING,    	NULL },
-	{ MUIOPTION_HOWTO_DIRECTORY,			"howto", 	OPTION_STRING,    	NULL },
-	{ MUIOPTION_SELECT_DIRECTORY,			"select", 	OPTION_STRING,    	NULL },
-	{ MUIOPTION_LOGO_DIRECTORY,				"logo", 	OPTION_STRING,    	NULL },
-	{ MUIOPTION_ARTWORK_DIRECTORY,			"artpreview", OPTION_STRING,    NULL },
-	{ MUIOPTION_FOLDER_DIRECTORY,			"folders",  OPTION_STRING,    	NULL },
-	{ MUIOPTION_ICONS_DIRECTORY,			"icons",    OPTION_STRING,    	NULL },
-	{ MUIOPTION_MOVIES_DIRECTORY,			"movies",   OPTION_STRING,    	NULL },
-	{ MUIOPTION_AUDIO_DIRECTORY,			"audio",    OPTION_STRING,    	NULL },
-	{ MUIOPTION_GUI_DIRECTORY,				"gui",    	OPTION_STRING,    	NULL },
-	{ MUIOPTION_DATS_DIRECTORY,				"dats",    	OPTION_STRING,    	NULL },
+	{ NULL,									NULL,       OPTION_HEADER, "SEARCH PATH OPTIONS" },
+	{ MUIOPTION_FLYER_DIRECTORY,			"flyers",   OPTION_STRING, NULL },
+	{ MUIOPTION_CABINET_DIRECTORY,			"cabinets", OPTION_STRING, NULL },
+	{ MUIOPTION_MARQUEE_DIRECTORY,			"marquees", OPTION_STRING, NULL },
+	{ MUIOPTION_TITLE_DIRECTORY,			"titles",   OPTION_STRING, NULL },
+	{ MUIOPTION_CPANEL_DIRECTORY,			"cpanel",   OPTION_STRING, NULL },
+	{ MUIOPTION_PCB_DIRECTORY,				"pcb",      OPTION_STRING, NULL },
+	{ MUIOPTION_SCORES_DIRECTORY,			"scores",   OPTION_STRING, NULL },
+	{ MUIOPTION_BOSSES_DIRECTORY,			"bosses",   OPTION_STRING, NULL },
+	{ MUIOPTION_VERSUS_DIRECTORY,			"versus",   OPTION_STRING, NULL },
+	{ MUIOPTION_ENDS_DIRECTORY,				"ends",     OPTION_STRING, NULL },
+	{ MUIOPTION_GAMEOVER_DIRECTORY,			"gameover", OPTION_STRING, NULL },
+	{ MUIOPTION_HOWTO_DIRECTORY,			"howto",    OPTION_STRING, NULL },
+	{ MUIOPTION_SELECT_DIRECTORY,			"select",   OPTION_STRING, NULL },
+	{ MUIOPTION_LOGO_DIRECTORY,				"logo",     OPTION_STRING, NULL },
+	{ MUIOPTION_ARTWORK_DIRECTORY,			"artpreview", OPTION_STRING, NULL },
+	{ MUIOPTION_FOLDER_DIRECTORY,			"folders",  OPTION_STRING, NULL },
+	{ MUIOPTION_ICONS_DIRECTORY,			"icons",    OPTION_STRING, NULL },
+	{ MUIOPTION_MOVIES_DIRECTORY,			"movies",   OPTION_STRING, NULL },
+	{ MUIOPTION_AUDIO_DIRECTORY,			"audio",    OPTION_STRING, NULL },
+	{ MUIOPTION_GUI_DIRECTORY,				"gui",      OPTION_STRING, NULL },
+	{ MUIOPTION_DATS_DIRECTORY,				"dats",     OPTION_STRING, NULL },
 
-	{ NULL,									NULL,       OPTION_HEADER,    	"NAVIGATION JOYSTICK CODES" },
-	{ MUIOPTION_UI_JOY_UP,					"1,1,1,1",  OPTION_STRING,    	NULL },
-	{ MUIOPTION_UI_JOY_DOWN,				"1,1,1,2",  OPTION_STRING,    	NULL },
-	{ MUIOPTION_UI_JOY_LEFT,				"1,1,2,1",  OPTION_STRING,   	NULL },
-	{ MUIOPTION_UI_JOY_RIGHT,				"1,1,2,2",  OPTION_STRING,   	NULL },
-	{ MUIOPTION_UI_JOY_START,				"1,0,1,0",  OPTION_STRING,  	NULL },
-	{ MUIOPTION_UI_JOY_PGUP,				"2,1,2,1",  OPTION_STRING,  	NULL },
-	{ MUIOPTION_UI_JOY_PGDWN,				"2,1,2,2",  OPTION_STRING,    	NULL },
-	{ MUIOPTION_UI_JOY_HOME,				"0,0,0,0",  OPTION_STRING,    	NULL },
-	{ MUIOPTION_UI_JOY_END,					"0,0,0,0",  OPTION_STRING,    	NULL },
-	{ MUIOPTION_UI_JOY_SS_CHANGE,			"2,0,3,0",  OPTION_STRING,    	NULL },
-	{ MUIOPTION_UI_JOY_HISTORY_UP,			"2,0,4,0",  OPTION_STRING,    	NULL },
-	{ MUIOPTION_UI_JOY_HISTORY_DOWN,		"2,0,1,0",  OPTION_STRING,    	NULL },
+	{ NULL,									NULL,       OPTION_HEADER, "NAVIGATION JOYSTICK CODES" },
+	{ MUIOPTION_UI_JOY_UP,					"1,1,1,1",  OPTION_STRING, NULL },
+	{ MUIOPTION_UI_JOY_DOWN,				"1,1,1,2",  OPTION_STRING, NULL },
+	{ MUIOPTION_UI_JOY_LEFT,				"1,1,2,1",  OPTION_STRING, NULL },
+	{ MUIOPTION_UI_JOY_RIGHT,				"1,1,2,2",  OPTION_STRING, NULL },
+	{ MUIOPTION_UI_JOY_START,				"1,0,1,0",  OPTION_STRING, NULL },
+	{ MUIOPTION_UI_JOY_PGUP,				"2,1,2,1",  OPTION_STRING, NULL },
+	{ MUIOPTION_UI_JOY_PGDWN,				"2,1,2,2",  OPTION_STRING, NULL },
+	{ MUIOPTION_UI_JOY_HOME,				"0,0,0,0",  OPTION_STRING, NULL },
+	{ MUIOPTION_UI_JOY_END,					"0,0,0,0",  OPTION_STRING, NULL },
+	{ MUIOPTION_UI_JOY_SS_CHANGE,			"2,0,3,0",  OPTION_STRING, NULL },
+	{ MUIOPTION_UI_JOY_HISTORY_UP,			"2,0,4,0",  OPTION_STRING, NULL },
+	{ MUIOPTION_UI_JOY_HISTORY_DOWN,		"2,0,1,0",  OPTION_STRING, NULL },
 	{ NULL }
 };
 
 static const options_entry filterOptions[] =
 {
-	{ "_filters",                			"0",        OPTION_INTEGER,   	NULL },
+	{ "_filters",                           "0",        OPTION_INTEGER, NULL },
 	{ NULL }
 };
 
@@ -362,7 +362,7 @@ static void options_set_color(winui_options &opts, const char *name, COLORREF va
 	else
 		snprintf(value_str, WINUI_ARRAY_LENGTH(value_str), "%d,%d,%d", (((int)value) >>  0) & 0xff,
 			(((int)value) >>  8) & 0xff, (((int)value) >> 16) & 0xff);
-	
+
 	std::string error_string;
 	opts.set_value(name, value_str, OPTION_PRIORITY_CMDLINE, error_string);
 	assert(error_string.empty());
@@ -371,10 +371,10 @@ static void options_set_color(winui_options &opts, const char *name, COLORREF va
 static COLORREF options_get_color_default(winui_options &opts, const char *name, int default_color)
 {
 	COLORREF value = options_get_color(opts, name);
-	
+
 	if (value == (COLORREF) - 1)
 		value = GetSysColor(default_color);
-	
+
 	return value;
 }
 
@@ -394,7 +394,7 @@ void SetEnableDatafiles(bool value)
 {
 	std::string error_string;
 	ui_opts.set_value(OPTION_DATS_ENABLED, value, OPTION_PRIORITY_CMDLINE, error_string);
-    assert(error_string.empty());
+	assert(error_string.empty());
 }
 
 bool GetEnableDatafiles(void)
@@ -406,7 +406,7 @@ void SetSkipBiosMenu(bool value)
 {
 	std::string error_string;
 	ui_opts.set_value(OPTION_SKIP_BIOS_MENU, value, OPTION_PRIORITY_CMDLINE, error_string);
-    assert(error_string.empty());
+	assert(error_string.empty());
 }
 
 bool GetSkipBiosMenu(void)
@@ -430,7 +430,7 @@ void SetEnableIndent(bool value)
 {
 	std::string error_string;
 	winui_opts.set_value(MUIOPTION_ENABLE_INDENT, value, OPTION_PRIORITY_CMDLINE, error_string);
-    assert(error_string.empty());
+	assert(error_string.empty());
 }
 
 bool GetEnableIndent(void)
@@ -442,7 +442,7 @@ void SetEnableFastAudit(bool value)
 {
 	std::string error_string;
 	winui_opts.set_value(MUIOPTION_ENABLE_FASTAUDIT, value, OPTION_PRIORITY_CMDLINE, error_string);
-    assert(error_string.empty());
+	assert(error_string.empty());
 }
 
 bool GetEnableFastAudit(void)
@@ -454,7 +454,7 @@ void SetEnableSevenZip(bool value)
 {
 	std::string error_string;
 	winui_opts.set_value(MUIOPTION_ENABLE_SEVENZIP, value, OPTION_PRIORITY_CMDLINE, error_string);
-    assert(error_string.empty());
+	assert(error_string.empty());
 }
 
 bool GetEnableSevenZip(void)
@@ -466,7 +466,7 @@ void SetDisplayNoRomsGames(bool value)
 {
 	std::string error_string;
 	winui_opts.set_value(MUIOPTION_NOROMS_GAMES, value, OPTION_PRIORITY_CMDLINE, error_string);
-    assert(error_string.empty());
+	assert(error_string.empty());
 }
 
 bool GetDisplayNoRomsGames(void)
@@ -478,7 +478,7 @@ void SetExitDialog(bool value)
 {
 	std::string error_string;
 	winui_opts.set_value(MUIOPTION_EXIT_DIALOG, value, OPTION_PRIORITY_CMDLINE, error_string);
-    assert(error_string.empty());
+	assert(error_string.empty());
 }
 
 bool GetExitDialog(void)
@@ -490,7 +490,7 @@ void SetMinimizeTrayIcon(bool value)
 {
 	std::string error_string;
 	winui_opts.set_value(MUIOPTION_TRAY_ICON, value, OPTION_PRIORITY_CMDLINE, error_string);
-    assert(error_string.empty());
+	assert(error_string.empty());
 }
 
 bool GetMinimizeTrayIcon(void)
@@ -624,7 +624,7 @@ static void GetsShowFolderFlags(LPBITS bits)
 	snprintf(s, WINUI_ARRAY_LENGTH(s), "%s", winui_opts.value(MUIOPTION_HIDE_FOLDERS));
 	SetAllBits(bits, true);
 	char *token = strtok(s,", \t");
-	
+
 	while (token != NULL)
 	{
 		for (int j = 0; g_folderData[j].m_lpTitle != NULL; j++)
@@ -655,7 +655,7 @@ void SetShowFolder(int folder, bool show)
 	int num_saved = 0;
 	char str[1024];
 	extern const FOLDERDATA g_folderData[];
-	
+
 	GetsShowFolderFlags(show_folder_flags);
 
 	if (show)
@@ -815,7 +815,7 @@ COLORREF GetCustomColor(int iIndex)
 void SetListFont(const LOGFONT *font)
 {
 	char font_string[256];
-	
+
 	FontEncodeString(font, font_string);
 	std::string error_string;
 	winui_opts.set_value(MUIOPTION_LIST_FONT, font_string, OPTION_PRIORITY_CMDLINE, error_string);
@@ -825,21 +825,21 @@ void SetListFont(const LOGFONT *font)
 void GetGuiFont(LOGFONT *font)
 {
 	const char *font_string = winui_opts.value(MUIOPTION_GUI_FONT);
-	
+
 	FontDecodeString(font_string, font);
 }
 
 void GetListFont(LOGFONT *font)
 {
 	const char *font_string = winui_opts.value(MUIOPTION_LIST_FONT);
-	
+
 	FontDecodeString(font_string, font);
 }
 
 void SetHistoryFont(const LOGFONT *font)
 {
 	char font_string[256];
-	
+
 	FontEncodeString(font, font_string);
 	std::string error_string;
 	winui_opts.set_value(MUIOPTION_HISTORY_FONT, font_string, OPTION_PRIORITY_CMDLINE, error_string);
@@ -849,14 +849,14 @@ void SetHistoryFont(const LOGFONT *font)
 void GetHistoryFont(LOGFONT *font)
 {
 	const char *font_string = winui_opts.value(MUIOPTION_HISTORY_FONT);
-	
+
 	FontDecodeString(font_string, font);
 }
 
 void SetTreeFont(const LOGFONT *font)
 {
 	char font_string[256];
-	
+
 	FontEncodeString(font, font_string);
 	std::string error_string;
 	winui_opts.set_value(MUIOPTION_TREE_FONT, font_string, OPTION_PRIORITY_CMDLINE, error_string);
@@ -866,7 +866,7 @@ void SetTreeFont(const LOGFONT *font)
 void GetTreeFont(LOGFONT *font)
 {
 	const char *font_string = winui_opts.value(MUIOPTION_TREE_FONT);
-	
+
 	FontDecodeString(font_string, font);
 }
 
@@ -982,7 +982,7 @@ int GetHistoryTab(void)
 void SetHistoryTab(int tab, bool show)
 {
 	std::string error_string;
-	
+
 	if (show)
 		winui_opts.set_value(MUIOPTION_HISTORY_TAB, tab, OPTION_PRIORITY_CMDLINE, error_string);
 	else
@@ -994,7 +994,7 @@ void SetHistoryTab(int tab, bool show)
 void SetColumnWidths(int width[])
 {
 	char column_width_string[256];
-	
+
 	ColumnEncodeStringWithCount(width, column_width_string, COLUMN_MAX);
 	std::string error_string;
 	winui_opts.set_value(MUIOPTION_COLUMN_WIDTHS, column_width_string, OPTION_PRIORITY_CMDLINE, error_string);
@@ -1004,7 +1004,7 @@ void SetColumnWidths(int width[])
 void GetColumnWidths(int width[])
 {
 	const char *column_width_string = winui_opts.value(MUIOPTION_COLUMN_WIDTHS);
-	
+
 	ColumnDecodeStringWithCount(column_width_string, width, COLUMN_MAX);
 }
 
@@ -1046,7 +1046,7 @@ int GetSplitterPos(int splitterId)
 void SetColumnOrder(int order[])
 {
 	char column_order_string[256];
-	
+
 	ColumnEncodeStringWithCount(order, column_order_string, COLUMN_MAX);
 	std::string error_string;
 	winui_opts.set_value(MUIOPTION_COLUMN_ORDER, column_order_string, OPTION_PRIORITY_CMDLINE, error_string);
@@ -1063,7 +1063,7 @@ void GetColumnOrder(int order[])
 void SetColumnShown(int shown[])
 {
 	char column_shown_string[256];
-	
+
 	ColumnEncodeStringWithCount(shown, column_shown_string, COLUMN_MAX);
 	std::string error_string;
 	winui_opts.set_value(MUIOPTION_COLUMN_SHOWN, column_shown_string, OPTION_PRIORITY_CMDLINE, error_string);
@@ -1624,7 +1624,7 @@ void ResetPlayCount(int driver_index)
 void IncrementPlayTime(int driver_index, int playtime)
 {
 	int time = game_opts.play_time(driver_index);
-	
+
 	game_opts.play_time(driver_index, time + playtime);
 }
 
@@ -1637,7 +1637,7 @@ void GetTextPlayTime(int driver_index, char *buf)
 {
 	char tmp[200];
 	int temp = GetPlayTime(driver_index);
-	
+
 	int hour = temp / 3600;
 	temp = temp - 3600 * hour;
 	int minute = temp / 60;
@@ -1852,11 +1852,11 @@ void ColumnEncodeStringWithCount(const int *value, char *str, int count)
 void ColumnDecodeStringWithCount(const char* str, int *value, int count)
 {
 	char tmpStr[256];
-	
+
 	strcpy(tmpStr, str);
 	char *p = tmpStr;
 
-    for (int i = 0; p && i < count; i++)
+	for (int i = 0; p && i < count; i++)
 	{
 		char *s = p;
 
@@ -1867,7 +1867,7 @@ void ColumnDecodeStringWithCount(const char* str, int *value, int count)
 		}
 
 		value[i] = atoi(s);
-    }
+	}
 }
 
 static void SplitterEncodeString(const int *value, char* str)
@@ -1909,28 +1909,28 @@ static void SplitterDecodeString(const char *str, int *value)
 static void FontDecodeString(const char *str, LOGFONT *f)
 {
 	sscanf(str, "%li,%li,%li,%li,%li,%i,%i,%i,%i,%i,%i,%i,%i",
-		   &f->lfHeight,
-		   &f->lfWidth,
-		   &f->lfEscapement,
-		   &f->lfOrientation,
-		   &f->lfWeight,
-		   (int*)&f->lfItalic,
-		   (int*)&f->lfUnderline,
-		   (int*)&f->lfStrikeOut,
-		   (int*)&f->lfCharSet,
-		   (int*)&f->lfOutPrecision,
-		   (int*)&f->lfClipPrecision,
-		   (int*)&f->lfQuality,
-		   (int*)&f->lfPitchAndFamily);
+		&f->lfHeight,
+		&f->lfWidth,
+		&f->lfEscapement,
+		&f->lfOrientation,
+		&f->lfWeight,
+		(int*)&f->lfItalic,
+		(int*)&f->lfUnderline,
+		(int*)&f->lfStrikeOut,
+		(int*)&f->lfCharSet,
+		(int*)&f->lfOutPrecision,
+		(int*)&f->lfClipPrecision,
+		(int*)&f->lfQuality,
+		(int*)&f->lfPitchAndFamily);
 	const char *ptr = strrchr(str, ',');
-	
+
 	if (ptr != NULL) 
 	{
 		TCHAR *t_ptr = win_wstring_from_utf8(ptr + 1);
-		
+
 		if(!t_ptr)
 			return;
-		
+
 		_tcscpy(f->lfFaceName, t_ptr);
 		free(t_ptr);
 	}
@@ -2020,7 +2020,7 @@ static void LoadInterfaceFile(winui_options &opts, const char *filename)
 	emu_file file(OPEN_FLAG_READ);
 
 	filerr = file.open(filename);
-	
+
 	if (filerr == osd_file::error::NONE)
 	{
 		std::string error_string;
@@ -2037,7 +2037,7 @@ static void LoadInternalUIFile(ui_options &opts, const char *filename)
 	emu_file file(OPEN_FLAG_READ);
 
 	filerr = file.open(filename);
-	
+
 	if (filerr == osd_file::error::NONE)
 	{
 		std::string error_string;
@@ -2054,7 +2054,7 @@ static void LoadPluginsFile(plugin_options &opts, const char *filename)
 	emu_file file(OPEN_FLAG_READ);
 
 	filerr = file.open(filename);
-	
+
 	if (filerr == osd_file::error::NONE)
 	{
 		std::string error_string;
@@ -2071,7 +2071,7 @@ static void LoadOptionsFile(windows_options &opts, const char *filename)
 	emu_file file(OPEN_FLAG_READ);
 
 	filerr = file.open(filename);
-	
+
 	if (filerr == osd_file::error::NONE)
 	{
 		std::string error_string;
@@ -2086,7 +2086,7 @@ static void LoadOptionsStartup(windows_options &opts, const char *filename)
 	emu_file file(OPEN_FLAG_READ);
 
 	filerr = file.open(filename);
-	
+
 	if (filerr == osd_file::error::NONE)
 	{
 		std::string error_string;
@@ -2103,7 +2103,7 @@ static void SaveInterfaceFile(winui_options &opts, const char *filename)
 	emu_file file(OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS);
 
 	filerr = file.open(filename);
-	
+
 	if (filerr == osd_file::error::NONE)
 	{
 		file.puts(opts.output_ini().c_str());
@@ -2117,7 +2117,7 @@ static void SaveInternalUIFile(ui_options &opts, const char *filename)
 	emu_file file(OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS);
 
 	filerr = file.open(filename);
-	
+
 	if (filerr == osd_file::error::NONE)
 	{
 		file.puts(opts.output_ini().c_str());
@@ -2139,7 +2139,7 @@ static void SavePluginsFile(plugin_options &opts, const char *filename)
 	emu_file file(OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS);
 
 	filerr = file.open(filename);
-	
+
 	if (filerr == osd_file::error::NONE)
 	{
 		file.puts(opts.output_ini().c_str());
@@ -2153,7 +2153,7 @@ static void SaveOptionsFile(windows_options &opts, const char *filename)
 	emu_file file(OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS);
 
 	filerr = file.open(filename);
-	
+
 	if (filerr == osd_file::error::NONE)
 	{
 		file.puts(opts.output_ini().c_str());
@@ -2218,13 +2218,13 @@ const char * GetFolderNameByID(UINT nID)
 				return ExtraFolderData[i]->m_szTitle;
 		}
 	}
-	
+
 	for (i = 0; i < MAX_FOLDERS; i++)
 	{
 		if (g_folderData[i].m_nFolderId == nID)
 			return g_folderData[i].m_lpTitle;
 	}
-	
+
 	return NULL;
 }
 
@@ -2252,7 +2252,7 @@ static DWORD DecodeFolderFlags(const char *buf)
 
 		shift++;
 	}
-	
+
 	return flags;
 }
 
@@ -2261,7 +2261,7 @@ static const char * EncodeFolderFlags(DWORD value)
 {
 	int shift = 0;
 	static char buf[80];
-	
+
 	memset(&buf, 0, sizeof(buf));
 
 	while ((1 << shift) & F_MASK) 
@@ -2298,7 +2298,7 @@ void LoadFolderFlags(void)
 			// Convert spaces to underscores
 			strcpy(folder_name, lpFolder->m_lpTitle);
 			char *ptr = folder_name;
-			
+
 			while (*ptr)
 			{
 				if (*ptr == ' ')
@@ -2329,7 +2329,7 @@ void LoadFolderFlags(void)
 			// Convert spaces to underscores
 			strcpy(folder_name, lpFolder->m_lpTitle);
 			char *ptr = folder_name;
-			
+
 			while (*ptr)
 			{
 				if (*ptr == ' ')
@@ -2337,7 +2337,7 @@ void LoadFolderFlags(void)
 
 				ptr++;
 			}
-			
+
 			std::string option_name = std::string(folder_name).append("_filters");
 			// get entry and decode it
 			const char *value = opts.value(option_name.c_str());
@@ -2369,13 +2369,13 @@ static void AddFolderFlags(winui_options &opts)
 	for (i = 0; i < numFolders; i++)
 	{
 		LPTREEFOLDER lpFolder = GetFolder(i);
-		
+
 		if (lpFolder && (lpFolder->m_dwFlags & F_MASK) != 0)
 		{
 			// Convert spaces to underscores
 			strcpy(folder_name, lpFolder->m_lpTitle);
 			char *ptr = folder_name;
-			
+
 			while (*ptr)
 			{
 				if (*ptr == ' ')
@@ -2453,7 +2453,7 @@ void ResetAllGameOptions(void)
 {
 	WIN32_FIND_DATA FindFileData;
 	HANDLE hFindFile;
-	
+
 	for (int i = 0; i < driver_list::total(); i++)
 	{
 		std::string filename = std::string(GetIniDir()).append(PATH_SEPARATOR).append(GetDriverGameName(i)).append(".ini");
@@ -2464,7 +2464,7 @@ void ResetAllGameOptions(void)
 	then remove all the files in it that end in ini. */
 	std::string pathname = std::string(GetIniDir()).append(PATH_SEPARATOR).append("source");
 	std::string match = std::string(pathname.c_str()).append(PATH_SEPARATOR).append("*.ini");
-	
+
 	if ((hFindFile = win_find_first_file_utf8(match.c_str(), &FindFileData)) != INVALID_HANDLE_VALUE)
 	{
 		char *utf8_filename = win_utf8_from_wstring(FindFileData.cFileName);
@@ -2512,17 +2512,17 @@ void LoadOptions(windows_options &opts, OPTIONS_TYPE opt_type, int game_num)
 	{
 		const game_driver *parent = NULL;
 		int cl = driver_list::clone(*driver);
-		
+
 		if (cl!= -1) 
 			parent = &driver_list::driver(cl);
-		
+
 		int gp = -1;
-		
+
 		if (parent!=NULL) 
 			gp = driver_list::clone(*parent);
-		
+
 		const game_driver *gparent = NULL;
-		
+
 		if (parent != NULL) 
 		{
 			if (gp!= -1) 
@@ -2532,7 +2532,7 @@ void LoadOptions(windows_options &opts, OPTIONS_TYPE opt_type, int game_num)
 		// parse "horizont.ini" for horizontal games
 		if (!DriverIsVertical(game_num))
 			ParseIniFile(opts, "horizont");
-		
+
 		if (opt_type == OPTIONS_HORIZONTAL)
 			return;
 
@@ -2546,14 +2546,14 @@ void LoadOptions(windows_options &opts, OPTIONS_TYPE opt_type, int game_num)
 		// parse "raster.ini" for raster games
 		if (!DriverIsVector(game_num))
 			ParseIniFile(opts, "raster");
-		
+
 		if (opt_type == OPTIONS_RASTER)
 			return;
 
 		// parse "vector.ini" for vector games
 		if (DriverIsVector(game_num))
 			ParseIniFile(opts, "vector");
-		
+
 		if (opt_type == OPTIONS_VECTOR)
 			return;
 
@@ -2619,7 +2619,7 @@ void SaveOptions(OPTIONS_TYPE opt_type, windows_options &opts, int game_num)
 		else if (opt_type == OPTIONS_GAME)
 			filename.assign(driver->name);
 	}
-	
+
 	if (!filename.empty())
 	{
 		std::string filepath = std::string(GetIniDir()).append(PATH_SEPARATOR).append(filename.c_str()).append(".ini");
@@ -2668,6 +2668,6 @@ bool RequiredDriverCache(bool check)
 		winui_opts.set_value(MUIOPTION_VERSION, GetVersionString(), OPTION_PRIORITY_CMDLINE, error_string);
 		assert(error_string.empty());
 	}
-	
+
 	return ret;
 }

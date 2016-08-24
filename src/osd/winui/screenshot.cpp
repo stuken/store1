@@ -109,12 +109,12 @@ void FreeScreenShot(void)
 
 	if (m_hPal != NULL)
 		DeletePalette(m_hPal);
-	
+
 	m_hPal = NULL;
 
 	if (m_hDDB != NULL)
 		DeleteObject(m_hDDB);
-	
+
 	m_hDDB = NULL;
 	current_image_game = -1;
 	current_image_type = -1;
@@ -126,7 +126,7 @@ static osd_file::error OpenDIBFile(const char *dir_name, const char *zip_name, c
 	util::archive_file::error ziperr;
 	util::archive_file::ptr zip;
 	char fname[MAX_PATH];
-	
+
 	// clear out result
 	file = nullptr;
 
@@ -144,16 +144,16 @@ static osd_file::error OpenDIBFile(const char *dir_name, const char *zip_name, c
 		if (ziperr == util::archive_file::error::NONE)
 		{
 			int found = zip->search(filename, false);
-			
+
 			if (found >= 0)
 			{
 				*buffer = malloc(zip->current_uncompressed_length());
 				ziperr = zip->decompress(*buffer, zip->current_uncompressed_length());
-				
+
 				if (ziperr == util::archive_file::error::NONE)
 					filerr = util::core_file::open_ram(*buffer, zip->current_uncompressed_length(), OPEN_FLAG_READ, file);
 			}
-			
+
 			zip.reset();
 		}
 		else
@@ -161,22 +161,22 @@ static osd_file::error OpenDIBFile(const char *dir_name, const char *zip_name, c
 			// look into 7z file
 			snprintf(fname, WINUI_ARRAY_LENGTH(fname), "%s\\%s.7z", dir_name, zip_name);
 			ziperr = util::archive_file::open_7z(fname, zip);
-		
+
 			if (ziperr == util::archive_file::error::NONE)
 			{
 				int found = zip->search(filename, false);
-			
+
 				if (found >= 0)
 				{
 					*buffer = malloc(zip->current_uncompressed_length());
 					ziperr = zip->decompress(*buffer, zip->current_uncompressed_length());
-				
+
 					if (ziperr == util::archive_file::error::NONE)
 						filerr = util::core_file::open_ram(*buffer, zip->current_uncompressed_length(), OPEN_FLAG_READ, file);
 				}
-				
+
 				zip.reset();
-			}		
+			}
 		}
 	}
 
@@ -192,7 +192,7 @@ static bool LoadDIB(const char *filename, HGLOBAL *phDIB, HPALETTE *pPal, int pi
 	const char *zip_name = NULL;
 	void *buffer = NULL;
 	char fname[MAX_PATH];
-	
+
 	if (pPal != NULL ) 
 		DeletePalette(pPal);
 
@@ -202,42 +202,42 @@ static bool LoadDIB(const char *filename, HGLOBAL *phDIB, HPALETTE *pPal, int pi
 			dir_name = GetImgDir();
 			zip_name = "snap";
 			break;
-		
+
 		case TAB_FLYER:
 			dir_name = GetFlyerDir();
 			zip_name = "flyers";
 			break;
-		
+
 		case TAB_CABINET:
 			dir_name = GetCabinetDir();
 			zip_name = "cabinets";
 			break;
-		
+
 		case TAB_MARQUEE:
 			dir_name = GetMarqueeDir();
 			zip_name = "marquees";
 			break;
-		
+
 		case TAB_TITLE:
 			dir_name = GetTitlesDir();
 			zip_name = "titles";
 			break;
-		
+
 		case TAB_CONTROL_PANEL:
 			dir_name = GetControlPanelDir();
 			zip_name = "cpanel";
 			break;
-        
+
 		case TAB_PCB:
 			dir_name = GetPcbDir();
 		    zip_name = "pcb";
 			break;
-		
+
 		case TAB_SCORES:
 			dir_name = GetScoresDir();
 			zip_name = "scores";
 			break;
-		
+
 		case TAB_BOSSES:
 			dir_name = GetBossesDir();
 			zip_name = "bosses";
@@ -282,7 +282,7 @@ static bool LoadDIB(const char *filename, HGLOBAL *phDIB, HPALETTE *pPal, int pi
 			// in case a non-image tab gets here, which can happen
 			return false;
 	}
-	
+
 	//Add handling for the displaying of all the different supported snapshot patterntypes
 	//%g
 	snprintf(fname, WINUI_ARRAY_LENGTH(fname), "%s.png", filename);
@@ -294,34 +294,34 @@ static bool LoadDIB(const char *filename, HGLOBAL *phDIB, HPALETTE *pPal, int pi
 		snprintf(fname, WINUI_ARRAY_LENGTH(fname), "%s\\0000.png", filename);
 		filerr = OpenDIBFile(dir_name, zip_name, fname, file, &buffer);
 	}
-	
+
 	if (filerr != osd_file::error::NONE) 
 	{
 		//%g%i
 		snprintf(fname, WINUI_ARRAY_LENGTH(fname), "%s0000.png", filename);
 		filerr = OpenDIBFile(dir_name, zip_name, fname, file, &buffer);
 	}
-	
+
 	if (filerr != osd_file::error::NONE) 
 	{
 		//%g/%g
 		snprintf(fname, WINUI_ARRAY_LENGTH(fname), "%s\\%s.png", filename, filename);
 		filerr = OpenDIBFile(dir_name, zip_name, fname, file, &buffer);
 	}
-	
+
 	if (filerr != osd_file::error::NONE) 
 	{
 		//%g/%g%i
 		snprintf(fname, WINUI_ARRAY_LENGTH(fname), "%s\\%s0000.png", filename, filename);
 		filerr = OpenDIBFile(dir_name, zip_name, fname, file, &buffer);
 	}
-	
+
 	if (filerr == osd_file::error::NONE) 
 	{
 		success = png_read_bitmap_gui(*file, phDIB, pPal);
 		file.reset();
 	}
-	
+
 	// free the buffer if we have to
 	if (buffer != NULL) 
 		free(buffer);
@@ -408,13 +408,10 @@ bool AllocatePNG(png_info *p, HGLOBAL *phDIB, HPALETTE *pPal)
 	memcpy(lpbi, &bi, sizeof(BITMAPINFOHEADER));
 	RGBQUAD *pRgb = (RGBQUAD*)((char *)lpbi + bi.biSize);
 	LPVOID lpDIBBits = (LPVOID)((char *)lpbi + bi.biSize + (nColors * sizeof(RGBQUAD)));
-	
+
 	if (nColors)
 	{
-		/*
-          Convert a PNG palette (3 byte RGBTRIPLEs) to a new
-          color table (4 byte RGBQUADs)
-        */
+		/* Convert a PNG palette (3 byte RGBTRIPLEs) to a new color table (4 byte RGBQUADs) */
 		for (int i = 0; i < nColors; i++)
 		{
 			RGBQUAD rgb;
@@ -432,7 +429,7 @@ bool AllocatePNG(png_info *p, HGLOBAL *phDIB, HPALETTE *pPal)
 	/* Create a halftone palette if colors > 256. */
 	if (nColors == 0 || nColors > 256)
 	{
-		HDC hDC = CreateCompatibleDC(0); 	/* Desktop DC */
+		HDC hDC = CreateCompatibleDC(0); /* Desktop DC */
 		*pPal = CreateHalftonePalette(hDC);
 		DeleteDC(hDC);
 	}

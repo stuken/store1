@@ -17,7 +17,7 @@ static int DoExchangeItem(HWND hFrom, HWND hTo, int nMinItem)
 	TCHAR buf[80];
 
 	lvi.iItem = ListView_GetNextItem(hFrom, -1, LVIS_SELECTED | LVIS_FOCUSED);
-	
+
 	if (lvi.iItem < nMinItem)
 	{
 		if (lvi.iItem != -1) 	// Can't remove the first column
@@ -26,12 +26,12 @@ static int DoExchangeItem(HWND hFrom, HWND hTo, int nMinItem)
 		SetFocus(hFrom);
 		return 0;
 	}
-	
+
 	lvi.iSubItem = 0;
 	lvi.mask = LVIF_PARAM | LVIF_TEXT;
 	lvi.pszText = buf;
 	lvi.cchTextMax = WINUI_ARRAY_LENGTH(buf);
-	
+
 	if (ListView_GetItem(hFrom, &lvi))
 	{
 		// Add this item to the Show and delete it from Available
@@ -42,7 +42,7 @@ static int DoExchangeItem(HWND hFrom, HWND hTo, int nMinItem)
 		SetFocus(hTo);
 		return lvi.iItem;
 	}
-	
+
 	return 0;
 }
 
@@ -53,7 +53,7 @@ static void DoMoveItem( HWND hWnd, bool bDown)
 
 	lvi.iItem = ListView_GetNextItem(hWnd, -1, LVIS_SELECTED | LVIS_FOCUSED);
 	int nMaxpos = ListView_GetItemCount(hWnd);
-	
+
 	if (lvi.iItem == -1 ||
 		(lvi.iItem <  2 && bDown == false) || 	// Disallow moving First column
 		(lvi.iItem == 0 && bDown == true)  || 	// ""
@@ -62,12 +62,12 @@ static void DoMoveItem( HWND hWnd, bool bDown)
 		SetFocus(hWnd);
 		return;
 	}
-	
+
 	lvi.iSubItem = 0;
 	lvi.mask = LVIF_PARAM | LVIF_TEXT;
 	lvi.pszText = buf;
 	lvi.cchTextMax = WINUI_ARRAY_LENGTH(buf);
-	
+
 	if (ListView_GetItem(hWnd, &lvi))
 	{
 		// Add this item to the Show and delete it from Available
@@ -101,7 +101,7 @@ static INT_PTR InternalColumnDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPAR
 	int nShown = 0;
 	int nAvail = 0;
 	LVITEM lvi;
-	
+
 	switch (Msg)
 	{
 		case WM_INITDIALOG:
@@ -126,11 +126,11 @@ static INT_PTR InternalColumnDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPAR
 			}
 
 			GetClientRect(hShown, &rectClient);
-		
+
 			memset(&LVCol, 0, sizeof(LVCOLUMN));
 			LVCol.mask = LVCF_WIDTH;
 			LVCol.cx = rectClient.right - rectClient.left;
-		
+
 			(void)ListView_InsertColumn(hShown, 0, &LVCol);
 			(void)ListView_InsertColumn(hAvailable, 0, &LVCol);
 			pfnGetColumnInfo(order, shown);
@@ -164,20 +164,20 @@ static INT_PTR InternalColumnDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPAR
 					nAvail++;
 				}
 			}
-		
+
 			if(nShown > 0)
 				/*Set to Second, because first is not allowed*/
 				ListView_SetItemState(hShown, 1, LVIS_FOCUSED | LVIS_SELECTED, LVIS_FOCUSED | LVIS_SELECTED);
-		
+
 			if(nAvail > 0)
 				ListView_SetItemState(hAvailable, 0, LVIS_FOCUSED | LVIS_SELECTED, LVIS_FOCUSED | LVIS_SELECTED);
-		
+
 			EnableWindow(GetDlgItem(hDlg, IDC_BUTTONADD), true);
 			return true;
 
 		case WM_CTLCOLORDLG:
 			return (LRESULT) hBrush;	
-		
+
 		case WM_CTLCOLORSTATIC:
 		case WM_CTLCOLORBTN:
 			hDC = (HDC)wParam;
@@ -200,7 +200,7 @@ static INT_PTR InternalColumnDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPAR
 						case IDC_LISTAVAILABLECOLUMNS:
 							// Move selected Item from Available to Shown column
 							nPos = DoExchangeItem(hAvailable, hShown, 0);
-					
+
 							if (nPos)
 							{
 								EnableWindow(GetDlgItem(hDlg, IDC_BUTTONADD), false);
@@ -208,7 +208,7 @@ static INT_PTR InternalColumnDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPAR
 								EnableWindow(GetDlgItem(hDlg, IDC_BUTTONMOVEUP), true);
 								EnableWindow(GetDlgItem(hDlg, IDC_BUTTONMOVEDOWN), false);
 							}
-					
+
 							break;
 
 						case IDC_LISTSHOWCOLUMNS:
@@ -220,16 +220,16 @@ static INT_PTR InternalColumnDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPAR
 								EnableWindow(GetDlgItem(hDlg, IDC_BUTTONMOVEUP), false);
 								EnableWindow(GetDlgItem(hDlg, IDC_BUTTONMOVEDOWN), false);
 							}
-					
+
 							break;
 					}
-				
+
 					return true;
 
 				case LVN_ITEMCHANGED:
 					// Don't handle this message for now
 					pnmv = (NM_LISTVIEW *)nm;
-				
+
 					if (pnmv->uNewState & LVIS_SELECTED)
 					{
 						if (pnmv->iItem == 0 && pnmv->hdr.idFrom == IDC_LISTSHOWCOLUMNS)
@@ -259,9 +259,9 @@ static INT_PTR InternalColumnDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPAR
 						EnableWindow(GetDlgItem(hDlg, IDC_BUTTONMOVEUP), true);
 						EnableWindow(GetDlgItem(hDlg, IDC_BUTTONMOVEDOWN), true);
 					}
-				
+
 					break;
-				
+
 				case NM_SETFOCUS:
 					switch (nm->idFrom)
 					{
@@ -273,9 +273,9 @@ static INT_PTR InternalColumnDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPAR
 								EnableWindow(GetDlgItem(hDlg, IDC_BUTTONMOVEDOWN), false);
 								EnableWindow(GetDlgItem(hDlg, IDC_BUTTONMOVEUP), false);
 							}
-						
+
 							break;
-						
+
 						case IDC_LISTSHOWCOLUMNS:
 							if (ListView_GetItemCount(nm->hwndFrom) != 0)
 							{
@@ -294,10 +294,10 @@ static INT_PTR InternalColumnDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPAR
 									EnableWindow(GetDlgItem(hDlg, IDC_BUTTONMOVEUP), true);
 								}
 							}
-						
+
 							break;
 					}
-				
+
 					break;
 
 				case LVN_KEYDOWN:
@@ -311,7 +311,7 @@ static INT_PTR InternalColumnDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPAR
 							// nothing to do here...
 						}
 					}
-				
+
 					switch (nm->idFrom)
 					{
 						case IDC_LISTAVAILABLECOLUMNS:
@@ -322,14 +322,14 @@ static INT_PTR InternalColumnDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPAR
 								EnableWindow(GetDlgItem(hDlg, IDC_BUTTONMOVEDOWN), false);
 								EnableWindow(GetDlgItem(hDlg, IDC_BUTTONMOVEUP), false);
 							}
-					
+
 							break;
 
 						case IDC_LISTSHOWCOLUMNS:
 							if (ListView_GetItemCount(nm->hwndFrom) != 0)
 							{
 								EnableWindow(GetDlgItem(hDlg, IDC_BUTTONADD), false);
-						
+
 								if (ListView_GetNextItem(hShown, -1, LVIS_SELECTED | LVIS_FOCUSED) == 0)
 								{
 									EnableWindow(GetDlgItem(hDlg, IDC_BUTTONREMOVE), false);
@@ -343,16 +343,16 @@ static INT_PTR InternalColumnDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPAR
 									EnableWindow(GetDlgItem(hDlg, IDC_BUTTONMOVEUP), true);
 								}
 							}
-					
+
 							break;
 					}
-				
+
 					return true;
 			}
 		}
-		
+
 		return false;
-		
+
 		case WM_COMMAND:
 		{
 			WORD wID = GET_WM_COMMAND_ID(wParam, lParam);
@@ -363,7 +363,7 @@ static INT_PTR InternalColumnDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPAR
 			{
 				case IDC_LISTSHOWCOLUMNS:
 					break;
-					
+
 				case IDC_BUTTONADD:
 					// Move selected Item in Available to Shown
 					nPos = DoExchangeItem(hAvailable, hShown, 0);
@@ -375,7 +375,7 @@ static INT_PTR InternalColumnDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPAR
 						EnableWindow(GetDlgItem(hDlg, IDC_BUTTONMOVEUP), true);
 						EnableWindow(GetDlgItem(hDlg, IDC_BUTTONMOVEDOWN), false);
 					}
-				
+
 					break;
 
 				case IDC_BUTTONREMOVE:
@@ -387,7 +387,7 @@ static INT_PTR InternalColumnDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPAR
 						EnableWindow(GetDlgItem(hDlg, IDC_BUTTONMOVEUP), false);
 						EnableWindow(GetDlgItem(hDlg, IDC_BUTTONMOVEDOWN), false);
 					}
-				
+
 					break;
 
 				case IDC_BUTTONMOVEDOWN:
@@ -413,7 +413,7 @@ static INT_PTR InternalColumnDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPAR
 						lvi.mask = LVIF_PARAM;
 						lvi.pszText = 0;
 						lvi.iItem  = i;
-					
+
 						(void)ListView_GetItem(hShown, &lvi);
 						order[nCount++] = lvi.lParam;
 						shown[lvi.lParam] = true;
@@ -425,7 +425,7 @@ static INT_PTR InternalColumnDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPAR
 						lvi.mask  = LVIF_PARAM;
 						lvi.pszText = 0;
 						lvi.iItem  = i;
-					
+
 						(void)ListView_GetItem(hAvailable, &lvi);
 						order[nCount++]   = lvi.lParam;
 						shown[lvi.lParam] = false;
@@ -437,18 +437,18 @@ static INT_PTR InternalColumnDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPAR
 					EndDialog(hDlg, 1);
 					return true;
 				}
-			
+
 				case IDCANCEL:
 					DestroyIcon(hIcon);
 					DeleteObject(hBrush);
 					EndDialog(hDlg, 0);
 					return true;
 			}
-		
+
 			break;
 		}
 	}
-	
+
 	return false;
 }
 
@@ -468,7 +468,7 @@ INT_PTR CALLBACK ColumnDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPa
 {
 	static int shown[COLUMN_MAX];
 	static int order[COLUMN_MAX];
-	extern const TCHAR* const column_names[COLUMN_MAX]; 		// from winui.c, should improve
+	extern const TCHAR* const column_names[COLUMN_MAX]; // from winui.c, should improve
 
 	return InternalColumnDialogProc(hDlg, Msg, wParam, lParam, COLUMN_MAX,
 		shown, order, column_names, GetRealColumnOrder, GetColumnInfo, SetColumnInfo);

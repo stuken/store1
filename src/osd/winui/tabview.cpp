@@ -72,7 +72,7 @@ static int TabView_GetTabFromTabIndex(HWND hWndTabView, int tab_index)
 				return i;
 		}
 	}
-	
+
 	return 0;
 }
 
@@ -92,7 +92,7 @@ int TabView_GetCurrentTab(HWND hWndTabView)
 			for (int i = 0; i < pTabViewInfo->nTabCount; i++)
 			{
 				const char *pszThatTab = pTabViewInfo->pCallbacks->pfnGetTabShortName(i);
-				
+
 				if (pszThatTab && !core_stricmp(pszTab, pszThatTab))
 				{
 					nTab = i;
@@ -145,7 +145,7 @@ static int TabView_GetCurrentTabIndex(HWND hWndTabView)
 		if (!pTabViewInfo->pCallbacks->pfnGetShowTab || pTabViewInfo->pCallbacks->pfnGetShowTab(i))
 			shown_tabs++;
 	}
-	
+
 	return shown_tabs;
 }
 
@@ -166,14 +166,14 @@ bool TabView_HandleNotify(LPNMHDR lpNmHdr)
 			int nTabIndex = TabCtrl_GetCurSel(hWndTabView);
 			int nTab = TabView_GetTabFromTabIndex(hWndTabView, nTabIndex);
 			TabView_SetCurrentTab(hWndTabView, nTab);
-			
+
 			if (pTabViewInfo->pCallbacks->pfnOnSelectionChanged)
 				pTabViewInfo->pCallbacks->pfnOnSelectionChanged();
-			
+
 			bResult = true;
 			break;
 	}
-	
+
 	return bResult;
 }
 
@@ -219,7 +219,7 @@ void TabView_Reset(HWND hWndTabView)
 			free(t_text);
 		}
 	}
-	
+
 	TabView_UpdateSelection(hWndTabView);
 }
 
@@ -246,7 +246,7 @@ bool SetupTabView(HWND hWndTabView, const struct TabViewOptions *pOptions)
 	bool bShowTabView = pTabViewInfo->pCallbacks->pfnGetShowTabCtrl ? pTabViewInfo->pCallbacks->pfnGetShowTabCtrl() : true;
 	ShowWindow(hWndTabView, bShowTabView ? SW_SHOW : SW_HIDE);
 	TabView_Reset(hWndTabView);
-	
+
 	if (pTabViewInfo->pCallbacks->pfnOnSelectionChanged)
 		pTabViewInfo->pCallbacks->pfnOnSelectionChanged();
 

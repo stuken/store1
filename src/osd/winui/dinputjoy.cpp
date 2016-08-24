@@ -222,7 +222,7 @@ static void DIJoystick_poll_joysticks(void)
 		{
 			if (hr == DIERR_INPUTLOST || hr == DIERR_NOTACQUIRED)
 				hr = IDirectInputDevice2_Acquire(This.joysticks[i].did);
-			
+
 			continue;
 		}
 	}
@@ -241,7 +241,7 @@ static int DIJoystick_is_joy_pressed(int joycode)
 	int stick = GET_JOYCODE_STICK(joycode);
 	int axis = GET_JOYCODE_AXIS(joycode);
 	int dir  = GET_JOYCODE_DIR(joycode);
-	
+
 	/* do we have as many sticks? */
 	if (joy_num == 0 || This.num_joysticks < joy_num)
 		return 0;
@@ -273,7 +273,7 @@ static int DIJoystick_is_joy_pressed(int joycode)
 			return 0;
 
 		int pov_value = dijs.rgdwPOV[num_pov];
-		
+
 		if (LOWORD(pov_value) == 0xffff)
 			return 0;
 
@@ -281,7 +281,7 @@ static int DIJoystick_is_joy_pressed(int joycode)
 		angle = (36000 - angle) % 36000;
 		angle /= 100;
 		int axis_value = 0;
-		
+
 		/* angle is now in degrees counterclockwise from x axis*/
 		if (axis == 1)
 			axis_value = 128 + (int)(127 * cos(2 * M_PI * angle / 360.0)); /* x */

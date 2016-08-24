@@ -12,7 +12,7 @@ char * GetGameHistory(int driver_index)
 {
 	static char dataBuf[2048 * 2048];
 	static char buffer[2048 * 2048];
-	
+
 	memset(&buffer, 0, sizeof(buffer));
 	memset(&dataBuf, 0, sizeof(dataBuf));
 

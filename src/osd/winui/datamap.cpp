@@ -79,7 +79,7 @@ static const datamap_default_callback default_callbacks[DCT_COUNT] =
 datamap *datamap_create(void)
 {
 	datamap *map = (datamap *)malloc(sizeof(*map));
-	
+
 	if (!map)
 		return NULL;
 
@@ -133,7 +133,7 @@ void datamap_set_callback(datamap *map, int dlgitem, datamap_callback_type callb
 void datamap_set_option_name_callback(datamap *map, int dlgitem, get_option_name_callback get_option_name)
 {
 	datamap_entry *entry = find_entry(map, dlgitem);
-	
+
 	entry->get_option_name = get_option_name;
 }
 
@@ -144,7 +144,7 @@ void datamap_set_option_name_callback(datamap *map, int dlgitem, get_option_name
 void datamap_set_trackbar_range(datamap *map, int dlgitem, float min, float max, float increments)
 {
 	datamap_entry *entry = find_entry(map, dlgitem);
-	
+
 	entry->use_trackbar_options = true;
 	entry->trackbar_min = min;
 	entry->trackbar_max = max;
@@ -158,7 +158,7 @@ void datamap_set_trackbar_range(datamap *map, int dlgitem, float min, float max,
 void datamap_set_int_format(datamap *map, int dlgitem, const char *format)
 {
 	datamap_entry *entry = find_entry(map, dlgitem);
-	
+
 	entry->int_format = format;
 }
 
@@ -169,7 +169,7 @@ void datamap_set_int_format(datamap *map, int dlgitem, const char *format)
 void datamap_set_float_format(datamap *map, int dlgitem, const char *format)
 {
 	datamap_entry *entry = find_entry(map, dlgitem);
-	
+
 	entry->float_format = format;
 }
 
@@ -180,7 +180,7 @@ void datamap_set_float_format(datamap *map, int dlgitem, const char *format)
 bool datamap_read_control(datamap *map, HWND dialog, windows_options &opts, int dlgitem)
 {
 	datamap_entry *entry = find_entry(map, dlgitem);
-	
+
 	return control_operation(map, dialog, opts, entry, DCT_READ_CONTROL);
 }
 
@@ -201,7 +201,7 @@ void datamap_read_all_controls(datamap *map, HWND dialog, windows_options &opts)
 void datamap_populate_control(datamap *map, HWND dialog, windows_options &opts, int dlgitem)
 {
 	datamap_entry *entry = find_entry(map, dlgitem);
-	
+
 	control_operation(map, dialog, opts, entry, DCT_POPULATE_CONTROL);
 }
 
@@ -222,7 +222,7 @@ void datamap_populate_all_controls(datamap *map, HWND dialog, windows_options &o
 void datamap_update_control(datamap *map, HWND dialog, windows_options &opts, int dlgitem)
 {
 	datamap_entry *entry = find_entry(map, dlgitem);
-	
+
 	control_operation(map, dialog, opts, entry, DCT_UPDATE_STATUS);
 }
 
@@ -263,7 +263,7 @@ static control_type get_control_type(HWND control)
 	TCHAR class_name[256];
 
 	GetClassName(control, class_name, WINUI_ARRAY_LENGTH(class_name));
-	
+
 	if (!_tcscmp(class_name, WC_BUTTON))
 		type = CT_BUTTON;
 	else if (!_tcscmp(class_name, WC_STATIC))
@@ -320,8 +320,7 @@ static void broadcast_changes(datamap *map, HWND dialog, windows_options &opts, 
 {
 	for (int i = 0; i < map->entry_count; i++)
 	{
-		// search for an entry with the same option_name, but is not the exact
-		// same entry
+		// search for an entry with the same option_name, but is not the exact same entry
 		const char *that_option_name = map->entries[i].option_name;
 
 		if (map->entries[i].option_name && (&map->entries[i] != entry) && !strcmp(that_option_name, option_name))
@@ -352,7 +351,7 @@ static int control_operation(datamap *map, HWND dialog, windows_options &opts, d
 			const char *option_name = NULL;
 			char option_value[1024];
 			char option_name_buffer[64];
-			
+
 			// figure out the option_name
 			if (entry->get_option_name != NULL)
 			{
@@ -399,7 +398,7 @@ static int control_operation(datamap *map, HWND dialog, windows_options &opts, d
 			}
 		}
 	}
-	
+
 	return result;
 }
 
@@ -413,7 +412,7 @@ static float trackbar_value_from_position(datamap_entry *entry, int position)
 
 	if (entry->use_trackbar_options)
 		position_f = (position_f * entry->trackbar_increments) + entry->trackbar_min;
-	
+
 	return position_f;
 }
 
@@ -425,7 +424,7 @@ static int trackbar_position_from_value(datamap_entry *entry, float value)
 {
 	if (entry->use_trackbar_options)
 		value = floor((value - entry->trackbar_min) / entry->trackbar_increments + 0.5);
-	
+
 	return (int) value;
 }
 
@@ -463,7 +462,7 @@ static void read_control(datamap *map, HWND control, windows_options &opts, data
 						opts.set_value(option_name, int_value, OPTION_PRIORITY_CMDLINE, error);
 						assert(!error);
 						break;
-					
+
 					case DM_STRING:
 					{
 						const char *string_value = (const char *) ComboBox_GetItemData(control, selected_index);
@@ -471,7 +470,7 @@ static void read_control(datamap *map, HWND control, windows_options &opts, data
 						assert(!error);
 						break;
 					}
-					
+
 					default:
 						assert(false);
 						break;
@@ -480,7 +479,7 @@ static void read_control(datamap *map, HWND control, windows_options &opts, data
 
 			break;
 		}
-		
+
 		case CT_TRACKBAR:
 		{
 			int trackbar_pos = SendMessage(control, TBM_GETPOS, 0, 0);
@@ -490,13 +489,13 @@ static void read_control(datamap *map, HWND control, windows_options &opts, data
 			{
 				case DM_INT:
 					int_value = (int) float_value;
-					
+
 					if (int_value != opts.int_value(option_name)) 
 					{
 						opts.set_value(option_name, int_value, OPTION_PRIORITY_CMDLINE, error);
 						assert(!error);
 					}
-					
+
 					break;
 
 				case DM_FLOAT:
@@ -506,14 +505,14 @@ static void read_control(datamap *map, HWND control, windows_options &opts, data
 						opts.set_value(option_name, tztrim(float_value), OPTION_PRIORITY_CMDLINE, error);
 						assert(!error);
 					}
-					
+
 					break;
 
 				default:
 					assert(false);
 					break;
 			}
-			
+
 			break;
 		}
 
