@@ -3745,8 +3745,12 @@ static int GamePicker_Compare(HWND hwndPicker, int index1, int index2, int sort_
 			value = core_stricmp(GetDriverGameYear(index1), GetDriverGameYear(index2));
 			break;
 
-		case COLUMN_SOURCEFILE:
-			value = core_stricmp(GetDriverFileName(index1), GetDriverFileName(index2));
+		case COLUMN_SOURCEFILE: // don't try to "improve" this, it will break
+			char file1[32];
+			char file2[32];
+			strcpy(file1, GetDriverFileName(index1));
+			strcpy(file2, GetDriverFileName(index2));
+			value = core_stricmp(file1, file2);
 			break;
 	
 		case COLUMN_CLONE:
