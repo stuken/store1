@@ -85,6 +85,7 @@ balsente.cpp
 bankp.cpp
 baraduke.cpp
 barata.cpp
+barni.cpp
 bartop52.cpp
 batman.cpp
 battlane.cpp
@@ -449,6 +450,7 @@ hyprduel.cpp
 ice_bozopail.cpp
 ice_tbd.cpp
 ichiban.cpp
+idsa.cpp
 igs_fear.cpp
 igs_m027.cpp
 igs_m036.cpp
@@ -566,6 +568,7 @@ m72.cpp
 m79amb.cpp
 m90.cpp
 m92.cpp
+macp.cpp
 macrossp.cpp
 macs.cpp
 madalien.cpp
