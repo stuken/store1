@@ -3429,7 +3429,7 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 			return true;
 
 		case ID_HELP_TROUBLE:
-			ShellExecuteCommon(hMain, "http://1emulation.com/");
+			ShellExecuteCommon(hMain, "http://www.1emulation.com/forums/forum/127-arcade/");
 			SetFocus(hWndList);
 			return true;
 
