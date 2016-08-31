@@ -25,7 +25,7 @@
 
 const int MAX_GFX_ELEMENTS = 32;
 const int MAX_GFX_PLANES = 8;
-const int MAX_GFX_SIZE = 64;
+const int MAX_GFX_SIZE = 32;
 
 
 
