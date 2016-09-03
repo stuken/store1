@@ -66,7 +66,6 @@ class machine_info;
 #define UI_MOUSEDOWN_BG_COLOR   rgb_t(239,0,162,232)
 #define UI_DIPSW_COLOR          rgb_t(255,127,127,127)
 #define UI_SLIDER_COLOR         rgb_t(239,34,177,76)
-#define UI_BOX_COLOR			rgb_t(239,127,127,127)
 
 /* cancel return value for a UI handler */
 #define UI_HANDLER_CANCEL       ((UINT32)~0)

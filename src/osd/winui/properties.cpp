@@ -2423,6 +2423,8 @@ static void BuildDataMap(void)
 	datamap_add(properties_datamap, IDC_WIDESTRETCH,			DM_BOOL,	OPTION_WIDESTRETCH);
 	datamap_add(properties_datamap, IDC_UNEVENSTRETCH,			DM_BOOL,	OPTION_UNEVENSTRETCH);
 	datamap_add(properties_datamap, IDC_UNEVENSTRETCHX,			DM_BOOL,	OPTION_UNEVENSTRETCHX);
+	datamap_add(properties_datamap, IDC_UNEVENSTRETCHY,			DM_BOOL,	OPTION_UNEVENSTRETCHY);
+	datamap_add(properties_datamap, IDC_AUTOSTRETCHXY,			DM_BOOL,	OPTION_AUTOSTRETCHXY);
 	datamap_add(properties_datamap, IDC_INTOVERSCAN,			DM_BOOL,	OPTION_INTOVERSCAN);
 	datamap_add(properties_datamap, IDC_INTSCALEX,				DM_INT,		OPTION_INTSCALEX);
 	datamap_add(properties_datamap, IDC_INTSCALEX_TXT,			DM_INT,		OPTION_INTSCALEX);
@@ -2890,7 +2892,6 @@ static void InitializeBIOSUI(HWND hWnd)
 	if (hCtrl)
 	{
 		const game_driver *gamedrv = &driver_list::driver(g_nGame);
-		const rom_entry *rom;
 		int i = 0;
 
 		if (g_nGame == GLOBAL_OPTIONS)
@@ -2917,7 +2918,8 @@ static void InitializeBIOSUI(HWND hWnd)
 			if (gamedrv->rom != NULL)
 			{
 				auto rom_entries = rom_build_entries(gamedrv->rom);
-				for (rom = rom_entries.data(); !ROMENTRY_ISEND(rom); rom++)
+				
+				for (const rom_entry *rom = rom_entries.data(); !ROMENTRY_ISEND(rom); rom++)
 				{
 					if (ROMENTRY_ISSYSTEM_BIOS(rom))
 					{
@@ -2951,7 +2953,8 @@ static void InitializeBIOSUI(HWND hWnd)
 		if (gamedrv->rom != NULL)
 		{
 			auto rom_entries = rom_build_entries(gamedrv->rom);
-			for (rom = rom_entries.data(); !ROMENTRY_ISEND(rom); rom++)
+
+			for (const rom_entry *rom = rom_entries.data(); !ROMENTRY_ISEND(rom); rom++)
 			{
 				if (ROMENTRY_ISSYSTEM_BIOS(rom))
 				{
@@ -3528,6 +3531,8 @@ static void DisableVisualStyles(HWND hDlg)
 	SetWindowTheme(GetDlgItem(hDlg, IDC_WIDESTRETCH), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_UNEVENSTRETCH), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_UNEVENSTRETCHX), L" ", L" ");
+	SetWindowTheme(GetDlgItem(hDlg, IDC_UNEVENSTRETCHY), L" ", L" ");
+	SetWindowTheme(GetDlgItem(hDlg, IDC_AUTOSTRETCHXY), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_INTOVERSCAN), L" ", L" ");
 	/* Advanced */
 	SetWindowTheme(GetDlgItem(hDlg, IDC_TRIPLE_BUFFER), L" ", L" ");

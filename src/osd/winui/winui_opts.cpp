@@ -7,15 +7,15 @@
     Internal function prototypes
  ***************************************************************************/
 
-static void LoadInterfaceFile(winui_options &opts, const char *filename);
-static void SaveInterfaceFile(winui_options &opts, const char *filename);
-static void LoadInternalUIFile(ui_options &opts, const char *filename);
-static void SaveInternalUIFile(ui_options &opts, const char *filename);
-static void LoadPluginsFile(plugin_options &opts, const char *filename);
-static void SavePluginsFile(plugin_options &opts, const char *filename);
-static void LoadOptionsFile(windows_options &opts, const char *filename);
-static void LoadOptionsStartup(windows_options &opts, const char *filename);
-static void SaveOptionsFile(windows_options &opts, const char *filename);
+static void LoadInterfaceFile(winui_options &opts, const std::string &filename);
+static void SaveInterfaceFile(winui_options &opts, const std::string &filename);
+static void LoadInternalUIFile(ui_options &opts, const std::string &filename);
+static void SaveInternalUIFile(ui_options &opts, const std::string &filename);
+static void LoadPluginsFile(plugin_options &opts, const std::string &filename);
+static void SavePluginsFile(plugin_options &opts, const std::string &filename);
+static void LoadOptionsFile(windows_options &opts, const std::string &filename);
+static void LoadOptionsStartup(windows_options &opts, const std::string &filename);
+static void SaveOptionsFile(windows_options &opts, const std::string &filename);
 static void LoadOptionsAndInterface(void);
 static void CusColorEncodeString(const COLORREF *value, char* str);
 static void CusColorDecodeString(const char* str, COLORREF *value);
@@ -218,7 +218,7 @@ void gamelist_options::add_entries(void)
 	}
 }
 
-osd_file::error gamelist_options::load_options(const char *filename)
+osd_file::error gamelist_options::load_options(const std::string &filename)
 {
 	osd_file::error filerr;
 	emu_file file(OPEN_FLAG_READ);
@@ -236,15 +236,13 @@ osd_file::error gamelist_options::load_options(const char *filename)
 	return filerr;
 }
 
-osd_file::error gamelist_options::save_options(const char *filename)
+osd_file::error gamelist_options::save_options(const std::string &filename)
 {
 	osd_file::error filerr;
 	emu_file file(OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS);
-	std::string inistring;
 
 	save_settings();
-	inistring.append("\n#\n# GAMELIST CACHED VALUES\n#\n");
-	inistring.append(m_info.output_ini().c_str());
+	std::string inistring = std::string("\n#\n# GAMELIST CACHED VALUES\n#\n").append(m_info.output_ini().c_str());
 	filerr = file.open(filename);
 
 	if (filerr == osd_file::error::NONE)
@@ -2014,7 +2012,7 @@ static void TabFlagsDecodeString(const char *str, int *data)
 		*data = (1 << TAB_SCREENSHOT);
 }
 
-static void LoadInterfaceFile(winui_options &opts, const char *filename)
+static void LoadInterfaceFile(winui_options &opts, const std::string &filename)
 {
 	osd_file::error filerr;
 	emu_file file(OPEN_FLAG_READ);
@@ -2031,7 +2029,7 @@ static void LoadInterfaceFile(winui_options &opts, const char *filename)
 		SaveInterfaceFile(opts, filename);
 }
 
-static void LoadInternalUIFile(ui_options &opts, const char *filename)
+static void LoadInternalUIFile(ui_options &opts, const std::string &filename)
 {
 	osd_file::error filerr;
 	emu_file file(OPEN_FLAG_READ);
@@ -2048,7 +2046,7 @@ static void LoadInternalUIFile(ui_options &opts, const char *filename)
 		SaveInternalUIFile(opts, filename);
 }
 
-static void LoadPluginsFile(plugin_options &opts, const char *filename)
+static void LoadPluginsFile(plugin_options &opts, const std::string &filename)
 {
 	osd_file::error filerr;
 	emu_file file(OPEN_FLAG_READ);
@@ -2065,7 +2063,7 @@ static void LoadPluginsFile(plugin_options &opts, const char *filename)
 		SavePluginsFile(opts, filename);
 }
 
-static void LoadOptionsFile(windows_options &opts, const char *filename)
+static void LoadOptionsFile(windows_options &opts, const std::string &filename)
 {
 	osd_file::error filerr;
 	emu_file file(OPEN_FLAG_READ);
@@ -2080,7 +2078,7 @@ static void LoadOptionsFile(windows_options &opts, const char *filename)
 	}
 }
 
-static void LoadOptionsStartup(windows_options &opts, const char *filename)
+static void LoadOptionsStartup(windows_options &opts, const std::string &filename)
 {
 	osd_file::error filerr;
 	emu_file file(OPEN_FLAG_READ);
@@ -2097,7 +2095,7 @@ static void LoadOptionsStartup(windows_options &opts, const char *filename)
 		SaveOptionsFile(opts, filename);
 }
 
-static void SaveInterfaceFile(winui_options &opts, const char *filename)
+static void SaveInterfaceFile(winui_options &opts, const std::string &filename)
 {
 	osd_file::error filerr;
 	emu_file file(OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS);
@@ -2111,7 +2109,7 @@ static void SaveInterfaceFile(winui_options &opts, const char *filename)
 	}
 }
 
-static void SaveInternalUIFile(ui_options &opts, const char *filename)
+static void SaveInternalUIFile(ui_options &opts, const std::string &filename)
 {
 	osd_file::error filerr;
 	emu_file file(OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS);
@@ -2125,7 +2123,7 @@ static void SaveInternalUIFile(ui_options &opts, const char *filename)
 	}
 }
 
-static void SavePluginsFile(plugin_options &opts, const char *filename)
+static void SavePluginsFile(plugin_options &opts, const std::string &filename)
 {
 	path_iterator iter(GetPluginsDir());
 	std::string pluginpath;
@@ -2147,7 +2145,7 @@ static void SavePluginsFile(plugin_options &opts, const char *filename)
 	}
 }
 
-static void SaveOptionsFile(windows_options &opts, const char *filename)
+static void SaveOptionsFile(windows_options &opts, const std::string &filename)
 {
 	osd_file::error filerr;
 	emu_file file(OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS);
@@ -2165,19 +2163,19 @@ static void LoadOptionsAndInterface(void)
 {
 	// parse GAMELIST.INI
 	std::string gamename = std::string(GetGuiDir()).append(PATH_SEPARATOR).append(GAMELIST_INI_FILENAME).append(".ini");
-	game_opts.load_options(gamename.c_str());
+	game_opts.load_options(gamename);
 	// parse INTERFACE.INI
 	std::string intername = std::string(GetGuiDir()).append(PATH_SEPARATOR).append(INTERFACE_INI_FILENAME).append(".ini");
-	LoadInterfaceFile(winui_opts, intername.c_str());
+	LoadInterfaceFile(winui_opts, intername);
 	// parse MAME.INI
 	std::string filename = std::string(GetIniDir()).append(PATH_SEPARATOR).append(DEFAULT_INI_FILENAME).append(".ini");
-	LoadOptionsStartup(core_opts, filename.c_str());
+	LoadOptionsStartup(core_opts, filename);
 	// parse UI.INI
 	std::string uiname = std::string(GetIniDir()).append(PATH_SEPARATOR).append(INTERNAL_UI_INI_FILENAME).append(".ini");
-	LoadInternalUIFile(ui_opts, uiname.c_str());
+	LoadInternalUIFile(ui_opts, uiname);
 	// parse PLUGIN.INI
 	std::string pluginname = std::string(GetIniDir()).append(PATH_SEPARATOR).append(PLUGINS_INI_FILENAME).append(".ini");
-	LoadPluginsFile(plugin_opts, pluginname.c_str());
+	LoadPluginsFile(plugin_opts, pluginname);
 }
 
 void SetDirectories(windows_options &opts)
@@ -2317,7 +2315,7 @@ void LoadFolderFlags(void)
 	// These are overlayed at the end of our UI ini
 	// The normal read will skip them.
 	std::string filename = std::string(GetGuiDir()).append(PATH_SEPARATOR).append(INTERFACE_INI_FILENAME).append(".ini");
-    LoadInterfaceFile(opts, filename.c_str());
+    LoadInterfaceFile(opts, filename);
 
 	// retrive the stored values
 	for (i = 0; i < numFolders; i++)
@@ -2402,19 +2400,25 @@ void SaveInterface(void)
 {
 	AddFolderFlags(winui_opts);
 	std::string filename = std::string(GetGuiDir()).append(PATH_SEPARATOR).append(INTERFACE_INI_FILENAME).append(".ini");
-	SaveInterfaceFile(winui_opts, filename.c_str());
+	SaveInterfaceFile(winui_opts, filename);
+}
+
+void LoadInternalUI(void)
+{
+	std::string uiname = std::string(GetIniDir()).append(PATH_SEPARATOR).append(INTERNAL_UI_INI_FILENAME).append(".ini");
+	LoadInternalUIFile(ui_opts, uiname);
 }
 
 void SaveInternalUI(void)
 {
 	std::string filename = std::string(GetIniDir()).append(PATH_SEPARATOR).append(INTERNAL_UI_INI_FILENAME).append(".ini");
-	SaveInternalUIFile(ui_opts, filename.c_str());
+	SaveInternalUIFile(ui_opts, filename);
 }
 
 void SavePlugins(void)
 {
 	std::string filename = std::string(GetIniDir()).append(PATH_SEPARATOR).append(PLUGINS_INI_FILENAME).append(".ini");
-	SavePluginsFile(plugin_opts, filename.c_str());
+	SavePluginsFile(plugin_opts, filename);
 }
 
 void SaveGameDefaults(void)
@@ -2426,7 +2430,7 @@ void SaveGameDefaults(void)
 void SaveGameList(void)
 {
 	std::string filename = std::string(GetGuiDir()).append(PATH_SEPARATOR).append(GAMELIST_INI_FILENAME).append(".ini");
-	game_opts.save_options(filename.c_str());
+	game_opts.save_options(filename);
 }
 
 void ResetInterface(void)
@@ -2489,7 +2493,7 @@ static void ParseIniFile(windows_options &opts, const char *name)
 {
 	/* open the file; if we fail, that's ok */
 	std::string fname = std::string(GetIniDir()).append(PATH_SEPARATOR).append(name).append(".ini");
-	LoadOptionsFile(opts, fname.c_str());
+	LoadOptionsFile(opts, fname);
 	SetDirectories(opts);
 }
 
@@ -2624,7 +2628,7 @@ void SaveOptions(OPTIONS_TYPE opt_type, windows_options &opts, int game_num)
 	{
 		std::string filepath = std::string(GetIniDir()).append(PATH_SEPARATOR).append(filename.c_str()).append(".ini");
 		SetDirectories(opts);
-		SaveOptionsFile(opts, filepath.c_str());
+		SaveOptionsFile(opts, filepath);
 	}
 }
 

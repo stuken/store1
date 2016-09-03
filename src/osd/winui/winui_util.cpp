@@ -304,8 +304,7 @@ static void InitDriversInfo(void)
 		struct DriversInfo *gameinfo = &drivers_info[ndriver];
 		machine_config config(*gamedrv, MameUIGlobal());
 		samples_device_iterator sampiter(config.root_device());
-		const rom_entry *rom;
-
+		
 		gameinfo->isClone = (GetParentRomSetIndex(gamedrv) != -1);
 		gameinfo->isBroken = (gamedrv->flags & (MACHINE_NOT_WORKING | MACHINE_UNEMULATED_PROTECTION | MACHINE_MECHANICAL)) ? true : false;
 		gameinfo->isImperfect = (gamedrv->flags & (MACHINE_WRONG_COLORS | MACHINE_IMPERFECT_COLORS | MACHINE_IMPERFECT_GRAPHICS
@@ -340,7 +339,8 @@ static void InitDriversInfo(void)
 		if (gamedrv->rom != nullptr)
 		{
 			auto rom_entries = rom_build_entries(gamedrv->rom);
-			for (rom = rom_entries.data(); !ROMENTRY_ISEND(rom); rom++)
+
+			for (const rom_entry *rom = rom_entries.data(); !ROMENTRY_ISEND(rom); rom++)
 			{
 				if (ROMENTRY_ISSYSTEM_BIOS(rom))
 					gameinfo->hasOptionalBIOS = true;

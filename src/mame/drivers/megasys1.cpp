@@ -177,7 +177,7 @@ TIMER_DEVICE_CALLBACK_MEMBER(megasys1_state::megasys1A_scanline)
 	if(scanline == 240) // vblank-out irq
 		m_maincpu->set_input_line(1, HOLD_LINE);
 
-	if(scanline == 16)
+	if(scanline == 0)
 		m_maincpu->set_input_line(2, HOLD_LINE);
 
 	if(scanline == 128)
