@@ -51,7 +51,8 @@
  @MP2726   TMS1040   1979, Tomy Break Up
  *MP2788   TMS1040?  1980, Bandai Flight Time (? note: VFD-capable)
  @MP3005   TMS1730   1989, Tiger Copy Cat (model 7-522)
- @MP3208   TMS1000   1977, Milton Bradley Electronic Battleship (1977, model 4750A or B)
+ @MP3201   TMS1000   1977, Milton Bradley Electronic Battleship (1977, model 4750A)
+ @MP3208   TMS1000   1977, Milton Bradley Electronic Battleship (1977, model 4750B)
  @MP3226   TMS1000   1978, Milton Bradley Simon (model 4850)
  *MP3232   TMS1000   1979, Fonas 2-Player Baseball (no "MP" on chip label)
  *MP3300   TMS1000   1980, Estrela Genius (from Brazil, looks and plays identical to Simon)
@@ -101,7 +102,7 @@
 
   inconsistent:
 
- *TMC1007  TMS1000   1976, TSI Speech+ (S14002-A)
+ @TMS1007  TMS1000   1976, TSI Speech+ (S14002-A)
  @CD7282SL TMS1100   1981, Tandy Radio Shack Tandy-12 (serial is similar to TI Speak & Spell series?)
  *M95041   ?         1983, Tsukuda Game Pachinko (? note: 40-pin, VFD-capable)
 
@@ -117,7 +118,8 @@
     brighter: tc4/h2hfootb(offense), bankshot(cue ball), ...
   - stopthiep: unable to start a game (may be intentional?)
   - tbreakup: some of the leds flicker (rom and PLAs doublechecked)
-  - finish bship SN76477 sound
+  - bship discrete sound, netlist is documented
+  - finish bshipb SN76477 sound
 
 ***************************************************************************/
 
@@ -125,6 +127,7 @@
 #include "machine/tms1024.h"
 #include "sound/beep.h"
 #include "sound/sn76477.h"
+#include "sound/s14001a.h"
 
 // internal artwork
 #include "amaztron.lh" // clickable
@@ -159,6 +162,7 @@
 #include "mmerlin.lh" // clickable
 #include "raisedvl.lh"
 #include "simon.lh" // clickable
+#include "speechp.lh"
 #include "splitsec.lh"
 #include "ssimon.lh" // clickable
 #include "ssports4.lh"
@@ -3720,17 +3724,18 @@ MACHINE_CONFIG_END
 
 /***************************************************************************
 
-  Milton Bradley Electronic Battleship (1977 version)
-  * PCB label MB 4750B
-  * TMS1000NLL MP3208 (die label 1000C, MP3208)
-  * SN75494N (acting as inverters), SN76477 sound
+  Milton Bradley Electronic Battleship (1977 version, model 4750A)
+  * PCB label 4750A
+  * TMS1000NL MP3201 (die label 1000C, MP3201)
+  * LM324N, MC14016CP/TP4016AN, NE555P, discrete sound
   * 4 sliding buttons, light bulb
 
   This is a 2-player electronic board game. It still needs game pieces like the
   original Battleship board game.
 
-  It went through 3 hardware revisions:
-  1977: model 4750A or B, see notes above
+  It went through 4 hardware revisions:
+  1977: model 4750A, see notes above
+  1977: model 4750B, see notes at bshipb (driver below this)
   1979: model 4750C: cost-reduced single chip design, lesser quality game board.
         The chip is assumed to be custom, no MCU: 28-pin DIP, label 4750, SCUS 0462
   1982: back to MCU, COP420 instead of choosing TI, emulated in hh_cop400.cpp
@@ -3741,11 +3746,8 @@ class bship_state : public hh_tms1k_state
 {
 public:
 	bship_state(const machine_config &mconfig, device_type type, const char *tag)
-		: hh_tms1k_state(mconfig, type, tag),
-		m_sn(*this, "sn76477")
+		: hh_tms1k_state(mconfig, type, tag)
 	{ }
-
-	required_device<sn76477_device> m_sn;
 
 	DECLARE_WRITE16_MEMBER(write_r);
 	DECLARE_WRITE16_MEMBER(write_o);
@@ -3758,44 +3760,14 @@ WRITE16_MEMBER(bship_state::write_r)
 {
 	// R0-R10: input mux
 	m_inp_mux = data;
-
-	// R4: 75494 to R12 33K to SN76477 pin 20
-	m_sn->slf_res_w((data & 0x10) ? RES_INF : RES_K(33));
 }
 
 WRITE16_MEMBER(bship_state::write_o)
 {
-	//printf("%X ", m_maincpu->debug_peek_o_index() & 0xf);
-
-	// O0: SN76477 pin 9
-	m_sn->enable_w(data & 1);
-
-	// O1: 75494 to R4 100K to SN76477 pin 18
-	// O2: 75494 to R3 150K to SN76477 pin 18
-	double o12 = RES_INF;
-	switch (~data >> 1 & 3)
-	{
-		case 0: o12 = RES_INF; break;
-		case 1: o12 = RES_K(100); break;
-		case 2: o12 = RES_K(150); break;
-		case 3: o12 = RES_2_PARALLEL(RES_K(100), RES_K(150)); break;
-	}
-	m_sn->vco_res_w(o12);
-
-	// O2,O6: (TODO) to SN76477 pin 21
-	//m_sn->slf_cap_w(x);
-
-	// O4: SN76477 pin 22
-	m_sn->vco_w(data >> 4 & 1);
-
-	// O5: R11 27K to SN76477 pin 23
-	m_sn->one_shot_cap_w((data & 0x20) ? RES_K(27) : RES_INF);
-
-	// O6: SN76477 pin 25
-	m_sn->mixer_b_w(data >> 6 & 1);
-
-	// O7: 75494 to light bulb
-	display_matrix(1, 1, data >> 7 & 1, 1);
+	// O4: explosion light bulb
+	display_matrix(1, 1, data >> 4 & 1, 1);
+	
+	// other: sound
 }
 
 READ8_MEMBER(bship_state::read_k)
@@ -3884,10 +3856,113 @@ INPUT_PORTS_END
 static MACHINE_CONFIG_START( bship, bship_state )
 
 	/* basic machine hardware */
-	MCFG_CPU_ADD("maincpu", TMS1000, 225000) // approximation - RC osc. R=47K, C=100pf
+	MCFG_CPU_ADD("maincpu", TMS1000, 200000) // approximation - RC osc. R=100K, C=47pf
 	MCFG_TMS1XXX_READ_K_CB(READ8(bship_state, read_k))
 	MCFG_TMS1XXX_WRITE_R_CB(WRITE16(bship_state, write_r))
 	MCFG_TMS1XXX_WRITE_O_CB(WRITE16(bship_state, write_o))
+
+	MCFG_TIMER_DRIVER_ADD_PERIODIC("display_decay", hh_tms1k_state, display_decay_tick, attotime::from_msec(1))
+	MCFG_DEFAULT_LAYOUT(layout_bship)
+
+	/* sound hardware */
+	// TODO
+MACHINE_CONFIG_END
+
+
+
+
+
+/***************************************************************************
+
+  Milton Bradley Electronic Battleship (1977 version, model 4750B)
+  * PCB label MB 4750B
+  * TMS1000NLL MP3208 (die label 1000C, MP3208)
+  * SN75494N (acting as inverters), SN76477 sound
+  * 4 sliding buttons, light bulb
+
+  This is the 2nd version. The sound hardware was changed to a SN76477.
+
+***************************************************************************/
+
+class bshipb_state : public hh_tms1k_state
+{
+public:
+	bshipb_state(const machine_config &mconfig, device_type type, const char *tag)
+		: hh_tms1k_state(mconfig, type, tag),
+		m_sn(*this, "sn76477")
+	{ }
+
+	required_device<sn76477_device> m_sn;
+
+	DECLARE_WRITE16_MEMBER(write_r);
+	DECLARE_WRITE16_MEMBER(write_o);
+	DECLARE_READ8_MEMBER(read_k);
+};
+
+// handlers
+
+WRITE16_MEMBER(bshipb_state::write_r)
+{
+	// R0-R10: input mux
+	m_inp_mux = data;
+
+	// R4: 75494 to R12 33K to SN76477 pin 20
+	m_sn->slf_res_w((data & 0x10) ? RES_INF : RES_K(33));
+}
+
+WRITE16_MEMBER(bshipb_state::write_o)
+{
+	//printf("%X ", m_maincpu->debug_peek_o_index() & 0xf);
+
+	// O0: SN76477 pin 9
+	m_sn->enable_w(data & 1);
+
+	// O1: 75494 to R4 100K to SN76477 pin 18
+	// O2: 75494 to R3 150K to SN76477 pin 18
+	double o12 = RES_INF;
+	switch (~data >> 1 & 3)
+	{
+		case 0: o12 = RES_INF; break;
+		case 1: o12 = RES_K(100); break;
+		case 2: o12 = RES_K(150); break;
+		case 3: o12 = RES_2_PARALLEL(RES_K(100), RES_K(150)); break;
+	}
+	m_sn->vco_res_w(o12);
+
+	// O2,O6: (TODO) to SN76477 pin 21
+	//m_sn->slf_cap_w(x);
+
+	// O4: SN76477 pin 22
+	m_sn->vco_w(data >> 4 & 1);
+
+	// O5: R11 27K to SN76477 pin 23
+	m_sn->one_shot_cap_w((data & 0x20) ? RES_K(27) : RES_INF);
+
+	// O6: SN76477 pin 25
+	m_sn->mixer_b_w(data >> 6 & 1);
+
+	// O7: 75494 to light bulb
+	display_matrix(1, 1, data >> 7 & 1, 1);
+}
+
+READ8_MEMBER(bshipb_state::read_k)
+{
+	// K: multiplexed inputs (note: the Vss row is always on)
+	return m_inp_matrix[11]->read() | read_inputs(11);
+}
+
+
+// config
+
+// buttons are same as bship set
+
+static MACHINE_CONFIG_START( bshipb, bshipb_state )
+
+	/* basic machine hardware */
+	MCFG_CPU_ADD("maincpu", TMS1000, 200000) // approximation - RC osc. R=100K, C=47pf
+	MCFG_TMS1XXX_READ_K_CB(READ8(bshipb_state, read_k))
+	MCFG_TMS1XXX_WRITE_R_CB(WRITE16(bshipb_state, write_r))
+	MCFG_TMS1XXX_WRITE_O_CB(WRITE16(bshipb_state, write_o))
 
 	MCFG_TIMER_DRIVER_ADD_PERIODIC("display_decay", hh_tms1k_state, display_decay_tick, attotime::from_msec(1))
 	MCFG_DEFAULT_LAYOUT(layout_bship)
@@ -5256,6 +5331,155 @@ MACHINE_CONFIG_END
 
 /***************************************************************************
 
+  TSI Speech+
+  * TMS1000 MCU, label TMS1007NL (die label 1000B, 1007A)
+  * TSI S14001A speech chip, GI S14007-A 2KB maskrom for samples
+  * 9-digit 7seg LED display
+
+  This is a speaking calculator for the blind, the instructions that came
+  with it were on audio cassette. It was also released in 1978 by APH
+  (American Printing House for the Blind).
+
+***************************************************************************/
+
+class speechp_state : public hh_tms1k_state
+{
+public:
+	speechp_state(const machine_config &mconfig, device_type type, const char *tag)
+		: hh_tms1k_state(mconfig, type, tag),
+		m_speech(*this, "speech")
+	{ }
+
+	required_device<s14001a_device> m_speech;
+
+	void prepare_display();
+	virtual DECLARE_WRITE16_MEMBER(write_r);
+	virtual DECLARE_WRITE16_MEMBER(write_o);
+	virtual DECLARE_READ8_MEMBER(read_k);
+};
+
+// handlers
+
+void speechp_state::prepare_display()
+{
+	set_display_segmask(0x1ff, 0xff);
+	display_matrix(8, 9, m_o, m_r);
+}
+
+WRITE16_MEMBER(speechp_state::write_r)
+{
+	// R5-R9: TSI C0-C5
+	m_speech->data_w(space, 0, data >> 5 & 0x3f);
+
+	// R10: TSI START line
+	m_speech->start_w(data >> 10 & 1);
+
+	// R0-R9: input mux
+	m_inp_mux = data & 0x3ff;
+
+	// R0-R8: select digit
+	m_r = data;
+	prepare_display();
+}
+
+WRITE16_MEMBER(speechp_state::write_o)
+{
+	// O0-O7: digit segments
+	m_o = data;
+	prepare_display();
+}
+
+READ8_MEMBER(speechp_state::read_k)
+{
+	// K: multiplexed inputs
+	return m_inp_matrix[10]->read() | (read_inputs(10) & 7);
+}
+
+
+// config
+
+static INPUT_PORTS_START( speechp )
+	PORT_START("IN.0") // R0
+	PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_KEYPAD ) PORT_CODE(KEYCODE_0) PORT_CODE(KEYCODE_0_PAD) PORT_NAME("0")
+	PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_KEYPAD ) PORT_CODE(KEYCODE_S) PORT_NAME("S") // Swap
+	PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_KEYPAD ) PORT_CODE(KEYCODE_9) PORT_CODE(KEYCODE_9_PAD) PORT_NAME("9")
+
+	PORT_START("IN.1") // R1
+	PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_KEYPAD ) PORT_CODE(KEYCODE_1) PORT_CODE(KEYCODE_1_PAD) PORT_NAME("1")
+	PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_KEYPAD ) PORT_CODE(KEYCODE_DEL) PORT_NAME("C") // Clear
+	PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_KEYPAD ) PORT_CODE(KEYCODE_MINUS) PORT_NAME("+/-")
+
+	PORT_START("IN.2") // R2
+	PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_KEYPAD ) PORT_CODE(KEYCODE_2) PORT_CODE(KEYCODE_2_PAD) PORT_NAME("2")
+	PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_KEYPAD ) PORT_CODE(KEYCODE_PLUS_PAD) PORT_NAME("+")
+	PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_KEYPAD ) PORT_CODE(KEYCODE_ENTER) PORT_CODE(KEYCODE_ENTER_PAD) PORT_NAME("=")
+
+	PORT_START("IN.3") // R3
+	PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_KEYPAD ) PORT_CODE(KEYCODE_3) PORT_CODE(KEYCODE_3_PAD) PORT_NAME("3")
+	PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_KEYPAD ) PORT_CODE(KEYCODE_MINUS_PAD) PORT_NAME("-")
+	PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_KEYPAD ) PORT_CODE(KEYCODE_SLASH) PORT_NAME("%")
+
+	PORT_START("IN.4") // R4
+	PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_KEYPAD ) PORT_CODE(KEYCODE_4) PORT_CODE(KEYCODE_4_PAD) PORT_NAME("4")
+	PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_KEYPAD ) PORT_CODE(KEYCODE_SPACE) PORT_NAME("Speak")
+	PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_UNUSED )
+
+	PORT_START("IN.5") // R5
+	PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_KEYPAD ) PORT_CODE(KEYCODE_5) PORT_CODE(KEYCODE_5_PAD) PORT_NAME("5")
+	PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_KEYPAD ) PORT_CODE(KEYCODE_STOP) PORT_CODE(KEYCODE_DEL_PAD) PORT_NAME(".")
+	PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_UNUSED )
+
+	PORT_START("IN.6") // R6
+	PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_KEYPAD ) PORT_CODE(KEYCODE_6) PORT_CODE(KEYCODE_6_PAD) PORT_NAME("6")
+	PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_KEYPAD ) PORT_CODE(KEYCODE_ASTERISK) PORT_NAME(UTF8_MULTIPLY)
+	PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_KEYPAD ) PORT_CODE(KEYCODE_SLASH_PAD) PORT_NAME(UTF8_DIVIDE)
+
+	PORT_START("IN.7") // R7
+	PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_KEYPAD ) PORT_CODE(KEYCODE_7) PORT_CODE(KEYCODE_7_PAD) PORT_NAME("7")
+	PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_KEYPAD ) PORT_CODE(KEYCODE_M) PORT_NAME("M") // Memory
+	PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_UNUSED )
+
+	PORT_START("IN.8") // R8
+	PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_KEYPAD ) PORT_CODE(KEYCODE_8) PORT_CODE(KEYCODE_8_PAD) PORT_NAME("8")
+	PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_KEYPAD ) PORT_CODE(KEYCODE_R) PORT_NAME(UTF8_SQUAREROOT)
+	PORT_BIT( 0x04, IP_ACTIVE_HIGH, IPT_UNUSED )
+
+	PORT_START("IN.9") // R9
+	PORT_BIT( 0x03, IP_ACTIVE_HIGH, IPT_UNUSED )
+	PORT_CONFNAME( 0x04, 0x00, "Verbose" )
+	PORT_CONFSETTING(    0x04, DEF_STR( Off ) )
+	PORT_CONFSETTING(    0x00, DEF_STR( On ) )
+
+	PORT_START("IN.10") // K8
+	PORT_BIT( 0x07, IP_ACTIVE_HIGH, IPT_UNUSED )
+	PORT_CONFNAME( 0x08, 0x00, "Battery Status" )
+	PORT_CONFSETTING(    0x08, "Low" )
+	PORT_CONFSETTING(    0x00, DEF_STR( Normal ) )
+INPUT_PORTS_END
+
+static MACHINE_CONFIG_START( speechp, speechp_state )
+
+	/* basic machine hardware */
+	MCFG_CPU_ADD("maincpu", TMS1000, 400000) // approximation - RC osc. R=39K, C=47pf
+	MCFG_TMS1XXX_READ_K_CB(READ8(speechp_state, read_k))
+	MCFG_TMS1XXX_WRITE_R_CB(WRITE16(speechp_state, write_r))
+	MCFG_TMS1XXX_WRITE_O_CB(WRITE16(speechp_state, write_o))
+
+	MCFG_TIMER_DRIVER_ADD_PERIODIC("display_decay", hh_tms1k_state, display_decay_tick, attotime::from_msec(1))
+	MCFG_DEFAULT_LAYOUT(layout_speechp)
+
+	/* sound hardware */
+	MCFG_SPEAKER_STANDARD_MONO("mono")
+	MCFG_SOUND_ADD("speech", S14001A, 25000) // approximation
+	MCFG_SOUND_ROUTE(ALL_OUTPUTS, "mono", 0.75)
+MACHINE_CONFIG_END
+
+
+
+
+
+/***************************************************************************
+
   Tiger Electronics Copy Cat (model 7-520)
   * PCB label CC REV B
   * TMS1000 MCU, label 69-11513 MP0919 (die label MP0919)
@@ -6198,12 +6422,22 @@ ROM_END
 
 ROM_START( bship )
 	ROM_REGION( 0x0400, "maincpu", 0 )
+	ROM_LOAD( "mp3201", 0x0000, 0x0400, CRC(bf6104a6) SHA1(8d28b43a2aa39dcbbe71f669cdafc518715812c9) )
+
+	ROM_REGION( 867, "maincpu:mpla", 0 )
+	ROM_LOAD( "tms1000_common1_micro.pla", 0, 867, CRC(4becec19) SHA1(3c8a9be0f00c88c81f378b76886c39b10304f330) )
+	ROM_REGION( 365, "maincpu:opla", 0 )
+	ROM_LOAD( "tms1000_bship_output.pla", 0, 365, CRC(ea0570b0) SHA1(6eb803b40717486d7b24939985f245327ac8a7e9) )
+ROM_END
+
+ROM_START( bshipb )
+	ROM_REGION( 0x0400, "maincpu", 0 )
 	ROM_LOAD( "mp3208", 0x0000, 0x0400, CRC(982fa720) SHA1(1c6dbbe7b9e55d62a510225a88cd2de55fe9b181) )
 
 	ROM_REGION( 867, "maincpu:mpla", 0 )
-	ROM_LOAD( "tms1000_bship_micro.pla", 0, 867, CRC(4becec19) SHA1(3c8a9be0f00c88c81f378b76886c39b10304f330) )
+	ROM_LOAD( "tms1000_common1_micro.pla", 0, 867, CRC(4becec19) SHA1(3c8a9be0f00c88c81f378b76886c39b10304f330) )
 	ROM_REGION( 365, "maincpu:opla", 0 )
-	ROM_LOAD( "tms1000_bship_output.pla", 0, 365, BAD_DUMP CRC(74a9a244) SHA1(479c1f1e37cf8f75352e10226b20322906bee813) ) // part of decap photo was obscured
+	ROM_LOAD( "tms1000_bshipb_output.pla", 0, 365, BAD_DUMP CRC(74a9a244) SHA1(479c1f1e37cf8f75352e10226b20322906bee813) ) // part of decap photo was obscured
 ROM_END
 
 
@@ -6350,6 +6584,20 @@ ROM_START( tandy12 )
 ROM_END
 
 
+ROM_START( speechp )
+	ROM_REGION( 0x0400, "maincpu", 0 )
+	ROM_LOAD( "tms1007nl", 0x0000, 0x0400, CRC(c2669d5c) SHA1(7943d6f39508a9a82bc21e4fe34a5b9f86e3add2) )
+
+	ROM_REGION( 867, "maincpu:mpla", 0 )
+	ROM_LOAD( "tms1000_common1_micro.pla", 0, 867, CRC(4becec19) SHA1(3c8a9be0f00c88c81f378b76886c39b10304f330) )
+	ROM_REGION( 365, "maincpu:opla", 0 )
+	ROM_LOAD( "tms1000_speechp_output.pla", 0, 365, CRC(e1b4197f) SHA1(258f4276a9f15c9bfbfa58df2f7202aed1542fdc) )
+
+	ROM_REGION( 0x0800, "speech", 0 )
+	ROM_LOAD("s14007-a", 0x0000, 0x0800, CRC(543b46d4) SHA1(99daf7fe3354c378b4bd883840c9bbd22b22ebe7) )
+ROM_END
+
+
 ROM_START( copycat )
 	ROM_REGION( 0x0400, "maincpu", 0 )
 	ROM_LOAD( "mp0919", 0x0000, 0x0400, CRC(92a21299) SHA1(16daadb8dbf53aaab8a71833017b4a578d035d6d) )
@@ -6441,7 +6689,8 @@ COMP( 1979, astro,     0,        0, astro,     astro,     driver_device, 0, "Kos
 CONS( 1980, mdndclab,  0,        0, mdndclab,  mdndclab,  driver_device, 0, "Mattel", "Dungeons & Dragons - Computer Labyrinth Game", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK ) // ***
 
 CONS( 1977, comp4,     0,        0, comp4,     comp4,     driver_device, 0, "Milton Bradley", "Comp IV", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK | MACHINE_NO_SOUND_HW )
-CONS( 1977, bship,     0,        0, bship,     bship,     driver_device, 0, "Milton Bradley", "Electronic Battleship (1977 version)", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK | MACHINE_IMPERFECT_SOUND | MACHINE_NOT_WORKING ) // ***
+CONS( 1977, bship,     0,        0, bship,     bship,     driver_device, 0, "Milton Bradley", "Electronic Battleship (1977 version, model 4750A)", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK | MACHINE_NO_SOUND | MACHINE_NOT_WORKING ) // ***
+CONS( 1977, bshipb,    bship,    0, bshipb,    bship,     driver_device, 0, "Milton Bradley", "Electronic Battleship (1977 version, model 4750B)", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK | MACHINE_IMPERFECT_SOUND | MACHINE_NOT_WORKING ) // ***
 CONS( 1978, simon,     0,        0, simon,     simon,     driver_device, 0, "Milton Bradley", "Simon (Rev. A)", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )
 CONS( 1979, ssimon,    0,        0, ssimon,    ssimon,    driver_device, 0, "Milton Bradley", "Super Simon", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )
 CONS( 1979, bigtrak,   0,        0, bigtrak,   bigtrak,   driver_device, 0, "Milton Bradley", "Big Trak", MACHINE_SUPPORTS_SAVE | MACHINE_MECHANICAL ) // ***
@@ -6456,6 +6705,8 @@ CONS( 1982, mmerlin,   0,        0, mmerlin,   mmerlin,   driver_device, 0, "Par
 CONS( 1982, lostreas,  0,        0, lostreas,  lostreas,  driver_device, 0, "Parker Brothers", "Lost Treasure - The Electronic Deep-Sea Diving Game (Electronic Dive-Control Center)", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK ) // ***
 
 CONS( 1981, tandy12,   0,        0, tandy12,   tandy12,   driver_device, 0, "Tandy Radio Shack", "Tandy-12: Computerized Arcade", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK ) // some of the minigames: ***
+
+COMP( 1976, speechp,   0,        0, speechp,   speechp,   driver_device, 0, "Telesensory Systems, Inc.", "Speech+", MACHINE_SUPPORTS_SAVE )
 
 CONS( 1979, copycat,   0,        0, copycat,   copycat,   driver_device, 0, "Tiger Electronics", "Copy Cat (model 7-520)", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )
 CONS( 1989, copycatm2, copycat,  0, copycatm2, copycatm2, driver_device, 0, "Tiger Electronics", "Copy Cat (model 7-522)", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )

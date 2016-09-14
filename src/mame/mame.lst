@@ -4,7 +4,7 @@
 
     mame.lst
 
-    This is automaticaly generated file, that should be manually updated when
+    This is not automatically generated file, and should be manually updated when
     new driver is added. From time to time we will auto update comments
     according to meta-data from source files.
 
@@ -1212,6 +1212,7 @@ apple2cp                        // Sep 1988 Apple //c+
 apple2e                         // Jan 1983 Apple //e
 apple2ee                        // Mar 1985 Apple //e Enhanced
 apple2eeuk                      // Mar 1985 Apple //e Enhanced (UK)
+apple2eefr                      // Mar 1985 Apple //e Enhanced (France)
 apple2ep                        // Jan 1987 Apple //e Platinum
 apple2euk                       // Jan 1983 Apple //e (UK)
 las128e2                        // ??? Laser 128 EX2
@@ -2543,10 +2544,9 @@ abc110                          // 1985 ABC 110
 abc310                          // 1985 ABC 310
 acw443                          // 1985 ABC 210/Cambridge Workstation
 bbca                            // 1981 BBC Micro Model A
-bbcb                            // 1981 BBC Micro Model B w/8271 FDC
+bbcb                            // 1981 BBC Micro Model B
 bbcb_de                         // 1982 BBC Micro Model B (German)
 bbcb_us                         // 1983 BBC Micro Model B (US)
-bbcb1770                        // 1984 BBC Micro Model B w/1770 FDC
 bbcbp                           // 1985 BBC Micro Model B+ 64K
 bbcbp128                        // 1985 BBC Micro Model B+ 128K
 bbcm                            // 1986 BBC Master 128
@@ -9352,6 +9352,7 @@ cheekyms                        // 8004 (c) [1980?]
 @source:chessmst.cpp
 chessmst                        //
 chessmsta                       //
+chessmstdm                      //
 
 @source:chesstrv.cpp
 borisdpl                        //
@@ -9685,6 +9686,7 @@ revlatns                        // (c) 199?
 copsnrob                        // 005625           1976/07 [6502]
 
 @source:corona.cpp
+legrandc                        // (c) 198? Isermatic France S.A.
 luckyrlt                        // (c) 1990 unknown
 rcirulet                        // (c) 199? Entretenimientos GEMINIS
 re800ea                         // (c) 1991 Entretenimientos GEMINIS
@@ -11229,6 +11231,7 @@ dvk_ksm                         //
 @source:dwarfd.cpp
 dwarfd                          // (c) 198? Electro-Sports
 dwarfda                         // (c) 198? Electro-Sports
+pokeresp                        // (c) 198? Electro-Sports
 qc                              // (c) 1995 ArJay Exports/Prestige Games
 quarterh                        // (c) 1983 Electro-Sports
 quarterha                       // (c) 1983 Electro-Sports
@@ -12565,6 +12568,7 @@ gal3                            // (c) 1992 (Arcade TV Game List - P.73, Right, 
 
 @source:galaga.cpp
 battles                         // bootleg
+battles2                        // bootleg
 bosco                           // (c) 1981
 boscomd                         // (c) 1981 Midway
 boscomdo                        // (c) 1981 Midway
@@ -14136,6 +14140,7 @@ astro                           // Kosmos
 bankshot                        // Parker Bros
 bigtrak                         // Milton Bradley
 bship                           // Milton Bradley
+bshipb                          // Milton Bradley
 copycat                         // Tiger Electronics
 copycatm2                       // Tiger Electronics
 cnfball                         // Conic
@@ -14164,6 +14169,7 @@ mmerlin                         // Parker Bros
 phpball                         // Tomy
 raisedvl                        // Entex
 simon                           // Milton Bradley
+speechp                         // TSI
 splitsec                        // Parker Bros
 ssimon                          // Milton Bradley
 ssports4                        // US Games
@@ -14225,12 +14231,14 @@ tour4000                        // (c) 2000 High Video
 tour4010                        // (c) 2000 High Video
 
 @source:hikaru.cpp
-airtrix                         // 2001.02 Air Trix
+airtrix                         // 2001.02 Air Trix (Rev A)
+airtrixo                        // 2001.02 Air Trix (original)
 braveff                         // 1999.06 Syouboushi Brave Fire Fighters
 hikaru                          // 2000.?? Hikaru BIOS
-pharrier                        // 2000.12 Planet Harriers
+pharrier                        // 2000.12 Planet Harriers (Rev A)
 podrace                         // 2000.06 Star Wars: Racer Arcade
-sgnascar                        // 2000.09 Nascar Arcade
+sgnascar                        // 2000.10 Nascar Arcade (Rev A)
+sgnascaro                       // 2000.09 Nascar Arcade (original)
 
 @source:himesiki.cpp
 himesiki                        // (c) 1989 Hi-Soft
@@ -19812,6 +19820,7 @@ bigappg                         // (c) 1986 Merit / Big Apple Games
 casino5                         // (c) 1989 Merit
 casino5a                        // (c) 1984 Merit
 chkndraw                        // (c) 1984 Merit
+chkndrawa                       // (c) 1984 Merit
 couple                          // (c) 1988 Merit
 couplei                         // (c) 1988 Merit
 couplep                         // (c) 1988 Merit
@@ -29216,8 +29225,9 @@ clubpacmb                       // Miky SRL
 crockman                        // 1980 bootleg (RENE PIERRE)
 crush                           // (c) 1981 Kural Samno Electric Ltd
 crush2                          // (c) 1981 Kural Esco Electric Ltd - bootleg?
-crush3                          // Kural Electric Ltd - bootleg?
-crush4                          // Kural TWT
+crush3                          // Kural Electric Ltd
+crush4                          // Kural Electric Ltd - bootleg?
+crush5                          // Kural TWT
 crushbl                         // bootleg
 crushbl2                        // bootleg
 crushbl3                        // bootleg
@@ -29251,6 +29261,7 @@ msheartb                        // hack
 mspacii                         // bootleg
 mspacii2                        // bootleg
 mspacmab                        // bootleg
+mspacmab2                       // bootleg
 mspacman                        // (c) 1981 Midway  // made by General Computer
 mspacmanbcc                     // bootleg
 mspacmanbg                      // bootleg
@@ -29539,6 +29550,9 @@ pcg850v                         // Pocket Computer G850V
 @source:pcfx.cpp
 pcfx                            // PC-FX NEC 1994
 pcfxga                          // PC-FX NEC 199? (PC-FX on a PC ISA Card)
+
+@source:pcipc.cpp
+pcipc                           //
 
 @source:pcktgal.cpp
 pcktgal                         // (c) 1987 Data East Corporation (Japan)
@@ -31345,6 +31359,9 @@ rbislando                       // B22 (c) 1987 Taito Corporation
 @source:rbmk.cpp
 rbmk                            // (c) 1995 GMS
 
+@source:rc702.cpp
+rc702                           // 1979 RC702
+
 @source:rc759.cpp
 rc759                           // 1984 RC759
 
@@ -32899,6 +32916,7 @@ gundamex                        // (c) 1994 Banpresto
 mj4simai                        // (c) 1996 Maboroshi Ware
 myangel                         // (c) 1996 Namco
 myangel2                        // (c) 1997 Namco
+staraudi                        // (c) 1997 Namco
 namcostr                        // (c) 2000 Namco
 penbros                         // (c) 2000 Subsino
 pzlbowl                         // (c) 1999 Nihon System / Moss
@@ -33498,6 +33516,7 @@ ikarijpb                        // bootleg
 ikarinc                         // A5004 'IW' (c) 1986
 ikariram                        // bootleg
 jcross                          // A3006      (c) 1984
+jcrossa                         //            (c) 1984
 legofair                        // A7003 'KK' (c) 1988
 madcrash                        // A2005      (c) 1984
 madcrush                        // A2005      (c) 1984
@@ -34112,6 +34131,7 @@ techbowl                        // 1997.12 Technical Bowling
 thunt                           // 1997.09 Puzzle & Action Treasure Hunt (Sega (Deniam License))
 thuntk                          //
 twcup98                         // 1998.04 Tecmo World Cup '98 (Tecmo)
+twsoc98
 vfkids                          // 1996.03 Virtua Fighter Kids
 vfremix                         // 1995.06 Virtua Fighter Remix
 vmahjong                        // 1997.02 Virtual Mahjong (Micronet)
@@ -36395,10 +36415,10 @@ iceclmrd                        // (c) 1984 Nintendo (Dual game version)
 jajamaru                        // (c) 1985 Jaleco
 ladygolf                        // (c) 1984 Nintendo
 ladygolfe                       // (c) 1984 Nintendo
-machridr                        // (c) 1985 Nintendo
-machridra                       // (c) 1985 Nintendo
-mightybj                        // (c) 1986 Tecmo
-platoon                         // (c) 1987 Ocean
+nvs_machrider                   // (c) 1985 Nintendo
+nvs_machridera                  // (c) 1985 Nintendo
+nvs_mightybj                    // (c) 1986 Tecmo
+nvs_platoon                     // (c) 1987 Ocean
 rbibb                           // (c) 1987 Namco
 rbibba                          // (c) 1987 Namco
 skatekds                        // (c) 1988 (hack)
@@ -37603,6 +37623,7 @@ mfjump                          // Monster Farm Jump (JAPAN)
 mgcldate                        // Magical Date (JAPAN Ver 2.02J)
 mgcldtex                        // Magical Date EX (JAPAN Ver 2.01J)
 nbajamex                        // NBA Jam Extreme
+nbajamexa						//
 plsmaswd                        // Plasma Sword (USA 980316)
 plsmaswda                       // Plasma Sword (ASIA 980316)
 primrag2                        // Primal Rage 2

@@ -334,6 +334,7 @@ VIDEOS["VIC4567"] = true
 VIDEOS["SCN2674"] = true
 VIDEOS["GB_LCD"] = true
 VIDEOS["GBA_LCD"] = true
+VIDEOS["MGA2064W"] = true
 
 --------------------------------------------------
 -- specify available machine cores
@@ -608,6 +609,7 @@ BUSES["APRICOT_EXPANSION"] = true
 BUSES["APRICOT_KEYBOARD"] = true
 BUSES["ARCADIA"] = true
 BUSES["ASTROCADE"] = true
+BUSES["BBC_FDC"] = true
 BUSES["BBC_ANALOGUE"] = true
 BUSES["BBC_1MHZBUS"] = true
 BUSES["BBC_TUBE"] = true
@@ -662,6 +664,7 @@ BUSES["NEWBRAIN"] = true
 BUSES["NUBUS"] = true
 BUSES["O2"] = true
 BUSES["ORICEXT"] = true
+BUSES["PC1512"] = true
 BUSES["PCE"] = true
 BUSES["PC_JOY"] = true
 BUSES["PC_KBD"] = true
@@ -2443,6 +2446,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/ibmpc.cpp",
 	MAME_DIR .. "src/mame/drivers/ibmpcjr.cpp",
 	MAME_DIR .. "src/mame/drivers/pc.cpp",
+	MAME_DIR .. "src/mame/drivers/pcipc.cpp",
 	MAME_DIR .. "src/mame/drivers/tandy1t.cpp",
 	MAME_DIR .. "src/mame/video/pc_t1t.cpp",
 	MAME_DIR .. "src/mame/video/pc_t1t.h",
@@ -2513,6 +2517,7 @@ files {
 
 createMESSProjects(_target, _subtarget, "regnecentralen")
 files {
+	MAME_DIR .. "src/mame/drivers/rc702.cpp",
 	MAME_DIR .. "src/mame/drivers/rc759.cpp",
 }
 
@@ -3318,6 +3323,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/ms9540.cpp",
 	MAME_DIR .. "src/mame/drivers/mstation.cpp",
 	MAME_DIR .. "src/mame/drivers/mt735.cpp",
+	MAME_DIR .. "src/mame/drivers/mvme350.cpp",
 	MAME_DIR .. "src/mame/drivers/mx2178.cpp",
 	MAME_DIR .. "src/mame/drivers/mycom.cpp",
 	MAME_DIR .. "src/mame/drivers/myvision.cpp",
@@ -3376,7 +3382,6 @@ files {
 	MAME_DIR .. "src/mame/includes/xor100.h",
 	MAME_DIR .. "src/mame/drivers/xavix.cpp",
 	MAME_DIR .. "src/mame/drivers/zorba.cpp",
-	MAME_DIR .. "src/mame/drivers/mvme350.cpp",
 }
 
 end
