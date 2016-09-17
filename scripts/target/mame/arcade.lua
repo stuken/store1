@@ -4645,6 +4645,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/xyonix.cpp",
 	MAME_DIR .. "src/mame/includes/xyonix.h",
 	MAME_DIR .. "src/mame/video/xyonix.cpp",
+	MAME_DIR .. "src/mame/drivers/tvgame.cpp",
 }
 end
 
