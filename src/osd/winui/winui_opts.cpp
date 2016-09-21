@@ -390,14 +390,14 @@ static void options_set_color_default(winui_options &opts, const char *name, COL
 
 void SetEnableDatafiles(bool value)
 {
-	std::string error_string;
-	ui_opts.set_value(OPTION_DATS_ENABLED, value, OPTION_PRIORITY_CMDLINE, error_string);
-	assert(error_string.empty());
+//	std::string error_string;
+//	ui_opts.set_value(OPTION_DATS_ENABLED, value, OPTION_PRIORITY_CMDLINE, error_string);
+//	assert(error_string.empty());
 }
 
 bool GetEnableDatafiles(void)
 {
-	return ui_opts.bool_value(OPTION_DATS_ENABLED);
+	return true; //return ui_opts.bool_value(OPTION_DATS_ENABLED);
 }
 
 void SetSkipBiosMenu(bool value)
