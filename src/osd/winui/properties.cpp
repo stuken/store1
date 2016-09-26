@@ -3297,14 +3297,12 @@ static bool ResetCheatFile(HWND hWnd)
 static bool ChangeJoystickMap(HWND hWnd)
 {
 	bool changed = false;
-	char joymap[90];
+	std::string joymap = win_get_window_text_utf8(GetDlgItem(hWnd, IDC_JOYSTICKMAP));
 
-	win_get_window_text_utf8(GetDlgItem(hWnd, IDC_JOYSTICKMAP), joymap, WINUI_ARRAY_LENGTH(joymap));
-
-	if (strcmp(joymap, pCurrentOpts.value(OPTION_JOYSTICK_MAP)))
+	if (strcmp(joymap.c_str(), pCurrentOpts.value(OPTION_JOYSTICK_MAP)))
 	{
 		std::string error_string;
-		pCurrentOpts.set_value(OPTION_JOYSTICK_MAP, joymap, OPTION_PRIORITY_CMDLINE, error_string);
+		pCurrentOpts.set_value(OPTION_JOYSTICK_MAP, joymap.c_str(), OPTION_PRIORITY_CMDLINE, error_string);
 		assert(error_string.empty());
 		changed = true;
 	}

@@ -2924,8 +2924,7 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 
 		case ID_TOOLBAR_EDIT:
 		{
-			char buf[256];
-			win_get_window_text_utf8(hWndCtl, buf, WINUI_ARRAY_LENGTH(buf));
+			std::string buf = win_get_window_text_utf8(hWndCtl);
 
 			switch (codeNotify)
 			{
@@ -2938,25 +2937,25 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 
 				case EN_CHANGE:
 					//put search routine here first, add a 200ms timer later.
-					if ((!_stricmp(buf, SEARCH_PROMPT) && !_stricmp(g_SearchText, "")) ||
-					(!_stricmp(g_SearchText, SEARCH_PROMPT) && !_stricmp(buf, "")))
-						strcpy(g_SearchText, buf);
+					if ((!_stricmp(buf.c_str(), SEARCH_PROMPT) && !_stricmp(g_SearchText, "")) ||
+					(!_stricmp(g_SearchText, SEARCH_PROMPT) && !_stricmp(buf.c_str(), "")))
+						strcpy(g_SearchText, buf.c_str());
 					else
 					{
-						strcpy(g_SearchText, buf);
+						strcpy(g_SearchText, buf.c_str());
 						ResetListView();
 					}
 
 					break;
 
 				case EN_SETFOCUS:
-					if (!_stricmp(buf, SEARCH_PROMPT))
+					if (!_stricmp(buf.c_str(), SEARCH_PROMPT))
 					win_set_window_text_utf8(hWndCtl, "");
 
 					break;
 
 				case EN_KILLFOCUS:
-					if (*buf == 0)
+					if (*buf.c_str() == 0)
 						win_set_window_text_utf8(hWndCtl, SEARCH_PROMPT);
 
 					break;
