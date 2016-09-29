@@ -28,6 +28,7 @@
 #include "ui/sliders.h"
 #include "ui/viewgfx.h"
 #include "imagedev/cassette.h"
+#include <time.h>
 
 
 /***************************************************************************
@@ -434,7 +435,7 @@ void mame_ui_manager::update_and_render(render_container &container)
 			if (mouse_target->map_point_container(mouse_target_x, mouse_target_y, container, mouse_x, mouse_y))
 			{
 				const float cursor_size = 0.6 * get_line_height();
-				container.add_quad(mouse_x, mouse_y, mouse_x + cursor_size * container.manager().ui_aspect(&container), mouse_y + cursor_size, UI_TEXT_COLOR, m_mouse_arrow_texture, PRIMFLAG_ANTIALIAS(1) | PRIMFLAG_BLENDMODE(BLENDMODE_ALPHA));
+				container.add_quad(mouse_x, mouse_y, mouse_x + cursor_size * container.manager().ui_aspect(&container), mouse_y + cursor_size, rgb_t::white, m_mouse_arrow_texture, PRIMFLAG_ANTIALIAS(1) | PRIMFLAG_BLENDMODE(BLENDMODE_ALPHA));
 			}
 		}
 	}
@@ -755,7 +756,8 @@ void mame_ui_manager::show_mouse(bool status)
 
 bool mame_ui_manager::is_menu_active(void)
 {
-	return m_handler_callback_type == ui_callback_type::MENU;
+	return m_handler_callback_type == ui_callback_type::MENU
+		|| m_handler_callback_type == ui_callback_type::VIEWER;
 }
 
 
@@ -1172,7 +1174,7 @@ UINT32 mame_ui_manager::handler_ingame(render_container &container)
 		if (!is_paused)
 			machine().pause();
 		using namespace std::placeholders;
-		set_handler(ui_callback_type::GENERAL, std::bind(&ui_gfx_ui_handler, _1, std::ref(*this), is_paused));
+		set_handler(ui_callback_type::VIEWER, std::bind(&ui_gfx_ui_handler, _1, std::ref(*this), is_paused));
 		return is_paused ? 1 : 0;
 	}
 
@@ -1425,7 +1427,7 @@ UINT32 mame_ui_manager::handler_confirm_quit(render_container &container)
 			ui_select_text,
 			ui_cancel_text);
 
-	draw_text_box(container, quit_message.c_str(), ui::text_layout::CENTER, 0.5f, 0.5f, UI_RED_COLOR);
+	draw_text_box(container, quit_message.c_str(), ui::text_layout::CENTER, 0.5f, 0.5f, UI_BACKGROUND_COLOR);
 	machine().pause();
 
 	// if the user press ENTER, quit the game

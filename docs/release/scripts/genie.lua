@@ -960,6 +960,8 @@ end
 				buildoptions {
 					"-Wno-unknown-warning-option",
 					"-Wno-extern-c-compat",
+					"-Wno-unknown-attributes",
+					"-Wno-ignored-qualifiers"
 				}
 			end
 		else

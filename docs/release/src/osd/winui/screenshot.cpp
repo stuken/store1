@@ -120,25 +120,25 @@ void FreeScreenShot(void)
 	current_image_type = -1;
 }
 
-static osd_file::error OpenDIBFile(const char *dir_name, const char *zip_name, const char *filename, util::core_file::ptr &file, void **buffer)
+static osd_file::error OpenDIBFile(const char *dir_name, const char *zip_name, const std::string &filename, util::core_file::ptr &file, void **buffer)
 {
 	osd_file::error filerr;
 	util::archive_file::error ziperr;
 	util::archive_file::ptr zip;
-	char fname[MAX_PATH];
+	std::string fname;
 
 	// clear out result
 	file = nullptr;
 
 	// look for the raw file
-	snprintf(fname, WINUI_ARRAY_LENGTH(fname), "%s\\%s", dir_name, filename);
+	fname = std::string(dir_name).append(PATH_SEPARATOR).append(filename.c_str());
 	filerr = util::core_file::open(fname, OPEN_FLAG_READ, file);
 
 	// did the raw file not exist?
 	if (filerr != osd_file::error::NONE)
 	{
 		// look into zip file
-		snprintf(fname, WINUI_ARRAY_LENGTH(fname), "%s\\%s.zip", dir_name, zip_name);
+		fname = std::string(dir_name).append(PATH_SEPARATOR).append(zip_name).append(".zip");
 		ziperr = util::archive_file::open_zip(fname, zip);
 		
 		if (ziperr == util::archive_file::error::NONE)
@@ -159,7 +159,7 @@ static osd_file::error OpenDIBFile(const char *dir_name, const char *zip_name, c
 		else
 		{
 			// look into 7z file
-			snprintf(fname, WINUI_ARRAY_LENGTH(fname), "%s\\%s.7z", dir_name, zip_name);
+			fname = std::string(dir_name).append(PATH_SEPARATOR).append(zip_name).append(".7z");
 			ziperr = util::archive_file::open_7z(fname, zip);
 
 			if (ziperr == util::archive_file::error::NONE)
@@ -191,8 +191,8 @@ static bool LoadDIB(const char *filename, HGLOBAL *phDIB, HPALETTE *pPal, int pi
 	const char *dir_name = NULL;
 	const char *zip_name = NULL;
 	void *buffer = NULL;
-	char fname[MAX_PATH];
-
+	std::string fname;
+	
 	if (pPal != NULL ) 
 		DeletePalette(pPal);
 
@@ -285,34 +285,34 @@ static bool LoadDIB(const char *filename, HGLOBAL *phDIB, HPALETTE *pPal, int pi
 
 	//Add handling for the displaying of all the different supported snapshot patterntypes
 	//%g
-	snprintf(fname, WINUI_ARRAY_LENGTH(fname), "%s.png", filename);
+	fname = std::string(filename).append(".png");
 	filerr = OpenDIBFile(dir_name, zip_name, fname, file, &buffer);
 
 	if (filerr != osd_file::error::NONE) 
 	{
 		//%g/%i
-		snprintf(fname, WINUI_ARRAY_LENGTH(fname), "%s\\0000.png", filename);
+		fname = std::string(filename).append(PATH_SEPARATOR).append("0000.png");
 		filerr = OpenDIBFile(dir_name, zip_name, fname, file, &buffer);
 	}
 
 	if (filerr != osd_file::error::NONE) 
 	{
 		//%g%i
-		snprintf(fname, WINUI_ARRAY_LENGTH(fname), "%s0000.png", filename);
+		fname = std::string(filename).append("0000.png");
 		filerr = OpenDIBFile(dir_name, zip_name, fname, file, &buffer);
 	}
 
 	if (filerr != osd_file::error::NONE) 
 	{
 		//%g/%g
-		snprintf(fname, WINUI_ARRAY_LENGTH(fname), "%s\\%s.png", filename, filename);
+		fname = std::string(filename).append(PATH_SEPARATOR).append(filename).append(".png");
 		filerr = OpenDIBFile(dir_name, zip_name, fname, file, &buffer);
 	}
 
 	if (filerr != osd_file::error::NONE) 
 	{
 		//%g/%g%i
-		snprintf(fname, WINUI_ARRAY_LENGTH(fname), "%s\\%s0000.png", filename, filename);
+		fname = std::string(filename).append(PATH_SEPARATOR).append(filename).append("0000.png");
 		filerr = OpenDIBFile(dir_name, zip_name, fname, file, &buffer);
 	}
 

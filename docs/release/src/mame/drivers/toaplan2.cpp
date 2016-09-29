@@ -623,7 +623,7 @@ WRITE16_MEMBER(toaplan2_state::shippumd_coin_word_w)
 	if (ACCESSING_BITS_0_7)
 	{
 		toaplan2_coin_w(space, offset, data & 0xff);
-		m_oki->set_bank_base(((data & 0x10) >> 4) * 0x40000);
+		m_oki->set_rom_bank((data & 0x10) >> 4);
 	}
 	if (ACCESSING_BITS_8_15 && (data & 0xff00) )
 	{
@@ -898,7 +898,7 @@ WRITE16_MEMBER(toaplan2_state::oki_bankswitch_w)
 {
 	if (ACCESSING_BITS_0_7)
 	{
-		m_oki->set_bank_base((data & 1) * 0x40000);
+		m_oki->set_rom_bank(data & 1);
 	}
 }
 
@@ -906,7 +906,7 @@ WRITE16_MEMBER(toaplan2_state::oki1_bankswitch_w)
 {
 	if (ACCESSING_BITS_0_7)
 	{
-		m_oki1->set_bank_base((data & 1) * 0x40000);
+		m_oki1->set_rom_bank(data & 1);
 	}
 }
 

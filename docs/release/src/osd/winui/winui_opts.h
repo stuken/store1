@@ -199,8 +199,8 @@ public:
 	void play_time(int index, int val)  { assert(0 <= index && index < driver_list::total()); m_list[index].play_time = val; }
 
 	void add_entries(void);
-	osd_file::error load_options(const char *filename);
-	osd_file::error save_options(const char *filename);
+	osd_file::error load_options(const std::string &filename);
+	osd_file::error save_options(const std::string &filename);
 	void load_settings(void);
 	void save_settings(void);
 	void load_settings(const char *str, int index);
@@ -228,6 +228,7 @@ void SaveOptions(OPTIONS_TYPE opt_type, windows_options &opts, int game_num);
 void LoadFolderFlags(void);
 const char* GetFolderNameByID(UINT nID);
 void SaveInterface(void);
+void LoadInternalUI(void);
 void SaveInternalUI(void);
 void SavePlugins(void);
 void SaveGameDefaults(void);

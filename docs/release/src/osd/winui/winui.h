@@ -85,8 +85,8 @@
 #endif
 #define MAMENAME			"MAME"
 
-#define MAMEUIFX_VERSION	"0.177 (" __DATE__")"
-#define MAME_VERSION		"0.177"
+#define MAME_VERSION		"0.178"
+#define MAMEUIFX_VERSION	MAME_VERSION " (" __DATE__")"
 
 #define SEARCH_PROMPT		"<search here>"
 

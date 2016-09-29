@@ -482,6 +482,8 @@ static void RunMAME(int nGameIndex, const play_options *playopts)
 	mame_options::set_system_name(mame_opts, GetDriverGameName(nGameIndex));
 	// set all needed paths
 	SetDirectories(mame_opts);
+	// load internal UI options
+	LoadInternalUI();
 	// parse all INI files
 	mame_options::parse_standard_inis(mame_opts, error_string);
 	// load interface language
@@ -537,36 +539,19 @@ int MameUIMain(HINSTANCE hInstance, LPWSTR lpCmdLine)
 {
 	if (__argc != 1)
 	{
-		extern int utf8_main(int, char*[]);
-		char **utf8_argv = NULL;
+		extern int utf8_main(int argc, char *argv[]);
+		std::vector<std::string> argv_vectors(__argc);
+		char **utf8_argv = (char **) alloca(__argc * sizeof(char *));
 
 		/* convert arguments to UTF-8 */
-		utf8_argv = (char **) malloc(__argc * sizeof(*__targv));
-
-		if (utf8_argv == NULL)
-			return 999;
-
 		for (int i = 0; i < __argc; i++)
 		{
-			utf8_argv[i] = win_utf8_from_wstring(__targv[i]);
-
-			if (utf8_argv[i] == NULL)
-			{
-				free(utf8_argv);
-				return 999;
-			}
+			argv_vectors[i] = utf8_from_tstring(__targv[i]);
+			utf8_argv[i] = (char *) argv_vectors[i].c_str();
 		}
 
 		/* run utf8_main */
-		int rc = utf8_main(__argc, utf8_argv);
-
-		/* free arguments */
-		for (int i = 0; i < __argc; i++)
-			free(utf8_argv[i]);
-
-		free(utf8_argv);
-
-		exit(rc);
+		exit(utf8_main(__argc, utf8_argv));
 	}
 
 	WNDCLASS wndclass;
@@ -747,20 +732,20 @@ HICON LoadIconFromFile(const char *iconname)
 {
 	HICON hIcon = NULL;
 	WIN32_FIND_DATA FindFileData;
-	char tmpStr[MAX_PATH];
+	std::string tmpStr;
 	PBYTE bufferPtr;
 	util::archive_file::error ziperr;
 	util::archive_file::ptr zip;
 
-	snprintf(tmpStr, WINUI_ARRAY_LENGTH(tmpStr), "%s\\%s.ico", GetIconsDir(), iconname);
-	HANDLE hFind = win_find_first_file_utf8(tmpStr, &FindFileData);
-
-	if (hFind == INVALID_HANDLE_VALUE || (hIcon = win_extract_icon_utf8(hInst, tmpStr, 0)) == 0)
+	tmpStr = std::string(GetIconsDir()).append(PATH_SEPARATOR).append(iconname).append(".ico");
+	HANDLE hFind = win_find_first_file_utf8(tmpStr.c_str(), &FindFileData);
+	
+	if (hFind == INVALID_HANDLE_VALUE || (hIcon = win_extract_icon_utf8(hInst, tmpStr.c_str(), 0)) == 0)
 	{
-		char tmpIcoName[MAX_PATH];
+		std::string tmpIcoName;
 
-		snprintf(tmpStr, WINUI_ARRAY_LENGTH(tmpStr), "%s\\icons.zip", GetIconsDir());
-		snprintf(tmpIcoName, WINUI_ARRAY_LENGTH(tmpIcoName), "%s.ico", iconname);
+		tmpStr = std::string(GetIconsDir()).append(PATH_SEPARATOR).append("icons.zip");
+		tmpIcoName = std::string(iconname).append(".ico");
 		ziperr = util::archive_file::open_zip(tmpStr, zip);
 
 		if (ziperr == util::archive_file::error::NONE)
@@ -786,8 +771,8 @@ HICON LoadIconFromFile(const char *iconname)
 		}
 		else
 		{
-			snprintf(tmpStr, WINUI_ARRAY_LENGTH(tmpStr), "%s\\icons.7z", GetIconsDir());
-			snprintf(tmpIcoName, WINUI_ARRAY_LENGTH(tmpIcoName), "%s.ico", iconname);
+			tmpStr = std::string(GetIconsDir()).append(PATH_SEPARATOR).append("icons.7z");
+			tmpIcoName = std::string(iconname).append(".ico");
 			ziperr = util::archive_file::open_7z(tmpStr, zip);
 
 			if (ziperr == util::archive_file::error::NONE)
@@ -2939,8 +2924,7 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 
 		case ID_TOOLBAR_EDIT:
 		{
-			char buf[256];
-			win_get_window_text_utf8(hWndCtl, buf, WINUI_ARRAY_LENGTH(buf));
+			std::string buf = win_get_window_text_utf8(hWndCtl);
 
 			switch (codeNotify)
 			{
@@ -2953,25 +2937,25 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 
 				case EN_CHANGE:
 					//put search routine here first, add a 200ms timer later.
-					if ((!_stricmp(buf, SEARCH_PROMPT) && !_stricmp(g_SearchText, "")) ||
-					(!_stricmp(g_SearchText, SEARCH_PROMPT) && !_stricmp(buf, "")))
-						strcpy(g_SearchText, buf);
+					if ((!_stricmp(buf.c_str(), SEARCH_PROMPT) && !_stricmp(g_SearchText, "")) ||
+					(!_stricmp(g_SearchText, SEARCH_PROMPT) && !_stricmp(buf.c_str(), "")))
+						strcpy(g_SearchText, buf.c_str());
 					else
 					{
-						strcpy(g_SearchText, buf);
+						strcpy(g_SearchText, buf.c_str());
 						ResetListView();
 					}
 
 					break;
 
 				case EN_SETFOCUS:
-					if (!_stricmp(buf, SEARCH_PROMPT))
+					if (!_stricmp(buf.c_str(), SEARCH_PROMPT))
 					win_set_window_text_utf8(hWndCtl, "");
 
 					break;
 
 				case EN_KILLFOCUS:
-					if (*buf == 0)
+					if (*buf.c_str() == 0)
 						win_set_window_text_utf8(hWndCtl, SEARCH_PROMPT);
 
 					break;
@@ -4019,11 +4003,10 @@ static void MamePlayBackGame(void)
 	if (CommonFileDialog(GetOpenFileName, filename, FILETYPE_INPUT_FILES, false))
 	{
 		osd_file::error filerr;
-		char name[MAX_PATH];
 		TCHAR *t_filename = win_wstring_from_utf8(filename);
 		TCHAR *tempname = PathFindFileName(t_filename);
 		char *fname = win_utf8_from_wstring(tempname);
-		strcpy(name, fname);
+		std::string const name = fname;
 		free(t_filename);
 		free(fname);
 
@@ -4057,7 +4040,7 @@ static void MamePlayBackGame(void)
 			}
 		}
 
-		playopts.playback = name;
+		playopts.playback = name.c_str();
 		MamePlayGameWithOptions(nGame, &playopts);
 	}
 }
