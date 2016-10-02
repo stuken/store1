@@ -33,41 +33,41 @@ static const DIRECTORYINFO g_directoryInfo[] =
 {
 	{ "ROMs",                   GetRomDirs,         SetRomDirs,         true,  DIRDLG_ROM },
 	{ "Samples",                GetSampleDirs,      SetSampleDirs,      true,  0 },
-	{ "Artwork Previews",       GetArtworkDir,      SetArtworkDir,      false, 0 },
-	{ "Artworks",               GetArtDir,          SetArtDir,          false, 0 },
+	{ "Artwork Previews",       GetArtworkDir,      SetArtworkDir,      true,  0 },
+	{ "Artworks",               GetArtDir,          SetArtDir,          true,  0 },
 	{ "Audios",                 GetAudioDir,        SetAudioDir,        false, 0 },
 	{ "BGFX chains",            GetBGFXDir,         SetBGFXDir,         false, 0 },
-	{ "Bosses",                 GetBossesDir,       SetBossesDir,       false, 0 },
-	{ "Cabinets",               GetCabinetDir,      SetCabinetDir,      false, 0 },
+	{ "Bosses",                 GetBossesDir,       SetBossesDir,       true,  0 },
+	{ "Cabinets",               GetCabinetDir,      SetCabinetDir,      true,  0 },
 	{ "CHD Diffs",              GetDiffDir,         SetDiffDir,         false, 0 },
 	{ "Config",                 GetCfgDir,          SetCfgDir,          false, 0 },
-	{ "Control Panels",         GetControlPanelDir, SetControlPanelDir, false, 0 },
+	{ "Control Panels",         GetControlPanelDir, SetControlPanelDir, true,  0 },
 	{ "Controllers",            GetCtrlrDir,        SetCtrlrDir,        false, 0 },
 	{ "Crosshairs",             GetCrosshairDir,    SetCrosshairDir,    false, 0 },
-	{ "Ends",                   GetEndsDir,         SetEndsDir,         false, 0 },
+	{ "Ends",                   GetEndsDir,         SetEndsDir,         true,  0 },
 	{ "External Datafiles",     GetDatsDir,         SetDatsDir,         false, 0 },
-	{ "Flyers",                 GetFlyerDir,        SetFlyerDir,        false, 0 },
+	{ "Flyers",                 GetFlyerDir,        SetFlyerDir,        true,  0 },
 	{ "Folders",                GetFolderDir,       SetFolderDir,       false, 0 },
 	{ "Fonts",                  GetFontDir,         SetFontDir,         false, 0 },
-	{ "Game Overs",             GetGameOverDir,     SetGameOverDir,     false, 0 },
+	{ "Game Overs",             GetGameOverDir,     SetGameOverDir,     true,  0 },
 	{ "GLSL shaders",           GetGLSLDir,         SetGLSLDir,         false, 0 },
 	{ "HLSL files",             GetHLSLDir,         SetHLSLDir,         false, 0 },
-	{ "How Tos",                GetHowToDir,        SetHowToDir,        false, 0 },
+	{ "How Tos",                GetHowToDir,        SetHowToDir,        true,  0 },
 	{ "Icons",                  GetIconsDir,        SetIconsDir,        false, 0 },
 	{ "Input Recordings",       GetInpDir,          SetInpDir,          false, 0 },
 	{ "Languages",              GetLanguageDir,     SetLanguageDir,     false, 0 },
-	{ "Logos",                  GetLogoDir,         SetLogoDir,         false, 0 },
+	{ "Logos",                  GetLogoDir,         SetLogoDir,         true,  0 },
 	{ "LUA plugins",            GetPluginsDir,      SetPluginsDir,      false, 0 },
-	{ "Marquees",               GetMarqueeDir,      SetMarqueeDir,      false, 0 },
+	{ "Marquees",               GetMarqueeDir,      SetMarqueeDir,      true,  0 },
 	{ "NVRAMs",                 GetNvramDir,        SetNvramDir,        false, 0 },
-	{ "PCBs",                   GetPcbDir,          SetPcbDir,          false, 0 },
+	{ "PCBs",                   GetPcbDir,          SetPcbDir,          true,  0 },
 	{ "ProgettoSnaps movies",   GetMoviesDir,       SetMoviesDir,       false, 0 },
 	{ "SaveStates",             GetStateDir,        SetStateDir,        false, 0 },
-	{ "Scores",                 GetScoresDir,       SetScoresDir,       false, 0 },
-	{ "Selects",                GetSelectDir,       SetSelectDir,       false, 0 },
-	{ "Snapshots",              GetImgDir,          SetImgDir,          false, 0 },
-	{ "Titles",                 GetTitlesDir,       SetTitlesDir,       false, 0 },
-	{ "Versus",                 GetVersusDir,       SetVersusDir,       false, 0 },
+	{ "Scores",                 GetScoresDir,       SetScoresDir,       true,  0 },
+	{ "Selects",                GetSelectDir,       SetSelectDir,       true,  0 },
+	{ "Snapshots",              GetImgDir,          SetImgDir,          true , 0 },
+	{ "Titles",                 GetTitlesDir,       SetTitlesDir,       true,  0 },
+	{ "Versus",                 GetVersusDir,       SetVersusDir,       true,  0 },
 	{ "Videos",                 GetVideoDir,        SetVideoDir,        false, 0 },
 	{ NULL }
 };
@@ -404,7 +404,7 @@ static int RetrieveDirList(int nDir, int nFlagResult, void (*SetTheseDirs)(const
 
 	if (DirInfo_Modified(g_pDirInfo, nDir))
 	{
-		TCHAR buf[MAX_PATH * MAX_DIRS];		
+		TCHAR buf[MAX_PATH * MAX_DIRS];
 		memset(&buf, 0, sizeof(buf));
 		int nPaths = DirInfo_NumDir(g_pDirInfo, nDir);
 
