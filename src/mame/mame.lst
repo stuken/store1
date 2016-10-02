@@ -12200,7 +12200,13 @@ cscfr                           // * French
 cscg                            // * German
 cscsp                           // * Spanish
 feasbu                          // EAS: Elite A/S Challenger (Budapest program, English)
+feasbufr                        // * French
+feasbug                         // * German
+feasbusp                        // * Spanish
 feasgla                         // EAS: Elite A/S Challenger (Glasgow program, English)
+feasglafr                       // * French
+feasglag                        // * German
+feasglasp                       // * Spanish
 fexcel                          //
 fexcelv                         //
 fscc9                           //
@@ -14843,8 +14849,10 @@ wfortunea                       // (c) 1989 GameTek
 
 @source:itgambl2.cpp
 cmagica                         // (c) 200? unknown
+granfrat                        // (c) 200? unknown
 mcard_h8                        // (c) 200? unknown
 elvis                           // (c) 200? unknown
+eurodsr                         // (c) 200? unknown
 europass                        // (c) 200? unknown
 laser2k1                        // (c) 2001 unknown
 mclass                          // (c) 200? unknown
@@ -14860,7 +14868,6 @@ thedrink                        // (c) 200? unknown
 trstar2k                        // (c) 1999 A.M.
 unkh8gam                        // (c) 200? unknown
 wizard                          // (c) 1999 A.A.
-eurodsr                         // (c) 200? unknown
 
 @source:itgambl3.cpp
 ejollyx5                        // (c) 200? Solar Games
@@ -20377,6 +20384,7 @@ vf                              // 1993.12 Virtua Fighter
 vformula                        // 1993.?? Virtua Formula
 vr                              // 1992.08 Virtua Racing
 wingwar                         // 1994.06 Wing War
+wingwar360                      // 1994.09 Wing War R360
 wingwarj                        // 1994.06 Wing War (Japan)
 wingwaru                        // 1994.09 Wing War (US)
 
