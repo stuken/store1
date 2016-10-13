@@ -546,7 +546,7 @@ int MameUIMain(HINSTANCE hInstance, LPWSTR lpCmdLine)
 		/* convert arguments to UTF-8 */
 		for (int i = 0; i < __argc; i++)
 		{
-			argv_vectors[i] = utf8_from_tstring(__targv[i]);
+			argv_vectors[i] = osd::text::from_tstring(__targv[i]);
 			utf8_argv[i] = (char *) argv_vectors[i].c_str();
 		}
 
