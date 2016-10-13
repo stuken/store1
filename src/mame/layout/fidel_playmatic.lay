@@ -3,8 +3,6 @@
 
 <!-- define elements -->
 
-	<element name="static_black"><rect><color red="0.0" green="0.0" blue="0.0" /></rect></element>
-
 	<element name="led" defstate="0">
 		<disk state="1"><color red="1.0" green="0.1" blue="0.15" /></disk>
 		<disk state="0"><color red="0.1" green="0.01" blue="0.015" /></disk>
@@ -121,9 +119,6 @@
 
 	<view name="Internal Layout">
 		<bounds left="-2" right="98" top="-2" bottom="88" />
-		<bezel element="static_black">
-			<bounds left="-2" right="98" top="-2" bottom="88" />
-		</bezel>
 
 		<bezel element="white"><bounds x="-2.5" y="-2.5" width="90.5" height="90.5" /></bezel>
 
@@ -369,7 +364,7 @@
 		<bezel element="but" inputtag="IN.8" inputmask="0x02"><bounds x="91.5" y="57" width="2" height="2" /></bezel>
 		<bezel element="but" inputtag="IN.8" inputmask="0x01"><bounds x="91.5" y="61" width="2" height="2" /></bezel>
 
-		<bezel name="8.7" element="led2"><bounds x="91.75" y="65.25" width="1.5" height="1.5" /></bezel>
+		<bezel name="8.0" element="led2"><bounds x="91.75" y="65.25" width="1.5" height="1.5" /></bezel>
 
 	</view>
 </mamelayout>

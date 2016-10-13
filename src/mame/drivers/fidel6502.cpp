@@ -11,10 +11,15 @@
     such as Arena(in editmode).
 
     TODO:
+    - Our i8255 device emulation writes $FF to ports A/B on reset, causing a bug
+      with speech at boot for EAS and EAG. The core problem is lack of tri-state
+      pins emulation(with pullup/pulldown), for now there's a workaround which
+      can be removed together with this note when we implement it across MAME.
     - verify cpu speed and rom labels where unknown
     - EAG missing bankswitch? where is the 2nd half of the 32KB ROM used, if at all?
     - Why does fexcelp give error beeps at start? As if chessboard buttons are
       pressed (button logic is not inverted). It works fine after pressing clear.
+      This also happens on real hardware if you manually upgrade model 6080.
 
 ******************************************************************************
 
@@ -342,6 +347,24 @@ CPU D6 to W: (model 6092, tied to VCC otherwise)
 
 ******************************************************************************
 
+Designer series:
+
+Designer 2000 (model 6102)
+----------------
+8KB RAM(KM6264AL-10), 32KB ROM(AMI 101.1077A01)
+Ricoh RP65C02G CPU, 3MHz XTAL
+PCB label 510-1129A01
+basically same as Excellence hardware, reskinned board
+
+Designer 1500 is on Z80 hardware
+
+Designer 2100 Display (model 6106)
+----------------
+TODO
+
+
+******************************************************************************
+
 Chesster (model 6120)
 There is also a German version titled Kishon Chesster
 ----------------
@@ -370,6 +393,7 @@ I/O is via TTL, see source code for more info
 // internal artwork
 #include "fidel_chesster.lh" // clickable
 #include "fidel_csc.lh" // clickable, with preliminary boardpieces simulation
+#include "fidel_des2000.lh" // clickable
 #include "fidel_eag.lh" // clickable
 #include "fidel_eas.lh" // clickable
 #include "fidel_ex.lh" // clickable
@@ -610,7 +634,7 @@ READ8_MEMBER(fidel6502_state::eas_input_r)
 
 WRITE8_MEMBER(fidel6502_state::eas_ppi_porta_w)
 {
-	// pull output low during reset
+	// pull output low during reset (see TODO)
 	if (machine().phase() == MACHINE_PHASE_RESET)
 		data = 0;
 
@@ -624,10 +648,6 @@ WRITE8_MEMBER(fidel6502_state::eas_ppi_porta_w)
 
 WRITE8_MEMBER(fidel6502_state::eas_ppi_portc_w)
 {
-	// pull output low during reset
-	if (machine().phase() == MACHINE_PHASE_RESET)
-		data = 0;
-
 	// d0-d3: 7442 a0-a3
 	// 7442 0-8: led select, input mux
 	m_led_select = 1 << (data & 0xf) & 0x3ff;
@@ -1634,6 +1654,15 @@ static MACHINE_CONFIG_DERIVED( fexcelp, fexcel )
 	MCFG_CPU_PROGRAM_MAP(fexcelp_map)
 MACHINE_CONFIG_END
 
+static MACHINE_CONFIG_DERIVED( fdes2000, fexcel )
+
+	/* basic machine hardware */
+	MCFG_CPU_REPLACE("maincpu", R65C02, XTAL_3MHz) // RP65C02G
+	MCFG_CPU_PROGRAM_MAP(fexcelp_map)
+
+	MCFG_DEFAULT_LAYOUT(layout_fidel_des2000)
+MACHINE_CONFIG_END
+
 static MACHINE_CONFIG_DERIVED( fexcelv, fexcelb )
 
 	/* sound hardware */
@@ -1987,6 +2016,11 @@ ROM_START( fexcelp )
 	ROM_LOAD("par_ex.ic5", 0x8000, 0x8000, CRC(274d6aff) SHA1(c8d943b2f15422ac62f539b568f5509cbce568a3) ) // GI 27C256, no label
 ROM_END
 
+ROM_START( fdes2000 )
+	ROM_REGION( 0x10000, "maincpu", 0 )
+	ROM_LOAD("101-1077a01.ic5", 0x8000, 0x8000, CRC(62006320) SHA1(1d6370973dbae42c54639b261cc81e32cdfc1d5d) ) // AMI
+ROM_END
+
 ROM_START( fexcelv )
 	ROM_REGION( 0x10000, "maincpu", 0 )
 	ROM_LOAD("101-1080a01.ic5", 0x8000, 0x8000, CRC(846f8e40) SHA1(4e1d5b08d5ff3422192b54fa82cb3f505a69a971) ) // PCB1, M27256
@@ -2052,9 +2086,11 @@ CONS( 1984, fscc12,     0,        0,      sc12,      sc12,      driver_device, 0
 
 CONS( 1985, fexcel,     0,        0,      fexcel,    fexcel,    driver_device, 0, "Fidelity Electronics", "The Excellence (model 6080)", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )
 CONS( 1985, fexcela,    fexcel,   0,      fexcel,    fexcel,    driver_device, 0, "Fidelity Electronics", "The Excellence (model EP12)", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )
-CONS( 1986, fexcelp,    fexcel,   0,      fexcelp,   fexcel,    driver_device, 0, "Fidelity Electronics", "The Par Excellence (model 6083)", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )
 CONS( 1987, fexcelb,    fexcel,   0,      fexcelb,   fexcelb,   driver_device, 0, "Fidelity Electronics", "The Excellence (model 6080B)", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )
-CONS( 1987, fexcelv,    fexcel,   0,      fexcelv,   fexcelv,   driver_device, 0, "Fidelity Electronics", "Voice Excellence (model 6092)", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )
-CONS( 1987, fexceld,    fexcel,   0,      fexceld,   fexcelb,   driver_device, 0, "Fidelity Electronics", "Excel Display (model 6093)", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )
+CONS( 1986, fexcelp,    fexcel,   0,      fexcelp,   fexcel,    driver_device, 0, "Fidelity Electronics", "The Par Excellence", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )
+CONS( 1987, fexcelv,    fexcel,   0,      fexcelv,   fexcelv,   driver_device, 0, "Fidelity Electronics", "Voice Excellence", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )
+CONS( 1987, fexceld,    fexcel,   0,      fexceld,   fexcelb,   driver_device, 0, "Fidelity Electronics", "Excel Display", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )
+
+CONS( 1989, fdes2000,   0,        0,      fdes2000,  fexcel,    driver_device, 0, "Fidelity Electronics", "Designer 2000", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK ) // Excellence series hardware
 
 CONS( 1990, chesster,   0,        0,      chesster,  chesster,  fidel6502_state, chesster, "Fidelity Electronics", "Chesster Challenger", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )
