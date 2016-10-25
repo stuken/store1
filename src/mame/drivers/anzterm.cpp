@@ -362,7 +362,7 @@ public:
 	{
 	}
 
-	UINT32 screen_update(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect)
+	uint32_t screen_update(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect)
 	{
 		return 0;
 	}
@@ -371,25 +371,25 @@ public:
 
 gfx_layout const screenfont =
 {
-	8, 16,												// 8x8
-	RGN_FRAC(1, 1),										// whole region
-	1,													// 1bpp
-	{ 0 },												// bitplane offset
-	{ 0*1,  1*1,  2*1,  3*1,  4*1,  5*1,  6*1,  7*1 },	// x offsets
+	8, 16,                                              // 8x8
+	RGN_FRAC(1, 1),                                     // whole region
+	1,                                                  // 1bpp
+	{ 0 },                                              // bitplane offset
+	{ 0*1,  1*1,  2*1,  3*1,  4*1,  5*1,  6*1,  7*1 },  // x offsets
 	{ 0*8,  1*8,  2*8,  3*8,  4*8,  5*8,  6*8,  7*8,
-	  8*8,  9*8, 10*8, 11*8, 12*8, 13*8, 14*8, 15*8 },	// y offsets
-	128													// stride
+	  8*8,  9*8, 10*8, 11*8, 12*8, 13*8, 14*8, 15*8 },  // y offsets
+	128                                                 // stride
 };
 
 gfx_layout const printfont =
 {
-	8, 8,										// 7x8
-	RGN_FRAC(1, 1),								// whole region
-	1,											// 1bpp
-	{ 0 },										// bitplane offset
-	{ 0*8, 1*8, 2*8, 3*8, 4*8, 5*8, 6*8, 7*8 },	// x offsets
-	{ 7*1, 6*1, 5*1, 4*1, 3*1, 2*1, 1*1, 0*1 },	// y offsets
-	64											// stride
+	8, 8,                                       // 7x8
+	RGN_FRAC(1, 1),                             // whole region
+	1,                                          // 1bpp
+	{ 0 },                                      // bitplane offset
+	{ 0*8, 1*8, 2*8, 3*8, 4*8, 5*8, 6*8, 7*8 }, // x offsets
+	{ 7*1, 6*1, 5*1, 4*1, 3*1, 2*1, 1*1, 0*1 }, // y offsets
+	64                                          // stride
 };
 
 GFXDECODE_START( anzterm )
@@ -402,7 +402,8 @@ ADDRESS_MAP_START( anzterm, AS_PROGRAM, 8, driver_device )
 	// There are two battery-backed 2kB SRAM chips with a 4kb SRAM chip for parity
 	// There are two 64kB DRAM banks (with parity)
 	// There's also a whole lot of ROM
-	AM_RANGE(0x0000, 0xffff) AM_ROM
+	AM_RANGE(0x0000, 0x3fff) AM_RAM
+	AM_RANGE(0xe000, 0xffff) AM_ROM
 ADDRESS_MAP_END
 
 
@@ -416,7 +417,7 @@ MACHINE_CONFIG_START( anzterm, anzterm_state )
 	MCFG_DEVICE_ADD("acia.ic17", ACIA6850, 0)
 	MCFG_DEVICE_ADD("acia.ic18", ACIA6850, 0)
 
-	MCFG_SCREEN_ADD_MONOCHROME("screen", RASTER, rgb_t::green)
+	MCFG_SCREEN_ADD_MONOCHROME("screen", RASTER, rgb_t::green())
 	MCFG_SCREEN_UPDATE_DRIVER(anzterm_state, screen_update)
 	MCFG_SCREEN_PALETTE("palette")
 	MCFG_SCREEN_RAW_PARAMS(15974400/4, 1024, 0, 104*8, 260, 0, 24*10) // this is totally wrong, it just stops a validation error
@@ -436,7 +437,7 @@ INPUT_PORTS_END
 ROM_START( anzterm )
 	// Main program on memory board - loading is definitely wrong
 	ROM_REGION( 0x10000, "maincpu", 0 )
-	ROM_LOAD( "fj-a-25.ic18",                 0x0000, 0x2000, CRC(8c31a9dd) SHA1(864babf6c77813f17ce9082013098e8a677b0af6) )
+	ROM_LOAD( "fj-a-25.ic18",                 0xe000, 0x2000, CRC(8c31a9dd) SHA1(864babf6c77813f17ce9082013098e8a677b0af6) )
 	ROM_LOAD( "fj-b-25.ic17",                 0x2000, 0x2000, CRC(a893aeaf) SHA1(64e8a935fe37195533a0a19f00bdc4e6a2007728) )
 	ROM_LOAD( "fj-c-25.ic16",                 0x4000, 0x2000, CRC(ae678bde) SHA1(b41da540b99a0c3ef9489d9cd25e5fa32e2d13f9) )
 	ROM_LOAD( "fj-e-25.ic14",                 0x6000, 0x0800, CRC(786beceb) SHA1(d20b870528d12f8457e3c746b539fcfc3ded3b0b) )
@@ -444,7 +445,7 @@ ROM_START( anzterm )
 	ROM_LOAD( "fj-j-25.ic8",                  0x8000, 0x2000, CRC(23fa4b36) SHA1(b3676579b2ea4efb0bf867557b53a6ccba7cc60f) )
 	ROM_LOAD( "fj-k-25.ic7",                  0xa000, 0x2000, CRC(cbd17462) SHA1(7e7460f99e7dd5c9ae113f69b67e2b6079a57c6d) )
 	ROM_LOAD( "fj-l-25.ic6",                  0xc000, 0x2000, CRC(8989c2ed) SHA1(912d8152f8f67a964dcd360151d8c8438a652d58) )
-	ROM_LOAD( "fj-m-25.ic5",                  0xe000, 0x2000, CRC(82762fee) SHA1(234a438abab91936e7073bd7cc62414dfae10373) )
+	ROM_LOAD( "fj-m-25.ic5",                  0x0000, 0x2000, CRC(82762fee) SHA1(234a438abab91936e7073bd7cc62414dfae10373) )
 
 	// BPROM on memory board - address decoding?
 	ROM_REGION( 0x0800, "prom", 0 )
@@ -463,17 +464,17 @@ ROM_START( anzterm )
 	ROM_LOAD( "ck-a-pr01.ic4",                0x0000, 0x0800, CRC(d0981882) SHA1(b55fd313c9b3e00039501a53a53c820d98f2258a) )
 	ROM_LOAD( "ck-b-pr01.ic3",                0x0000, 0x0800, CRC(96c9d90d) SHA1(400980c7a2c5306be28b74284c626ef2ed24c1a5) )
 
-    // Undumped microcontroller ROM in MICR reader
-    ROM_REGION( 0x0fc0, "micrmcu", 0 )
-    ROM_LOAD( "mk3870.u14",                   0x0000, 0x0fc0, NO_DUMP )
+	// Undumped microcontroller ROM in MICR reader
+	ROM_REGION( 0x0fc0, "micrmcu", 0 )
+	ROM_LOAD( "mk3870.u14",                   0x0000, 0x0fc0, NO_DUMP )
 
-    // MICR reader data table ROMS, no idea how this stuff is used but dumps should be preserved
-    ROM_REGION( 0x5000, "micrdata", 0 )
-    ROM_LOAD( "cdn1-ebb.u20",                 0x0000, 0x1000, CRC(0f9a9db3) SHA1(aedfe3ba7afb1d0a827fec5418369fca9348940f) )
-    ROM_LOAD( "cdn2-ebb.u16",                 0x1000, 0x1000, CRC(648fff69) SHA1(59653d34067d9a3061857507868fd2147dadf537) )
-    ROM_LOAD( "6047204005.u15",               0x2000, 0x0800, CRC(70bfac37) SHA1(84081249ead5b957d98b3bd06665ef52d0a0243c) )
-    ROM_LOAD( "6048225001.u29",               0x3000, 0x1000, CRC(59c73999) SHA1(7dd12b500e13b177d19a24d148310541f7e660b4) )
-    ROM_LOAD( "ebb-fea-v96-9-23-83-f43a.u11", 0x4000, 0x1000, CRC(0e572470) SHA1(966e5eeb0114589a7cab3c29a1db48cdd8634be5) )
+	// MICR reader data table ROMS, no idea how this stuff is used but dumps should be preserved
+	ROM_REGION( 0x5000, "micrdata", 0 )
+	ROM_LOAD( "cdn1-ebb.u20",                 0x0000, 0x1000, CRC(0f9a9db3) SHA1(aedfe3ba7afb1d0a827fec5418369fca9348940f) )
+	ROM_LOAD( "cdn2-ebb.u16",                 0x1000, 0x1000, CRC(648fff69) SHA1(59653d34067d9a3061857507868fd2147dadf537) )
+	ROM_LOAD( "6047204005.u15",               0x2000, 0x0800, CRC(70bfac37) SHA1(84081249ead5b957d98b3bd06665ef52d0a0243c) )
+	ROM_LOAD( "6048225001.u29",               0x3000, 0x1000, CRC(59c73999) SHA1(7dd12b500e13b177d19a24d148310541f7e660b4) )
+	ROM_LOAD( "ebb-fea-v96-9-23-83-f43a.u11", 0x4000, 0x1000, CRC(0e572470) SHA1(966e5eeb0114589a7cab3c29a1db48cdd8634be5) )
 ROM_END
 
 COMP( 1986?, anzterm, 0, 0, anzterm, anzterm, driver_device, 0, "Burroughs", "EF315-I220 Teller Terminal (ANZ)", MACHINE_IS_SKELETON ) // year comes from sticker on bottom of case, it's more likely a 1983 revision

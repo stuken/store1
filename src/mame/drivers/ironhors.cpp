@@ -25,7 +25,7 @@
 /* straight copied from gberet.c  and adapted */
 TIMER_DEVICE_CALLBACK_MEMBER(ironhors_state::interrupt_tick)
 {
-	UINT8 ticks_mask = ~m_interrupt_ticks & (m_interrupt_ticks + 1); // 0->1
+	uint8_t ticks_mask = ~m_interrupt_ticks & (m_interrupt_ticks + 1); // 0->1
 	m_interrupt_ticks++;
 
 	// NMI on d0
@@ -40,7 +40,7 @@ TIMER_DEVICE_CALLBACK_MEMBER(ironhors_state::interrupt_tick)
 WRITE8_MEMBER(ironhors_state::irq_ctrl_w)
 {
 	/* bits 0/1/2 = interrupt enable */
-	UINT8 ack_mask = ~data & m_interrupt_mask; // 1->0
+	uint8_t ack_mask = ~data & m_interrupt_mask; // 1->0
 
 	if (ack_mask & 1)
 		m_maincpu->set_input_line(INPUT_LINE_NMI, CLEAR_LINE);
@@ -421,7 +421,7 @@ MACHINE_CONFIG_END
 
 WRITE8_MEMBER(ironhors_state::irq_enable_w)
 {
-	UINT8 mask = data & 0x07;		// check only bits 0,1,2
+	uint8_t mask = data & 0x07;		// check only bits 0,1,2
 
 	m_nmi_enable = mask & 0x01;		// bit 0 NMI
 	m_irq_enable = mask & 0x05;		// bit 2 IRQ

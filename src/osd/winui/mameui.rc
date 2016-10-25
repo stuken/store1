@@ -81,9 +81,9 @@ BEGIN
 			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START23
 			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START24
 			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START25
-			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START26			
-			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START27			
-			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START28			
+			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START26
+			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START27
+			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START28
 		END
 		MENUITEM SEPARATOR
         POPUP "Show pictures"
