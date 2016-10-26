@@ -118,13 +118,13 @@ void ShellExecuteCommon(HWND hWnd, const char *cName)
 
 	HINSTANCE hErr = ShellExecute(hWnd, NULL, tName, NULL, NULL, SW_SHOWNORMAL);
 
-	if ((FPTR)hErr > 32)
+	if ((uintptr_t)hErr > 32)
 	{
 		free(tName);
 		return;
 	}
 
-	switch((FPTR)hErr)
+	switch((uintptr_t)hErr)
 	{
 	case 0:
 		msg = "The Operating System is out of memory or resources.";

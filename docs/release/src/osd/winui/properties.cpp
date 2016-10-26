@@ -391,7 +391,7 @@ void InitPropertyPage(HINSTANCE hInst, HWND hWnd, OPTIONS_TYPE opt_type, int fol
 		if (OPTIONS_VECTOR == opt_type) 
 			//since VECTOR and RASTER are equally ranked
 			//we need to subtract 2 from vector to also get to correct default
-			default_type = (OPTIONS_TYPE)(default_type - 1);	
+			default_type = (OPTIONS_TYPE)(default_type - 1);
 	}
 
 	LoadOptions(pDefaultOpts, default_type, game_num);
@@ -497,7 +497,7 @@ static char *GameInfoCPU(int nIndex)
 	for (device_execute_interface &exec : cpuiter)
 	{
 		if (!exectags.insert(exec.device().tag()).second)
-				continue;
+			continue;
 
 		char temp[300];
 		int count = 1;

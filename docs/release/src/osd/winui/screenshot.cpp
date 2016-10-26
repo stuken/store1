@@ -185,14 +185,14 @@ static osd_file::error OpenDIBFile(const char *dir_name, const char *zip_name, c
 
 static bool LoadDIB(const char *filename, HGLOBAL *phDIB, HPALETTE *pPal, int pic_type)
 {
-	osd_file::error filerr;
+	osd_file::error filerr = osd_file::error::NOT_FOUND;
 	util::core_file::ptr file;
 	bool success = false;
 	const char *dir_name = NULL;
 	const char *zip_name = NULL;
 	void *buffer = NULL;
 	std::string fname;
-	
+
 	if (pPal != NULL ) 
 		DeletePalette(pPal);
 
@@ -283,37 +283,98 @@ static bool LoadDIB(const char *filename, HGLOBAL *phDIB, HPALETTE *pPal, int pi
 			return false;
 	}
 
+	char *system_name = 0;
+	char *file_name = 0;
+	char* dir_name1 = 0;
+	int i,j;
+	bool ok = FALSE; // TRUE indicates split success
+
+	// allocate space
+	system_name = (char*)malloc(strlen(filename) + 1);
+	file_name = (char*)malloc(strlen(filename) + 1);
+
+	// if the filename contains a system, split them
+
+	// get system = find colon and truncate there
+	for (i = 0; filename[i] && !ok; i++)
+	{
+		if (filename[i] != ':')
+			system_name[i] = filename[i];
+		else
+		{
+			ok = TRUE;
+			system_name[i] = '\0';
+		}
+	}
+	system_name[i] = '\0'; // 'i' is one more here than above but needed if no colon
+
+	// now left-justify the filename
+	if (ok)
+	{
+		for (j = 0; filename[i]; j++,i++)
+			file_name[j] = filename[i];
+		file_name[j] = '\0';
+	}
+	else
+	// it wasn't a software title, copy over to get around const nonsense
+	{
+		for (i = 0; filename[i]; i++)
+			file_name[i] = filename[i];
+		file_name[i] = '\0';
+	}
+
+	dir_name1 = (char*)malloc(strlen(dir_name) + 2);
+	for (i = 0; dir_name[i]; i++)
+		dir_name1[i] = dir_name[i];
+	dir_name1[i++] = ';';
+	dir_name1[i] = '\0';
+
+	// Support multiple paths
+	char* dir_one = strtok(dir_name1, ";");
+
 	//Add handling for the displaying of all the different supported snapshot patterntypes
-	//%g
-	fname = std::string(filename).append(".png");
-	filerr = OpenDIBFile(dir_name, zip_name, fname, file, &buffer);
-
-	if (filerr != osd_file::error::NONE) 
+	while (dir_one && filerr != osd_file::error::NONE)
 	{
-		//%g/%i
-		fname = std::string(filename).append(PATH_SEPARATOR).append("0000.png");
-		filerr = OpenDIBFile(dir_name, zip_name, fname, file, &buffer);
-	}
+		// Try dir/system.png
+		if (filerr != osd_file::error::NONE)
+		{
+			fname = std::string(system_name).append(".png");
+			filerr = OpenDIBFile(dir_one, zip_name, fname, file, &buffer);
+		}
 
-	if (filerr != osd_file::error::NONE) 
-	{
-		//%g%i
-		fname = std::string(filename).append("0000.png");
-		filerr = OpenDIBFile(dir_name, zip_name, fname, file, &buffer);
-	}
+		if (filerr != osd_file::error::NONE) 
+		{
+			//%g/%g
+			fname = std::string(file_name).append(PATH_SEPARATOR).append(file_name).append(".png");
+			filerr = OpenDIBFile(dir_one, zip_name, fname, file, &buffer);
+		}
 
-	if (filerr != osd_file::error::NONE) 
-	{
-		//%g/%g
-		fname = std::string(filename).append(PATH_SEPARATOR).append(filename).append(".png");
-		filerr = OpenDIBFile(dir_name, zip_name, fname, file, &buffer);
-	}
+		// For SNAPS only, try filenames with 0000.
+		if (pic_type == TAB_SCREENSHOT)
+		{
+			if (filerr != osd_file::error::NONE) 
+			{
+				//%g/%i
+				fname = std::string(system_name).append(PATH_SEPARATOR).append("0000.png");
+				filerr = OpenDIBFile(dir_one, zip_name, fname, file, &buffer);
+			}
 
-	if (filerr != osd_file::error::NONE) 
-	{
-		//%g/%g%i
-		fname = std::string(filename).append(PATH_SEPARATOR).append(filename).append("0000.png");
-		filerr = OpenDIBFile(dir_name, zip_name, fname, file, &buffer);
+			if (filerr != osd_file::error::NONE)
+			{
+				//%g%i
+				fname = std::string(system_name).append("0000.png");
+				filerr = OpenDIBFile(dir_one, zip_name, fname, file, &buffer);
+			}
+
+			if (filerr != osd_file::error::NONE) 
+			{
+				//%g/%g%i
+				fname = std::string(system_name).append(PATH_SEPARATOR).append(system_name).append("0000.png");
+				filerr = OpenDIBFile(dir_one, zip_name, fname, file, &buffer);
+			}
+		}
+
+		dir_one = strtok(NULL, ";");
 	}
 
 	if (filerr == osd_file::error::NONE) 
@@ -325,6 +386,10 @@ static bool LoadDIB(const char *filename, HGLOBAL *phDIB, HPALETTE *pPal, int pi
 	// free the buffer if we have to
 	if (buffer != NULL) 
 		free(buffer);
+
+	free(system_name);
+	free(file_name);
+	free(dir_name1);
 
 	return success;
 }

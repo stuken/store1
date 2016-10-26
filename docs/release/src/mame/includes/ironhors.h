@@ -24,7 +24,8 @@ public:
 		m_colorram(*this, "colorram"),
 		m_videoram(*this, "videoram"),
 		m_spriteram2(*this, "spriteram2"),
-		m_spriteram(*this, "spriteram") { }
+		m_spriteram(*this, "spriteram")
+		{ }
 
 	/* devices */
 	required_device<cpu_device> m_maincpu;
@@ -34,11 +35,12 @@ public:
 	required_device<generic_latch_8_device> m_soundlatch;
 
 	/* memory pointers */
-	required_shared_ptr<UINT8> m_scroll;
-	required_shared_ptr<UINT8> m_colorram;
-	required_shared_ptr<UINT8> m_videoram;
-	required_shared_ptr<UINT8> m_spriteram2;
-	required_shared_ptr<UINT8> m_spriteram;
+	//required_shared_ptr<uint8_t> m_interrupt_enable;
+	required_shared_ptr<uint8_t> m_scroll;
+	required_shared_ptr<uint8_t> m_colorram;
+	required_shared_ptr<uint8_t> m_videoram;
+	required_shared_ptr<uint8_t> m_spriteram2;
+	required_shared_ptr<uint8_t> m_spriteram;
 
 	/* video-related */
 	tilemap_t    *m_bg_tilemap;
@@ -47,10 +49,10 @@ public:
 	int        m_spriterambank;
 
 	/* misc */
-	UINT8       m_interrupt_mask;
-	UINT8       m_interrupt_ticks;
-	UINT8		m_irq_enable;
-	UINT8		m_nmi_enable;
+	uint8_t m_interrupt_mask;
+	uint8_t m_interrupt_ticks;
+	uint8_t m_irq_enable;
+	uint8_t m_nmi_enable;
 	DECLARE_WRITE8_MEMBER(irq_ctrl_w);
 	DECLARE_WRITE8_MEMBER(irq_enable_w);
 	DECLARE_WRITE8_MEMBER(sh_irqtrigger_w);
@@ -71,8 +73,8 @@ public:
 	DECLARE_PALETTE_INIT(ironhors);
 	DECLARE_VIDEO_START(farwest);
 
-	UINT32 screen_update(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
-	UINT32 screen_update_farwest(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
+	uint32_t screen_update(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
+	uint32_t screen_update_farwest(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 	void draw_sprites( bitmap_ind16 &bitmap, const rectangle &cliprect );
 	void farwest_draw_sprites( bitmap_ind16 &bitmap, const rectangle &cliprect );
 

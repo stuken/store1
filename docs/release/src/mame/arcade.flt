@@ -167,6 +167,7 @@ ccastles.cpp
 cchasm.cpp
 cclimber.cpp
 cdi.cpp
+cedar_magnet.cpp
 centiped.cpp
 cesclass.cpp
 chaknpop.cpp
@@ -469,6 +470,7 @@ iqblock.cpp
 irobot.cpp
 ironhors.cpp
 //istellar.cpp
+istrebiteli.cpp
 iteagle.cpp
 itech32.cpp
 itech8.cpp
@@ -641,6 +643,7 @@ missb2.cpp
 missile.cpp
 mitchell.cpp
 mjkjidai.cpp
+mjsenpu.cpp
 mjsister.cpp
 mlanding.cpp
 mmagic.cpp
