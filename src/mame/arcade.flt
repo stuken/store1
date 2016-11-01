@@ -258,7 +258,7 @@ ddribble.cpp
 deadang.cpp
 dec0.cpp
 dec8.cpp
-//deco_ld.cpp
+deco_ld.cpp // needed by combram3
 deco_mlc.cpp
 deco156.cpp
 deco32.cpp
