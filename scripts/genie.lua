@@ -2,6 +2,10 @@
 -- copyright-holders:MAMEdev Team
 STANDALONE = false
 
+-- Big project specific
+premake.make.makefile_ignore = true
+premake._checkgenerate = false
+
 newoption {
 	trigger = 'build-dir',
 	description = 'Build directory name',
@@ -674,7 +678,7 @@ if string.find(_OPTIONS["gcc"], "clang") and ((version < 30500) or (_OPTIONS["ta
 		"-std=c++1y",
 	}
 
-	buildoptions_objc {
+	buildoptions_objcpp {
 		"-x objective-c++",
 		"-std=c++1y",
 	}
@@ -684,7 +688,7 @@ else
 		"-std=c++14",
 	}
 
-	buildoptions_objc {
+	buildoptions_objcpp {
 		"-x objective-c++",
 		"-std=c++14",
 	}
@@ -909,7 +913,7 @@ if _OPTIONS["targetos"]~="freebsd" then
 end
 
 -- warnings only applicable to OBJ-C compiles
-	buildoptions_objc {
+	buildoptions_objcpp {
 		"-Wpointer-arith",
 	}
 
