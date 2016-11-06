@@ -42,6 +42,11 @@ includedirs {
 	ext_includedir("flac"),
 }
 
+configuration { "vs*" }
+	buildoptions {
+		"/bigobj",
+	}
+configuration { }
 if (_OPTIONS["targetos"] == "windows" or _OPTIONS["targetos"]=="winui") then
 	defines {
 		"UI_WINDOWS",
