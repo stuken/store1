@@ -488,6 +488,12 @@ end
 
 configuration {}
 
+if _OPTIONS["osd"] == "uwp" then
+	windowstargetplatformversion("10.0.14393.0")
+	windowstargetplatformminversion("10.0.14393.0")
+	premake._filelevelconfig = true
+end
+
 msgcompile ("Compiling $(subst ../,,$<)...")
 
 msgcompile_objc ("Objective-C compiling $(subst ../,,$<)...")
