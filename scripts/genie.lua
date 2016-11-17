@@ -475,7 +475,7 @@ configuration { "Release", "vs*" }
 		"Optimize",
 	}
 
--- Force VS2015 targets to use bundled SDL2
+-- Force VS2015/17 targets to use bundled SDL2
 if string.sub(_ACTION,1,4) == "vs20" and _OPTIONS["osd"]=="sdl" then
 	if _OPTIONS["with-bundled-sdl2"]==nil then
 		_OPTIONS["with-bundled-sdl2"] = "1"
@@ -1127,10 +1127,14 @@ configuration { "mingw*" }
 			"shell32",
 			"userenv",
 		}
+
 configuration { "mingw-clang" }
+	local version = str_to_version(_OPTIONS["gcc_version"])
+	if _OPTIONS["gcc"]~=nil and string.find(_OPTIONS["gcc"], "clang") and ((version < 30900)) then
 		linkoptions {
 			"-pthread",
 		}
+	end
 
 
 configuration { "vs*" }
@@ -1142,6 +1146,8 @@ configuration { "vs*" }
 			"_CRT_SECURE_NO_DEPRECATE",
 			"_CRT_STDIO_LEGACY_WIDE_SPECIFIERS",
 		}
+-- Windows Store/Phone projects already link against the available libraries.
+if _OPTIONS["vs"]==nil or not (string.startswith(_OPTIONS["vs"], "winstore8") or string.startswith(_OPTIONS["vs"], "winphone8")) then
 		links {
 			"user32",
 			"winmm",
@@ -1154,6 +1160,7 @@ configuration { "vs*" }
 			"shell32",
 			"userenv",
 		}
+end
 
 		buildoptions {
 			"/WX",     -- Treats all compiler warnings as errors.
@@ -1261,7 +1268,7 @@ end
 		includedirs {
 			MAME_DIR .. "3rdparty/dxsdk/Include"
 		}
-configuration { "vs2015*" }
+configuration { "vs201*" }
 		buildoptions {
 			"/wd4334", -- warning C4334: '<<': result of 32-bit shift implicitly converted to 64 bits (was 64-bit shift intended?)
 			"/wd4456", -- warning C4456: declaration of 'xxx' hides previous local declaration
@@ -1276,15 +1283,6 @@ configuration { "vs2015*" }
 			"/wd4592", -- warning C4592: symbol will be dynamically initialized (implementation limitation)
 		}
 configuration { "winphone8* or winstore8*" }
-	removelinks {
-		"DelayImp",
-		"gdi32",
-		"psapi"
-	}
-	links {
-		"d3d11",
-		"dxgi"
-	}
 	linkoptions {
 		"/ignore:4264" -- LNK4264: archiving object file compiled with /ZW into a static library; note that when authoring Windows Runtime types it is not recommended to link with a static library that contains Windows Runtime metadata
 	}
