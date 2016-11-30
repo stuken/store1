@@ -449,7 +449,7 @@ public:
 				winwindow_toggle_full_screen();
 
 			vsnprintf(buffer, WINUI_ARRAY_LENGTH(buffer), msg, args);
-			win_message_box_utf8(!osd_common_t::s_window_list.empty() ? osd_common_t::s_window_list.front()->platform_window<HWND>() : nullptr, buffer, MAMEUINAME, MB_ICONERROR | MB_OK);
+			win_message_box_utf8(!osd_common_t::s_window_list.empty() ? std::static_pointer_cast<win_window_info>(osd_common_t::s_window_list.front())->platform_window() : nullptr, buffer, MAMEUINAME, MB_ICONERROR | MB_OK);
 		}
 		else
 			chain_output(channel, msg, args);

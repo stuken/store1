@@ -65,7 +65,7 @@ bool windows_osd_interface::video_init()
 	}
 
 	if (video_config.mode != VIDEO_MODE_NONE)
-		SetForegroundWindow(osd_common_t::s_window_list.front()->platform_window<HWND>());
+		SetForegroundWindow(std::static_pointer_cast<win_window_info>(osd_common_t::s_window_list.front())->platform_window());
 
 	return true;
 }
@@ -97,7 +97,7 @@ void windows_osd_interface::update(bool skip_redraw)
 	}
 
 	// poll the joystick values here
-	winwindow_process_events(machine(), TRUE, FALSE);
+	winwindow_process_events(machine(), true, false);
 	poll_input(machine());
 	check_osd_inputs();
 	// if we're running, disable some parts of the debugger
@@ -214,7 +214,7 @@ void windows_osd_interface::extract_video_config()
 				stemp = options().shader_mame(i);
 				if (stemp && strcmp(stemp, OSDOPTVAL_NONE) != 0 && strlen(stemp)>0)
 				{
-					video_config.glsl_shader_mamebm[i] = (char *) osd_malloc(strlen(stemp)+strlen(glsl_dir)+2);
+					video_config.glsl_shader_mamebm[i] = (char *) malloc(strlen(stemp)+strlen(glsl_dir)+2);
 					sprintf(video_config.glsl_shader_mamebm[i], "%s%s%s", glsl_dir, PATH_SEPARATOR, stemp);
 					video_config.glsl_shader_mamebm_num++;
 				} else {
@@ -229,7 +229,7 @@ void windows_osd_interface::extract_video_config()
 				stemp = options().shader_screen(i);
 				if (stemp && strcmp(stemp, OSDOPTVAL_NONE) != 0 && strlen(stemp)>0)
 				{
-					video_config.glsl_shader_scrn[i] = (char *) osd_malloc(strlen(stemp)+strlen(glsl_dir)+2);
+					video_config.glsl_shader_scrn[i] = (char *) malloc(strlen(stemp)+strlen(glsl_dir)+2);
 					sprintf(video_config.glsl_shader_scrn[i], "%s%s%s", glsl_dir, PATH_SEPARATOR, stemp);
 					video_config.glsl_shader_scrn_num++;
 				} else {

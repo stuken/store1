@@ -522,7 +522,7 @@ WCHAR *win_wstring_from_utf8(const char *utf8string)
 {
 	// convert MAME string (UTF-8) to UTF-16
 	int char_count = MultiByteToWideChar(CP_UTF8, 0, utf8string, -1, nullptr, 0);
-	WCHAR *result = (WCHAR *)osd_malloc_array(char_count * sizeof(*result));
+	WCHAR *result = (WCHAR *)malloc(char_count * sizeof(*result));
 
 	if (result != nullptr)
 		MultiByteToWideChar(CP_UTF8, 0, utf8string, -1, result, char_count);
@@ -539,7 +539,7 @@ char *win_utf8_from_wstring(const WCHAR *wstring)
 {
 	// convert UTF-16 to MAME string (UTF-8)
 	int char_count = WideCharToMultiByte(CP_UTF8, 0, wstring, -1, nullptr, 0, nullptr, nullptr);
-	char *result = (char *)osd_malloc_array(char_count * sizeof(*result));
+	char *result = (char *)malloc(char_count * sizeof(*result));
 
 	if (result != nullptr)
 		WideCharToMultiByte(CP_UTF8, 0, wstring, -1, result, char_count, nullptr, nullptr);
@@ -601,8 +601,8 @@ BOOL win_move_file_utf8(const char* existingfilename, const char* newfilename)
 	}
 
 	result = MoveFile(t_existingfilename, t_newfilename);
-	osd_free(t_newfilename);
-	osd_free(t_existingfilename);
+	free(t_newfilename);
+	free(t_existingfilename);
 	return result;
 }
 
