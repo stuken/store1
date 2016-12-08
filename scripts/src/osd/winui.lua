@@ -226,8 +226,6 @@ project ("osd_" .. _OPTIONS["osd"])
 		MAME_DIR .. "src/osd/winui/bitmask.h",
 		MAME_DIR .. "src/osd/winui/columnedit.cpp",
 		MAME_DIR .. "src/osd/winui/columnedit.h",
-		MAME_DIR .. "src/osd/winui/datafile.cpp",
-		MAME_DIR .. "src/osd/winui/datafile.h",
 		MAME_DIR .. "src/osd/winui/datamap.cpp",
 		MAME_DIR .. "src/osd/winui/datamap.h",
 		MAME_DIR .. "src/osd/winui/dialogs.cpp",

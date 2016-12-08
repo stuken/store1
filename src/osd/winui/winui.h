@@ -56,7 +56,6 @@
 #include "properties.h"
 #include "winui_audit.h"
 #include "directories.h"
-#include "datafile.h"
 #include "datamap.h"
 #include "columnedit.h"
 #include "picker.h"
