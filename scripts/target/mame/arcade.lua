@@ -263,6 +263,8 @@ SOUNDS["AD1848"] = true
 --SOUNDS["UPD1771"] = true
 SOUNDS["VOLT_REG"] = true
 --SOUNDS["MEA8000"] = true
+SOUNDS["DAC76"] = true
+SOUNDS["MM5837"] = true
 
 --------------------------------------------------
 -- specify available video cores
@@ -283,6 +285,7 @@ VIDEOS["DM9368"] = true
 --VIDEOS["EF9345"] = true
 --VIDEOS["EF9364"] = true
 --VIDEOS["EF9365"] = true
+VIDEOS["EF9369"] = true
 --VIDEOS["GF4500"] = true
 VIDEOS["GF7600GS"] = true
 VIDEOS["EPIC12"] = true
@@ -359,6 +362,7 @@ MACHINES["TTL74123"] = true
 MACHINES["TTL74145"] = true
 MACHINES["TTL74148"] = true
 MACHINES["TTL74153"] = true
+MACHINES["TTL74157"] = true
 --MACHINES["TTL74161"] = true
 --MACHINES["TTL74175"] = true
 MACHINES["TTL74181"] = true
@@ -1882,6 +1886,7 @@ files {
 	MAME_DIR .. "src/mame/machine/pgmprot_orlegend.cpp",
 	MAME_DIR .. "src/mame/machine/pgmprot_orlegend.h",
 	MAME_DIR .. "src/mame/drivers/pgm2.cpp",
+	MAME_DIR .. "src/mame/drivers/pgm3.cpp",
 	MAME_DIR .. "src/mame/drivers/spoker.cpp",
 	MAME_DIR .. "src/mame/machine/igs036crypt.cpp",
 	MAME_DIR .. "src/mame/machine/igs036crypt.h",
@@ -3966,10 +3971,6 @@ files {
 createMAMEProjects(_target, _subtarget, "tong")
 files {
 	MAME_DIR .. "src/mame/drivers/beezer.cpp",
-	MAME_DIR .. "src/mame/includes/beezer.h",
-	MAME_DIR .. "src/mame/machine/beezer.cpp",
-	MAME_DIR .. "src/mame/video/beezer.cpp",
-	MAME_DIR .. "src/mame/audio/beezer.cpp",
 }
 
 createMAMEProjects(_target, _subtarget, "unico")
@@ -4669,4 +4670,3 @@ files {
 	MAME_DIR .. "src/mame/drivers/tvgame.cpp",
 }
 end
-
