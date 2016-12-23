@@ -311,7 +311,7 @@ Graphics Custom 208pin QFP:
 
 Game status:
 
-Teki Paki                      Working, but no sound. Missing sound MCU dump. Chip is protected. It's a QFP80 Hitachi HD647180.
+Teki Paki                      Working. MCU type is a Hitachi HD647180.
 Ghox                           Working, but no sound. Missing sound MCU dump. It's a QFP80 Hitachi HD647180.
 Dogyuun                        Working. MCU type is a NEC V25. Chip is a PLCC94 stamped 'TS-002-MACH'.*
 Knuckle Bash                   Working. MCU type is a NEC V25. Chip is a PLCC94 stamped 'TS-004-DASH'.*
@@ -724,9 +724,9 @@ CUSTOM_INPUT_MEMBER(toaplan2_state::c2map_r)
 	// For Teki Paki hardware
 	// bit 4 high signifies secondary CPU is ready
 	// bit 5 is tested low before V-Blank bit ???
-	m_mcu_data = 0xff;
+	//m_mcu_data = 0xff;
 
-	return (m_mcu_data == 0xff) ? 0x01 : 0x00;
+	return (m_cmdavailable) ? 0x00 : 0x01;
 }
 
 
@@ -1121,8 +1121,25 @@ static ADDRESS_MAP_START( tekipaki_68k_mem, AS_PROGRAM, 16, toaplan2_state )
 	AM_RANGE(0x180040, 0x180041) AM_WRITE(toaplan2_coin_word_w)
 	AM_RANGE(0x180050, 0x180051) AM_READ_PORT("IN1")
 	AM_RANGE(0x180060, 0x180061) AM_READ_PORT("IN2")
+	AM_RANGE(0x180070, 0x180071) AM_WRITE(tekipaki_mcu_w)
+ADDRESS_MAP_END
+
+static ADDRESS_MAP_START( whoopee_68k_mem, AS_PROGRAM, 16, toaplan2_state )
+	AM_RANGE(0x000000, 0x01ffff) AM_ROM
+	AM_RANGE(0x020000, 0x03ffff) AM_ROM                     // extra for Whoopee
+	AM_RANGE(0x080000, 0x082fff) AM_RAM
+	AM_RANGE(0x0c0000, 0x0c0fff) AM_RAM_DEVWRITE("palette", palette_device, write) AM_SHARE("palette")
+	AM_RANGE(0x140000, 0x14000d) AM_DEVREADWRITE("gp9001", gp9001vdp_device, gp9001_vdp_r, gp9001_vdp_w)
+	AM_RANGE(0x180000, 0x180001) AM_READ_PORT("DSWA")
+	AM_RANGE(0x180010, 0x180011) AM_READ_PORT("DSWB")
+	AM_RANGE(0x180020, 0x180021) AM_READ_PORT("SYS")
+	AM_RANGE(0x180030, 0x180031) AM_READ_PORT("JMPR")           // CPU 2 busy and Region Jumper block
+	AM_RANGE(0x180040, 0x180041) AM_WRITE(toaplan2_coin_word_w)
+	AM_RANGE(0x180050, 0x180051) AM_READ_PORT("IN1")
+	AM_RANGE(0x180060, 0x180061) AM_READ_PORT("IN2")
 	AM_RANGE(0x180070, 0x180071) AM_WRITE(tekipaki_hd647180_cpu_w)
 ADDRESS_MAP_END
+
 
 
 static ADDRESS_MAP_START( ghox_68k_mem, AS_PROGRAM, 16, toaplan2_state )
@@ -1626,6 +1643,44 @@ ADDRESS_MAP_END
 static ADDRESS_MAP_START( fixeightbl_oki, AS_0, 8, toaplan2_state )
 	AM_RANGE(0x00000, 0x2ffff) AM_ROM
 	AM_RANGE(0x30000, 0x3ffff) AM_ROMBANK("bank1")
+ADDRESS_MAP_END
+
+
+
+WRITE16_MEMBER(toaplan2_state::tekipaki_mcu_w)
+{
+	if (ACCESSING_BITS_0_7)
+	{
+		m_mcu_data = data & 0xff;
+		m_cmdavailable = 1;
+	}
+};
+
+READ8_MEMBER(toaplan2_state::tekipaki_soundlatch_r)
+{
+	m_cmdavailable = 0;
+	return m_mcu_data;
+};
+
+READ8_MEMBER(toaplan2_state::tekipaki_cmdavailable_r)
+{
+	if (m_cmdavailable) return 0xff;
+	else return 0x00;
+};
+
+static ADDRESS_MAP_START( hd647180_mem_map, AS_PROGRAM, 8, toaplan2_state )
+	AM_RANGE(0x00000, 0x03fff) AM_ROM   /* Internal 16k byte ROM */
+	AM_RANGE(0x0fe00, 0x0ffff) AM_RAM   /* Internal 512 byte RAM */
+ADDRESS_MAP_END
+
+static ADDRESS_MAP_START( hd647180_io_map, AS_IO, 8, toaplan2_state )
+	ADDRESS_MAP_GLOBAL_MASK(0xff)
+
+	AM_RANGE(0x60, 0x60) AM_READ(tekipaki_cmdavailable_r)
+	AM_RANGE(0x84, 0x84) AM_READ(tekipaki_soundlatch_r)
+
+	AM_RANGE(0x82, 0x82) AM_DEVREADWRITE("ymsnd", ym3812_device, status_port_r, control_port_w)
+	AM_RANGE(0x83, 0x83) AM_DEVREADWRITE("ymsnd", ym3812_device, read_port_r, write_port_w)
 ADDRESS_MAP_END
 
 
@@ -3137,10 +3192,45 @@ static MACHINE_CONFIG_START( tekipaki, toaplan2_state )
 	MCFG_CPU_PROGRAM_MAP(tekipaki_68k_mem)
 	MCFG_CPU_VBLANK_INT_DRIVER("screen", toaplan2_state,  toaplan2_vblank_irq4)
 
-#ifdef USE_HD64x180
-	MCFG_CPU_ADD("audiocpu", Z180, XTAL_10MHz)          /* HD647180 CPU actually */
-	MCFG_CPU_PROGRAM_MAP(hd647180_mem)
-#endif
+
+
+	MCFG_MACHINE_START_OVERRIDE(toaplan2_state,toaplan2)
+	MCFG_MACHINE_RESET_OVERRIDE(toaplan2_state,toaplan2)
+
+	/* video hardware */
+	MCFG_SCREEN_ADD("screen", RASTER)
+	MCFG_SCREEN_VIDEO_ATTRIBUTES(VIDEO_UPDATE_BEFORE_VBLANK)
+	MCFG_SCREEN_RAW_PARAMS(XTAL_27MHz/4,432,0,320,262,0,240)
+	//MCFG_SCREEN_REFRESH_RATE(60)
+	//MCFG_SCREEN_SIZE(432, 262)
+	//MCFG_SCREEN_VISIBLE_AREA(0, 319, 0, 239)
+	MCFG_SCREEN_UPDATE_DRIVER(toaplan2_state, screen_update_toaplan2)
+	MCFG_SCREEN_VBLANK_DRIVER(toaplan2_state, screen_eof_toaplan2)
+	MCFG_SCREEN_PALETTE("palette")
+
+	MCFG_PALETTE_ADD("palette", T2PALETTE_LENGTH)
+	MCFG_PALETTE_FORMAT(xBBBBBGGGGGRRRRR)
+
+	MCFG_DEVICE_ADD("gp9001", GP9001_VDP, 0)
+	MCFG_GFX_PALETTE("palette")
+
+	MCFG_VIDEO_START_OVERRIDE(toaplan2_state,toaplan2)
+
+	/* sound hardware */
+	MCFG_SPEAKER_STANDARD_MONO("mono")
+
+	MCFG_SOUND_ADD("ymsnd", YM3812, XTAL_27MHz/8)
+	MCFG_SOUND_ROUTE(ALL_OUTPUTS, "mono", 1.0)
+MACHINE_CONFIG_END
+
+static MACHINE_CONFIG_START( whoopee, toaplan2_state )
+
+	/* basic machine hardware */
+	MCFG_CPU_ADD("maincpu", M68000, XTAL_10MHz)         /* 10MHz Oscillator */
+	MCFG_CPU_PROGRAM_MAP(whoopee_68k_mem)
+	MCFG_CPU_VBLANK_INT_DRIVER("screen", toaplan2_state,  toaplan2_vblank_irq4)
+
+
 
 	MCFG_MACHINE_START_OVERRIDE(toaplan2_state,toaplan2)
 	MCFG_MACHINE_RESET_OVERRIDE(toaplan2_state,toaplan2)
@@ -3177,6 +3267,22 @@ static MACHINE_CONFIG_START( tekipaki, toaplan2_state )
 	MCFG_SOUND_ROUTE(ALL_OUTPUTS, "mono", 1.0)
 MACHINE_CONFIG_END
 
+
+
+static MACHINE_CONFIG_DERIVED( tekipaki_mcu, tekipaki )
+
+	MCFG_CPU_ADD("audiocpu", Z180, XTAL_10MHz)          /* HD647180 CPU actually */
+	MCFG_CPU_PROGRAM_MAP(hd647180_mem_map)
+	MCFG_CPU_IO_MAP(hd647180_io_map)
+
+	MCFG_QUANTUM_TIME(attotime::from_hz(600)) // GUESSED
+
+	MCFG_DEVICE_REMOVE("ymsnd")
+
+	MCFG_SOUND_ADD("ymsnd", YM3812, XTAL_27MHz/8)
+	MCFG_YM3812_IRQ_HANDLER(INPUTLINE("audiocpu", 0))
+	MCFG_SOUND_ROUTE(ALL_OUTPUTS, "mono", 1.0)
+MACHINE_CONFIG_END
 
 static MACHINE_CONFIG_START( ghox, toaplan2_state )
 
@@ -4131,14 +4237,14 @@ ROM_START( tekipaki )
 	ROM_LOAD16_BYTE( "tp020-1.bin", 0x000000, 0x010000, CRC(d8420bd5) SHA1(30c1ad9e053cd7e79adb42aa428ebee28e144755) )
 	ROM_LOAD16_BYTE( "tp020-2.bin", 0x000001, 0x010000, CRC(7222de8e) SHA1(8352ae23efc24a2e20cc24b6d37cb8fc6b1a730c) )
 
-	ROM_REGION( 0x10000, "audiocpu", 0 )            /* Sound HD647180 code */
-	/* sound CPU is a HD647180 (Z180) with internal ROM - not yet supported */
-	ROM_LOAD( "hd647180.020", 0x00000, 0x08000, NO_DUMP )
+	ROM_REGION( 0x8000, "audiocpu", 0 )    /* Sound HD647180 code */
+	ROM_LOAD( "hd647180.020", 0x00000, 0x08000, CRC(d5157c12) SHA1(b2c6c087bb539456a9e562d0b40f05dde26cacd3) )
 
 	ROM_REGION( 0x100000, "gp9001", 0 )
 	ROM_LOAD( "tp020-4.bin", 0x000000, 0x080000, CRC(3ebbe41e) SHA1(cea196c5f83e1a23d5b538a0db9bbbffa7af5118) )
 	ROM_LOAD( "tp020-3.bin", 0x080000, 0x080000, CRC(2d5e2201) SHA1(5846c844eedd48305c1c67dc645b6e070b3f5b98) )
 ROM_END
+
 
 
 ROM_START( ghox ) /* Spinner with single axis (up/down) controls */
@@ -5493,7 +5599,7 @@ ROM_END
 // See list at top of file
 
 //  ( YEAR  NAME        PARENT    MACHINE   INPUT     INIT      MONITOR COMPANY    FULLNAME     FLAGS )
-GAME( 1991, tekipaki,   0,        tekipaki, tekipaki, driver_device, 0,        ROT0,   "Toaplan", "Teki Paki", MACHINE_NO_SOUND | MACHINE_SUPPORTS_SAVE )
+GAME( 1991, tekipaki,   0,        tekipaki_mcu, tekipaki, driver_device, 0,        ROT0,   "Toaplan", "Teki Paki", MACHINE_SUPPORTS_SAVE )
 
 GAME( 1991, ghox,       0,        ghox,     ghox, driver_device,     0,        ROT270, "Toaplan", "Ghox (spinner)", MACHINE_NO_SOUND | MACHINE_SUPPORTS_SAVE )
 GAME( 1991, ghoxj,      ghox,     ghox,     ghox, driver_device,     0,        ROT270, "Toaplan", "Ghox (joystick)", MACHINE_NO_SOUND | MACHINE_SUPPORTS_SAVE )
@@ -5512,7 +5618,7 @@ GAME( 1992, truxton2,   0,        truxton2, truxton2, driver_device, 0,        R
 GAME( 1991, pipibibs,   0,        pipibibs, pipibibs, driver_device, 0,        ROT0,   "Toaplan", "Pipi & Bibis / Whoopee!! (Z80 sound cpu, set 1)", MACHINE_SUPPORTS_SAVE )
 GAME( 1991, pipibibsa,  pipibibs, pipibibs, pipibibs, driver_device, 0,        ROT0,   "Toaplan", "Pipi & Bibis / Whoopee!! (Z80 sound cpu, set 2)", MACHINE_SUPPORTS_SAVE )
 GAME( 1991, pipibibsp,  pipibibs, pipibibs, pipibibsp, driver_device,0,        ROT0,   "Toaplan", "Pipi & Bibis / Whoopee!! (prototype)", MACHINE_SUPPORTS_SAVE )
-GAME( 1991, whoopee,    pipibibs, tekipaki, whoopee, driver_device,  0,        ROT0,   "Toaplan", "Pipi & Bibis / Whoopee!! (Teki Paki hardware)", MACHINE_NO_SOUND | MACHINE_SUPPORTS_SAVE ) // original Whoopee!! boards have a HD647180 instead of Z80
+GAME( 1991, whoopee,    pipibibs, whoopee,  whoopee, driver_device,  0,        ROT0,   "Toaplan", "Pipi & Bibis / Whoopee!! (Teki Paki hardware)", MACHINE_NO_SOUND | MACHINE_SUPPORTS_SAVE ) // original Whoopee!! boards have a HD647180 instead of Z80
 
 GAME( 1991, pipibibsbl, pipibibs, pipibibsbl, pipibibsbl, toaplan2_state, pipibibsbl, ROT0, "bootleg (Ryouta Kikaku)", "Pipi & Bibis / Whoopee!! (bootleg)", MACHINE_SUPPORTS_SAVE )
 
