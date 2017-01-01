@@ -7,7 +7,6 @@
 #define WINUI_H
 
 // standard Windows headers
-#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <windowsx.h>
 #include <commctrl.h>
@@ -56,7 +55,6 @@
 #include "properties.h"
 #include "winui_audit.h"
 #include "directories.h"
-#include "datafile.h"
 #include "datamap.h"
 #include "columnedit.h"
 #include "picker.h"
@@ -85,7 +83,7 @@
 #endif
 #define MAMENAME			"MAME"
 
-#define MAME_VERSION		"0.180"
+#define MAME_VERSION		"0.181"
 #define MAMEUIFX_VERSION	MAME_VERSION " (" __DATE__")"
 
 #define SEARCH_PROMPT		"<search here>"
