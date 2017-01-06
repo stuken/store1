@@ -488,8 +488,10 @@ static void RunMAME(int nGameIndex, const play_options *playopts)
 	mame_options::parse_standard_inis(mame_opts, error_string);
 	// load interface language
 	load_translation(mame_opts);
-	// start LUA engine
+	// start LUA engine & http server
+	manager->start_http_server();
 	manager->start_luaengine();
+	manager->start_context();
 
 	// set any specified play options
 	if (playopts != NULL)
