@@ -479,6 +479,7 @@ gyruss.cpp
 halleys.cpp
 hanaawas.cpp
 //hankin.cpp
+//hapyfish.cpp // too big to fit in memory
 harddriv.cpp
 //hazelgr.cpp
 hcastle.cpp
