@@ -210,7 +210,7 @@ static struct ComboBoxVideo
 } g_ComboBoxVideo[] =
 {
 	{ TEXT("Auto"),         "auto"   },
-	{ TEXT("GDI"),			"gdi"    },
+	{ TEXT("GDI"),          "gdi"    },
 	{ TEXT("Direct3D"),     "d3d"    },
 	{ TEXT("OpenGL"),       "opengl" },
 	{ TEXT("BGFX"),         "bgfx"   }
@@ -225,6 +225,8 @@ static struct ComboBoxSound
 {
 	{ TEXT("Auto"),         "auto"   },
 	{ TEXT("DirectSound"),  "dsound" },
+	{ TEXT("PortAudio"),    "portaudio" },
+//	{ TEXT("XAudio2"),      "xaudio2" },     // invalid option
 	{ TEXT("None"),         "none"   }
 };
 
@@ -234,10 +236,10 @@ static struct ComboBoxSampleRate
 	const int		m_pData;
 } g_ComboBoxSampleRate[] =
 {
-	{ TEXT("11025"),    	11025 },
-	{ TEXT("22050"),    	22050 },
-	{ TEXT("44100"),    	44100 },
-	{ TEXT("48000"),    	48000 }
+	{ TEXT("11025"), 11025 },
+	{ TEXT("22050"), 22050 },
+	{ TEXT("44100"), 44100 },
+	{ TEXT("48000"), 48000 }
 };
 
 static struct ComboBoxSelectScreen
