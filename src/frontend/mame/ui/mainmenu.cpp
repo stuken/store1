@@ -133,13 +133,13 @@ void menu_main::populate(float &customtop, float &custombottom)
 	if (mame_machine_manager::instance()->lua()->call_plugin_check<const char *>("data_list", "", true))
 		item_append(_("External DAT View"), "", 0, (void *)EXTERNAL_DATS);
 
-	item_append(menu_item_type::SEPARATOR);
+//	item_append(menu_item_type::SEPARATOR);
 
 	/* add favorite menu */
-	if (!mame_machine_manager::instance()->favorite().isgame_favorite())
-		item_append(_("Add To Favorites"), "", 0, (void *)ADD_FAVORITE);
-	else
-		item_append(_("Remove From Favorites"), "", 0, (void *)REMOVE_FAVORITE);
+//	if (!mame_machine_manager::instance()->favorite().isgame_favorite())
+//		item_append(_("Add To Favorites"), "", 0, (void *)ADD_FAVORITE);
+//	else
+//		item_append(_("Remove From Favorites"), "", 0, (void *)REMOVE_FAVORITE);
 
 	item_append(menu_item_type::SEPARATOR);
 

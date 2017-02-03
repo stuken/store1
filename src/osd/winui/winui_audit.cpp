@@ -142,9 +142,9 @@ static DWORD WINAPI AuditThreadProc(LPVOID hDlg)
 	return 0;
 }
 
-INT_PTR CALLBACK AuditWindowProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
+intptr_t CALLBACK AuditWindowProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (Msg)
+	switch (uMsg)
 	{
 		case WM_INITDIALOG:
 			hAudit = hDlg;
@@ -159,7 +159,7 @@ INT_PTR CALLBACK AuditWindowProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPar
 			SendMessage(GetDlgItem(hAudit, IDC_ROMS_PROGRESS), PBM_SETBARCOLOR, 0, RGB(85, 191, 132));
 			SendMessage(GetDlgItem(hAudit, IDC_ROMS_PROGRESS), PBM_SETBKCOLOR, 0, RGB(224, 224, 224));
 			SendMessage(GetDlgItem(hAudit, IDC_ROMS_PROGRESS), PBM_SETRANGE, 0, MAKELPARAM(0, driver_list::total()));
-			win_set_window_text_utf8(hAudit, "Checking games... Please wait...");
+			winui_set_window_text_utf8(hAudit, "Checking games... Please wait...");
 			hThread = CreateThread(NULL, 0, AuditThreadProc, hAudit, 0, 0);
 			return true;
 
@@ -221,9 +221,9 @@ INT_PTR CALLBACK AuditWindowProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPar
 	return false;
 }
 
-INT_PTR CALLBACK GameAuditDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
+intptr_t CALLBACK GameAuditDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (Msg)
+	switch (uMsg)
 	{
 		case WM_INITDIALOG:
 		{
@@ -233,7 +233,7 @@ INT_PTR CALLBACK GameAuditDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 			machine_config config(*game, MameUIGlobal());
 			char buffer[4096];
 			char details[4096];
-			UINT32 crctext = 0;
+			uint32_t crctext = 0;
 
 			memset(&buffer, 0, sizeof(buffer));
 			memset(&details, 0, sizeof(details));
@@ -248,7 +248,7 @@ INT_PTR CALLBACK GameAuditDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 			SetWindowTheme(GetDlgItem(hAudit, IDC_AUDIT_DETAILS_PROP), L" ", L" ");
 			SetWindowTheme(GetDlgItem(hAudit, IDC_ROM_DETAILS), L" ", L" ");
 			snprintf(tmp, WINUI_ARRAY_LENGTH(tmp), "Audit results for \"%s\"", GetDriverGameName(rom_index));
-			win_set_window_text_utf8(hAudit, tmp);
+			winui_set_window_text_utf8(hAudit, tmp);
 			int iStatus = MameUIVerifyRomSetFull(rom_index);
 
 			switch (iStatus)
@@ -267,7 +267,7 @@ INT_PTR CALLBACK GameAuditDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 
 			SendMessage(GetDlgItem(hAudit, IDC_AUDIT_ICON), STM_SETICON, (WPARAM)audit_icon, 0);
 			const char *lpStatus = StatusString(iStatus);
-			win_set_window_text_utf8(GetDlgItem(hAudit, IDC_PROP_ROMS), lpStatus);
+			winui_set_window_text_utf8(GetDlgItem(hAudit, IDC_PROP_ROMS), lpStatus);
 
 			if (DriverUsesSamples(rom_index))
 			{
@@ -280,7 +280,7 @@ INT_PTR CALLBACK GameAuditDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 				audit_samples = 2;
 			}
 
-			win_set_window_text_utf8(GetDlgItem(hAudit, IDC_PROP_SAMPLES), lpStatus);
+			winui_set_window_text_utf8(GetDlgItem(hAudit, IDC_PROP_SAMPLES), lpStatus);
 			strcpy(buffer, "NAME                SIZE      CRC\n");
 			strcat(buffer, "--------------------------------------\n");
 			strcat(details, buffer);
@@ -291,7 +291,7 @@ INT_PTR CALLBACK GameAuditDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 				{
 					for (const rom_entry *rom = rom_first_file(region); rom != nullptr; rom = rom_next_file(rom))
 					{
-						UINT32 crc = 0;
+						uint32_t crc = 0;
 
 						if (util::hash_collection(ROM_GETHASHDATA(rom)).crc(crc))
 							crctext = crc;
@@ -304,7 +304,7 @@ INT_PTR CALLBACK GameAuditDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 				}
 			}
 
-			win_set_window_text_utf8(GetDlgItem(hAudit, IDC_ROM_DETAILS), ConvertToWindowsNewlines(details));
+			winui_set_window_text_utf8(GetDlgItem(hAudit, IDC_ROM_DETAILS), ConvertToWindowsNewlines(details));
 			ShowWindow(hAudit, SW_SHOW);
 			return true;
 		}
@@ -393,32 +393,32 @@ static void ProcessNextRom(void)
 		case media_auditor::NONE_NEEDED:
 			roms_correct++;
 			snprintf(buffer, WINUI_ARRAY_LENGTH(buffer), "%d", roms_correct);
-			win_set_window_text_utf8(GetDlgItem(hAudit, IDC_ROMS_CORRECT), buffer);
+			winui_set_window_text_utf8(GetDlgItem(hAudit, IDC_ROMS_CORRECT), buffer);
 			break;
 
 		case media_auditor::NOTFOUND:
 			roms_notfound++;
 			snprintf(buffer, WINUI_ARRAY_LENGTH(buffer), "%d", roms_notfound);
-			win_set_window_text_utf8(GetDlgItem(hAudit, IDC_ROMS_NOTFOUND), buffer);
+			winui_set_window_text_utf8(GetDlgItem(hAudit, IDC_ROMS_NOTFOUND), buffer);
 			break;
 
 		case media_auditor::INCORRECT:
 			roms_incorrect++;
 			snprintf(buffer, WINUI_ARRAY_LENGTH(buffer), "%d", roms_incorrect);
-			win_set_window_text_utf8(GetDlgItem(hAudit, IDC_ROMS_INCORRECT), buffer);
+			winui_set_window_text_utf8(GetDlgItem(hAudit, IDC_ROMS_INCORRECT), buffer);
 			break;
 	}
 
 	snprintf(buffer, WINUI_ARRAY_LENGTH(buffer), "%d", roms_correct + roms_incorrect + roms_notfound);
-	win_set_window_text_utf8(GetDlgItem(hAudit, IDC_ROMS_TOTAL), buffer);
+	winui_set_window_text_utf8(GetDlgItem(hAudit, IDC_ROMS_TOTAL), buffer);
 	rom_index++;
 	SendMessage(GetDlgItem(hAudit, IDC_ROMS_PROGRESS), PBM_SETPOS, rom_index, 0);
 
 	if (rom_index == driver_list::total())
 	{
-		win_set_window_text_utf8(hAudit, "Audit process completed");
+		winui_set_window_text_utf8(hAudit, "Audit process completed");
 		DetailsPrintf("Audit completed.\n");
-		win_set_window_text_utf8(GetDlgItem(hAudit, IDCANCEL), "Close");
+		winui_set_window_text_utf8(GetDlgItem(hAudit, IDCANCEL), "Close");
 		rom_index = -1;
 	}
 }
@@ -445,7 +445,7 @@ static void DetailsPrintf(const char *fmt, ...)
 	va_start(marker, fmt);
 	vsnprintf(buffer, WINUI_ARRAY_LENGTH(buffer), fmt, marker);
 	va_end(marker);
-	TCHAR *t_s = win_wstring_from_utf8(ConvertToWindowsNewlines(buffer));
+	wchar_t *t_s = win_wstring_from_utf8(ConvertToWindowsNewlines(buffer));
 
 	if( !t_s || _tcscmp(TEXT(""), t_s) == 0)
 		return;

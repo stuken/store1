@@ -207,7 +207,7 @@ gamelist_options::gamelist_options()
 void gamelist_options::add_entries(void)
 {
 	options_entry entry[2] = { { 0 }, { 0 } };
-	entry[0].defvalue    = "-1,-1";
+	entry[0].defvalue    = "-1;-1";
 	entry[0].flags       = OPTION_STRING;
 	entry[0].description = nullptr;
 
@@ -242,7 +242,7 @@ osd_file::error gamelist_options::save_options(const std::string &filename)
 	emu_file file(OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS);
 
 	save_settings();
-	std::string inistring = std::string("\n#\n# GAMELIST CACHED VALUES\n#\n").append(m_info.output_ini().c_str());
+	std::string inistring = std::string("#\n# GAMELIST CACHED VALUES\n#\n").append(m_info.output_ini().c_str());
 	filerr = file.open(filename);
 
 	if (filerr == osd_file::error::NONE)
@@ -274,28 +274,40 @@ void gamelist_options::save_settings(void)
 
 	for (int i = 0; i < m_total; i++)
 	{
-		value_str = util::string_format("%d,%d,%d,%d", m_list[i].rom, m_list[i].cache, m_list[i].play_count, m_list[i].play_time);
+		value_str = util::string_format("%d;%d;%d;%d", m_list[i].rom, m_list[i].cache, m_list[i].play_count, m_list[i].play_time);
 		m_info.set_value(GetDriverGameName(i), value_str.c_str(), OPTION_PRIORITY_CMDLINE, error_string);
 	}
 }
 	
 void gamelist_options::load_settings(const char *str, int index)
 {
-	string_iterator value_str(str);
+	path_iterator path(str);
+	std::string curpath;
 	int value_int;
 
 	for (int i = 0; i < 4; i++)
 	{
-		if (value_str.next(','))
+		if (path.next(curpath))
 		{
-			if (value_str && (sscanf(value_str.c_str(), "%d", &value_int) == 1))
+			if (!curpath.empty() && (sscanf(curpath.c_str(), "%d", &value_int) == 1))
 			{
 				switch (i)
 				{
-					case 0:  m_list[index].rom        = value_int;  break;
-					case 1:  m_list[index].cache      = value_int;  break;
-					case 2:  m_list[index].play_count = value_int;  break;
-					case 3:  m_list[index].play_time  = value_int;  break;
+					case 0:
+						m_list[index].rom = value_int;
+						break;
+						
+					case 1:
+						m_list[index].cache = value_int;
+						break;
+						
+					case 2:
+						m_list[index].play_count = value_int;
+						break;
+						
+					case 3:
+						m_list[index].play_time = value_int;
+						break;
 				}
 			}
 		}
@@ -315,6 +327,10 @@ void OptionsInit(void)
 	game_opts.add_entries();
 	// now load the options and interface settings
 	LoadOptionsAndInterface();
+	// setup directory for datafiles in the Internal UI
+	SetDatsDir(GetDatsDir());
+	// save Internal UI options so they will be loaded updated at every game startup
+	SaveInternalUI();
 }
 
 const char * GetImageTabLongName(int tab_index)
@@ -387,30 +403,6 @@ static void options_set_color_default(winui_options &opts, const char *name, COL
 //============================================================
 //  OPTIONS CALLS
 //============================================================
-
-void SetEnableDatafiles(bool value)
-{
-//	std::string error_string;
-//	ui_opts.set_value(OPTION_DATS_ENABLED, value, OPTION_PRIORITY_CMDLINE, error_string);
-//	assert(error_string.empty());
-}
-
-bool GetEnableDatafiles(void)
-{
-	return true; //return ui_opts.bool_value(OPTION_DATS_ENABLED);
-}
-
-void SetSkipBiosMenu(bool value)
-{
-	std::string error_string;
-	ui_opts.set_value(OPTION_SKIP_BIOS_MENU, value, OPTION_PRIORITY_CMDLINE, error_string);
-	assert(error_string.empty());
-}
-
-bool GetSkipBiosMenu(void)
-{
-	return ui_opts.bool_value(OPTION_SKIP_BIOS_MENU);
-}
 
 void SetViewMode(int val)
 {
@@ -1434,6 +1426,7 @@ void SetDatsDir(const char *path)
 	winui_opts.set_value(MUIOPTION_DATS_DIRECTORY, path, OPTION_PRIORITY_CMDLINE, error_string);
 	ui_opts.set_value(OPTION_HISTORY_PATH, path, OPTION_PRIORITY_CMDLINE, error_string);
 	assert(error_string.empty());
+	SaveInternalUI();	// ensure we store again the new dats dir for the core
 }
 
 const char * GetScoresDir(void)
@@ -1670,7 +1663,7 @@ static void SetUIJoy(const char *option_name, int joycodeIndex, int val)
 	joycodes[joycodeIndex] = val;
 	ColumnEncodeStringWithCount(joycodes, buffer, WINUI_ARRAY_LENGTH(joycodes));
 	std::string error_string;
-	winui_opts.set_value(option_name, buffer, OPTION_PRIORITY_CMDLINE,error_string);
+	winui_opts.set_value(option_name, buffer, OPTION_PRIORITY_CMDLINE, error_string);
 	assert(error_string.empty());
 }
 
@@ -1798,16 +1791,16 @@ void SetUIJoyHistoryDown(int joycodeIndex, int val)
     Internal functions
  ***************************************************************************/
 
-static void  CusColorEncodeString(const COLORREF *value, char* str)
+static void CusColorEncodeString(const COLORREF *value, char* str)
 {
 	char tmpStr[256];
 
-	snprintf(tmpStr, WINUI_ARRAY_LENGTH(tmpStr), "%u", (unsigned) value[0]);
+	snprintf(tmpStr, WINUI_ARRAY_LENGTH(tmpStr), "%d", (int)value[0]);
 	strcpy(str, tmpStr);
 
 	for (int i = 1; i < 16; i++)
 	{
-		snprintf(tmpStr, WINUI_ARRAY_LENGTH(tmpStr), ",%u", (unsigned) value[i]);
+		snprintf(tmpStr, WINUI_ARRAY_LENGTH(tmpStr), ",%d", (int)value[i]);
 		strcat(str, tmpStr);
 	}
 }
@@ -1842,7 +1835,7 @@ void ColumnEncodeStringWithCount(const int *value, char *str, int count)
 
     for (int i = 1; i < count; i++)
 	{
-		snprintf(buffer, WINUI_ARRAY_LENGTH(buffer),",%d", value[i]);
+		snprintf(buffer, WINUI_ARRAY_LENGTH(buffer), ",%d", value[i]);
 		strcat(str, buffer);
 	}
 }
@@ -1924,7 +1917,7 @@ static void FontDecodeString(const char *str, LOGFONT *f)
 
 	if (ptr != NULL) 
 	{
-		TCHAR *t_ptr = win_wstring_from_utf8(ptr + 1);
+		wchar_t *t_ptr = win_wstring_from_utf8(ptr + 1);
 
 		if(!t_ptr)
 			return;
@@ -1944,20 +1937,20 @@ static void FontEncodeString(const LOGFONT *f, char *str)
 		return;
 
 	snprintf(tmp, WINUI_ARRAY_LENGTH(tmp), "%li,%li,%li,%li,%li,%i,%i,%i,%i,%i,%i,%i,%i,%s",
-			f->lfHeight,
-			f->lfWidth,
-			f->lfEscapement,
-			f->lfOrientation,
-			f->lfWeight,
-			f->lfItalic,
-			f->lfUnderline,
-			f->lfStrikeOut,
-			f->lfCharSet,
-			f->lfOutPrecision,
-			f->lfClipPrecision,
-			f->lfQuality,
-			f->lfPitchAndFamily,
-			utf8_FaceName);
+		f->lfHeight,
+		f->lfWidth,
+		f->lfEscapement,
+		f->lfOrientation,
+		f->lfWeight,
+		f->lfItalic,
+		f->lfUnderline,
+		f->lfStrikeOut,
+		f->lfCharSet,
+		f->lfOutPrecision,
+		f->lfClipPrecision,
+		f->lfQuality,
+		f->lfPitchAndFamily,
+		utf8_FaceName);
 	strcpy(str, tmp);
 	free(utf8_FaceName);
 }
@@ -2403,12 +2396,6 @@ void SaveInterface(void)
 	SaveInterfaceFile(winui_opts, filename);
 }
 
-void LoadInternalUI(void)
-{
-	std::string uiname = std::string(GetIniDir()).append(PATH_SEPARATOR).append(INTERNAL_UI_INI_FILENAME).append(".ini");
-	LoadInternalUIFile(ui_opts, uiname);
-}
-
 void SaveInternalUI(void)
 {
 	std::string filename = std::string(GetIniDir()).append(PATH_SEPARATOR).append(INTERNAL_UI_INI_FILENAME).append(".ini");
@@ -2469,7 +2456,7 @@ void ResetAllGameOptions(void)
 	std::string pathname = std::string(GetIniDir()).append(PATH_SEPARATOR).append("source");
 	std::string match = std::string(pathname.c_str()).append(PATH_SEPARATOR).append("*.ini");
 
-	if ((hFindFile = win_find_first_file_utf8(match.c_str(), &FindFileData)) != INVALID_HANDLE_VALUE)
+	if ((hFindFile = winui_find_first_file_utf8(match.c_str(), &FindFileData)) != INVALID_HANDLE_VALUE)
 	{
 		char *utf8_filename = win_utf8_from_wstring(FindFileData.cFileName);
 		std::string match = std::string(pathname.c_str()).append(PATH_SEPARATOR).append(utf8_filename);

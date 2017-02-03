@@ -23,7 +23,7 @@ struct PickerCallbacks
 	void (*pfnGetColumnShown)(int shown[]);
 	int (*pfnCompare)(HWND hWndPicker, int nIndex1, int nIndex2, int nSortSubItem);
 	void (*pfnDoubleClick)(void);
-	const TCHAR *(*pfnGetItemString)(HWND hWndPicker, int nItem, int nColumn, TCHAR *pszBuffer, UINT nBufferLength);
+	const wchar_t *(*pfnGetItemString)(HWND hWndPicker, int nItem, int nColumn, wchar_t *pszBuffer, UINT nBufferLength);
 	int (*pfnGetItemImage)(HWND hWndPicker, int nItem);
 	void (*pfnLeavingItem)(HWND hWndPicker, int nItem);
 	void (*pfnEnteringItem)(HWND hWndPicker, int nItem);
@@ -39,7 +39,7 @@ struct PickerOptions
 {
 	const struct PickerCallbacks *pCallbacks;
 	int nColumnCount;
-	const TCHAR* const *ppszColumnNames;
+	const wchar_t* const *ppszColumnNames;
 };
 
 enum
@@ -71,6 +71,6 @@ bool Picker_HandleNotify(LPNMHDR lpNmHdr);
 // Accessors
 const struct PickerCallbacks *Picker_GetCallbacks(HWND hWndPicker);
 int Picker_GetColumnCount(HWND hWndPicker);
-const TCHAR* const *Picker_GetColumnNames(HWND hWndPicker);
+const wchar_t* const *Picker_GetColumnNames(HWND hWndPicker);
 
 #endif

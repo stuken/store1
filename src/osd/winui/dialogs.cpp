@@ -5,7 +5,7 @@
 
 static struct ComboBoxHistoryTab
 {
-	const TCHAR*	m_pText;
+	const wchar_t*	m_pText;
 	const int		m_pData;
 } g_ComboBoxHistoryTab[] = 
 {
@@ -29,7 +29,7 @@ static struct ComboBoxHistoryTab
 	{ TEXT("None"),				TAB_NONE }
 };
 
-static std::string g_FilterText;
+static char g_FilterText[FILTERTEXT_LEN];
 
 /* Pairs of filters that exclude each other */
 static DWORD filterExclusion[NUM_EXCLUSIONS] =
@@ -45,7 +45,7 @@ static void DisableFilterControls(HWND hWnd, LPCFOLDERDATA lpFilterRecord, LPCFI
 static void EnableFilterExclusions(HWND hWnd, DWORD dwCtrlID);
 static DWORD ValidateFilters(LPCFOLDERDATA lpFilterRecord, DWORD dwFlags);
 static void OnHScroll(HWND hWnd, HWND hWndCtl, UINT code, int pos);
-static UINT_PTR CALLBACK CCHookProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam);
+static uintptr_t CALLBACK CCHookProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 static void DisableVisualStylesInterface(HWND hDlg);
 static void DisableVisualStylesReset(HWND hDlg);
 static void DisableVisualStylesFilters(HWND hDlg);
@@ -65,12 +65,12 @@ static int driver_index = 0;
 
 const char * GetFilterText(void)
 {
-	return g_FilterText.c_str();
+	return g_FilterText;
 }
 
-INT_PTR CALLBACK ResetDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
+intptr_t CALLBACK ResetDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (Msg)
+	switch (uMsg)
 	{
 		case WM_INITDIALOG:
 			CenterWindow(hDlg);
@@ -131,7 +131,7 @@ INT_PTR CALLBACK ResetDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPar
 
 						strcat(temp, "\nDo you wish to continue?");
 
-						if (win_message_box_utf8(hDlg, temp, "Restore settings", MB_ICONQUESTION | MB_YESNO) == IDYES)
+						if (winui_message_box_utf8(hDlg, temp, "Restore settings", MB_ICONQUESTION | MB_YESNO) == IDYES)
 						{
 							DestroyIcon(hIcon);
 							DeleteObject(hBrush);
@@ -181,17 +181,17 @@ INT_PTR CALLBACK ResetDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPar
 	return false;
 }
 
-static UINT_PTR CALLBACK CCHookProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
+static uintptr_t CALLBACK CCHookProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 
-	switch (Msg)
+	switch (uMsg)
 	{
 		case WM_INITDIALOG:
 			CenterWindow(hDlg);
 			hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_MAMEUI_ICON));
 			SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
 			hBrush = CreateSolidBrush(RGB(240, 240, 240));
-			win_set_window_text_utf8(hDlg, "Choose a color");
+			winui_set_window_text_utf8(hDlg, "Choose a color");
 			break;
 
 		case WM_CTLCOLORDLG:
@@ -212,10 +212,10 @@ static UINT_PTR CALLBACK CCHookProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM l
 	return false;
 }
 
-INT_PTR CALLBACK InterfaceDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
+intptr_t CALLBACK InterfaceDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 
-	switch (Msg)
+	switch (uMsg)
 	{
 		case WM_INITDIALOG:
 		{
@@ -235,15 +235,13 @@ INT_PTR CALLBACK InterfaceDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 			Button_SetCheck(GetDlgItem(hDlg, IDC_FILTER_INHERIT), GetFilterInherit());
 			Button_SetCheck(GetDlgItem(hDlg, IDC_ENABLE_FASTAUDIT), GetEnableFastAudit());
 			Button_SetCheck(GetDlgItem(hDlg, IDC_ENABLE_SEVENZIP), GetEnableSevenZip());
-			Button_SetCheck(GetDlgItem(hDlg, IDC_ENABLE_DATAFILES), GetEnableDatafiles());
-			Button_SetCheck(GetDlgItem(hDlg, IDC_SKIP_BIOS), GetSkipBiosMenu());
 			// Get the current value of the control
 			SendMessage(GetDlgItem(hDlg, IDC_CYCLETIMESEC), TBM_SETRANGE, true, MAKELPARAM(0, 60)); /* [0, 60] */
 			SendMessage(GetDlgItem(hDlg, IDC_CYCLETIMESEC), TBM_SETTICFREQ, 5, 0);
 			value = GetCycleScreenshot();
 			SendMessage(GetDlgItem(hDlg, IDC_CYCLETIMESEC), TBM_SETPOS, true, value);
 			snprintf(buffer, WINUI_ARRAY_LENGTH(buffer), "%d", value);		
-			win_set_window_text_utf8(GetDlgItem(hDlg, IDC_CYCLETIMESECTXT), buffer);
+			winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_CYCLETIMESECTXT), buffer);
 
 			for (int i = 0; i < NUMHISTORYTAB; i++)
 			{
@@ -261,7 +259,7 @@ INT_PTR CALLBACK InterfaceDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 			value = GetScreenshotBorderSize();
 			SendMessage(GetDlgItem(hDlg, IDC_SCREENSHOT_BORDERSIZE), TBM_SETPOS, true, value);
 			snprintf(buffer, WINUI_ARRAY_LENGTH(buffer), "%d", value);		
-			win_set_window_text_utf8(GetDlgItem(hDlg, IDC_SCREENSHOT_BORDERSIZETXT), buffer);
+			winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_SCREENSHOT_BORDERSIZETXT), buffer);
 			EnableWindow(GetDlgItem(hDlg, IDC_ENABLE_SEVENZIP), GetEnableFastAudit() ? true : false);
 			break;
 		}
@@ -327,8 +325,6 @@ INT_PTR CALLBACK InterfaceDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 					SetExitDialog(Button_GetCheck(GetDlgItem(hDlg, IDC_EXIT_DIALOG)));
 					SetEnableFastAudit(Button_GetCheck(GetDlgItem(hDlg, IDC_ENABLE_FASTAUDIT)));
 					SetEnableSevenZip(Button_GetCheck(GetDlgItem(hDlg, IDC_ENABLE_SEVENZIP)));
-					SetEnableDatafiles(Button_GetCheck(GetDlgItem(hDlg, IDC_ENABLE_DATAFILES)));
-					SetSkipBiosMenu(Button_GetCheck(GetDlgItem(hDlg, IDC_SKIP_BIOS)));
 
 					if (Button_GetCheck(GetDlgItem(hDlg, IDC_RESET_PLAYCOUNT)))
 					{
@@ -428,9 +424,9 @@ INT_PTR CALLBACK InterfaceDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM 
 	return false;
 }
 
-INT_PTR CALLBACK FilterDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
+intptr_t CALLBACK FilterDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (Msg)
+	switch (uMsg)
 	{
 		case WM_INITDIALOG:
 		{
@@ -447,13 +443,13 @@ INT_PTR CALLBACK FilterDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPa
 			if (folder != NULL)
 			{
 				char tmp[80];
-				win_set_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_EDIT), g_FilterText.c_str());
+				winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_EDIT), g_FilterText);
 				Edit_SetSel(GetDlgItem(hDlg, IDC_FILTER_EDIT), 0, -1);
 				// Mask out non filter flags
 				dwFilters = folder->m_dwFlags & F_MASK;
 				// Display current folder name in dialog titlebar
 				snprintf(tmp, WINUI_ARRAY_LENGTH(tmp), "Filters for %s folder", folder->m_lpTitle);
-				win_set_window_text_utf8(hDlg, tmp);
+				winui_set_window_text_utf8(hDlg, tmp);
 
 				if (GetFilterInherit())
 				{
@@ -462,7 +458,7 @@ INT_PTR CALLBACK FilterDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPa
 
 					if (lpParent)
 					{
-						std::string strText;
+						char strText[24];
 						/* Check the Parent Filters and inherit them on child,
 						* No need to promote all games to parent folder, works as is */
 						dwpFilters = lpParent->m_dwFlags & F_MASK;
@@ -471,90 +467,90 @@ INT_PTR CALLBACK FilterDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPa
 						if ((dwpFilters & F_CLONES) && !(dwFilters & F_CLONES))
 						{
 							/*Add a Specifier to the Checkbox to show it was inherited from the parent*/
-							strText = win_get_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_CLONES));
-							strText.append(" (*)");
-							win_set_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_CLONES), strText.c_str());
+							winui_get_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_CLONES), strText, 20);
+							strcat(strText, " (*)");
+							winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_CLONES), strText);
 							bShowExplanation = true;
 						}
 
 						if ((dwpFilters & F_NONWORKING) && !(dwFilters & F_NONWORKING))
 						{
 							/*Add a Specifier to the Checkbox to show it was inherited from the parent*/
-							strText = win_get_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_NONWORKING));
-							strText.append(" (*)");
-							win_set_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_NONWORKING), strText.c_str());
+							winui_get_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_NONWORKING), strText, 20);
+							strcat(strText, " (*)");
+							winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_NONWORKING), strText);
 							bShowExplanation = true;
 						}
 
 						if ((dwpFilters & F_UNAVAILABLE) && !(dwFilters & F_UNAVAILABLE))
 						{
 							/*Add a Specifier to the Checkbox to show it was inherited from the parent*/
-							strText = win_get_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_UNAVAILABLE));
-							strText.append(" (*)");
-							win_set_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_UNAVAILABLE), strText.c_str());
+							winui_get_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_UNAVAILABLE), strText, 20);
+							strcat(strText, " (*)");
+							winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_UNAVAILABLE), strText);
 							bShowExplanation = true;
 						}
 
 						if ((dwpFilters & F_VECTOR) && !(dwFilters & F_VECTOR))
 						{
 							/*Add a Specifier to the Checkbox to show it was inherited from the parent*/
-							strText = win_get_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_VECTOR));
-							strText.append(" (*)");
-							win_set_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_VECTOR), strText.c_str());
+							winui_get_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_VECTOR), strText, 20);
+							strcat(strText, " (*)");
+							winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_VECTOR), strText);
 							bShowExplanation = true;
 						}
 
 						if ((dwpFilters & F_RASTER) && !(dwFilters & F_RASTER))
 						{
 							/*Add a Specifier to the Checkbox to show it was inherited from the parent*/
-							strText = win_get_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_RASTER));
-							strText.append(" (*)");
-							win_set_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_RASTER), strText.c_str());
+							winui_get_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_RASTER), strText, 20);
+							strcat(strText, " (*)");
+							winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_RASTER), strText);
 							bShowExplanation = true;
 						}
 
 						if ((dwpFilters & F_ORIGINALS) && !(dwFilters & F_ORIGINALS))
 						{
 							/*Add a Specifier to the Checkbox to show it was inherited from the parent*/
-							strText = win_get_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_ORIGINALS));
-							strText.append(" (*)");
-							win_set_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_ORIGINALS), strText.c_str());
+							winui_get_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_ORIGINALS), strText, 20);
+							strcat(strText, " (*)");
+							winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_ORIGINALS), strText);
 							bShowExplanation = true;
 						}
 
 						if ((dwpFilters & F_WORKING) && !(dwFilters & F_WORKING))
 						{
 							/*Add a Specifier to the Checkbox to show it was inherited from the parent*/
-							strText = win_get_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_WORKING));
-							strText.append(" (*)");
-							win_set_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_WORKING), strText.c_str());
+							winui_get_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_WORKING), strText, 20);
+							strcat(strText, " (*)");
+							winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_WORKING), strText);
 							bShowExplanation = true;
 						}
 
 						if ((dwpFilters & F_AVAILABLE) && !(dwFilters & F_AVAILABLE))
 						{
 							/*Add a Specifier to the Checkbox to show it was inherited from the parent*/
-							strText = win_get_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_AVAILABLE));
-							strText.append(" (*)");
-							win_set_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_AVAILABLE), strText.c_str());
+							winui_get_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_AVAILABLE), strText, 20);
+							strcat(strText, " (*)");
+							winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_AVAILABLE), strText);
 							bShowExplanation = true;
 						}
 
 						if ((dwpFilters & F_HORIZONTAL) && !(dwFilters & F_HORIZONTAL))
 						{
 							/*Add a Specifier to the Checkbox to show it was inherited from the parent*/
-							strText = win_get_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_HORIZONTAL));
-							strText.append(" (*)");
-							win_set_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_HORIZONTAL), strText.c_str());
+							winui_get_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_HORIZONTAL), strText, 20);
+							strcat(strText, " (*)");
+							winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_HORIZONTAL), strText);
 							bShowExplanation = true;
 						}
 
 						if ((dwpFilters & F_VERTICAL) && !(dwFilters & F_VERTICAL))
 						{
 							/*Add a Specifier to the Checkbox to show it was inherited from the parent*/
-							strText = win_get_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_VERTICAL));
-							strText.append(" (*)");
-							win_set_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_VERTICAL), strText.c_str());
+							winui_get_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_VERTICAL), strText, 20);
+							strcat(strText, " (*)");
+							winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_VERTICAL), strText);
 							bShowExplanation = true;
 						}
 						/*Do not or in the Values of the parent, so that the values of the folder still can be set*/
@@ -606,7 +602,7 @@ INT_PTR CALLBACK FilterDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPa
 			{
 				case IDOK:
 					dwFilters = 0;
-					g_FilterText = win_get_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_EDIT));
+					winui_get_window_text_utf8(GetDlgItem(hDlg, IDC_FILTER_EDIT), g_FilterText, FILTERTEXT_LEN);
 
 					// see which buttons are checked
 					for (int i = 0; g_lpFilterList[i].m_dwFilterType; i++)
@@ -645,9 +641,9 @@ INT_PTR CALLBACK FilterDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPa
 	return false;
 }
 
-INT_PTR CALLBACK AboutDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
+intptr_t CALLBACK AboutDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (Msg)
+	switch (uMsg)
 	{
 		case WM_INITDIALOG:
 		{
@@ -663,9 +659,9 @@ INT_PTR CALLBACK AboutDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPar
 			SetWindowFont(GetDlgItem(hDlg, IDC_TEXT3), hFont, true);
 			SetWindowFont(GetDlgItem(hDlg, IDC_TEXT4), hFont, true);
 			SetWindowFont(GetDlgItem(hDlg, IDC_SICKFX), hFontFX, true);
-			win_set_window_text_utf8(GetDlgItem(hDlg, IDC_BUILD), "Build time: " __DATE__" - " __TIME__"");
+			winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_BUILD), "Build time: " __DATE__" - " __TIME__"");
 			snprintf(tmp, WINUI_ARRAY_LENGTH(tmp), "Version: %s", MAME_VERSION);
-			win_set_window_text_utf8(GetDlgItem(hDlg, IDC_BUILDVER), tmp);
+			winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_BUILDVER), tmp);
 			return true;
 		}
 
@@ -701,9 +697,9 @@ INT_PTR CALLBACK AboutDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPar
 	return false;
 }
 
-INT_PTR CALLBACK AddCustomFileDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
+intptr_t CALLBACK AddCustomFileDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (Msg)
+	switch (uMsg)
 	{
 		case WM_INITDIALOG:
 		{
@@ -782,7 +778,7 @@ INT_PTR CALLBACK AddCustomFileDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPA
 				}
 			}
 
-			win_set_window_text_utf8(GetDlgItem(hDlg, IDC_CUSTOMFILE_GAME), GetDriverGameTitle(driver_index));
+			winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_CUSTOMFILE_GAME), GetDriverGameTitle(driver_index));
 			return true;
 		}
 
@@ -915,13 +911,13 @@ static void OnHScroll(HWND hWnd, HWND hWndCtl, UINT code, int pos)
 	{
 		value = SendMessage(GetDlgItem(hWnd, IDC_CYCLETIMESEC), TBM_GETPOS, 0, 0);
 		snprintf(tmp, WINUI_ARRAY_LENGTH(tmp), "%d", value);
-		win_set_window_text_utf8(GetDlgItem(hWnd, IDC_CYCLETIMESECTXT), tmp);
+		winui_set_window_text_utf8(GetDlgItem(hWnd, IDC_CYCLETIMESECTXT), tmp);
 	}
 	else if (hWndCtl == GetDlgItem(hWnd, IDC_SCREENSHOT_BORDERSIZE))
 	{
 		value = SendMessage(GetDlgItem(hWnd, IDC_SCREENSHOT_BORDERSIZE), TBM_GETPOS, 0, 0);
 		snprintf(tmp, WINUI_ARRAY_LENGTH(tmp), "%d", value);
-		win_set_window_text_utf8(GetDlgItem(hWnd, IDC_SCREENSHOT_BORDERSIZETXT), tmp);
+		winui_set_window_text_utf8(GetDlgItem(hWnd, IDC_SCREENSHOT_BORDERSIZETXT), tmp);
 	}
 }
 
@@ -935,8 +931,6 @@ static void DisableVisualStylesInterface(HWND hDlg)
 	SetWindowTheme(GetDlgItem(hDlg, IDC_DISPLAY_NO_ROMS), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_ENABLE_FASTAUDIT), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_ENABLE_SEVENZIP), L" ", L" ");
-	SetWindowTheme(GetDlgItem(hDlg, IDC_ENABLE_DATAFILES), L" ", L" ");
-	SetWindowTheme(GetDlgItem(hDlg, IDC_SKIP_BIOS), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_HISTORY_TAB), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_RESET_PLAYCOUNT), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_RESET_PLAYTIME), L" ", L" ");

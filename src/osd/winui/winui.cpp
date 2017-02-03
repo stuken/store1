@@ -119,9 +119,9 @@ static void ButtonUpListViewDrag(POINTS p);
 static void CalculateBestScreenShotRect(HWND hWnd, RECT *pRect, bool restrict_height);
 static void SwitchFullScreenMode(void);
 static LRESULT CALLBACK MameWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-static INT_PTR CALLBACK StartupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-static UINT_PTR CALLBACK HookProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam);
-static UINT_PTR CALLBACK OFNHookProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
+static intptr_t CALLBACK StartupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+static uintptr_t CALLBACK HookProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+static uintptr_t CALLBACK OFNHookProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 static char* ConvertAmpersandString(const char *s);
 
 enum
@@ -143,10 +143,10 @@ static void SaveGameListToFile(char *szFile, int filetype);
  */
 typedef struct
 {
-	BYTE bWidth;               /* Width of the image */
-	BYTE bHeight;              /* Height of the image (times 2) */
-	BYTE bColorCount;          /* Number of colors in image (0 if >=8bpp) */
-	BYTE bReserved;            /* Reserved */
+	uint8_t bWidth;               /* Width of the image */
+	uint8_t bHeight;              /* Height of the image (times 2) */
+	uint8_t bColorCount;          /* Number of colors in image (0 if >=8bpp) */
+	uint8_t bReserved;            /* Reserved */
 	WORD wPlanes;              /* Color Planes */
 	WORD wBitCount;            /* Bits per pixel */
 	DWORD dwBytesInRes;        /* how many bytes in this resource? */
@@ -187,7 +187,7 @@ static void ResizeWindow(HWND hParent, Resize *r);
     Internal variables
  ***************************************************************************/
  
-static TCHAR g_szPlayGameString[] = TEXT("Play %s\tAlt+O");
+static wchar_t g_szPlayGameString[] = TEXT("Play %s\tAlt+O");
 static char g_szGameCountString[] = "%d Games";
 static HWND hMain = NULL;
 static HWND	hSplash = NULL;
@@ -331,7 +331,7 @@ static const TBBUTTON tbb[] =
 	{0, 0,                    	TBSTATE_ENABLED, BTNS_SEP,        {0, 0}, 0, 0}
 };
 
-static const TCHAR szTbStrings[NUM_TOOLTIPS][30] =
+static const wchar_t szTbStrings[NUM_TOOLTIPS][30] =
 {
 	TEXT("Toggle folders list"),
 	TEXT("Toggle pictures area"),
@@ -401,9 +401,9 @@ static ResizeItem main_resize_items[] =
 static Resize main_resize = { {0, 0, 0, 0}, main_resize_items };
 
 /* last directory for common file dialogs */
-static TCHAR last_directory[MAX_PATH] = TEXT(".");
+static wchar_t last_directory[MAX_PATH] = TEXT(".");
 /* Last directory for Save Game or ROMs List dialogs */
-static TCHAR list_directory[MAX_PATH] = TEXT(".");
+static wchar_t list_directory[MAX_PATH] = TEXT(".");
 static bool g_listview_dragging = false;
 static HIMAGELIST himl_drag = NULL;
 static int game_dragged = 0; 					/* which game started the drag */
@@ -419,7 +419,7 @@ static srcdriver_data_type *sorted_srcdrivers = NULL;
 static NOTIFYICONDATA MameIcon;
 
 /* List view Column text */
-extern const TCHAR* const column_names[COLUMN_MAX] =
+extern const wchar_t* const column_names[COLUMN_MAX] =
 {
 	TEXT("Description"),
 	TEXT("ROM name"),
@@ -449,7 +449,7 @@ public:
 				winwindow_toggle_full_screen();
 
 			vsnprintf(buffer, WINUI_ARRAY_LENGTH(buffer), msg, args);
-			win_message_box_utf8(!osd_common_t::s_window_list.empty() ? std::static_pointer_cast<win_window_info>(osd_common_t::s_window_list.front())->platform_window() : nullptr, buffer, MAMEUINAME, MB_ICONERROR | MB_OK);
+			winui_message_box_utf8(!osd_common_t::s_window_list.empty() ? std::static_pointer_cast<win_window_info>(osd_common_t::s_window_list.front())->platform_window() : nullptr, buffer, MAMEUINAME, MB_ICONERROR | MB_OK);
 		}
 		else
 			chain_output(channel, msg, args);
@@ -482,8 +482,6 @@ static void RunMAME(int nGameIndex, const play_options *playopts)
 	mame_options::set_system_name(mame_opts, GetDriverGameName(nGameIndex));
 	// set all needed paths
 	SetDirectories(mame_opts);
-	// load internal UI options
-	LoadInternalUI();
 	// parse all INI files
 	mame_options::parse_standard_inis(mame_opts, error_string);
 	// load interface language
@@ -523,10 +521,11 @@ static void RunMAME(int nGameIndex, const play_options *playopts)
 	manager->execute();
 	// end played time
 	time(&end);
+	// free the structure
+	global_free(manager);
 	// remove any existing device options because they leak memory
 	mame_options::remove_device_options(mame_opts);
 	osd_output::pop(&winerror);
-	global_free(manager);
 	// Calc the duration
 	double elapsedtime = end - start;
 	// Increment our playtime
@@ -548,7 +547,7 @@ int MameUIMain(HINSTANCE hInstance, LPWSTR lpCmdLine)
 		/* convert arguments to UTF-8 */
 		for (int i = 0; i < __argc; i++)
 		{
-			argv_vectors[i] = osd::text::from_tstring(__targv[i]);
+			argv_vectors[i] = win_utf8_from_wstring(__targv[i]);
 			utf8_argv[i] = (char *) argv_vectors[i].c_str();
 		}
 
@@ -740,9 +739,9 @@ HICON LoadIconFromFile(const char *iconname)
 	util::archive_file::ptr zip;
 
 	tmpStr = std::string(GetIconsDir()).append(PATH_SEPARATOR).append(iconname).append(".ico");
-	HANDLE hFind = win_find_first_file_utf8(tmpStr.c_str(), &FindFileData);
+	HANDLE hFind = winui_find_first_file_utf8(tmpStr.c_str(), &FindFileData);
 	
-	if (hFind == INVALID_HANDLE_VALUE || (hIcon = win_extract_icon_utf8(hInst, tmpStr.c_str(), 0)) == 0)
+	if (hFind == INVALID_HANDLE_VALUE || (hIcon = winui_extract_icon_utf8(hInst, tmpStr.c_str(), 0)) == 0)
 	{
 		std::string tmpIcoName;
 
@@ -1072,7 +1071,7 @@ static void SetMainTitle(void)
 	char buffer[256];
 
 	snprintf(buffer, WINUI_ARRAY_LENGTH(buffer), "%s %s", MAMEUINAME, GetVersionString());
-	win_set_window_text_utf8(hMain, buffer);
+	winui_set_window_text_utf8(hMain, buffer);
 }
 
 static void memory_error(const char *message)
@@ -1093,9 +1092,9 @@ static void Win32UI_init(void)
 	OptionsInit();
 
 	if (GetRequiredDriverCacheStatus())
-		win_set_window_text_utf8(GetDlgItem(hSplash, IDC_PROGBAR), "Building folders structure...");
+		winui_set_window_text_utf8(GetDlgItem(hSplash, IDC_PROGBAR), "Building folders structure...");
 	else
-		win_set_window_text_utf8(GetDlgItem(hSplash, IDC_PROGBAR), "Loading folders structure...");
+		winui_set_window_text_utf8(GetDlgItem(hSplash, IDC_PROGBAR), "Loading folders structure...");
 
 	srand((unsigned)time(NULL));
 	// create the memory pool
@@ -1181,11 +1180,11 @@ static void Win32UI_init(void)
 	CheckMenuItem(GetMenu(hMain), ID_ENABLE_INDENT, (bEnableIndent) ? MF_CHECKED : MF_UNCHECKED);
 	ToolBar_CheckButton(hToolBar, ID_ENABLE_INDENT, (bEnableIndent) ? MF_CHECKED : MF_UNCHECKED);
 	InitTree(g_folderData, g_filterList);
-	win_set_window_text_utf8(GetDlgItem(hSplash, IDC_PROGBAR), "Building list structure...");
+	winui_set_window_text_utf8(GetDlgItem(hSplash, IDC_PROGBAR), "Building list structure...");
 	/* Initialize listview columns */
 	InitListView();
 	SendMessage(hProgress, PBM_SETPOS, 120, 0);
-	win_set_window_text_utf8(GetDlgItem(hSplash, IDC_PROGBAR), "Initializing window...");
+	winui_set_window_text_utf8(GetDlgItem(hSplash, IDC_PROGBAR), "Initializing window...");
 	ResetFonts();
 	AdjustMetrics();
 	UpdateScreenShot();
@@ -1399,7 +1398,7 @@ static LRESULT CALLBACK MameWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 		case WM_CLOSE:
 			if (GetExitDialog())
 			{
-				if (win_message_box_utf8(hMain, "Are you sure you want to quit?", MAMEUINAME, MB_ICONQUESTION | MB_YESNO) == IDNO)
+				if (winui_message_box_utf8(hMain, "Are you sure you want to quit?", MAMEUINAME, MB_ICONQUESTION | MB_YESNO) == IDNO)
 				{
 					SetFocus(hWndList);
 					return true;
@@ -1439,7 +1438,7 @@ static LRESULT CALLBACK MameWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 			/* Where is this message intended to go */
 			{
 				LPNMHDR lpNmHdr = (LPNMHDR)lParam;
-				TCHAR szClass[128];
+				wchar_t szClass[128];
 
 				/* Fetch tooltip text */
 				if (lpNmHdr->code == TTN_NEEDTEXT)
@@ -1959,7 +1958,7 @@ static void CopyToolTipText(LPTOOLTIPTEXT lpttt)
 {
 	int iButton = lpttt->hdr.idFrom;
 	int game = Picker_GetSelectedItem(hWndList);
-	static TCHAR String[1024];
+	static wchar_t String[1024];
 	bool bConverted = false;
 
 	/* Map command ID to string index */
@@ -2193,7 +2192,7 @@ static void UpdateHistory(void)
 	{
 		char *histText = GetGameHistory(Picker_GetSelectedItem(hWndList));
 		have_history = (histText && histText[0]) ? true : false;
-		win_set_window_text_utf8(GetDlgItem(hMain, IDC_HISTORY), histText);
+		winui_set_window_text_utf8(GetDlgItem(hMain, IDC_HISTORY), histText);
 	}
 
 	if (have_history && GetShowScreenShot() && ((TabView_GetCurrentTab(hTabCtrl) == TAB_HISTORY) ||
@@ -2213,7 +2212,7 @@ static void DisableSelection(void)
 	mmi.cbSize = sizeof(mmi);
 	mmi.fMask = MIIM_TYPE;
 	mmi.fType = MFT_STRING;
-	mmi.dwTypeData = (TCHAR *)TEXT("Play\tAlt+O");
+	mmi.dwTypeData = (wchar_t *)TEXT("Play\tAlt+O");
 	mmi.cch = _tcslen(mmi.dwTypeData);
 
 	SetMenuItemInfo(hMenu, ID_FILE_PLAY, false, &mmi);
@@ -2234,10 +2233,10 @@ static void DisableSelection(void)
 
 static void EnableSelection(int nGame)
 {
-	TCHAR buf[200];
+	wchar_t buf[200];
 	MENUITEMINFO mmi;
 	HMENU hMenu = GetMenu(hMain);
-	TCHAR *t_description = win_wstring_from_utf8(ConvertAmpersandString(GetDriverGameTitle(nGame)));
+	wchar_t *t_description = win_wstring_from_utf8(ConvertAmpersandString(GetDriverGameTitle(nGame)));
 
 	if( !t_description )
 		return;
@@ -2561,9 +2560,9 @@ static void UpdateGameList(void)
 	Picker_ResetIdle(hWndList);
 }
 
-static UINT_PTR CALLBACK HookProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
+static uintptr_t CALLBACK HookProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (Msg)
+	switch (uMsg)
 	{
 		case WM_INITDIALOG:
 			CenterWindow(hDlg);
@@ -2571,9 +2570,9 @@ static UINT_PTR CALLBACK HookProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPa
 			SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
 			hBrush = CreateSolidBrush(RGB(240, 240, 240));
 			if (bHookFont)
-				win_set_window_text_utf8(hDlg, "Choose a font");
+				winui_set_window_text_utf8(hDlg, "Choose a font");
 			else
-				win_set_window_text_utf8(hDlg, "Choose a color");
+				winui_set_window_text_utf8(hDlg, "Choose a color");
 			break;
 
 		case WM_CTLCOLORDLG:
@@ -2926,7 +2925,8 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 
 		case ID_TOOLBAR_EDIT:
 		{
-			std::string buf = win_get_window_text_utf8(hWndCtl);
+			char buf[256];
+			winui_get_window_text_utf8(hWndCtl, buf, WINUI_ARRAY_LENGTH(buf));
 
 			switch (codeNotify)
 			{
@@ -2939,26 +2939,26 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 
 				case EN_CHANGE:
 					//put search routine here first, add a 200ms timer later.
-					if ((!_stricmp(buf.c_str(), SEARCH_PROMPT) && !_stricmp(g_SearchText, "")) ||
-					(!_stricmp(g_SearchText, SEARCH_PROMPT) && !_stricmp(buf.c_str(), "")))
-						strcpy(g_SearchText, buf.c_str());
+					if ((!_stricmp(buf, SEARCH_PROMPT) && !_stricmp(g_SearchText, "")) ||
+					(!_stricmp(g_SearchText, SEARCH_PROMPT) && !_stricmp(buf, "")))
+						strcpy(g_SearchText, buf);
 					else
 					{
-						strcpy(g_SearchText, buf.c_str());
+						strcpy(g_SearchText, buf);
 						ResetListView();
 					}
 
 					break;
 
 				case EN_SETFOCUS:
-					if (!_stricmp(buf.c_str(), SEARCH_PROMPT))
-					win_set_window_text_utf8(hWndCtl, "");
+					if (!_stricmp(buf, SEARCH_PROMPT))
+					winui_set_window_text_utf8(hWndCtl, "");
 
 					break;
 
 				case EN_KILLFOCUS:
-					if (*buf.c_str() == 0)
-						win_set_window_text_utf8(hWndCtl, SEARCH_PROMPT);
+					if (*buf == 0)
+						winui_set_window_text_utf8(hWndCtl, SEARCH_PROMPT);
 
 					break;
 			}
@@ -3178,8 +3178,6 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 			int nResult = DialogBox(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIRECTORIES), hMain, DirectoriesDialogProc);
 			bool bUpdateRoms = ((nResult & DIRDLG_ROM) == DIRDLG_ROM) ? true : false;
 
-			SaveInternalUI();
-
 			/* update game list */
 			if (bUpdateRoms == true)
 				UpdateGameList();
@@ -3275,7 +3273,7 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 
 			if (IsAuditResultYes(audit_result))
 			{
-				TCHAR* t_command = win_wstring_from_utf8(command);
+				wchar_t* t_command = win_wstring_from_utf8(command);
 				STARTUPINFO siStartupInfo;
 				PROCESS_INFORMATION piProcessInfo;
 				memset(&siStartupInfo, 0, sizeof(STARTUPINFO));
@@ -3454,9 +3452,9 @@ static int GamePicker_GetItemImage(HWND hwndPicker, int nItem)
 	return GetIconForDriver(nItem);
 }
 
-static const TCHAR *GamePicker_GetItemString(HWND hwndPicker, int nItem, int nColumn, TCHAR *pszBuffer, UINT nBufferLength)
+static const wchar_t *GamePicker_GetItemString(HWND hwndPicker, int nItem, int nColumn, wchar_t *pszBuffer, UINT nBufferLength)
 {
-	const TCHAR *s = NULL;
+	const wchar_t *s = NULL;
 	const char* utf8_s = NULL;
 	char playtime_buf[256];
 	char playcount_buf[256];
@@ -3507,7 +3505,7 @@ static const TCHAR *GamePicker_GetItemString(HWND hwndPicker, int nItem, int nCo
 
 	if(utf8_s)
 	{
-		TCHAR* t_s = win_wstring_from_utf8(utf8_s);
+		wchar_t* t_s = win_wstring_from_utf8(utf8_s);
 
 		if(!t_s)
 			return s;
@@ -3797,9 +3795,9 @@ static void SetRandomPickItem()
 		Picker_SetSelectedPick(hWndList, rand() % nListCount);
 }
 
-static UINT_PTR CALLBACK OFNHookProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
+static uintptr_t CALLBACK OFNHookProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (Msg)
+	switch (uMsg)
 	{
 		case WM_INITDIALOG:
 			CenterWindow(GetParent(hWnd));
@@ -3816,11 +3814,11 @@ bool CommonFileDialog(common_file_dialog_proc cfd, char *filename, int filetype,
 	bool success = false;
 	OPENFILENAME of;
 	const char *path = NULL;
-	TCHAR t_filename_buffer[MAX_PATH];
-	TCHAR fCurDir[MAX_PATH];
+	wchar_t t_filename_buffer[MAX_PATH];
+	wchar_t fCurDir[MAX_PATH];
 
 	// convert the filename to UTF-8 and copy into buffer
-	TCHAR *t_filename = win_wstring_from_utf8(filename);
+	wchar_t *t_filename = win_wstring_from_utf8(filename);
 
 	if (t_filename != NULL)
 	{
@@ -3973,7 +3971,7 @@ bool CommonFileDialog(common_file_dialog_proc cfd, char *filename, int filetype,
 
 void SetStatusBarText(int part_index, const char *message)
 {
-	TCHAR *t_message = win_wstring_from_utf8(message);
+	wchar_t *t_message = win_wstring_from_utf8(message);
 
 	if(!t_message)
 		return;
@@ -4005,8 +4003,8 @@ static void MamePlayBackGame(void)
 	if (CommonFileDialog(GetOpenFileName, filename, FILETYPE_INPUT_FILES, false))
 	{
 		osd_file::error filerr;
-		TCHAR *t_filename = win_wstring_from_utf8(filename);
-		TCHAR *tempname = PathFindFileName(t_filename);
+		wchar_t *t_filename = win_wstring_from_utf8(filename);
+		wchar_t *tempname = PathFindFileName(t_filename);
 		char *fname = win_utf8_from_wstring(tempname);
 		std::string const name = fname;
 		free(t_filename);
@@ -4059,8 +4057,8 @@ static void MameLoadState(void)
 	if (CommonFileDialog(GetOpenFileName, filename, FILETYPE_SAVESTATE_FILES, false))
 	{
 		char name[MAX_PATH];
-		TCHAR *t_filename = win_wstring_from_utf8(filename);
-		TCHAR *tempname = PathFindFileName(t_filename);
+		wchar_t *t_filename = win_wstring_from_utf8(filename);
+		wchar_t *tempname = PathFindFileName(t_filename);
 		PathRemoveExtension(tempname);
 		char *fname = win_utf8_from_wstring(tempname);
 		strcpy(name, fname);
@@ -4084,8 +4082,8 @@ static void MamePlayRecordGame(void)
 	if (CommonFileDialog(GetSaveFileName, filename, FILETYPE_INPUT_FILES, true))
 	{
 		char name[MAX_PATH];
-		TCHAR *t_filename = win_wstring_from_utf8(filename);
-		TCHAR *tempname = PathFindFileName(t_filename);
+		wchar_t *t_filename = win_wstring_from_utf8(filename);
+		wchar_t *tempname = PathFindFileName(t_filename);
 		char *fname = win_utf8_from_wstring(tempname);
 		strcpy(name, fname);
 		free(t_filename);
@@ -4134,8 +4132,8 @@ static void MamePlayRecordMNG(void)
 	if (CommonFileDialog(GetSaveFileName, filename, FILETYPE_MNG_FILES, true))
 	{
 		char name[MAX_PATH];
-		TCHAR *t_filename = win_wstring_from_utf8(filename);
-		TCHAR *tempname = PathFindFileName(t_filename);
+		wchar_t *t_filename = win_wstring_from_utf8(filename);
+		wchar_t *tempname = PathFindFileName(t_filename);
 		char *fname = win_utf8_from_wstring(tempname);
 		strcpy(name, fname);
 		free(t_filename);
@@ -4158,8 +4156,8 @@ static void MamePlayRecordAVI(void)
 	if (CommonFileDialog(GetSaveFileName, filename, FILETYPE_AVI_FILES, true))
 	{
 		char name[MAX_PATH];
-		TCHAR *t_filename = win_wstring_from_utf8(filename);
-		TCHAR *tempname = PathFindFileName(t_filename);
+		wchar_t *t_filename = win_wstring_from_utf8(filename);
+		wchar_t *tempname = PathFindFileName(t_filename);
 		char *fname = win_utf8_from_wstring(tempname);
 		strcpy(name, fname);
 		free(t_filename);
@@ -4238,7 +4236,7 @@ static void AdjustMetrics(void)
 
 	while(hWnd)
 	{
-		TCHAR szClass[128];
+		wchar_t szClass[128];
 
 		if (GetClassName(hWnd, szClass, WINUI_ARRAY_LENGTH(szClass)))
 		{
@@ -4436,10 +4434,10 @@ static void UpdateMenu(HMENU hMenu)
 
 	if (have_selection)
 	{
-		TCHAR buf[200];
+		wchar_t buf[200];
 		int nGame = Picker_GetSelectedItem(hWndList);
 		
-		TCHAR *t_description = win_wstring_from_utf8(ConvertAmpersandString(GetDriverGameTitle(nGame)));
+		wchar_t *t_description = win_wstring_from_utf8(ConvertAmpersandString(GetDriverGameTitle(nGame)));
 
 		if( !t_description )
 			return;
@@ -4555,7 +4553,7 @@ void InitMainMenu(HMENU hMainMenu)
 
 	for (int i = 0; g_folderData[i].m_lpTitle != NULL; i++)
 	{
-		TCHAR* t_title = win_wstring_from_utf8(g_folderData[i].m_lpTitle);
+		wchar_t* t_title = win_wstring_from_utf8(g_folderData[i].m_lpTitle);
 		
 		if(!t_title)
 			return;
@@ -4655,7 +4653,7 @@ void InitTreeContextMenu(HMENU hTreeMenu)
 
 	for (int i = 0; g_folderData[i].m_lpTitle != NULL; i++)
 	{
-		TCHAR* t_title = win_wstring_from_utf8(g_folderData[i].m_lpTitle);
+		wchar_t* t_title = win_wstring_from_utf8(g_folderData[i].m_lpTitle);
 
 		if(!t_title)
 			return;
@@ -4679,7 +4677,7 @@ void InitTreeContextMenu(HMENU hTreeMenu)
 
 void InitBodyContextMenu(HMENU hBodyContextMenu)
 {
-	TCHAR tmp[64];
+	wchar_t tmp[64];
 	MENUINFO mi;
 	MENUITEMINFO mii;
 
@@ -5224,7 +5222,7 @@ static void SwitchFullScreenMode(void)
 	}
 }
 
-static INT_PTR CALLBACK StartupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+static intptr_t CALLBACK StartupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
 	{
@@ -5258,8 +5256,8 @@ static bool CommonListDialog(common_file_dialog_proc cfd, int filetype)
 {
 	bool success = false;
 	OPENFILENAME of;
-	TCHAR szFile[MAX_PATH];
-	TCHAR szCurDir[MAX_PATH];
+	wchar_t szFile[MAX_PATH];
+	wchar_t szCurDir[MAX_PATH];
 
 	szFile[0] = 0;
 
@@ -5302,7 +5300,7 @@ static bool CommonListDialog(common_file_dialog_proc cfd, int filetype)
 		{
 			if (GetFileAttributes(szFile) != -1)
 			{
-				if (win_message_box_utf8(hMain, "File already exists, overwrite ?", MAMEUINAME, MB_ICONQUESTION | MB_YESNO) != IDYES )
+				if (winui_message_box_utf8(hMain, "File already exists, overwrite ?", MAMEUINAME, MB_ICONQUESTION | MB_YESNO) != IDYES )
 					continue;
 				else
 					success = true;
@@ -5401,7 +5399,7 @@ static void SaveGameListToFile(char *szFile, int filetype)
 	}
 
 	fclose(f);
-	win_message_box_utf8(hMain, "File saved successfully.", MAMEUINAME, MB_ICONINFORMATION | MB_OK);
+	winui_message_box_utf8(hMain, "File saved successfully.", MAMEUINAME, MB_ICONINFORMATION | MB_OK);
 }
 
 static HBITMAP CreateBitmapTransparent(HBITMAP hSource)

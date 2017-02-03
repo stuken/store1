@@ -95,7 +95,7 @@ typedef enum
 typedef struct
 {
 	char 		*m_lpTitle;          // String contains the folder name
-	TCHAR 		*m_lptTitle;         // String contains the folder name as TCHAR*
+	wchar_t 		*m_lptTitle;         // String contains the folder name as wchar_t*
 	UINT        m_nFolderId;      	// Index / Folder ID number
 	int         m_nParent;        	// Parent folder index in treeFolders[]
 	int         m_nIconId;        	// negative icon index into the ImageList, or IDI_xxx resource id

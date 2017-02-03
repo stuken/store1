@@ -12,8 +12,8 @@ struct PickerInfo
 	int nColumnCount;
 	int *pnColumnsShown;
 	int *pnColumnsOrder;
-	UINT_PTR nTimer;
-	const TCHAR* const *ppszColumnNames;
+	uintptr_t nTimer;
+	const wchar_t* const *ppszColumnNames;
 };
 
 struct CompareProcParams
@@ -209,7 +209,7 @@ static void Picker_InternalResetColumnDisplay(HWND hWnd, bool bFirstTime)
 		if (shown[order[i]])
 		{
 			lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_SUBITEM | LVCF_TEXT;
-			lvc.pszText = (TCHAR*) pPickerInfo->ppszColumnNames[order[i]];
+			lvc.pszText = (wchar_t*) pPickerInfo->ppszColumnNames[order[i]];
 			lvc.iSubItem = nColumn;
 			lvc.cx = widths[order[i]];
 			lvc.fmt = LVCFMT_LEFT;
@@ -259,7 +259,7 @@ void Picker_ClearIdle(HWND hWndPicker)
 	}
 }
 
-static void CALLBACK Picker_TimerProc(HWND hWndPicker, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+static void CALLBACK Picker_TimerProc(HWND hWndPicker, UINT uMsg, uintptr_t idEvent, DWORD dwTime)
 {
 	struct PickerInfo *pPickerInfo = GetPickerInfo(hWndPicker);
 	bool bContinueIdle = false;
@@ -436,12 +436,12 @@ void Picker_SetSelectedItem(HWND hWnd, int nItem)
 	Picker_SetSelectedPick(hWnd, (i == -1) ? 0 : i);
 }
 
-static const TCHAR *Picker_CallGetItemString(HWND hWndPicker, int nItem, int nColumn, TCHAR *pszBuffer, UINT nBufferLength)
+static const wchar_t *Picker_CallGetItemString(HWND hWndPicker, int nItem, int nColumn, wchar_t *pszBuffer, UINT nBufferLength)
 {
 	// this call wraps the pfnGetItemString callback to properly set up the
 	// buffers, and normalize the results
 	struct PickerInfo *pPickerInfo = GetPickerInfo(hWndPicker);
-	const TCHAR *s = NULL;
+	const wchar_t *s = NULL;
 
 	pszBuffer[0] = '\0';
 
@@ -501,8 +501,8 @@ static int CALLBACK Picker_CompareProc(LPARAM index1, LPARAM index2, LPARAM nPar
 	struct PickerInfo *pPickerInfo = pcpp->pPickerInfo;
 	bool bCallCompare = true;
 	int nResult = 0; 
-	TCHAR szBuffer1[256]; 
-	TCHAR szBuffer2[256];
+	wchar_t szBuffer1[256]; 
+	wchar_t szBuffer2[256];
 
 	if (GetEnableIndent())
 	{
@@ -580,8 +580,8 @@ static int CALLBACK Picker_CompareProc(LPARAM index1, LPARAM index2, LPARAM nPar
 		else
 		{
 			// no default sort proc, just get the string and compare them
-			const TCHAR *s1 = Picker_CallGetItemString(pcpp->hWndPicker, index1, pcpp->nSortColumn, szBuffer1, WINUI_ARRAY_LENGTH(szBuffer1));
-			const TCHAR *s2 = Picker_CallGetItemString(pcpp->hWndPicker, index2, pcpp->nSortColumn, szBuffer2, WINUI_ARRAY_LENGTH(szBuffer2));
+			const wchar_t *s1 = Picker_CallGetItemString(pcpp->hWndPicker, index1, pcpp->nSortColumn, szBuffer1, WINUI_ARRAY_LENGTH(szBuffer1));
+			const wchar_t *s2 = Picker_CallGetItemString(pcpp->hWndPicker, index2, pcpp->nSortColumn, szBuffer2, WINUI_ARRAY_LENGTH(szBuffer2));
 			nResult = _tcsicmp(s1, s2);
 		}
 
@@ -735,8 +735,8 @@ bool Picker_HandleNotify(LPNMHDR lpNmHdr)
 			{
 				// retrieve item text
 				int nColumn = Picker_GetRealColumnFromViewColumn(hWnd, pDispInfo->item.iSubItem);
-				const TCHAR *s = Picker_CallGetItemString(hWnd, nItem, nColumn, pDispInfo->item.pszText, pDispInfo->item.cchTextMax);
-				pDispInfo->item.pszText = (TCHAR *) s;
+				const wchar_t *s = Picker_CallGetItemString(hWnd, nItem, nColumn, pDispInfo->item.pszText, pDispInfo->item.cchTextMax);
+				pDispInfo->item.pszText = (wchar_t *) s;
 				bResult = true;
 			}
 
@@ -827,7 +827,7 @@ int Picker_GetColumnCount(HWND hWndPicker)
 	return pPickerInfo->nColumnCount;
 }
 
-const TCHAR* const *Picker_GetColumnNames(HWND hWndPicker)
+const wchar_t* const *Picker_GetColumnNames(HWND hWndPicker)
 {
 	struct PickerInfo *pPickerInfo = GetPickerInfo(hWndPicker);
 

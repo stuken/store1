@@ -4,7 +4,7 @@
 #include "winui.h"
 
 /* Bit routines */
-static UCHAR maskTable[8] = {0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01};
+static uint8_t maskTable[8] = {0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01};
 
 /* Create a new LPBITS struct and return the new structure
  * initialized to 'all bits cleared'
@@ -18,7 +18,7 @@ LPBITS NewBits(UINT nLength)
 	
 	if (lpBits)
 	{
-		lpBits->m_lpBits = (UCHAR *)malloc(nSize);
+		lpBits->m_lpBits = (uint8_t *)malloc(nSize);
 		
 		if (lpBits->m_lpBits)
 		{
@@ -57,7 +57,7 @@ bool TestBit(LPBITS lpBits, UINT nBit)
 	if (offset >= lpBits->m_nSize)
 		return false;
 
-	UCHAR mask = maskTable[nBit & 7];
+	uint8_t mask = maskTable[nBit & 7];
 	return	(lpBits->m_lpBits[offset] & mask) ? true : false;
 }
 
@@ -72,7 +72,7 @@ void SetBit(LPBITS lpBits, UINT nBit)
 	if (offset >= lpBits->m_nSize)
 		return;
 
-	UCHAR mask = maskTable[nBit & 7];
+	uint8_t mask = maskTable[nBit & 7];
 	lpBits->m_lpBits[offset] |= mask;
 }
 
@@ -87,7 +87,7 @@ void ClearBit(LPBITS lpBits, UINT nBit)
 	if (offset >= lpBits->m_nSize)
 		return;
 
-	UCHAR mask = maskTable[nBit & 7];
+	uint8_t mask = maskTable[nBit & 7];
 	lpBits->m_lpBits[offset] &= ~mask;
 }
 

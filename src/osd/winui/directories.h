@@ -11,6 +11,6 @@
 #define DIRLIST_NEWENTRYTEXT          "<insert new path here>"
 #define DirInfo_NumDir(pInfo, path)     ((pInfo)[(path)].m_Path->m_NumDirectories)
 
-INT_PTR CALLBACK DirectoriesDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam);
+intptr_t CALLBACK DirectoriesDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 #endif

@@ -2,9 +2,9 @@
 // copyright-holders:Chris Kirmse, Mike Haaland, René Single, Mamesick
 
 #pragma once
- 
-#ifndef HISTORY_H
-#define HISTORY_H
+
+#ifndef DATAFILE_H
+#define DATAFILE_H
 
 char * GetGameHistory(int driver_index);
 

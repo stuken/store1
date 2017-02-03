@@ -418,7 +418,7 @@ static HBITMAP DIBToDDB(HDC hDC, HANDLE hDIB, LPMYBITMAPINFO desc)
 
 	HBITMAP hBM = CreateDIBitmap(hDC,				/* handle to device context */
 		(LPBITMAPINFOHEADER)lpbi, 					/* pointer to bitmap info header  */
-		(LONG)CBM_INIT, 		  					/* initialization flag */
+		(long)CBM_INIT, 		  					/* initialization flag */
 		lpDIBBits,									/* pointer to initialization data  */
 		(LPBITMAPINFO)lpbi, 	  					/* pointer to bitmap info */
 		DIB_RGB_COLORS);		  					/* color-data usage  */
@@ -430,7 +430,7 @@ static HBITMAP DIBToDDB(HDC hDC, HANDLE hDIB, LPMYBITMAPINFO desc)
     PNG graphics handling functions
 ***************************************************************************/
 
-static void store_pixels(UINT8 *buf, int len)
+static void store_pixels(uint8_t *buf, int len)
 {
 	if (pixel_ptr && copy_size)
 	{
@@ -484,7 +484,7 @@ bool AllocatePNG(png_info *p, HGLOBAL *phDIB, HPALETTE *pPal)
 			rgb.rgbRed = p->palette[i * 3 + 0];
 			rgb.rgbGreen = p->palette[i * 3 + 1];
 			rgb.rgbBlue = p->palette[i * 3 + 2];
-			rgb.rgbReserved = (BYTE)0;
+			rgb.rgbReserved = (uint8_t)0;
 			pRgb[i] = rgb;
 		}
 	}
@@ -528,7 +528,7 @@ bool AllocatePNG(png_info *p, HGLOBAL *phDIB, HPALETTE *pPal)
 static bool png_read_bitmap_gui(util::core_file &mfile, HGLOBAL *phDIB, HPALETTE *pPAL)
 {
 	png_info p;
-	UINT32 i = 0;
+	UINT i = 0;
 
 	if (png_read_file(mfile, &p) != PNGERR_NONE)
 		return false;
@@ -558,13 +558,13 @@ static bool png_read_bitmap_gui(util::core_file &mfile, HGLOBAL *phDIB, HPALETTE
 
 	for (i = 0; i < p.height; i++)
 	{
-		UINT8 *ptr = p.image + i * (p.width * bytespp);
+		uint8_t *ptr = p.image + i * (p.width * bytespp);
 
 		if (p.color_type == 2) /*(p->bit_depth > 8) */
 		{
 			for (int j = 0; j < p.width; j++)
 			{
-				UINT8 bTmp = ptr[0];
+				uint8_t bTmp = ptr[0];
 				ptr[0] = ptr[2];
 				ptr[2] = bTmp;
 				ptr += 3;
