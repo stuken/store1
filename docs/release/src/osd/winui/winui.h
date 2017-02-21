@@ -29,7 +29,6 @@
 #include "options.h"
 #include "pool.h"
 #include "unzip.h"
-#include "winutf8.h"
 #include "strconv.h"
 #include "drivenum.h"
 #include "winmain.h"
@@ -55,6 +54,7 @@
 #include "properties.h"
 #include "winui_audit.h"
 #include "directories.h"
+#include "datafile.h"
 #include "datamap.h"
 #include "columnedit.h"
 #include "picker.h"
@@ -62,7 +62,6 @@
 #include "bitmask.h"
 #include "treeview.h"
 #include "splitters.h"
-#include "history.h"
 #include "dialogs.h"
 #include "dinputjoy.h"
 #include "dxdecode.h"   
@@ -83,7 +82,7 @@
 #endif
 #define MAMENAME			"MAME"
 
-#define MAME_VERSION		"0.182"
+#define MAME_VERSION		"0.183"
 #define MAMEUIFX_VERSION	MAME_VERSION " (" __DATE__")"
 
 #define SEARCH_PROMPT		"<search here>"

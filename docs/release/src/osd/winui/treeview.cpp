@@ -1103,7 +1103,7 @@ static void SaveExternalFolders(int parent_index, const char *fname)
 	TREEFOLDER *folder_data;
 
 	snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\%s", GetGuiDir(), fname);
-	TCHAR *temp = win_wstring_from_utf8(GetGuiDir());
+	wchar_t *temp = win_wstring_from_utf8(GetGuiDir());
 	CreateDirectory(temp, NULL);
 	free(temp);
 	FILE *f = fopen(filename, "w");
@@ -1585,7 +1585,7 @@ static int InitExtraFolders(void)
 		return 0;
 
 	snprintf(path, WINUI_ARRAY_LENGTH(path), "%s\\*.*", dir);
-	HANDLE hFind = win_find_first_file_utf8(path, &FindFileData);
+	HANDLE hFind = winui_find_first_file_utf8(path, &FindFileData);
 
 	for (int i = 0; i < MAX_EXTRA_FOLDERS; i++)
 	{
@@ -1832,7 +1832,7 @@ static bool TryRenameCustomFolderIni(LPTREEFOLDER lpFolder, const char *old_name
 		{
 			snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\%s\\%s.ini", GetIniDir(), lpParent->m_lpTitle, old_name);
 			snprintf(new_filename, WINUI_ARRAY_LENGTH(new_filename), "%s\\%s\\%s.ini", GetIniDir(), lpParent->m_lpTitle, new_name);
-			win_move_file_utf8(filename, new_filename);
+			winui_move_file_utf8(filename, new_filename);
 		}
 	}
 	else
@@ -1840,11 +1840,11 @@ static bool TryRenameCustomFolderIni(LPTREEFOLDER lpFolder, const char *old_name
 		//Rename the File, if it exists
 		snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\%s.ini", GetIniDir(), old_name);
 		snprintf(new_filename, WINUI_ARRAY_LENGTH(new_filename), "%s\\%s.ini", GetIniDir(), new_name);
-		win_move_file_utf8(filename, new_filename);
+		winui_move_file_utf8(filename, new_filename);
 		//Rename the Directory, if it exists
 		snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\%s", GetIniDir(), old_name);
 		snprintf(new_filename, WINUI_ARRAY_LENGTH(new_filename), "%s\\%s", GetIniDir(), new_name);
-		win_move_file_utf8(filename, new_filename);
+		winui_move_file_utf8(filename, new_filename);
 	}
 
 	return true;
@@ -1882,7 +1882,7 @@ bool TryRenameCustomFolder(LPTREEFOLDER lpFolder, const char *new_name)
 	// a parent extra folder was renamed, so rename the file
 	snprintf(new_filename, WINUI_ARRAY_LENGTH(new_filename), "%s\\%s.ini", GetFolderDir(), new_name);
 	snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\%s.ini", GetFolderDir(), lpFolder->m_lpTitle);
-	bool retval = win_move_file_utf8(filename, new_filename);
+	bool retval = winui_move_file_utf8(filename, new_filename);
 
 	if (retval)
 	{
@@ -1962,7 +1962,7 @@ bool TrySaveExtraFolder(LPTREEFOLDER lpFolder)
 	}
 
 	snprintf(fname, WINUI_ARRAY_LENGTH(fname), "%s\\%s.ini", GetFolderDir(), extra_folder->m_szTitle);
-	TCHAR *temp = win_wstring_from_utf8(GetFolderDir());
+	wchar_t *temp = win_wstring_from_utf8(GetFolderDir());
 	CreateDirectory(temp, NULL);
 	free(temp);  	
 	FILE *f = fopen(fname, "w");

@@ -9,7 +9,7 @@
 
 typedef struct
 {
-	TCHAR m_Directories[MAX_DIRS][MAX_PATH];
+	wchar_t m_Directories[MAX_DIRS][MAX_PATH];
 	int m_NumDirectories;
 	bool m_bModified;
 } tPath;
@@ -17,7 +17,7 @@ typedef struct
 typedef struct
 {
 	tPath *m_Path;
-	TCHAR *m_tDirectory;
+	wchar_t *m_tDirectory;
 } tDirInfo;
 
 typedef struct
@@ -77,13 +77,13 @@ static const DIRECTORYINFO g_directoryInfo[] =
  ***************************************************************************/
 
 static int CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lParam, LPARAM lpData);
-static bool BrowseForDirectory(HWND hwnd, const TCHAR* pStartDir, TCHAR* pResult);
-static void DirInfo_SetDir(tDirInfo *pInfo, int nType, int nItem, const TCHAR* pText);
-static TCHAR* DirInfo_Dir(tDirInfo *pInfo, int nType);
-static TCHAR* DirInfo_Path(tDirInfo *pInfo, int nType, int nItem);
+static bool BrowseForDirectory(HWND hwnd, const wchar_t* pStartDir, wchar_t* pResult);
+static void DirInfo_SetDir(tDirInfo *pInfo, int nType, int nItem, const wchar_t* pText);
+static wchar_t* DirInfo_Dir(tDirInfo *pInfo, int nType);
+static wchar_t* DirInfo_Path(tDirInfo *pInfo, int nType, int nItem);
 static void DirInfo_SetModified(tDirInfo *pInfo, int nType, bool bModified);
 static bool DirInfo_Modified(tDirInfo *pInfo, int nType);
-static TCHAR* FixSlash(TCHAR *s);
+static wchar_t* FixSlash(wchar_t *s);
 static void UpdateDirectoryList(HWND hDlg);
 static void Directories_OnSelChange(HWND hDlg);
 static bool Directories_OnInitDialog(HWND hDlg, HWND hwndFocus, LPARAM lParam);
@@ -109,9 +109,9 @@ static HICON hIcon = NULL;
     External function definitions
  ***************************************************************************/
 
-INT_PTR CALLBACK DirectoriesDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
+intptr_t CALLBACK DirectoriesDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (Msg)
+	switch (uMsg)
 	{
 		case WM_INITDIALOG:
 			CenterWindow(hDlg);
@@ -164,7 +164,7 @@ static bool IsMultiDir(int nType)
 	return g_directoryInfo[nType].bMulti;
 }
 
-static void DirInfo_SetDir(tDirInfo *pInfo, int nType, int nItem, const TCHAR* pText)
+static void DirInfo_SetDir(tDirInfo *pInfo, int nType, int nItem, const wchar_t* pText)
 {
 	if (IsMultiDir(nType))
 	{
@@ -175,20 +175,20 @@ static void DirInfo_SetDir(tDirInfo *pInfo, int nType, int nItem, const TCHAR* p
 	else
 	{
 		const char *str = win_utf8_from_wstring(pText);
-		TCHAR *t_str = win_wstring_from_utf8(str);
+		wchar_t *t_str = win_wstring_from_utf8(str);
 		pInfo[nType].m_tDirectory = t_str;
 		t_str = NULL;
 		str = NULL;
 	}
 }
 
-static TCHAR* DirInfo_Dir(tDirInfo *pInfo, int nType)
+static wchar_t* DirInfo_Dir(tDirInfo *pInfo, int nType)
 {
 	assert(!IsMultiDir(nType));
 	return pInfo[nType].m_tDirectory;
 }
 
-static TCHAR* DirInfo_Path(tDirInfo *pInfo, int nType, int nItem)
+static wchar_t* DirInfo_Path(tDirInfo *pInfo, int nType, int nItem)
 {
 	return pInfo[nType].m_Path->m_Directories[nItem];
 }
@@ -206,7 +206,7 @@ static bool DirInfo_Modified(tDirInfo *pInfo, int nType)
 }
 
 /* lop off trailing backslash if it exists */
-static TCHAR * FixSlash(TCHAR *s)
+static wchar_t * FixSlash(wchar_t *s)
 {
 	int len = 0;
 
@@ -237,7 +237,7 @@ static void UpdateDirectoryList(HWND hDlg)
 
 	if (IsMultiDir(nType))
 	{
-		Item.pszText = (TCHAR*) TEXT(DIRLIST_NEWENTRYTEXT);
+		Item.pszText = (wchar_t*) TEXT(DIRLIST_NEWENTRYTEXT);
 		(void)ListView_InsertItem(hList, &Item);
 
 		for (int i = DirInfo_NumDir(g_pDirInfo, nType) - 1; 0 <= i; i--)
@@ -277,9 +277,9 @@ static bool Directories_OnInitDialog(HWND hDlg, HWND hwndFocus, LPARAM lParam)
 {
 	RECT rectClient;
 	LVCOLUMN LVCol;
-	TCHAR *token = NULL;
-	TCHAR buf[MAX_PATH * MAX_DIRS];
-	const TCHAR *t_s = NULL;
+	wchar_t *token = NULL;
+	wchar_t buf[MAX_PATH * MAX_DIRS];
+	const wchar_t *t_s = NULL;
 
 	/* count how many dirinfos there are */
 	int nDirInfoCount = 0;
@@ -298,7 +298,7 @@ static bool Directories_OnInitDialog(HWND hDlg, HWND hwndFocus, LPARAM lParam)
 	{
 		t_s = win_wstring_from_utf8(g_directoryInfo[i].lpName);
 
-		if(!t_s)
+		if (!t_s)
 			return false;
 
 		(void)ComboBox_InsertString(GetDlgItem(hDlg, IDC_DIR_COMBO), 0, t_s);
@@ -320,7 +320,7 @@ static bool Directories_OnInitDialog(HWND hDlg, HWND hwndFocus, LPARAM lParam)
 		const char *s = g_directoryInfo[i].pfnGetTheseDirs();
 		t_s = win_wstring_from_utf8(s);
 
-		if(!t_s)
+		if (!t_s)
 			return false;
 
 		if (g_directoryInfo[i].bMulti)
@@ -346,9 +346,7 @@ static bool Directories_OnInitDialog(HWND hDlg, HWND hwndFocus, LPARAM lParam)
 			DirInfo_SetModified(g_pDirInfo, i, false);
 		}
 		else
-		{
 			DirInfo_SetDir(g_pDirInfo, i, -1, t_s);
-		}
 
 		t_s = NULL;
 	}
@@ -357,7 +355,7 @@ static bool Directories_OnInitDialog(HWND hDlg, HWND hwndFocus, LPARAM lParam)
 	return true;
 
 error:
-	if(t_s)
+	if (t_s)
 		t_s = NULL;
 
 	Directories_OnDestroy(hDlg);
@@ -404,7 +402,7 @@ static int RetrieveDirList(int nDir, int nFlagResult, void (*SetTheseDirs)(const
 
 	if (DirInfo_Modified(g_pDirInfo, nDir))
 	{
-		TCHAR buf[MAX_PATH * MAX_DIRS];
+		wchar_t buf[MAX_PATH * MAX_DIRS];
 		memset(&buf, 0, sizeof(buf));
 		int nPaths = DirInfo_NumDir(g_pDirInfo, nDir);
 
@@ -435,7 +433,7 @@ static void Directories_OnOk(HWND hDlg)
 			nResult |= RetrieveDirList(i, g_directoryInfo[i].nDirDlgFlags, g_directoryInfo[i].pfnSetTheseDirs);
 		else
 		{
-			TCHAR *s = FixSlash(DirInfo_Dir(g_pDirInfo, i));
+			wchar_t *s = FixSlash(DirInfo_Dir(g_pDirInfo, i));
 			char *utf8_s = win_utf8_from_wstring(s);
 			g_directoryInfo[i].pfnSetTheseDirs(utf8_s);
 			free(utf8_s);
@@ -458,7 +456,7 @@ static void Directories_OnInsert(HWND hDlg)
 {
 	HWND hList = GetDlgItem(hDlg, IDC_DIR_LIST);
 	int nItem = ListView_GetNextItem(hList, -1, LVNI_SELECTED);
-	TCHAR buf[MAX_PATH];
+	wchar_t buf[MAX_PATH];
 
 	if (BrowseForDirectory(hDlg, NULL, buf) == true)
 	{
@@ -488,8 +486,8 @@ static void Directories_OnInsert(HWND hDlg)
 
 static void Directories_OnBrowse(HWND hDlg)
 {
-	TCHAR inbuf[MAX_PATH];
-	TCHAR outbuf[MAX_PATH];
+	wchar_t inbuf[MAX_PATH];
+	wchar_t outbuf[MAX_PATH];
 	HWND hList = GetDlgItem(hDlg, IDC_DIR_LIST);
 	int nItem = ListView_GetNextItem(hList, -1, LVNI_SELECTED);
 
@@ -616,12 +614,12 @@ static int CALLBACK BrowseCallbackProc(HWND hWnd, UINT uMsg, LPARAM lParam, LPAR
 	return 0;
 }
 
-static bool BrowseForDirectory(HWND hWnd, const TCHAR* pStartDir, TCHAR* pResult)
+static bool BrowseForDirectory(HWND hWnd, const wchar_t* pStartDir, wchar_t* pResult)
 {
 	bool bResult = false;
 	BROWSEINFO Info;
 	LPITEMIDLIST pItemIDList = NULL;
-	TCHAR buf[MAX_PATH];
+	wchar_t buf[MAX_PATH];
 
 	Info.hwndOwner = hWnd;
 	Info.pidlRoot = NULL;

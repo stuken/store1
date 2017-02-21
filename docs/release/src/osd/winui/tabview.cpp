@@ -209,7 +209,7 @@ void TabView_Reset(HWND hWndTabView)
 	{
 		if (!pTabViewInfo->pCallbacks->pfnGetShowTab || pTabViewInfo->pCallbacks->pfnGetShowTab(i))
 		{
-			TCHAR *t_text = win_wstring_from_utf8(pTabViewInfo->pCallbacks->pfnGetTabLongName(i));
+			wchar_t *t_text = win_wstring_from_utf8(pTabViewInfo->pCallbacks->pfnGetTabLongName(i));
 
 			if(!t_text)
 				return;

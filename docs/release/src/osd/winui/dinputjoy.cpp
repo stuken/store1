@@ -34,7 +34,7 @@ const struct OSDJoystick  DIJoystick =
 typedef struct
 {
 	GUID guid;
-	TCHAR *name;
+	wchar_t *name;
 	int offset; /* offset in dijoystate */
 } axis_type;
 
@@ -42,7 +42,7 @@ typedef struct
 {
 	bool use_joystick;
 	GUID guidDevice;
-	TCHAR *name;
+	wchar_t *name;
 	bool is_light_gun;
 	LPDIRECTINPUTDEVICE2 did;
 	DWORD num_axes;
@@ -360,11 +360,11 @@ static bool DIJoystick_Available(void)
 
 static int CALLBACK DIJoystick_EnumDeviceProc(LPDIDEVICEINSTANCE pdidi, LPVOID pv)
 {
-	TCHAR buffer[5000];
+	wchar_t buffer[5000];
 
 	This.joysticks[This.num_joysticks].guidDevice = pdidi->guidInstance;
 	_sntprintf(buffer, WINUI_ARRAY_LENGTH(buffer), TEXT("%s (%s)"), pdidi->tszProductName, pdidi->tszInstanceName);
-	This.joysticks[This.num_joysticks].name = (TCHAR *)malloc((_tcslen(buffer) + 1) * sizeof(TCHAR));
+	This.joysticks[This.num_joysticks].name = (wchar_t *)malloc((_tcslen(buffer) + 1) * sizeof(wchar_t));
 	_tcscpy(This.joysticks[This.num_joysticks].name, buffer);
 	This.num_joysticks++;
 	return DIENUM_CONTINUE;
@@ -377,7 +377,7 @@ static int CALLBACK DIJoystick_EnumAxisObjectsProc(LPCDIDEVICEOBJECTINSTANCE lpd
 	HRESULT hr;
 
 	joystick->axes[joystick->num_axes].guid = lpddoi->guidType;
-	joystick->axes[joystick->num_axes].name = (TCHAR *)malloc((_tcslen(lpddoi->tszName) + 1) * sizeof(TCHAR));
+	joystick->axes[joystick->num_axes].name = (wchar_t *)malloc((_tcslen(lpddoi->tszName) + 1) * sizeof(wchar_t));
 	_tcscpy(joystick->axes[joystick->num_axes].name, lpddoi->tszName);
 	joystick->axes[joystick->num_axes].offset = lpddoi->dwOfs;
 

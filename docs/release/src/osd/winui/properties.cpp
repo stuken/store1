@@ -94,7 +94,7 @@ b) Exit the dialog.
  * Local function prototypes
  **************************************************************/
 
-static INT_PTR CALLBACK GameOptionsDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam);
+static intptr_t CALLBACK GameOptionsDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 static void InitializeOptions(HWND hDlg);
 static void OptOnHScroll(HWND hWnd, HWND hWndCtl, UINT code, int pos);
 static void NumScreensSelectionChange(HWND hWnd);
@@ -205,7 +205,7 @@ static struct PropSheets
 
 static struct ComboBoxVideo
 {
-	const TCHAR*	m_pText;
+	const wchar_t*	m_pText;
 	const char*		m_pData;
 } g_ComboBoxVideo[] =
 {
@@ -219,7 +219,7 @@ static struct ComboBoxVideo
 
 static struct ComboBoxSound
 {
-	const TCHAR*	m_pText;
+	const wchar_t*	m_pText;
 	const char*		m_pData;
 } g_ComboBoxSound[] =
 {
@@ -232,19 +232,19 @@ static struct ComboBoxSound
 
 static struct ComboBoxSampleRate
 {
-	const TCHAR*	m_pText;
+	const wchar_t*	m_pText;
 	const int		m_pData;
 } g_ComboBoxSampleRate[] =
 {
-	{ TEXT("11025"), 11025 },
-	{ TEXT("22050"), 22050 },
-	{ TEXT("44100"), 44100 },
-	{ TEXT("48000"), 48000 }
+	{ TEXT("11025"),    	11025 },
+	{ TEXT("22050"),    	22050 },
+	{ TEXT("44100"),    	44100 },
+	{ TEXT("48000"),    	48000 }
 };
 
 static struct ComboBoxSelectScreen
 {
-	const TCHAR*	m_pText;
+	const wchar_t*	m_pText;
 	const int		m_pData;
 } g_ComboBoxSelectScreen[] =
 {
@@ -256,7 +256,7 @@ static struct ComboBoxSelectScreen
 
 static struct ComboBoxView
 {
-	const TCHAR*	m_pText;
+	const wchar_t*	m_pText;
 	const char*		m_pData;
 } g_ComboBoxView[] =
 {
@@ -268,7 +268,7 @@ static struct ComboBoxView
 
 static struct ComboBoxFrameSkip
 {
-	const TCHAR*	m_pText;
+	const wchar_t*	m_pText;
 	const int		m_pData;
 } g_ComboBoxFrameSkip[] = 
 {
@@ -287,7 +287,7 @@ static struct ComboBoxFrameSkip
 
 static struct ComboBoxDevices
 {
-	const TCHAR*	m_pText;
+	const wchar_t*	m_pText;
 	const char* 	m_pData;
 } g_ComboBoxDevice[] =
 {
@@ -300,7 +300,7 @@ static struct ComboBoxDevices
 
 static struct ComboBoxSnapName
 {
-	const TCHAR*	m_pText;
+	const wchar_t*	m_pText;
 	const char*		m_pData;
 } g_ComboBoxSnapName[] =
 {
@@ -313,7 +313,7 @@ static struct ComboBoxSnapName
 
 static struct ComboBoxSnapView
 {
-	const TCHAR*	m_pText;
+	const wchar_t*	m_pText;
 	const char*		m_pData;
 } g_ComboBoxSnapView[] =
 {
@@ -449,7 +449,7 @@ void InitPropertyPage(HINSTANCE hInst, HWND hWnd, OPTIONS_TYPE opt_type, int fol
 			return;
 	}
 
-	TCHAR *t_description = win_wstring_from_utf8(tmp);
+	wchar_t *t_description = win_wstring_from_utf8(tmp);
 
 	// If we have no descrption, return.
 	if(!t_description)
@@ -781,7 +781,7 @@ static void UpdateSheetCaption(HWND hWnd)
 	PAINTSTRUCT ps;
 	HRGN hRgn;
 	RECT rect, rc;
-	TCHAR szText[256];
+	wchar_t szText[256];
 
 	memcpy(&rect, &rcTabCaption, sizeof(RECT));
 	BeginPaint (hWnd, &ps);
@@ -834,12 +834,12 @@ static void UpdateSheetCaption(HWND hWnd)
 	return;
 }
 
-static LRESULT CALLBACK NewSheetWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK NewSheetWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	bool bHandled = false;
 	TVITEM item;
 
-	switch (Msg)
+	switch (uMsg)
 	{
 		case WM_PAINT:
 			UpdateSheetCaption(hWnd);
@@ -891,14 +891,14 @@ static LRESULT CALLBACK NewSheetWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPAR
 	}
 
 	if ((bHandled == false) && pfnOldSheetProc)
-		return CallWindowProc(pfnOldSheetProc, hWnd, Msg, wParam, lParam);
+		return CallWindowProc(pfnOldSheetProc, hWnd, uMsg, wParam, lParam);
 
 	return false;
 }
 
 static void AdjustChildWindows(HWND hWnd)
 {
-	TCHAR szClass[128];
+	wchar_t szClass[128];
 
 	GetClassName(hWnd, szClass, WINUI_ARRAY_LENGTH(szClass));
 
@@ -962,7 +962,7 @@ static HTREEITEM GetSheetPageTreeItem(int nPage)
 	return NULL;
 }
 
-static int GetSheetPageTreeCurSelText(TCHAR* lpszText, int iBufSize)
+static int GetSheetPageTreeCurSelText(wchar_t* lpszText, int iBufSize)
 {
 	TVITEM item;
 
@@ -1039,7 +1039,7 @@ static void ModifyPropertySheetForTreeSheet(HWND hPageDlg)
 	item.mask = TCIF_TEXT;
 	item.iImage = 0;
 	item.lParam = 0;
-	item.pszText = (TCHAR*)TEXT("");
+	item.pszText = (wchar_t*)TEXT("");
 
 	(void)TabCtrl_InsertItem(hTempTab, 0, &item);
 	(void)TabCtrl_GetItemRect(hTempTab, 0, &rcTabCaption);
@@ -1086,7 +1086,7 @@ static void ModifyPropertySheetForTreeSheet(HWND hPageDlg)
 
 	for (nPage = 0; nPage < nPageCount; nPage++)
 	{
-		TCHAR szText[256];
+		wchar_t szText[256];
 		TCITEM ti;
 		TVINSERTSTRUCT tvis;
 		LPTVITEM lpTvItem;
@@ -1145,9 +1145,9 @@ static void ModifyPropertySheetForTreeSheet(HWND hPageDlg)
 }
 
 /* Handle the information property page */
-INT_PTR CALLBACK GamePropertiesDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
+intptr_t CALLBACK GamePropertiesDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (Msg)
+	switch (uMsg)
 	{
 		case WM_INITDIALOG:
 		{
@@ -1158,16 +1158,16 @@ INT_PTR CALLBACK GamePropertiesDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LP
 			SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
 			hBrushDlg = CreateSolidBrush(RGB(240, 240, 240));
 			snprintf(tmp, WINUI_ARRAY_LENGTH(tmp), "Information for \"%s\"", GetDriverGameName(index));
-			win_set_window_text_utf8(hDlg, tmp);
-			win_set_window_text_utf8(GetDlgItem(hDlg, IDC_PROP_TITLE), GetDriverGameTitle(index));
-			win_set_window_text_utf8(GetDlgItem(hDlg, IDC_PROP_MANUFACTURED), GameInfoManufactured(index));
-			win_set_window_text_utf8(GetDlgItem(hDlg, IDC_PROP_STATUS), GameInfoStatus(index));
-			win_set_window_text_utf8(GetDlgItem(hDlg, IDC_PROP_CPU), GameInfoCPU(index));
-			win_set_window_text_utf8(GetDlgItem(hDlg, IDC_PROP_SOUND), GameInfoSound(index));
-			win_set_window_text_utf8(GetDlgItem(hDlg, IDC_PROP_SCREEN), GameInfoScreen(index));
-			win_set_window_text_utf8(GetDlgItem(hDlg, IDC_PROP_CLONEOF), GameInfoCloneOf(index));
-			win_set_window_text_utf8(GetDlgItem(hDlg, IDC_PROP_SOURCE), GetDriverFileName(index));
-			win_set_window_text_utf8(GetDlgItem(hDlg, IDC_PROP_SAVESTATE), GameInfoSaveState(index));
+			winui_set_window_text_utf8(hDlg, tmp);
+			winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_PROP_TITLE), GetDriverGameTitle(index));
+			winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_PROP_MANUFACTURED), GameInfoManufactured(index));
+			winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_PROP_STATUS), GameInfoStatus(index));
+			winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_PROP_CPU), GameInfoCPU(index));
+			winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_PROP_SOUND), GameInfoSound(index));
+			winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_PROP_SCREEN), GameInfoScreen(index));
+			winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_PROP_CLONEOF), GameInfoCloneOf(index));
+			winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_PROP_SOURCE), GetDriverFileName(index));
+			winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_PROP_SAVESTATE), GameInfoSaveState(index));
 
 			if (DriverIsClone(index))
 				ShowWindow(GetDlgItem(hDlg, IDC_PROP_CLONEOF_TEXT), SW_SHOW);
@@ -1227,9 +1227,9 @@ INT_PTR CALLBACK GamePropertiesDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LP
 }
 
 /* Handle all options property pages */
-static INT_PTR CALLBACK GameOptionsDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
+static intptr_t CALLBACK GameOptionsDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (Msg)
+	switch (uMsg)
 	{
 		case WM_INITDIALOG:
 			//mamefx: for coloring of changed elements
@@ -1237,7 +1237,7 @@ static INT_PTR CALLBACK GameOptionsDialogProc(HWND hDlg, UINT Msg, WPARAM wParam
 			ModifyPropertySheetForTreeSheet(hDlg);
 			hBrushDlg = CreateSolidBrush(RGB(255, 255, 255));
 			/* Fill in the Game info at the top of the sheet */
-			win_set_window_text_utf8(GetDlgItem(hDlg, IDC_PROP_TITLE), GameInfoTitle((OPTIONS_TYPE)g_nPropertyMode, g_nGame));
+			winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_PROP_TITLE), GameInfoTitle((OPTIONS_TYPE)g_nPropertyMode, g_nGame));
 			InitializeOptions(hDlg);
 			UpdateProperties(hDlg, properties_datamap, pCurrentOpts);
 			g_bUseDefaults = (pCurrentOpts == pDefaultOpts);
@@ -1271,7 +1271,7 @@ static INT_PTR CALLBACK GameOptionsDialogProc(HWND hDlg, UINT Msg, WPARAM wParam
 			WORD wNotifyCode = GET_WM_COMMAND_CMD(wParam, lParam);
 			bool changed = false;
 			bool nCurSelection = false;
-			TCHAR szClass[256];
+			wchar_t szClass[256];
 
 			switch (wID)
 			{
@@ -1604,7 +1604,7 @@ static INT_PTR CALLBACK GameOptionsDialogProc(HWND hDlg, UINT Msg, WPARAM wParam
 				}
 			}
 
-			if (Msg == WM_CTLCOLORLISTBOX || Msg == WM_CTLCOLOREDIT)
+			if (uMsg == WM_CTLCOLORLISTBOX || uMsg == WM_CTLCOLOREDIT)
 				return (LRESULT) GetStockObject(WHITE_BRUSH);
 			else
 				return (LRESULT) hBrushDlg;
@@ -1622,7 +1622,7 @@ static void PropToOptions(HWND hWnd, windows_options &opts)
 	HWND hCtrl2 = NULL;
 	HWND hCtrl3 = NULL;
 	std::string error_string;
-	TCHAR buffer[200];
+	wchar_t buffer[200];
 	char buffer2[200];
 
 	/* aspect ratio */
@@ -1729,7 +1729,7 @@ static void OptionsToProp(HWND hWnd, windows_options &opts)
 {
 	HWND hCtrl = NULL;
 	HWND hCtrl2 = NULL;
-	TCHAR buf[100];
+	wchar_t buf[100];
 	char aspect_option[32];
 	char buffer[MAX_PATH];
 
@@ -1817,9 +1817,9 @@ static void OptionsToProp(HWND hWnd, windows_options &opts)
 		const char* effect = opts.value(OPTION_EFFECT);
 
 		if (strcmp(effect, "none") == 0)
-			win_set_window_text_utf8(hCtrl, "None");
+			winui_set_window_text_utf8(hCtrl, "None");
 		else
-			win_set_window_text_utf8(hCtrl, effect);
+			winui_set_window_text_utf8(hCtrl, effect);
 	}
 
 	for (int i = 0; i < 5; i++)
@@ -1835,7 +1835,7 @@ static void OptionsToProp(HWND hWnd, windows_options &opts)
 		const char* cheatfile = opts.value(OPTION_CHEATPATH);
 
 		if (strcmp(cheatfile, "cheat") == 0)
-			win_set_window_text_utf8(hCtrl, "Default");
+			winui_set_window_text_utf8(hCtrl, "Default");
 		else
 		{
 			char *cheatname = strrchr(cheatfile, '\\');
@@ -1843,10 +1843,10 @@ static void OptionsToProp(HWND hWnd, windows_options &opts)
 			if (cheatname != NULL)
 			{
 				strcpy(buffer, cheatname + 1);
-				win_set_window_text_utf8(hCtrl, buffer);
+				winui_set_window_text_utf8(hCtrl, buffer);
 			}
 			else
-				win_set_window_text_utf8(hCtrl, cheatfile);
+				winui_set_window_text_utf8(hCtrl, cheatfile);
 		}
 	}
 
@@ -1856,7 +1856,7 @@ static void OptionsToProp(HWND hWnd, windows_options &opts)
 	{
 		const char* joymap = opts.value(OPTION_JOYSTICK_MAP);
 
-		win_set_window_text_utf8(hCtrl, joymap);
+		winui_set_window_text_utf8(hCtrl, joymap);
 	}
 
 	hCtrl = GetDlgItem(hWnd, IDC_LUASCRIPT);
@@ -1866,17 +1866,17 @@ static void OptionsToProp(HWND hWnd, windows_options &opts)
 		const char* script = opts.value(OPTION_AUTOBOOT_SCRIPT);
 
 		if (strcmp(script, "") == 0)
-			win_set_window_text_utf8(hCtrl, "None");
+			winui_set_window_text_utf8(hCtrl, "None");
 		else
 		{
-			TCHAR *t_filename = win_wstring_from_utf8(script);
-			TCHAR *tempname = PathFindFileName(t_filename);
+			wchar_t *t_filename = win_wstring_from_utf8(script);
+			wchar_t *tempname = PathFindFileName(t_filename);
 			PathRemoveExtension(tempname);
 			char *optname = win_utf8_from_wstring(tempname);
 			strcpy(buffer, optname);
 			free(t_filename);
 			free(optname);
-			win_set_window_text_utf8(hCtrl, buffer);
+			winui_set_window_text_utf8(hCtrl, buffer);
 		}
 	}
 
@@ -1887,9 +1887,9 @@ static void OptionsToProp(HWND hWnd, windows_options &opts)
 		const char* plugin = opts.value(OPTION_PLUGIN);
 
 		if (strcmp(plugin, "") == 0)
-			win_set_window_text_utf8(hCtrl, "None");
+			winui_set_window_text_utf8(hCtrl, "None");
 		else
-			win_set_window_text_utf8(hCtrl, plugin);
+			winui_set_window_text_utf8(hCtrl, plugin);
 	}
 
 	hCtrl = GetDlgItem(hWnd, IDC_BGFX_CHAINS);
@@ -1899,9 +1899,9 @@ static void OptionsToProp(HWND hWnd, windows_options &opts)
 		const char* chains = opts.value(OSDOPTION_BGFX_SCREEN_CHAINS);
 
 		if (strcmp(chains, "default") == 0)
-			win_set_window_text_utf8(hCtrl, "Default");
+			winui_set_window_text_utf8(hCtrl, "Default");
 		else
-			win_set_window_text_utf8(hCtrl, chains);
+			winui_set_window_text_utf8(hCtrl, chains);
 	}
 
 	hCtrl = GetDlgItem(hWnd, IDC_SNAPSIZE);
@@ -2113,7 +2113,7 @@ static bool ScreenPopulateControl(datamap *map, HWND dialog, HWND control, windo
 			//we have to add 1 to account for the "auto" entry
 			char screen_option[32];
 			const char *device = win_utf8_from_wstring(dd.DeviceName);
-			TCHAR *t_device = win_wstring_from_utf8(device);
+			wchar_t *t_device = win_wstring_from_utf8(device);
 			(void)ComboBox_InsertString(control, i + 1, t_device);
 			(void)ComboBox_SetItemData(control, i + 1, device);
 			snprintf(screen_option, WINUI_ARRAY_LENGTH(screen_option), "screen%d", GetSelectedScreen(dialog));
@@ -2187,7 +2187,7 @@ static bool DefaultInputPopulateControl(datamap *map, HWND dialog, HWND control,
 	(void)ComboBox_SetItemData(control, index, "");
 	index++;
 	snprintf(path, WINUI_ARRAY_LENGTH(path), "%s\\*.*", GetCtrlrDir());
-	HANDLE hFind = win_find_first_file_utf8(path, &FindFileData);
+	HANDLE hFind = winui_find_first_file_utf8(path, &FindFileData);
 
 	if (hFind != INVALID_HANDLE_VALUE)
 	{
@@ -2211,7 +2211,7 @@ static bool DefaultInputPopulateControl(datamap *map, HWND dialog, HWND control,
 						selected = index;
 
 					// add it as an option
-					TCHAR *t_root = win_wstring_from_utf8(root);
+					wchar_t *t_root = win_wstring_from_utf8(root);
 					(void)ComboBox_InsertString(control, index, t_root);
 					(void)ComboBox_SetItemData(control, index, root);
 					free(t_root);
@@ -2244,7 +2244,7 @@ static bool ResolutionReadControl(datamap *map, HWND dialog, HWND control, windo
 		char option_value[256];
 		int width = 0; 
 		int height = 0;
-		TCHAR buffer[256];
+		wchar_t buffer[256];
 
 		(void)ComboBox_GetText(sizes_control, buffer, WINUI_ARRAY_LENGTH(buffer) - 1);
 
@@ -2281,7 +2281,7 @@ static bool ResolutionPopulateControl(datamap *map, HWND dialog, HWND control_, 
 		int width = 0; 
 		int height = 0; 
 		int refresh = 0;
-		TCHAR buf[32];
+		wchar_t buf[32];
 
 		// determine the resolution
 		const char *option_value = opts.value(option_name);
@@ -2306,7 +2306,7 @@ static bool ResolutionPopulateControl(datamap *map, HWND dialog, HWND control_, 
 		// determine which screen we're using
 		snprintf(screen_option, WINUI_ARRAY_LENGTH(screen_option), "screen%d", GetSelectedScreen(dialog));
 		const char *screen = opts.value(screen_option);
-		TCHAR *t_screen = win_wstring_from_utf8(screen);
+		wchar_t *t_screen = win_wstring_from_utf8(screen);
 		// retrieve screen information
 		devmode.dmSize = sizeof(DEVMODE);
 
@@ -2927,7 +2927,7 @@ static void InitializeBIOSUI(HWND hWnd)
 					{
 						const char *name = ROM_GETHASHDATA(rom);
 						const char *biosname = ROM_GETNAME(rom);
-						TCHAR *t_s = win_wstring_from_utf8(name);
+						wchar_t *t_s = win_wstring_from_utf8(name);
 
 						if(!t_s)
 							return;
@@ -2962,7 +2962,7 @@ static void InitializeBIOSUI(HWND hWnd)
 				{
 					const char *name = ROM_GETHASHDATA(rom);
 					const char *biosname = ROM_GETNAME(rom);
-					TCHAR *t_s = win_wstring_from_utf8(name);
+					wchar_t *t_s = win_wstring_from_utf8(name);
 
 					if(!t_s)
 						return;
@@ -2997,7 +2997,7 @@ static void InitializeLanguageUI(HWND hWnd)
 				if (!(name == "." || name == ".."))
 				{
 					const char *value = core_strdup(entry->name);
-					TCHAR *text = win_wstring_from_utf8(entry->name);
+					wchar_t *text = win_wstring_from_utf8(entry->name);
 					(void)ComboBox_InsertString(hCtrl, count, text);
 					(void)ComboBox_SetItemData(hCtrl, count, value);
 					count++;
@@ -3032,7 +3032,7 @@ static void InitializePluginsUI(HWND hWnd)
 				if (!(name == "." || name == ".." || name == "json"))
 				{
 					const char *value = core_strdup(entry->name);
-					TCHAR *text = win_wstring_from_utf8(entry->name);
+					wchar_t *text = win_wstring_from_utf8(entry->name);
 					(void)ComboBox_InsertString(hCtrl, count, text);
 					(void)ComboBox_SetItemData(hCtrl, count, value);
 					count++;
@@ -3059,8 +3059,8 @@ static bool SelectEffect(HWND hWnd)
 	if (CommonFileDialog(GetOpenFileName, filename, FILETYPE_EFFECT_FILES, false))
 	{
 		char option[MAX_PATH];
-		TCHAR *t_filename = win_wstring_from_utf8(filename);
-		TCHAR *tempname = PathFindFileName(t_filename);
+		wchar_t *t_filename = win_wstring_from_utf8(filename);
+		wchar_t *tempname = PathFindFileName(t_filename);
 		PathRemoveExtension(tempname);
 		char *optname = win_utf8_from_wstring(tempname);
 		strcpy(option, optname);
@@ -3072,7 +3072,7 @@ static bool SelectEffect(HWND hWnd)
 			std::string error_string;
 			pCurrentOpts.set_value(OPTION_EFFECT, option, OPTION_PRIORITY_CMDLINE, error_string);
 			assert(error_string.empty());
-			win_set_window_text_utf8(GetDlgItem(hWnd, IDC_EFFECT), option);
+			winui_set_window_text_utf8(GetDlgItem(hWnd, IDC_EFFECT), option);
 			changed = true;
 		}
 	}
@@ -3090,7 +3090,7 @@ static bool ResetEffect(HWND hWnd)
 		std::string error_string;
 		pCurrentOpts.set_value(OPTION_EFFECT, new_value, OPTION_PRIORITY_CMDLINE, error_string);
 		assert(error_string.empty());
-		win_set_window_text_utf8(GetDlgItem(hWnd, IDC_EFFECT), "None");
+		winui_set_window_text_utf8(GetDlgItem(hWnd, IDC_EFFECT), "None");
 		changed = true;
 	}
 
@@ -3110,8 +3110,8 @@ static bool SelectMameShader(HWND hWnd, int slot)
 	if (CommonFileDialog(GetOpenFileName, filename, FILETYPE_SHADER_FILES, false))
 	{
 		char option[MAX_PATH];
-		TCHAR *t_filename = win_wstring_from_utf8(filename);
-		TCHAR *tempname = PathFindFileName(t_filename);
+		wchar_t *t_filename = win_wstring_from_utf8(filename);
+		wchar_t *tempname = PathFindFileName(t_filename);
 		PathRemoveExtension(tempname);
 		char *optname = win_utf8_from_wstring(tempname);
 		strcpy(option, optname);
@@ -3123,7 +3123,7 @@ static bool SelectMameShader(HWND hWnd, int slot)
 			std::string error_string;
 			pCurrentOpts.set_value(shader, option, OPTION_PRIORITY_CMDLINE, error_string);
 			assert(error_string.empty());
-			win_set_window_text_utf8(GetDlgItem(hWnd, dialog), option);
+			winui_set_window_text_utf8(GetDlgItem(hWnd, dialog), option);
 			changed = true;
 		}
 	}
@@ -3145,7 +3145,7 @@ static bool ResetMameShader(HWND hWnd, int slot)
 		std::string error_string;
 		pCurrentOpts.set_value(option, new_value, OPTION_PRIORITY_CMDLINE, error_string);
 		assert(error_string.empty());
-		win_set_window_text_utf8(GetDlgItem(hWnd, dialog), "None");
+		winui_set_window_text_utf8(GetDlgItem(hWnd, dialog), "None");
 		changed = true;
 	}
 
@@ -3165,8 +3165,8 @@ static bool SelectScreenShader(HWND hWnd, int slot)
 	if (CommonFileDialog(GetOpenFileName, filename, FILETYPE_SHADER_FILES, false))
 	{
 		char option[MAX_PATH];
-		TCHAR *t_filename = win_wstring_from_utf8(filename);
-		TCHAR *tempname = PathFindFileName(t_filename);
+		wchar_t *t_filename = win_wstring_from_utf8(filename);
+		wchar_t *tempname = PathFindFileName(t_filename);
 		PathRemoveExtension(tempname);
 		char *optname = win_utf8_from_wstring(tempname);
 		strcpy(option, optname);
@@ -3178,7 +3178,7 @@ static bool SelectScreenShader(HWND hWnd, int slot)
 			std::string error_string;
 			pCurrentOpts.set_value(shader, option, OPTION_PRIORITY_CMDLINE, error_string);
 			assert(error_string.empty());
-			win_set_window_text_utf8(GetDlgItem(hWnd, dialog), option);
+			winui_set_window_text_utf8(GetDlgItem(hWnd, dialog), option);
 			changed = true;
 		}
 	}
@@ -3200,7 +3200,7 @@ static bool ResetScreenShader(HWND hWnd, int slot)
 		std::string error_string;
 		pCurrentOpts.set_value(option, new_value, OPTION_PRIORITY_CMDLINE, error_string);
 		assert(error_string.empty());
-		win_set_window_text_utf8(GetDlgItem(hWnd, dialog), "None");
+		winui_set_window_text_utf8(GetDlgItem(hWnd, dialog), "None");
 		changed = true;
 	}
 
@@ -3218,9 +3218,9 @@ static void UpdateMameShader(HWND hWnd, int slot, windows_options &opts)
 		const char* value = opts.value(option);
 
 		if (strcmp(value, "none") == 0)
-			win_set_window_text_utf8(hCtrl, "None");
+			winui_set_window_text_utf8(hCtrl, "None");
 		else
-			win_set_window_text_utf8(hCtrl, value);
+			winui_set_window_text_utf8(hCtrl, value);
 	}
 }
 
@@ -3235,9 +3235,9 @@ static void UpdateScreenShader(HWND hWnd, int slot, windows_options &opts)
 		const char* value = opts.value(option);
 
 		if (strcmp(value, "none") == 0)
-			win_set_window_text_utf8(hCtrl, "None");
+			winui_set_window_text_utf8(hCtrl, "None");
 		else
-			win_set_window_text_utf8(hCtrl, value);
+			winui_set_window_text_utf8(hCtrl, value);
 	}
 }
 
@@ -3252,9 +3252,9 @@ static bool SelectCheatFile(HWND hWnd)
 	{
 		char option[MAX_PATH];
 		char optvalue[MAX_PATH];
-		TCHAR *t_filename = win_wstring_from_utf8(filename);
-		TCHAR *t_cheatopt = win_wstring_from_utf8(filename);
-		TCHAR *tempname = PathFindFileName(t_filename);
+		wchar_t *t_filename = win_wstring_from_utf8(filename);
+		wchar_t *t_cheatopt = win_wstring_from_utf8(filename);
+		wchar_t *tempname = PathFindFileName(t_filename);
 		PathRemoveExtension(tempname);
 		PathRemoveExtension(t_cheatopt);
 		char *optname = win_utf8_from_wstring(tempname);
@@ -3271,7 +3271,7 @@ static bool SelectCheatFile(HWND hWnd)
 			std::string error_string;
 			pCurrentOpts.set_value(OPTION_CHEATPATH, optvalue, OPTION_PRIORITY_CMDLINE, error_string);
 			assert(error_string.empty());
-			win_set_window_text_utf8(GetDlgItem(hWnd, IDC_CHEATFILE), option);
+			winui_set_window_text_utf8(GetDlgItem(hWnd, IDC_CHEATFILE), option);
 			changed = true;
 		}
 	}
@@ -3289,7 +3289,7 @@ static bool ResetCheatFile(HWND hWnd)
 		std::string error_string;
 		pCurrentOpts.set_value(OPTION_CHEATPATH, new_value, OPTION_PRIORITY_CMDLINE, error_string);
 		assert(error_string.empty());
-		win_set_window_text_utf8(GetDlgItem(hWnd, IDC_CHEATFILE), "Default");
+		winui_set_window_text_utf8(GetDlgItem(hWnd, IDC_CHEATFILE), "Default");
 		changed = true;
 	}
 
@@ -3299,12 +3299,14 @@ static bool ResetCheatFile(HWND hWnd)
 static bool ChangeJoystickMap(HWND hWnd)
 {
 	bool changed = false;
-	std::string joymap = win_get_window_text_utf8(GetDlgItem(hWnd, IDC_JOYSTICKMAP));
+	char joymap[90];
 
-	if (strcmp(joymap.c_str(), pCurrentOpts.value(OPTION_JOYSTICK_MAP)))
+	winui_get_window_text_utf8(GetDlgItem(hWnd, IDC_JOYSTICKMAP), joymap, WINUI_ARRAY_LENGTH(joymap));
+
+	if (strcmp(joymap, pCurrentOpts.value(OPTION_JOYSTICK_MAP)))
 	{
 		std::string error_string;
-		pCurrentOpts.set_value(OPTION_JOYSTICK_MAP, joymap.c_str(), OPTION_PRIORITY_CMDLINE, error_string);
+		pCurrentOpts.set_value(OPTION_JOYSTICK_MAP, joymap, OPTION_PRIORITY_CMDLINE, error_string);
 		assert(error_string.empty());
 		changed = true;
 	}
@@ -3322,7 +3324,7 @@ static bool ResetJoystickMap(HWND hWnd)
 		std::string error_string;
 		pCurrentOpts.set_value(OPTION_JOYSTICK_MAP, new_value, OPTION_PRIORITY_CMDLINE, error_string);
 		assert(error_string.empty());
-		win_set_window_text_utf8(GetDlgItem(hWnd, IDC_JOYSTICKMAP), new_value);
+		winui_set_window_text_utf8(GetDlgItem(hWnd, IDC_JOYSTICKMAP), new_value);
 		changed = true;
 	}
 
@@ -3340,8 +3342,8 @@ static bool SelectLUAScript(HWND hWnd)
 	{
 		char option[MAX_PATH];
 		char script[MAX_PATH];
-		TCHAR *t_filename = win_wstring_from_utf8(filename);
-		TCHAR *tempname = PathFindFileName(t_filename);
+		wchar_t *t_filename = win_wstring_from_utf8(filename);
+		wchar_t *tempname = PathFindFileName(t_filename);
 		char *optvalue = win_utf8_from_wstring(tempname);
 		strcpy(script, optvalue);
 		PathRemoveExtension(tempname);
@@ -3356,7 +3358,7 @@ static bool SelectLUAScript(HWND hWnd)
 			std::string error_string;
 			pCurrentOpts.set_value(OPTION_AUTOBOOT_SCRIPT, script, OPTION_PRIORITY_CMDLINE, error_string);
 			assert(error_string.empty());
-			win_set_window_text_utf8(GetDlgItem(hWnd, IDC_LUASCRIPT), option);
+			winui_set_window_text_utf8(GetDlgItem(hWnd, IDC_LUASCRIPT), option);
 			changed = true;
 		}
 	}
@@ -3374,7 +3376,7 @@ static bool ResetLUAScript(HWND hWnd)
 		std::string error_string;
 		pCurrentOpts.set_value(OPTION_AUTOBOOT_SCRIPT, new_value, OPTION_PRIORITY_CMDLINE, error_string);
 		assert(error_string.empty());
-		win_set_window_text_utf8(GetDlgItem(hWnd, IDC_LUASCRIPT), "None");
+		winui_set_window_text_utf8(GetDlgItem(hWnd, IDC_LUASCRIPT), "None");
 		changed = true;
 	}
 
@@ -3420,7 +3422,7 @@ static bool SelectPlugins(HWND hWnd)
 		std::string error_string;
 		pCurrentOpts.set_value(OPTION_PLUGIN, new_value, OPTION_PRIORITY_CMDLINE, error_string);
 		assert(error_string.empty());
-		win_set_window_text_utf8(GetDlgItem(hWnd, IDC_PLUGIN), new_value);
+		winui_set_window_text_utf8(GetDlgItem(hWnd, IDC_PLUGIN), new_value);
 		changed = true;
 		(void)ComboBox_SetCurSel(GetDlgItem(hWnd, IDC_SELECT_PLUGIN), -1);
 		return changed;	
@@ -3442,7 +3444,7 @@ static bool SelectPlugins(HWND hWnd)
 		std::string error_string;
 		pCurrentOpts.set_value(OPTION_PLUGIN, new_option, OPTION_PRIORITY_CMDLINE, error_string);
 		assert(error_string.empty());
-		win_set_window_text_utf8(GetDlgItem(hWnd, IDC_PLUGIN), new_option);
+		winui_set_window_text_utf8(GetDlgItem(hWnd, IDC_PLUGIN), new_option);
 		changed = true;
 	}
 
@@ -3460,7 +3462,7 @@ static bool ResetPlugins(HWND hWnd)
 		std::string error_string;
 		pCurrentOpts.set_value(OPTION_PLUGIN, new_value, OPTION_PRIORITY_CMDLINE, error_string);
 		assert(error_string.empty());
-		win_set_window_text_utf8(GetDlgItem(hWnd, IDC_PLUGIN), "None");
+		winui_set_window_text_utf8(GetDlgItem(hWnd, IDC_PLUGIN), "None");
 		changed = true;
 	}
 
@@ -3478,8 +3480,8 @@ static bool SelectBGFXChains(HWND hWnd)
 	if (CommonFileDialog(GetOpenFileName, filename, FILETYPE_BGFX_FILES, false))
 	{
 		char option[MAX_PATH];
-		TCHAR *t_filename = win_wstring_from_utf8(filename);
-		TCHAR *tempname = PathFindFileName(t_filename);
+		wchar_t *t_filename = win_wstring_from_utf8(filename);
+		wchar_t *tempname = PathFindFileName(t_filename);
 		PathRemoveExtension(tempname);
 		char *optname = win_utf8_from_wstring(tempname);
 		strcpy(option, optname);
@@ -3491,7 +3493,7 @@ static bool SelectBGFXChains(HWND hWnd)
 			std::string error_string;
 			pCurrentOpts.set_value(OSDOPTION_BGFX_SCREEN_CHAINS, option, OPTION_PRIORITY_CMDLINE, error_string);
 			assert(error_string.empty());
-			win_set_window_text_utf8(GetDlgItem(hWnd, IDC_BGFX_CHAINS), option);
+			winui_set_window_text_utf8(GetDlgItem(hWnd, IDC_BGFX_CHAINS), option);
 			changed = true;
 		}
 	}
@@ -3509,7 +3511,7 @@ static bool ResetBGFXChains(HWND hWnd)
 		std::string error_string;
 		pCurrentOpts.set_value(OSDOPTION_BGFX_SCREEN_CHAINS, new_value, OPTION_PRIORITY_CMDLINE, error_string);
 		assert(error_string.empty());
-		win_set_window_text_utf8(GetDlgItem(hWnd, IDC_BGFX_CHAINS), "Default");
+		winui_set_window_text_utf8(GetDlgItem(hWnd, IDC_BGFX_CHAINS), "Default");
 		changed = true;
 	}
 

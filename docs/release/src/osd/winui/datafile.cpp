@@ -17,7 +17,7 @@ static const char *DATAFILE_TAG_END = "$end";
  *      private data for parsing functions
  ****************************************************************************/
 static FILE *fp = NULL;								/* Our file pointer */
-static UINT64 dwFilePos = 0;                     	/* file position */
+static uint64_t dwFilePos = 0;                     	/* file position */
 static char filename[MAX_PATH];						/* datafile name */
 
 struct tDatafileIndex
@@ -65,14 +65,14 @@ static bool ParseOpen(const char *pszFilename)
 /****************************************************************************
  *      ParseSeek - Move the file position indicator
  ****************************************************************************/
-static UINT8 ParseSeek(UINT64 offset, int whence)
+static uint8_t ParseSeek(uint64_t offset, int whence)
 {
 	int result = fseek(fp, offset, whence);
 
 	if (result == 0)
 		dwFilePos = ftell(fp);
 
-	return (UINT8)result;
+	return (uint8_t)result;
 }
 
 /**************************************************************************

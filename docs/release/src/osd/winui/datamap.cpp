@@ -260,7 +260,7 @@ static datamap_entry *find_entry(datamap *map, int dlgitem)
 static control_type get_control_type(HWND control)
 {
 	control_type type;
-	TCHAR class_name[256];
+	wchar_t class_name[256];
 
 	GetClassName(control, class_name, WINUI_ARRAY_LENGTH(class_name));
 
@@ -589,7 +589,7 @@ static void populate_control(datamap *map, HWND control, windows_options &opts, 
 			if (string_value == NULL)
 				string_value = "";
 
-			win_set_window_text_utf8(control, string_value);
+			winui_set_window_text_utf8(control, string_value);
 			break;
 
 		case CT_COMBOBOX:

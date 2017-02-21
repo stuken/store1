@@ -14,7 +14,7 @@ static bool showMsg = false;
 static int DoExchangeItem(HWND hFrom, HWND hTo, int nMinItem)
 {
 	LVITEM lvi;
-	TCHAR buf[80];
+	wchar_t buf[80];
 
 	lvi.iItem = ListView_GetNextItem(hFrom, -1, LVIS_SELECTED | LVIS_FOCUSED);
 
@@ -49,7 +49,7 @@ static int DoExchangeItem(HWND hFrom, HWND hTo, int nMinItem)
 static void DoMoveItem( HWND hWnd, bool bDown)
 {
 	LVITEM lvi;
-	TCHAR buf[80];
+	wchar_t buf[80];
 
 	lvi.iItem = ListView_GetNextItem(hWnd, -1, LVIS_SELECTED | LVIS_FOCUSED);
 	int nMaxpos = ListView_GetItemCount(hWnd);
@@ -90,9 +90,9 @@ static void DoMoveItem( HWND hWnd, bool bDown)
 	}
 }
 
-static INT_PTR InternalColumnDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam,
+static intptr_t InternalColumnDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam,
 	int nColumnMax, int *shown, int *order,
-	const TCHAR* const *names, void (*pfnGetRealColumnOrder)(int *),
+	const wchar_t* const *names, void (*pfnGetRealColumnOrder)(int *),
 	void (*pfnGetColumnInfo)(int *pnOrder, int *pnShown),
 	void (*pfnSetColumnInfo)(int *pnOrder, int *pnShown))
 {
@@ -102,7 +102,7 @@ static INT_PTR InternalColumnDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPAR
 	int nAvail = 0;
 	LVITEM lvi;
 
-	switch (Msg)
+	switch (uMsg)
 	{
 		case WM_INITDIALOG:
 			CenterWindow(hDlg);
@@ -148,7 +148,7 @@ static INT_PTR InternalColumnDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPAR
 
 			for (int i = 0 ; i < nColumnMax; i++)
 			{
-				lvi.pszText = (TCHAR*)names[order[i]];
+				lvi.pszText = (wchar_t*)names[order[i]];
 				lvi.lParam = order[i];
 
 				if (shown[order[i]])
@@ -464,12 +464,12 @@ static void SetColumnInfo(int *order, int *shown)
 	SetColumnShown(shown);
 }
 
-INT_PTR CALLBACK ColumnDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
+intptr_t CALLBACK ColumnDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	static int shown[COLUMN_MAX];
 	static int order[COLUMN_MAX];
-	extern const TCHAR* const column_names[COLUMN_MAX]; // from winui.c, should improve
+	extern const wchar_t* const column_names[COLUMN_MAX]; // from winui.c, should improve
 
-	return InternalColumnDialogProc(hDlg, Msg, wParam, lParam, COLUMN_MAX,
+	return InternalColumnDialogProc(hDlg, uMsg, wParam, lParam, COLUMN_MAX,
 		shown, order, column_names, GetRealColumnOrder, GetColumnInfo, SetColumnInfo);
 }

@@ -8,8 +8,8 @@
 
 void AuditDialog(void);
 void AuditRefresh(void);
-INT_PTR CALLBACK GameAuditDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK AuditWindowProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam);
+intptr_t CALLBACK GameAuditDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+intptr_t CALLBACK AuditWindowProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 int MameUIVerifyRomSet(int game, bool refresh);
 bool IsAuditResultYes(int audit_result);
 bool IsAuditResultNo(int audit_result);

@@ -10,7 +10,7 @@
 typedef struct
 {
 	UINT m_nSize;
-	UCHAR* m_lpBits;
+	uint8_t* m_lpBits;
 } BITS, *LPBITS;
 
 /* Linked list type */

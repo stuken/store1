@@ -40,52 +40,6 @@ enum
 	DRIVER_CACHE_TRACKBALL  = 0x0800,
 };
 
-string_iterator::string_iterator()
-{
-}
-
-string_iterator::string_iterator(const char *str)
-{
-	/* reset the structure */
-	m_index = 0;
-	m_str.clear();
-	m_base = (str != NULL) ? str : "";
-	m_cur = m_base;
-}
- 
-bool string_iterator::next(int separator)
-{
-	const char *semi;
-
-	/* if none left, return false to indicate we are done */
-	if (m_index != 0 && *m_cur == 0)
-		return false;
-
-	/* ignore duplicates of the separator */
-	while (m_index == 0 && *m_cur == separator)
-		m_cur++;
-
-	if (*m_cur == 0)
-		return false;
-
-	/* copy up to the next separator */
-	semi = strchr(m_cur, separator);
-
-	if (semi == NULL)
-		semi = m_cur + strlen(m_cur);
-
-	m_str.assign(m_cur, semi - m_cur);
-	m_cur = (*semi == 0) ? semi : semi + 1;
-
-	/* ignore duplicates of the separator */
-	while (*m_cur && *m_cur == separator)
-		m_cur++;
-
-	/* bump the index and return true */
-	m_index++;
-	return true;
-}
-
 void ErrorMessageBox(const char *fmt, ...)
 {
 	char buf[1024];
@@ -93,7 +47,7 @@ void ErrorMessageBox(const char *fmt, ...)
 
 	va_start(ptr, fmt);
 	vsnprintf(buf, WINUI_ARRAY_LENGTH(buf), fmt, ptr);
-	win_message_box_utf8(GetMainWindow(), buf, MAMEUINAME, MB_ICONERROR | MB_OK);
+	winui_message_box_utf8(GetMainWindow(), buf, MAMEUINAME, MB_ICONERROR | MB_OK);
 	va_end(ptr);
 }
 
@@ -104,14 +58,14 @@ void dprintf(const char *fmt, ...)
 	va_list ptr;
 	va_start(ptr, fmt);
 	vsnprintf(buf, WINUI_ARRAY_LENGTH(buf), fmt, ptr);
-	win_output_debug_string_utf8(buf);
+	winui_output_debug_string_utf8(buf);
 	va_end(ptr);
 }
 
 void ShellExecuteCommon(HWND hWnd, const char *cName)
 {
 	const char *msg = NULL;
-	TCHAR *tName = win_wstring_from_utf8(cName);
+	wchar_t *tName = win_wstring_from_utf8(cName);
 
 	if(!tName)
 		return;
@@ -365,7 +319,7 @@ static void InitDriversInfo(void)
 			{
 				for (ioport_field &field : port.second->fields())
 				{
-					UINT32 type = field.type();
+					UINT type = field.type();
 
 					if (type == IPT_END)
 						break;
@@ -518,11 +472,11 @@ bool DriverIsImperfect(int driver_index)
 //  win_wstring_from_utf8
 //============================================================
 
-WCHAR *win_wstring_from_utf8(const char *utf8string)
+wchar_t *win_wstring_from_utf8(const char *utf8string)
 {
 	// convert MAME string (UTF-8) to UTF-16
 	int char_count = MultiByteToWideChar(CP_UTF8, 0, utf8string, -1, nullptr, 0);
-	WCHAR *result = (WCHAR *)malloc(char_count * sizeof(*result));
+	wchar_t *result = (wchar_t *)malloc(char_count * sizeof(*result));
 
 	if (result != nullptr)
 		MultiByteToWideChar(CP_UTF8, 0, utf8string, -1, result, char_count);
@@ -535,7 +489,7 @@ WCHAR *win_wstring_from_utf8(const char *utf8string)
 //  win_utf8_from_wstring
 //============================================================
 
-char *win_utf8_from_wstring(const WCHAR *wstring)
+char *win_utf8_from_wstring(const wchar_t *wstring)
 {
 	// convert UTF-16 to MAME string (UTF-8)
 	int char_count = WideCharToMultiByte(CP_UTF8, 0, wstring, -1, nullptr, 0, nullptr, nullptr);
@@ -548,14 +502,93 @@ char *win_utf8_from_wstring(const WCHAR *wstring)
 }
 
 //============================================================
-//  win_extract_icon_utf8
+//  winui_output_debug_string_utf8
 //============================================================
 
-HICON win_extract_icon_utf8(HINSTANCE inst, const char* exefilename, UINT iconindex)
+void winui_output_debug_string_utf8(const char *string)
 {
-	TCHAR *t_exefilename = win_wstring_from_utf8(exefilename);
+	wchar_t *t_string = win_wstring_from_utf8(string);
+	
+	if (t_string != NULL)
+	{
+		OutputDebugString(t_string);
+		free(t_string);
+	}
+}
 
-	if(!t_exefilename)
+//============================================================
+//  winui_message_box_utf8
+//============================================================
+
+int winui_message_box_utf8(HWND hWnd, const char *text, const char *caption, UINT type)
+{
+	int result = IDCANCEL;
+	wchar_t *t_text = win_wstring_from_utf8(text);
+	wchar_t *t_caption = win_wstring_from_utf8(caption);
+
+	if (!t_text)
+		return result;
+
+	if (!t_caption)
+	{
+		free(t_text);
+		return result;
+	}
+
+	result = MessageBox(hWnd, t_text, t_caption, type);
+	free(t_text);
+	free(t_caption);
+	return result;
+}
+
+//============================================================
+//  winui_set_window_text_utf8
+//============================================================
+
+bool winui_set_window_text_utf8(HWND hWnd, const char *text)
+{
+	bool result = false;
+	wchar_t *t_text = win_wstring_from_utf8(text);
+
+	if (!t_text)
+		return result;
+
+	result = SetWindowText(hWnd, t_text);
+	free(t_text);
+	return result;
+}
+
+//============================================================
+//  winui_get_window_text_utf8
+//============================================================
+
+int winui_get_window_text_utf8(HWND hWnd, char *buffer, size_t buffer_size)
+{
+	int result = 0;
+	wchar_t t_buffer[256];
+
+	t_buffer[0] = '\0';
+	// invoke the core Win32 API
+	GetWindowText(hWnd, t_buffer, ARRAY_LENGTH(t_buffer));
+	char *utf8_buffer = win_utf8_from_wstring(t_buffer);
+	
+	if (!utf8_buffer)
+		return result;
+
+	result = snprintf(buffer, buffer_size, "%s", utf8_buffer);
+	free(utf8_buffer);
+	return result;
+}
+
+//============================================================
+//  winui_extract_icon_utf8
+//============================================================
+
+HICON winui_extract_icon_utf8(HINSTANCE inst, const char* exefilename, UINT iconindex)
+{
+	wchar_t *t_exefilename = win_wstring_from_utf8(exefilename);
+
+	if (!t_exefilename)
 		return NULL;
 
 	HICON icon = ExtractIcon(inst, t_exefilename, iconindex);
@@ -564,14 +597,14 @@ HICON win_extract_icon_utf8(HINSTANCE inst, const char* exefilename, UINT iconin
 }
 
 //============================================================
-//  win_find_first_file_utf8
+//  winui_find_first_file_utf8
 //============================================================
 
-HANDLE win_find_first_file_utf8(const char* filename, WIN32_FIND_DATA *findfiledata)
+HANDLE winui_find_first_file_utf8(const char* filename, WIN32_FIND_DATA *findfiledata)
 {
-	TCHAR *t_filename = win_wstring_from_utf8(filename);
+	wchar_t *t_filename = win_wstring_from_utf8(filename);
 
-	if(!t_filename)
+	if (!t_filename)
 		return NULL;
 
 	HANDLE result = FindFirstFile(t_filename, findfiledata);
@@ -580,21 +613,21 @@ HANDLE win_find_first_file_utf8(const char* filename, WIN32_FIND_DATA *findfiled
 }
 
 //============================================================
-//  win_move_file_utf8
+//  winui_move_file_utf8
 //============================================================
 
-BOOL win_move_file_utf8(const char* existingfilename, const char* newfilename)
+bool winui_move_file_utf8(const char* existingfilename, const char* newfilename)
 {
-	BOOL result = FALSE;
+	bool result = false;
 
-	TCHAR *t_existingfilename = win_wstring_from_utf8(existingfilename);
+	wchar_t *t_existingfilename = win_wstring_from_utf8(existingfilename);
 
-	if( !t_existingfilename )
+	if (!t_existingfilename)
 		return result;
 
-	TCHAR *t_newfilename = win_wstring_from_utf8(newfilename);
+	wchar_t *t_newfilename = win_wstring_from_utf8(newfilename);
 
-	if( !t_newfilename ) 
+	if (!t_newfilename) 
 	{
 		free(t_existingfilename);
 		return result;
