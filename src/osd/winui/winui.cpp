@@ -489,7 +489,6 @@ static void RunMAME(int nGameIndex, const play_options *playopts)
 	// start LUA engine & http server
 	manager->start_http_server();
 	manager->start_luaengine();
-	manager->start_context();
 
 	// set any specified play options
 	if (playopts != NULL)
