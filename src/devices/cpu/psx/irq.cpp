@@ -78,24 +78,20 @@ void psxirq_device::psx_irq_update( void )
 	{
 
 // primrag2 only - this code derived from MAME4RAGE2 emulator
-		if( ( n_irqmask == 0x0 ) && ( n_irqdata == 0x0 ) )
-		{
-		}
-		else
-			m_irq_handler (CLEAR_LINE);
-
 		if( ( n_irqmask == 0x9 ) && ( n_irqdata == 0x1 ) )
 			m_irq_handler (ASSERT_LINE);
-
+		else
 		if( ( n_irqmask == 0x449 ) &&
 			( (n_irqdata == 1) || (n_irqdata == 9) || (n_irqdata == 0x40) || (n_irqdata == 0x48) || (n_irqdata == 0x49)
 			|| (n_irqdata == 0x401) || (n_irqdata == 0x409) || (n_irqdata == 0x441) || (n_irqdata == 0x448) ) )
 				m_irq_handler (ASSERT_LINE);
-
+		else
 		if( ( n_irqmask == 0x649 ) &&
 			( (n_irqdata == 1) || (n_irqdata == 0x41) || (n_irqdata == 0x201) || (n_irqdata == 0x241)
 			|| (n_irqdata == 0x401) || (n_irqdata == 0x441) || (n_irqdata == 0x601) || (n_irqdata == 0x641) ) )
 				m_irq_handler (ASSERT_LINE);
+		else
+			m_irq_handler (CLEAR_LINE);
 	}
 	// MAMEFX end
 }
