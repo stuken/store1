@@ -489,7 +489,6 @@ static void RunMAME(int nGameIndex, const play_options *playopts)
 	// start LUA engine & http server
 	manager->start_http_server();
 	manager->start_luaengine();
-	manager->start_context();
 
 	// set any specified play options
 	if (playopts != NULL)
@@ -540,19 +539,15 @@ int MameUIMain(HINSTANCE hInstance, LPWSTR lpCmdLine)
 {
 	if (__argc != 1)
 	{
-		extern int utf8_main(int argc, char *argv[]);
-		std::vector<std::string> argv_vectors(__argc);
-		char **utf8_argv = (char **) alloca(__argc * sizeof(char *));
+		extern int utf8_main(std::vector<std::string> &args);
+		std::vector<std::string> utf8_argv(__argc);
 
 		/* convert arguments to UTF-8 */
 		for (int i = 0; i < __argc; i++)
-		{
-			argv_vectors[i] = win_utf8_from_wstring(__targv[i]);
-			utf8_argv[i] = (char *) argv_vectors[i].c_str();
-		}
+			utf8_argv[i] = win_utf8_from_wstring(__targv[i]);
 
 		/* run utf8_main */
-		exit(utf8_main(__argc, utf8_argv));
+		exit(utf8_main(utf8_argv));
 	}
 
 	WNDCLASS wndclass;

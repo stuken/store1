@@ -263,7 +263,7 @@ SOUNDS["L7A1045"] = true
 SOUNDS["AD1848"] = true
 --SOUNDS["UPD1771"] = true
 SOUNDS["VOLT_REG"] = true
---SOUNDS["MEA8000"] = true
+SOUNDS["MEA8000"] = true
 SOUNDS["DAC76"] = true
 SOUNDS["MM5837"] = true
 --SOUNDS["DAVE"] = true
@@ -300,6 +300,7 @@ VIDEOS["HD61830"] = true
 VIDEOS["HD63484"] = true
 --VIDEOS["HD66421"] = true
 --VIDEOS["HLCD0515"] = true
+--VIDEOS["HLCD0538"] = true
 VIDEOS["HUC6202"] = true
 VIDEOS["HUC6260"] = true
 --VIDEOS["HUC6261"] = true
@@ -434,6 +435,7 @@ MACHINES["I8255"] = true
 MACHINES["I8279"] = true
 MACHINES["I8355"] = true
 MACHINES["IDE"] = true
+MACHINES["IE15"] = true
 MACHINES["IM6402"] = true
 MACHINES["INS8154"] = true
 MACHINES["INS8250"] = true
@@ -592,7 +594,7 @@ MACHINES["STEPPERS"] = true
 --MACHINES["WOZFDC"] = true
 --MACHINES["DIABLO_HD"] = true
 MACHINES["PCI9050"] = true
---MACHINES["TMS1024"] = true
+MACHINES["TMS1024"] = true
 MACHINES["GENPC"] = true
 MACHINES["GEN_LATCH"] = true
 MACHINES["WATCHDOG"] = true
@@ -788,8 +790,8 @@ function linkProjects_mame_arcade(_target, _subtarget)
 		"sony",
 		"stern",
 		"subsino",
-		"sun",
 		"suna",
+		"sunelect",
 		"sure",
 		"taito",
 		"tatsumi",
@@ -3090,9 +3092,6 @@ files {
 	MAME_DIR .. "src/mame/video/angelkds.cpp",
 	MAME_DIR .. "src/mame/drivers/bingoc.cpp",
 	MAME_DIR .. "src/mame/drivers/blockade.cpp",
-	MAME_DIR .. "src/mame/includes/blockade.h",
-	MAME_DIR .. "src/mame/audio/blockade.cpp",
-	MAME_DIR .. "src/mame/video/blockade.cpp",
 	MAME_DIR .. "src/mame/drivers/calorie.cpp",
 	MAME_DIR .. "src/mame/drivers/chihiro.cpp",
 	MAME_DIR .. "src/mame/includes/xbox_nv2a.h",
@@ -3512,7 +3511,22 @@ files {
 	MAME_DIR .. "src/mame/machine/subsino.h",
 }
 
-createMAMEProjects(_target, _subtarget, "sun")
+createMAMEProjects(_target, _subtarget, "suna")
+files {
+	MAME_DIR .. "src/mame/drivers/go2000.cpp",
+	MAME_DIR .. "src/mame/drivers/goindol.cpp",
+	MAME_DIR .. "src/mame/includes/goindol.h",
+	MAME_DIR .. "src/mame/video/goindol.cpp",
+	MAME_DIR .. "src/mame/drivers/suna8.cpp",
+	MAME_DIR .. "src/mame/includes/suna8.h",
+	MAME_DIR .. "src/mame/audio/suna8.cpp",
+	MAME_DIR .. "src/mame/video/suna8.cpp",
+	MAME_DIR .. "src/mame/drivers/suna16.cpp",
+	MAME_DIR .. "src/mame/includes/suna16.h",
+	MAME_DIR .. "src/mame/video/suna16.cpp",
+}
+
+createMAMEProjects(_target, _subtarget, "sunelect")
 files {
 	MAME_DIR .. "src/mame/drivers/arabian.cpp",
 	MAME_DIR .. "src/mame/includes/arabian.h",
@@ -3538,21 +3552,6 @@ files {
 	MAME_DIR .. "src/mame/includes/strnskil.h",
 	MAME_DIR .. "src/mame/video/strnskil.cpp",
 	MAME_DIR .. "src/mame/drivers/tonton.cpp",
-}
-
-createMAMEProjects(_target, _subtarget, "suna")
-files {
-	MAME_DIR .. "src/mame/drivers/go2000.cpp",
-	MAME_DIR .. "src/mame/drivers/goindol.cpp",
-	MAME_DIR .. "src/mame/includes/goindol.h",
-	MAME_DIR .. "src/mame/video/goindol.cpp",
-	MAME_DIR .. "src/mame/drivers/suna8.cpp",
-	MAME_DIR .. "src/mame/includes/suna8.h",
-	MAME_DIR .. "src/mame/audio/suna8.cpp",
-	MAME_DIR .. "src/mame/video/suna8.cpp",
-	MAME_DIR .. "src/mame/drivers/suna16.cpp",
-	MAME_DIR .. "src/mame/includes/suna16.h",
-	MAME_DIR .. "src/mame/video/suna16.cpp",
 }
 
 createMAMEProjects(_target, _subtarget, "sure")
@@ -4101,6 +4100,8 @@ files {
 
 createMAMEProjects(_target, _subtarget, "vsystem")
 files {
+	MAME_DIR .. "src/mame/video/vsystem_gga.cpp",
+	MAME_DIR .. "src/mame/video/vsystem_gga.h",
 	MAME_DIR .. "src/mame/video/vsystem_spr.cpp",
 	MAME_DIR .. "src/mame/video/vsystem_spr.h",
 	MAME_DIR .. "src/mame/video/vsystem_spr2.cpp",
@@ -4279,6 +4280,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/spinb.cpp",
 	MAME_DIR .. "src/mame/drivers/st_mp100.cpp",
 	MAME_DIR .. "src/mame/drivers/st_mp200.cpp",
+	MAME_DIR .. "src/mame/drivers/stargame.cpp",
 	MAME_DIR .. "src/mame/drivers/taito.cpp",
 	MAME_DIR .. "src/mame/drivers/techno.cpp",
 	MAME_DIR .. "src/mame/drivers/vd.cpp",
@@ -4697,6 +4699,5 @@ files {
 	MAME_DIR .. "src/mame/drivers/xyonix.cpp",
 	MAME_DIR .. "src/mame/includes/xyonix.h",
 	MAME_DIR .. "src/mame/video/xyonix.cpp",
-	MAME_DIR .. "src/mame/drivers/tvgame.cpp",
 }
 end

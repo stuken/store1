@@ -2,6 +2,7 @@
 // copyright-holders:Chris Kirmse, Mike Haaland, René Single, Mamesick
 
 #include "winui.h"
+#include "speaker.h"
 
 /****************************************************************************
  *      datafile constants
@@ -47,7 +48,7 @@ static void ParseClose(void)
  ****************************************************************************/
 static bool ParseOpen(const char *pszFilename)
 {
-	/* MAME core file parsing functions fail in recognizing UNICODE chars in UTF-8 without BOM, 
+	/* MAME core file parsing functions fail in recognizing UNICODE chars in UTF-8 without BOM,
 	so it's better and faster use standard C fileio functions */
 	fp = fopen(pszFilename, "r");
 

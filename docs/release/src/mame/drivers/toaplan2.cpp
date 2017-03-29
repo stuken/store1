@@ -362,15 +362,18 @@ To reset the NVRAM in Othello Derby, hold P1 Button 1 down while booting.
 
 
 #include "emu.h"
+#include "includes/toaplan2.h"
+#include "includes/toaplipt.h"
+
 #include "cpu/nec/v25.h"
 #include "cpu/z80/z80.h"
 #include "cpu/z180/z180.h"
 #include "machine/nvram.h"
-#include "sound/ym2151.h"
 #include "sound/3812intf.h"
+#include "sound/ym2151.h"
 #include "sound/ymz280b.h"
-#include "includes/toaplan2.h"
-#include "includes/toaplipt.h"
+#include "speaker.h"
+
 
 #define UNICODE_YEN             "\xC2\xA5"
 #define PWRKICK_HOPPER_PULSE    50          // time between hopper pulses in milliseconds (probably wrong)
@@ -3471,7 +3474,7 @@ static MACHINE_CONFIG_START( tekipaki, toaplan2_state )
 	//MCFG_SCREEN_SIZE(432, 262)
 	//MCFG_SCREEN_VISIBLE_AREA(0, 319, 0, 239)
 	MCFG_SCREEN_UPDATE_DRIVER(toaplan2_state, screen_update_toaplan2)
-	MCFG_SCREEN_VBLANK_DRIVER(toaplan2_state, screen_eof_toaplan2)
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(toaplan2_state, screen_vblank_toaplan2))
 	MCFG_SCREEN_PALETTE("palette")
 
 	MCFG_PALETTE_ADD("palette", T2PALETTE_LENGTH)
@@ -3509,7 +3512,7 @@ static MACHINE_CONFIG_START( whoopee, toaplan2_state )
 	//MCFG_SCREEN_SIZE(432, 262)
 	//MCFG_SCREEN_VISIBLE_AREA(0, 319, 0, 239)
 	MCFG_SCREEN_UPDATE_DRIVER(toaplan2_state, screen_update_toaplan2_samples)
-	MCFG_SCREEN_VBLANK_DRIVER(toaplan2_state, screen_eof_toaplan2)
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(toaplan2_state, screen_vblank_toaplan2))
 	MCFG_SCREEN_PALETTE("palette")
 
 	MCFG_PALETTE_ADD("palette", T2PALETTE_LENGTH)
@@ -3572,8 +3575,8 @@ static MACHINE_CONFIG_START( ghox, toaplan2_state )
 	//MCFG_SCREEN_REFRESH_RATE(60)
 	//MCFG_SCREEN_SIZE(432, 262)
 	//MCFG_SCREEN_VISIBLE_AREA(0, 319, 0, 239)
-	MCFG_SCREEN_UPDATE_DRIVER(toaplan2_state, screen_update_toaplan2_samples)
-	MCFG_SCREEN_VBLANK_DRIVER(toaplan2_state, screen_eof_toaplan2)
+	MCFG_SCREEN_UPDATE_DRIVER(toaplan2_state, screen_update_toaplan2_samples) // MAMEFX
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(toaplan2_state, screen_vblank_toaplan2))
 	MCFG_SCREEN_PALETTE("palette")
 
 	MCFG_PALETTE_ADD("palette", T2PALETTE_LENGTH)
@@ -3666,7 +3669,7 @@ static MACHINE_CONFIG_START( dogyuun, toaplan2_state )
 	MCFG_SCREEN_VIDEO_ATTRIBUTES(VIDEO_UPDATE_BEFORE_VBLANK)
 	MCFG_SCREEN_RAW_PARAMS(XTAL_27MHz/4,432,0,320,262,0,240)
 	MCFG_SCREEN_UPDATE_DRIVER(toaplan2_state, screen_update_dogyuun)
-	MCFG_SCREEN_VBLANK_DRIVER(toaplan2_state, screen_eof_toaplan2)
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(toaplan2_state, screen_vblank_toaplan2))
 	MCFG_SCREEN_PALETTE("palette")
 
 	MCFG_PALETTE_ADD("palette", T2PALETTE_LENGTH)
@@ -3717,7 +3720,7 @@ static MACHINE_CONFIG_START( kbash, toaplan2_state )
 	//MCFG_SCREEN_SIZE(432, 262)
 	//MCFG_SCREEN_VISIBLE_AREA(0, 319, 0, 239)
 	MCFG_SCREEN_UPDATE_DRIVER(toaplan2_state, screen_update_toaplan2)
-	MCFG_SCREEN_VBLANK_DRIVER(toaplan2_state, screen_eof_toaplan2)
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(toaplan2_state, screen_vblank_toaplan2))
 	MCFG_SCREEN_PALETTE("palette")
 
 	MCFG_PALETTE_ADD("palette", T2PALETTE_LENGTH)
@@ -3756,7 +3759,7 @@ static MACHINE_CONFIG_START( kbash2, toaplan2_state )
 	//MCFG_SCREEN_SIZE(432, 262)
 	//MCFG_SCREEN_VISIBLE_AREA(0, 319, 0, 239)
 	MCFG_SCREEN_UPDATE_DRIVER(toaplan2_state, screen_update_toaplan2)
-	MCFG_SCREEN_VBLANK_DRIVER(toaplan2_state, screen_eof_toaplan2)
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(toaplan2_state, screen_vblank_toaplan2))
 	MCFG_SCREEN_PALETTE("palette")
 
 	MCFG_PALETTE_ADD("palette", T2PALETTE_LENGTH)
@@ -3792,7 +3795,7 @@ static MACHINE_CONFIG_START( truxton2, toaplan2_state )
 	MCFG_SCREEN_VIDEO_ATTRIBUTES(VIDEO_UPDATE_BEFORE_VBLANK)
 	MCFG_SCREEN_RAW_PARAMS(XTAL_27MHz/4,432,0,320,262,0,240)
 	MCFG_SCREEN_UPDATE_DRIVER(toaplan2_state, screen_update_truxton2)
-	MCFG_SCREEN_VBLANK_DRIVER(toaplan2_state, screen_eof_toaplan2)
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(toaplan2_state, screen_vblank_toaplan2))
 	MCFG_SCREEN_PALETTE("palette")
 
 	MCFG_GFXDECODE_ADD("gfxdecode", "palette", truxton2)
@@ -3850,7 +3853,7 @@ static MACHINE_CONFIG_START( pipibibs, toaplan2_state )
 	//MCFG_SCREEN_SIZE(432, 262)
 	//MCFG_SCREEN_VISIBLE_AREA(0, 319, 0, 239)
 	MCFG_SCREEN_UPDATE_DRIVER(toaplan2_state, screen_update_toaplan2)
-	MCFG_SCREEN_VBLANK_DRIVER(toaplan2_state, screen_eof_toaplan2)
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(toaplan2_state, screen_vblank_toaplan2))
 	MCFG_SCREEN_PALETTE("palette")
 
 	MCFG_PALETTE_ADD("palette", T2PALETTE_LENGTH)
@@ -3893,7 +3896,7 @@ static MACHINE_CONFIG_START( pipibibsbl, toaplan2_state )
 	//MCFG_SCREEN_SIZE(432, 262)
 	//MCFG_SCREEN_VISIBLE_AREA(0, 319, 0, 239)
 	MCFG_SCREEN_UPDATE_DRIVER(toaplan2_state, screen_update_toaplan2)
-	MCFG_SCREEN_VBLANK_DRIVER(toaplan2_state, screen_eof_toaplan2)
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(toaplan2_state, screen_vblank_toaplan2))
 	MCFG_SCREEN_PALETTE("palette")
 
 	MCFG_PALETTE_ADD("palette", T2PALETTE_LENGTH)
@@ -3972,7 +3975,7 @@ static MACHINE_CONFIG_START( fixeight, toaplan2_state )
 	MCFG_SCREEN_VIDEO_ATTRIBUTES(VIDEO_UPDATE_BEFORE_VBLANK)
 	MCFG_SCREEN_RAW_PARAMS(XTAL_27MHz/4,432,0,320,262,0,240) /* verified on pcb */
 	MCFG_SCREEN_UPDATE_DRIVER(toaplan2_state, screen_update_truxton2)
-	MCFG_SCREEN_VBLANK_DRIVER(toaplan2_state, screen_eof_toaplan2)
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(toaplan2_state, screen_vblank_toaplan2))
 	MCFG_SCREEN_PALETTE("palette")
 
 	MCFG_GFXDECODE_ADD("gfxdecode", "palette", truxton2)
@@ -4012,7 +4015,7 @@ static MACHINE_CONFIG_START( fixeightbl, toaplan2_state )
 	//MCFG_SCREEN_SIZE(432, 262)
 	//MCFG_SCREEN_VISIBLE_AREA(0, 319, 0, 239)
 	MCFG_SCREEN_UPDATE_DRIVER(toaplan2_state, screen_update_bootleg)
-	MCFG_SCREEN_VBLANK_DRIVER(toaplan2_state, screen_eof_toaplan2)
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(toaplan2_state, screen_vblank_toaplan2))
 	MCFG_SCREEN_PALETTE("palette")
 
 	MCFG_GFXDECODE_ADD("gfxdecode", "palette", fixeightbl)
@@ -4055,7 +4058,7 @@ static MACHINE_CONFIG_START( vfive, toaplan2_state )
 	MCFG_SCREEN_VIDEO_ATTRIBUTES(VIDEO_UPDATE_BEFORE_VBLANK)
 	MCFG_SCREEN_RAW_PARAMS(XTAL_27MHz/4,432,0,320,262,0,240) /* verified on pcb */
 	MCFG_SCREEN_UPDATE_DRIVER(toaplan2_state, screen_update_toaplan2)
-	MCFG_SCREEN_VBLANK_DRIVER(toaplan2_state, screen_eof_toaplan2)
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(toaplan2_state, screen_vblank_toaplan2))
 	MCFG_SCREEN_PALETTE("palette")
 
 	MCFG_PALETTE_ADD("palette", T2PALETTE_LENGTH)
@@ -4098,7 +4101,7 @@ static MACHINE_CONFIG_START( batsugun, toaplan2_state )
 	//MCFG_SCREEN_SIZE(432, 262)
 	//MCFG_SCREEN_VISIBLE_AREA(0, 319, 0, 239)
 	MCFG_SCREEN_UPDATE_DRIVER(toaplan2_state, screen_update_batsugun)
-	MCFG_SCREEN_VBLANK_DRIVER(toaplan2_state, screen_eof_toaplan2)
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(toaplan2_state, screen_vblank_toaplan2))
 	MCFG_SCREEN_PALETTE("palette")
 
 	MCFG_PALETTE_ADD("palette", T2PALETTE_LENGTH)
@@ -4141,7 +4144,7 @@ static MACHINE_CONFIG_START( pwrkick, toaplan2_state )
 	MCFG_SCREEN_VIDEO_ATTRIBUTES(VIDEO_UPDATE_BEFORE_VBLANK)
 	MCFG_SCREEN_RAW_PARAMS(XTAL_27MHz/4,432,0,320,262,0,240)
 	MCFG_SCREEN_UPDATE_DRIVER(toaplan2_state, screen_update_toaplan2)
-	MCFG_SCREEN_VBLANK_DRIVER(toaplan2_state, screen_eof_toaplan2)
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(toaplan2_state, screen_vblank_toaplan2))
 	MCFG_SCREEN_PALETTE("palette")
 
 	MCFG_PALETTE_ADD("palette", T2PALETTE_LENGTH)
@@ -4175,7 +4178,7 @@ static MACHINE_CONFIG_START( othldrby, toaplan2_state )
 	MCFG_SCREEN_VIDEO_ATTRIBUTES(VIDEO_UPDATE_BEFORE_VBLANK)
 	MCFG_SCREEN_RAW_PARAMS(XTAL_27MHz/4,432,0,320,262,0,240)
 	MCFG_SCREEN_UPDATE_DRIVER(toaplan2_state, screen_update_toaplan2)
-	MCFG_SCREEN_VBLANK_DRIVER(toaplan2_state, screen_eof_toaplan2)
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(toaplan2_state, screen_vblank_toaplan2))
 	MCFG_SCREEN_PALETTE("palette")
 
 	MCFG_PALETTE_ADD("palette", T2PALETTE_LENGTH)
@@ -4207,7 +4210,7 @@ static MACHINE_CONFIG_START( enmadaio, toaplan2_state )
 	MCFG_SCREEN_VIDEO_ATTRIBUTES(VIDEO_UPDATE_BEFORE_VBLANK)
 	MCFG_SCREEN_RAW_PARAMS(XTAL_27MHz/4,432,0,320,262,0,240)
 	MCFG_SCREEN_UPDATE_DRIVER(toaplan2_state, screen_update_toaplan2)
-	MCFG_SCREEN_VBLANK_DRIVER(toaplan2_state, screen_eof_toaplan2)
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(toaplan2_state, screen_vblank_toaplan2))
 	MCFG_SCREEN_PALETTE("palette")
 
 	MCFG_PALETTE_ADD("palette", T2PALETTE_LENGTH)
@@ -4246,7 +4249,7 @@ static MACHINE_CONFIG_START( snowbro2, toaplan2_state )
 	//MCFG_SCREEN_SIZE(432, 262)
 	//MCFG_SCREEN_VISIBLE_AREA(0, 319, 0, 239)
 	MCFG_SCREEN_UPDATE_DRIVER(toaplan2_state, screen_update_toaplan2)
-	MCFG_SCREEN_VBLANK_DRIVER(toaplan2_state, screen_eof_toaplan2)
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(toaplan2_state, screen_vblank_toaplan2))
 	MCFG_SCREEN_PALETTE("palette")
 
 	MCFG_PALETTE_ADD("palette", T2PALETTE_LENGTH)
@@ -4291,7 +4294,7 @@ static MACHINE_CONFIG_START( mahoudai, toaplan2_state )
 	//MCFG_SCREEN_SIZE(432, 262)
 	//MCFG_SCREEN_VISIBLE_AREA(0, 319, 0, 239)
 	MCFG_SCREEN_UPDATE_DRIVER(toaplan2_state, screen_update_truxton2)
-	MCFG_SCREEN_VBLANK_DRIVER(toaplan2_state, screen_eof_toaplan2)
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(toaplan2_state, screen_vblank_toaplan2))
 	MCFG_SCREEN_PALETTE("palette")
 
 	MCFG_GFXDECODE_ADD("gfxdecode", "palette", raizing)
@@ -4337,7 +4340,7 @@ static MACHINE_CONFIG_START( shippumd, toaplan2_state )
 	//MCFG_SCREEN_SIZE(432, 262)
 	//MCFG_SCREEN_VISIBLE_AREA(0, 319, 0, 239)
 	MCFG_SCREEN_UPDATE_DRIVER(toaplan2_state, screen_update_truxton2)
-	MCFG_SCREEN_VBLANK_DRIVER(toaplan2_state, screen_eof_toaplan2)
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(toaplan2_state, screen_vblank_toaplan2))
 	MCFG_SCREEN_PALETTE("palette")
 
 	MCFG_GFXDECODE_ADD("gfxdecode", "palette", raizing)
@@ -4382,7 +4385,7 @@ static MACHINE_CONFIG_START( bgaregga, toaplan2_state )
 	//MCFG_SCREEN_SIZE(432, 262)
 	//MCFG_SCREEN_VISIBLE_AREA(0, 319, 0, 239)
 	MCFG_SCREEN_UPDATE_DRIVER(toaplan2_state, screen_update_truxton2)
-	MCFG_SCREEN_VBLANK_DRIVER(toaplan2_state, screen_eof_toaplan2)
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(toaplan2_state, screen_vblank_toaplan2))
 	MCFG_SCREEN_PALETTE("palette")
 
 	MCFG_GFXDECODE_ADD("gfxdecode", "palette", raizing)
