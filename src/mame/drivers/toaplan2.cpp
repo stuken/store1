@@ -3498,9 +3498,6 @@ static MACHINE_CONFIG_START( whoopee, toaplan2_state )
 	MCFG_CPU_PROGRAM_MAP(whoopee_68k_mem)
 	MCFG_CPU_VBLANK_INT_DRIVER("screen", toaplan2_state,  toaplan2_vblank_irq4)
 
-
-
-	MCFG_MACHINE_START_OVERRIDE(toaplan2_state,toaplan2)
 	MCFG_MACHINE_RESET_OVERRIDE(toaplan2_state,toaplan2)
 
 	/* video hardware */
