@@ -1388,7 +1388,7 @@ void taito_f3_state::init_alpha_blend_func()
 }
 
 #define UPDATE_PIXMAP_SP(pf_num) \
-	if(cx>=clip_als && cx<clip_ars-1 && !(cx>=clip_bls && cx<clip_brs)) \
+	if(cx>=clip_als && cx<clip_ars && !(cx>=clip_bls && cx<clip_brs)) \
 	{ \
 		sprite_pri=sprite[pf_num]&m_pval; \
 		if(sprite_pri) \
@@ -1404,7 +1404,7 @@ void taito_f3_state::init_alpha_blend_func()
 	}
 
 #define UPDATE_PIXMAP_LP(pf_num) \
-	if (cx>=m_clip_al##pf_num && cx<m_clip_ar##pf_num-1 && !(cx>=m_clip_bl##pf_num && cx<m_clip_br##pf_num)) \
+	if (cx>=m_clip_al##pf_num && cx<m_clip_ar##pf_num && !(cx>=m_clip_bl##pf_num && cx<m_clip_br##pf_num)) \
 	{ \
 		m_tval=*m_tsrc##pf_num; \
 		if(m_tval&0xf0) \
@@ -1924,12 +1924,9 @@ void taito_f3_state::get_line_ram_info(tilemap_t *tmap, int sx, int sy, int pos,
 		_y_zoom[y] = (line_zoom&0xff) << 9;
 
 		/* Evaluate clipping */
-		if (pri&0x0800 && m_f3_game != QUIZHUHU && m_f3_game != LANDMAKR)
-		{ // kludge: line-disable breaks quizhuhu text & landmakr "you win / you lose" text. [april 23, 2017 -dink]
-		  // somehow I think 0x0800 has nothing to do with line-disable.
+		if (pri&0x0800)
 			line_enable=0;
-		}
-		else if (pri&0x0330 && m_f3_game != PBOBBLE4) // kludge: clipping breaks win/lose animation [april 23, 2017 -dink]
+		else if (pri&0x0330)
 		{
 			//fast path todo - remove line enable
 			calculate_clip(y, pri&0x0330, &line_t->clip0[y], &line_t->clip1[y], &line_enable);
@@ -1953,7 +1950,9 @@ void taito_f3_state::get_line_ram_info(tilemap_t *tmap, int sx, int sy, int pos,
 	}
 
 
-	tilemap_t* tm = tmap;
+	/* set pixmap pointer */
+	bitmap_ind16 &srcbitmap = tmap->pixmap();
+	bitmap_ind8 &flagsbitmap = tmap->flagsmap();
 
 	y=y_start;
 	while(y!=y_end)
@@ -1961,6 +1960,7 @@ void taito_f3_state::get_line_ram_info(tilemap_t *tmap, int sx, int sy, int pos,
 		uint32_t x_index_fx;
 		uint32_t y_index;
 
+#if 0	/* SLOW SLOW SLOW!! */
 		/* The football games use values in the range 0x200-0x3ff where the crowd should be drawn - !?
 
 		   This appears to cause it to reference outside of the normal tilemap RAM area into the unused
@@ -1987,9 +1987,7 @@ void taito_f3_state::get_line_ram_info(tilemap_t *tmap, int sx, int sy, int pos,
 			tmap = tm;
 		}
 
-		/* set pixmap pointer */
-		bitmap_ind16 &srcbitmap = tmap->pixmap();
-		bitmap_ind8 &flagsbitmap = tmap->flagsmap();
+#endif /* SLOW SLOW SLOW!! */
 
 		if(line_t->alpha_mode[y]!=0)
 		{
@@ -2072,8 +2070,6 @@ void taito_f3_state::get_vram_info(tilemap_t *vram_tilemap, tilemap_t *pixel_til
 			line_enable=3;
 		else
 			line_enable=1;
-
-		if (m_f3_game == ARABIANM) line_enable = 1; // kludge: arabianm missing cutscene text april.21.2017_dink
 
 		line_t->pri[y]=pri;
 
@@ -2346,8 +2342,9 @@ void taito_f3_state::scanline_draw(bitmap_rgb32 &bitmap, const rectangle &clipre
 				{
 					if(alpha_type==1)
 					{
-						if (m_f3_alpha_level_2as==0   && m_f3_alpha_level_2ad==255 && m_f3_game == GSEEKER) {
-							alpha_mode[i]=3; alpha_mode_flag[i] |= 0x80;} /* will display continue screen in gseeker (mt 00026) */
+						/* if (m_f3_alpha_level_2as==0   && m_f3_alpha_level_2ad==255)
+						 *     alpha_mode[i]=3; alpha_mode_flag[i] |= 0x80;}
+						 * will display continue screen in gseeker (mt 00026) */
 						if     (m_f3_alpha_level_2as==0   && m_f3_alpha_level_2ad==255) alpha_mode[i]=0;
 						else if(m_f3_alpha_level_2as==255 && m_f3_alpha_level_2ad==0  ) alpha_mode[i]=1;
 					}

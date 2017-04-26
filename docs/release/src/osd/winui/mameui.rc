@@ -20,16 +20,16 @@ BEGIN
         MENUITEM "Play INP Playback\tAlt+F1",   		ID_FILE_PLAY_BACK
         MENUITEM "Play WAV sound\tAlt+F2", 				ID_PLAY_AUDIO
         MENUITEM "Play MNG video\tAlt+F3", 				ID_PLAY_MNG
-        MENUITEM "Play AVI video\tAlt+F4", 				ID_PLAY_VIDEO
+        MENUITEM "Play AVI video\tAlt+F5", 				ID_PLAY_VIDEO
         MENUITEM SEPARATOR
         MENUITEM "Record game INP playback\tCtrl+F1",   ID_FILE_PLAY_RECORD
         MENUITEM "Record game WAV sound\tCtrl+F2", 		ID_FILE_PLAY_RECORD_WAVE
         MENUITEM "Record game MNG video\tCtrl+F3", 		ID_FILE_PLAY_RECORD_MNG
-        MENUITEM "Record game AVI video\tCtrl+F4", 		ID_FILE_PLAY_RECORD_AVI
+        MENUITEM "Record game AVI video\tCtrl+F5", 		ID_FILE_PLAY_RECORD_AVI
         MENUITEM SEPARATOR
         MENUITEM "Load game savestate\tAlt+F7", 		ID_FILE_LOADSTATE
         MENUITEM SEPARATOR
-        MENUITEM "Exit\t Alt+Q",              			ID_FILE_EXIT
+        MENUITEM "Exit\t Alt+F4",              			ID_FILE_EXIT
     END
     POPUP "&View"
     BEGIN
@@ -982,7 +982,6 @@ BEGIN
     "O",            ID_FILE_PLAY, 				VIRTKEY, ALT, NOINVERT
     "P",            ID_VIEW_PICTURE_AREA,   	VIRTKEY, ALT, NOINVERT
     "P",            ID_FOLDER_PROPERTIES,   	VIRTKEY, CONTROL, NOINVERT
-    "Q",            ID_FILE_EXIT,       		VIRTKEY, ALT, NOINVERT
     "R",            ID_CONTEXT_SELECT_RANDOM, 	VIRTKEY, ALT, NOINVERT
     "R",            ID_OPTIONS_RESET_DEFAULTS, 	VIRTKEY, CONTROL, NOINVERT
     "S",            ID_VIEW_STATUS,         	VIRTKEY, ALT, NOINVERT
@@ -1000,11 +999,12 @@ BEGIN
 	VK_F1,          ID_FILE_PLAY_BACK,       	VIRTKEY, ALT, NOINVERT
 	VK_F2,			ID_PLAY_AUDIO,				VIRTKEY, ALT, NOINVERT
 	VK_F3,          ID_PLAY_MNG,       			VIRTKEY, ALT, NOINVERT
-    VK_F4,          ID_PLAY_VIDEO,     			VIRTKEY, ALT, NOINVERT
+    VK_F4,          ID_FILE_EXIT,       		VIRTKEY, ALT, NOINVERT
+    VK_F5,          ID_PLAY_VIDEO,     			VIRTKEY, ALT, NOINVERT
 	VK_F1,          ID_FILE_PLAY_RECORD,       	VIRTKEY, CONTROL, NOINVERT
 	VK_F2,			ID_FILE_PLAY_RECORD_WAVE,	VIRTKEY, CONTROL, NOINVERT
 	VK_F3,          ID_FILE_PLAY_RECORD_MNG,    VIRTKEY, CONTROL, NOINVERT
-    VK_F4,          ID_FILE_PLAY_RECORD_AVI,    VIRTKEY, CONTROL, NOINVERT
+    VK_F5,          ID_FILE_PLAY_RECORD_AVI,    VIRTKEY, CONTROL, NOINVERT
     VK_F5,          ID_UPDATE_GAMELIST,     	VIRTKEY, NOINVERT
 	VK_F6,          ID_HELP_WHATS_NEW,       	VIRTKEY, NOINVERT
 	VK_F7,          ID_MAME_HOMEPAGE,       	VIRTKEY, NOINVERT
