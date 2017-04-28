@@ -1924,9 +1924,14 @@ void taito_f3_state::get_line_ram_info(tilemap_t *tmap, int sx, int sy, int pos,
 		_y_zoom[y] = (line_zoom&0xff) << 9;
 
 		/* Evaluate clipping */
+		/* Notes:
+		   kludge: line-disable breaks quizhuhu text & landmakr "you win / you lose" text. [april 23, 2017 -dink]
+		   somehow I think 0x0800 has nothing to do with line-disable.
+		   although tcobra2 uses this to clip the sides of the playfield
+		*/
+
 		if (pri&0x0800 && m_f3_game != QUIZHUHU && m_f3_game != LANDMAKR)
-		{ // kludge: line-disable breaks quizhuhu text & landmakr "you win / you lose" text. [april 23, 2017 -dink]
-		  // somehow I think 0x0800 has nothing to do with line-disable.
+		{
 			line_enable=0;
 		}
 		else if (pri&0x0330 && m_f3_game != PBOBBLE4) // kludge: clipping breaks win/lose animation [april 23, 2017 -dink]
@@ -2073,7 +2078,10 @@ void taito_f3_state::get_vram_info(tilemap_t *vram_tilemap, tilemap_t *pixel_til
 		else
 			line_enable=1;
 
-		if (m_f3_game == ARABIANM) line_enable = 1; // kludge: arabianm missing cutscene text april.21.2017_dink
+		if ((m_f3_game == ARABIANM || m_f3_game == GSEEKER) && line_enable)
+		{ // force opaque vram & pixel layer kludge: fixes arabianm missing cutscene text, gseeker missing continue screen april.21&28.2017_dink
+			line_enable = 1;
+		}
 
 		line_t->pri[y]=pri;
 
@@ -2346,8 +2354,9 @@ void taito_f3_state::scanline_draw(bitmap_rgb32 &bitmap, const rectangle &clipre
 				{
 					if(alpha_type==1)
 					{
-						if (m_f3_alpha_level_2as==0   && m_f3_alpha_level_2ad==255 && m_f3_game == GSEEKER) {
-							alpha_mode[i]=3; alpha_mode_flag[i] |= 0x80;} /* will display continue screen in gseeker (mt 00026) */
+						/* if (m_f3_alpha_level_2as==0   && m_f3_alpha_level_2ad==255)
+						 *     alpha_mode[i]=3; alpha_mode_flag[i] |= 0x80;}
+						 * will display continue screen in gseeker (mt 00026) */
 						if     (m_f3_alpha_level_2as==0   && m_f3_alpha_level_2ad==255) alpha_mode[i]=0;
 						else if(m_f3_alpha_level_2as==255 && m_f3_alpha_level_2ad==0  ) alpha_mode[i]=1;
 					}
