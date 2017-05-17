@@ -164,7 +164,7 @@ const char * GetVersionString(void)
 
 const char * GetDriverGameTitle(int nIndex)
 {
-	return driver_list::driver(nIndex).description;
+	return driver_list::driver(nIndex).type.fullname();
 }
 
 const char * GetDriverGameName(int nIndex)
@@ -186,7 +186,7 @@ const char * GetDriverFileName(int nIndex)
 {
 	static char tmp[40];
 
-	std::string driver = core_filename_extract_base(driver_list::driver(nIndex).source_file, false);
+	std::string driver = core_filename_extract_base(driver_list::driver(nIndex).type.source(), false);
 	strcpy(tmp, driver.c_str());
 	return tmp;
 }

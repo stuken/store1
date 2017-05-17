@@ -43,10 +43,6 @@ includedirs {
 	MAME_DIR .. "3rdparty/asio/include",
 }
 
-configuration { "vs*" }
-	buildoptions {
-		"/bigobj",
-	}
 configuration { }
 if (_OPTIONS["targetos"] == "windows" or _OPTIONS["targetos"]=="winui") then
 	defines {
