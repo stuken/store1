@@ -1930,7 +1930,7 @@ void taito_f3_state::get_line_ram_info(tilemap_t *tmap, int sx, int sy, int pos,
 		   although tcobra2 uses this to clip the sides of the playfield
 		*/
 
-		if (pri&0x0800 && m_f3_game != QUIZHUHU && m_f3_game != LANDMAKR)
+		if (pri&0x0800 && m_f3_game != LANDMAKR)
 		{
 			line_enable=0;
 		}
