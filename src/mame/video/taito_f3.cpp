@@ -1934,7 +1934,7 @@ void taito_f3_state::get_line_ram_info(tilemap_t *tmap, int sx, int sy, int pos,
 		{
 			line_enable=0;
 		}
-		else if (pri&0x0330 && m_f3_game != PBOBBLE4) // kludge: clipping breaks win/lose animation [april 23, 2017 -dink]
+		else if (pri&0x0330)
 		{
 			//fast path todo - remove line enable
 			calculate_clip(y, pri&0x0330, &line_t->clip0[y], &line_t->clip1[y], &line_enable);
@@ -2078,7 +2078,7 @@ void taito_f3_state::get_vram_info(tilemap_t *vram_tilemap, tilemap_t *pixel_til
 		else
 			line_enable=1;
 
-		if ((m_f3_game == ARABIANM || m_f3_game == GSEEKER) && line_enable)
+		if ((m_f3_game == ARABIANM) && line_enable)
 		{ // force opaque vram & pixel layer kludge: fixes arabianm missing cutscene text, gseeker missing continue screen april.21&28.2017_dink
 			line_enable = 1;
 		}
@@ -2354,10 +2354,16 @@ void taito_f3_state::scanline_draw(bitmap_rgb32 &bitmap, const rectangle &clipre
 				{
 					if(alpha_type==1)
 					{
-						/* if (m_f3_alpha_level_2as==0   && m_f3_alpha_level_2ad==255)
-						 *     alpha_mode[i]=3; alpha_mode_flag[i] |= 0x80;}
-						 * will display continue screen in gseeker (mt 00026) */
-						if     (m_f3_alpha_level_2as==0   && m_f3_alpha_level_2ad==255) alpha_mode[i]=0;
+						if     (m_f3_alpha_level_2as==0   && m_f3_alpha_level_2ad==255)
+						{
+							if (m_f3_game == GSEEKER) // will display continue screen (MT 00026)
+							{
+								alpha_mode[i] = 3;
+								alpha_mode_flag[i] |= 0x80;
+							}
+							else
+								alpha_mode[i] = 0;
+						}
 						else if(m_f3_alpha_level_2as==255 && m_f3_alpha_level_2ad==0  ) alpha_mode[i]=1;
 					}
 					else if(alpha_type==2)
