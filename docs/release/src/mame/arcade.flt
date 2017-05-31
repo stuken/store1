@@ -21,7 +21,6 @@
 //aces1.cpp
 //acesp.cpp
 //acommand.cpp
-acchi.cpp
 actfancr.cpp
 //adp.cpp
 aeroboto.cpp
@@ -680,7 +679,6 @@ maxaflex.cpp
 //maygayep.cpp
 //maygaysw.cpp
 //maygayv1.cpp
-mayumi.cpp
 mazerbla.cpp
 mcatadv.cpp
 mcr.cpp
@@ -847,6 +845,7 @@ parodius.cpp
 pasha2.cpp
 pass.cpp
 pastelg.cpp
+patapata.cpp
 pbaction.cpp
 //pcat_dyn.cpp
 //pcat_nit.cpp
@@ -989,6 +988,7 @@ scobra.cpp
 scotrsht.cpp
 scramble.cpp
 scregg.cpp
+scyclone.cpp
 sderby.cpp
 seabattl.cpp
 sealy.cpp
@@ -1030,6 +1030,7 @@ shanghai.cpp
 shangkid.cpp
 shaolins.cpp
 shisen.cpp
+//shootaway2.cpp
 shootout.cpp
 shougi.cpp
 shtzone.cpp
@@ -1111,7 +1112,7 @@ stactics.cpp
 stadhero.cpp
 starcrus.cpp
 starfire.cpp
-stargame.cpp
+//stargame.cpp
 starshp1.cpp
 starwars.cpp
 statriv2.cpp
@@ -1145,7 +1146,7 @@ suprloco.cpp
 suprnova.cpp
 suprridr.cpp
 suprslam.cpp
-supstarf.cpp
+//supstarf.cpp
 surpratk.cpp
 system1.cpp
 system16.cpp
@@ -1253,6 +1254,7 @@ ultratnk.cpp
 ultrsprt.cpp
 umipoker.cpp
 undrfire.cpp
+unianapc.cpp
 unico.cpp
 unkhorse.cpp
 upscope.cpp

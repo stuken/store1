@@ -458,6 +458,9 @@ flags {
 }
 
 configuration { "vs*" }
+	buildoptions {
+		"/bigobj",
+	}
 	flags {
 		"NoPCH",
 		"ExtraWarnings",
@@ -1122,10 +1125,14 @@ configuration { "osx* or xcode4" }
 		}
 
 configuration { "mingw*" }
+		local version = str_to_version(_OPTIONS["gcc_version"])
+		if not (_OPTIONS["gcc"]~=nil and string.find(_OPTIONS["gcc"], "clang")) or version < 40000
+		then
+			linkoptions {
+				"-static",
+			}
+		end
 		linkoptions {
-			"-static-libgcc",
-			"-static-libstdc++",
-			"-static",
 			"-Wl,--start-group",
 		}
 		links {

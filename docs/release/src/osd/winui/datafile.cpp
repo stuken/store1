@@ -211,7 +211,7 @@ static int load_datafile_text(const game_driver *drv, char *buffer, int bufsize,
 		/* find source file in datafile index */
 		while (idx->driver)
 		{
-			if (idx->driver->source_file == drv->source_file) 
+			if (idx->driver->type.source() == drv->type.source()) 
 				break;
 
 			idx++;
@@ -443,7 +443,7 @@ static int load_driver_mameinfo(const game_driver *drv, char *buffer, int bufsiz
 	/* GAME INFORMATIONS */
 	snprintf(name, WINUI_ARRAY_LENGTH(name), "\nGAME: %s\n", drv->name);
 	strcat(buffer, name);
-	snprintf(name, WINUI_ARRAY_LENGTH(name), "%s", drv->description);
+	snprintf(name, WINUI_ARRAY_LENGTH(name), "%s", drv->type.fullname());
 	strcat(buffer, name);
 	snprintf(name, WINUI_ARRAY_LENGTH(name), " (%s %s)\n\nCPU:\n", drv->manufacturer, drv->year);
 	strcat(buffer, name);
@@ -642,7 +642,7 @@ static int load_driver_mameinfo(const game_driver *drv, char *buffer, int bufsiz
 			drv = &driver_list::driver(g);
 
 		strcat(buffer, "\nORIGINAL:\n");
-		strcat(buffer, drv->description);
+		strcat(buffer, drv->type.fullname());
 		strcat(buffer, "\n\nCLONES:\n");
 
 		for (int i = 0; i < driver_list::total(); i++)
@@ -665,7 +665,7 @@ static int load_driver_driverinfo(const game_driver *drv, char *buffer, int bufs
 	char source_file[40];
 	char tmp[100];
 
-	std::string temp = core_filename_extract_base(drv->source_file, false);
+	std::string temp = core_filename_extract_base(drv->type.source(), false);
 	strcpy(source_file, temp.c_str());
 
 	*buffer = 0;

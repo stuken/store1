@@ -2549,7 +2549,7 @@ void LoadOptions(windows_options &opts, OPTIONS_TYPE opt_type, int game_num)
 			return;
 
 		// then parse "<sourcefile>.ini"
-		std::string basename = core_filename_extract_base(driver->source_file, true);
+		std::string basename = core_filename_extract_base(driver->type.source(), true);
 		std::string srcname = std::string("source").append(PATH_SEPARATOR).append(basename.c_str());
 		ParseIniFile(opts, srcname.c_str());
 
@@ -2603,7 +2603,7 @@ void SaveOptions(OPTIONS_TYPE opt_type, windows_options &opts, int game_num)
 		if (opt_type == OPTIONS_SOURCE)
 		{
 			// determine the <sourcefile>
-			std::string basename = core_filename_extract_base(driver->source_file, true);
+			std::string basename = core_filename_extract_base(driver->type.source(), true);
 			std::string srcname = std::string("source").append(PATH_SEPARATOR).append(basename.c_str());
 			filename.assign(srcname.c_str());
 		}
