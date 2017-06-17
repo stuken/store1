@@ -12,7 +12,7 @@
 static MACHINE_CONFIG_DERIVED( neobase, neogeo_arcade )
 	NEOGEO_CONFIG_ONE_FIXED_CARTSLOT("rom")
 MACHINE_CONFIG_END
-
+// MAMEFX start
 static MACHINE_CONFIG_DERIVED( neo304h, neogeo_arcade )
 	NEOGEO_CONFIG_ONE_FIXED_CARTSLOT("rom")
 	MCFG_SCREEN_MODIFY("screen")
@@ -25,6 +25,12 @@ static MACHINE_CONFIG_DERIVED( neo288h, neogeo_arcade )
 	MCFG_SCREEN_VISIBLE_AREA(46, 334-1, NEOGEO_VBEND, NEOGEO_VBSTART-1)
 MACHINE_CONFIG_END
 
+static MACHINE_CONFIG_DERIVED( cyberlip, neogeo_arcade )
+	NEOGEO_CONFIG_ONE_FIXED_CARTSLOT("rom")
+	MCFG_SCREEN_MODIFY("screen")
+	MCFG_SCREEN_VISIBLE_AREA(30, 334-1, NEOGEO_VBEND, NEOGEO_VBSTART-1)
+MACHINE_CONFIG_END
+// MAMEFX end
 // used by fatfury2 & ssideki
 static MACHINE_CONFIG_DERIVED( fatfur2, neogeo_arcade )
 	NEOGEO_CONFIG_ONE_FIXED_CARTSLOT("rom_fatfur2")
@@ -8884,7 +8890,7 @@ GAME( 1990, ridhero,    neogeo,   neo304h,   neogeo, neogeo_state,   neogeo,   R
 GAME( 1990, ridheroh,   ridhero,  neo304h,   neogeo, neogeo_state,   neogeo,   ROT0, "SNK", "Riding Hero (set 2)", MACHINE_SUPPORTS_SAVE )
 GAME( 1991, alpham2,    neogeo,   neo304h,   neogeo, neogeo_state,   neogeo,   ROT0, "SNK", "Alpha Mission II / ASO II - Last Guardian (NGM-007 ~ NGH-007)", MACHINE_SUPPORTS_SAVE )
 GAME( 1991, alpham2p,   alpham2,  neo304h,   neogeo, neogeo_state,   neogeo,   ROT0, "SNK", "Alpha Mission II / ASO II - Last Guardian (prototype)", MACHINE_SUPPORTS_SAVE )
-GAME( 1990, cyberlip,   neogeo,   neo304h,   neogeo, neogeo_state,   neogeo,   ROT0, "SNK", "Cyber-Lip (NGM-010)", MACHINE_SUPPORTS_SAVE )
+GAME( 1990, cyberlip,   neogeo,   cyberlip,  neogeo, neogeo_state,   neogeo,   ROT0, "SNK", "Cyber-Lip (NGM-010)", MACHINE_SUPPORTS_SAVE )
 GAME( 1990, superspy,   neogeo,   neobase,   neogeo, neogeo_state,   neogeo,   ROT0, "SNK", "The Super Spy (NGM-011 ~ NGH-011)", MACHINE_SUPPORTS_SAVE )
 GAME( 1992, mutnat,     neogeo,   neo304h,   neogeo, neogeo_state,   neogeo,   ROT0, "SNK", "Mutation Nation (NGM-014 ~ NGH-014)", MACHINE_SUPPORTS_SAVE )
 GAME( 1991, kotm,       neogeo,   neo304h,   neogeo, neogeo_state,   neogeo,   ROT0, "SNK", "King of the Monsters (set 1)", MACHINE_SUPPORTS_SAVE )
