@@ -323,11 +323,11 @@ static bool Directories_OnInitDialog(HWND hDlg, HWND hwndFocus, LPARAM lParam)
 		if (!t_s)
 			return false;
 
+		/* Copy the string to our own buffer so that we can mutilate it */
+		_tcscpy(buf, t_s);
+
 		if (g_directoryInfo[i].bMulti)
 		{
-			/* Copy the string to our own buffer so that we can mutilate it */
-			_tcscpy(buf, t_s);
-
 			g_pDirInfo[i].m_Path = (tPath*)malloc(sizeof(tPath));
 
 			if (!g_pDirInfo[i].m_Path)
@@ -346,7 +346,14 @@ static bool Directories_OnInitDialog(HWND hDlg, HWND hwndFocus, LPARAM lParam)
 			DirInfo_SetModified(g_pDirInfo, i, false);
 		}
 		else
-			DirInfo_SetDir(g_pDirInfo, i, -1, t_s);
+		{
+			// multi not supported so get first directory only
+			token = _tcstok(buf, TEXT(";"));
+			if (token)
+				DirInfo_SetDir(g_pDirInfo, i, -1, token);
+			else
+				DirInfo_SetDir(g_pDirInfo, i, -1, t_s);
+		}
 
 		t_s = NULL;
 	}
