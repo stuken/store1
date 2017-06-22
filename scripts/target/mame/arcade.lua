@@ -4497,6 +4497,7 @@ files {
 	MAME_DIR .. "src/mame/video/esripsys.cpp",
 	MAME_DIR .. "src/mame/drivers/ettrivia.cpp",
 	MAME_DIR .. "src/mame/drivers/extrema.cpp",
+	MAME_DIR .. "src/mame/drivers/ez2d.cpp",
 	MAME_DIR .. "src/mame/drivers/fastinvaders.cpp",
 	MAME_DIR .. "src/mame/drivers/fireball.cpp",
 	MAME_DIR .. "src/mame/drivers/flipjack.cpp",
