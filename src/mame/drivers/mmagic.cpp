@@ -1,5 +1,6 @@
 // license:GPL-2.0+
 // copyright-holders:Dirk Best
+// Sound code copyright: Robbbert //MAMEFX
 /***************************************************************************
 
     "Monkey Magic" ?? 1979 Nintendo
@@ -50,6 +51,8 @@
 #include "emu.h"
 #include "cpu/i8085/i8085.h"
 #include "screen.h"
+#include "sound/samples.h" //MAMEFX
+#include "speaker.h" //MAMEFX
 
 
 //**************************************************************************
@@ -77,6 +80,8 @@ public:
 		m_ball_x(0x00),
 		m_ball_y(0x00),
 		m_color(0x00)
+		, m_samples(*this, "samples") //MAMEFX
+		, m_audio_sw(0x80) //MAMEFX
 	{}
 
 	DECLARE_READ8_MEMBER(vblank_r);
@@ -101,6 +106,8 @@ private:
 	uint8_t m_ball_x;
 	uint8_t m_ball_y;
 	uint8_t m_color;
+	required_device<samples_device> m_samples; //MAMEFX
+	uint8_t m_audio_sw; //MAMEFX
 };
 
 
@@ -244,13 +251,33 @@ uint32_t mmagic_state::screen_update(screen_device &screen, bitmap_rgb32 &bitmap
 //**************************************************************************
 //  AUDIO EMULATION
 //**************************************************************************
+//MAMEFX start
+static const char *const mmagic_sample_names[] =
+{
+	"*mmagic",
+	"4",
+	"3",
+	"5",
+	"2",
+	"2-2",
+	"6",
+	"6-2",
+	"1",
+	0
+};
 
 WRITE8_MEMBER( mmagic_state::audio_w )
 {
-	if (LOG_AUDIO)
-		logerror("audio_w: %02x\n", data);
-}
+	data ^= 0xff;
+	if (data != m_audio_sw)
+	{
+		if (BIT(data, 7))
+			m_samples->start(0, m_audio_sw & 7);
 
+		m_audio_sw = data;
+	}
+}
+//MAMEFX end
 
 //**************************************************************************
 //  DRIVER INIT
@@ -284,6 +311,13 @@ static MACHINE_CONFIG_START( mmagic )
 
 	// sound hardware
 	// TODO: SN76477 + discrete sound
+//MAMEFX start
+	MCFG_SPEAKER_STANDARD_MONO("mono")
+	MCFG_SOUND_ADD("samples", SAMPLES, 0)
+	MCFG_SAMPLES_CHANNELS(1)
+	MCFG_SAMPLES_NAMES(mmagic_sample_names)
+	MCFG_SOUND_ROUTE(ALL_OUTPUTS, "mono", 0.50)
+//MAMEFX end
 MACHINE_CONFIG_END
 
 
@@ -315,4 +349,4 @@ ROM_END
 //**************************************************************************
 
 //    YEAR  NAME    PARENT  MACHINE INPUT   CLASS         INIT  ROT     COMPANY     FULLNAME        FLAGS
-GAME( 1979, mmagic, 0,      mmagic, mmagic, mmagic_state, 0,    ROT270, "Nintendo", "Monkey Magic", MACHINE_SUPPORTS_SAVE | MACHINE_NO_SOUND )
+GAME( 1979, mmagic, 0,      mmagic, mmagic, mmagic_state, 0,    ROT270, "Nintendo", "Monkey Magic", MACHINE_SUPPORTS_SAVE ) //MAMEFX sound flag removed
