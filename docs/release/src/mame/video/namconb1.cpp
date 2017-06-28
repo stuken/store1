@@ -93,25 +93,19 @@ void namconb1_state::video_update_common(screen_device &screen, bitmap_ind16 &bi
 		for( pri=0; pri<8; pri++ )
 		{
 // MAMEFX start
-			if (m_pos_irq_level != 0) // raster interrupt enabled
+			if (m_pos_irq_level != 0 && pri >= 5) // raster interrupt enabled
 			{
-				if (pri == 5 || pri == 6) // special priority cases
-				{
-					if (cliprect.max_y == visarea_sprites.max_y) // no raster on sprites?? faster!
-					{
-						c123_tilemap_draw( screen, bitmap, visarea_sprites, pri );
-						c355_obj_draw(screen, bitmap, visarea_sprites, pri );
-						c123_tilemap_draw( screen, bitmap, visarea_sprites, pri + 1 );
-					}
-				}
-				else
-				{	
+				if (pri == 5)
 					c123_tilemap_draw( screen, bitmap, cliprect, pri );
-					c355_obj_draw(screen, bitmap, cliprect, pri );
+				if (cliprect.max_y == visarea_sprites.max_y) // no raster on sprites?? faster!
+				{
+					if (pri != 5)
+						c123_tilemap_draw( screen, bitmap, visarea_sprites, pri );
+					c355_obj_draw(screen, bitmap, visarea_sprites, pri );
 				}
 			}
 			else
-			{	
+			{
 				c123_tilemap_draw( screen, bitmap, cliprect, pri );
 				c355_obj_draw(screen, bitmap, cliprect, pri );
 			}

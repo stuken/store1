@@ -262,12 +262,12 @@ static int load_datafile_text(const game_driver *drv, char *buffer, int bufsize,
  *
  *      NOTE: For efficiency the indices are never freed (intentional leak).
  **************************************************************************/
-static int load_driver_history(const game_driver *drv, char *buffer, int bufsize)
+static int load_driver_history(const game_driver *drv, char *buffer, int bufsize, const char* datsdir)
 {
 	int history = 0;
 
 	*buffer = 0;
-	snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\history.dat", GetDatsDir());
+	snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\history.dat", datsdir);
 
 	/* try to open history datafile */
 	if (ParseOpen(filename))
@@ -308,12 +308,12 @@ static int load_driver_history(const game_driver *drv, char *buffer, int bufsize
 	return (history == 0);
 }
 
-static int load_driver_initinfo(const game_driver *drv, char *buffer, int bufsize)
+static int load_driver_initinfo(const game_driver *drv, char *buffer, int bufsize, const char* datsdir)
 {
 	int gameinit = 0;
 
 	*buffer = 0;
-	snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\gameinit.dat", GetDatsDir());
+	snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\gameinit.dat", datsdir);
 
 	/* try to open gameinit datafile */
 	if (ParseOpen(filename))
@@ -354,7 +354,7 @@ static int load_driver_initinfo(const game_driver *drv, char *buffer, int bufsiz
 	return (gameinit == 0);
 }
 
-static int load_driver_mameinfo(const game_driver *drv, char *buffer, int bufsize)
+static int load_driver_mameinfo(const game_driver *drv, char *buffer, int bufsize, const char* datsdir)
 {
 	machine_config config(*drv, MameUIGlobal());
 	const game_driver *parent = NULL;
@@ -363,7 +363,7 @@ static int load_driver_mameinfo(const game_driver *drv, char *buffer, int bufsiz
 	int is_bios = 0;
 
 	*buffer = 0;
-	snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\mameinfo.dat", GetDatsDir());
+	snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\mameinfo.dat", datsdir);
 	strcat(buffer, "MAMEINFO:\n");
 
 	/* List the game info 'flags' */
@@ -659,7 +659,7 @@ static int load_driver_mameinfo(const game_driver *drv, char *buffer, int bufsiz
 	return (mameinfo == 0);
 }
 
-static int load_driver_driverinfo(const game_driver *drv, char *buffer, int bufsize)
+static int load_driver_driverinfo(const game_driver *drv, char *buffer, int bufsize, const char* datsdir)
 {
 	int drivinfo = 0;
 	char source_file[40];
@@ -669,7 +669,7 @@ static int load_driver_driverinfo(const game_driver *drv, char *buffer, int bufs
 	strcpy(source_file, temp.c_str());
 
 	*buffer = 0;
-	snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\mameinfo.dat", GetDatsDir());
+	snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\mameinfo.dat", datsdir);
 	/* Print source code file */
 	snprintf(tmp, WINUI_ARRAY_LENGTH(tmp), "DRIVER: %s\n", source_file);
 	strcat(buffer, tmp);
@@ -711,12 +711,12 @@ static int load_driver_driverinfo(const game_driver *drv, char *buffer, int bufs
 	return (drivinfo == 0);
 }
 
-static int load_driver_scoreinfo(const game_driver *drv, char *buffer, int bufsize)
+static int load_driver_scoreinfo(const game_driver *drv, char *buffer, int bufsize, const char* datsdir)
 {
 	int scoreinfo = 0;
 
 	*buffer = 0;
-	snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\story.dat", GetDatsDir());
+	snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\story.dat", datsdir);
 
 	/* try to open story datafile */
 	if (ParseOpen(filename))
@@ -768,20 +768,28 @@ char * GetGameHistory(int driver_index)
 
 	memset(&buffer, 0, sizeof(buffer));
 	memset(&dataBuf, 0, sizeof(dataBuf));
+	const char * datsdir = 0;
+	char buf[400];
+	strcpy(buf, GetDatsDir());
+	const char* t1 = strtok(buf, ";");
+	if (t1)
+		datsdir = t1; // the first path of many
+	else
+		datsdir = buf; // the only path
 
-	if (load_driver_history(&driver_list::driver(driver_index), buffer, WINUI_ARRAY_LENGTH(buffer)) == 0)
+	if (load_driver_history(&driver_list::driver(driver_index), buffer, WINUI_ARRAY_LENGTH(buffer), datsdir) == 0)
 		strcat(dataBuf, buffer);
 
-	if (load_driver_initinfo(&driver_list::driver(driver_index), buffer, WINUI_ARRAY_LENGTH(buffer)) == 0)
+	if (load_driver_initinfo(&driver_list::driver(driver_index), buffer, WINUI_ARRAY_LENGTH(buffer), datsdir) == 0)
 		strcat(dataBuf, buffer);
 
-	if (load_driver_mameinfo(&driver_list::driver(driver_index), buffer, WINUI_ARRAY_LENGTH(buffer)) == 0)
+	if (load_driver_mameinfo(&driver_list::driver(driver_index), buffer, WINUI_ARRAY_LENGTH(buffer), datsdir) == 0)
 		strcat(dataBuf, buffer);
 
-	if (load_driver_driverinfo(&driver_list::driver(driver_index), buffer, WINUI_ARRAY_LENGTH(buffer)) == 0)
+	if (load_driver_driverinfo(&driver_list::driver(driver_index), buffer, WINUI_ARRAY_LENGTH(buffer), datsdir) == 0)
 		strcat(dataBuf, buffer);
 
-	if (load_driver_scoreinfo(&driver_list::driver(driver_index), buffer, WINUI_ARRAY_LENGTH(buffer)) == 0)
+	if (load_driver_scoreinfo(&driver_list::driver(driver_index), buffer, WINUI_ARRAY_LENGTH(buffer), datsdir) == 0)
 		strcat(dataBuf, buffer);
 
 	return ConvertToWindowsNewlines(dataBuf);
