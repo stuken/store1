@@ -1,8 +1,6 @@
 // license:BSD-3-Clause
 // copyright-holders:Chris Kirmse, Mike Haaland, René Single, Mamesick
 
-#pragma once
-
 #ifndef WINUI_H
 #define WINUI_H
 
@@ -26,26 +24,28 @@
 
 // MAME headers
 #include "emu.h"
-#include "options.h"
-#include "pool.h"
-#include "unzip.h"
-#include "strconv.h"
 #include "drivenum.h"
-#include "winmain.h"
+#include "options.h"
 #include "png.h"
-#include "window.h"
+#include "pool.h"
 #include "sound\samples.h"
+#include "screen.h"
+#include "speaker.h"
+#include "strconv.h"
+#include "unzip.h"
+#include "window.h"
+#include "winmain.h"
 #include "..\frontend\mame\audit.h"
+#include "..\frontend\mame\language.h"
 #include "..\frontend\mame\mame.h"
 #include "..\frontend\mame\mameopts.h"
-#include "..\frontend\mame\language.h"
 #include "..\frontend\mame\pluginopts.h"
 #include "..\frontend\mame\ui\moptions.h"
 
 // special Windows headers, after MAME ones
 #include <dinput.h>
-#include <shlwapi.h>
 #include <shlobj.h>
+#include <shlwapi.h>
 
 // MAMEUIFX headers
 #include "resource.h"
@@ -64,7 +64,7 @@
 #include "splitters.h"
 #include "dialogs.h"
 #include "dinputjoy.h"
-#include "dxdecode.h"   
+#include "dxdecode.h" 
 #include "screenshot.h"
 
 #ifndef TVS_EX_DOUBLEBUFFER
@@ -170,6 +170,17 @@ void SetNumOptionFolders(int count);
 void GetRealColumnOrder(int order[]);
 HICON LoadIconFromFile(const char *iconname);
 void UpdateScreenShot(void);
+void BeginListViewDrag(NM_LISTVIEW *pnmv);
+bool OnIdle(HWND hWnd);
+int GamePicker_Compare(HWND hwndPicker, int index1, int index2, int sort_subitem);
+int GamePicker_GetItemImage(HWND hwndPicker, int nItem);
+const wchar_t *GamePicker_GetItemString(HWND hwndPicker, int nItem, int nColumn, wchar_t *pszBuffer, UINT nBufferLength);
+void GamePicker_LeavingItem(HWND hwndPicker, int nItem);
+void GamePicker_EnteringItem(HWND hwndPicker, int nItem);
+int GamePicker_FindItemParent(HWND hwndPicker, int nItem);
+bool GamePicker_CheckNotWorkingItem(HWND hwndPicker, int nItem);
+void GamePicker_OnHeaderContextMenu(POINT pt, int nColumn);
+void GamePicker_OnBodyContextMenu(POINT pt);
 void ResizePickerControls(HWND hWnd);
 void MamePlayGame(void);
 int FindIconIndex(int nIconResource);

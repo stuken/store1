@@ -1388,7 +1388,7 @@ void taito_f3_state::init_alpha_blend_func()
 }
 
 #define UPDATE_PIXMAP_SP(pf_num) \
-	if(cx>=clip_als && cx<clip_ars-1 && !(cx>=clip_bls && cx<clip_brs)) \
+	if(cx>=clip_als && cx<clip_ars && !(cx>=clip_bls && cx<clip_brs)) \
 	{ \
 		sprite_pri=sprite[pf_num]&m_pval; \
 		if(sprite_pri) \
@@ -1404,7 +1404,7 @@ void taito_f3_state::init_alpha_blend_func()
 	}
 
 #define UPDATE_PIXMAP_LP(pf_num) \
-	if (cx>=m_clip_al##pf_num && cx<m_clip_ar##pf_num-1 && !(cx>=m_clip_bl##pf_num && cx<m_clip_br##pf_num)) \
+	if (cx>=m_clip_al##pf_num && cx<m_clip_ar##pf_num && !(cx>=m_clip_bl##pf_num && cx<m_clip_br##pf_num)) \
 	{ \
 		m_tval=*m_tsrc##pf_num; \
 		if(m_tval&0xf0) \
@@ -2078,10 +2078,8 @@ void taito_f3_state::get_vram_info(tilemap_t *vram_tilemap, tilemap_t *pixel_til
 		else
 			line_enable=1;
 
-		if ((m_f3_game == ARABIANM) && line_enable)
-		{ // force opaque vram & pixel layer kludge: fixes arabianm missing cutscene text, gseeker missing continue screen april.21&28.2017_dink
-			line_enable = 1;
-		}
+		if (m_f3_game == ARABIANM && line_enable) 
+			line_enable = 1; 	// kludge: arabianm missing cutscene text april.21.2017_dink
 
 		line_t->pri[y]=pri;
 
@@ -2354,15 +2352,15 @@ void taito_f3_state::scanline_draw(bitmap_rgb32 &bitmap, const rectangle &clipre
 				{
 					if(alpha_type==1)
 					{
-						if     (m_f3_alpha_level_2as==0   && m_f3_alpha_level_2ad==255)
+						if (m_f3_alpha_level_2as==0 && m_f3_alpha_level_2ad==255)
 						{
-							if (m_f3_game == GSEEKER) // will display continue screen (MT 00026)
+							if (m_f3_game == GSEEKER)  /* will display continue screen in gseeker (mt 00026) */
 							{
-								alpha_mode[i] = 3;
+								alpha_mode[i]=3; 
 								alpha_mode_flag[i] |= 0x80;
 							}
-							else
-								alpha_mode[i] = 0;
+							else 
+								alpha_mode[i]=0;
 						}
 						else if(m_f3_alpha_level_2as==255 && m_f3_alpha_level_2ad==0  ) alpha_mode[i]=1;
 					}

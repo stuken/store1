@@ -153,7 +153,7 @@ private:
 	// configuration
 	bool                m_throttled;                // flag: true if we're currently throttled
 	float               m_throttle_rate;            // target rate for throttling
-	bool                m_syncrefresh;              // flag: TRUE if we're currently refresh-synced
+	bool                m_syncrefresh;              // flag: true if we're currently refresh-synced
 	bool                m_fastforward;              // flag: true if we're currently fast-forwarding
 	u32                 m_seconds_to_run;           // number of seconds to run before quitting
 	bool                m_auto_frameskip;           // flag: true if we're automatically frameskipping

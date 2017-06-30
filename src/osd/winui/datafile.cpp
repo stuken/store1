@@ -2,7 +2,6 @@
 // copyright-holders:Chris Kirmse, Mike Haaland, René Single, Mamesick
 
 #include "winui.h"
-#include "speaker.h"
 
 /****************************************************************************
  *      datafile constants
@@ -211,7 +210,7 @@ static int load_datafile_text(const game_driver *drv, char *buffer, int bufsize,
 		/* find source file in datafile index */
 		while (idx->driver)
 		{
-			if (idx->driver->type.source() == drv->type.source()) 
+			if (strcmp(idx->driver->type.source(), drv->type.source()) == 0) 
 				break;
 
 			idx++;
