@@ -1881,11 +1881,21 @@ static void LoadPluginsFile(plugin_options &opts, const std::string &filename)
 
 	if (filerr == osd_file::error::NONE)
 	{
-		opts.parse_ini_file((util::core_file&)file, OPTION_PRIORITY_CMDLINE, true, true);
+		try
+		{
+			opts.parse_ini_file((util::core_file&)file, OPTION_PRIORITY_MAME_INI, OPTION_PRIORITY_MAME_INI < OPTION_PRIORITY_DRIVER_INI, false);
+		}
+		catch (options_exception &)
+		{
+			filerr = osd_file::error::INVALID_DATA;
+		}
 		file.close();
 	}
-	else
-		SavePluginsFile(opts, filename);
+	if (filerr != osd_file::error::NONE)
+	{
+		plugin_options opts_temp;
+		SavePluginsFile(opts_temp, filename); // try save default values assuming directory exists
+	}
 }
 
 static void LoadOptionsFile(windows_options &opts, const std::string &filename)

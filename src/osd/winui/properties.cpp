@@ -3006,11 +3006,11 @@ static void InitializePluginsUI(HWND hWnd)
 	{
 		int count = 0;
 		osd::directory::ptr directory = osd::directory::open(GetPluginsDir());
-		
+
 		if (directory == nullptr)
 			return;
 
-		for (const osd::directory::entry *entry = directory->read(); entry != nullptr; entry = directory->read())
+		for (const osd::directory::entry *entry = directory->read(); entry; entry = directory->read())
 		{
 			if (entry->type == osd::directory::entry::entry_type::DIR)
 			{
