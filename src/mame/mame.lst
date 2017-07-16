@@ -8855,6 +8855,7 @@ bbredux                         // bootleg / hack
 boblbobl                        // bootleg
 boblcave                        // hack
 bub68705                        // bootleg
+bublboblp                       // Prototype (c) 1986 Taito Corporation
 bublbobl                        // A78 (c) 1986 Taito Corporation
 bublbobl1                       // A78 (c) 1986 Taito Corporation
 bublboblb                       // bootleg
@@ -9795,7 +9796,11 @@ commandou                       // 5/1985 (c) 1985 + Data East license (US)
 commandou2                      // 5/1985 (c) 1985 + Data East license (US)
 sinvasn                         // Europe original?
 sinvasnb                        // bootleg
-mercenario          // bootleg
+mercenario                      // bootleg
+
+@source:compc.cpp
+compc10                         // 1984 Commodore PC-10, PC-20 and PC-30
+pc10iii                         // 1987 Commodore PC-10 III
 
 @source:compgolf.cpp
 compgolf                        // (c) 1985 Data East Corporation (Japan)
@@ -10501,15 +10506,24 @@ airraid                         // (c) 1987 Seibu Kaihatsu
 cshooter                        // (c) 1987 JKH (bootleg)
 
 @source:csplayh5.cpp
+aimode							// (c) 1999
 bikiniko                        // (c) 1999
 csplayh1                        // (c) 1995
 csplayh5                        // (c) 1998
+csplayh6						// (c) 1999
 csplayh7                        // (c) 1999
 fuudol                          // (c) 2000
 junai                           // (c) 1998
 junai2                          // (c) 1998
+mogitate						// (c) 1998
+nichidvd						//
+nichisel						// (c) 2000
+mjgalpri						// (c) 1998
 mjmania                         // (c) 1999
+pokoachu						// (c) 1999
+renaimj							// (c) 1999
 thenanpa                        // (c) 1999
+tsuwaku							// (c) 2000
 
 @source:cswat.cpp
 cswat                           // (c) 1984
@@ -12611,6 +12625,9 @@ fmtownsmx                       // FM-Towns II MX
 fmtownssj                       // FM-Towns II SJ
 fmtownsux                       // 1991.11 FM-Towns II UX
 
+@source:fontwriter.cpp
+fw700ger						// (c) Sharp
+
 @source:foodf.cpp
 foodf                           // 136020           (c) 1982        // made by Gencomp
 foodf1                          // 136020           (c) 1982        // made by Gencomp
@@ -12659,6 +12676,7 @@ fresh                           // (c) Chain Leisure
 
 @source:fromanc2.cpp
 fromanc2                        // (c) 1995 Video System Co. (Japan)
+fromanc2o                       // (c) 1995 Video System Co. (Japan)
 fromanc4                        // (c) 1998 Video System Co. (Japan)
 fromancr                        // (c) 1995 Video System Co. (Japan)
 
@@ -13733,6 +13751,7 @@ falcnwldc                       // (c) 1983, Falcon
 genie                           // (c) 198? Video Fun Games Ltd.
 geniea                          // 198?, Unknown
 goldnpkb                        // (c) 1981 Bonanza
+goldnpkc                        // Bootleg
 goldnpkr                        // (c) 1981 Bonanza
 goodluck                        // Unknown
 maverik                         // 198?, Unknown
@@ -14538,12 +14557,17 @@ gnw_jr55                        // Nintendo
 gnw_mc25                        // Nintendo
 gnw_ml102                       // Nintendo
 gnw_mw56                        // Nintendo
+kblades                         // Konami
+kbucky                          // Konami
 kcontra                         // Konami
 kgradius                        // Konami
 kloneran                        // Konami
 ktmnt                           // Konami
 ktopgun                         // Konami
 nupogodi                        // Elektronika
+tddragon                        // Tiger
+tsjam                           // Tiger
+tsonic                          // Tiger
 
 @source:hh_tms1k.cpp
 7in1ss                          // Tiger Electronics
@@ -15071,6 +15095,7 @@ instantm                        //
 instruct                        //
 
 @source:intellec4.cpp
+intlc44                         //
 intlc440                        //
 
 @source:interact.cpp
@@ -17165,6 +17190,7 @@ konin                           //
 
 @source:konmedal.cpp
 tsukande
+ddboy
 
 @source:kontest.cpp
 kontest                         // GX800 (c) 198? (Japan)
@@ -17288,6 +17314,7 @@ mamboagg                        // 2001 - Mambo A Go-Go (GQA40 VER. JAB)
 mamboagga                       // 2001 - Mambo A Go-Go e-Amusement (GQA40 VER. JRB)
 mrtlbeat                        // 2002 - Martial Beat (Martial Beat (G*B47 VER. JBA)
 pcnfrk3m                        // 2000 - Percussion Freaks 3rd Mix (G*A23 VER. KAA)
+pcnfrk4m                        // 2000 - Percussion Freaks 4rd Mix (G*A25 VER. AAA)
 pcnfrk5m                        // 2001 - Percussion Freaks 5th Mix (G*B05 VER. KAA)
 pnchmn                          // 2000 - Punch Mania: Hokuto No Ken (GQ918 VER. JAB)
 pnchmn2                         // 2000 - Punch Mania 2: Hokuto No Ken (GQA09 JAA)
@@ -28565,6 +28592,7 @@ motoxgo                         // November 1997
 motoxgov1a                      // November 1997
 motoxgov1a2                     // November 1997
 motoxgov2a                      // November 1997
+motoxgov2a2                     // November 1997
 panicprk                        // May 1998
 panicprkj                       // May 1998
 raceon                          // Race On - September 1998
@@ -28610,6 +28638,7 @@ awbios                          // 2002.?? Atomiswave BIOS
 azumanga                        // 2002.12 Azumanga Daiou Puzzle Bobble
 basschal                        // 2009.07 Sega Bass Challenge Version A
 basschalo                       // 2009.02 Sega Bass Challenge
+blokpong                        // 2004.12 Block Pong-Pong
 bdrdown                         // 2003.09 Border Down (Rev A)
 beachspi                        // 2001.07 Beach Spikers
 capsnk                          // 2000.09 Capcom vs. SNK Millennium Fight 2000 (Rev C)
@@ -28853,6 +28882,7 @@ vtenis2c                        // 2001.10 Virtua Tennis 2 / Power Smash 2 (Rev 
 vtennis                         // 1999.12 Virtua Tennis / Power Smash (cartridge)
 vtennis2                        // 2001.08.27 Virtua Tennis 2 / Power Smash 2 (GD-ROM)
 vtennisg                        // 1999.?? Virtua Tennis / Power Smash (GD-ROM)
+waidrive                        // 2005.01 WaiWai Drive
 wccf116                         // 2003.?? World Club Champion Football Serie A 2001-2002 Ver. 2
 wccf1dup                        // 2002.?? World Club Champion Football Serie A 2001-2002 DIMM FIRM Ver.3.03
 wccf212e                        // 2004.12 World Club Champion Football Serie A 2002-2003 Ver.2.12
@@ -29393,6 +29423,8 @@ mc_sam60
 vgtablet
 gprnrs1
 gprnrs16
+vgpocket
+vgpmini
 
 @source:newbrain.cpp
 newbrain                        //
@@ -30051,7 +30083,6 @@ ataripc1                        // Atari PC1
 ataripc3                        // Atari PC3
 bw230                           // 1985 Bondwell (CGA)
 compc1                          // 1984 Commodore PC-1
-compc10							// 1984 Commodore PC-10, PC-20 and PC-30
 dgone                           // 1984 Data General/One
 eagle1600                       //
 ibm5550                         //
@@ -30060,7 +30091,6 @@ mbc16                           // Sanyo MBC-16
 mc1702                          //
 mk88                            //
 olivm15                         //
-pc10iii                         // 1987 Commodore PC-10 III
 pc7000                          // 1985 Sharp PC-7000
 poisk2                          //
 sicpc1605                       //
@@ -30345,6 +30375,7 @@ pepk1069                        // (c) 1987 IGT - International Game Technology
 pepp0001                        // (c) 1987 IGT - International Game Technology
 pepp0002                        // (c) 1987 IGT - International Game Technology
 pepp0002a                       // (c) 1987 IGT - International Game Technology
+pepp0006                        // (c) 1987 IGT - International Game Technology
 pepp0008                        // (c) 1987 IGT - International Game Technology
 pepp0008a                       // (c) 1987 IGT - International Game Technology
 pepp0008b                       // (c) 1987 IGT - International Game Technology
@@ -32870,6 +32901,7 @@ stratgys                        // GX306 (c) 1981 Stern
 stratgyx                        // GX306 (c) 1981 Konami
 strongx                         // bootleg
 tazmani2                        // (c) 1982 Stern
+tazmani3                        // bootleg (Rodmar)
 
 @source:scorpion.cpp
 bestzx                          //
@@ -34076,7 +34108,7 @@ b3rinsya                        // b9805 (c) 1997 Sigma
 dashhero                        // b9811 (c) 1999 Sigma
 dodghero                        // b9802 (c) 1997 Sigma
 gegege                          // b9804 (c) 1997 Sigma / Banpresto
-gocowboy                        // (c) 2000 Sammy
+gocowboy                        // (c) 2003 Sammy
 haekaka                         // (c) 2001 Sammy
 itazuram                        // (c) 2000 Sammy
 pepsiman                        // b9806 (c) 1997 Sigma
@@ -34270,6 +34302,7 @@ iron                            // bootleg
 kinstb                          // bootleg
 mk3snes                         // bootleg
 sblast2b                        // bootleg
+legendsb                        // bootleg
 
 @source:snk.cpp
 alphamis                        // (c) 1985
@@ -38130,6 +38163,7 @@ corv_la1                        //
 corv_lx1                        //
 corv_lx2                        //
 corv_px4                        //
+dh_lf2                          //
 dh_lx2                          //
 fs_lx2                          //
 fs_lx4                          //
