@@ -1,451 +1,358 @@
+// For licensing and usage information, read docs/winui_license.txt
+//  MASTER
+/***************************************************************************
+
+  history.cpp
+
+ *   history functions.
+ *      History database engine
+ *      Collect all information on the selected driver, and return it as
+ *         a string. Called by winui.cpp
+
+ *      Token parsing by Neil Bradley
+ *      Modifications and higher-level functions by John Butler
+
+ *      Further work by Mamesick and Robbbert
+
+ *      Completely rewritten by Robbbert in July 2017
+ *      Notes:
+ *      - The order listed in m_gameInfo is the order the data is displayed.
+ *      - The other tables must have the files in the same places so that
+ *             the index numbers line up. Anything with NULL indicates an
+ *             unsupported option (the file doesn't contain the info).
+ *      - Each table must contain at least MAX_HFILES members (extra lines
+ *             are ignored)
+ *      - Software comes first, followed by Game then Source.
+***************************************************************************/
 // license:BSD-3-Clause
-// copyright-holders:Chris Kirmse, Mike Haaland, René Single, Mamesick
+// copyright-holders:Chris Kirmse, Mike Haaland, René Single, Mamesick, Robbbert
 
+#include <windows.h>
+#include <fstream>
+
+// MAME/MAMEUI headers
 #include "winui.h"
+#define WINUI_ARRAY_LENGTH(x) (sizeof(x) / sizeof(x[0]))
 
 /****************************************************************************
- *      datafile constants
+ *      struct definitions
  ****************************************************************************/
-static const char *DATAFILE_TAG_KEY	= "$info";
-static const char *DATAFILE_TAG_BIO = "$bio";
-static const char *DATAFILE_TAG_MAME = "$mame";
-static const char *DATAFILE_TAG_DRIV = "$drv";
-static const char *DATAFILE_TAG_SCORE = "$story";
-static const char *DATAFILE_TAG_END = "$end";
-
-/****************************************************************************
- *      private data for parsing functions
- ****************************************************************************/
-static FILE *fp = NULL;          /* Our file pointer */
-static uint64_t dwFilePos = 0;   /* file position */
-static char filename[MAX_PATH];  /* datafile name */
-
-struct tDatafileIndex
+typedef struct
 {
-	long offset;
-	const game_driver *driver;
+	LPCSTR   filename;
+	LPCSTR   header;
+	LPCSTR   descriptor;
+	bool     bClone;    // if nothing found for a clone, try the parent
+}
+HGAMEINFO;
+
+typedef struct
+{
+	LPCSTR   filename;
+	LPCSTR   header;
+	LPCSTR   descriptor;
+}
+HSOURCEINFO;
+
+/*************************** START CONFIGURABLE AREA *******************************/
+// number of dats we support
+#define MAX_HFILES 8
+// The order of these is the order they are displayed
+const HGAMEINFO m_gameInfo[MAX_HFILES] =
+{
+	{ "history.dat",  "\n**** :HISTORY: ****\n\n",          "$bio",   1 },
+	{ "sysinfo.dat",  "\n**** :SYSINFO: ****\n\n",          "$bio",   1 },
+	{ "messinfo.dat", "\n**** :MESSINFO: ****\n\n",         "$mame",  1 },
+	{ "mameinfo.dat", "\n**** :MAMEINFO: ****\n\n",         "$mame",  1 },
+	{ "gameinit.dat", "\n**** :GAMEINIT: ****\n\n",         "$mame",  1 },
+	{ "command.dat",  "\n**** :COMMANDS: ****\n\n",         "$cmd",   1 },
+	{ "story.dat",    "\n**** :HIGH SCORES: ****\n\n",      "$story", 0 },
+	{ "marp.dat",     "\n**** :MARP HIGH SCORES: ****\n\n", "$marp",  0 },
 };
 
-static struct tDatafileIndex *hist_idx = NULL;
-static struct tDatafileIndex *init_idx = NULL;
-static struct tDatafileIndex *mame_idx = NULL;
-static struct tDatafileIndex *driv_idx = NULL;
-static struct tDatafileIndex *score_idx = NULL;
-
-/****************************************************************************
- *      ParseClose - Closes the existing opened file (if any)
- ****************************************************************************/
-static void ParseClose(void)
+const HSOURCEINFO m_sourceInfo[MAX_HFILES] =
 {
-	/* If the file is open, time for fclose. */
-	if (fp)
-		fclose(fp);
-}
+	{ NULL },
+	{ NULL },
+	{ "messinfo.dat", "\n***:MESSINFO DRIVER: ",  "$drv" },
+	{ "mameinfo.dat", "\n***:MAMEINFO DRIVER: ",  "$drv" },
+	{ NULL },
+	{ NULL },
+	{ NULL },
+	{ NULL },
+};
 
-/****************************************************************************
- *      ParseOpen - Open up file for reading
- ****************************************************************************/
-static bool ParseOpen(const char *pszFilename)
+const HSOURCEINFO m_swInfo[MAX_HFILES] =
 {
-	/* MAME core file parsing functions fail in recognizing UNICODE chars in UTF-8 without BOM,
-	so it's better and faster use standard C fileio functions */
-	fp = fopen(pszFilename, "r");
+	{ "history.dat",  "\n**** :HISTORY item: ",     "$bio" },
+	{ NULL },
+	{ NULL },
+	{ NULL },
+	{ NULL },
+	{ NULL },
+	{ NULL },
+	{ NULL },
+};
 
-	if (fp == NULL)
+/*************************** END CONFIGURABLE AREA *******************************/
+
+int file_sizes[MAX_HFILES] = { 0, };
+std::map<std::string, std::streampos> mymap[MAX_HFILES];
+
+static bool create_index(std::ifstream &fp, int filenum)
+{
+	size_t i;
+	if (!fp.good())
 		return false;
-
-	/* Otherwise, prepare! */
-	dwFilePos = 0;
-	/* identify text file type first */
-	fgetc(fp);
-	fseek(fp, dwFilePos, SEEK_SET);
+	// get file size
+	fp.seekg(0, std::ios::end);
+	size_t file_size = fp.tellg();
+	// same file as before?
+	if (file_size == file_sizes[filenum])
+		return true;
+	// new file, it needs to be indexed
+	mymap[filenum].clear();
+	file_sizes[filenum] = file_size;
+	fp.seekg(0);
+	std::string file_line, first, second;
+	std::getline(fp, file_line);
+	while (fp.good())
+	{
+		char t1 = file_line[0];
+		if ((std::count(file_line.begin(),file_line.end(),'=') == 1) && (t1 == '$')) // line must start with $ and contain one =
+		{
+			// tellg is buggy, we need to rewind the pointer to the previous $
+			int position = fp.tellg(); // get bugged info
+			fp.seekg(position); // position file to wrong place
+			int c = fp.get(); // now scan backwards until $ found
+			while(c != 0x24)
+			{
+				position--;
+				fp.seekg(position);
+				c = fp.get();
+			}
+			// now start
+			i = std::count(file_line.begin(),file_line.end(),',');
+			if (i)
+			{
+				// line has commas, split up to separate keys
+				size_t j = file_line.find('=');
+				first = file_line.substr(0, j+1);
+				file_line.erase(0, j+1);
+				for (size_t k = 0; k < i; k++)
+				{
+					// remove leading space in command.dat
+					t1 = file_line[0];
+					if (t1 == ' ')
+						file_line.erase(0,1);
+					// find first comma
+					j = file_line.find(',');
+					if (j != std::string::npos)
+					{
+						second = file_line.substr(0, j);
+						file_line.erase(0, j+1);
+					}
+					else
+						second = file_line;
+					// store into index
+					mymap[filenum][first + second] = position;
+				}
+			}
+			else
+				mymap[filenum][file_line] = position;
+		}
+		std::getline(fp, file_line);
+	}
+	// check contents
+//	if (filenum == 3)
+//	for (auto const &it : mymap[filenum])
+//		printf("%s = %X\n", it.first.c_str(), int(it.second));
 	return true;
 }
 
-/****************************************************************************
- *      ParseSeek - Move the file position indicator
- ****************************************************************************/
-static uint8_t ParseSeek(uint64_t offset, int whence)
+static std::string load_datafile_text(std::ifstream &fp, std::string keycode, int filenum, const char *tag)
 {
-	int result = fseek(fp, offset, whence);
+	std::string readbuf;
 
-	if (result == 0)
-		dwFilePos = ftell(fp);
+	auto search = mymap[filenum].find(keycode);
+	if (search != mymap[filenum].end())
+	{
+		std::streampos offset = mymap[filenum].find(keycode)->second;
+		fp.seekg(offset);
+		std::string file_line;
 
-	return (uint8_t)result;
+		/* read text until buffer is full or end of entry is encountered */
+		while (std::getline(fp, file_line))
+		{
+			//printf("%s\n",file_line.c_str());
+			if (file_line.find("$end")==0)
+				break;
+
+			if (file_line.find(tag)==0)
+				continue;
+
+			readbuf.append(file_line).append("\n");
+		}
+	}
+
+	return readbuf;
 }
 
-/**************************************************************************
- **************************************************************************
- *
- *              Datafile functions
- *
- **************************************************************************
- **************************************************************************/
-
- /**************************************************************************
- *      index_datafile
- *      Create an index for the records in the currently open datafile.
- *
- *      Returns 0 on error, or the number of index entries created.
- **************************************************************************/
-static int index_datafile(struct tDatafileIndex **_index, bool source)
+std::string load_swinfo(const game_driver *drv, const char* datsdir, std::string software, int filenum)
 {
-	struct tDatafileIndex *idx;
-	int count = 0;
-	char readbuf[512];
-	char name[40];
-	int num_games = driver_list::total();
+	std::string buffer;
+	// if it's a NULL record exit now
+	if (!m_swInfo[filenum].filename)
+		return buffer;
 
-	/* rewind file */
-	if (ParseSeek (0L, SEEK_SET))
-		return 0;
+	// datafile name
+	std::string buf, filename = datsdir + std::string("\\") + m_swInfo[filenum].filename;
+	std::ifstream fp (filename);
 
-	/* allocate index */
-	idx = *_index = global_alloc_array(tDatafileIndex, (num_games + 1) * sizeof (struct tDatafileIndex));
-
-	if (!idx)
-		return 0;
-
-	while (fgets(readbuf, 512, fp))
+	/* try to open datafile */
+	if (create_index(fp, filenum))
 	{
-		/* DATAFILE_TAG_KEY identifies the driver */
-		if (!core_strnicmp(DATAFILE_TAG_KEY, readbuf, strlen(DATAFILE_TAG_KEY)))
+		size_t i = software.find(":");
+		std::string ssys = software.substr(0, i);
+		std::string ssoft = software.substr(i+1);
+		std::string first = std::string("$") + ssys + std::string("=") + ssoft;
+		// get info on software
+		buf = load_datafile_text(fp, first, filenum, m_swInfo[filenum].descriptor);
+
+		if (!buf.empty())
+			buffer.append(m_swInfo[filenum].header).append(ssoft).append("\n").append(buf).append("\n\n\n");
+
+		fp.close();
+	}
+
+	return buffer;
+}
+
+std::string load_gameinfo(const game_driver *drv, const char* datsdir, int filenum)
+{
+	std::string buffer;
+	// if it's a NULL record exit now
+	if (!m_gameInfo[filenum].filename)
+		return buffer;
+
+	// datafile name
+	std::string buf, filename = datsdir + std::string("\\") + m_gameInfo[filenum].filename;
+	std::ifstream fp (filename);
+
+	/* try to open datafile */
+	if (create_index(fp, filenum))
+	{
+		std::string first = std::string("$info=")+drv->name;
+		// get info on game
+		buf = load_datafile_text(fp, first, filenum, m_gameInfo[filenum].descriptor);
+
+		// if nothing, and it's a clone, and it's allowed, try the parent
+		if (buf.empty() && m_gameInfo[filenum].bClone)
 		{
-			int game_index = 0;
-			char *curpoint = &readbuf[strlen(DATAFILE_TAG_KEY) + 1];
-			char *pch = NULL;
-			char *ends = &readbuf[strlen(readbuf) - 1];
-
-			while (curpoint < ends)
+			int g = driver_list::clone(*drv);
+			if (g != -1)
 			{
-				// search for comma
-				pch = strpbrk(curpoint, ",");
-
-			// found it
-				if (pch)
-				{
-					// copy data and validate driver
-					int len = pch - curpoint;
-					strncpy(name, curpoint, len);
-					name[len] = '\0';
-
-					if (!source)
-						game_index = GetGameNameIndex(name);
-					else
-						game_index = GetSrcDriverIndex(name);
-
-					if (game_index >= 0)
-					{
-						idx->driver = &driver_list::driver(game_index);
-						idx->offset = ftell(fp);
-						idx++;
-						count++;
-					}
-
-					// update current point
-					curpoint = pch + 1;
-				}
-				// if comma not found, copy data while until reach the end of string
-				else if (!pch && curpoint < ends)
-				{
-					int len = ends - curpoint;
-					strncpy(name, curpoint, len);
-					name[len] = '\0';
-
-					if (!source)
-						game_index = GetGameNameIndex(name);
-					else
-						game_index = GetSrcDriverIndex(name);
-
-					if (game_index >= 0)
-					{
-						idx->driver = &driver_list::driver(game_index);
-						idx->offset = ftell(fp);
-						idx++;
-						count++;
-					}
-
-					// update current point
-					curpoint = ends;
-				}
+				drv = &driver_list::driver(g);
+				first = std::string("$info=")+drv->name;
+				buf = load_datafile_text(fp, first, filenum, m_gameInfo[filenum].descriptor);
 			}
 		}
+
+		if (!buf.empty())
+			buffer.append(m_gameInfo[filenum].header).append(buf).append("\n\n\n");
+
+		fp.close();
 	}
 
-	/* mark end of index */
-	idx->offset = 0L;
-	idx->driver = 0;
-	return count;
+	return buffer;
 }
 
-/**************************************************************************
- *      load_datafile_text
- *
- *      Loads text field for a driver into the buffer specified. Specify the
- *      driver, a pointer to the buffer, the buffer size, the index created by
- *      index_datafile(), and the desired text field (e.g., DATAFILE_TAG_BIO).
- *
- *      Returns 0 if successful.
- **************************************************************************/
-static int load_datafile_text(const game_driver *drv, char *buffer, int bufsize, struct tDatafileIndex *idx, const char *tag, bool source_file, bool mameinfo)
+std::string load_sourceinfo(const game_driver *drv, const char* datsdir, int filenum)
 {
-	char readbuf[16384];
+	std::string buffer;
+	// if it's a NULL record exit now
+	if (!m_sourceInfo[filenum].filename)
+		return buffer;
 
-	*buffer = '\0';
+	// datafile name
+	std::string buf, filename = datsdir + std::string("\\") + m_sourceInfo[filenum].filename;
+	std::ifstream fp (filename);
 
-	if (!source_file)
+	std::string source = drv->type.source();
+	size_t i = source.find_last_of("/");
+	source.erase(0,i+1);
+
+	if (create_index(fp, filenum))
 	{
-		/* find driver in datafile index */
-		while (idx->driver)
-		{
-			if (idx->driver == drv)
-				break;
+		std::string first = std::string("$info=")+source;
+		// get info on game driver source
+		buf = load_datafile_text(fp, first, filenum, m_sourceInfo[filenum].descriptor);
 
-			idx++;
-		}
-	}
-	else
-	{
-		/* find source file in datafile index */
-		while (idx->driver)
-		{
-			if (strcmp(idx->driver->type.source(), drv->type.source()) == 0)
-				break;
+		if (!buf.empty())
+			buffer.append(m_sourceInfo[filenum].header).append(source).append("\n").append(buf).append("\n\n\n");
 
-			idx++;
-		}
+		fp.close();
 	}
 
-	if (idx->driver == 0)
-		return 1; /* driver not found in index */
-
-	/* seek to correct point in datafile */
-	if (ParseSeek (idx->offset, SEEK_SET))
-		return 1;
-
-	/* read text until buffer is full or end of entry is encountered */
-	while (fgets(readbuf, 16384, fp))
-	{
-		if (!core_strnicmp(DATAFILE_TAG_END, readbuf, strlen(DATAFILE_TAG_END)))
-			break;
-
-		if (!core_strnicmp(tag, readbuf, strlen(tag)))
-			continue;
-
-		if (strlen(buffer) + strlen(readbuf) > bufsize)
-			break;
-
-		if (mameinfo)
-		{
-			char *temp = strtok(readbuf, "\r\n\r\n");
-
-			if (temp)
-				strcat(buffer, temp);
-			else
-				strcat(buffer, readbuf);
-		}
-		else
-			strcat(buffer, readbuf);
-	}
-
-	return 0;
+	return buffer;
 }
 
-/**************************************************************************
- *      load_driver_history
- *      Load history text for the specified driver into the specified buffer.
- *      Combines $bio field of HISTORY.DAT with $mame field of MAMEINFO.DAT.
- *
- *      Returns 0 if successful.
- *
- *      NOTE: For efficiency the indices are never freed (intentional leak).
- **************************************************************************/
-static int load_driver_history(const game_driver *drv, char *buffer, int bufsize, const char* datsdir)
-{
-	int history = 0;
 
-	*buffer = 0;
-	snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\history.dat", datsdir);
-
-	/* try to open history datafile */
-	if (ParseOpen(filename))
-	{
-		/* create index if necessary */
-		if (hist_idx)
-			history = 1;
-		else
-			history = (index_datafile (&hist_idx, false) != 0);
-
-		/* load history text (append)*/
-		if (hist_idx)
-		{
-			int len = strlen(buffer);
-			int err = 0;
-			const game_driver *gdrv;
-			gdrv = drv;
-
-			do
-			{
-				err = load_datafile_text(gdrv, buffer + len, bufsize - len, hist_idx, DATAFILE_TAG_BIO, false, false);
-				int g = driver_list::clone(*gdrv);
-
-				if (g != -1)
-					gdrv = &driver_list::driver(g);
-				else
-					gdrv = NULL;
-			} while (err && gdrv);
-
-			if (err)
-				history = 0;
-		}
-
-		ParseClose();
-		strcat(buffer, "\n\n");
-	}
-
-	return (history == 0);
-}
-
-static int load_driver_initinfo(const game_driver *drv, char *buffer, int bufsize, const char* datsdir)
-{
-	int gameinit = 0;
-
-	*buffer = 0;
-	snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\gameinit.dat", datsdir);
-
-	/* try to open gameinit datafile */
-	if (ParseOpen(filename))
-	{
-		/* create index if necessary */
-		if (init_idx)
-			gameinit = 1;
-		else
-			gameinit = (index_datafile (&init_idx, false) != 0);
-
-		/* load history text (append)*/
-		if (init_idx)
-		{
-			int len = strlen(buffer);
-			int err = 0;
-			const game_driver *gdrv;
-			gdrv = drv;
-
-			do
-			{
-				err = load_datafile_text(gdrv, buffer + len, bufsize - len, init_idx, DATAFILE_TAG_MAME, false, true);
-				int g = driver_list::clone(*gdrv);
-
-				if (g != -1)
-					gdrv = &driver_list::driver(g);
-				else
-					gdrv = NULL;
-			} while (err && gdrv);
-
-			if (err)
-				gameinit = 0;
-		}
-
-		ParseClose();
-		strcat(buffer, "\n\n\n");
-	}
-
-	return (gameinit == 0);
-}
-
-static int load_driver_mameinfo(const game_driver *drv, char *buffer, int bufsize, const char* datsdir)
+// General hardware information
+std::string load_driver_geninfo(const game_driver *drv)
 {
 	machine_config config(*drv, MameUIGlobal());
 	const game_driver *parent = NULL;
 	char name[512];
-	int mameinfo = 0;
-	int is_bios = 0;
-
-	*buffer = 0;
-	snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\mameinfo.dat", datsdir);
-	strcat(buffer, "MAMEINFO:\n");
+	bool is_bios = false;
+	std::string buffer = "\n**** :GENERAL MACHINE INFO: ****\n\n";
 
 	/* List the game info 'flags' */
 	if (drv->flags & MACHINE_NOT_WORKING)
-		strcat(buffer, "This game doesn't work properly\n");
+		buffer.append("This game doesn't work properly\n");
 
 	if (drv->flags & MACHINE_UNEMULATED_PROTECTION)
-		strcat(buffer, "This game has protection which isn't fully emulated.\n");
+		buffer.append("This game has protection which isn't fully emulated.\n");
 
 	if (drv->flags & MACHINE_IMPERFECT_GRAPHICS)
-		strcat(buffer, "The video emulation isn't 100% accurate.\n");
+		buffer.append("The video emulation isn't 100% accurate.\n");
 
 	if (drv->flags & MACHINE_WRONG_COLORS)
-		strcat(buffer, "The colors are completely wrong.\n");
+		buffer.append("The colors are completely wrong.\n");
 
 	if (drv->flags & MACHINE_IMPERFECT_COLORS)
-		strcat(buffer, "The colors aren't 100% accurate.\n");
+		buffer.append("The colors aren't 100% accurate.\n");
 
 	if (drv->flags & MACHINE_NO_SOUND)
-		strcat(buffer, "This game lacks sound.\n");
+		buffer.append("This game lacks sound.\n");
 
 	if (drv->flags & MACHINE_IMPERFECT_SOUND)
-		strcat(buffer, "The sound emulation isn't 100% accurate.\n");
+		buffer.append("The sound emulation isn't 100% accurate.\n");
 
 	if (drv->flags & MACHINE_SUPPORTS_SAVE)
-		strcat(buffer, "Save state support.\n");
+		buffer.append("Save state support.\n");
 
 	if (drv->flags & MACHINE_MECHANICAL)
-		strcat(buffer, "This game contains mechanical parts.\n");
+		buffer.append("This game contains mechanical parts.\n");
 
 	if (drv->flags & MACHINE_IS_INCOMPLETE)
-		strcat(buffer, "This game was never completed.\n");
+		buffer.append("This game was never completed.\n");
 
 	if (drv->flags & MACHINE_NO_SOUND_HW)
-		strcat(buffer, "This game has no sound hardware.\n");
+		buffer.append("This game has no sound hardware.\n");
 
-	strcat(buffer, "\n");
+	buffer.append("\n");
 
 	if (drv->flags & MACHINE_IS_BIOS_ROOT)
-		is_bios = 1;
-
-	/* try to open mameinfo datafile */
-	if (ParseOpen(filename))
-	{
-		/* create index if necessary */
-		if (mame_idx)
-			mameinfo = 1;
-		else
-			mameinfo = (index_datafile (&mame_idx, false) != 0);
-
-		/* load informational text (append) */
-		if (mame_idx)
-		{
-			int len = strlen(buffer);
-			int err = 0;
-			const game_driver *gdrv;
-			gdrv = drv;
-
-			do
-			{
-				err = load_datafile_text(gdrv, buffer + len, bufsize - len, mame_idx, DATAFILE_TAG_MAME, false, true);
-				int g = driver_list::clone(*gdrv);
-
-				if (g != -1)
-					gdrv = &driver_list::driver(g);
-				else
-					gdrv = NULL;
-			} while (err && gdrv);
-
-			if (err)
-				mameinfo = 0;
-		}
-
-		ParseClose();
-	}
+		is_bios = true;
 
 	/* GAME INFORMATIONS */
 	snprintf(name, WINUI_ARRAY_LENGTH(name), "\nGAME: %s\n", drv->name);
-	strcat(buffer, name);
+	buffer.append(name);
 	snprintf(name, WINUI_ARRAY_LENGTH(name), "%s", drv->type.fullname());
-	strcat(buffer, name);
+	buffer.append(name);
 	snprintf(name, WINUI_ARRAY_LENGTH(name), " (%s %s)\n\nCPU:\n", drv->manufacturer, drv->year);
-	strcat(buffer, name);
+	buffer.append(name);
 	/* iterate over CPUs */
 	execute_interface_iterator cpuiter(config.root_device());
 	std::unordered_set<std::string> exectags;
@@ -453,23 +360,21 @@ static int load_driver_mameinfo(const game_driver *drv, char *buffer, int bufsiz
 	for (device_execute_interface &exec : cpuiter)
 	{
 		if (!exectags.insert(exec.device().tag()).second)
-				continue;
+			continue;
 
 		int count = 1;
 		int clock = exec.device().clock();
 		const char *cpu_name = exec.device().name();
 
 		for (device_execute_interface &scan : cpuiter)
-		{
 			if (exec.device().type() == scan.device().type() && strcmp(cpu_name, scan.device().name()) == 0 && clock == scan.device().clock())
 				if (exectags.insert(scan.device().tag()).second)
 					count++;
-		}
 
 		if (count > 1)
 		{
 			snprintf(name, WINUI_ARRAY_LENGTH(name), "%d x ", count);
-			strcat(buffer, name);
+			buffer.append(name);
 		}
 
 		if (clock >= 1000000)
@@ -477,10 +382,10 @@ static int load_driver_mameinfo(const game_driver *drv, char *buffer, int bufsiz
 		else
 			snprintf(name, WINUI_ARRAY_LENGTH(name), "%s %d.%03d kHz\n", cpu_name, clock / 1000, clock % 1000);
 
-		strcat(buffer, name);
+		buffer.append(name);
 	}
 
-	strcat(buffer, "\nSOUND:\n");
+	buffer.append("\nSOUND:\n");
 	int has_sound = 0;
 	/* iterate over sound chips */
 	sound_interface_iterator sounditer(config.root_device());
@@ -489,7 +394,7 @@ static int load_driver_mameinfo(const game_driver *drv, char *buffer, int bufsiz
 	for (device_sound_interface &sound : sounditer)
 	{
 		if (!soundtags.insert(sound.device().tag()).second)
-				continue;
+			continue;
 
 		has_sound = 1;
 		int count = 1;
@@ -497,19 +402,17 @@ static int load_driver_mameinfo(const game_driver *drv, char *buffer, int bufsiz
 		const char *sound_name = sound.device().name();
 
 		for (device_sound_interface &scan : sounditer)
-		{
 			if (sound.device().type() == scan.device().type() && strcmp(sound_name, scan.device().name()) == 0 && clock == scan.device().clock())
 				if (soundtags.insert(scan.device().tag()).second)
 					count++;
-		}
 
 		if (count > 1)
 		{
 			snprintf(name, WINUI_ARRAY_LENGTH(name), "%d x ", count);
-			strcat(buffer, name);
+			buffer.append(name);
 		}
 
-		strcat(buffer, sound_name);
+		buffer.append(sound_name);
 
 		if (clock)
 		{
@@ -518,10 +421,10 @@ static int load_driver_mameinfo(const game_driver *drv, char *buffer, int bufsiz
 			else
 				snprintf(name, WINUI_ARRAY_LENGTH(name), " %d.%03d kHz", clock / 1000, clock % 1000);
 
-			strcat(buffer, name);
+			buffer.append(name);
 		}
 
-		strcat(buffer, "\n");
+		buffer.append("\n");
 	}
 
 	if (has_sound)
@@ -534,21 +437,21 @@ static int load_driver_mameinfo(const game_driver *drv, char *buffer, int bufsiz
 		else
 			snprintf(name, WINUI_ARRAY_LENGTH(name), "%d Channels\n", channels);
 
-		strcat(buffer, name);
+		buffer.append(name);
 	}
 
-	strcat(buffer, "\nVIDEO:\n");
+	buffer.append("\nVIDEO:\n");
 	screen_device_iterator screeniter(config.root_device());
 	int scrcount = screeniter.count();
 
 	if (scrcount == 0)
-		strcat(buffer, "Screenless");
+		buffer.append("Screenless");
 	else
 	{
 		for (screen_device &screen : screeniter)
 		{
 			if (screen.screen_type() == SCREEN_TYPE_VECTOR)
-				strcat(buffer, "Vector");
+				buffer.append("Vector");
 			else
 			{
 				const rectangle &visarea = screen.visible_area();
@@ -558,14 +461,14 @@ static int load_driver_mameinfo(const game_driver *drv, char *buffer, int bufsiz
 				else
 					snprintf(name, WINUI_ARRAY_LENGTH(name), "%d x %d (H) %f Hz", visarea.width(), visarea.height(), ATTOSECONDS_TO_HZ(screen.refresh_attoseconds()));
 
-				strcat(buffer, name);
+				buffer.append(name);
 			}
 
-			strcat(buffer, "\n");
+			buffer.append("\n");
 		}
 	}
 
-	strcat(buffer, "\nROM REGION:\n");
+	buffer.append("\nROM REGION:\n");
 	int g = driver_list::clone(*drv);
 
 	if (g != -1)
@@ -599,12 +502,11 @@ static int load_driver_mameinfo(const game_driver *drv, char *buffer, int bufsiz
 				}
 
 				snprintf(name, WINUI_ARRAY_LENGTH(name), "%-16s \t", ROM_GETNAME(rom));
-				strcat(buffer, name);
+				buffer.append(name);
 				snprintf(name, WINUI_ARRAY_LENGTH(name), "%09d \t", rom_file_size(rom));
-				strcat(buffer, name);
+				buffer.append(name);
 				snprintf(name, WINUI_ARRAY_LENGTH(name), "%-10s", ROMREGION_GETTAG(region));
-				strcat(buffer, name);
-				strcat(buffer, "\n");
+				buffer.append(name).append("\n");
 			}
 		}
 	}
@@ -616,7 +518,7 @@ static int load_driver_mameinfo(const game_driver *drv, char *buffer, int bufsiz
 		if (sampiter.altbasename())
 		{
 			snprintf(name, WINUI_ARRAY_LENGTH(name), "\nSAMPLES (%s):\n", sampiter.altbasename());
-			strcat(buffer, name);
+			buffer.append(name);
 		}
 
 		std::unordered_set<std::string> already_printed;
@@ -629,7 +531,7 @@ static int load_driver_mameinfo(const game_driver *drv, char *buffer, int bufsiz
 
 			// output the sample name
 			snprintf(name, WINUI_ARRAY_LENGTH(name), "%s.wav\n", samplename);
-			strcat(buffer, name);
+			buffer.append(name);
 		}
 	}
 
@@ -640,152 +542,122 @@ static int load_driver_mameinfo(const game_driver *drv, char *buffer, int bufsiz
 		if (g != -1)
 			drv = &driver_list::driver(g);
 
-		strcat(buffer, "\nORIGINAL:\n");
-		strcat(buffer, drv->type.fullname());
-		strcat(buffer, "\n\nCLONES:\n");
+		buffer.append("\nORIGINAL:\n");
+		buffer.append(drv->type.fullname());
+		buffer.append("\n\nCLONES:\n");
 
 		for (int i = 0; i < driver_list::total(); i++)
 		{
 			if (!strcmp (drv->name, driver_list::driver(i).parent))
 			{
-				strcat(buffer, GetDriverGameTitle(i));
-				strcat(buffer, "\n");
+				buffer.append(driver_list::driver(i).type.fullname());
+				buffer.append("\n");
 			}
 		}
 	}
 
-	strcat(buffer, "\n\n\n");
-	return (mameinfo == 0);
-}
-
-static int load_driver_driverinfo(const game_driver *drv, char *buffer, int bufsize, const char* datsdir)
-{
-	int drivinfo = 0;
-	char source_file[40];
-	char tmp[100];
-
+	char source_file[40], tmp[100];
 	std::string temp = core_filename_extract_base(drv->type.source(), false);
 	strcpy(source_file, temp.c_str());
-
-	*buffer = 0;
-	snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\mameinfo.dat", datsdir);
-	/* Print source code file */
-	snprintf(tmp, WINUI_ARRAY_LENGTH(tmp), "DRIVER: %s\n", source_file);
-	strcat(buffer, tmp);
-
-	/* Try to open mameinfo datafile - driver section*/
-	if (ParseOpen(filename))
-	{
-		/* create index if necessary */
-		if (driv_idx)
-			drivinfo = 1;
-		else
-			drivinfo = (index_datafile (&driv_idx, true) != 0);
-
-		/* load informational text (append) */
-		if (driv_idx)
-		{
-			int len = strlen(buffer);
-			int err = load_datafile_text(drv, buffer + len, bufsize - len, driv_idx, DATAFILE_TAG_DRIV, true, true);
-
-			if (err)
-				drivinfo = 0;
-		}
-
-		ParseClose();
-	}
-
-	strcat(buffer, "\nGAMES SUPPORTED:\n");
+	snprintf(tmp, WINUI_ARRAY_LENGTH(tmp), "\nGENERAL SOURCE INFO: %s\n", temp.c_str());
+	buffer.append(tmp);
+	buffer.append("\nGAMES SUPPORTED:\n");
 
 	for (int i = 0; i < driver_list::total(); i++)
 	{
-		if (!strcmp(source_file, GetDriverFileName(i)) && !(DriverIsBios(i)))
-		{
-			strcat(buffer, GetDriverGameTitle(i));
-			strcat(buffer,"\n");
-		}
+		std::string t1 = driver_list::driver(i).type.source();
+		size_t j = t1.find_last_of("/");
+		t1.erase(0, j+1);
+		if ((strcmp(source_file, t1.c_str())==0) && !(DriverIsBios(i)))
+			buffer.append(driver_list::driver(i).type.fullname()).append("\n");
 	}
 
-	strcat(buffer, "\n\n");
-	return (drivinfo == 0);
+	return buffer;
 }
 
-static int load_driver_scoreinfo(const game_driver *drv, char *buffer, int bufsize, const char* datsdir)
+// This is check that the tables are at least as big as they should be
+bool validate_datfiles(void)
 {
-	int scoreinfo = 0;
-
-	*buffer = 0;
-	snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\story.dat", datsdir);
-
-	/* try to open story datafile */
-	if (ParseOpen(filename))
+	bool result = true;
+	if (WINUI_ARRAY_LENGTH(m_gameInfo) < MAX_HFILES)
 	{
-		/* create index if necessary */
-		if (score_idx)
-			scoreinfo = 1;
-		else
-			scoreinfo = (index_datafile (&score_idx, false) != 0);
-
-		/* load informational text (append) */
-		if (score_idx)
-		{
-			int len = strlen(buffer);
-			int err = 0;
-			const game_driver *gdrv;
-			gdrv = drv;
-
-			do
-			{
-				err = load_datafile_text(gdrv, buffer + len, bufsize - len, score_idx, DATAFILE_TAG_SCORE, false, false);
-				int g = driver_list::clone(*gdrv);
-
-				if (g != -1)
-					gdrv = &driver_list::driver(g);
-				else
-					gdrv = NULL;
-			} while (err && gdrv);
-
-			if (err)
-				scoreinfo = 0;
-		}
-
-		ParseClose();
+		printf("m_gameInfo needs to have at least MAX_HFILES members\n");
+		result = false;
 	}
 
-	return (scoreinfo == 0);
+	if (WINUI_ARRAY_LENGTH(m_sourceInfo) < MAX_HFILES)
+	{
+		printf("m_sourceInfo needs to have at least MAX_HFILES members\n");
+		result = false;
+	}
+
+	if (WINUI_ARRAY_LENGTH(m_swInfo) < MAX_HFILES)
+	{
+		printf("m_swInfo needs to have at least MAX_HFILES members\n");
+		result = false;
+	}
+
+	return result;
 }
 
-/**************************************************************
- * functions
- **************************************************************/
 
-// Load indexes from history.dat if found
-char * GetGameHistory(int driver_index)
+// For all of MAME builds - called by winui.cpp
+char * GetGameHistory(int driver_index, std::string software)
 {
-	static char dataBuf[2048 * 2048];
-	static char buffer[2048 * 2048];
+	std::string fullbuf;
+	if (validate_datfiles())
+	{
+		// Get the path to dat files
+		char buf[400];
+		strcpy(buf, GetDatsDir());
+		// only want first path
+		const char* datsdir = strtok(buf, ";");
+		// validate software
+		BOOL sw_valid = false;
+		if (!software.empty())
+		{
+			size_t i = software.find(':');
+			sw_valid = (i != std::string::npos) ? true : false;
+		}
 
-	memset(&buffer, 0, sizeof(buffer));
-	memset(&dataBuf, 0, sizeof(dataBuf));
-	char buf[400];
-	strcpy(buf, GetDatsDir());
-	// only want first path
-	const char* datsdir = strtok(buf, ";");
+		for (int filenum = 0; filenum < MAX_HFILES; filenum++)
+		{
+			if (sw_valid)
+				fullbuf.append(load_swinfo(&driver_list::driver(driver_index), datsdir, software, filenum));
+			fullbuf.append(load_gameinfo(&driver_list::driver(driver_index), datsdir, filenum));
+			fullbuf.append(load_sourceinfo(&driver_list::driver(driver_index), datsdir, filenum));
+		}
 
-	if (load_driver_history(&driver_list::driver(driver_index), buffer, WINUI_ARRAY_LENGTH(buffer), datsdir) == 0)
-		strcat(dataBuf, buffer);
+		fullbuf.append(load_driver_geninfo(&driver_list::driver(driver_index)));
+	}
+	else
+		fullbuf = "Unable to display info due to a configuration error";
 
-	if (load_driver_initinfo(&driver_list::driver(driver_index), buffer, WINUI_ARRAY_LENGTH(buffer), datsdir) == 0)
-		strcat(dataBuf, buffer);
-
-	if (load_driver_mameinfo(&driver_list::driver(driver_index), buffer, WINUI_ARRAY_LENGTH(buffer), datsdir) == 0)
-		strcat(dataBuf, buffer);
-
-	if (load_driver_driverinfo(&driver_list::driver(driver_index), buffer, WINUI_ARRAY_LENGTH(buffer), datsdir) == 0)
-		strcat(dataBuf, buffer);
-
-	if (load_driver_scoreinfo(&driver_list::driver(driver_index), buffer, WINUI_ARRAY_LENGTH(buffer), datsdir) == 0)
-		strcat(dataBuf, buffer);
-
-	return ConvertToWindowsNewlines(dataBuf);
+	return ConvertToWindowsNewlines(fullbuf.c_str());
 }
+
+// For Arcade-only builds
+char * GetArcadeHistory(int driver_index)
+{
+	std::string fullbuf;
+	if (validate_datfiles())
+	{
+		char buf[400];
+		strcpy(buf, GetDatsDir());
+		// only want first path
+		const char* datsdir = strtok(buf, ";");
+
+		for (int filenum = 0; filenum < MAX_HFILES; filenum++)
+		{
+			fullbuf.append(load_gameinfo(&driver_list::driver(driver_index), datsdir, filenum));
+			fullbuf.append(load_sourceinfo(&driver_list::driver(driver_index), datsdir, filenum));
+		}
+
+		fullbuf.append(load_driver_geninfo(&driver_list::driver(driver_index)));
+	}
+	else
+		fullbuf = "Unable to display info due to a configuration error";
+
+	return ConvertToWindowsNewlines(fullbuf.c_str());
+}
+
