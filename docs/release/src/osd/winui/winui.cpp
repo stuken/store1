@@ -29,6 +29,46 @@ static const ICONDATA g_iconData[] =
 	{ 0 }
 };
 
+static const struct TabViewCallbacks s_tabviewCallbacks =
+{
+	GetShowTabCtrl,				// pfnGetShowTabCtrl
+	SetCurrentTab,				// pfnSetCurrentTab
+	GetCurrentTab,				// pfnGetCurrentTab
+	SetShowTab,					// pfnSetShowTab
+	GetShowTab,					// pfnGetShowTab
+	GetImageTabShortName,		// pfnGetTabShortName
+	GetImageTabLongName,		// pfnGetTabLongName
+	UpdateScreenShot			// pfnOnSelectionChanged
+};
+
+static const struct PickerCallbacks s_gameListCallbacks =
+{
+	SetSortColumn,					/* pfnSetSortColumn */
+	GetSortColumn,					/* pfnGetSortColumn */
+	SetSortReverse,					/* pfnSetSortReverse */
+	GetSortReverse,					/* pfnGetSortReverse */
+	SetViewMode,					/* pfnSetViewMode */
+	GetViewMode,					/* pfnGetViewMode */
+	SetColumnWidths,				/* pfnSetColumnWidths */
+	GetColumnWidths,				/* pfnGetColumnWidths */
+	SetColumnOrder,					/* pfnSetColumnOrder */
+	GetColumnOrder,					/* pfnGetColumnOrder */
+	SetColumnShown,					/* pfnSetColumnShown */
+	GetColumnShown,					/* pfnGetColumnShown */
+	GamePicker_Compare,				/* pfnCompare */
+	MamePlayGame,					/* pfnDoubleClick */
+	GamePicker_GetItemString,		/* pfnGetItemString */
+	GamePicker_GetItemImage,		/* pfnGetItemImage */
+	GamePicker_LeavingItem,			/* pfnLeavingItem */
+	GamePicker_EnteringItem,		/* pfnEnteringItem */
+	BeginListViewDrag,				/* pfnBeginListViewDrag */
+	GamePicker_FindItemParent,		/* pfnFindItemParent */
+	GamePicker_CheckNotWorkingItem,	/* pfnCheckNotWorkingItem */
+	OnIdle,							/* pfnIdle */
+	GamePicker_OnHeaderContextMenu,	/* pfnOnHeaderContextMenu */
+	GamePicker_OnBodyContextMenu	/* pfnOnBodyContextMenu */
+};
+
 typedef struct _play_options play_options;
 struct _play_options
 {
@@ -48,7 +88,6 @@ static void Win32UI_init(void);
 static void Win32UI_exit(void);
 static void	SaveWindowArea(void);
 static void	SaveWindowStatus(void);
-static bool OnIdle(HWND hWnd);
 static void OnSize(HWND hwnd, UINT state, int width, int height);
 static void SetView(int menu_id);
 static void ResetListView(void);
@@ -60,7 +99,6 @@ static bool MameCommand(HWND hwnd,int id, HWND hwndCtl, UINT codeNotify);
 static void UpdateStatusBar(void);
 static bool TreeViewNotify(NMHDR *nm);
 static int CLIB_DECL SrcDriverDataCompareFunc(const void *arg1, const void *arg2);
-static int GamePicker_Compare(HWND hwndPicker, int index1, int index2, int sort_subitem);
 static void DisableSelection(void);
 static void EnableSelection(int nGame);
 static HICON GetSelectedPickItemIconSmall(void);
@@ -93,8 +131,6 @@ static void InitBodyContextMenu(HMENU hBodyContextMenu);
 static void ToggleShowFolder(int folder);
 static bool HandleTreeContextMenu(HWND hWnd, WPARAM wParam, LPARAM lParam);
 static bool HandleScreenShotContextMenu(HWND hWnd, WPARAM wParam, LPARAM lParam);
-static void	GamePicker_OnHeaderContextMenu(POINT pt, int nColumn);
-static void	GamePicker_OnBodyContextMenu(POINT pt);
 static void InitListView(void);
 /* Re/initialize the ListView header columns */
 static void ResetColumnDisplay(void);
@@ -113,7 +149,6 @@ static void SetMainTitle(void);
 static void UpdateHistory(void);
 static void RemoveCurrentGameCustomFolder(void);
 static void RemoveGameCustomFolder(int driver_index);
-static void BeginListViewDrag(NM_LISTVIEW *pnmv);
 static void MouseMoveListViewDrag(POINTS pt);
 static void ButtonUpListViewDrag(POINTS p);
 static void CalculateBestScreenShotRect(HWND hWnd, RECT *pRect, bool restrict_height);
@@ -261,6 +296,7 @@ static int optionfolder_count = 0;
 /* global data--know where to send messages */
 static bool in_emulation = false;
 static bool game_launched = false;
+static bool switched = false;
 /* idle work at startup */
 static bool idle_work = false;
 /* object pool in use */
@@ -442,14 +478,21 @@ public:
 	{
 		if (channel == OSD_OUTPUT_CHANNEL_ERROR)
 		{
+			switched = false;
 			char buffer[4096];
 
 			// if we are in fullscreen mode, go to windowed mode
 			if ((video_config.windowed == 0) && !osd_common_t::s_window_list.empty())
+			{
 				winwindow_toggle_full_screen();
+				switched = true;
+			}
 
 			vsnprintf(buffer, WINUI_ARRAY_LENGTH(buffer), msg, args);
 			winui_message_box_utf8(!osd_common_t::s_window_list.empty() ? std::static_pointer_cast<win_window_info>(osd_common_t::s_window_list.front())->platform_window() : nullptr, buffer, MAMEUINAME, MB_ICONERROR | MB_OK);
+			
+			if (switched)
+				winwindow_toggle_full_screen();
 		}
 		else
 			chain_output(channel, msg, args);
@@ -461,16 +504,13 @@ static void RunMAME(int nGameIndex, const play_options *playopts)
 	time_t start = 0;
 	time_t end = 0;
 	windows_options mame_opts;
-	std::string error_string;
+	std::ostringstream option_errors;
 
 	// prepare MAMEUIFX to run the game
 	ShowWindow(hMain, SW_HIDE);
 
 	for (int i = 0; i < WINUI_ARRAY_LENGTH(s_nPickers); i++)
 		Picker_ClearIdle(GetDlgItem(hMain, s_nPickers[i]));
-
-	// revert options set to default values
-	mame_opts.revert(OPTION_PRIORITY_CMDLINE, OPTION_PRIORITY_CMDLINE);
 
 	// Time the game run.
 	windows_osd_interface osd(mame_opts);
@@ -479,11 +519,11 @@ static void RunMAME(int nGameIndex, const play_options *playopts)
 	osd.register_options();
 	mame_machine_manager *manager = mame_machine_manager::instance(mame_opts, osd);
 	// set the new game name
-	mame_options::set_system_name(mame_opts, GetDriverGameName(nGameIndex));
+	mame_opts.set_value(OPTION_SYSTEMNAME, GetDriverGameName(nGameIndex), OPTION_PRIORITY_CMDLINE);
 	// set all needed paths
 	SetDirectories(mame_opts);
 	// parse all INI files
-	mame_options::parse_standard_inis(mame_opts, error_string);
+	mame_options::parse_standard_inis(mame_opts, option_errors);
 	// load interface language
 	load_translation(mame_opts);
 	// start LUA engine & http server
@@ -494,24 +534,22 @@ static void RunMAME(int nGameIndex, const play_options *playopts)
 	if (playopts != NULL)
 	{
 		if (playopts->record != NULL)
-			mame_opts.set_value(OPTION_RECORD, playopts->record, OPTION_PRIORITY_CMDLINE, error_string);
+			mame_opts.set_value(OPTION_RECORD, playopts->record, OPTION_PRIORITY_CMDLINE);
 
 		if (playopts->playback != NULL)
-			mame_opts.set_value(OPTION_PLAYBACK, playopts->playback, OPTION_PRIORITY_CMDLINE, error_string);
+			mame_opts.set_value(OPTION_PLAYBACK, playopts->playback, OPTION_PRIORITY_CMDLINE);
 
 		if (playopts->state != NULL)
-			mame_opts.set_value(OPTION_STATE, playopts->state, OPTION_PRIORITY_CMDLINE, error_string);
+			mame_opts.set_value(OPTION_STATE, playopts->state, OPTION_PRIORITY_CMDLINE);
 
 		if (playopts->wavwrite != NULL)
-			mame_opts.set_value(OPTION_WAVWRITE, playopts->wavwrite, OPTION_PRIORITY_CMDLINE, error_string);
+			mame_opts.set_value(OPTION_WAVWRITE, playopts->wavwrite, OPTION_PRIORITY_CMDLINE);
 
 		if (playopts->mngwrite != NULL)
-			mame_opts.set_value(OPTION_MNGWRITE, playopts->mngwrite, OPTION_PRIORITY_CMDLINE, error_string);
+			mame_opts.set_value(OPTION_MNGWRITE, playopts->mngwrite, OPTION_PRIORITY_CMDLINE);
 
 		if (playopts->aviwrite != NULL)
-			mame_opts.set_value(OPTION_AVIWRITE, playopts->aviwrite, OPTION_PRIORITY_CMDLINE, error_string);
-
-		assert(error_string.empty());
+			mame_opts.set_value(OPTION_AVIWRITE, playopts->aviwrite, OPTION_PRIORITY_CMDLINE);
 	}
 
 	// start played time
@@ -522,8 +560,6 @@ static void RunMAME(int nGameIndex, const play_options *playopts)
 	time(&end);
 	// free the structure
 	global_free(manager);
-	// remove any existing device options because they leak memory
-	mame_options::remove_device_options(mame_opts);
 	osd_output::pop(&winerror);
 	// Calc the duration
 	double elapsedtime = end - start;
@@ -540,14 +576,16 @@ int MameUIMain(HINSTANCE hInstance, LPWSTR lpCmdLine)
 	if (__argc != 1)
 	{
 		extern int utf8_main(std::vector<std::string> &args);
-		std::vector<std::string> utf8_argv(__argc);
+		std::vector<std::string> argv_vectors(__argc);
 
 		/* convert arguments to UTF-8 */
 		for (int i = 0; i < __argc; i++)
-			utf8_argv[i] = win_utf8_from_wstring(__targv[i]);
+		{
+			argv_vectors[i] = win_utf8_from_wstring(__targv[i]);
+		}
 
 		/* run utf8_main */
-		exit(utf8_main(utf8_argv));
+		exit(utf8_main(argv_vectors));
 	}
 
 	WNDCLASS wndclass;
@@ -1081,6 +1119,7 @@ static void Win32UI_init(void)
 	extern const FOLDERDATA g_folderData[];
 	extern const FILTER_ITEM g_filterList[];
 	LONG_PTR l;
+	struct TabViewOptions opts;
 
 	/* Init DirectInput */
 	DirectInputInitialize();
@@ -1110,28 +1149,11 @@ static void Win32UI_init(void)
 	}
 
 	qsort(sorted_srcdrivers, driver_list::total(), sizeof(srcdriver_data_type), SrcDriverDataCompareFunc);
-
-	{
-		struct TabViewOptions opts;
-
-		static const struct TabViewCallbacks s_tabviewCallbacks =
-		{
-			GetShowTabCtrl,				// pfnGetShowTabCtrl
-			SetCurrentTab,				// pfnSetCurrentTab
-			GetCurrentTab,				// pfnGetCurrentTab
-			SetShowTab,					// pfnSetShowTab
-			GetShowTab,					// pfnGetShowTab
-			GetImageTabShortName,		// pfnGetTabShortName
-			GetImageTabLongName,		// pfnGetTabLongName
-			UpdateScreenShot			// pfnOnSelectionChanged
-		};
-
-		memset(&opts, 0, sizeof(opts));
-		opts.pCallbacks = &s_tabviewCallbacks;
-		opts.nTabCount = MAX_TAB_TYPES;
-		SetupTabView(hTabCtrl, &opts);
-	}
-
+	/* initialize tab control */
+	memset(&opts, 0, sizeof(opts));
+	opts.pCallbacks = &s_tabviewCallbacks;
+	opts.nTabCount = MAX_TAB_TYPES;
+	SetupTabView(hTabCtrl, &opts);
 	/* subclass picture frame area */
 	l = GetWindowLongPtr(GetDlgItem(hMain, IDC_SSFRAME), GWLP_WNDPROC);
 	g_lpPictureFrameWndProc = (WNDPROC)l;
@@ -1622,7 +1644,7 @@ static bool GameCheck(void)
 	return changed;
 }
 
-static bool OnIdle(HWND hWnd)
+bool OnIdle(HWND hWnd)
 {
 	static bool bFirstTime = true;
 
@@ -2185,7 +2207,7 @@ static void UpdateHistory(void)
 
 	if (GetSelectedPick() >= 0)
 	{
-		char *histText = GetGameHistory(Picker_GetSelectedItem(hWndList));
+		char *histText = GetArcadeHistory(Picker_GetSelectedItem(hWndList));
 		have_history = (histText && histText[0]) ? true : false;
 		winui_set_window_text_utf8(GetDlgItem(hMain, IDC_HISTORY), histText);
 	}
@@ -2346,7 +2368,7 @@ static bool TreeViewNotify(LPNMHDR nm)
 	return false;
 }
 
-static void GamePicker_OnHeaderContextMenu(POINT pt, int nColumn)
+void GamePicker_OnHeaderContextMenu(POINT pt, int nColumn)
 {
 	// Right button was clicked on header
 	MENUINFO mi;
@@ -3442,12 +3464,12 @@ static void ResetColumnDisplay(void)
 	Picker_SetSelectedItem(hWndList, driver_index);
 }
 
-static int GamePicker_GetItemImage(HWND hwndPicker, int nItem)
+int GamePicker_GetItemImage(HWND hwndPicker, int nItem)
 {
 	return GetIconForDriver(nItem);
 }
 
-static const wchar_t *GamePicker_GetItemString(HWND hwndPicker, int nItem, int nColumn, wchar_t *pszBuffer, UINT nBufferLength)
+const wchar_t *GamePicker_GetItemString(HWND hwndPicker, int nItem, int nColumn, wchar_t *pszBuffer, UINT nBufferLength)
 {
 	const wchar_t *s = NULL;
 	const char* utf8_s = NULL;
@@ -3513,22 +3535,22 @@ static const wchar_t *GamePicker_GetItemString(HWND hwndPicker, int nItem, int n
 	return s;
 }
 
-static void GamePicker_LeavingItem(HWND hwndPicker, int nItem)
+void GamePicker_LeavingItem(HWND hwndPicker, int nItem)
 {
 	// leaving item...
 }
 
-static void GamePicker_EnteringItem(HWND hwndPicker, int nItem)
+void GamePicker_EnteringItem(HWND hwndPicker, int nItem)
 {
 	EnableSelection(nItem);
 }
 
-static int GamePicker_FindItemParent(HWND hwndPicker, int nItem)
+int GamePicker_FindItemParent(HWND hwndPicker, int nItem)
 {
 	return GetParentRomSetIndex(&driver_list::driver(nItem));
 }
 
-static bool GamePicker_CheckNotWorkingItem(HWND hwndPicker, int nItem)
+bool GamePicker_CheckNotWorkingItem(HWND hwndPicker, int nItem)
 {
 	return DriverIsBroken(nItem);
 }
@@ -3536,34 +3558,6 @@ static bool GamePicker_CheckNotWorkingItem(HWND hwndPicker, int nItem)
 /* Initialize the Picker and List controls */
 static void InitListView(void)
 {
-	static const struct PickerCallbacks s_gameListCallbacks =
-	{
-		SetSortColumn,					/* pfnSetSortColumn */
-		GetSortColumn,					/* pfnGetSortColumn */
-		SetSortReverse,					/* pfnSetSortReverse */
-		GetSortReverse,					/* pfnGetSortReverse */
-		SetViewMode,					/* pfnSetViewMode */
-		GetViewMode,					/* pfnGetViewMode */
-		SetColumnWidths,				/* pfnSetColumnWidths */
-		GetColumnWidths,				/* pfnGetColumnWidths */
-		SetColumnOrder,					/* pfnSetColumnOrder */
-		GetColumnOrder,					/* pfnGetColumnOrder */
-		SetColumnShown,					/* pfnSetColumnShown */
-		GetColumnShown,					/* pfnGetColumnShown */
-		GamePicker_Compare,				/* pfnCompare */
-		MamePlayGame,					/* pfnDoubleClick */
-		GamePicker_GetItemString,		/* pfnGetItemString */
-		GamePicker_GetItemImage,		/* pfnGetItemImage */
-		GamePicker_LeavingItem,			/* pfnLeavingItem */
-		GamePicker_EnteringItem,		/* pfnEnteringItem */
-		BeginListViewDrag,				/* pfnBeginListViewDrag */
-		GamePicker_FindItemParent,		/* pfnFindItemParent */
-		GamePicker_CheckNotWorkingItem,	/* pfnCheckNotWorkingItem */
-		OnIdle,							/* pfnIdle */
-		GamePicker_OnHeaderContextMenu,	/* pfnOnHeaderContextMenu */
-		GamePicker_OnBodyContextMenu	/* pfnOnBodyContextMenu */
-	};
-
 	struct PickerOptions opts;
 
 	// subclass the list view
@@ -3571,7 +3565,6 @@ static void InitListView(void)
 	opts.pCallbacks = &s_gameListCallbacks;
 	opts.nColumnCount = COLUMN_MAX;
 	opts.ppszColumnNames = column_names;
-
 	SetupPicker(hWndList, &opts);
 	(void)ListView_SetTextBkColor(hWndList, CLR_NONE);
 	(void)ListView_SetBkColor(hWndList, CLR_NONE);
@@ -3694,7 +3687,7 @@ static void CreateIcons(void)
 }
 
 
-static int GamePicker_Compare(HWND hwndPicker, int index1, int index2, int sort_subitem)
+int GamePicker_Compare(HWND hwndPicker, int index1, int index2, int sort_subitem)
 {
 	int value = 0;  /* Default to 0, for unknown case */
 
@@ -4378,7 +4371,7 @@ static bool HandleTreeContextMenu(HWND hWnd, WPARAM wParam, LPARAM lParam)
 	return true;
 }
 
-static void GamePicker_OnBodyContextMenu(POINT pt)
+void GamePicker_OnBodyContextMenu(POINT pt)
 {
 	HMENU hMenuLoad = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXT_MENU));
 	HMENU hMenu = GetSubMenu(hMenuLoad, 0);
@@ -4882,7 +4875,7 @@ static void RemoveGameCustomFolder(int driver_index)
 
 }
 
-static void BeginListViewDrag(NM_LISTVIEW *pnmv)
+void BeginListViewDrag(NM_LISTVIEW *pnmv)
 {
 	LVITEM lvi;
 	POINT pt;

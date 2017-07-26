@@ -1,8 +1,6 @@
 // license:BSD-3-Clause
 // copyright-holders:Chris Kirmse, Mike Haaland, René Single, Mamesick
 
-#pragma once
- 
 #ifndef PICKER_H
 #define PICKER_H
 

@@ -55,6 +55,7 @@ const options_entry osd_options::s_option_entries[] =
 	{ OSDOPTION_WINDOW ";w",                  "0",              OPTION_BOOLEAN,   "enable window mode; otherwise, full screen mode is assumed" },
 	{ OSDOPTION_MAXIMIZE ";max",              "1",              OPTION_BOOLEAN,   "default to maximized windows; otherwise, windows will be minimized" },
 	{ OSDOPTION_WAITVSYNC ";vs",              "0",              OPTION_BOOLEAN,   "enable waiting for the start of VBLANK before flipping screens; reduces tearing effects" },
+	{ OSD_MONITOR_PROVIDER,                   OSDOPTVAL_AUTO,   OPTION_STRING,    "monitor discovery method" },
 
 	// per-window options
 	{ nullptr,                                nullptr,          OPTION_HEADER,    "OSD PER-WINDOW VIDEO OPTIONS" },
@@ -215,8 +216,8 @@ void osd_common_t::register_options()
 	REGISTER_MODULE(m_mod_man, FONT_SDL);
 	REGISTER_MODULE(m_mod_man, FONT_NONE);
 
-	REGISTER_MODULE(m_mod_man, SOUND_DSOUND);
 	REGISTER_MODULE(m_mod_man, SOUND_XAUDIO2);
+	REGISTER_MODULE(m_mod_man, SOUND_DSOUND);
 	REGISTER_MODULE(m_mod_man, SOUND_COREAUDIO);
 	REGISTER_MODULE(m_mod_man, SOUND_JS);
 	REGISTER_MODULE(m_mod_man, SOUND_SDL);

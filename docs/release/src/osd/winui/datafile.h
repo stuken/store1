@@ -1,11 +1,13 @@
-// license:BSD-3-Clause
-// copyright-holders:Chris Kirmse, Mike Haaland, René Single, Mamesick
+// For licensing and usage information, read docs/winui_license.txt
+//  MASTER
+//****************************************************************************
 
 #pragma once
+ 
+#ifndef HISTORY_H
+#define HISTORY_H
 
-#ifndef DATAFILE_H
-#define DATAFILE_H
-
-char * GetGameHistory(int driver_index);
+char * GetArcadeHistory(int driver_index);  // Arcade-only builds (HBMAME, ARCADE)
+char * GetGameHistory(int driver_index, std::string software); // Builds with software support (MESSUI, MAMEUI)
 
 #endif

@@ -435,7 +435,6 @@ static int trackbar_position_from_value(datamap_entry *entry, float value)
 static void read_control(datamap *map, HWND control, windows_options &opts, datamap_entry *entry, const char *option_name)
 {
 	int int_value = 0;
-	std::string error;
 
 	// use default read value behavior
 	switch(get_control_type(control))
@@ -444,8 +443,7 @@ static void read_control(datamap *map, HWND control, windows_options &opts, data
 		{
 			assert(entry->type == DM_BOOL);
 			bool bool_value = Button_GetCheck(control);
-			opts.set_value(option_name, bool_value, OPTION_PRIORITY_CMDLINE, error);
-			assert(!error);
+			opts.set_value(option_name, bool_value, OPTION_PRIORITY_CMDLINE);
 			break;
 		}
 
@@ -459,20 +457,17 @@ static void read_control(datamap *map, HWND control, windows_options &opts, data
 				{
 					case DM_INT:
 						int_value = (int) ComboBox_GetItemData(control, selected_index);
-						opts.set_value(option_name, int_value, OPTION_PRIORITY_CMDLINE, error);
-						assert(!error);
+						opts.set_value(option_name, int_value, OPTION_PRIORITY_CMDLINE);
 						break;
 
 					case DM_STRING:
 					{
 						const char *string_value = (const char *) ComboBox_GetItemData(control, selected_index);
-						opts.set_value(option_name, string_value ? string_value : "", OPTION_PRIORITY_CMDLINE,error);
-						assert(!error);
+						opts.set_value(option_name, string_value ? string_value : "", OPTION_PRIORITY_CMDLINE);
 						break;
 					}
 
 					default:
-						assert(false);
 						break;
 				}
 			}
@@ -491,25 +486,18 @@ static void read_control(datamap *map, HWND control, windows_options &opts, data
 					int_value = (int) float_value;
 
 					if (int_value != opts.int_value(option_name)) 
-					{
-						opts.set_value(option_name, int_value, OPTION_PRIORITY_CMDLINE, error);
-						assert(!error);
-					}
+						opts.set_value(option_name, int_value, OPTION_PRIORITY_CMDLINE);
 
 					break;
 
 				case DM_FLOAT:
 					// Use tztrim(float_value) or we get trailing zero's that break options_equal().
 					if (float_value != opts.float_value(option_name)) 
-					{
-						opts.set_value(option_name, tztrim(float_value), OPTION_PRIORITY_CMDLINE, error);
-						assert(!error);
-					}
+						opts.set_value(option_name, tztrim(float_value), OPTION_PRIORITY_CMDLINE);
 
 					break;
 
 				default:
-					assert(false);
 					break;
 			}
 

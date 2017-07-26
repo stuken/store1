@@ -1,8 +1,6 @@
 // license:BSD-3-Clause
 // copyright-holders:Chris Kirmse, Mike Haaland, René Single, Mamesick
 
-#pragma once
-
 #ifndef MUI_OPTS_H
 #define MUI_OPTS_H
 
@@ -222,6 +220,7 @@ private:
 windows_options & MameUIGlobal(void);
 
 void OptionsInit(void);
+bool AreOptionsEqual(windows_options &opts1, windows_options &opts2);
 void SetDirectories(windows_options &opts);
 void LoadOptions(windows_options &opts, OPTIONS_TYPE opt_type, int game_num);
 void SaveOptions(OPTIONS_TYPE opt_type, windows_options &opts, int game_num);
