@@ -203,11 +203,21 @@ static struct PropSheets
 	{ IDD_PROP_SNAP,		GameOptionsDialogProc }
 };
 
-static struct ComboBoxVideo
+typedef struct
 {
-	const wchar_t*	m_pText;
-	const char*		m_pData;
-} g_ComboBoxVideo[] =
+	const TCHAR* m_pText;
+	const char* m_pData;
+}
+DUALCOMBOSTR;
+
+typedef struct
+{
+	const TCHAR* m_pText;
+	const int m_pData;
+}
+DUALCOMBOINT;
+
+const DUALCOMBOSTR g_ComboBoxVideo[] =
 {
 	{ TEXT("Auto"),         "auto"   },
 	{ TEXT("GDI"),          "gdi"    },
@@ -217,11 +227,7 @@ static struct ComboBoxVideo
 //	{ TEXT("None"),         "none"   }
 };
 
-static struct ComboBoxSound
-{
-	const wchar_t*	m_pText;
-	const char*		m_pData;
-} g_ComboBoxSound[] =
+const DUALCOMBOSTR g_ComboBoxSound[] =
 {
 	{ TEXT("Auto"),         "auto"   },
 	{ TEXT("DirectSound"),  "dsound" },
@@ -230,106 +236,76 @@ static struct ComboBoxSound
 	{ TEXT("None"),         "none"   }
 };
 
-static struct ComboBoxSampleRate
+const DUALCOMBOINT g_ComboBoxSampleRate[] =
 {
-	const wchar_t*	m_pText;
-	const int		m_pData;
-} g_ComboBoxSampleRate[] =
-{
-	{ TEXT("11025"),    	11025 },
-	{ TEXT("22050"),    	22050 },
-	{ TEXT("44100"),    	44100 },
-	{ TEXT("48000"),    	48000 }
+	{ TEXT("11025"),    11025 },
+	{ TEXT("22050"),    22050 },
+	{ TEXT("44100"),    44100 },
+	{ TEXT("48000"),    48000 }
 };
 
-static struct ComboBoxSelectScreen
+const DUALCOMBOINT g_ComboBoxSelectScreen[] =
 {
-	const wchar_t*	m_pText;
-	const int		m_pData;
-} g_ComboBoxSelectScreen[] =
-{
-	{ TEXT("Screen 0"),    	0 },
-	{ TEXT("Screen 1"),    	1 },
-	{ TEXT("Screen 2"),    	2 },
-	{ TEXT("Screen 3"),    	3 }
+	{ TEXT("Screen 0"),    0 },
+	{ TEXT("Screen 1"),    1 },
+	{ TEXT("Screen 2"),    2 },
+	{ TEXT("Screen 3"),    3 }
 };
 
-static struct ComboBoxView
+const DUALCOMBOSTR g_ComboBoxView[] =
 {
-	const wchar_t*	m_pText;
-	const char*		m_pData;
-} g_ComboBoxView[] =
-{
-	{ TEXT("Auto"),		   	"auto"     },
-	{ TEXT("Standard"),   	"standard" },
-	{ TEXT("Pixel aspect"),	"pixel"    },
-	{ TEXT("Cocktail"),    	"cocktail" }
+	{ TEXT("Auto"),         "auto"     },
+	{ TEXT("Standard"),     "standard" },
+	{ TEXT("Pixel aspect"), "pixel"    },
+	{ TEXT("Cocktail"),     "cocktail" }
 };
 
-static struct ComboBoxFrameSkip
+const DUALCOMBOINT g_ComboBoxFrameSkip[] = 
 {
-	const wchar_t*	m_pText;
-	const int		m_pData;
-} g_ComboBoxFrameSkip[] = 
-{
-	{ TEXT("Draw every frame"),	0  },
-	{ TEXT("Skip 1 frame"),		1  },
-	{ TEXT("Skip 2 frames"),	2  },
-	{ TEXT("Skip 3 frames"), 	3  },
-	{ TEXT("Skip 4 frames"), 	4  },
-	{ TEXT("Skip 5 frames"), 	5  },
-	{ TEXT("Skip 6 frames"), 	6  },
-	{ TEXT("Skip 7 frames"), 	7  },
-	{ TEXT("Skip 8 frames"), 	8  },
-	{ TEXT("Skip 9 frames"), 	9  },
-	{ TEXT("Skip 10 frames"), 	10 }
+	{ TEXT("Draw every frame"), 0  },
+	{ TEXT("Skip 1 frame"),     1  },
+	{ TEXT("Skip 2 frames"),    2  },
+	{ TEXT("Skip 3 frames"),    3  },
+	{ TEXT("Skip 4 frames"),    4  },
+	{ TEXT("Skip 5 frames"),    5  },
+	{ TEXT("Skip 6 frames"),    6  },
+	{ TEXT("Skip 7 frames"),    7  },
+	{ TEXT("Skip 8 frames"),    8  },
+	{ TEXT("Skip 9 frames"),    9  },
+	{ TEXT("Skip 10 frames"),  10 }
 };
 
-static struct ComboBoxDevices
+const DUALCOMBOSTR g_ComboBoxDevice[] =
 {
-	const wchar_t*	m_pText;
-	const char* 	m_pData;
-} g_ComboBoxDevice[] =
-{
-	{ TEXT("None"),        	"none"     },
-	{ TEXT("Keyboard"),    	"keyboard" },
-	{ TEXT("Mouse"),		"mouse"    },
-	{ TEXT("Joystick"),   	"joystick" },
-	{ TEXT("Lightgun"),   	"lightgun" }
+	{ TEXT("None"),        "none"     },
+	{ TEXT("Keyboard"),    "keyboard" },
+	{ TEXT("Mouse"),       "mouse"    },
+	{ TEXT("Joystick"),    "joystick" },
+	{ TEXT("Lightgun"),    "lightgun" }
 };
 
-static struct ComboBoxSnapName
+const DUALCOMBOSTR g_ComboBoxSnapName[] =
 {
-	const wchar_t*	m_pText;
-	const char*		m_pData;
-} g_ComboBoxSnapName[] =
-{
-	{ TEXT("Gamename"),		   					"%g" 	  },
-	{ TEXT("Gamename + increment"),	   			"%g%i" 	  },
-	{ TEXT("Gamename/gamename"),    			"%g/%g"   },
-	{ TEXT("Gamename/gamename + increment"),	"%g/%g%i" },
-	{ TEXT("Gamename/increment"),    			"%g/%i"   }
+	{ TEXT("Gamename"),                       "%g" },
+	{ TEXT("Gamename + increment"),           "%g%i" },
+	{ TEXT("Gamename/gamename"),              "%g/%g" },
+	{ TEXT("Gamename/gamename + increment"),  "%g/%g%i" },
+	{ TEXT("Gamename/increment"),             "%g/%i" }
 };
 
-static struct ComboBoxSnapView
+const DUALCOMBOSTR g_ComboBoxSnapView[] =
 {
-	const wchar_t*	m_pText;
-	const char*		m_pData;
-} g_ComboBoxSnapView[] =
-{
-	{ TEXT("Auto"),		   	"auto"     },
-	{ TEXT("Internal"),	   	"internal" },
-	{ TEXT("Standard"),    	"standard" },
-	{ TEXT("Pixel aspect"),	"pixel"    },
-	{ TEXT("Cocktail"),    	"cocktail" }
+	{ TEXT("Auto"),         "auto"     },
+	{ TEXT("Internal"),     "internal" },
+	{ TEXT("Standard"),     "standard" },
+	{ TEXT("Pixel aspect"), "pixel"    },
+	{ TEXT("Cocktail"),     "cocktail" }
 };
 
 /***************************************************************
  * Public functions
  ***************************************************************/
 
-// This function (and the code that use it) is a gross hack - but at least the vile
-// and disgusting global variables are gone, making it less gross than what came before
 static int GetSelectedScreen(HWND hWnd)
 {
 	int nSelectedScreen = 0;
@@ -653,7 +629,7 @@ static char *GameInfoStatus(int driver_index)
 		return buffer;
 	}
 
-	if (DriverIsImperfect(driver_index))	
+	if (DriverIsImperfect(driver_index))
 	{
 		strcpy(buffer, "Working with problems");
 		status_color = 2;
@@ -732,7 +708,7 @@ static char *GameInfoTitle(OPTIONS_TYPE opt_type, int nIndex)
 	else if (OPTIONS_RASTER == opt_type)
 		strcpy(buffer, "Raster options\r\nDefault options used by all raster games");
 	else if (OPTIONS_VECTOR == opt_type)
-		strcpy(buffer, "Vector options\r\nDefault options used by all vector games");	
+		strcpy(buffer, "Vector options\r\nDefault options used by all vector games");
 	else if (OPTIONS_VERTICAL == opt_type)
 		strcpy(buffer, "Vertical options\r\nDefault options used by all vertical games");
 	else if (OPTIONS_HORIZONTAL == opt_type)
@@ -1033,8 +1009,7 @@ static void ModifyPropertySheetForTreeSheet(HWND hPageDlg)
 
 	memset(&rectTree, 0, sizeof(RECT));
 	HWND hTempTab = CreateWindowEx(0, WC_TABCONTROL, NULL, WS_CHILD | WS_CLIPSIBLINGS,
-		rectTree.left, rectTree.top, rectTree.right - rectTree.left, rectTree.bottom - rectTree.top,
-		hWnd, (HMENU)0x1234, hSheetInstance, NULL);
+		rectTree.left, rectTree.top, rectTree.right - rectTree.left, rectTree.bottom - rectTree.top, hWnd, (HMENU)0x1234, hSheetInstance, NULL);
 
 	item.mask = TCIF_TEXT;
 	item.iImage = 0;
@@ -1054,7 +1029,7 @@ static void ModifyPropertySheetForTreeSheet(HWND hPageDlg)
 	rectTree.right = rcTabCtrl.left + SHEET_TREE_WIDTH + 2;
 	rectTree.bottom = rcTabCtrl.bottom + 4;
 	hSheetTreeCtrl = CreateWindowEx(WS_EX_CLIENTEDGE | WS_EX_NOPARENTNOTIFY, WC_TREEVIEW, NULL,
-		WS_TABSTOP | WS_CHILD | WS_VISIBLE | TVS_SHOWSELALWAYS | TVS_FULLROWSELECT | TVS_TRACKSELECT, 
+		WS_TABSTOP | WS_CHILD | WS_VISIBLE | TVS_SHOWSELALWAYS | TVS_FULLROWSELECT | TVS_TRACKSELECT,
 		rectTree.left, rectTree.top, rectTree.right - rectTree.left, rectTree.bottom - rectTree.top,
 		hWnd, (HMENU)0x7EEE, hSheetInstance, NULL);
 
@@ -1558,17 +1533,17 @@ static intptr_t CALLBACK GameOptionsDialogProc(HWND hDlg, UINT uMsg, WPARAM wPar
 			else if (IsControlOptionValue(hDlg,(HWND)lParam, pCurrentOpts, pOptsGlobal))
 				SetTextColor(hDC, GetSysColor(COLOR_WINDOWTEXT));
 			else if (IsControlOptionValue(hDlg,(HWND)lParam, pCurrentOpts, pOptsHorizontal) && !DriverIsVertical(g_nGame))
-				SetTextColor(hDC, RGB(163, 73, 164));	// purple
+				SetTextColor(hDC, RGB(163, 73, 164)); // purple
 			else if (IsControlOptionValue(hDlg,(HWND)lParam, pCurrentOpts, pOptsVertical) && DriverIsVertical(g_nGame))
-				SetTextColor(hDC, RGB(63, 72, 204));	// blue
+				SetTextColor(hDC, RGB(63, 72, 204)); // blue
 			else if (IsControlOptionValue(hDlg,(HWND)lParam, pCurrentOpts, pOptsRaster) && !DriverIsVector(g_nGame))
-				SetTextColor(hDC, RGB(136, 0, 21));		// dark red
+				SetTextColor(hDC, RGB(136, 0, 21)); // dark red
 			else if (IsControlOptionValue(hDlg,(HWND)lParam, pCurrentOpts, pOptsVector) && DriverIsVector(g_nGame))
-				SetTextColor(hDC, RGB(255, 127, 39));	// orange
+				SetTextColor(hDC, RGB(255, 127, 39)); // orange
 			else if (IsControlOptionValue(hDlg,(HWND)lParam, pCurrentOpts, pOptsSource))
-				SetTextColor(hDC, RGB(237, 28, 36));	// red
+				SetTextColor(hDC, RGB(237, 28, 36)); // red
 			else if (IsControlOptionValue(hDlg,(HWND)lParam, pCurrentOpts, pDefaultOpts))
-				SetTextColor(hDC, RGB(34, 177, 76));	// green
+				SetTextColor(hDC, RGB(34, 177, 76)); // green
 			else
 			{
 				switch (g_nPropertyMode)

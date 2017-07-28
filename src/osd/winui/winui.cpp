@@ -2207,7 +2207,7 @@ static void UpdateHistory(void)
 
 	if (GetSelectedPick() >= 0)
 	{
-		char *histText = GetArcadeHistory(Picker_GetSelectedItem(hWndList));
+		char *histText = GetGameHistory(Picker_GetSelectedItem(hWndList));
 		have_history = (histText && histText[0]) ? true : false;
 		winui_set_window_text_utf8(GetDlgItem(hMain, IDC_HISTORY), histText);
 	}
