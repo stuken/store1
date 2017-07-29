@@ -1002,7 +1002,7 @@ scramble.cpp
 scregg.cpp
 scyclone.cpp
 sderby.cpp
-sderby2.cpp
+//sderby2.cpp
 seabattl.cpp
 sealy.cpp
 seattle.cpp
@@ -1268,12 +1268,12 @@ ultratnk.cpp
 ultrsprt.cpp
 umipoker.cpp
 undrfire.cpp
-unianapc.cpp
+//unianapc.cpp
 unico.cpp
-unkfr.cpp
+//unkfr.cpp
 unkhorse.cpp
 upscope.cpp
-usbilliards.cpp
+//usbilliards.cpp
 usgames.cpp
 vamphalf.cpp
 vaportra.cpp
@@ -1294,7 +1294,7 @@ videopin.cpp
 vigilant.cpp
 vindictr.cpp
 viper.cpp
-vlc.cpp
+//vlc.cpp
 volfied.cpp
 voyager.cpp
 vp101.cpp
