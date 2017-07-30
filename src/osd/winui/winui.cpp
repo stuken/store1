@@ -494,8 +494,13 @@ public:
 			if (switched)
 				winwindow_toggle_full_screen();
 		}
-		else
-			chain_output(channel, msg, args);
+//		else
+//			chain_output(channel, msg, args);   // goes down the black hole
+		// LOG all messages
+		FILE *pFile;
+		pFile = fopen("winui.log", "a");
+		vfprintf(pFile, msg, args);
+		fclose (pFile);
 	}
 };
 
@@ -573,6 +578,9 @@ static void RunMAME(int nGameIndex, const play_options *playopts)
 
 int MameUIMain(HINSTANCE hInstance, LPWSTR lpCmdLine)
 {
+	// delete old log file, ignore any error
+	unlink("winui.log");
+
 	if (__argc != 1)
 	{
 		extern int utf8_main(std::vector<std::string> &args);
