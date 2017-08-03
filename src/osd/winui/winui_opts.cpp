@@ -1287,9 +1287,11 @@ const char * GetDatsDir(void)
 
 void SetDatsDir(const char *path)
 {
-	winui_opts.set_value(MUIOPTION_DATS_DIRECTORY, path, OPTION_PRIORITY_CMDLINE);
-	ui_opts.set_value(OPTION_HISTORY_PATH, path, OPTION_PRIORITY_CMDLINE);
-	SaveInternalUI();	// ensure we store again the new dats dir for the core
+	char t1[2048];
+	strcpy(t1, path);
+	winui_opts.set_value(MUIOPTION_DATS_DIRECTORY, path, OPTION_PRIORITY_CMDLINE); // 'path' gets corrupted on exit here
+	ui_opts.set_value(OPTION_HISTORY_PATH, t1, OPTION_PRIORITY_CMDLINE);  // so use 't1' instead
+	SaveInternalUI(); // ensure we store again the new dats dir for the core
 }
 
 const char * GetScoresDir(void)
