@@ -12,7 +12,7 @@
 
 #define UNKNOWN -1
 
-#define MUIOPTION_VERSION						"version"
+#define MUIOPTION_TOTAL                         "total"
 #define MUIOPTION_EXIT_DIALOG					"confirm_exit"
 #define MUIOPTION_NOROMS_GAMES					"display_no_roms_games"
 #define MUIOPTION_TRAY_ICON						"minimize_tray_icon"

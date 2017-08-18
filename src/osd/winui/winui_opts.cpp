@@ -46,7 +46,7 @@ const options_entry winui_options::s_option_entries[] =
 {
 	// UI options
 	{ nullptr,								nullptr,    	OPTION_HEADER, "APPLICATION VERSION" },
-	{ MUIOPTION_VERSION,					nullptr,        OPTION_STRING, nullptr },
+	{ MUIOPTION_TOTAL,                      "0",            OPTION_INTEGER, nullptr },
 
 	{ nullptr,								nullptr,    	OPTION_HEADER, "DISPLAY STATE OPTIONS" },
 	{ MUIOPTION_DEFAULT_GAME,				"puckman",  	OPTION_STRING, nullptr },
@@ -2479,6 +2479,7 @@ void SetRequiredDriverCacheStatus(void)
 		bFirst = false;
 	}
 }
+
 bool GetRequiredDriverCacheStatus(void)
 {
 	SetRequiredDriverCacheStatus();
@@ -2490,12 +2491,15 @@ bool RequiredDriverCache(bool check)
 {
 	bool ret = false;
 
-	if (strcmp(winui_opts.value(MUIOPTION_VERSION), GetVersionString()) != 0)
+	int m_total = driver_list::total();
+
+	if (m_total != winui_opts.int_value(MUIOPTION_TOTAL))
 		ret = true;
 
 	if (!check)
-		winui_opts.set_value(MUIOPTION_VERSION, GetVersionString(), OPTION_PRIORITY_CMDLINE);
+		winui_opts.set_value(MUIOPTION_TOTAL, m_total, OPTION_PRIORITY_CMDLINE);
 
+	printf("RequiredDriverCache returns %d\n", ret);
 	return ret;
 }
 
