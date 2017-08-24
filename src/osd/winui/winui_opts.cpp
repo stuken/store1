@@ -57,7 +57,7 @@ const options_entry winui_options::s_option_entries[] =
 	{ MUIOPTION_SHOW_STATUS_BAR,			"1",        	OPTION_BOOLEAN, nullptr },
 	{ MUIOPTION_HIDE_FOLDERS,				nullptr,        OPTION_STRING, nullptr },
 	{ MUIOPTION_SHOW_FOLDER_SECTION,		"1",        	OPTION_BOOLEAN, nullptr },
-	{ MUIOPTION_EXTRA_FOLDERS,              "0",        	OPTION_BOOLEAN, nullptr },
+	{ MUIOPTION_EXTRA_FOLDERS,              "1",        	OPTION_BOOLEAN, nullptr },
 	{ MUIOPTION_SHOW_TABS,					"1",        	OPTION_BOOLEAN, nullptr },
 	{ MUIOPTION_HIDE_TABS,					"",         	OPTION_STRING, nullptr },
 	{ MUIOPTION_HISTORY_TAB,				"0",        	OPTION_INTEGER, nullptr },
@@ -118,7 +118,6 @@ const options_entry winui_options::s_option_entries[] =
 	{ MUIOPTION_ARTWORK_DIRECTORY,			"artpreview", 	OPTION_STRING, nullptr },
 	{ MUIOPTION_FOLDER_DIRECTORY,			"folders",  	OPTION_STRING, nullptr },
 	{ MUIOPTION_ICONS_DIRECTORY,			"icons",    	OPTION_STRING, nullptr },
-	{ MUIOPTION_MOVIES_DIRECTORY,			"movies",   	OPTION_STRING, nullptr },
 	{ MUIOPTION_AUDIO_DIRECTORY,			"audio",    	OPTION_STRING, nullptr },
 	{ MUIOPTION_GUI_DIRECTORY,				"gui",      	OPTION_STRING, nullptr },
 	{ MUIOPTION_DATS_DIRECTORY,				"dats",    	 	OPTION_STRING, nullptr },
@@ -1249,16 +1248,6 @@ const char * GetPcbDir(void)
 void SetPcbDir(const char *path)
 {
 	winui_opts.set_value(MUIOPTION_PCB_DIRECTORY, path, OPTION_PRIORITY_CMDLINE);
-}
-
-const char * GetMoviesDir(void)
-{
-	return winui_opts.value(MUIOPTION_MOVIES_DIRECTORY);
-}
-
-void SetMoviesDir(const char *path)
-{
-	winui_opts.set_value(MUIOPTION_MOVIES_DIRECTORY, path, OPTION_PRIORITY_CMDLINE);
 }
 
 const char * GetVideoDir(void)

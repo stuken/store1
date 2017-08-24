@@ -77,7 +77,6 @@
 #define MUIOPTION_ARTWORK_DIRECTORY				"artwork_directory"
 #define MUIOPTION_ICONS_DIRECTORY				"icons_directory"
 #define MUIOPTION_FOLDER_DIRECTORY				"folder_directory"
-#define MUIOPTION_MOVIES_DIRECTORY				"movies_directory"
 #define MUIOPTION_AUDIO_DIRECTORY				"audio_directory"
 #define MUIOPTION_GUI_DIRECTORY					"gui_ini_directory"
 #define MUIOPTION_DATS_DIRECTORY				"datafile_directory"
@@ -367,8 +366,6 @@ const char* GetControlPanelDir(void);
 void SetControlPanelDir(const char *path);
 const char* GetPcbDir(void);
 void SetPcbDir(const char *path);
-const char* GetMoviesDir(void);
-void SetMoviesDir(const char *path);
 const char* GetVideoDir(void);
 void SetVideoDir(const char *path);
 const char* GetAudioDir(void);
