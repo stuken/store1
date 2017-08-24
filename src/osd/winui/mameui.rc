@@ -173,6 +173,7 @@ BEGIN
         MENUITEM "Reset played time\tAlt+Y",			ID_CONTEXT_RESET_PLAYTIME
         MENUITEM SEPARATOR
         MENUITEM "Play ProgettoSnaps MP4 movie\tCtrl+M",ID_VIDEO_SNAP
+        MENUITEM "Read the PDF Manual",                 ID_MANUAL
         MENUITEM "Listen music with M1FX\tAlt+M", 		ID_PLAY_M1
         MENUITEM SEPARATOR
         MENUITEM "Properties\tAlt+G",       			ID_GAME_PROPERTIES

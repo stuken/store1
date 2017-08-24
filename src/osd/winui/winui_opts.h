@@ -78,6 +78,7 @@
 #define MUIOPTION_ICONS_DIRECTORY				"icons_directory"
 #define MUIOPTION_FOLDER_DIRECTORY				"folder_directory"
 #define MUIOPTION_AUDIO_DIRECTORY				"audio_directory"
+#define MUIOPTION_MANUALS_DIRECTORY				"manuals_directory"
 #define MUIOPTION_GUI_DIRECTORY					"gui_ini_directory"
 #define MUIOPTION_DATS_DIRECTORY				"datafile_directory"
 #define MUIOPTION_UI_JOY_UP						"ui_joy_up"
@@ -408,6 +409,8 @@ const char* GetFontDir(void);
 void SetFontDir(const char* path);
 const char* GetCrosshairDir(void);
 void SetCrosshairDir(const char* path);
+const char* GetManualsDir(void);
+void SetManualsDir(const char* path);
 const char* GetLanguageDir(void);
 void SetLanguageDir(const char* path);
 void ResetGameOptions(int driver_index);

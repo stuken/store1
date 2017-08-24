@@ -476,6 +476,15 @@ class mameui_output_error : public osd_output
 public:
 	virtual void output_callback(osd_output_channel channel, const char *msg, va_list args)
 	{
+		if (channel == OSD_OUTPUT_CHANNEL_VERBOSE)
+		{
+			FILE *pFile;
+			pFile = fopen("verbose.log", "a");
+			vfprintf(pFile, msg, args);fflush(pFile);
+			fclose (pFile);
+			return;
+		}
+
 		if (channel == OSD_OUTPUT_CHANNEL_ERROR)
 		{
 			switched = false;
@@ -510,6 +519,15 @@ static void RunMAME(int nGameIndex, const play_options *playopts)
 	time_t end = 0;
 	windows_options mame_opts;
 	std::ostringstream option_errors;
+	const char* name = driver_list::driver(nGameIndex).name;
+
+	// redirect messages to our handler
+	mameui_output_error winerror;
+	printf("********** STARTING %s **********\n", name);
+	osd_output::push(&winerror);
+	osd_printf_verbose("********** STARTING %s **********\n", name);
+	osd_printf_info("********** STARTING %s **********\n", name);
+	osd_output::pop(&winerror);
 
 	// prepare MAMEUIFX to run the game
 	ShowWindow(hMain, SW_HIDE);
@@ -519,7 +537,6 @@ static void RunMAME(int nGameIndex, const play_options *playopts)
 
 	// Time the game run.
 	windows_osd_interface osd(mame_opts);
-	mameui_output_error winerror;
 	osd_output::push(&winerror);
 	osd.register_options();
 	mame_machine_manager *manager = mame_machine_manager::instance(mame_opts, osd);
@@ -580,6 +597,7 @@ int MameUIMain(HINSTANCE hInstance, LPWSTR lpCmdLine)
 {
 	// delete old log file, ignore any error
 	unlink("winui.log");
+	unlink("verbose.log");
 
 	if (__argc != 1)
 	{
@@ -3307,12 +3325,25 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 		
 		case ID_VIDEO_SNAP:
 		{
-			char videosnap[MAX_PATH];
 			int nGame = Picker_GetSelectedItem(hWndList);
 			if (nGame >= 0)
 			{
-				snprintf(videosnap, WINUI_ARRAY_LENGTH(videosnap), "%s\\%s.mp4", GetVideoDir(), GetDriverGameName(nGame));
-				ShellExecuteCommon(hMain, videosnap);
+				char path[MAX_PATH];
+				snprintf(path, WINUI_ARRAY_LENGTH(path), "%s\\%s.mp4", GetVideoDir(), GetDriverGameName(nGame));
+				ShellExecuteCommon(hMain, path);
+			}
+			SetFocus(hWndList);
+			return true;
+		}
+
+		case ID_MANUAL:
+		{
+			int nGame = Picker_GetSelectedItem(hWndList);
+			if (nGame >= 0)
+			{
+				char path[MAX_PATH];
+				snprintf(path, WINUI_ARRAY_LENGTH(path), "%s\\%s.pdf", GetManualsDir(), GetDriverGameName(nGame));
+				ShellExecuteCommon(hMain, path);
 			}
 			SetFocus(hWndList);
 			return true;

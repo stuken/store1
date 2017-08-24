@@ -58,6 +58,7 @@ static const DIRECTORYINFO g_directoryInfo[] =
 	{ "Languages",              GetLanguageDir,     SetLanguageDir,     false, 0 },
 	{ "Logos",                  GetLogoDir,         SetLogoDir,         true,  0 },
 	{ "LUA plugins",            GetPluginsDir,      SetPluginsDir,      false, 0 },
+	{ "Manuals (PDF)",          GetManualsDir,      SetManualsDir,      false, 0 },
 	{ "Marquees",               GetMarqueeDir,      SetMarqueeDir,      true,  0 },
 	{ "NVRAMs",                 GetNvramDir,        SetNvramDir,        false, 0 },
 	{ "PCBs",                   GetPcbDir,          SetPcbDir,          true,  0 },

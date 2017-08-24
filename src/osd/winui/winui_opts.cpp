@@ -101,26 +101,27 @@ const options_entry winui_options::s_option_entries[] =
 	{ MUIOPTION_SCREENSHOT_BORDER_COLOR,	"-1",       	OPTION_INTEGER, nullptr },
 
 	{ nullptr,								nullptr,       	OPTION_HEADER, "SEARCH PATH OPTIONS" },
-	{ MUIOPTION_FLYER_DIRECTORY,			"flyers",   	OPTION_STRING, nullptr },
+	{ MUIOPTION_ARTWORK_DIRECTORY,			"artpreview", 	OPTION_STRING, nullptr },
+	{ MUIOPTION_AUDIO_DIRECTORY,			"audio",    	OPTION_STRING, nullptr },
+	{ MUIOPTION_BOSSES_DIRECTORY,			"bosses",   	OPTION_STRING, nullptr },
 	{ MUIOPTION_CABINET_DIRECTORY,			"cabinets", 	OPTION_STRING, nullptr },
-	{ MUIOPTION_MARQUEE_DIRECTORY,			"marquees", 	OPTION_STRING, nullptr },
-	{ MUIOPTION_TITLE_DIRECTORY,			"titles",   	OPTION_STRING, nullptr },
 	{ MUIOPTION_CPANEL_DIRECTORY,			"cpanel",   	OPTION_STRING, nullptr },
+	{ MUIOPTION_DATS_DIRECTORY,				"dats",    	 	OPTION_STRING, nullptr },
+	{ MUIOPTION_ENDS_DIRECTORY,				"ends",     	OPTION_STRING, nullptr },
+	{ MUIOPTION_FLYER_DIRECTORY,			"flyers",   	OPTION_STRING, nullptr },
+	{ MUIOPTION_FOLDER_DIRECTORY,			"folders",  	OPTION_STRING, nullptr },
+	{ MUIOPTION_GAMEOVER_DIRECTORY,			"gameover", 	OPTION_STRING, nullptr },
+	{ MUIOPTION_GUI_DIRECTORY,				"gui",      	OPTION_STRING, nullptr },
+	{ MUIOPTION_HOWTO_DIRECTORY,			"howto",    	OPTION_STRING, nullptr },
+	{ MUIOPTION_ICONS_DIRECTORY,			"icons",    	OPTION_STRING, nullptr },
+	{ MUIOPTION_LOGO_DIRECTORY,				"logo",     	OPTION_STRING, nullptr },
+	{ MUIOPTION_MANUALS_DIRECTORY,          "manuals",      OPTION_STRING, nullptr },
+	{ MUIOPTION_MARQUEE_DIRECTORY,			"marquees", 	OPTION_STRING, nullptr },
 	{ MUIOPTION_PCB_DIRECTORY,				"pcb",      	OPTION_STRING, nullptr },
 	{ MUIOPTION_SCORES_DIRECTORY,			"scores",   	OPTION_STRING, nullptr },
-	{ MUIOPTION_BOSSES_DIRECTORY,			"bosses",   	OPTION_STRING, nullptr },
-	{ MUIOPTION_VERSUS_DIRECTORY,			"versus",   	OPTION_STRING, nullptr },
-	{ MUIOPTION_ENDS_DIRECTORY,				"ends",     	OPTION_STRING, nullptr },
-	{ MUIOPTION_GAMEOVER_DIRECTORY,			"gameover", 	OPTION_STRING, nullptr },
-	{ MUIOPTION_HOWTO_DIRECTORY,			"howto",    	OPTION_STRING, nullptr },
 	{ MUIOPTION_SELECT_DIRECTORY,			"select",   	OPTION_STRING, nullptr },
-	{ MUIOPTION_LOGO_DIRECTORY,				"logo",     	OPTION_STRING, nullptr },
-	{ MUIOPTION_ARTWORK_DIRECTORY,			"artpreview", 	OPTION_STRING, nullptr },
-	{ MUIOPTION_FOLDER_DIRECTORY,			"folders",  	OPTION_STRING, nullptr },
-	{ MUIOPTION_ICONS_DIRECTORY,			"icons",    	OPTION_STRING, nullptr },
-	{ MUIOPTION_AUDIO_DIRECTORY,			"audio",    	OPTION_STRING, nullptr },
-	{ MUIOPTION_GUI_DIRECTORY,				"gui",      	OPTION_STRING, nullptr },
-	{ MUIOPTION_DATS_DIRECTORY,				"dats",    	 	OPTION_STRING, nullptr },
+	{ MUIOPTION_TITLE_DIRECTORY,			"titles",   	OPTION_STRING, nullptr },
+	{ MUIOPTION_VERSUS_DIRECTORY,			"versus",   	OPTION_STRING, nullptr },
 
 	{ nullptr,								nullptr,        OPTION_HEADER, "NAVIGATION JOYSTICK CODES" },
 	{ MUIOPTION_UI_JOY_UP,					"1,1,1,1",  	OPTION_STRING, nullptr },
@@ -1258,6 +1259,16 @@ const char * GetVideoDir(void)
 void SetVideoDir(const char *path)
 {
 	core_opts.set_value(OPTION_VIDEO_DIRECTORY, path, OPTION_PRIORITY_CMDLINE);
+}
+
+const char * GetManualsDir(void)
+{
+	return winui_opts.value(MUIOPTION_MANUALS_DIRECTORY);
+}
+
+void SetManualsDir(const char *path)
+{
+	winui_opts.set_value(MUIOPTION_MANUALS_DIRECTORY, path, OPTION_PRIORITY_CMDLINE);
 }
 
 const char * GetAudioDir(void)

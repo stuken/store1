@@ -560,6 +560,7 @@
 #define ID_FILE_ROMSLIST                40105
 #define ID_MAME_FAQ                     40106
 #define ID_OPTIONS_LIST_COLOR           40107
+#define ID_MANUAL                       40108
 #define ID_VIDEO_SNAP                   40109
 #define ID_PLAY_VIDEO                   40110
 #define ID_PLAY_AUDIO                   40111
