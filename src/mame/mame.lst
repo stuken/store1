@@ -2543,6 +2543,9 @@ shpinxii                        // Sphinx II
 splmastr                        // Spell Master
 tajmah                          // Tajmahal
 
+@source:att4425.cpp
+att4425                         //
+
 @source:attache.cpp
 attache                         //
 
@@ -9381,6 +9384,7 @@ ccboot                          // bootleg
 ccboot2                         // bootleg
 ccbootmr                        // Model Racing bootleg
 cclimber                        // (c) 1980 Nichibutsu
+cclimbera                       // (c) 1980 Nichibutsu
 cclimberj                       // (c) 1980 Nichibutsu
 cclimbroper                     // Operamatic bootleg
 cclimbrrod                      // Rodmar bootleg
@@ -12866,6 +12870,7 @@ thoop                           // (c) 1992 - Ref 922804/1
 @source:gaelco2.cpp
 aligator                        // (c) 1994 - Ref 940411
 aligatorun                      // (c) 1994 - Ref 940411 (unprotected)
+aligatoruna                     // (c) 1994 - Ref 940411 (unprotected)
 bang                            // (c) 1998 - Ref ???
 bangj                           // (c) 1999 - Ref ???
 play2000                        // (c) 1999 - Ref ???
@@ -12881,7 +12886,7 @@ touchgok                        // (c) 1995 - Ref 950510-1
 wrally2                         // (c) 1995 - Ref 950510
 
 @source:gaelco3d.cpp
-footbpow                        // (c) 2000 - Ref 000208
+footbpow                        // (c) 1999 - Ref 000208
 radikalb                        // (c) 1998 - Ref ???
 radikalba                       // (c) 1998 - Ref ???
 speedup                         // (c) 1996 - Ref ???
@@ -17507,6 +17512,13 @@ lcmate2                         //
 @source:leapster.cpp
 leapster                        //
 leapstertv                      //
+
+@source:learnwin.cpp
+learnwin                        // 1986 V-Tech
+learnwin2                       //
+learnwin1                       //
+learnwinf                       //
+spielmast                       // Yuvo
 
 @source:legionna.cpp
 cupsoc                          // (c) 1992 Seibu
@@ -32006,6 +32018,9 @@ qtsbc                           //
 @source:quakeat.cpp
 quake                           // (c) 19?? Lazer-Tron / iD Software
 
+@source:controlid.cpp
+cidx628                         // 200? Control ID X628
+
 @source:quantum.cpp
 quantum                         // 136016           (c) 1982        // made by Gencomp
 quantum1                        // 136016           (c) 1982        // made by Gencomp
@@ -35329,6 +35344,9 @@ s3670                           //
 @source:sys2900.cpp
 sys2900                         //
 
+@source:sys9002.cpp
+sys9002                         //
+
 @source:systec.cpp
 systec                          //
 
@@ -36126,6 +36144,7 @@ intrepidb2                      // bootleg
 intrepidb3                      // bootleg
 machomou                        // (c) 1982 Techstar
 portman                         // (c) 1982 Nova Games Ltd.
+portmanj                        // (c) 1982 Taito Corp.
 roundup                         // (c) 1981 Amenip/Centuri
 rtriv                           // (c) 198? Romar
 suprmous                        // (c) 1982 Taito
@@ -37045,8 +37064,9 @@ puzlbang                        // (c) 1999 Omega System
 puzlbanga                       // (c) 1999 Omega System
 suplup                          // (c) 1999 Omega System
 toyland                         // (c) 2001 Semicom
-vamphalf                        // (c) 1999 DanBi & F2 System
-vamphalfk                       // (c) 1999 DanBi & F2 System
+vamphalf                        // (c) 1999 DanBi & F2 System (Europe version 1.1.0908)
+vamphalfk                       // (c) 1999 DanBi & F2 System (Korea version 1.1.0908)
+vamphalfr1                      // (c) 1999 DanBi & F2 System (Europe version 1.0.0903)
 wivernwg                        // (c) 2001 Semicom
 wyvernwg                        // (c) 2001 Semicom / Game Vision
 wyvernwga                       // (c) 2001 Semicom / Game Vision
@@ -37732,6 +37752,7 @@ austini                         //
 austnew                         //
 ctchzdlx                        //
 gldneye                         //
+gldneye_402                     //
 godzillp                        //
 godzillp_090                    //
 godzillp_100                    //
