@@ -227,6 +227,7 @@ intptr_t CALLBACK InterfaceDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARA
 			hBrush = CreateSolidBrush(RGB(240, 240, 240));
 			DisableVisualStylesInterface(hDlg);
 			Button_SetCheck(GetDlgItem(hDlg, IDC_JOY_GUI), GetJoyGUI());
+			Button_SetCheck(GetDlgItem(hDlg, IDC_EXTRA_FOLDERS), GetShowExtraFolders());
 			Button_SetCheck(GetDlgItem(hDlg, IDC_DISABLE_TRAY_ICON), GetMinimizeTrayIcon());
 			Button_SetCheck(GetDlgItem(hDlg, IDC_DISPLAY_NO_ROMS), GetDisplayNoRomsGames());
 			Button_SetCheck(GetDlgItem(hDlg, IDC_EXIT_DIALOG), GetExitDialog());
@@ -240,7 +241,7 @@ intptr_t CALLBACK InterfaceDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARA
 			SendMessage(GetDlgItem(hDlg, IDC_CYCLETIMESEC), TBM_SETTICFREQ, 5, 0);
 			value = GetCycleScreenshot();
 			SendMessage(GetDlgItem(hDlg, IDC_CYCLETIMESEC), TBM_SETPOS, true, value);
-			snprintf(buffer, WINUI_ARRAY_LENGTH(buffer), "%d", value);		
+			snprintf(buffer, WINUI_ARRAY_LENGTH(buffer), "%d", value);
 			winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_CYCLETIMESECTXT), buffer);
 
 			for (int i = 0; i < NUMHISTORYTAB; i++)
@@ -258,14 +259,14 @@ intptr_t CALLBACK InterfaceDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARA
 			SendMessage(GetDlgItem(hDlg, IDC_SCREENSHOT_BORDERSIZE), TBM_SETTICFREQ, 5, 0);
 			value = GetScreenshotBorderSize();
 			SendMessage(GetDlgItem(hDlg, IDC_SCREENSHOT_BORDERSIZE), TBM_SETPOS, true, value);
-			snprintf(buffer, WINUI_ARRAY_LENGTH(buffer), "%d", value);		
+			snprintf(buffer, WINUI_ARRAY_LENGTH(buffer), "%d", value);
 			winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_SCREENSHOT_BORDERSIZETXT), buffer);
 			EnableWindow(GetDlgItem(hDlg, IDC_ENABLE_SEVENZIP), GetEnableFastAudit() ? true : false);
 			break;
 		}
 
 		case WM_CTLCOLORDLG:
-			return (LRESULT) hBrush;	
+			return (LRESULT) hBrush;
 
 		case WM_CTLCOLORSTATIC:
 		case WM_CTLCOLORBTN:
@@ -284,7 +285,7 @@ intptr_t CALLBACK InterfaceDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARA
 				case IDC_SCREENSHOT_BORDERCOLOR:
 				{
 					CHOOSECOLOR cc;
-					COLORREF choice_colors[16];			
+					COLORREF choice_colors[16];
 
 					for (int i = 0; i < 16; i++)
 						choice_colors[i] = GetCustomColor(i);
@@ -321,23 +322,19 @@ intptr_t CALLBACK InterfaceDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARA
 					int value = 0;
 
 					SetJoyGUI(Button_GetCheck(GetDlgItem(hDlg, IDC_JOY_GUI)));
+					SetShowExtraFolders(Button_GetCheck(GetDlgItem(hDlg, IDC_EXTRA_FOLDERS)));
 					SetMinimizeTrayIcon(Button_GetCheck(GetDlgItem(hDlg, IDC_DISABLE_TRAY_ICON)));
 					SetExitDialog(Button_GetCheck(GetDlgItem(hDlg, IDC_EXIT_DIALOG)));
 					SetEnableFastAudit(Button_GetCheck(GetDlgItem(hDlg, IDC_ENABLE_FASTAUDIT)));
 					SetEnableSevenZip(Button_GetCheck(GetDlgItem(hDlg, IDC_ENABLE_SEVENZIP)));
 
-					if (Button_GetCheck(GetDlgItem(hDlg, IDC_RESET_PLAYCOUNT)))
+					if (Button_GetCheck(GetDlgItem(hDlg, IDC_RESET_PLAYSTATS)))
 					{
 						for (int i = 0; i < driver_list::total(); i++)
+						{
 							ResetPlayCount(i);
-
-						bRedrawList = true;
-					}
-
-					if (Button_GetCheck(GetDlgItem(hDlg, IDC_RESET_PLAYTIME)))
-					{
-						for (int i = 0; i < driver_list::total(); i++)
 							ResetPlayTime(i);
+						}
 
 						bRedrawList = true;
 					}
@@ -582,7 +579,7 @@ intptr_t CALLBACK FilterDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 		}
 
 		case WM_CTLCOLORDLG:
-			return (LRESULT) hBrush;	
+			return (LRESULT) hBrush;
 
 		case WM_CTLCOLORSTATIC:
 		case WM_CTLCOLORBTN:
@@ -804,7 +801,7 @@ intptr_t CALLBACK AddCustomFileDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, L
 					if (TreeView_GetItem(GetDlgItem(hDlg, IDC_CUSTOM_TREE),&tvi) == true)
 					{
 						/* should look for New... */
-						default_selection = (LPTREEFOLDER)tvi.lParam; 	/* start here next time */
+						default_selection = (LPTREEFOLDER)tvi.lParam; /* start here next time */
 						AddToCustomFolder((LPTREEFOLDER)tvi.lParam, driver_index);
 					}
 
@@ -932,8 +929,8 @@ static void DisableVisualStylesInterface(HWND hDlg)
 	SetWindowTheme(GetDlgItem(hDlg, IDC_ENABLE_FASTAUDIT), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_ENABLE_SEVENZIP), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_HISTORY_TAB), L" ", L" ");
-	SetWindowTheme(GetDlgItem(hDlg, IDC_RESET_PLAYCOUNT), L" ", L" ");
-	SetWindowTheme(GetDlgItem(hDlg, IDC_RESET_PLAYTIME), L" ", L" ");
+	SetWindowTheme(GetDlgItem(hDlg, IDC_RESET_PLAYSTATS), L" ", L" ");
+	SetWindowTheme(GetDlgItem(hDlg, IDC_EXTRA_FOLDERS), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_STRETCH_SCREENSHOT_LARGER), L" ", L" ");
 }
 
