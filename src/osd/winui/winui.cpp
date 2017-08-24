@@ -3270,10 +3270,40 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 
 		case ID_VIEW_ZIP:
 		{
-			char viewzip[MAX_PATH];
+			// This will iterate through the rom path and stop at the first find
+			UINT found = false;
+			char path[MAX_PATH], viewzip[MAX_PATH];
+			TCHAR* t_s = NULL;
+			strcpy(path, GetRomDirs());
 			int nGame = Picker_GetSelectedItem(hWndList);
-			snprintf(viewzip, WINUI_ARRAY_LENGTH(viewzip), "%s\\%s.zip", GetRomDirs(), GetDriverGameName(nGame));
-			ShellExecuteCommon(hMain, viewzip);
+			if (nGame >= 0)
+			{
+				char* dir_one = strtok(path, ";");
+				while (dir_one && !found)
+				{
+					snprintf(viewzip, WINUI_ARRAY_LENGTH(viewzip), "%s\\%s.zip", dir_one, GetDriverGameName(nGame));
+					t_s = win_wstring_from_utf8(viewzip);
+					if (t_s)
+					{
+						if (PathFileExists(t_s))
+						{
+							found = true;
+							ShellExecuteCommon(hMain, viewzip);
+						}
+					}
+					dir_one = strtok(NULL, ";");
+				}
+				if (t_s)
+					free(t_s);
+
+				if (!found)
+				{
+					//zip file not found
+					snprintf(viewzip, WINUI_ARRAY_LENGTH(viewzip), "%s.zip", GetDriverGameName(nGame));
+					ShellExecuteCommon(hMain, viewzip);  // calling this with non-existing file produces a suitable error message
+				}
+			}
+
 			SetFocus(hWndList);
 			return true;
 		}
