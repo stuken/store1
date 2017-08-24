@@ -174,7 +174,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Play ProgettoSnaps MP4 movie\tCtrl+M",ID_VIDEO_SNAP
         MENUITEM "Read the PDF Manual",                 ID_MANUAL
-        MENUITEM "Listen music with M1FX\tAlt+M", 		ID_PLAY_M1
+        MENUITEM "Listen to music with M1FX\tAlt+M",    ID_PLAY_M1
         MENUITEM SEPARATOR
         MENUITEM "Properties\tAlt+G",       			ID_GAME_PROPERTIES
         MENUITEM "Properties for driver\tAlt+D",		ID_FOLDER_SOURCEPROPERTIES
@@ -1042,6 +1042,7 @@ IDB_PLAYM1				BITMAP					"res\\playm1.bmp"
 IDB_OPTIONS				BITMAP					"res\\options.bmp"
 IDB_REFRESH				BITMAP					"res\\refresh.bmp"
 IDB_ZIP					BITMAP					"res\\zip.bmp"
+IDB_MANUAL              BITMAP                  "res\\pdf.bmp"
 IDB_SAVELIST			BITMAP					"res\\savelist.bmp"
 IDB_SAVEROMS			BITMAP					"res\\saveroms.bmp"
 IDB_PLAYBACK			BITMAP					"res\\playback.bmp"

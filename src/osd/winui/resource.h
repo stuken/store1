@@ -147,6 +147,7 @@
 #define IDI_OPENGL                      267
 #define IDI_SNAPSHOT                    268
 #define IDD_PROP_SNAP                   269
+#define IDB_MANUAL                      270
 #define IDI_DISPLAYSHEET                272
 #define IDI_ADVANCEDSHEET               273
 #define IDI_SCREENSHEET                 274

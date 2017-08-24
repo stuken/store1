@@ -252,6 +252,7 @@ static HBITMAP hPlayM1 = NULL;
 static HBITMAP hOptions = NULL;
 static HBITMAP hRefresh = NULL;
 static HBITMAP hZip = NULL;
+static HBITMAP hManual = NULL;
 static HBITMAP hSaveList = NULL;
 static HBITMAP hSaveRoms = NULL;
 static HBITMAP hPlayback = NULL;
@@ -1290,6 +1291,7 @@ static void Win32UI_exit(void)
 	DeleteBitmap(hOptions);
 	DeleteBitmap(hRefresh);
 	DeleteBitmap(hZip);
+	DeleteBitmap(hManual);
 	DeleteBitmap(hSaveList);
 	DeleteBitmap(hSaveRoms);
 	DeleteBitmap(hPlayback);
@@ -1903,6 +1905,8 @@ static void InitMenuIcons(void)
 	hRefresh = CreateBitmapTransparent(hTemp);
 	hTemp = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_ZIP));
 	hZip = CreateBitmapTransparent(hTemp);
+	hTemp = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_MANUAL));
+	hManual = CreateBitmapTransparent(hTemp);
 	hTemp = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_SAVELIST));
 	hSaveList = CreateBitmapTransparent(hTemp);
 	hTemp = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_SAVEROMS));
@@ -4795,6 +4799,7 @@ void InitBodyContextMenu(HMENU hBodyContextMenu)
 	SetMenuItemBitmaps(hBodyContextMenu, ID_VIDEO_SNAP, MF_BYCOMMAND, hVideo, hVideo);
 	SetMenuItemBitmaps(hBodyContextMenu, ID_PLAY_M1, MF_BYCOMMAND, hPlayM1, hPlayM1);
 	SetMenuItemBitmaps(hBodyContextMenu, ID_VIEW_ZIP, MF_BYCOMMAND, hZip, hZip);
+	SetMenuItemBitmaps(hBodyContextMenu, ID_MANUAL, MF_BYCOMMAND, hManual, hManual);
 	SetMenuItemBitmaps(hBodyContextMenu, ID_GAME_PROPERTIES, MF_BYCOMMAND, hProperties, hProperties);
 	SetMenuItemBitmaps(hBodyContextMenu, ID_GAME_INFO, MF_BYCOMMAND, hRelease, hRelease);
 	SetMenuItemBitmaps(hBodyContextMenu, ID_GAME_AUDIT, MF_BYCOMMAND, hAuditMenu, hAuditMenu);
