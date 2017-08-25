@@ -503,19 +503,19 @@ static void CreateDeficiencyFolders(int parent_index)
 
 	for (int jj = 0; jj < driver_list::total(); jj++)
 	{
-		if (driver_list::driver(jj).flags & MACHINE_WRONG_COLORS)
+		if (driver_list::driver(jj).type.unemulated_features() & device_t::feature::PALETTE)
 			AddGame(lpWrongCol, jj);
 
-		if (driver_list::driver(jj).flags & MACHINE_IMPERFECT_COLORS)
+		if (driver_list::driver(jj).type.imperfect_features() & device_t::feature::PALETTE)
 			AddGame(lpImpCol, jj);
 
-		if (driver_list::driver(jj).flags & MACHINE_IMPERFECT_GRAPHICS)
+		if (driver_list::driver(jj).type.imperfect_features() & device_t::feature::GRAPHICS)
 			AddGame(lpImpGraph, jj);
 
-		if (driver_list::driver(jj).flags & MACHINE_NO_SOUND)
+		if (driver_list::driver(jj).type.unemulated_features() & device_t::feature::SOUND)
 			AddGame(lpMissSnd, jj);
 
-		if (driver_list::driver(jj).flags & MACHINE_IMPERFECT_SOUND)
+		if (driver_list::driver(jj).type.imperfect_features() & device_t::feature::SOUND)
 			AddGame(lpImpSnd, jj);
 
 		if (driver_list::driver(jj).flags & MACHINE_IS_INCOMPLETE)

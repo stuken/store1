@@ -257,16 +257,19 @@ static void InitDriversInfo(void)
 		const game_driver *gamedrv = &driver_list::driver(ndriver);
 		struct DriversInfo *gameinfo = &drivers_info[ndriver];
 		machine_config config(*gamedrv, MameUIGlobal());
+		ui::machine_static_info const info(machine_config(*gamedrv, MameUIGlobal()));
 		samples_device_iterator sampiter(config.root_device());
 		
 		gameinfo->isClone = (GetParentRomSetIndex(gamedrv) != -1);
-		gameinfo->isBroken = (gamedrv->flags & (MACHINE_NOT_WORKING | MACHINE_UNEMULATED_PROTECTION | MACHINE_MECHANICAL)) ? true : false;
-		gameinfo->isImperfect = (gamedrv->flags & (MACHINE_WRONG_COLORS | MACHINE_IMPERFECT_COLORS | MACHINE_IMPERFECT_GRAPHICS
-			| MACHINE_NO_SOUND | MACHINE_IMPERFECT_SOUND | MACHINE_IS_INCOMPLETE | MACHINE_NO_SOUND_HW)) ? true : false;
- 		gameinfo->supportsSaveState = (gamedrv->flags & MACHINE_SUPPORTS_SAVE) ? true : false;
-		gameinfo->isVertical = (gamedrv->flags & ORIENTATION_SWAP_XY) ? true : false;
-		gameinfo->isMechanical = (gamedrv->flags & MACHINE_MECHANICAL) ? true : false;
-		gameinfo->isBIOS = (gamedrv->flags & MACHINE_IS_BIOS_ROOT) ? true : false;
+		gameinfo->isBroken = ((info.machine_flags() & (MACHINE_NOT_WORKING | MACHINE_MECHANICAL)) ||
+			(info.unemulated_features() & device_t::feature::PROTECTION)) ? true : false;
+		gameinfo->isImperfect = ((info.machine_flags() & (MACHINE_IS_INCOMPLETE | MACHINE_NO_SOUND_HW))
+			|| (info.unemulated_features() & (device_t::feature::PALETTE || device_t::feature::GRAPHICS || device_t::feature::SOUND))
+			|| (info.imperfect_features() & (device_t::feature::PALETTE || device_t::feature::GRAPHICS || device_t::feature::SOUND)));
+ 		gameinfo->supportsSaveState = (info.machine_flags() & MACHINE_SUPPORTS_SAVE) ? true : false;
+		gameinfo->isVertical = (info.machine_flags() & ORIENTATION_SWAP_XY) ? true : false;
+		gameinfo->isMechanical = (info.machine_flags() & MACHINE_MECHANICAL) ? true : false;
+		gameinfo->isBIOS = (info.machine_flags() & MACHINE_IS_BIOS_ROOT) ? true : false;
 		gameinfo->screenCount = NumberOfScreens(config);
 		gameinfo->isVector = isDriverVector(config);
 		gameinfo->isHarddisk = false;
@@ -278,9 +281,9 @@ static void InitDriversInfo(void)
 
 		for (device_t &device : device_iterator(config.root_device()))
 		{
-			for (const rom_entry *region = rom_first_region(device); region != nullptr; region = rom_next_region(region))
+			for (const rom_entry *region = rom_first_region(device); region; region = rom_next_region(region))
 			{
-				for (const rom_entry *rom = rom_first_file(region); rom != nullptr; rom = rom_next_file(rom))
+				for (const rom_entry *rom = rom_first_file(region); rom; rom = rom_next_file(rom))
 				{
 					if (ROMREGION_ISDISKDATA(region))
 						gameinfo->isHarddisk = true;
@@ -359,9 +362,12 @@ static void InitDriversCache(void)
 			break;
 		}
 
-		gameinfo->isBroken  = (gamedrv->flags & (MACHINE_NOT_WORKING | MACHINE_UNEMULATED_PROTECTION | MACHINE_MECHANICAL)) ? true : false;
-		gameinfo->supportsSaveState = (gamedrv->flags & MACHINE_SUPPORTS_SAVE) ? true : false;
-		gameinfo->isVertical = (gamedrv->flags & ORIENTATION_SWAP_XY) ? true : false;
+		ui::machine_static_info const info(machine_config(*gamedrv, MameUIGlobal()));
+
+		gameinfo->isBroken = ((info.machine_flags() & (MACHINE_NOT_WORKING | MACHINE_MECHANICAL)) ||
+			(info.unemulated_features() & device_t::feature::PROTECTION)) ? true : false;
+		gameinfo->supportsSaveState = (info.machine_flags() & MACHINE_SUPPORTS_SAVE) ? true : false;
+		gameinfo->isVertical = (info.machine_flags() & ORIENTATION_SWAP_XY) ? true : false;
 		gameinfo->screenCount = (cache & DRIVER_CACHE_SCREEN);
 		gameinfo->isClone = (cache & DRIVER_CACHE_CLONE) ? true : false;
 		gameinfo->isHarddisk = (cache & DRIVER_CACHE_HARDDISK) ? true : false;
@@ -371,9 +377,10 @@ static void InitDriversCache(void)
 		gameinfo->usesSamples = (cache & DRIVER_CACHE_SAMPLES) ? true : false;
 		gameinfo->usesTrackball = (cache & DRIVER_CACHE_TRACKBALL) ? true : false;
 		gameinfo->usesLightGun = (cache & DRIVER_CACHE_LIGHTGUN) ? true : false;
-		gameinfo->isImperfect = (gamedrv->flags & (MACHINE_WRONG_COLORS | MACHINE_IMPERFECT_COLORS | MACHINE_IMPERFECT_GRAPHICS	
-			| MACHINE_NO_SOUND | MACHINE_IMPERFECT_SOUND | MACHINE_IS_INCOMPLETE | MACHINE_NO_SOUND_HW)) ? true : false;
-		gameinfo->isMechanical = (gamedrv->flags & MACHINE_MECHANICAL) ? true : false;
+		gameinfo->isImperfect = ((info.machine_flags() & (MACHINE_IS_INCOMPLETE | MACHINE_NO_SOUND_HW))
+			|| (info.unemulated_features() & (device_t::feature::PALETTE || device_t::feature::GRAPHICS || device_t::feature::SOUND))
+			|| (info.imperfect_features() & (device_t::feature::PALETTE || device_t::feature::GRAPHICS || device_t::feature::SOUND)));
+		gameinfo->isMechanical = (info.machine_flags() & MACHINE_MECHANICAL) ? true : false;
 		gameinfo->isBIOS = (gamedrv->flags & MACHINE_IS_BIOS_ROOT) ? true : false;
 	}
 }

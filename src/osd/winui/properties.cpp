@@ -603,8 +603,12 @@ static char *GameInfoScreen(int nIndex)
 static char *GameInfoStatus(int driver_index)
 {
 	static char buffer[1024];
-
 	memset(&buffer, 0, sizeof(buffer));
+	if (driver_index < 0)
+		return buffer;
+
+	const game_driver *drv = &driver_list::driver(driver_index);
+	ui::machine_static_info const info(machine_config(*drv, MameUIGlobal()));
 
 	//Just show the emulation flags
 	if (DriverIsBroken(driver_index))
@@ -613,13 +617,13 @@ static char *GameInfoStatus(int driver_index)
 		strcat(buffer, "\r\n");
 		strcat(buffer, "Game doesn't work properly");
 
-		if (driver_list::driver(driver_index).flags & MACHINE_UNEMULATED_PROTECTION)
+		if (info.unemulated_features() & device_t::feature::PROTECTION)
 		{
 			strcat(buffer, "\r\n");
 			strcat(buffer, "Game protection isn't fully emulated");
 		}
 
-		if (driver_list::driver(driver_index).flags & MACHINE_MECHANICAL)
+		if (info.machine_flags() & MACHINE_MECHANICAL)
 		{
 			strcat(buffer, "\r\n");
 			strcat(buffer, "Game has mechanical parts");
@@ -634,43 +638,43 @@ static char *GameInfoStatus(int driver_index)
 		strcpy(buffer, "Working with problems");
 		status_color = 2;
 
-		if (driver_list::driver(driver_index).flags & MACHINE_WRONG_COLORS)
+		if (info.unemulated_features() & device_t::feature::PALETTE)
 		{
 			strcat(buffer, "\r\n");
 			strcat(buffer, "Colors are completely wrong");
 		}
 
-		if (driver_list::driver(driver_index).flags & MACHINE_IMPERFECT_COLORS)
+		if (info.imperfect_features() & device_t::feature::PALETTE)
 		{
 			strcat(buffer, "\r\n");
 			strcat(buffer, "Colors aren't 100% accurate");
 		}
 
-		if (driver_list::driver(driver_index).flags & MACHINE_IMPERFECT_GRAPHICS)
+		if (info.imperfect_features() & device_t::feature::GRAPHICS)
 		{
 			strcat(buffer, "\r\n");
 			strcat(buffer, "Video emulation isn't 100% accurate");
 		}
 
-		if (driver_list::driver(driver_index).flags & MACHINE_NO_SOUND)
+		if (info.unemulated_features() & device_t::feature::SOUND)
 		{
 			strcat(buffer, "\r\n");
 			strcat(buffer, "Game lacks sound");
 		}
 
-		if (driver_list::driver(driver_index).flags & MACHINE_IMPERFECT_SOUND)
+		if (info.imperfect_features() & device_t::feature::SOUND)
 		{
 			strcat(buffer, "\r\n");
 			strcat(buffer, "Sound emulation isn't 100% accurate");
 		}
 
-		if (driver_list::driver(driver_index).flags & MACHINE_IS_INCOMPLETE)
+		if (info.machine_flags() & MACHINE_IS_INCOMPLETE)
 		{
 			strcat(buffer, "\r\n");
 			strcat(buffer, "Game was never completed");
 		}
 
-		if (driver_list::driver(driver_index).flags & MACHINE_NO_SOUND_HW)
+		if (info.machine_flags() & MACHINE_NO_SOUND_HW)
 		{
 			strcat(buffer, "\r\n");
 			strcat(buffer, "Game has no sound hardware");
