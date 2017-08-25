@@ -660,6 +660,7 @@ madmotor.cpp
 //magicfly.cpp
 //magictg.cpp
 magmax.cpp
+magreel.cpp
 magtouch.cpp
 mainevt.cpp
 mainsnk.cpp
