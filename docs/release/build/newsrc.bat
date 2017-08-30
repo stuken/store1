@@ -59,12 +59,10 @@ copy /Y %from%\src\mame\drivers\scregg.cpp          %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\simpsons.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\ssv.cpp             %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\thunderx.cpp        %to%\src\mame\drivers
-copy /Y %from%\src\mame\drivers\toaplan2.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\vaportra.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\vendetta.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\xmen.cpp            %to%\src\mame\drivers
 copy /Y %from%\src\mame\includes\ironhors.h         %to%\src\mame\includes
-copy /Y %from%\src\mame\includes\toaplan2.h         %to%\src\mame\includes
 copy /Y %from%\src\mame\machine\bonzeadv.cpp        %to%\src\mame\machine
 copy /Y %from%\src\mame\video\cidelsa.cpp           %to%\src\mame\video
 copy /Y %from%\src\mame\video\cps1.cpp              %to%\src\mame\video
@@ -75,7 +73,6 @@ copy /Y %from%\src\mame\video\neogeo.cpp            %to%\src\mame\video
 copy /Y %from%\src\mame\video\neogeo_spr.*          %to%\src\mame\video
 copy /Y %from%\src\mame\video\taito_f3.cpp          %to%\src\mame\video
 copy /Y %from%\src\mame\video\tc0100scn.cpp         %to%\src\mame\video
-copy /Y %from%\src\mame\video\toaplan2.cpp          %to%\src\mame\video
 
 
 md %to%\src\osd\modules\lib

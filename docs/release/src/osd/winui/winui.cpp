@@ -252,6 +252,7 @@ static HBITMAP hPlayM1 = NULL;
 static HBITMAP hOptions = NULL;
 static HBITMAP hRefresh = NULL;
 static HBITMAP hZip = NULL;
+static HBITMAP hManual = NULL;
 static HBITMAP hSaveList = NULL;
 static HBITMAP hSaveRoms = NULL;
 static HBITMAP hPlayback = NULL;
@@ -476,6 +477,15 @@ class mameui_output_error : public osd_output
 public:
 	virtual void output_callback(osd_output_channel channel, const char *msg, va_list args)
 	{
+		if (channel == OSD_OUTPUT_CHANNEL_VERBOSE)
+		{
+			FILE *pFile;
+			pFile = fopen("verbose.log", "a");
+			vfprintf(pFile, msg, args);fflush(pFile);
+			fclose (pFile);
+			return;
+		}
+
 		if (channel == OSD_OUTPUT_CHANNEL_ERROR)
 		{
 			switched = false;
@@ -494,8 +504,13 @@ public:
 			if (switched)
 				winwindow_toggle_full_screen();
 		}
-		else
-			chain_output(channel, msg, args);
+//		else
+//			chain_output(channel, msg, args);   // goes down the black hole
+		// LOG all messages
+		FILE *pFile;
+		pFile = fopen("winui.log", "a");
+		vfprintf(pFile, msg, args);
+		fclose (pFile);
 	}
 };
 
@@ -505,6 +520,15 @@ static void RunMAME(int nGameIndex, const play_options *playopts)
 	time_t end = 0;
 	windows_options mame_opts;
 	std::ostringstream option_errors;
+	const char* name = driver_list::driver(nGameIndex).name;
+
+	// redirect messages to our handler
+	mameui_output_error winerror;
+	printf("********** STARTING %s **********\n", name);
+	osd_output::push(&winerror);
+	osd_printf_verbose("********** STARTING %s **********\n", name);
+	osd_printf_info("********** STARTING %s **********\n", name);
+	osd_output::pop(&winerror);
 
 	// prepare MAMEUIFX to run the game
 	ShowWindow(hMain, SW_HIDE);
@@ -514,7 +538,6 @@ static void RunMAME(int nGameIndex, const play_options *playopts)
 
 	// Time the game run.
 	windows_osd_interface osd(mame_opts);
-	mameui_output_error winerror;
 	osd_output::push(&winerror);
 	osd.register_options();
 	mame_machine_manager *manager = mame_machine_manager::instance(mame_opts, osd);
@@ -573,6 +596,10 @@ static void RunMAME(int nGameIndex, const play_options *playopts)
 
 int MameUIMain(HINSTANCE hInstance, LPWSTR lpCmdLine)
 {
+	// delete old log file, ignore any error
+	unlink("winui.log");
+	unlink("verbose.log");
+
 	if (__argc != 1)
 	{
 		extern int utf8_main(std::vector<std::string> &args);
@@ -766,35 +793,26 @@ HICON LoadIconFromFile(const char *iconname)
 {
 	HICON hIcon = NULL;
 	WIN32_FIND_DATA FindFileData;
-	std::string tmpStr;
 	PBYTE bufferPtr;
-	util::archive_file::error ziperr;
 	util::archive_file::ptr zip;
 
-	tmpStr = std::string(GetIconsDir()).append(PATH_SEPARATOR).append(iconname).append(".ico");
+	std::string tmpStr = std::string(GetIconsDir()).append(PATH_SEPARATOR).append(iconname).append(".ico");
 	HANDLE hFind = winui_find_first_file_utf8(tmpStr.c_str(), &FindFileData);
 	
 	if (hFind == INVALID_HANDLE_VALUE || (hIcon = winui_extract_icon_utf8(hInst, tmpStr.c_str(), 0)) == 0)
 	{
-		std::string tmpIcoName;
-
 		tmpStr = std::string(GetIconsDir()).append(PATH_SEPARATOR).append("icons.zip");
-		tmpIcoName = std::string(iconname).append(".ico");
-		ziperr = util::archive_file::open_zip(tmpStr, zip);
+		std::string tmpIcoName = std::string(iconname).append(".ico");
 
-		if (ziperr == util::archive_file::error::NONE)
+		if (util::archive_file::open_zip(tmpStr, zip) == util::archive_file::error::NONE)
 		{
-			int found = zip->search(tmpIcoName, false);
-
-			if (found >= 0)
+			if (zip->search(tmpIcoName, false) >= 0)
 			{
 				bufferPtr = (PBYTE)malloc(zip->current_uncompressed_length());
 
 				if (bufferPtr)
 				{
-					ziperr = zip->decompress(bufferPtr, zip->current_uncompressed_length());
-
-					if (ziperr == util::archive_file::error::NONE)
+					if (zip->decompress(bufferPtr, zip->current_uncompressed_length()) == util::archive_file::error::NONE)
 						hIcon = FormatICOInMemoryToHICON(bufferPtr, zip->current_uncompressed_length());
 
 					free(bufferPtr);
@@ -807,21 +825,16 @@ HICON LoadIconFromFile(const char *iconname)
 		{
 			tmpStr = std::string(GetIconsDir()).append(PATH_SEPARATOR).append("icons.7z");
 			tmpIcoName = std::string(iconname).append(".ico");
-			ziperr = util::archive_file::open_7z(tmpStr, zip);
 
-			if (ziperr == util::archive_file::error::NONE)
+			if (util::archive_file::open_7z(tmpStr, zip) == util::archive_file::error::NONE)
 			{
-				int found = zip->search(tmpIcoName, false);
-
-				if (found >= 0)
+				if (zip->search(tmpIcoName, false) >= 0)
 				{
 					bufferPtr = (PBYTE)malloc(zip->current_uncompressed_length());
 
 					if (bufferPtr)
 					{
-						ziperr = zip->decompress(bufferPtr, zip->current_uncompressed_length());
-
-						if (ziperr == util::archive_file::error::NONE)
+						if (zip->decompress(bufferPtr, zip->current_uncompressed_length()) == util::archive_file::error::NONE)
 							hIcon = FormatICOInMemoryToHICON(bufferPtr, zip->current_uncompressed_length());
 
 						free(bufferPtr);
@@ -1249,7 +1262,7 @@ static void Win32UI_init(void)
 	SetFocus(hWndList);
 
 	if (GetCycleScreenshot() > 0)
-		SetTimer(hMain, SCREENSHOT_TIMER, GetCycleScreenshot() * 1000, NULL); 	//scale to Seconds
+		SetTimer(hMain, SCREENSHOT_TIMER, GetCycleScreenshot() * 1000, NULL);  //scale to Seconds
 }
 
 static void Win32UI_exit(void)
@@ -1278,6 +1291,7 @@ static void Win32UI_exit(void)
 	DeleteBitmap(hOptions);
 	DeleteBitmap(hRefresh);
 	DeleteBitmap(hZip);
+	DeleteBitmap(hManual);
 	DeleteBitmap(hSaveList);
 	DeleteBitmap(hSaveRoms);
 	DeleteBitmap(hPlayback);
@@ -1388,7 +1402,7 @@ static LRESULT CALLBACK MameWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 
 		case WM_GETMINMAXINFO:
 		{
-			MINMAXINFO *mminfo;		
+			MINMAXINFO *mminfo;
 			/* Don't let the window get too small; it can break resizing */
 			mminfo = (MINMAXINFO *) lParam;
 			mminfo->ptMinTrackSize.x = MIN_WIDTH;
@@ -1558,6 +1572,8 @@ static void SaveWindowStatus(void)
 		Picker_SaveColumnWidths(GetDlgItem(hMain, s_nPickers[i]));
 
 	int nItem = Picker_GetSelectedItem(hWndList);
+	if (nItem < 0)
+		return;
 	SetDefaultGame(GetDriverGameName(nItem));
 }
 
@@ -1607,14 +1623,14 @@ static bool GameCheck(void)
 		(void)ListView_GetItem(hWndList, &lvi);
 		MameUIVerifyRomSet(lvi.lParam, true);
 		changed = true;
-		lvfi.flags	= LVFI_PARAM;
+		lvfi.flags  = LVFI_PARAM;
 		lvfi.lParam = lvi.lParam;
 	}
 	else
 	{
 		MameUIVerifyRomSet(game_index, true);
 		changed = true;
-		lvfi.flags	= LVFI_PARAM;
+		lvfi.flags  = LVFI_PARAM;
 		lvfi.lParam = game_index;
 	}
 
@@ -1625,7 +1641,7 @@ static bool GameCheck(void)
 
 	if (percentage != oldpercent)
 	{
-		SetStatusBarTextF(0, "Game search %02d%% completed", percentage);
+		SetStatusBarTextF(0, "Game search %d%% completed", percentage);
 		oldpercent = percentage;
 	}
 
@@ -1889,6 +1905,8 @@ static void InitMenuIcons(void)
 	hRefresh = CreateBitmapTransparent(hTemp);
 	hTemp = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_ZIP));
 	hZip = CreateBitmapTransparent(hTemp);
+	hTemp = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_MANUAL));
+	hManual = CreateBitmapTransparent(hTemp);
 	hTemp = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_SAVELIST));
 	hSaveList = CreateBitmapTransparent(hTemp);
 	hTemp = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_SAVEROMS));
@@ -1974,8 +1992,7 @@ static void InitMenuIcons(void)
 static void CopyToolTipText(LPTOOLTIPTEXT lpttt)
 {
 	int iButton = lpttt->hdr.idFrom;
-	int game = Picker_GetSelectedItem(hWndList);
-	static wchar_t String[1024];
+	static wchar_t t_s[40];
 	bool bConverted = false;
 
 	/* Map command ID to string index */
@@ -1993,14 +2010,20 @@ static void CopyToolTipText(LPTOOLTIPTEXT lpttt)
 	{
 		/* Check for valid parameter */
 		if (iButton > NUM_TOOLTIPS)
-			_tcscpy(String, TEXT("Invalid button index"));
+			_tcscpy_s(t_s, 39, TEXT("Invalid button index"));
 		else
-			_tcscpy(String, szTbStrings[iButton]);
+			_tcscpy_s(t_s, 39, szTbStrings[iButton]);
 	}
 	else
-		_tcscpy(String, win_wstring_from_utf8(GetDriverGameTitle(game)));
+	{
+		int game = Picker_GetSelectedItem(hWndList);
+		if (game < 0)
+			_tcscpy_s(t_s, 39, TEXT("No Selection"));
+		else
+			_tcscpy_s(t_s, 39, win_wstring_from_utf8(GetDriverGameTitle(game)));
+	}
 
-	lpttt->lpszText = String;
+	lpttt->lpszText = t_s;
 }
 
 static void InitToolbar(void)
@@ -2113,7 +2136,7 @@ static void UpdateStatusBar(void)
 	SetStatusBarTextF(4, g_szGameCountString, games_shown);
 	i = Picker_GetSelectedItem(hWndList);
 
-	if (games_shown == 0)
+	if ((games_shown == 0) || (i < 0))
 		DisableSelection();
 	else
 	{
@@ -2207,7 +2230,7 @@ static void UpdateHistory(void)
 
 	if (GetSelectedPick() >= 0)
 	{
-		char *histText = GetArcadeHistory(Picker_GetSelectedItem(hWndList));
+		char *histText = GetGameHistory(Picker_GetSelectedItem(hWndList));
 		have_history = (histText && histText[0]) ? true : false;
 		winui_set_window_text_utf8(GetDlgItem(hMain, IDC_HISTORY), histText);
 	}
@@ -2508,6 +2531,8 @@ static void ResetListView()
 		no_selection = true;
  
 	int current_game = Picker_GetSelectedItem(hWndList);
+	if (current_game < 0)
+		no_selection = true;
 	SetWindowRedraw(hWndList, false);
 	(void)ListView_DeleteAllItems(hWndList);
 	// hint to have it allocate it all at once
@@ -3101,9 +3126,12 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 		case ID_GAME_PROPERTIES:
 		{
 			int game = Picker_GetSelectedItem(hWndList);
-			folder = GetFolderByName(FOLDER_SOURCE, GetDriverFileName(game));
-			InitPropertyPage(hInst, hWnd, OPTIONS_GAME, folder->m_nFolderId, game);
-			UpdateStatusBar();
+			if (game >= 0)
+			{
+				folder = GetFolderByName(FOLDER_SOURCE, GetDriverFileName(game));
+				InitPropertyPage(hInst, hWnd, OPTIONS_GAME, folder->m_nFolderId, game);
+				UpdateStatusBar();
+			}
 			SetFocus(hWndList);
 			return true;
 		}
@@ -3131,9 +3159,12 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 		case ID_FOLDER_SOURCEPROPERTIES:
 		{
 			int game = Picker_GetSelectedItem(hWndList);
-			folder = GetFolderByName(FOLDER_SOURCE, GetDriverFileName(game));
-			InitPropertyPage(hInst, hWnd, OPTIONS_SOURCE, folder->m_nFolderId, game);
-			UpdateStatusBar();
+			if (game >= 0)
+			{
+				folder = GetFolderByName(FOLDER_SOURCE, GetDriverFileName(game));
+				InitPropertyPage(hInst, hWnd, OPTIONS_SOURCE, folder->m_nFolderId, game);
+				UpdateStatusBar();
+			}
 			SetFocus(hWndList);
 			return true;
 		}
@@ -3215,7 +3246,7 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 			KillTimer(hMain, SCREENSHOT_TIMER);
 
 			if( GetCycleScreenshot() > 0)
-				SetTimer(hMain, SCREENSHOT_TIMER, GetCycleScreenshot()*1000, NULL ); 	// Scale to seconds
+				SetTimer(hMain, SCREENSHOT_TIMER, GetCycleScreenshot()*1000, NULL ); // Scale to seconds
 
 			SetFocus(hWndList);
 			return true;
@@ -3262,51 +3293,103 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 
 		case ID_VIEW_ZIP:
 		{
-			char viewzip[MAX_PATH];
+			// This will iterate through the rom path and stop at the first find
+			UINT found = false;
+			char path[MAX_PATH], viewzip[MAX_PATH];
+			TCHAR* t_s = NULL;
+			strcpy(path, GetRomDirs());
 			int nGame = Picker_GetSelectedItem(hWndList);
-			snprintf(viewzip, WINUI_ARRAY_LENGTH(viewzip), "%s\\%s.zip", GetRomDirs(), GetDriverGameName(nGame));
-			ShellExecuteCommon(hMain, viewzip);
+			if (nGame >= 0)
+			{
+				char* dir_one = strtok(path, ";");
+				while (dir_one && !found)
+				{
+					snprintf(viewzip, WINUI_ARRAY_LENGTH(viewzip), "%s\\%s.zip", dir_one, GetDriverGameName(nGame));
+					t_s = win_wstring_from_utf8(viewzip);
+					if (t_s)
+					{
+						if (PathFileExists(t_s))
+						{
+							found = true;
+							ShellExecuteCommon(hMain, viewzip);
+						}
+					}
+					dir_one = strtok(NULL, ";");
+				}
+				if (t_s)
+					free(t_s);
+
+				if (!found)    //zip file not found
+					ErrorMessageBox("Can't find %s.zip in the ROMS PATH: %s", GetDriverGameName(nGame), GetRomDirs());
+			}
+
 			SetFocus(hWndList);
 			return true;
 		}
 		
 		case ID_VIDEO_SNAP:
 		{
-			char videosnap[MAX_PATH];
 			int nGame = Picker_GetSelectedItem(hWndList);
-			snprintf(videosnap, WINUI_ARRAY_LENGTH(videosnap), "%s\\%s.mp4", GetMoviesDir(), GetDriverGameName(nGame));
-			ShellExecuteCommon(hMain, videosnap);
+			if (nGame >= 0)
+			{
+				char path[MAX_PATH];
+				snprintf(path, WINUI_ARRAY_LENGTH(path), "%s\\%s.mp4", GetVideoDir(), GetDriverGameName(nGame));
+				ShellExecuteCommon(hMain, path);
+			}
+			SetFocus(hWndList);
+			return true;
+		}
+
+		case ID_MANUAL:
+		{
+			int nGame = Picker_GetSelectedItem(hWndList);
+			if (nGame >= 0)
+			{
+				char path[MAX_PATH];
+				snprintf(path, WINUI_ARRAY_LENGTH(path), "%s\\%s.pdf", GetManualsDir(), GetDriverGameName(nGame));
+				ShellExecuteCommon(hMain, path);
+			}
 			SetFocus(hWndList);
 			return true;
 		}
 
 		case ID_PLAY_M1:
 		{
-			char command[MAX_PATH];
+			// we assume m1fx.exe is in the same folder as we are
 			int nGame = Picker_GetSelectedItem(hWndList);
-			const char *game = GetDriverGameName(nGame);
-			int audit_result = GetRomAuditResults(nGame);
-			snprintf(command, WINUI_ARRAY_LENGTH(command), "m1fx.exe %s", game);
+			if (nGame >= 0)
+			{
+				char m1exe [MAX_PATH] = "m1fx.exe";
+				TCHAR *t_s = win_wstring_from_utf8(m1exe);
+				if (t_s)
+				{
+					if (PathFileExists(t_s))
+					{
+						char command[MAX_PATH];
+						const char *game = GetDriverGameName(nGame);
+						int audit_result = GetRomAuditResults(nGame);
+						snprintf(command, WINUI_ARRAY_LENGTH(command), "m1fx.exe %s", game);
 
-			if (IsAuditResultYes(audit_result))
-			{
-				wchar_t* t_command = win_wstring_from_utf8(command);
-				STARTUPINFO siStartupInfo;
-				PROCESS_INFORMATION piProcessInfo;
-				memset(&siStartupInfo, 0, sizeof(STARTUPINFO));
-				memset(&piProcessInfo, 0, sizeof(PROCESS_INFORMATION));
-				siStartupInfo.cb = sizeof(STARTUPINFO);
-				CreateProcess(NULL, t_command, NULL, NULL, false, CREATE_DEFAULT_ERROR_MODE, NULL, NULL, &siStartupInfo, &piProcessInfo);				
-				free(t_command);
-				SetFocus(hWndList);
-				return true;
+						if (IsAuditResultYes(audit_result))
+						{
+							wchar_t* t_command = win_wstring_from_utf8(command);
+							STARTUPINFO siStartupInfo;
+							PROCESS_INFORMATION piProcessInfo;
+							memset(&siStartupInfo, 0, sizeof(STARTUPINFO));
+							memset(&piProcessInfo, 0, sizeof(PROCESS_INFORMATION));
+							siStartupInfo.cb = sizeof(STARTUPINFO);
+							CreateProcess(NULL, t_command, NULL, NULL, false, CREATE_DEFAULT_ERROR_MODE, NULL, NULL, &siStartupInfo, &piProcessInfo);
+							free(t_command);
+						}
+						else
+							ErrorMessageBox("Game '%s' is missing ROMs!\r\nM1FX cannot be executed!", game);
+					}
+					else
+						ErrorMessageBox("Can't find M1FX.EXE in the current folder!");
+				}
 			}
-			else
-			{
-				ErrorMessageBox("Game '%s' is missing ROMs!\r\nM1FX cannot be executed!", game);
-				SetFocus(hWndList);
-				return true;
-			}
+			SetFocus(hWndList);
+			return true;
 		}
 
 		case ID_HELP_ABOUT:
@@ -3982,6 +4065,8 @@ void SetStatusBarTextF(int part_index, const char *fmt, ...)
 static void MamePlayBackGame(void)
 {
 	int nGame = Picker_GetSelectedItem(hWndList);
+	if (nGame < 0)
+		return;
 	char filename[MAX_PATH];
 	play_options playopts;
 
@@ -4036,6 +4121,8 @@ static void MamePlayBackGame(void)
 static void MameLoadState(void)
 {
 	int nGame = Picker_GetSelectedItem(hWndList);
+	if (nGame < 0)
+		return;
 	char filename[MAX_PATH];
 	play_options playopts;
 
@@ -4060,6 +4147,8 @@ static void MameLoadState(void)
 static void MamePlayRecordGame(void)
 {
 	int nGame = Picker_GetSelectedItem(hWndList);
+	if (nGame < 0)
+		return;
 	char filename[MAX_PATH];
 	play_options playopts;
 
@@ -4084,6 +4173,8 @@ static void MamePlayRecordGame(void)
 void MamePlayGame(void)
 {
 	int nGame = Picker_GetSelectedItem(hWndList);
+	if (nGame < 0)
+		return;
 	play_options playopts;
 
 	memset(&playopts, 0, sizeof(playopts));
@@ -4093,6 +4184,8 @@ void MamePlayGame(void)
 static void MamePlayRecordWave(void)
 {
 	int nGame = Picker_GetSelectedItem(hWndList);
+	if (nGame < 0)
+		return;
 	char filename[MAX_PATH];
 	play_options playopts;
 
@@ -4110,6 +4203,8 @@ static void MamePlayRecordWave(void)
 static void MamePlayRecordMNG(void)
 {
 	int nGame = Picker_GetSelectedItem(hWndList);
+	if (nGame < 0)
+		return;
 	char filename[MAX_PATH];
 	play_options playopts;
 
@@ -4134,6 +4229,8 @@ static void MamePlayRecordMNG(void)
 static void MamePlayRecordAVI(void)
 {
 	int nGame = Picker_GetSelectedItem(hWndList);
+	if (nGame < 0)
+		return;
 	char filename[MAX_PATH];
 	play_options playopts;
 
@@ -4373,6 +4470,8 @@ static bool HandleTreeContextMenu(HWND hWnd, WPARAM wParam, LPARAM lParam)
 
 void GamePicker_OnBodyContextMenu(POINT pt)
 {
+	if (Picker_GetSelectedItem(hWndList) < 0)
+		return;
 	HMENU hMenuLoad = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXT_MENU));
 	HMENU hMenu = GetSubMenu(hMenuLoad, 0);
 
@@ -4424,7 +4523,7 @@ static void UpdateMenu(HMENU hMenu)
 	{
 		wchar_t buf[200];
 		int nGame = Picker_GetSelectedItem(hWndList);
-		
+
 		wchar_t *t_description = win_wstring_from_utf8(ConvertAmpersandString(GetDriverGameTitle(nGame)));
 
 		if( !t_description )
@@ -4700,6 +4799,7 @@ void InitBodyContextMenu(HMENU hBodyContextMenu)
 	SetMenuItemBitmaps(hBodyContextMenu, ID_VIDEO_SNAP, MF_BYCOMMAND, hVideo, hVideo);
 	SetMenuItemBitmaps(hBodyContextMenu, ID_PLAY_M1, MF_BYCOMMAND, hPlayM1, hPlayM1);
 	SetMenuItemBitmaps(hBodyContextMenu, ID_VIEW_ZIP, MF_BYCOMMAND, hZip, hZip);
+	SetMenuItemBitmaps(hBodyContextMenu, ID_MANUAL, MF_BYCOMMAND, hManual, hManual);
 	SetMenuItemBitmaps(hBodyContextMenu, ID_GAME_PROPERTIES, MF_BYCOMMAND, hProperties, hProperties);
 	SetMenuItemBitmaps(hBodyContextMenu, ID_GAME_INFO, MF_BYCOMMAND, hRelease, hRelease);
 	SetMenuItemBitmaps(hBodyContextMenu, ID_GAME_AUDIT, MF_BYCOMMAND, hAuditMenu, hAuditMenu);

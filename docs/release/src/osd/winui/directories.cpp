@@ -58,17 +58,17 @@ static const DIRECTORYINFO g_directoryInfo[] =
 	{ "Languages",              GetLanguageDir,     SetLanguageDir,     false, 0 },
 	{ "Logos",                  GetLogoDir,         SetLogoDir,         true,  0 },
 	{ "LUA plugins",            GetPluginsDir,      SetPluginsDir,      false, 0 },
+	{ "Manuals (PDF)",          GetManualsDir,      SetManualsDir,      false, 0 },
 	{ "Marquees",               GetMarqueeDir,      SetMarqueeDir,      true,  0 },
 	{ "NVRAMs",                 GetNvramDir,        SetNvramDir,        false, 0 },
 	{ "PCBs",                   GetPcbDir,          SetPcbDir,          true,  0 },
-	{ "ProgettoSnaps movies",   GetMoviesDir,       SetMoviesDir,       false, 0 },
 	{ "SaveStates",             GetStateDir,        SetStateDir,        false, 0 },
 	{ "Scores",                 GetScoresDir,       SetScoresDir,       true,  0 },
 	{ "Selects",                GetSelectDir,       SetSelectDir,       true,  0 },
 	{ "Snapshots",              GetImgDir,          SetImgDir,          true , 0 },
 	{ "Titles",                 GetTitlesDir,       SetTitlesDir,       true,  0 },
 	{ "Versus",                 GetVersusDir,       SetVersusDir,       true,  0 },
-	{ "Videos",                 GetVideoDir,        SetVideoDir,        false, 0 },
+	{ "Videos and Movies",      GetVideoDir,        SetVideoDir,        false, 0 },
 	{ NULL }
 };
 

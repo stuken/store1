@@ -173,7 +173,8 @@ BEGIN
         MENUITEM "Reset played time\tAlt+Y",			ID_CONTEXT_RESET_PLAYTIME
         MENUITEM SEPARATOR
         MENUITEM "Play ProgettoSnaps MP4 movie\tCtrl+M",ID_VIDEO_SNAP
-        MENUITEM "Listen music with M1FX\tAlt+M", 		ID_PLAY_M1
+        MENUITEM "Read the PDF Manual",                 ID_MANUAL
+        MENUITEM "Listen to music with M1FX\tAlt+M",    ID_PLAY_M1
         MENUITEM SEPARATOR
         MENUITEM "Properties\tAlt+G",       			ID_GAME_PROPERTIES
         MENUITEM "Properties for driver\tAlt+D",		ID_FOLDER_SOURCEPROPERTIES
@@ -900,8 +901,8 @@ BEGIN
 	GROUPBOX        "Display info on tab",IDC_STATIC,6,132,180,28
     COMBOBOX        IDC_HISTORY_TAB,12,142,168,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Bookkeeping",IDC_STATIC,192,4,180,38
-    CONTROL         "Reset all played counts",IDC_RESET_PLAYCOUNT,WC_BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP,198,16,120,10
-    CONTROL         "Reset all played times",IDC_RESET_PLAYTIME,WC_BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP,198,28,120,10
+    CONTROL         "Reset all play statistics",IDC_RESET_PLAYSTATS,WC_BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP,198,16,120,10
+    CONTROL         "Display extra folders (CPU, FPS, etc)",IDC_EXTRA_FOLDERS,WC_BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP,198,28,170,10
 	GROUPBOX        "Screenshot area",IDC_STATIC,192,46,180,114
     CONTROL         "Stretch screenshot larger than natural size",IDC_STRETCH_SCREENSHOT_LARGER,WC_BUTTON,BS_AUTOCHECKBOX | WS_TABSTOP,198,58,170,10,0
     GROUPBOX        "Screenshot cycle time in seconds",IDC_STATIC,198,72,168,28
@@ -1041,6 +1042,7 @@ IDB_PLAYM1				BITMAP					"res\\playm1.bmp"
 IDB_OPTIONS				BITMAP					"res\\options.bmp"
 IDB_REFRESH				BITMAP					"res\\refresh.bmp"
 IDB_ZIP					BITMAP					"res\\zip.bmp"
+IDB_MANUAL              BITMAP                  "res\\pdf.bmp"
 IDB_SAVELIST			BITMAP					"res\\savelist.bmp"
 IDB_SAVEROMS			BITMAP					"res\\saveroms.bmp"
 IDB_PLAYBACK			BITMAP					"res\\playback.bmp"

@@ -34,6 +34,7 @@
 #include "winui.h"
 #define WINUI_ARRAY_LENGTH(x) (sizeof(x) / sizeof(x[0]))
 
+
 /****************************************************************************
  *      struct definitions
  ****************************************************************************/
@@ -101,7 +102,6 @@ std::map<std::string, std::streampos> mymap[MAX_HFILES];
 
 static bool create_index(std::ifstream &fp, int filenum)
 {
-	size_t i;
 	if (!fp.good())
 		return false;
 	// get file size
@@ -116,55 +116,31 @@ static bool create_index(std::ifstream &fp, int filenum)
 	fp.seekg(0);
 	std::string file_line, first, second;
 	std::getline(fp, file_line);
+	int position = file_line.size() + 2; // tellg is buggy, this works and is faster
 	while (fp.good())
 	{
 		char t1 = file_line[0];
 		if ((std::count(file_line.begin(),file_line.end(),'=') == 1) && (t1 == '$')) // line must start with $ and contain one =
 		{
-			// tellg is buggy, we need to rewind the pointer to the previous $
-			int position = fp.tellg(); // get bugged info
-			fp.seekg(position); // position file to wrong place
-			int c = fp.get(); // now scan backwards until $ found
-			while(c != 0x24)
+			// now start by removing all spaces
+			file_line.erase(remove_if(file_line.begin(), file_line.end(), ::isspace), file_line.end());
+			char s[file_line.length()];
+			strcpy(s, file_line.c_str());
+
+			const char* first = strtok(s, "=");  // get first part of key
+			char* second = strtok(NULL, ",");    // get second part
+			while (second)
 			{
-				position--;
-				fp.seekg(position);
-				c = fp.get();
+				// store into index
+				mymap[filenum][std::string(first) + std::string("=") + std::string(second)] = position;
+				second = strtok(NULL, ",");
 			}
-			// now start
-			i = std::count(file_line.begin(),file_line.end(),',');
-			if (i)
-			{
-				// line has commas, split up to separate keys
-				size_t j = file_line.find('=');
-				first = file_line.substr(0, j+1);
-				file_line.erase(0, j+1);
-				for (size_t k = 0; k < i; k++)
-				{
-					// remove leading space in command.dat
-					t1 = file_line[0];
-					if (t1 == ' ')
-						file_line.erase(0,1);
-					// find first comma
-					j = file_line.find(',');
-					if (j != std::string::npos)
-					{
-						second = file_line.substr(0, j);
-						file_line.erase(0, j+1);
-					}
-					else
-						second = file_line;
-					// store into index
-					mymap[filenum][first + second] = position;
-				}
-			}
-			else
-				mymap[filenum][file_line] = position;
 		}
 		std::getline(fp, file_line);
+		position += (file_line.size() + 2);
 	}
 	// check contents
-//	if (filenum == 3)
+//	if (filenum == 0)
 //	for (auto const &it : mymap[filenum])
 //		printf("%s = %X\n", it.first.c_str(), int(it.second));
 	return true;
@@ -301,6 +277,7 @@ std::string load_sourceinfo(const game_driver *drv, const char* datsdir, int fil
 // General hardware information
 std::string load_driver_geninfo(const game_driver *drv)
 {
+	ui::machine_static_info const info(machine_config(*drv, MameUIGlobal()));
 	machine_config config(*drv, MameUIGlobal());
 	const game_driver *parent = NULL;
 	char name[512];
@@ -308,37 +285,37 @@ std::string load_driver_geninfo(const game_driver *drv)
 	std::string buffer = "\n**** :GENERAL MACHINE INFO: ****\n\n";
 
 	/* List the game info 'flags' */
-	if (drv->flags & MACHINE_NOT_WORKING)
+	if (info.machine_flags() & MACHINE_NOT_WORKING)
 		buffer.append("This game doesn't work properly\n");
 
-	if (drv->flags & MACHINE_UNEMULATED_PROTECTION)
+	if (info.unemulated_features() & device_t::feature::PROTECTION)
 		buffer.append("This game has protection which isn't fully emulated.\n");
 
-	if (drv->flags & MACHINE_IMPERFECT_GRAPHICS)
+	if (info.imperfect_features() & device_t::feature::GRAPHICS)
 		buffer.append("The video emulation isn't 100% accurate.\n");
 
-	if (drv->flags & MACHINE_WRONG_COLORS)
+	if (info.unemulated_features() & device_t::feature::PALETTE)
 		buffer.append("The colors are completely wrong.\n");
 
-	if (drv->flags & MACHINE_IMPERFECT_COLORS)
+	if (info.imperfect_features() & device_t::feature::PALETTE)
 		buffer.append("The colors aren't 100% accurate.\n");
 
-	if (drv->flags & MACHINE_NO_SOUND)
+	if (info.unemulated_features() & device_t::feature::SOUND)
 		buffer.append("This game lacks sound.\n");
 
-	if (drv->flags & MACHINE_IMPERFECT_SOUND)
+	if (info.imperfect_features() & device_t::feature::SOUND)
 		buffer.append("The sound emulation isn't 100% accurate.\n");
 
-	if (drv->flags & MACHINE_SUPPORTS_SAVE)
+	if (info.machine_flags() & MACHINE_SUPPORTS_SAVE)
 		buffer.append("Save state support.\n");
 
-	if (drv->flags & MACHINE_MECHANICAL)
+	if (info.machine_flags() & MACHINE_MECHANICAL)
 		buffer.append("This game contains mechanical parts.\n");
 
-	if (drv->flags & MACHINE_IS_INCOMPLETE)
+	if (info.machine_flags() & MACHINE_IS_INCOMPLETE)
 		buffer.append("This game was never completed.\n");
 
-	if (drv->flags & MACHINE_NO_SOUND_HW)
+	if (info.machine_flags() & MACHINE_NO_SOUND_HW)
 		buffer.append("This game has no sound hardware.\n");
 
 	buffer.append("\n");
@@ -605,6 +582,9 @@ bool validate_datfiles(void)
 char * GetGameHistory(int driver_index, std::string software)
 {
 	std::string fullbuf;
+	if (driver_index < 0)
+			return ConvertToWindowsNewlines(fullbuf.c_str());
+
 	if (validate_datfiles())
 	{
 		// Get the path to dat files
@@ -620,26 +600,34 @@ char * GetGameHistory(int driver_index, std::string software)
 			sw_valid = (i != std::string::npos) ? true : false;
 		}
 
-		for (int filenum = 0; filenum < MAX_HFILES; filenum++)
+		if (datsdir && osd::directory::open(datsdir))
 		{
-			if (sw_valid)
-				fullbuf.append(load_swinfo(&driver_list::driver(driver_index), datsdir, software, filenum));
-			fullbuf.append(load_gameinfo(&driver_list::driver(driver_index), datsdir, filenum));
-			fullbuf.append(load_sourceinfo(&driver_list::driver(driver_index), datsdir, filenum));
+			for (int filenum = 0; filenum < MAX_HFILES; filenum++)
+			{
+				if (sw_valid)
+					fullbuf.append(load_swinfo(&driver_list::driver(driver_index), datsdir, software, filenum));
+				fullbuf.append(load_gameinfo(&driver_list::driver(driver_index), datsdir, filenum));
+				fullbuf.append(load_sourceinfo(&driver_list::driver(driver_index), datsdir, filenum));
+			}
 		}
-
-		fullbuf.append(load_driver_geninfo(&driver_list::driver(driver_index)));
+		else
+			fullbuf = "\nThe path to your dat files is invalid.\n\n\n";
 	}
 	else
-		fullbuf = "Unable to display info due to a configuration error";
+		fullbuf = "\nUnable to display info due to an internal error.\n\n\n";
+
+	fullbuf.append(load_driver_geninfo(&driver_list::driver(driver_index)));
 
 	return ConvertToWindowsNewlines(fullbuf.c_str());
 }
 
 // For Arcade-only builds
-char * GetArcadeHistory(int driver_index)
+char * GetGameHistory(int driver_index)
 {
 	std::string fullbuf;
+	if (driver_index < 0)
+			return ConvertToWindowsNewlines(fullbuf.c_str());
+
 	if (validate_datfiles())
 	{
 		char buf[400];
@@ -647,16 +635,21 @@ char * GetArcadeHistory(int driver_index)
 		// only want first path
 		const char* datsdir = strtok(buf, ";");
 
-		for (int filenum = 0; filenum < MAX_HFILES; filenum++)
+		if (datsdir && osd::directory::open(datsdir))
 		{
-			fullbuf.append(load_gameinfo(&driver_list::driver(driver_index), datsdir, filenum));
-			fullbuf.append(load_sourceinfo(&driver_list::driver(driver_index), datsdir, filenum));
+			for (int filenum = 0; filenum < MAX_HFILES; filenum++)
+			{
+				fullbuf.append(load_gameinfo(&driver_list::driver(driver_index), datsdir, filenum));
+				fullbuf.append(load_sourceinfo(&driver_list::driver(driver_index), datsdir, filenum));
+			}
 		}
-
-		fullbuf.append(load_driver_geninfo(&driver_list::driver(driver_index)));
+		else
+			fullbuf = "\nThe path to your dat files is invalid.\n\n\n";
 	}
 	else
-		fullbuf = "Unable to display info due to a configuration error";
+		fullbuf = "\nUnable to display info due to an internal error.\n\n\n";
+
+	fullbuf.append(load_driver_geninfo(&driver_list::driver(driver_index)));
 
 	return ConvertToWindowsNewlines(fullbuf.c_str());
 }

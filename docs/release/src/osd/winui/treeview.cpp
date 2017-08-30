@@ -68,34 +68,37 @@ static void CreateDumpingFolders(int parent_index);
 
 extern const FOLDERDATA g_folderData[] =
 {
-	{"All Games",       "allgames",          FOLDER_ALLGAMES,     IDI_FOLDER_ALLGAMES,	    0,             0,            NULL,                       NULL,                    true },
-	{"Available",       "available",         FOLDER_AVAILABLE,    IDI_FOLDER_AVAILABLE,     F_AVAILABLE,   0,            NULL,                       FilterAvailable,         true },
-	{"Unavailable",     "unavailable",       FOLDER_UNAVAILABLE,  IDI_FOLDER_UNAVAILABLE,   0,             F_AVAILABLE,  NULL,                       FilterAvailable,         false },
-	{"Manufacturer",    "manufacturer",      FOLDER_MANUFACTURER, IDI_FOLDER_MANUFACTURER,  0,             0,            CreateManufacturerFolders },
-	{"Year",            "year",              FOLDER_YEAR,         IDI_FOLDER_YEAR,          0,             0,            CreateYearFolders },
-	{"CPU",             "cpu",               FOLDER_CPU,          IDI_FOLDER_CPU,           0,             0,            CreateCPUFolders },
-	{"SOUND",           "sound",             FOLDER_SOUND,        IDI_FOLDER_SOUND,         0,             0,            CreateSoundFolders },
-	{"BIOS",	    	"bios",		     	 FOLDER_BIOS,	      IDI_FOLDER_BIOS,          0,             0,            CreateBIOSFolders, 	 	 DriverIsBios,  		  true },
-	{"CHD",             "harddisk",          FOLDER_HARDDISK,     IDI_HARDDISK,             0,             0,            NULL,                       DriverIsHarddisk,	  	  true },
-	{"Samples",    	  	"samples",           FOLDER_SAMPLES,      IDI_FOLDER_SAMPLES,       0,             0,            NULL,                       DriverUsesSamples,  	  true },
-	{"Mechanical",      "mechanical",        FOLDER_MECHANICAL,   IDI_MECHANICAL,           0,             0,            NULL,                       DriverIsMechanical,      true },
-	{"Lightgun",    	"lightgun",          FOLDER_LIGHTGUN,     IDI_FOLDER_LIGHTGUN,      0,             0,            NULL,                       DriverUsesLightGun,  	  true },
-	{"Trackball",    	"trackball",         FOLDER_TRACKBALL,    IDI_FOLDER_TRACKBALL,     0,             0,            NULL,                       DriverUsesTrackball,  	  true },
-	{"Working",         "working",           FOLDER_WORKING,      IDI_WORKING,              F_WORKING,     F_NONWORKING, NULL,                       DriverIsBroken,    	  false },
-	{"Imperfect",       "imperfect",         FOLDER_DEFICIENCY,   IDI_FOLDER_IMPERFECT,     0,             0,            CreateDeficiencyFolders },
-	{"Not Working",     "nonworking",        FOLDER_NONWORKING,   IDI_NONWORKING,           F_NONWORKING,  F_WORKING,    NULL,                       DriverIsBroken,    	  true },
-	{"Parents",       	"originals",         FOLDER_ORIGINAL,     IDI_FOLDER_ORIGINALS,     F_ORIGINALS,   F_CLONES,     NULL,                       DriverIsClone,     	  false },
-	{"Clones",          "clones",            FOLDER_CLONES,       IDI_FOLDER_CLONES,        F_CLONES,      F_ORIGINALS,  NULL,                       DriverIsClone,     	  true },
-	{"Horizontal",      "horizontal",        FOLDER_HORIZONTAL,   IDI_FOLDER_HORIZONTAL,    F_HORIZONTAL,  F_VERTICAL,   NULL,                       DriverIsVertical,        false },
-	{"Vertical",        "vertical",          FOLDER_VERTICAL,     IDI_FOLDER_VERTICAL,      F_VERTICAL,    F_HORIZONTAL, NULL,                       DriverIsVertical,        true },
-	{"Raster",          "raster",            FOLDER_RASTER,       IDI_FOLDER_RASTER,        F_RASTER,      F_VECTOR,     NULL,                       DriverIsVector,    	  false },
-	{"Vector",          "vector",            FOLDER_VECTOR,       IDI_FOLDER_VECTOR,        F_VECTOR,      F_RASTER,     NULL,                       DriverIsVector,    	  true },
-	{"Screens",         "screens",           FOLDER_SCREENS,      IDI_FOLDER_MONITOR,       0,             0,            CreateScreenFolders },
-	{"Resolution",      "resolution",        FOLDER_RESOLUTION,   IDI_FOLDER_RESOL,         0,             0,            CreateResolutionFolders },
-	{"Refresh",         "refresh",           FOLDER_FPS,          IDI_FOLDER_FPS,           0,             0,            CreateFPSFolders },
-	{"Source",          "source",            FOLDER_SOURCE,       IDI_FOLDER_SOURCE,        0,             0,            CreateSourceFolders },
-	{"Dumping Status",  "dumping",         	 FOLDER_DUMPING,      IDI_FOLDER_DUMP,			0,             0,            CreateDumpingFolders },
-	{"Savestate",       "savestate",         FOLDER_SAVESTATE,    IDI_FOLDER_SAVESTATE,		0,             0,            CreateSaveStateFolders },
+	// commented-out lines have parts not defined elsewhere
+	{"All Games",       "allgames",          FOLDER_ALLGAMES,     IDI_FOLDER_ALLGAMES,      0,             0,            0, NULL,                       NULL,                    true },
+	{"Available",       "available",         FOLDER_AVAILABLE,    IDI_FOLDER_AVAILABLE,     F_AVAILABLE,   0,            0, NULL,                       FilterAvailable,         true },
+	{"BIOS",            "bios",              FOLDER_BIOS,         IDI_FOLDER_BIOS,          0,             0,            1, CreateBIOSFolders,          DriverIsBios,            true },
+	{"CHD",             "harddisk",          FOLDER_HARDDISK,     IDI_HARDDISK,             0,             0,            0, NULL,                       DriverIsHarddisk,        true },
+	{"Clones",          "clones",            FOLDER_CLONES,       IDI_FOLDER_CLONES,        F_CLONES,      F_ORIGINALS,  0, NULL,                       DriverIsClone,           true },
+	{"CPU",             "cpu",               FOLDER_CPU,          IDI_FOLDER_CPU,           0,             0,            1, CreateCPUFolders },
+	{"Dumping Status",  "dumping",           FOLDER_DUMPING,      IDI_FOLDER_DUMP,          0,             0,            1, CreateDumpingFolders },
+	{"Horizontal",      "horizontal",        FOLDER_HORIZONTAL,   IDI_FOLDER_HORIZONTAL,    F_HORIZONTAL,  F_VERTICAL,   0, NULL,                       DriverIsVertical,        false },
+	{"Imperfect",       "imperfect",         FOLDER_DEFICIENCY,   IDI_FOLDER_IMPERFECT,     0,             0,            0, CreateDeficiencyFolders },
+	{"Lightgun",        "lightgun",          FOLDER_LIGHTGUN,     IDI_FOLDER_LIGHTGUN,      0,             0,            0, NULL,                       DriverUsesLightGun,      true },
+	{"Manufacturer",    "manufacturer",      FOLDER_MANUFACTURER, IDI_FOLDER_MANUFACTURER,  0,             0,            0, CreateManufacturerFolders },
+	{"Mechanical",      "mechanical",        FOLDER_MECHANICAL,   IDI_MECHANICAL,           0,             0,            0, NULL,                       DriverIsMechanical,      true },
+	//{"Non Mechanical",  "nonmechanical",     FOLDER_NONMECHANICAL,IDI_FOLDER,               0,             0,            0, NULL,                       DriverIsMechanical,      FALSE },
+	{"Not Working",     "nonworking",        FOLDER_NONWORKING,   IDI_NONWORKING,           F_NONWORKING,  F_WORKING,    0, NULL,                       DriverIsBroken,          true },
+	{"Parents",         "originals",         FOLDER_ORIGINAL,     IDI_FOLDER_ORIGINALS,     F_ORIGINALS,   F_CLONES,     0, NULL,                       DriverIsClone,           false },
+	{"Raster",          "raster",            FOLDER_RASTER,       IDI_FOLDER_RASTER,        F_RASTER,      F_VECTOR,     0, NULL,                       DriverIsVector,          false },
+	{"Refresh",         "refresh",           FOLDER_FPS,          IDI_FOLDER_FPS,           0,             0,            1, CreateFPSFolders },
+	{"Resolution",      "resolution",        FOLDER_RESOLUTION,   IDI_FOLDER_RESOL,         0,             0,            1, CreateResolutionFolders },
+	{"Samples",         "samples",           FOLDER_SAMPLES,      IDI_FOLDER_SAMPLES,       0,             0,            0, NULL,                       DriverUsesSamples,       true },
+	{"Savestate",       "savestate",         FOLDER_SAVESTATE,    IDI_FOLDER_SAVESTATE,     0,             0,            0, CreateSaveStateFolders },
+	{"Screens",         "screens",           FOLDER_SCREENS,      IDI_FOLDER_MONITOR,       0,             0,            0, CreateScreenFolders },
+	{"Sound",           "sound",             FOLDER_SOUND,        IDI_FOLDER_SOUND,         0,             0,            1, CreateSoundFolders },
+	{"Source",          "source",            FOLDER_SOURCE,       IDI_FOLDER_SOURCE,        0,             0,            0, CreateSourceFolders },
+	//{"Stereo",          "stereo",            FOLDER_STEREO,       IDI_FOLDER,               0,             0,            0, NULL,                       DriverIsStereo,          TRUE },
+	{"Trackball",       "trackball",         FOLDER_TRACKBALL,    IDI_FOLDER_TRACKBALL,     0,             0,            0, NULL,                       DriverUsesTrackball,     true },
+	{"Unavailable",     "unavailable",       FOLDER_UNAVAILABLE,  IDI_FOLDER_UNAVAILABLE,   0,             F_AVAILABLE,  0, NULL,                       FilterAvailable,         false },
+	{"Vector",          "vector",            FOLDER_VECTOR,       IDI_FOLDER_VECTOR,        F_VECTOR,      F_RASTER,     0, NULL,                       DriverIsVector,          true },
+	{"Vertical",        "vertical",          FOLDER_VERTICAL,     IDI_FOLDER_VERTICAL,      F_VERTICAL,    F_HORIZONTAL, 0, NULL,                       DriverIsVertical,        true },
+	{"Working",         "working",           FOLDER_WORKING,      IDI_WORKING,              F_WORKING,     F_NONWORKING, 0, NULL,                       DriverIsBroken,          false },
+	{"Year",            "year",              FOLDER_YEAR,         IDI_FOLDER_YEAR,          0,             0,            0, CreateYearFolders },
 	{ NULL }
 };
 
@@ -272,28 +275,30 @@ void ResetWhichGamesInFolders(void)
 		// setup the games in our built-in folders
 		for (int k = 0; g_lpFolderData[k].m_lpTitle; k++)
 		{
-			if (lpFolder->m_nFolderId == g_lpFolderData[k].m_nFolderId)
+			if ((g_lpFolderData[k].m_process && GetShowExtraFolders()) || (!g_lpFolderData[k].m_process))
 			{
-				if (g_lpFolderData[k].m_pfnQuery || g_lpFolderData[k].m_bExpectedResult)
+				if (lpFolder->m_nFolderId == g_lpFolderData[k].m_nFolderId)
 				{
-					SetAllBits(lpFolder->m_lpGameBits, false);
-
-					for (int jj = 0; jj < driver_list::total(); jj++)
+					if (g_lpFolderData[k].m_pfnQuery || g_lpFolderData[k].m_bExpectedResult)
 					{
-						// invoke the query function
-						bool b = g_lpFolderData[k].m_pfnQuery ? g_lpFolderData[k].m_pfnQuery(jj) : true;
+						SetAllBits(lpFolder->m_lpGameBits, false);
 
-						// if we expect false, flip the result
-						if (!g_lpFolderData[k].m_bExpectedResult)
-							b = !b;
+						for (int jj = 0; jj < driver_list::total(); jj++)
+						{
+							// invoke the query function
+							bool b = g_lpFolderData[k].m_pfnQuery ? g_lpFolderData[k].m_pfnQuery(jj) : true;
 
-						// if we like what we hear, add the game
-						if (b)
-							AddGame(lpFolder, jj);
+							// if we expect false, flip the result
+							if (!g_lpFolderData[k].m_bExpectedResult)
+								b = !b;
+
+							// if we like what we hear, add the game
+							if (b)
+								AddGame(lpFolder, jj);
+						}
 					}
+					break;
 				}
-
-				break;
 			}
 		}
 	}
@@ -498,19 +503,19 @@ static void CreateDeficiencyFolders(int parent_index)
 
 	for (int jj = 0; jj < driver_list::total(); jj++)
 	{
-		if (driver_list::driver(jj).flags & MACHINE_WRONG_COLORS)
+		if (driver_list::driver(jj).type.unemulated_features() & device_t::feature::PALETTE)
 			AddGame(lpWrongCol, jj);
 
-		if (driver_list::driver(jj).flags & MACHINE_IMPERFECT_COLORS)
+		if (driver_list::driver(jj).type.imperfect_features() & device_t::feature::PALETTE)
 			AddGame(lpImpCol, jj);
 
-		if (driver_list::driver(jj).flags & MACHINE_IMPERFECT_GRAPHICS)
+		if (driver_list::driver(jj).type.imperfect_features() & device_t::feature::GRAPHICS)
 			AddGame(lpImpGraph, jj);
 
-		if (driver_list::driver(jj).flags & MACHINE_NO_SOUND)
+		if (driver_list::driver(jj).type.unemulated_features() & device_t::feature::SOUND)
 			AddGame(lpMissSnd, jj);
 
-		if (driver_list::driver(jj).flags & MACHINE_IMPERFECT_SOUND)
+		if (driver_list::driver(jj).type.imperfect_features() & device_t::feature::SOUND)
 			AddGame(lpImpSnd, jj);
 
 		if (driver_list::driver(jj).flags & MACHINE_IS_INCOMPLETE)
@@ -1159,16 +1164,19 @@ void CreateAllChildFolders(void)
 
 		for (int j = 0; g_lpFolderData[j].m_lpTitle; j++)
 		{
-			if (g_lpFolderData[j].m_nFolderId == lpFolder->m_nFolderId)
+			if ((g_lpFolderData[j].m_process && GetShowExtraFolders()) || (!g_lpFolderData[j].m_process))
 			{
-				lpFolderData = &g_lpFolderData[j];
-				break;
+				if (g_lpFolderData[j].m_nFolderId == lpFolder->m_nFolderId)
+				{
+					lpFolderData = &g_lpFolderData[j];
+					break;
+				}
 			}
 		}
 
-		if (lpFolderData != NULL)
+		if (lpFolderData)
 		{
-			if (lpFolderData->m_pfnCreateFolders != NULL)
+			if (lpFolderData->m_pfnCreateFolders)
 				lpFolderData->m_pfnCreateFolders(i);
 		}
 		else
@@ -1188,7 +1196,7 @@ void ResetTreeViewFolders(void)
 {
 	HWND hTreeView = GetTreeView();
 	TVITEM tvi;
-	TVINSERTSTRUCT	tvs;
+	TVINSERTSTRUCT tvs;
 
 	// currently "cached" parent
 	HTREEITEM hti_parent = NULL;
@@ -1262,9 +1270,9 @@ void ResetTreeViewFolders(void)
 		tvs.item = tvi;
 
 		// Add it to this tree branch
-		tvs.hInsertAfter = TVI_SORT; 	// sub items always sorted
+		tvs.hInsertAfter = TVI_SORT; // sub items always sorted
 		(void)TreeView_InsertItem(hTreeView, &tvs);
-		tvs.hInsertAfter = TVI_LAST; 	// restore for next main item
+		tvs.hInsertAfter = TVI_LAST; // restore for next main item
 	}
 }
 
@@ -1326,8 +1334,9 @@ void SelectTreeViewFolder(int folder_id)
  */
 static bool FolderHasIni(LPTREEFOLDER lpFolder) 
 {
-	if (FOLDER_RASTER == lpFolder->m_nFolderId || FOLDER_VECTOR == lpFolder->m_nFolderId || FOLDER_VERTICAL == lpFolder->m_nFolderId || FOLDER_HORIZONTAL == lpFolder->m_nFolderId) 
-		return true;
+	if (FOLDER_RASTER == lpFolder->m_nFolderId || FOLDER_VECTOR == lpFolder->m_nFolderId ||
+		FOLDER_VERTICAL == lpFolder->m_nFolderId || FOLDER_HORIZONTAL == lpFolder->m_nFolderId) 
+			return true;
 
 	if (lpFolder->m_nParent != -1 && FOLDER_SOURCE == treeFolders[lpFolder->m_nParent]->m_nFolderId) 
 		return true;
@@ -1432,11 +1441,14 @@ static bool InitFolders(void)
 	// built-in top level folders
 	for (i = 0; g_lpFolderData[i].m_lpTitle; i++)
 	{
-		LPCFOLDERDATA fData = &g_lpFolderData[i];
-		/* get the saved folder flags */
-		dwFolderFlags = GetFolderFlags(numFolders);
-		/* create the folder */
-		AddFolder(NewFolder(fData->m_lpTitle, fData->m_nFolderId, -1, fData->m_nIconId, dwFolderFlags));
+		if ((g_lpFolderData[i].m_process && GetShowExtraFolders()) || (!g_lpFolderData[i].m_process))
+		{
+			LPCFOLDERDATA fData = &g_lpFolderData[i];
+			/* get the saved folder flags */
+			dwFolderFlags = GetFolderFlags(numFolders);
+			/* create the folder */
+			AddFolder(NewFolder(fData->m_lpTitle, fData->m_nFolderId, -1, fData->m_nIconId, dwFolderFlags));
+		}
 	}
 
 	numExtraFolders = InitExtraFolders();
@@ -1544,10 +1556,9 @@ static LRESULT CALLBACK TreeWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 LPCFOLDERDATA FindFilter(DWORD folderID)
 {
 	for (int i = 0; g_lpFolderData[i].m_lpTitle; i++)
-	{
-		if (g_lpFolderData[i].m_nFolderId == folderID)
-			return &g_lpFolderData[i];
-	}
+		if ((g_lpFolderData[i].m_process && GetShowExtraFolders()) || (!g_lpFolderData[i].m_process))
+			if (g_lpFolderData[i].m_nFolderId == folderID)
+				return &g_lpFolderData[i];
 
 	return (LPFOLDERDATA) 0;
 }

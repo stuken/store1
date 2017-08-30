@@ -35,12 +35,13 @@
 #include "unzip.h"
 #include "window.h"
 #include "winmain.h"
-#include "..\frontend\mame\audit.h"
-#include "..\frontend\mame\language.h"
-#include "..\frontend\mame\mame.h"
-#include "..\frontend\mame\mameopts.h"
-#include "..\frontend\mame\pluginopts.h"
-#include "..\frontend\mame\ui\moptions.h"
+#include "audit.h"
+#include "language.h"
+#include "mame.h"
+#include "mameopts.h"
+#include "pluginopts.h"
+#include "ui/moptions.h"
+#include "ui/info.h"
 
 // special Windows headers, after MAME ones
 #include <dinput.h>
@@ -82,7 +83,7 @@
 #endif
 #define MAMENAME			"MAME"
 
-#define MAME_VERSION		"0.188"
+#define MAME_VERSION		"0.189"
 #define MAMEUIFX_VERSION	MAME_VERSION " (" __DATE__")"
 
 #define SEARCH_PROMPT		"<search here>"

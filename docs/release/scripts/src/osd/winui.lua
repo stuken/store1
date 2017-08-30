@@ -168,6 +168,7 @@ project ("osd_" .. _OPTIONS["osd"])
 		MAME_DIR .. "src/lib/util",
 		MAME_DIR .. "src/osd/modules/file",
 		MAME_DIR .. "src/osd/modules/render",
+		MAME_DIR .. "src/frontend/mame",
 		MAME_DIR .. "3rdparty",
 	}
 
@@ -211,6 +212,8 @@ project ("osd_" .. _OPTIONS["osd"])
 		MAME_DIR .. "src/osd/modules/debugger/win/disasmwininfo.h",
 		MAME_DIR .. "src/osd/modules/debugger/win/editwininfo.cpp",
 		MAME_DIR .. "src/osd/modules/debugger/win/editwininfo.h",
+		MAME_DIR .. "src/osd/modules/debugger/win/logviewinfo.cpp",
+		MAME_DIR .. "src/osd/modules/debugger/win/logviewinfo.h",
 		MAME_DIR .. "src/osd/modules/debugger/win/logwininfo.cpp",
 		MAME_DIR .. "src/osd/modules/debugger/win/logwininfo.h",
 		MAME_DIR .. "src/osd/modules/debugger/win/memoryviewinfo.cpp",

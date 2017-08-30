@@ -12,7 +12,7 @@
 
 #define UNKNOWN -1
 
-#define MUIOPTION_VERSION						"version"
+#define MUIOPTION_TOTAL                         "total"
 #define MUIOPTION_EXIT_DIALOG					"confirm_exit"
 #define MUIOPTION_NOROMS_GAMES					"display_no_roms_games"
 #define MUIOPTION_TRAY_ICON						"minimize_tray_icon"
@@ -26,6 +26,7 @@
 #define MUIOPTION_DEFAULT_FOLDER_ID				"default_folder_id"
 #define MUIOPTION_SHOW_IMAGE_SECTION			"show_image_section"
 #define MUIOPTION_SHOW_FOLDER_SECTION			"show_folder_section"
+#define MUIOPTION_EXTRA_FOLDERS                 "extra_folders"
 #define MUIOPTION_HIDE_FOLDERS					"hide_folders"
 #define MUIOPTION_SHOW_STATUS_BAR				"show_status_bar"
 #define MUIOPTION_SHOW_TABS						"show_tabs"
@@ -76,8 +77,8 @@
 #define MUIOPTION_ARTWORK_DIRECTORY				"artwork_directory"
 #define MUIOPTION_ICONS_DIRECTORY				"icons_directory"
 #define MUIOPTION_FOLDER_DIRECTORY				"folder_directory"
-#define MUIOPTION_MOVIES_DIRECTORY				"movies_directory"
 #define MUIOPTION_AUDIO_DIRECTORY				"audio_directory"
+#define MUIOPTION_MANUALS_DIRECTORY				"manuals_directory"
 #define MUIOPTION_GUI_DIRECTORY					"gui_ini_directory"
 #define MUIOPTION_DATS_DIRECTORY				"datafile_directory"
 #define MUIOPTION_UI_JOY_UP						"ui_joy_up"
@@ -210,7 +211,7 @@ private:
 	{
 		int	rom;
 		int	cache;
-		int	play_count;		
+		int	play_count;
 		int	play_time;
 	};
 
@@ -263,6 +264,8 @@ void SetShowFolderList(bool val);
 bool GetShowFolderList(void);
 bool GetShowFolder(int folder);
 void SetShowFolder(int folder,bool show);
+void SetShowExtraFolders(BOOL val);
+BOOL GetShowExtraFolders(void);
 void SetShowStatusBar(bool val);
 bool GetShowStatusBar(void);
 void SetShowToolBar(bool val);
@@ -364,8 +367,6 @@ const char* GetControlPanelDir(void);
 void SetControlPanelDir(const char *path);
 const char* GetPcbDir(void);
 void SetPcbDir(const char *path);
-const char* GetMoviesDir(void);
-void SetMoviesDir(const char *path);
 const char* GetVideoDir(void);
 void SetVideoDir(const char *path);
 const char* GetAudioDir(void);
@@ -408,6 +409,8 @@ const char* GetFontDir(void);
 void SetFontDir(const char* path);
 const char* GetCrosshairDir(void);
 void SetCrosshairDir(const char* path);
+const char* GetManualsDir(void);
+void SetManualsDir(const char* path);
 const char* GetLanguageDir(void);
 void SetLanguageDir(const char* path);
 void ResetGameOptions(int driver_index);

@@ -530,35 +530,26 @@ static bool png_read_bitmap_gui(util::core_file &mfile, HGLOBAL *phDIB, HPALETTE
 	png_info p;
 	UINT i = 0;
 
-	if (png_read_file(mfile, &p) != PNGERR_NONE)
+	if (p.read_file(mfile) != PNGERR_NONE)
 		return false;
 
 	if (p.color_type != 3 && p.color_type != 2)
-	{
-		png_free(&p);
 		return false;
-	}
 	
 	if (p.interlace_method != 0)
-	{
-		png_free(&p);
 		return false;
-	}
 
 	/* Convert < 8 bit to 8 bit */
-	png_expand_buffer_8bit(&p);
+	p.expand_buffer_8bit();
 
 	if (!AllocatePNG(&p, phDIB, pPAL))
-	{
-		png_free(&p);
 		return false;
-	}
 
 	int bytespp = (p.color_type == 2) ? 3 : 1;
 
 	for (i = 0; i < p.height; i++)
 	{
-		uint8_t *ptr = p.image + i * (p.width * bytespp);
+		UINT8 *ptr = &p.image[i * (p.width * bytespp)];
 
 		if (p.color_type == 2) /*(p->bit_depth > 8) */
 		{
@@ -571,9 +562,8 @@ static bool png_read_bitmap_gui(util::core_file &mfile, HGLOBAL *phDIB, HPALETTE
 			}
 		}
 
-		store_pixels(p.image + i * (p.width * bytespp), p.width * bytespp);
+		store_pixels(&p.image[i * (p.width * bytespp)], p.width * bytespp);
 	}
 
-	png_free(&p);
 	return true;
 }
