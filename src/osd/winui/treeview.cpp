@@ -954,7 +954,7 @@ static void CreateCPUFolders(int parent_index)
 	else
 		LoadExternalFolders(parent_index, fname, IDI_CHIP);
 
-	SendMessage(GetProgressBar(), PBM_SETPOS, 15, 0);
+	SendMessage(GetProgressBar(), PBM_SETPOS, 20, 0);
 }
 
 static void CreateSoundFolders(int parent_index)
@@ -969,7 +969,7 @@ static void CreateSoundFolders(int parent_index)
 	else
 		LoadExternalFolders(parent_index, fname, IDI_CHIP);
 
-	SendMessage(GetProgressBar(), PBM_SETPOS, 30, 0);
+	SendMessage(GetProgressBar(), PBM_SETPOS, 95, 0);
 }
 
 static void CreateScreenFolders(int parent_index)
@@ -984,7 +984,7 @@ static void CreateScreenFolders(int parent_index)
 	else
 		LoadExternalFolders(parent_index, fname, IDI_MONITOR);
 
-	SendMessage(GetProgressBar(), PBM_SETPOS, 45, 0);
+	SendMessage(GetProgressBar(), PBM_SETPOS, 80, 0);
 }
 
 static void CreateResolutionFolders(int parent_index)
@@ -999,7 +999,7 @@ static void CreateResolutionFolders(int parent_index)
 	else
 		LoadExternalFolders(parent_index, fname, IDI_FOLDER);
 
-	SendMessage(GetProgressBar(), PBM_SETPOS, 60, 0);
+	SendMessage(GetProgressBar(), PBM_SETPOS, 65, 0);
 }
 
 static void CreateFPSFolders(int parent_index)
@@ -1014,7 +1014,7 @@ static void CreateFPSFolders(int parent_index)
 	else
 		LoadExternalFolders(parent_index, fname, IDI_FOLDER);
 
-	SendMessage(GetProgressBar(), PBM_SETPOS, 75, 0);
+	SendMessage(GetProgressBar(), PBM_SETPOS, 50, 0);
 }
 
 static void CreateDumpingFolders(int parent_index)
@@ -1029,7 +1029,7 @@ static void CreateDumpingFolders(int parent_index)
 	else
 		LoadExternalFolders(parent_index, fname, IDI_FOLDER);
 
-	SendMessage(GetProgressBar(), PBM_SETPOS, 90, 0);
+	SendMessage(GetProgressBar(), PBM_SETPOS, 35, 0);
 }
 
 static void LoadExternalFolders(int parent_index, const char *fname, int id)
