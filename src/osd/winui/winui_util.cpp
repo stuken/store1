@@ -264,8 +264,8 @@ static void InitDriversInfo(void)
 		gameinfo->isBroken = ((info.machine_flags() & (MACHINE_NOT_WORKING | MACHINE_MECHANICAL)) ||
 			(info.unemulated_features() & device_t::feature::PROTECTION)) ? true : false;
 		gameinfo->isImperfect = ((info.machine_flags() & (MACHINE_IS_INCOMPLETE | MACHINE_NO_SOUND_HW))
-			|| (info.unemulated_features() & (device_t::feature::PALETTE || device_t::feature::GRAPHICS || device_t::feature::SOUND))
-			|| (info.imperfect_features() & (device_t::feature::PALETTE || device_t::feature::GRAPHICS || device_t::feature::SOUND)));
+			|| (info.unemulated_features() & (device_t::feature::PALETTE | device_t::feature::GRAPHICS | device_t::feature::SOUND))
+			|| (info.imperfect_features() & (device_t::feature::PALETTE | device_t::feature::GRAPHICS | device_t::feature::SOUND))) ? true : false;
  		gameinfo->supportsSaveState = (info.machine_flags() & MACHINE_SUPPORTS_SAVE) ? true : false;
 		gameinfo->isVertical = (info.machine_flags() & ORIENTATION_SWAP_XY) ? true : false;
 		gameinfo->isMechanical = (info.machine_flags() & MACHINE_MECHANICAL) ? true : false;
@@ -378,8 +378,8 @@ static void InitDriversCache(void)
 		gameinfo->usesTrackball = (cache & DRIVER_CACHE_TRACKBALL) ? true : false;
 		gameinfo->usesLightGun = (cache & DRIVER_CACHE_LIGHTGUN) ? true : false;
 		gameinfo->isImperfect = ((info.machine_flags() & (MACHINE_IS_INCOMPLETE | MACHINE_NO_SOUND_HW))
-			|| (info.unemulated_features() & (device_t::feature::PALETTE || device_t::feature::GRAPHICS || device_t::feature::SOUND))
-			|| (info.imperfect_features() & (device_t::feature::PALETTE || device_t::feature::GRAPHICS || device_t::feature::SOUND)));
+			|| (info.unemulated_features() & (device_t::feature::PALETTE | device_t::feature::GRAPHICS | device_t::feature::SOUND))
+			|| (info.imperfect_features() & (device_t::feature::PALETTE | device_t::feature::GRAPHICS | device_t::feature::SOUND))) ? true : false;
 		gameinfo->isMechanical = (info.machine_flags() & MACHINE_MECHANICAL) ? true : false;
 		gameinfo->isBIOS = (gamedrv->flags & MACHINE_IS_BIOS_ROOT) ? true : false;
 	}
