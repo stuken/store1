@@ -161,6 +161,8 @@ enum
 	FILETYPE_LUASCRIPT_FILES
 };
 
+typedef std::string string;
+
 int MameUIMain(HINSTANCE hInstance, LPWSTR lpCmdLine);
 typedef int (WINAPI *common_file_dialog_proc)(LPOPENFILENAME lpofn);
 bool CommonFileDialog(common_file_dialog_proc cfd, char *filename, int filetype, bool saving);

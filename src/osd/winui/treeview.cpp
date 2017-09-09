@@ -191,24 +191,18 @@ void FreeFolders(void)
 void ResetFilters(void)
 {
 	if (treeFolders != 0)
-	{
 		for (int i = 0; i < (int)numFolders; i++)
-		{
 			treeFolders[i]->m_dwFlags &= ~F_MASK;
-		}
-	}
 }
 
 void InitTree(LPCFOLDERDATA lpFolderData, LPCFILTER_ITEM lpFilterList)
 {
-	LONG_PTR l;
-
 	g_lpFolderData = lpFolderData;
 	g_lpFilterList = lpFilterList;
 
 	InitFolders();
 	/* this will subclass the treeview (where WM_DRAWITEM gets sent for the header control) */
-	l = GetWindowLongPtr(GetTreeView(), GWLP_WNDPROC);
+	LONG_PTR l = GetWindowLongPtr(GetTreeView(), GWLP_WNDPROC);
 	g_lpTreeWndProc = (WNDPROC)l;
 	SetWindowLongPtr(GetTreeView(), GWLP_WNDPROC, (LONG_PTR)TreeWndProc);
 }
@@ -359,13 +353,9 @@ bool GameFiltered(int nGame, DWORD dwMask)
 		return true;
 
 	for (int i = 0; g_lpFilterList[i].m_dwFilterType; i++)
-	{
 		if (dwMask & g_lpFilterList[i].m_dwFilterType)
-		{
 			if (g_lpFilterList[i].m_pfnQuery(nGame) == g_lpFilterList[i].m_bExpectedResult)
 				return true;
-		}
-	}
 
 	return false;
 }
@@ -503,25 +493,26 @@ static void CreateDeficiencyFolders(int parent_index)
 
 	for (int jj = 0; jj < driver_list::total(); jj++)
 	{
-		if (driver_list::driver(jj).type.unemulated_features() & device_t::feature::PALETTE)
+		uint32_t cache = GetDriverCacheLower(jj);
+		if (BIT(cache, 21))
 			AddGame(lpWrongCol, jj);
 
-		if (driver_list::driver(jj).type.imperfect_features() & device_t::feature::PALETTE)
+		if (BIT(cache, 20))
 			AddGame(lpImpCol, jj);
 
-		if (driver_list::driver(jj).type.imperfect_features() & device_t::feature::GRAPHICS)
+		if (BIT(cache, 18))
 			AddGame(lpImpGraph, jj);
 
-		if (driver_list::driver(jj).type.unemulated_features() & device_t::feature::SOUND)
+		if (BIT(cache, 17))
 			AddGame(lpMissSnd, jj);
 
-		if (driver_list::driver(jj).type.imperfect_features() & device_t::feature::SOUND)
+		if (BIT(cache, 16))
 			AddGame(lpImpSnd, jj);
 
-		if (driver_list::driver(jj).flags & MACHINE_IS_INCOMPLETE)
+		if (BIT(cache, 15))
 			AddGame(lpIncomplete, jj);
 
-		if (driver_list::driver(jj).flags & MACHINE_NO_SOUND_HW)
+		if (BIT(cache, 13))
 			AddGame(lpNoSndHw, jj);
 	}
 }
@@ -575,7 +566,6 @@ static void CreateBIOSFolders(int parent_index)
 
 	for (int jj = 0; jj < driver_list::total(); jj++)
 	{
-
 		if (DriverIsClone(jj))
 		{
 			nParentIndex = GetParentIndex(&driver_list::driver(jj));
@@ -946,7 +936,7 @@ static void CreateCPUFolders(int parent_index)
 {
 	const char *fname = "cpu.ini";
 
-	if (GetRequiredDriverCacheStatus())
+	if (RequiredDriverCache())
 	{
 		CreateCPUFoldersIni(parent_index);
 		SaveExternalFolders(parent_index, fname);
@@ -961,7 +951,7 @@ static void CreateSoundFolders(int parent_index)
 {
 	const char *fname = "sound.ini";
 
-	if (GetRequiredDriverCacheStatus())
+	if (RequiredDriverCache())
 	{
 		CreateSoundFoldersIni(parent_index);
 		SaveExternalFolders(parent_index, fname);
@@ -976,7 +966,7 @@ static void CreateScreenFolders(int parent_index)
 {
 	const char *fname = "screen.ini";
 
-	if (GetRequiredDriverCacheStatus())
+	if (RequiredDriverCache())
 	{
 		CreateScreenFoldersIni(parent_index);
 		SaveExternalFolders(parent_index, fname);
@@ -991,7 +981,7 @@ static void CreateResolutionFolders(int parent_index)
 {
 	const char *fname = "resolution.ini";
 
-	if (GetRequiredDriverCacheStatus())
+	if (RequiredDriverCache())
 	{
 		CreateResolutionFoldersIni(parent_index);
 		SaveExternalFolders(parent_index, fname);
@@ -1006,7 +996,7 @@ static void CreateFPSFolders(int parent_index)
 {
 	const char *fname = "refresh.ini";
 
-	if (GetRequiredDriverCacheStatus())
+	if (RequiredDriverCache())
 	{
 		CreateFPSFoldersIni(parent_index);
 		SaveExternalFolders(parent_index, fname);
@@ -1021,7 +1011,7 @@ static void CreateDumpingFolders(int parent_index)
 {
 	const char *fname = "dumping.ini";
 
-	if (GetRequiredDriverCacheStatus())
+	if (RequiredDriverCache())
 	{
 		CreateDumpingFoldersIni(parent_index);
 		SaveExternalFolders(parent_index, fname);
@@ -1412,7 +1402,7 @@ static bool InitFolders(void)
 	int i = 0;
 	DWORD dwFolderFlags = 0;
 
-	if (treeFolders != NULL)
+	if (treeFolders)
 	{
 		for (i = numFolders - 1; i >= 0; i--)
 		{

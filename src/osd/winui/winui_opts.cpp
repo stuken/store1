@@ -2,6 +2,8 @@
 // copyright-holders:Chris Kirmse, Mike Haaland, René Single, Mamesick
 
 #include "winui.h"
+#include <fstream>      // for *_opts.h (below)
+#include "game_opts.h"
 
 /***************************************************************************
     Internal function prototypes
@@ -33,20 +35,19 @@ static void ParseIniFile(windows_options &opts, const char *name);
     Internal variables
  ***************************************************************************/
 
-static bool RequiredDriverCacheStatus = false;
 static winui_options winui_opts;			// INTERFACE.INI options
-static gamelist_options game_opts;			// GAMELIST.INI options
 static windows_options core_opts;			// MAME.INI default options
 static windows_options save_opts;			// MAME.INI current options
 static ui_options ui_opts;					// UI.INI options
 static plugin_options plugin_opts;			// PLUGIN.INI options
+static winui_game_options game_opts;    // game stats
+#define GAMEINFO_INI_FILENAME                    "GAMESTAT.ini"
 
 // UI options in INTERFACE.INI
 const options_entry winui_options::s_option_entries[] =
 {
 	// UI options
 	{ nullptr,								nullptr,    	OPTION_HEADER, "APPLICATION VERSION" },
-	{ MUIOPTION_TOTAL,                      "0",            OPTION_INTEGER, nullptr },
 
 	{ nullptr,								nullptr,    	OPTION_HEADER, "DISPLAY STATE OPTIONS" },
 	{ MUIOPTION_DEFAULT_GAME,				"puckman",  	OPTION_STRING, nullptr },
@@ -195,124 +196,6 @@ winui_options::winui_options()
 	add_entries(s_option_entries);
 }
 
-gamelist_options::gamelist_options()
-{
-	m_total = driver_list::total();
-	m_list.reserve(m_total);
-	driver_options option = { -1, -1, 0, 0 };
-
-	for (int i = 0; i < m_total; i++)
-		m_list[i] = option;
-}
-
-void gamelist_options::add_entries(void)
-{
-	options_entry entry[2] = { { 0 }, { 0 } };
-	entry[0].defvalue = "-1;-1";
-	entry[0].type = OPTION_STRING;
-	entry[0].description = nullptr;
-
-	for (int i = 0; i < m_total; i++)
-	{
-		entry[0].name = GetDriverGameName(i);
-		m_info.add_entries(entry);
-	}
-}
-
-osd_file::error gamelist_options::load_options(const std::string &filename)
-{
-	osd_file::error filerr;
-	emu_file file(OPEN_FLAG_READ);
-
-	filerr = file.open(filename);
-
-	if (filerr == osd_file::error::NONE)
-	{
-		m_info.parse_ini_file((util::core_file&)file, OPTION_PRIORITY_CMDLINE, true, true);
-		file.close();
-	}
-
-	load_settings();
-	return filerr;
-}
-
-osd_file::error gamelist_options::save_options(const std::string &filename)
-{
-	osd_file::error filerr;
-	emu_file file(OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS);
-
-	save_settings();
-	std::string inistring = std::string("#\n# GAMELIST CACHED VALUES\n#\n").append(m_info.output_ini().c_str());
-	filerr = file.open(filename);
-
-	if (filerr == osd_file::error::NONE)
-	{
-		file.puts(inistring.c_str());
-		file.close();
-	}
-
-	return filerr;
-}
-
-void gamelist_options::load_settings(void)
-{
-	std::string value_str;
-
-	for (int i = 0; i < m_total; i++)
-	{
-		value_str.assign(m_info.value(GetDriverGameName(i)));
-
-		if (!value_str.empty())
-			load_settings(value_str.c_str(), i);
-	}
-}
-	
-void gamelist_options::save_settings(void)
-{
-	std::string value_str;
-
-	for (int i = 0; i < m_total; i++)
-	{
-		value_str = util::string_format("%d;%d;%d;%d", m_list[i].rom, m_list[i].cache, m_list[i].play_count, m_list[i].play_time);
-		m_info.set_value(GetDriverGameName(i), value_str.c_str(), OPTION_PRIORITY_CMDLINE);
-	}
-}
-	
-void gamelist_options::load_settings(const char *str, int index)
-{
-	path_iterator path(str);
-	std::string curpath;
-	int value_int;
-
-	for (int i = 0; i < 4; i++)
-	{
-		if (path.next(curpath))
-		{
-			if (!curpath.empty() && (sscanf(curpath.c_str(), "%d", &value_int) == 1))
-			{
-				switch (i)
-				{
-					case 0:
-						m_list[index].rom = value_int;
-						break;
-						
-					case 1:
-						m_list[index].cache = value_int;
-						break;
-						
-					case 2:
-						m_list[index].play_count = value_int;
-						break;
-						
-					case 3:
-						m_list[index].play_time = value_int;
-						break;
-				}
-			}
-		}
-	}
-}
-
 windows_options & MameUIGlobal(void)
 {
 	return core_opts;
@@ -322,12 +205,12 @@ void OptionsInit(void)
 {
 	// setup our INI folder
 	SetIniDir("ini");
-	// gamelist creation
-	game_opts.add_entries();
 	// now load the options and interface settings
 	LoadOptionsAndInterface();
 	// setup directory for datafiles in the Internal UI
 	SetDatsDir(GetDatsDir());
+	string filename = string(GetGuiDir()).append(PATH_SEPARATOR).append(GAMEINFO_INI_FILENAME);
+	game_opts.load_file(filename.c_str());
 }
 
 const char * GetImageTabLongName(int tab_index)
@@ -2007,9 +1890,6 @@ static void SaveOptionsFile(windows_options &opts, const std::string &filename)
 
 static void LoadOptionsAndInterface(void)
 {
-	// parse GAMELIST.INI
-	std::string gamename = std::string(GetGuiDir()).append(PATH_SEPARATOR).append(GAMELIST_INI_FILENAME).append(".ini");
-	game_opts.load_options(gamename);
 	// parse INTERFACE.INI
 	std::string intername = std::string(GetGuiDir()).append(PATH_SEPARATOR).append(INTERFACE_INI_FILENAME).append(".ini");
 	LoadInterfaceFile(winui_opts, intername);
@@ -2263,8 +2143,8 @@ void SaveGameDefaults(void)
 
 void SaveGameList(void)
 {
-	std::string filename = std::string(GetGuiDir()).append(PATH_SEPARATOR).append(GAMELIST_INI_FILENAME).append(".ini");
-	game_opts.save_options(filename);
+	string filename = string(GetGuiDir()).append(PATH_SEPARATOR).append(GAMEINFO_INI_FILENAME);
+	game_opts.save_file(filename.c_str());
 }
 
 void ResetInterface(void)
@@ -2470,48 +2350,31 @@ void SaveOptions(OPTIONS_TYPE opt_type, windows_options &opts, int game_num)
 	}
 }
 
-int GetDriverCache(int driver_index)
+uint32_t GetDriverCacheLower(int driver_index)
 {
-	return game_opts.cache(driver_index);
+	if (driver_index >= 0)
+		return game_opts.cache_lower(driver_index);
+	else
+		return 0;
 }
 
-void SetDriverCache(int driver_index, int val)
+uint32_t GetDriverCacheUpper(int driver_index)
 {
-	game_opts.cache(driver_index, val);
+	if (driver_index >= 0)
+		return game_opts.cache_upper(driver_index);
+	else
+		return 0;
 }
 
-void SetRequiredDriverCacheStatus(void)
+void SetDriverCache(int driver_index, uint32_t val)
 {
-	static bool bFirst = true;
-
-	if (bFirst)
-	{
-		RequiredDriverCacheStatus = RequiredDriverCache(true);
-		bFirst = false;
-	}
+	if (driver_index >= 0)
+		game_opts.cache_upper(driver_index, val);
 }
 
-bool GetRequiredDriverCacheStatus(void)
+BOOL RequiredDriverCache(void)
 {
-	SetRequiredDriverCacheStatus();
-
-	return RequiredDriverCacheStatus;
-}
-
-bool RequiredDriverCache(bool check)
-{
-	bool ret = false;
-
-	int m_total = driver_list::total();
-
-	if (m_total != winui_opts.int_value(MUIOPTION_TOTAL))
-		ret = true;
-
-	if (!check)
-		winui_opts.set_value(MUIOPTION_TOTAL, m_total, OPTION_PRIORITY_CMDLINE);
-
-	printf("RequiredDriverCache returns %d\n", ret);
-	return ret;
+	return game_opts.rebuild();
 }
 
 bool AreOptionsEqual(windows_options &opts1, windows_options &opts2)

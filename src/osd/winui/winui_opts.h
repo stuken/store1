@@ -12,7 +12,6 @@
 
 #define UNKNOWN -1
 
-#define MUIOPTION_TOTAL                         "total"
 #define MUIOPTION_EXIT_DIALOG					"confirm_exit"
 #define MUIOPTION_NOROMS_GAMES					"display_no_roms_games"
 #define MUIOPTION_TRAY_ICON						"minimize_tray_icon"
@@ -450,10 +449,9 @@ int GetUIJoyHistoryDown(int joycodeIndex);
 void SetUIJoyHistoryDown(int joycodeIndex, int val);
 void ColumnEncodeStringWithCount(const int *value, char *str, int count);
 void ColumnDecodeStringWithCount(const char* str, int *value, int count);
-int GetDriverCache(int driver_index);
-void SetDriverCache(int driver_index, int val);
-bool RequiredDriverCache(bool check = false);
-void SetRequiredDriverCacheStatus(void);
-bool GetRequiredDriverCacheStatus(void);
+uint32_t GetDriverCacheLower(int driver_index);
+uint32_t GetDriverCacheUpper(int driver_index);
+void SetDriverCache(int driver_index, uint32_t val);
+BOOL RequiredDriverCache(void);
 
 #endif

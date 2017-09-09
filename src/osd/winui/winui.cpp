@@ -1138,7 +1138,7 @@ static void Win32UI_init(void)
 	DirectInputInitialize();
 	OptionsInit();
 
-	if (GetRequiredDriverCacheStatus())
+	if (RequiredDriverCache())
 		winui_set_window_text_utf8(GetDlgItem(hSplash, IDC_PROGBAR), "Building folders structure...");
 	else
 		winui_set_window_text_utf8(GetDlgItem(hSplash, IDC_PROGBAR), "Loading folders structure...");
@@ -3628,6 +3628,9 @@ void GamePicker_LeavingItem(HWND hwndPicker, int nItem)
 void GamePicker_EnteringItem(HWND hwndPicker, int nItem)
 {
 	EnableSelection(nItem);
+
+	// decide if it is valid to load a savestate
+	EnableMenuItem(GetMenu(hMain), ID_FILE_LOADSTATE, (driver_list::driver(nItem).flags & MACHINE_SUPPORTS_SAVE) ? MFS_ENABLED : MFS_GRAYED);
 }
 
 int GamePicker_FindItemParent(HWND hwndPicker, int nItem)
