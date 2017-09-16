@@ -4405,7 +4405,8 @@ static int GetIconForDriver(int nItem)
 
 		if (audit_result == -1)
 			iconRoms = 2;
-		else if (IsAuditResultYes(audit_result))
+		else
+		if (IsAuditResultYes(audit_result))
 			iconRoms = 1;
 		else
 			iconRoms = 0;

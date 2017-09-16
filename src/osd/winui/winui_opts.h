@@ -208,10 +208,10 @@ private:
 
 	struct driver_options
 	{
-		int	rom;
-		int	cache;
-		int	play_count;
-		int	play_time;
+		int rom;
+		int cache;
+		int play_count;
+		int play_time;
 	};
 
 	std::vector<driver_options>	m_list;
