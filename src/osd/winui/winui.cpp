@@ -602,17 +602,8 @@ int MameUIMain(HINSTANCE hInstance, LPWSTR lpCmdLine)
 
 	if (__argc != 1)
 	{
-		extern int utf8_main(std::vector<std::string> &args);
-		std::vector<std::string> argv_vectors(__argc);
-
-		/* convert arguments to UTF-8 */
-		for (int i = 0; i < __argc; i++)
-		{
-			argv_vectors[i] = win_utf8_from_wstring(__targv[i]);
-		}
-
-		/* run utf8_main */
-		exit(utf8_main(argv_vectors));
+		extern int main_(int argc, char *argv[]);
+		exit(main_(__argc, __argv));
 	}
 
 	WNDCLASS wndclass;
