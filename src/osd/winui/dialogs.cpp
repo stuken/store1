@@ -227,7 +227,6 @@ intptr_t CALLBACK InterfaceDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARA
 			hBrush = CreateSolidBrush(RGB(240, 240, 240));
 			DisableVisualStylesInterface(hDlg);
 			Button_SetCheck(GetDlgItem(hDlg, IDC_JOY_GUI), GetJoyGUI());
-			Button_SetCheck(GetDlgItem(hDlg, IDC_EXTRA_FOLDERS), GetShowExtraFolders());
 			Button_SetCheck(GetDlgItem(hDlg, IDC_DISABLE_TRAY_ICON), GetMinimizeTrayIcon());
 			Button_SetCheck(GetDlgItem(hDlg, IDC_DISPLAY_NO_ROMS), GetDisplayNoRomsGames());
 			Button_SetCheck(GetDlgItem(hDlg, IDC_EXIT_DIALOG), GetExitDialog());
@@ -322,7 +321,6 @@ intptr_t CALLBACK InterfaceDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARA
 					int value = 0;
 
 					SetJoyGUI(Button_GetCheck(GetDlgItem(hDlg, IDC_JOY_GUI)));
-					SetShowExtraFolders(Button_GetCheck(GetDlgItem(hDlg, IDC_EXTRA_FOLDERS)));
 					SetMinimizeTrayIcon(Button_GetCheck(GetDlgItem(hDlg, IDC_DISABLE_TRAY_ICON)));
 					SetExitDialog(Button_GetCheck(GetDlgItem(hDlg, IDC_EXIT_DIALOG)));
 					SetEnableFastAudit(Button_GetCheck(GetDlgItem(hDlg, IDC_ENABLE_FASTAUDIT)));
@@ -930,7 +928,6 @@ static void DisableVisualStylesInterface(HWND hDlg)
 	SetWindowTheme(GetDlgItem(hDlg, IDC_ENABLE_SEVENZIP), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_HISTORY_TAB), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_RESET_PLAYSTATS), L" ", L" ");
-	SetWindowTheme(GetDlgItem(hDlg, IDC_EXTRA_FOLDERS), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_STRETCH_SCREENSHOT_LARGER), L" ", L" ");
 }
 

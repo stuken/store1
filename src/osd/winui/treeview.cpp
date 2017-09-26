@@ -269,30 +269,27 @@ void ResetWhichGamesInFolders(void)
 		// setup the games in our built-in folders
 		for (int k = 0; g_lpFolderData[k].m_lpTitle; k++)
 		{
-			if ((g_lpFolderData[k].m_process && GetShowExtraFolders()) || (!g_lpFolderData[k].m_process))
+			if (lpFolder->m_nFolderId == g_lpFolderData[k].m_nFolderId)
 			{
-				if (lpFolder->m_nFolderId == g_lpFolderData[k].m_nFolderId)
+				if (g_lpFolderData[k].m_pfnQuery || g_lpFolderData[k].m_bExpectedResult)
 				{
-					if (g_lpFolderData[k].m_pfnQuery || g_lpFolderData[k].m_bExpectedResult)
+					SetAllBits(lpFolder->m_lpGameBits, false);
+
+					for (int jj = 0; jj < driver_list::total(); jj++)
 					{
-						SetAllBits(lpFolder->m_lpGameBits, false);
+						// invoke the query function
+						bool b = g_lpFolderData[k].m_pfnQuery ? g_lpFolderData[k].m_pfnQuery(jj) : true;
 
-						for (int jj = 0; jj < driver_list::total(); jj++)
-						{
-							// invoke the query function
-							bool b = g_lpFolderData[k].m_pfnQuery ? g_lpFolderData[k].m_pfnQuery(jj) : true;
+						// if we expect false, flip the result
+						if (!g_lpFolderData[k].m_bExpectedResult)
+							b = !b;
 
-							// if we expect false, flip the result
-							if (!g_lpFolderData[k].m_bExpectedResult)
-								b = !b;
-
-							// if we like what we hear, add the game
-							if (b)
-								AddGame(lpFolder, jj);
-						}
+						// if we like what we hear, add the game
+						if (b)
+							AddGame(lpFolder, jj);
 					}
-					break;
 				}
+				break;
 			}
 		}
 	}
@@ -1154,13 +1151,10 @@ void CreateAllChildFolders(void)
 
 		for (int j = 0; g_lpFolderData[j].m_lpTitle; j++)
 		{
-			if ((g_lpFolderData[j].m_process && GetShowExtraFolders()) || (!g_lpFolderData[j].m_process))
+			if (g_lpFolderData[j].m_nFolderId == lpFolder->m_nFolderId)
 			{
-				if (g_lpFolderData[j].m_nFolderId == lpFolder->m_nFolderId)
-				{
-					lpFolderData = &g_lpFolderData[j];
-					break;
-				}
+				lpFolderData = &g_lpFolderData[j];
+				break;
 			}
 		}
 
@@ -1431,14 +1425,11 @@ static bool InitFolders(void)
 	// built-in top level folders
 	for (i = 0; g_lpFolderData[i].m_lpTitle; i++)
 	{
-		if ((g_lpFolderData[i].m_process && GetShowExtraFolders()) || (!g_lpFolderData[i].m_process))
-		{
-			LPCFOLDERDATA fData = &g_lpFolderData[i];
-			/* get the saved folder flags */
-			dwFolderFlags = GetFolderFlags(numFolders);
-			/* create the folder */
-			AddFolder(NewFolder(fData->m_lpTitle, fData->m_nFolderId, -1, fData->m_nIconId, dwFolderFlags));
-		}
+		LPCFOLDERDATA fData = &g_lpFolderData[i];
+		/* get the saved folder flags */
+		dwFolderFlags = GetFolderFlags(numFolders);
+		/* create the folder */
+		AddFolder(NewFolder(fData->m_lpTitle, fData->m_nFolderId, -1, fData->m_nIconId, dwFolderFlags));
 	}
 
 	numExtraFolders = InitExtraFolders();
@@ -1546,9 +1537,8 @@ static LRESULT CALLBACK TreeWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 LPCFOLDERDATA FindFilter(DWORD folderID)
 {
 	for (int i = 0; g_lpFolderData[i].m_lpTitle; i++)
-		if ((g_lpFolderData[i].m_process && GetShowExtraFolders()) || (!g_lpFolderData[i].m_process))
-			if (g_lpFolderData[i].m_nFolderId == folderID)
-				return &g_lpFolderData[i];
+		if (g_lpFolderData[i].m_nFolderId == folderID)
+			return &g_lpFolderData[i];
 
 	return (LPFOLDERDATA) 0;
 }

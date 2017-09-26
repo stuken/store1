@@ -58,7 +58,6 @@ const options_entry winui_options::s_option_entries[] =
 	{ MUIOPTION_SHOW_STATUS_BAR,			"1",        	OPTION_BOOLEAN, nullptr },
 	{ MUIOPTION_HIDE_FOLDERS,				nullptr,        OPTION_STRING, nullptr },
 	{ MUIOPTION_SHOW_FOLDER_SECTION,		"1",        	OPTION_BOOLEAN, nullptr },
-	{ MUIOPTION_EXTRA_FOLDERS,              "1",        	OPTION_BOOLEAN, nullptr },
 	{ MUIOPTION_SHOW_TABS,					"1",        	OPTION_BOOLEAN, nullptr },
 	{ MUIOPTION_HIDE_TABS,					"",         	OPTION_STRING, nullptr },
 	{ MUIOPTION_HISTORY_TAB,				"0",        	OPTION_INTEGER, nullptr },
@@ -450,16 +449,6 @@ void SetShowFolderList(bool val)
 bool GetShowFolderList(void)
 {
 	return winui_opts.bool_value(MUIOPTION_SHOW_FOLDER_SECTION);
-}
-
-void SetShowExtraFolders(BOOL val)
-{
-	winui_opts.set_value(MUIOPTION_EXTRA_FOLDERS, val, OPTION_PRIORITY_CMDLINE);
-}
-
-BOOL GetShowExtraFolders(void)
-{
-	return winui_opts.bool_value(MUIOPTION_EXTRA_FOLDERS);
 }
 
 static void GetsShowFolderFlags(LPBITS bits)

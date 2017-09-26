@@ -25,7 +25,6 @@
 #define MUIOPTION_DEFAULT_FOLDER_ID				"default_folder_id"
 #define MUIOPTION_SHOW_IMAGE_SECTION			"show_image_section"
 #define MUIOPTION_SHOW_FOLDER_SECTION			"show_folder_section"
-#define MUIOPTION_EXTRA_FOLDERS                 "extra_folders"
 #define MUIOPTION_HIDE_FOLDERS					"hide_folders"
 #define MUIOPTION_SHOW_STATUS_BAR				"show_status_bar"
 #define MUIOPTION_SHOW_TABS						"show_tabs"
@@ -263,8 +262,6 @@ void SetShowFolderList(bool val);
 bool GetShowFolderList(void);
 bool GetShowFolder(int folder);
 void SetShowFolder(int folder,bool show);
-void SetShowExtraFolders(BOOL val);
-BOOL GetShowExtraFolders(void);
 void SetShowStatusBar(bool val);
 bool GetShowStatusBar(void);
 void SetShowToolBar(bool val);
