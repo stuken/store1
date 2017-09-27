@@ -217,10 +217,14 @@ static bool isDriverVector(const machine_config &config)
 
 static void SetDriversInfo(void)
 {
-	for (int ndriver = 0; ndriver < driver_list::total(); ndriver++)
+	uint32_t cache;
+	int total = driver_list::total();
+	struct DriversInfo *gameinfo = NULL;
+
+	for (int ndriver = 0; ndriver < total; ndriver++)
 	{
-		struct DriversInfo *gameinfo = &drivers_info[ndriver];
-		int cache = (gameinfo->screenCount & DRIVER_CACHE_SCREEN);
+		gameinfo = &drivers_info[ndriver];
+		cache = gameinfo->screenCount & DRIVER_CACHE_SCREEN;
 
 		if (gameinfo->isClone)
 			cache += DRIVER_CACHE_CLONE;
@@ -252,30 +256,31 @@ static void SetDriversInfo(void)
 
 static void InitDriversInfo(void)
 {
-	for (int ndriver = 0; ndriver < driver_list::total(); ndriver++)
+	int total = driver_list::total();
+	const game_driver *gamedrv = NULL;
+	struct DriversInfo *gameinfo = NULL;
+
+	for (int ndriver = 0; ndriver < total; ndriver++)
 	{
-		const game_driver *gamedrv = &driver_list::driver(ndriver);
-		struct DriversInfo *gameinfo = &drivers_info[ndriver];
+		uint32_t cache = GetDriverCacheLower(ndriver);
+		gamedrv = &driver_list::driver(ndriver);
+		gameinfo = &drivers_info[ndriver];
 		machine_config config(*gamedrv, MameUIGlobal());
-		ui::machine_static_info const info(machine_config(*gamedrv, MameUIGlobal()));
-		samples_device_iterator sampiter(config.root_device());
-		
-		gameinfo->isClone = (GetParentRomSetIndex(gamedrv) != -1);
-		gameinfo->isBroken = ((info.machine_flags() & (MACHINE_NOT_WORKING | MACHINE_MECHANICAL)) ||
-			(info.unemulated_features() & device_t::feature::PROTECTION)) ? true : false;
-		gameinfo->isImperfect = ((info.machine_flags() & (MACHINE_IS_INCOMPLETE | MACHINE_NO_SOUND_HW))
-			|| (info.unemulated_features() & (device_t::feature::PALETTE || device_t::feature::GRAPHICS || device_t::feature::SOUND))
-			|| (info.imperfect_features() & (device_t::feature::PALETTE || device_t::feature::GRAPHICS || device_t::feature::SOUND)));
- 		gameinfo->supportsSaveState = (info.machine_flags() & MACHINE_SUPPORTS_SAVE) ? true : false;
-		gameinfo->isVertical = (info.machine_flags() & ORIENTATION_SWAP_XY) ? true : false;
-		gameinfo->isMechanical = (info.machine_flags() & MACHINE_MECHANICAL) ? true : false;
-		gameinfo->isBIOS = (info.machine_flags() & MACHINE_IS_BIOS_ROOT) ? true : false;
+		bool const have_parent(strcmp(gamedrv->parent, "0"));
+		auto const parent_idx(have_parent ? driver_list::find(gamedrv->parent) : -1);
+		gameinfo->isClone = ( !have_parent || (0 > parent_idx) || BIT(GetDriverCacheLower(parent_idx),9)) ? false : true;
+		//gameinfo->isClone = (GetParentRomSetIndex(gamedrv) != -1);
+		gameinfo->isBroken = (cache & 0x4040) ? true : false;  // (MACHINE_NOT_WORKING | MACHINE_MECHANICAL)
+		gameinfo->isImperfect = (cache & 0x3fa000) ? true : false;  // MACHINE_INCOMPLETE | NO_SOUND_HW | (IMPERFECT|UNEMULATED) | (PALETTE|GRAPHICS|SOUND)
+		gameinfo->supportsSaveState = BIT(cache, 7) ? false : true;  //MACHINE_SUPPORTS_SAVE
+		gameinfo->isVertical = BIT(cache, 2);  //ORIENTATION_SWAP_XY
+		gameinfo->isMechanical = BIT(cache, 14);  //MACHINE_MECHANICAL
+		gameinfo->isBIOS = BIT(cache, 9);  //MACHINE_IS_BIOS_ROOT
 		gameinfo->screenCount = NumberOfScreens(config);
 		gameinfo->isVector = isDriverVector(config);
 		gameinfo->isHarddisk = false;
 		gameinfo->usesRoms = false;
 		gameinfo->hasOptionalBIOS = false;
-		gameinfo->usesSamples = false;
 		gameinfo->usesTrackball = false;
 		gameinfo->usesLightGun = false;
 
@@ -293,7 +298,7 @@ static void InitDriversInfo(void)
 			}
 		}
 
-		if (gamedrv->rom != nullptr)
+		if (gamedrv->rom)
 		{
 			auto rom_entries = rom_build_entries(gamedrv->rom);
 
@@ -303,20 +308,18 @@ static void InitDriversInfo(void)
 					gameinfo->hasOptionalBIOS = true;
 			}
 		}
-		
-		if (sampiter.first() != nullptr)
-			gameinfo->usesSamples = true;
 
-		if (gamedrv->ipt != nullptr)
+		samples_device_iterator sampiter(config.root_device());
+		gameinfo->usesSamples = sampiter.first() ? true : false;
+
+		if (gamedrv->ipt)
 		{
 			ioport_list portlist;
 			std::string errors;
 
 			for (device_t &cfg : device_iterator(config.root_device()))
-			{
 				if (cfg.input_ports())
 					portlist.append(cfg, errors);
-			}
 
 			for (auto &port : portlist)
 			{
@@ -342,46 +345,37 @@ static void InitDriversInfo(void)
 
 static void InitDriversCache(void)
 {
-	SetRequiredDriverCacheStatus();
-
 	if (RequiredDriverCache())
 	{
 		InitDriversInfo();
 		return;
 	}
 
-	for (int ndriver = 0; ndriver < driver_list::total(); ndriver++)
+	uint32_t cache_lower, cache_upper;
+	int total = driver_list::total();
+	struct DriversInfo *gameinfo = NULL;
+
+	for (int ndriver = 0; ndriver < total; ndriver++)
 	{
-		const game_driver *gamedrv = &driver_list::driver(ndriver);
-		struct DriversInfo *gameinfo = &drivers_info[ndriver];
-		int cache = GetDriverCache(ndriver);
+		gameinfo = &drivers_info[ndriver];
+		cache_lower = GetDriverCacheLower(ndriver);
+		cache_upper = GetDriverCacheUpper(ndriver);
 
-		if (cache == -1)
-		{
-			InitDriversInfo();
-			break;
-		}
-
-		ui::machine_static_info const info(machine_config(*gamedrv, MameUIGlobal()));
-
-		gameinfo->isBroken = ((info.machine_flags() & (MACHINE_NOT_WORKING | MACHINE_MECHANICAL)) ||
-			(info.unemulated_features() & device_t::feature::PROTECTION)) ? true : false;
-		gameinfo->supportsSaveState = (info.machine_flags() & MACHINE_SUPPORTS_SAVE) ? true : false;
-		gameinfo->isVertical = (info.machine_flags() & ORIENTATION_SWAP_XY) ? true : false;
-		gameinfo->screenCount = (cache & DRIVER_CACHE_SCREEN);
-		gameinfo->isClone = (cache & DRIVER_CACHE_CLONE) ? true : false;
-		gameinfo->isHarddisk = (cache & DRIVER_CACHE_HARDDISK) ? true : false;
-		gameinfo->hasOptionalBIOS = (cache & DRIVER_CACHE_BIOS) ? true : false;
-		gameinfo->isVector = (cache & DRIVER_CACHE_VECTOR) ? true : false;
-		gameinfo->usesRoms = (cache & DRIVER_CACHE_ROMS) ? true : false;
-		gameinfo->usesSamples = (cache & DRIVER_CACHE_SAMPLES) ? true : false;
-		gameinfo->usesTrackball = (cache & DRIVER_CACHE_TRACKBALL) ? true : false;
-		gameinfo->usesLightGun = (cache & DRIVER_CACHE_LIGHTGUN) ? true : false;
-		gameinfo->isImperfect = ((info.machine_flags() & (MACHINE_IS_INCOMPLETE | MACHINE_NO_SOUND_HW))
-			|| (info.unemulated_features() & (device_t::feature::PALETTE || device_t::feature::GRAPHICS || device_t::feature::SOUND))
-			|| (info.imperfect_features() & (device_t::feature::PALETTE || device_t::feature::GRAPHICS || device_t::feature::SOUND)));
-		gameinfo->isMechanical = (info.machine_flags() & MACHINE_MECHANICAL) ? true : false;
-		gameinfo->isBIOS = (gamedrv->flags & MACHINE_IS_BIOS_ROOT) ? true : false;
+		gameinfo->isBroken          =  (cache_lower & 0x4040) ? true : false; //MACHINE_NOT_WORKING | MACHINE_MECHANICAL
+		gameinfo->supportsSaveState =  BIT(cache_lower, 7) ? false : true;  //MACHINE_SUPPORTS_SAVE
+		gameinfo->isVertical        =  BIT(cache_lower, 2) ? true : false;  //ORIENTATION_XY
+		gameinfo->screenCount       =   cache_upper & DRIVER_CACHE_SCREEN;
+		gameinfo->isClone           = ((cache_upper & DRIVER_CACHE_CLONE) != 0);
+		gameinfo->isHarddisk        = ((cache_upper & DRIVER_CACHE_HARDDISK) != 0);
+		gameinfo->hasOptionalBIOS   = ((cache_upper & DRIVER_CACHE_BIOS) != 0);
+		gameinfo->isVector          = ((cache_upper & DRIVER_CACHE_VECTOR) != 0);
+		gameinfo->usesRoms          = ((cache_upper & DRIVER_CACHE_ROMS) != 0);
+		gameinfo->usesSamples       = ((cache_upper & DRIVER_CACHE_SAMPLES) != 0);
+		gameinfo->usesTrackball     = ((cache_upper & DRIVER_CACHE_TRACKBALL) != 0);
+		gameinfo->usesLightGun      = ((cache_upper & DRIVER_CACHE_LIGHTGUN) != 0);
+		gameinfo->isImperfect       =  (cache_lower & 0x3fa000) ? true : false;
+		gameinfo->isMechanical      =  BIT(cache_lower, 14);
+		gameinfo->isBIOS            =  BIT(cache_lower, 9);
 	}
 }
 
@@ -515,7 +509,7 @@ char *win_utf8_from_wstring(const wchar_t *wstring)
 void winui_output_debug_string_utf8(const char *string)
 {
 	wchar_t *t_string = win_wstring_from_utf8(string);
-	
+
 	if (t_string != NULL)
 	{
 		OutputDebugString(t_string);
@@ -578,7 +572,7 @@ int winui_get_window_text_utf8(HWND hWnd, char *buffer, size_t buffer_size)
 	// invoke the core Win32 API
 	GetWindowText(hWnd, t_buffer, ARRAY_LENGTH(t_buffer));
 	char *utf8_buffer = win_utf8_from_wstring(t_buffer);
-	
+
 	if (!utf8_buffer)
 		return result;
 

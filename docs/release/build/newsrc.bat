@@ -83,6 +83,7 @@ copy /Y %from%\src\osd\modules\render\drawogl.cpp   %to%\src\osd\modules\render
 
 md %to%\src\osd\windows
 copy /Y %from%\src\osd\windows\video.cpp            %to%\src\osd\windows
+copy /Y %from%\src\osd\windows\winmain.*            %to%\src\osd\windows
 
 md %to%\src\osd\winui
 xcopy /E /Y %from%\src\osd\winui                    %to%\src\osd\winui

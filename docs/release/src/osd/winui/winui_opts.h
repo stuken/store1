@@ -12,7 +12,6 @@
 
 #define UNKNOWN -1
 
-#define MUIOPTION_TOTAL                         "total"
 #define MUIOPTION_EXIT_DIALOG					"confirm_exit"
 #define MUIOPTION_NOROMS_GAMES					"display_no_roms_games"
 #define MUIOPTION_TRAY_ICON						"minimize_tray_icon"
@@ -26,7 +25,6 @@
 #define MUIOPTION_DEFAULT_FOLDER_ID				"default_folder_id"
 #define MUIOPTION_SHOW_IMAGE_SECTION			"show_image_section"
 #define MUIOPTION_SHOW_FOLDER_SECTION			"show_folder_section"
-#define MUIOPTION_EXTRA_FOLDERS                 "extra_folders"
 #define MUIOPTION_HIDE_FOLDERS					"hide_folders"
 #define MUIOPTION_SHOW_STATUS_BAR				"show_status_bar"
 #define MUIOPTION_SHOW_TABS						"show_tabs"
@@ -209,10 +207,10 @@ private:
 
 	struct driver_options
 	{
-		int	rom;
-		int	cache;
-		int	play_count;
-		int	play_time;
+		int rom;
+		int cache;
+		int play_count;
+		int play_time;
 	};
 
 	std::vector<driver_options>	m_list;
@@ -264,8 +262,6 @@ void SetShowFolderList(bool val);
 bool GetShowFolderList(void);
 bool GetShowFolder(int folder);
 void SetShowFolder(int folder,bool show);
-void SetShowExtraFolders(BOOL val);
-BOOL GetShowExtraFolders(void);
 void SetShowStatusBar(bool val);
 bool GetShowStatusBar(void);
 void SetShowToolBar(bool val);
@@ -450,10 +446,9 @@ int GetUIJoyHistoryDown(int joycodeIndex);
 void SetUIJoyHistoryDown(int joycodeIndex, int val);
 void ColumnEncodeStringWithCount(const int *value, char *str, int count);
 void ColumnDecodeStringWithCount(const char* str, int *value, int count);
-int GetDriverCache(int driver_index);
-void SetDriverCache(int driver_index, int val);
-bool RequiredDriverCache(bool check = false);
-void SetRequiredDriverCacheStatus(void);
-bool GetRequiredDriverCacheStatus(void);
+uint32_t GetDriverCacheLower(int driver_index);
+uint32_t GetDriverCacheUpper(int driver_index);
+void SetDriverCache(int driver_index, uint32_t val);
+BOOL RequiredDriverCache(void);
 
 #endif

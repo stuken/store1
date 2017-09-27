@@ -607,8 +607,7 @@ static char *GameInfoStatus(int driver_index)
 	if (driver_index < 0)
 		return buffer;
 
-	const game_driver *drv = &driver_list::driver(driver_index);
-	ui::machine_static_info const info(machine_config(*drv, MameUIGlobal()));
+	uint32_t cache = GetDriverCacheLower(driver_index);
 
 	//Just show the emulation flags
 	if (DriverIsBroken(driver_index))
@@ -617,13 +616,13 @@ static char *GameInfoStatus(int driver_index)
 		strcat(buffer, "\r\n");
 		strcat(buffer, "Game doesn't work properly");
 
-		if (info.unemulated_features() & device_t::feature::PROTECTION)
+		if (BIT(cache, 22))
 		{
 			strcat(buffer, "\r\n");
 			strcat(buffer, "Game protection isn't fully emulated");
 		}
 
-		if (info.machine_flags() & MACHINE_MECHANICAL)
+		if (BIT(cache, 14))
 		{
 			strcat(buffer, "\r\n");
 			strcat(buffer, "Game has mechanical parts");
@@ -638,43 +637,43 @@ static char *GameInfoStatus(int driver_index)
 		strcpy(buffer, "Working with problems");
 		status_color = 2;
 
-		if (info.unemulated_features() & device_t::feature::PALETTE)
+		if (BIT(cache, 21))
 		{
 			strcat(buffer, "\r\n");
 			strcat(buffer, "Colors are completely wrong");
 		}
 
-		if (info.imperfect_features() & device_t::feature::PALETTE)
+		if (BIT(cache, 20))
 		{
 			strcat(buffer, "\r\n");
 			strcat(buffer, "Colors aren't 100% accurate");
 		}
 
-		if (info.imperfect_features() & device_t::feature::GRAPHICS)
+		if (BIT(cache, 18))
 		{
 			strcat(buffer, "\r\n");
 			strcat(buffer, "Video emulation isn't 100% accurate");
 		}
 
-		if (info.unemulated_features() & device_t::feature::SOUND)
+		if (BIT(cache, 17))
 		{
 			strcat(buffer, "\r\n");
 			strcat(buffer, "Game lacks sound");
 		}
 
-		if (info.imperfect_features() & device_t::feature::SOUND)
+		if (BIT(cache, 16))
 		{
 			strcat(buffer, "\r\n");
 			strcat(buffer, "Sound emulation isn't 100% accurate");
 		}
 
-		if (info.machine_flags() & MACHINE_IS_INCOMPLETE)
+		if (BIT(cache, 15))
 		{
 			strcat(buffer, "\r\n");
 			strcat(buffer, "Game was never completed");
 		}
 
-		if (info.machine_flags() & MACHINE_NO_SOUND_HW)
+		if (BIT(cache, 13))
 		{
 			strcat(buffer, "\r\n");
 			strcat(buffer, "Game has no sound hardware");

@@ -191,24 +191,18 @@ void FreeFolders(void)
 void ResetFilters(void)
 {
 	if (treeFolders != 0)
-	{
 		for (int i = 0; i < (int)numFolders; i++)
-		{
 			treeFolders[i]->m_dwFlags &= ~F_MASK;
-		}
-	}
 }
 
 void InitTree(LPCFOLDERDATA lpFolderData, LPCFILTER_ITEM lpFilterList)
 {
-	LONG_PTR l;
-
 	g_lpFolderData = lpFolderData;
 	g_lpFilterList = lpFilterList;
 
 	InitFolders();
 	/* this will subclass the treeview (where WM_DRAWITEM gets sent for the header control) */
-	l = GetWindowLongPtr(GetTreeView(), GWLP_WNDPROC);
+	LONG_PTR l = GetWindowLongPtr(GetTreeView(), GWLP_WNDPROC);
 	g_lpTreeWndProc = (WNDPROC)l;
 	SetWindowLongPtr(GetTreeView(), GWLP_WNDPROC, (LONG_PTR)TreeWndProc);
 }
@@ -275,30 +269,27 @@ void ResetWhichGamesInFolders(void)
 		// setup the games in our built-in folders
 		for (int k = 0; g_lpFolderData[k].m_lpTitle; k++)
 		{
-			if ((g_lpFolderData[k].m_process && GetShowExtraFolders()) || (!g_lpFolderData[k].m_process))
+			if (lpFolder->m_nFolderId == g_lpFolderData[k].m_nFolderId)
 			{
-				if (lpFolder->m_nFolderId == g_lpFolderData[k].m_nFolderId)
+				if (g_lpFolderData[k].m_pfnQuery || g_lpFolderData[k].m_bExpectedResult)
 				{
-					if (g_lpFolderData[k].m_pfnQuery || g_lpFolderData[k].m_bExpectedResult)
+					SetAllBits(lpFolder->m_lpGameBits, false);
+
+					for (int jj = 0; jj < driver_list::total(); jj++)
 					{
-						SetAllBits(lpFolder->m_lpGameBits, false);
+						// invoke the query function
+						bool b = g_lpFolderData[k].m_pfnQuery ? g_lpFolderData[k].m_pfnQuery(jj) : true;
 
-						for (int jj = 0; jj < driver_list::total(); jj++)
-						{
-							// invoke the query function
-							bool b = g_lpFolderData[k].m_pfnQuery ? g_lpFolderData[k].m_pfnQuery(jj) : true;
+						// if we expect false, flip the result
+						if (!g_lpFolderData[k].m_bExpectedResult)
+							b = !b;
 
-							// if we expect false, flip the result
-							if (!g_lpFolderData[k].m_bExpectedResult)
-								b = !b;
-
-							// if we like what we hear, add the game
-							if (b)
-								AddGame(lpFolder, jj);
-						}
+						// if we like what we hear, add the game
+						if (b)
+							AddGame(lpFolder, jj);
 					}
-					break;
 				}
+				break;
 			}
 		}
 	}
@@ -359,13 +350,9 @@ bool GameFiltered(int nGame, DWORD dwMask)
 		return true;
 
 	for (int i = 0; g_lpFilterList[i].m_dwFilterType; i++)
-	{
 		if (dwMask & g_lpFilterList[i].m_dwFilterType)
-		{
 			if (g_lpFilterList[i].m_pfnQuery(nGame) == g_lpFilterList[i].m_bExpectedResult)
 				return true;
-		}
-	}
 
 	return false;
 }
@@ -503,25 +490,26 @@ static void CreateDeficiencyFolders(int parent_index)
 
 	for (int jj = 0; jj < driver_list::total(); jj++)
 	{
-		if (driver_list::driver(jj).type.unemulated_features() & device_t::feature::PALETTE)
+		uint32_t cache = GetDriverCacheLower(jj);
+		if (BIT(cache, 21))
 			AddGame(lpWrongCol, jj);
 
-		if (driver_list::driver(jj).type.imperfect_features() & device_t::feature::PALETTE)
+		if (BIT(cache, 20))
 			AddGame(lpImpCol, jj);
 
-		if (driver_list::driver(jj).type.imperfect_features() & device_t::feature::GRAPHICS)
+		if (BIT(cache, 18))
 			AddGame(lpImpGraph, jj);
 
-		if (driver_list::driver(jj).type.unemulated_features() & device_t::feature::SOUND)
+		if (BIT(cache, 17))
 			AddGame(lpMissSnd, jj);
 
-		if (driver_list::driver(jj).type.imperfect_features() & device_t::feature::SOUND)
+		if (BIT(cache, 16))
 			AddGame(lpImpSnd, jj);
 
-		if (driver_list::driver(jj).flags & MACHINE_IS_INCOMPLETE)
+		if (BIT(cache, 15))
 			AddGame(lpIncomplete, jj);
 
-		if (driver_list::driver(jj).flags & MACHINE_NO_SOUND_HW)
+		if (BIT(cache, 13))
 			AddGame(lpNoSndHw, jj);
 	}
 }
@@ -575,7 +563,6 @@ static void CreateBIOSFolders(int parent_index)
 
 	for (int jj = 0; jj < driver_list::total(); jj++)
 	{
-
 		if (DriverIsClone(jj))
 		{
 			nParentIndex = GetParentIndex(&driver_list::driver(jj));
@@ -946,7 +933,7 @@ static void CreateCPUFolders(int parent_index)
 {
 	const char *fname = "cpu.ini";
 
-	if (GetRequiredDriverCacheStatus())
+	if (RequiredDriverCache())
 	{
 		CreateCPUFoldersIni(parent_index);
 		SaveExternalFolders(parent_index, fname);
@@ -954,14 +941,14 @@ static void CreateCPUFolders(int parent_index)
 	else
 		LoadExternalFolders(parent_index, fname, IDI_CHIP);
 
-	SendMessage(GetProgressBar(), PBM_SETPOS, 15, 0);
+	SendMessage(GetProgressBar(), PBM_SETPOS, 20, 0);
 }
 
 static void CreateSoundFolders(int parent_index)
 {
 	const char *fname = "sound.ini";
 
-	if (GetRequiredDriverCacheStatus())
+	if (RequiredDriverCache())
 	{
 		CreateSoundFoldersIni(parent_index);
 		SaveExternalFolders(parent_index, fname);
@@ -969,14 +956,14 @@ static void CreateSoundFolders(int parent_index)
 	else
 		LoadExternalFolders(parent_index, fname, IDI_CHIP);
 
-	SendMessage(GetProgressBar(), PBM_SETPOS, 30, 0);
+	SendMessage(GetProgressBar(), PBM_SETPOS, 95, 0);
 }
 
 static void CreateScreenFolders(int parent_index)
 {
 	const char *fname = "screen.ini";
 
-	if (GetRequiredDriverCacheStatus())
+	if (RequiredDriverCache())
 	{
 		CreateScreenFoldersIni(parent_index);
 		SaveExternalFolders(parent_index, fname);
@@ -984,14 +971,14 @@ static void CreateScreenFolders(int parent_index)
 	else
 		LoadExternalFolders(parent_index, fname, IDI_MONITOR);
 
-	SendMessage(GetProgressBar(), PBM_SETPOS, 45, 0);
+	SendMessage(GetProgressBar(), PBM_SETPOS, 80, 0);
 }
 
 static void CreateResolutionFolders(int parent_index)
 {
 	const char *fname = "resolution.ini";
 
-	if (GetRequiredDriverCacheStatus())
+	if (RequiredDriverCache())
 	{
 		CreateResolutionFoldersIni(parent_index);
 		SaveExternalFolders(parent_index, fname);
@@ -999,14 +986,14 @@ static void CreateResolutionFolders(int parent_index)
 	else
 		LoadExternalFolders(parent_index, fname, IDI_FOLDER);
 
-	SendMessage(GetProgressBar(), PBM_SETPOS, 60, 0);
+	SendMessage(GetProgressBar(), PBM_SETPOS, 65, 0);
 }
 
 static void CreateFPSFolders(int parent_index)
 {
 	const char *fname = "refresh.ini";
 
-	if (GetRequiredDriverCacheStatus())
+	if (RequiredDriverCache())
 	{
 		CreateFPSFoldersIni(parent_index);
 		SaveExternalFolders(parent_index, fname);
@@ -1014,14 +1001,14 @@ static void CreateFPSFolders(int parent_index)
 	else
 		LoadExternalFolders(parent_index, fname, IDI_FOLDER);
 
-	SendMessage(GetProgressBar(), PBM_SETPOS, 75, 0);
+	SendMessage(GetProgressBar(), PBM_SETPOS, 50, 0);
 }
 
 static void CreateDumpingFolders(int parent_index)
 {
 	const char *fname = "dumping.ini";
 
-	if (GetRequiredDriverCacheStatus())
+	if (RequiredDriverCache())
 	{
 		CreateDumpingFoldersIni(parent_index);
 		SaveExternalFolders(parent_index, fname);
@@ -1029,7 +1016,7 @@ static void CreateDumpingFolders(int parent_index)
 	else
 		LoadExternalFolders(parent_index, fname, IDI_FOLDER);
 
-	SendMessage(GetProgressBar(), PBM_SETPOS, 90, 0);
+	SendMessage(GetProgressBar(), PBM_SETPOS, 35, 0);
 }
 
 static void LoadExternalFolders(int parent_index, const char *fname, int id)
@@ -1164,13 +1151,10 @@ void CreateAllChildFolders(void)
 
 		for (int j = 0; g_lpFolderData[j].m_lpTitle; j++)
 		{
-			if ((g_lpFolderData[j].m_process && GetShowExtraFolders()) || (!g_lpFolderData[j].m_process))
+			if (g_lpFolderData[j].m_nFolderId == lpFolder->m_nFolderId)
 			{
-				if (g_lpFolderData[j].m_nFolderId == lpFolder->m_nFolderId)
-				{
-					lpFolderData = &g_lpFolderData[j];
-					break;
-				}
+				lpFolderData = &g_lpFolderData[j];
+				break;
 			}
 		}
 
@@ -1412,7 +1396,7 @@ static bool InitFolders(void)
 	int i = 0;
 	DWORD dwFolderFlags = 0;
 
-	if (treeFolders != NULL)
+	if (treeFolders)
 	{
 		for (i = numFolders - 1; i >= 0; i--)
 		{
@@ -1441,14 +1425,11 @@ static bool InitFolders(void)
 	// built-in top level folders
 	for (i = 0; g_lpFolderData[i].m_lpTitle; i++)
 	{
-		if ((g_lpFolderData[i].m_process && GetShowExtraFolders()) || (!g_lpFolderData[i].m_process))
-		{
-			LPCFOLDERDATA fData = &g_lpFolderData[i];
-			/* get the saved folder flags */
-			dwFolderFlags = GetFolderFlags(numFolders);
-			/* create the folder */
-			AddFolder(NewFolder(fData->m_lpTitle, fData->m_nFolderId, -1, fData->m_nIconId, dwFolderFlags));
-		}
+		LPCFOLDERDATA fData = &g_lpFolderData[i];
+		/* get the saved folder flags */
+		dwFolderFlags = GetFolderFlags(numFolders);
+		/* create the folder */
+		AddFolder(NewFolder(fData->m_lpTitle, fData->m_nFolderId, -1, fData->m_nIconId, dwFolderFlags));
 	}
 
 	numExtraFolders = InitExtraFolders();
@@ -1556,9 +1537,8 @@ static LRESULT CALLBACK TreeWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 LPCFOLDERDATA FindFilter(DWORD folderID)
 {
 	for (int i = 0; g_lpFolderData[i].m_lpTitle; i++)
-		if ((g_lpFolderData[i].m_process && GetShowExtraFolders()) || (!g_lpFolderData[i].m_process))
-			if (g_lpFolderData[i].m_nFolderId == folderID)
-				return &g_lpFolderData[i];
+		if (g_lpFolderData[i].m_nFolderId == folderID)
+			return &g_lpFolderData[i];
 
 	return (LPFOLDERDATA) 0;
 }

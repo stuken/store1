@@ -500,7 +500,7 @@ public:
 
 			vsnprintf(buffer, WINUI_ARRAY_LENGTH(buffer), msg, args);
 			winui_message_box_utf8(!osd_common_t::s_window_list.empty() ? std::static_pointer_cast<win_window_info>(osd_common_t::s_window_list.front())->platform_window() : nullptr, buffer, MAMEUINAME, MB_ICONERROR | MB_OK);
-			
+
 			if (switched)
 				winwindow_toggle_full_screen();
 		}
@@ -602,17 +602,8 @@ int MameUIMain(HINSTANCE hInstance, LPWSTR lpCmdLine)
 
 	if (__argc != 1)
 	{
-		extern int utf8_main(std::vector<std::string> &args);
-		std::vector<std::string> argv_vectors(__argc);
-
-		/* convert arguments to UTF-8 */
-		for (int i = 0; i < __argc; i++)
-		{
-			argv_vectors[i] = win_utf8_from_wstring(__targv[i]);
-		}
-
-		/* run utf8_main */
-		exit(utf8_main(argv_vectors));
+		extern int main_(int argc, char *argv[]);
+		exit(main_(__argc, __argv));
 	}
 
 	WNDCLASS wndclass;
@@ -798,7 +789,7 @@ HICON LoadIconFromFile(const char *iconname)
 
 	std::string tmpStr = std::string(GetIconsDir()).append(PATH_SEPARATOR).append(iconname).append(".ico");
 	HANDLE hFind = winui_find_first_file_utf8(tmpStr.c_str(), &FindFileData);
-	
+
 	if (hFind == INVALID_HANDLE_VALUE || (hIcon = winui_extract_icon_utf8(hInst, tmpStr.c_str(), 0)) == 0)
 	{
 		tmpStr = std::string(GetIconsDir()).append(PATH_SEPARATOR).append("icons.zip");
@@ -1138,10 +1129,11 @@ static void Win32UI_init(void)
 	DirectInputInitialize();
 	OptionsInit();
 
-	if (GetRequiredDriverCacheStatus())
+	if (RequiredDriverCache())
 		winui_set_window_text_utf8(GetDlgItem(hSplash, IDC_PROGBAR), "Building folders structure...");
 	else
 		winui_set_window_text_utf8(GetDlgItem(hSplash, IDC_PROGBAR), "Loading folders structure...");
+	SendMessage(hProgress, PBM_SETPOS, 10, 0);
 
 	srand((unsigned)time(NULL));
 	// create the memory pool
@@ -1210,6 +1202,7 @@ static void Win32UI_init(void)
 	CheckMenuItem(GetMenu(hMain), ID_ENABLE_INDENT, (bEnableIndent) ? MF_CHECKED : MF_UNCHECKED);
 	ToolBar_CheckButton(hToolBar, ID_ENABLE_INDENT, (bEnableIndent) ? MF_CHECKED : MF_UNCHECKED);
 	InitTree(g_folderData, g_filterList);
+	SendMessage(hProgress, PBM_SETPOS, 112, 0);
 	winui_set_window_text_utf8(GetDlgItem(hSplash, IDC_PROGBAR), "Building list structure...");
 	/* Initialize listview columns */
 	InitListView();
@@ -1567,7 +1560,7 @@ static void SaveWindowStatus(void)
 
 	for (int i = 0; i < GetSplitterCount(); i++)
 		SetSplitterPos(i, nSplitterOffset[i]);
-			
+
 	for (int i = 0; i < sizeof(s_nPickers) / sizeof(s_nPickers[0]); i++)
 		Picker_SaveColumnWidths(GetDlgItem(hMain, s_nPickers[i]));
 
@@ -1992,7 +1985,7 @@ static void InitMenuIcons(void)
 static void CopyToolTipText(LPTOOLTIPTEXT lpttt)
 {
 	int iButton = lpttt->hdr.idFrom;
-	static wchar_t t_s[40];
+	static wchar_t t_s[80];
 	bool bConverted = false;
 
 	/* Map command ID to string index */
@@ -2010,17 +2003,17 @@ static void CopyToolTipText(LPTOOLTIPTEXT lpttt)
 	{
 		/* Check for valid parameter */
 		if (iButton > NUM_TOOLTIPS)
-			_tcscpy_s(t_s, 39, TEXT("Invalid button index"));
+			_tcscpy(t_s, TEXT("Invalid button index"));
 		else
-			_tcscpy_s(t_s, 39, szTbStrings[iButton]);
+			_tcscpy(t_s, szTbStrings[iButton]);
 	}
 	else
 	{
 		int game = Picker_GetSelectedItem(hWndList);
 		if (game < 0)
-			_tcscpy_s(t_s, 39, TEXT("No Selection"));
+			_tcscpy(t_s, TEXT("No Selection"));
 		else
-			_tcscpy_s(t_s, 39, win_wstring_from_utf8(GetDriverGameTitle(game)));
+			_tcscpy(t_s, win_wstring_from_utf8(GetDriverGameTitle(game)));
 	}
 
 	lpttt->lpszText = t_s;
@@ -2032,14 +2025,14 @@ static void InitToolbar(void)
 
 	hToolBar = CreateWindowEx(0, TOOLBARCLASSNAME, NULL, WS_CHILD | WS_CLIPSIBLINGS | WS_VISIBLE | TBSTYLE_FLAT | TBSTYLE_TOOLTIPS, 0, 0, NUM_TOOLBUTTONS * 32, 32, hMain, NULL, hInst, NULL);
 	HBITMAP hBitmap = (HBITMAP)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDB_TOOLBAR), IMAGE_BITMAP, 0, 0, LR_SHARED);
-	HIMAGELIST hToolList = ImageList_Create(32, 32, ILC_COLORDDB | ILC_MASK, NUM_TOOLBUTTONS, 0);	
+	HIMAGELIST hToolList = ImageList_Create(32, 32, ILC_COLORDDB | ILC_MASK, NUM_TOOLBUTTONS, 0);
 	ImageList_AddMasked(hToolList, hBitmap, RGB(0, 0, 0));
 	DeleteObject(hBitmap);
-	SendMessage(hToolBar, TB_SETEXTENDEDSTYLE, 0, TBSTYLE_EX_DOUBLEBUFFER); 	
+	SendMessage(hToolBar, TB_SETEXTENDEDSTYLE, 0, TBSTYLE_EX_DOUBLEBUFFER);
 	SendMessage(hToolBar, TB_BUTTONSTRUCTSIZE, sizeof(TBBUTTON), 0);
 	SendMessage(hToolBar, TB_SETIMAGELIST, 0, (LPARAM)hToolList);
 	SendMessage(hToolBar, TB_ADDBUTTONS, NUM_TOOLBUTTONS, (LPARAM)&tbb);
-	SendMessage(hToolBar, TB_AUTOSIZE, 0, 0); 	
+	SendMessage(hToolBar, TB_AUTOSIZE, 0, 0);
 	// get Edit Control position
 	int idx = SendMessage(hToolBar, TB_BUTTONCOUNT, 0, 0) - 1;
 	SendMessage(hToolBar, TB_GETITEMRECT, idx, (LPARAM)&rect);
@@ -2256,9 +2249,9 @@ static void DisableSelection(void)
 	mmi.cch = _tcslen(mmi.dwTypeData);
 
 	SetMenuItemInfo(hMenu, ID_FILE_PLAY, false, &mmi);
-	EnableMenuItem(hMenu, ID_FILE_PLAY, 		MF_GRAYED);
-	EnableMenuItem(hMenu, ID_FILE_PLAY_RECORD,	MF_GRAYED);
-	EnableMenuItem(hMenu, ID_GAME_PROPERTIES,	MF_GRAYED);
+	EnableMenuItem(hMenu, ID_FILE_PLAY, MF_GRAYED);
+	EnableMenuItem(hMenu, ID_FILE_PLAY_RECORD, MF_GRAYED);
+	EnableMenuItem(hMenu, ID_GAME_PROPERTIES, MF_GRAYED);
 	SetStatusBarText(0, "No selection");
 	SetStatusBarText(1, "");
 	SendMessage(hStatusBar, SB_SETICON, 1, (LPARAM)NULL);
@@ -2618,7 +2611,7 @@ static uintptr_t CALLBACK HookProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			break;
 
 		case WM_CTLCOLORDLG:
-			return (LRESULT) hBrush;	
+			return (LRESULT) hBrush;
 
 		case WM_CTLCOLORSTATIC:
 		case WM_CTLCOLORBTN:
@@ -2643,7 +2636,7 @@ static uintptr_t CALLBACK HookProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 		case WM_DESTROY:
 			DestroyIcon(hIcon);
 			DeleteObject(hBrush);
-			return true;	
+			return true;
 	}
 
 	return false;
@@ -3326,7 +3319,7 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 			SetFocus(hWndList);
 			return true;
 		}
-		
+
 		case ID_VIDEO_SNAP:
 		{
 			int nGame = Picker_GetSelectedItem(hWndList);
@@ -3504,7 +3497,7 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 			break;
 
 		case ID_CONTEXT_RENAME_CUSTOM:
-			(void)TreeView_EditLabel(hTreeView, TreeView_GetSelection(hTreeView));		
+			(void)TreeView_EditLabel(hTreeView, TreeView_GetSelection(hTreeView));
 			break;
 
 		case ID_HELP_CONTENTS :
@@ -3626,6 +3619,9 @@ void GamePicker_LeavingItem(HWND hwndPicker, int nItem)
 void GamePicker_EnteringItem(HWND hwndPicker, int nItem)
 {
 	EnableSelection(nItem);
+
+	// decide if it is valid to load a savestate
+	EnableMenuItem(GetMenu(hMain), ID_FILE_LOADSTATE, (driver_list::driver(nItem).flags & MACHINE_SUPPORTS_SAVE) ? MFS_ENABLED : MFS_GRAYED);
 }
 
 int GamePicker_FindItemParent(HWND hwndPicker, int nItem)
@@ -4400,7 +4396,8 @@ static int GetIconForDriver(int nItem)
 
 		if (audit_result == -1)
 			iconRoms = 2;
-		else if (IsAuditResultYes(audit_result))
+		else
+		if (IsAuditResultYes(audit_result))
 			iconRoms = 1;
 		else
 			iconRoms = 0;
@@ -4447,7 +4444,7 @@ static bool HandleTreeContextMenu(HWND hWnd, WPARAM wParam, LPARAM lParam)
 
 	pt.x = GET_X_LPARAM(lParam);
 	pt.y = GET_Y_LPARAM(lParam);
-	
+
 	if (pt.x < 0 && pt.y < 0)
 		GetCursorPos(&pt);
 
@@ -4641,7 +4638,7 @@ void InitMainMenu(HMENU hMainMenu)
 	for (int i = 0; g_folderData[i].m_lpTitle != NULL; i++)
 	{
 		wchar_t* t_title = win_wstring_from_utf8(g_folderData[i].m_lpTitle);
-		
+
 		if(!t_title)
 			return;
 
@@ -4897,7 +4894,7 @@ static LRESULT CALLBACK PictureWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 			rect2 = rect;
 			//Configurable Borders around images
 			rect.bottom -= nBordersize;
-			
+
 			if (rect.bottom < 0)
 				rect.bottom = rect2.bottom;
 
@@ -5004,7 +5001,7 @@ static void MouseMoveListViewDrag(POINTS p)
 {
 	TV_HITTESTINFO tvht;
 	POINT pt;
-	
+
 	pt.x = p.x;
 	pt.y = p.y;
 	ClientToScreen(hMain,&pt);
@@ -5132,12 +5129,12 @@ static void CalculateBestScreenShotRect(HWND hWnd, RECT *pRect, bool restrict_he
 	else
 	{
 		BITMAP bmp;
-		
+
 		GetObject(hMissing_bitmap,sizeof(BITMAP),&bmp);
 		x = bmp.bmWidth;
 		y = bmp.bmHeight;
 	}
-	
+
 	int rWidth  = (rect.right  - rect.left);
 	int rHeight = (rect.bottom - rect.top);
 
@@ -5156,7 +5153,7 @@ static void CalculateBestScreenShotRect(HWND hWnd, RECT *pRect, bool restrict_he
 		rWidth -= 10;
 		rHeight -= 10;
 		bReduce = true;
-		
+
 		/* Try to scale it properly */
 		/*  assumes square pixels, doesn't consider aspect ratio */
 		if (x > y)

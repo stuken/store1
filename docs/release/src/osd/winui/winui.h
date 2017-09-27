@@ -83,7 +83,7 @@
 #endif
 #define MAMENAME			"MAME"
 
-#define MAME_VERSION		"0.189"
+#define MAME_VERSION		"0.190"
 #define MAMEUIFX_VERSION	MAME_VERSION " (" __DATE__")"
 
 #define SEARCH_PROMPT		"<search here>"
@@ -160,6 +160,8 @@ enum
 	FILETYPE_BGFX_FILES,
 	FILETYPE_LUASCRIPT_FILES
 };
+
+typedef std::string string;
 
 int MameUIMain(HINSTANCE hInstance, LPWSTR lpCmdLine);
 typedef int (WINAPI *common_file_dialog_proc)(LPOPENFILENAME lpofn);
