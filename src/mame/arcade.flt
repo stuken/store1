@@ -451,6 +451,7 @@ goindol.cpp
 //goldngam.cpp
 //goldnpkr.cpp
 //goldstar.cpp
+//gokidetor.cpp
 gomoku.cpp
 good.cpp
 goodejan.cpp
@@ -1029,6 +1030,7 @@ segas32.cpp
 //segaufo.cpp
 segaxbd.cpp
 segaybd.cpp
+seibucats.cpp
 seibuspi.cpp
 seicross.cpp
 seicupbl.cpp
