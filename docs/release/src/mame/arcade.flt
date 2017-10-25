@@ -46,6 +46,7 @@ ambush.cpp
 //ampoker2.cpp
 amspdwy.cpp
 //amusco.cpp
+//anes.cpp
 angelkds.cpp
 appoooh.cpp
 aquarium.cpp
@@ -450,6 +451,7 @@ goindol.cpp
 //goldngam.cpp
 //goldnpkr.cpp
 //goldstar.cpp
+//gokidetor.cpp
 gomoku.cpp
 good.cpp
 goodejan.cpp
@@ -826,6 +828,7 @@ niyanpai.cpp
 nmg5.cpp
 nmk16.cpp
 //norautp.cpp
+//notechan.cpp
 nova2001.cpp
 //nsm.cpp
 //nsmpoker.cpp
@@ -1027,6 +1030,7 @@ segas32.cpp
 //segaufo.cpp
 segaxbd.cpp
 segaybd.cpp
+seibucats.cpp
 seibuspi.cpp
 seicross.cpp
 seicupbl.cpp
@@ -1191,7 +1195,7 @@ tankbatt.cpp
 tankbust.cpp
 taotaido.cpp
 //tapatune.cpp
-//targeth.cpp
+targeth.cpp
 //tasman.cpp
 tatsumi.cpp
 //tattack.cpp
@@ -1253,7 +1257,6 @@ ttchamp.cpp
 tubep.cpp
 tugboat.cpp
 tumbleb.cpp
-tumblep.cpp
 tunhunt.cpp
 turbo.cpp
 turrett.cpp

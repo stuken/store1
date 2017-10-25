@@ -7,6 +7,7 @@
 *************************************************************************/
 
 #include "machine/gen_latch.h"
+#include "machine/timer.h"
 
 #define MASTER_CLOCK        XTAL_18_432MHz
 
