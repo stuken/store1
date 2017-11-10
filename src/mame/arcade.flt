@@ -872,7 +872,7 @@ pengo.cpp
 //peplus.cpp
 //peyper.cpp
 pgm.cpp
-//pgm2.cpp
+pgm2.cpp
 //pgm3.cpp
 phoenix.cpp
 photon.cpp
