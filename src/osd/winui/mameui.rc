@@ -15,142 +15,142 @@ IDR_UI_MENU MENU
 BEGIN
     POPUP "&File"
     BEGIN
-        MENUITEM "Play\tAlt+O",             			ID_FILE_PLAY
+        MENUITEM "Play\tAlt+O",                         ID_FILE_PLAY
         MENUITEM SEPARATOR
-        MENUITEM "Play INP Playback\tAlt+F1",   		ID_FILE_PLAY_BACK
-        MENUITEM "Play WAV sound\tAlt+F2", 				ID_PLAY_AUDIO
-        MENUITEM "Play MNG video\tAlt+F3", 				ID_PLAY_MNG
-        MENUITEM "Play AVI video\tAlt+F5", 				ID_PLAY_VIDEO
+        MENUITEM "Play INP Playback\tAlt+F1",           ID_FILE_PLAY_BACK
+        MENUITEM "Play WAV sound\tAlt+F2",                 ID_PLAY_AUDIO
+        MENUITEM "Play MNG video\tAlt+F3",                 ID_PLAY_MNG
+        MENUITEM "Play AVI video\tAlt+F5",                 ID_PLAY_VIDEO
         MENUITEM SEPARATOR
         MENUITEM "Record game INP playback\tCtrl+F1",   ID_FILE_PLAY_RECORD
-        MENUITEM "Record game WAV sound\tCtrl+F2", 		ID_FILE_PLAY_RECORD_WAVE
-        MENUITEM "Record game MNG video\tCtrl+F3", 		ID_FILE_PLAY_RECORD_MNG
-        MENUITEM "Record game AVI video\tCtrl+F5", 		ID_FILE_PLAY_RECORD_AVI
+        MENUITEM "Record game WAV sound\tCtrl+F2",         ID_FILE_PLAY_RECORD_WAVE
+        MENUITEM "Record game MNG video\tCtrl+F3",         ID_FILE_PLAY_RECORD_MNG
+        MENUITEM "Record game AVI video\tCtrl+F5",         ID_FILE_PLAY_RECORD_AVI
         MENUITEM SEPARATOR
-        MENUITEM "Load game savestate\tAlt+F7", 		ID_FILE_LOADSTATE
+        MENUITEM "Load game savestate\tAlt+F7",         ID_FILE_LOADSTATE
         MENUITEM SEPARATOR
-        MENUITEM "Exit\t Alt+F4",              			ID_FILE_EXIT
+        MENUITEM "Exit\t Alt+F4",                          ID_FILE_EXIT
     END
     POPUP "&View"
     BEGIN
-        MENUITEM "Toolbar\tAlt+T",              		ID_VIEW_TOOLBARS
-        MENUITEM "Statusbar\tAlt+S",          			ID_VIEW_STATUS
-        MENUITEM "Folders List\tAlt+F",         		ID_VIEW_FOLDERS
-        MENUITEM "Pictures Area\tAlt+P",        		ID_VIEW_PICTURE_AREA
-        MENUITEM "Tabs\tAlt+B",      					ID_VIEW_PAGETAB
-		MENUITEM SEPARATOR
-        MENUITEM "Large icons\tCtrl+L",       			ID_VIEW_ICONS_LARGE
-        MENUITEM "Small icons\tCtrl+S",     			ID_VIEW_ICONS_SMALL        
-		MENUITEM SEPARATOR
-        MENUITEM "Grouped\tCtrl+G",     				ID_ENABLE_INDENT        
-		MENUITEM SEPARATOR
+        MENUITEM "Toolbar\tAlt+T",                      ID_VIEW_TOOLBARS
+        MENUITEM "Statusbar\tAlt+S",                      ID_VIEW_STATUS
+        MENUITEM "Folders List\tAlt+F",                 ID_VIEW_FOLDERS
+        MENUITEM "Pictures Area\tAlt+P",                ID_VIEW_PICTURE_AREA
+        MENUITEM "Tabs\tAlt+B",                          ID_VIEW_PAGETAB
+        MENUITEM SEPARATOR
+        MENUITEM "Large icons\tCtrl+L",                   ID_VIEW_ICONS_LARGE
+        MENUITEM "Small icons\tCtrl+S",                 ID_VIEW_ICONS_SMALL        
+        MENUITEM SEPARATOR
+        MENUITEM "Grouped\tCtrl+G",                     ID_ENABLE_INDENT        
+        MENUITEM SEPARATOR
         POPUP "Sort games list by"
         BEGIN
-            MENUITEM "Description\tAlt+1",      		ID_VIEW_BYGAME
-            MENUITEM "ROM name\tAlt+2",         		ID_VIEW_BYDIRECTORY
-			MENUITEM "Source file\tAlt+3",				ID_VIEW_BYSOURCE
-            MENUITEM "Manufacturer\tAlt+4",     		ID_VIEW_BYMANUFACTURER
-            MENUITEM "Year\tAlt+5",             		ID_VIEW_BYYEAR
-            MENUITEM "Played counts\tAlt+6",    		ID_VIEW_BYTIMESPLAYED
-		END
+            MENUITEM "Description\tAlt+1",              ID_VIEW_BYGAME
+            MENUITEM "ROM name\tAlt+2",                 ID_VIEW_BYDIRECTORY
+            MENUITEM "Source file\tAlt+3",                ID_VIEW_BYSOURCE
+            MENUITEM "Manufacturer\tAlt+4",             ID_VIEW_BYMANUFACTURER
+            MENUITEM "Year\tAlt+5",                     ID_VIEW_BYYEAR
+            MENUITEM "Played counts\tAlt+6",            ID_VIEW_BYTIMESPLAYED
+        END
         MENUITEM SEPARATOR
         POPUP "Show folders"
         BEGIN
-            MENUITEM "overridden by code",    			ID_SHOW_FOLDER_START1
-            MENUITEM "overridden by code",    			ID_SHOW_FOLDER_START2
-			MENUITEM "overridden by code",    			ID_SHOW_FOLDER_START3
-			MENUITEM "overridden by code",    			ID_SHOW_FOLDER_START4
-			MENUITEM "overridden by code",    			ID_SHOW_FOLDER_START5
-			MENUITEM "overridden by code",    			ID_SHOW_FOLDER_START6
-			MENUITEM "overridden by code",    			ID_SHOW_FOLDER_START7
-			MENUITEM "overridden by code",    			ID_SHOW_FOLDER_START8
-			MENUITEM "overridden by code",   		 	ID_SHOW_FOLDER_START9
-			MENUITEM "overridden by code",   		 	ID_SHOW_FOLDER_START10
-			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START11
-			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START12
-			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START13
-			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START14
-			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START15
-			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START16
-			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START17
-			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START18
-			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START19
-			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START20
-			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START21
-			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START22
-			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START23
-			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START24
-			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START25
-			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START26
-			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START27
-			MENUITEM "overridden by code",  		  	ID_SHOW_FOLDER_START28
-		END
-		MENUITEM SEPARATOR
-        POPUP "Show pictures"
-        BEGIN
-            MENUITEM "In Game",           			   	ID_TOGGLE_TAB_SCREENSHOT
-			MENUITEM "Title",           		      	ID_TOGGLE_TAB_TITLE
-            MENUITEM "Scores",							ID_TOGGLE_TAB_SCORES
-            MENUITEM "How To",							ID_TOGGLE_TAB_HOWTO
-            MENUITEM "Select",							ID_TOGGLE_TAB_SELECT
-            MENUITEM "Versus",							ID_TOGGLE_TAB_VERSUS
-            MENUITEM "Boss",							ID_TOGGLE_TAB_BOSSES
-            MENUITEM "End",								ID_TOGGLE_TAB_ENDS
-            MENUITEM "Game Over",						ID_TOGGLE_TAB_GAMEOVER
-			MENUITEM "Logo",            		     	ID_TOGGLE_TAB_LOGO
-			MENUITEM "Artwork",         		        ID_TOGGLE_TAB_ARTWORK
-			MENUITEM "Flyer",           		      	ID_TOGGLE_TAB_FLYER
-            MENUITEM "Cabinet",         		      	ID_TOGGLE_TAB_CABINET
-            MENUITEM "Marquee",         		      	ID_TOGGLE_TAB_MARQUEE
-            MENUITEM "Control Panel",   		      	ID_TOGGLE_TAB_CONTROL_PANEL
-            MENUITEM "PCB",             		      	ID_TOGGLE_TAB_PCB
-            MENUITEM "Info",           					ID_TOGGLE_TAB_HISTORY
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START1
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START2
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START3
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START4
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START5
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START6
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START7
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START8
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START9
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START10
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START11
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START12
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START13
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START14
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START15
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START16
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START17
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START18
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START19
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START20
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START21
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START22
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START23
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START24
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START25
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START26
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START27
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START28
         END
         MENUITEM SEPARATOR
-        MENUITEM "Fullscreen\tF11",         		    ID_VIEW_FULLSCREEN
-	END
+        POPUP "Show pictures"
+        BEGIN
+            MENUITEM "In Game",                              ID_TOGGLE_TAB_SCREENSHOT
+            MENUITEM "Title",                             ID_TOGGLE_TAB_TITLE
+            MENUITEM "Scores",                            ID_TOGGLE_TAB_SCORES
+            MENUITEM "How To",                            ID_TOGGLE_TAB_HOWTO
+            MENUITEM "Select",                            ID_TOGGLE_TAB_SELECT
+            MENUITEM "Versus",                            ID_TOGGLE_TAB_VERSUS
+            MENUITEM "Boss",                            ID_TOGGLE_TAB_BOSSES
+            MENUITEM "End",                                ID_TOGGLE_TAB_ENDS
+            MENUITEM "Game Over",                        ID_TOGGLE_TAB_GAMEOVER
+            MENUITEM "Logo",                             ID_TOGGLE_TAB_LOGO
+            MENUITEM "Artwork",                         ID_TOGGLE_TAB_ARTWORK
+            MENUITEM "Flyer",                             ID_TOGGLE_TAB_FLYER
+            MENUITEM "Cabinet",                           ID_TOGGLE_TAB_CABINET
+            MENUITEM "Marquee",                           ID_TOGGLE_TAB_MARQUEE
+            MENUITEM "Control Panel",                     ID_TOGGLE_TAB_CONTROL_PANEL
+            MENUITEM "PCB",                               ID_TOGGLE_TAB_PCB
+            MENUITEM "Info",                               ID_TOGGLE_TAB_HISTORY
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Fullscreen\tF11",                     ID_VIEW_FULLSCREEN
+    END
     POPUP "&Options"
     BEGIN
-        MENUITEM "Interface settings\tCtrl+I",       	ID_OPTIONS_INTERFACE
-        MENUITEM "Default games options\tCtrl+O",    	ID_OPTIONS_DEFAULTS
-        MENUITEM "Directories\tCtrl+D",             	ID_OPTIONS_DIR
+        MENUITEM "Interface settings\tCtrl+I",           ID_OPTIONS_INTERFACE
+        MENUITEM "Default games options\tCtrl+O",        ID_OPTIONS_DEFAULTS
+        MENUITEM "Directories\tCtrl+D",                 ID_OPTIONS_DIR
         MENUITEM SEPARATOR
-		POPUP "Fonts and colors"
-		BEGIN
-			MENUITEM "Folders list font and color\tCtrl+1",		ID_OPTIONS_TREE_FONT
-			MENUITEM "Games list font and color\tCtrl+2",   	ID_OPTIONS_FONT
-			MENUITEM "Game picture font and color\tCtrl+3",   	ID_OPTIONS_HISTORY_FONT
-			MENUITEM "Folders list background color\tCtrl+4", 	ID_OPTIONS_FOLDERS_COLOR
-			MENUITEM "Games list background color\tCtrl+5", 	ID_OPTIONS_LIST_COLOR
-			MENUITEM "Game picture background color\tCtrl+6", 	ID_OPTIONS_HISTORY_COLOR
-		END
+        POPUP "Fonts and colors"
+        BEGIN
+            MENUITEM "Folders list font and color\tCtrl+1",        ID_OPTIONS_TREE_FONT
+            MENUITEM "Games list font and color\tCtrl+2",       ID_OPTIONS_FONT
+            MENUITEM "Game picture font and color\tCtrl+3",       ID_OPTIONS_HISTORY_FONT
+            MENUITEM "Folders list background color\tCtrl+4",     ID_OPTIONS_FOLDERS_COLOR
+            MENUITEM "Games list background color\tCtrl+5",     ID_OPTIONS_LIST_COLOR
+            MENUITEM "Game picture background color\tCtrl+6",     ID_OPTIONS_HISTORY_COLOR
+        END
         MENUITEM SEPARATOR
         MENUITEM "Reset settings to default\tCtrl+R",   ID_OPTIONS_RESET_DEFAULTS
     END
     POPUP "&Tools"
     BEGIN
-        MENUITEM "Select random game\tAlt+R",  			ID_CONTEXT_SELECT_RANDOM
+        MENUITEM "Select random game\tAlt+R",              ID_CONTEXT_SELECT_RANDOM
         MENUITEM SEPARATOR
-        MENUITEM "Custom filters\tCtrl+F",  			ID_CONTEXT_FILTERS
-        MENUITEM "Customize fields\tCtrl+C", 		    ID_CUSTOMIZE_FIELDS
+        MENUITEM "Custom filters\tCtrl+F",              ID_CONTEXT_FILTERS
+        MENUITEM "Customize fields\tCtrl+C",             ID_CUSTOMIZE_FIELDS
         MENUITEM SEPARATOR
-        MENUITEM "Audit all games\tCtrl+A",				ID_FILE_AUDIT
-        MENUITEM "Refresh games list\tF5",   			ID_UPDATE_GAMELIST
+        MENUITEM "Audit all games\tCtrl+A",                ID_FILE_AUDIT
+        MENUITEM "Refresh games list\tF5",               ID_UPDATE_GAMELIST
         MENUITEM SEPARATOR
-        MENUITEM "Save current games list\tAlt+F8",		ID_FILE_GAMELIST
+        MENUITEM "Save current games list\tAlt+F8",        ID_FILE_GAMELIST
         MENUITEM "Save current ROMs list\tAlt+F9",      ID_FILE_ROMSLIST
     END
     POPUP "&Help"
     BEGIN
-        MENUITEM "Online Manual\tF1",      			    ID_HELP_CONTENTS
-        MENUITEM "Support Forum\tF3",        		   	ID_HELP_TROUBLE
+        MENUITEM "Online Manual\tF1",                      ID_HELP_CONTENTS
+        MENUITEM "Support Forum\tF3",                       ID_HELP_TROUBLE
         MENUITEM SEPARATOR
-        MENUITEM "Mame release notes\tF6",  		    ID_HELP_WHATS_NEW
+        MENUITEM "Mame release notes\tF6",              ID_HELP_WHATS_NEW
         MENUITEM SEPARATOR
-        MENUITEM "MAME development site\tF7", 			ID_MAME_HOMEPAGE
-        MENUITEM "Frequently Asked Questions\tF8", 		ID_MAME_FAQ
+        MENUITEM "MAME development site\tF7",             ID_MAME_HOMEPAGE
+        MENUITEM "Frequently Asked Questions\tF8",         ID_MAME_FAQ
         MENUITEM SEPARATOR
-        MENUITEM "About\tF9",            			    ID_HELP_ABOUT
+        MENUITEM "About\tF9",                            ID_HELP_ABOUT
     END
 END
 
@@ -158,39 +158,39 @@ IDR_CONTEXT_MENU MENU
 BEGIN
     POPUP "Context Menu"
     BEGIN
-        MENUITEM "Play\tAlt+O",             			ID_FILE_PLAY
+        MENUITEM "Play\tAlt+O",                         ID_FILE_PLAY
         MENUITEM SEPARATOR
-        MENUITEM "Record INP playback\tCtrl+F1",   		ID_FILE_PLAY_RECORD
-        MENUITEM "Load savestate\tAlt+F7",      		ID_FILE_LOADSTATE
+        MENUITEM "Record INP playback\tCtrl+F1",           ID_FILE_PLAY_RECORD
+        MENUITEM "Load savestate\tAlt+F7",              ID_FILE_LOADSTATE
         MENUITEM SEPARATOR
-        MENUITEM "Add to custom folder\tAlt+W", 		ID_CONTEXT_ADD_CUSTOM
+        MENUITEM "Add to custom folder\tAlt+W",         ID_CONTEXT_ADD_CUSTOM
         MENUITEM "Remove from this folder\tAlt+X",      ID_CONTEXT_REMOVE_CUSTOM
         MENUITEM SEPARATOR
-        MENUITEM "Information\tAlt+I",          		ID_GAME_INFO
-        MENUITEM "Audit\tAlt+A",                		ID_GAME_AUDIT
+        MENUITEM "Information\tAlt+I",                  ID_GAME_INFO
+        MENUITEM "Audit\tAlt+A",                        ID_GAME_AUDIT
         MENUITEM SEPARATOR
-        MENUITEM "Reset played counts\tAlt+V",			ID_CONTEXT_RESET_PLAYCOUNT
-        MENUITEM "Reset played time\tAlt+Y",			ID_CONTEXT_RESET_PLAYTIME
+        MENUITEM "Reset played counts\tAlt+V",            ID_CONTEXT_RESET_PLAYCOUNT
+        MENUITEM "Reset played time\tAlt+Y",            ID_CONTEXT_RESET_PLAYTIME
         MENUITEM SEPARATOR
         MENUITEM "Play ProgettoSnaps MP4 movie\tCtrl+M",ID_VIDEO_SNAP
         MENUITEM "Read the PDF Manual",                 ID_MANUAL
         MENUITEM "Listen to music with M1FX\tAlt+M",    ID_PLAY_M1
         MENUITEM SEPARATOR
-        MENUITEM "Properties\tAlt+G",       			ID_GAME_PROPERTIES
-        MENUITEM "Properties for driver\tAlt+D",		ID_FOLDER_SOURCEPROPERTIES
+        MENUITEM "Properties\tAlt+G",                   ID_GAME_PROPERTIES
+        MENUITEM "Properties for driver\tAlt+D",        ID_FOLDER_SOURCEPROPERTIES
         MENUITEM SEPARATOR
-        MENUITEM "View ZIP file content\tAlt+Z",  		ID_VIEW_ZIP
-	END
+        MENUITEM "View ZIP file content\tAlt+Z",          ID_VIEW_ZIP
+    END
 END
 
 IDR_CONTEXT_HEADER MENU
 BEGIN
     POPUP "Header Context Menu"
     BEGIN
-        MENUITEM "Sort ascending\tAlt+UP",   			ID_SORT_ASCENDING
-        MENUITEM "Sort descending\tAlt+DOWN",		    ID_SORT_DESCENDING
+        MENUITEM "Sort ascending\tAlt+UP",               ID_SORT_ASCENDING
+        MENUITEM "Sort descending\tAlt+DOWN",            ID_SORT_DESCENDING
         MENUITEM SEPARATOR
-        MENUITEM "Customize fields\tCtrl+C",  			ID_CUSTOMIZE_FIELDS
+        MENUITEM "Customize fields\tCtrl+C",              ID_CUSTOMIZE_FIELDS
     END
 END
 
@@ -198,17 +198,17 @@ IDR_CONTEXT_TREE MENU
 BEGIN
     POPUP "Context Menu Tree"
     BEGIN
-        MENUITEM "Rename\tF2",          		        ID_CONTEXT_RENAME_CUSTOM
-        MENUITEM "Custom filters\tCtrl+F",		        ID_CONTEXT_FILTERS
+        MENUITEM "Rename\tF2",                          ID_CONTEXT_RENAME_CUSTOM
+        MENUITEM "Custom filters\tCtrl+F",                ID_CONTEXT_FILTERS
         MENUITEM SEPARATOR
         POPUP "Show folders"
         BEGIN
-            MENUITEM "overridden by code",		    	ID_CONTEXT_SHOW_FOLDER_START
+            MENUITEM "overridden by code",                ID_CONTEXT_SHOW_FOLDER_START
         END
         MENUITEM SEPARATOR
-        MENUITEM "Audit\tCtrl+U",      			        ID_FOLDER_AUDIT
+        MENUITEM "Audit\tCtrl+U",                          ID_FOLDER_AUDIT
         MENUITEM SEPARATOR
-        MENUITEM "Properties\tCtrl+P", 			        ID_FOLDER_PROPERTIES
+        MENUITEM "Properties\tCtrl+P",                     ID_FOLDER_PROPERTIES
     END
 END
 
@@ -216,47 +216,47 @@ IDR_CONTEXT_SCREENSHOT MENU
 BEGIN
     POPUP "Context Screen Shot"
     BEGIN
-        MENUITEM "Show Tabs\tAlt+B",  		         	ID_VIEW_PAGETAB
+        MENUITEM "Show Tabs\tAlt+B",                       ID_VIEW_PAGETAB
         MENUITEM SEPARATOR
         POPUP "Show pictures"
         BEGIN
-            MENUITEM "In Game",   			           	ID_TOGGLE_TAB_SCREENSHOT
-			MENUITEM "Title",     		            	ID_TOGGLE_TAB_TITLE
-            MENUITEM "Scores",							ID_TOGGLE_TAB_SCORES
-            MENUITEM "How To",							ID_TOGGLE_TAB_HOWTO
-            MENUITEM "Select",							ID_TOGGLE_TAB_SELECT
-            MENUITEM "Versus",							ID_TOGGLE_TAB_VERSUS
-            MENUITEM "Boss",							ID_TOGGLE_TAB_BOSSES
-            MENUITEM "End",								ID_TOGGLE_TAB_ENDS
-            MENUITEM "Game Over",						ID_TOGGLE_TAB_GAMEOVER
-			MENUITEM "Logo",        		         	ID_TOGGLE_TAB_LOGO
-			MENUITEM "Artwork",     		            ID_TOGGLE_TAB_ARTWORK
-			MENUITEM "Flyer",       		          	ID_TOGGLE_TAB_FLYER
-            MENUITEM "Cabinet",     		          	ID_TOGGLE_TAB_CABINET
-            MENUITEM "Marquee",      		         	ID_TOGGLE_TAB_MARQUEE
-            MENUITEM "Control Panel",		         	ID_TOGGLE_TAB_CONTROL_PANEL
-            MENUITEM "PCB",          		         	ID_TOGGLE_TAB_PCB
-            MENUITEM "Info",         		  			ID_TOGGLE_TAB_HISTORY
+            MENUITEM "In Game",                              ID_TOGGLE_TAB_SCREENSHOT
+            MENUITEM "Title",                             ID_TOGGLE_TAB_TITLE
+            MENUITEM "Scores",                            ID_TOGGLE_TAB_SCORES
+            MENUITEM "How To",                            ID_TOGGLE_TAB_HOWTO
+            MENUITEM "Select",                            ID_TOGGLE_TAB_SELECT
+            MENUITEM "Versus",                            ID_TOGGLE_TAB_VERSUS
+            MENUITEM "Boss",                            ID_TOGGLE_TAB_BOSSES
+            MENUITEM "End",                                ID_TOGGLE_TAB_ENDS
+            MENUITEM "Game Over",                        ID_TOGGLE_TAB_GAMEOVER
+            MENUITEM "Logo",                             ID_TOGGLE_TAB_LOGO
+            MENUITEM "Artwork",                         ID_TOGGLE_TAB_ARTWORK
+            MENUITEM "Flyer",                             ID_TOGGLE_TAB_FLYER
+            MENUITEM "Cabinet",                           ID_TOGGLE_TAB_CABINET
+            MENUITEM "Marquee",                           ID_TOGGLE_TAB_MARQUEE
+            MENUITEM "Control Panel",                     ID_TOGGLE_TAB_CONTROL_PANEL
+            MENUITEM "PCB",                               ID_TOGGLE_TAB_PCB
+            MENUITEM "Info",                               ID_TOGGLE_TAB_HISTORY
 
         END
         MENUITEM SEPARATOR
-        MENUITEM "In Game",       		            	ID_VIEW_TAB_SCREENSHOT
-        MENUITEM "Title",        		              	ID_VIEW_TAB_TITLE
-        MENUITEM "Scores",								ID_VIEW_TAB_SCORES
-        MENUITEM "How To",								ID_VIEW_TAB_HOWTO
-        MENUITEM "Select",								ID_VIEW_TAB_SELECT
-        MENUITEM "Versus",								ID_VIEW_TAB_VERSUS
-        MENUITEM "Boss",								ID_VIEW_TAB_BOSSES
-        MENUITEM "End",									ID_VIEW_TAB_ENDS
-        MENUITEM "Game Over",							ID_VIEW_TAB_GAMEOVER
-        MENUITEM "Logo",          		            	ID_VIEW_TAB_LOGO
-        MENUITEM "Artwork",       			            ID_VIEW_TAB_ARTWORK
-        MENUITEM "Flyer",        		              	ID_VIEW_TAB_FLYER
-        MENUITEM "Cabinet",        		            	ID_VIEW_TAB_CABINET
-        MENUITEM "Marquee",        		            	ID_VIEW_TAB_MARQUEE
-        MENUITEM "Control Panel",   		           	ID_VIEW_TAB_CONTROL_PANEL
-        MENUITEM "PCB",             				    ID_VIEW_TAB_PCB
-        MENUITEM "History",         		           	ID_VIEW_TAB_HISTORY
+        MENUITEM "In Game",                               ID_VIEW_TAB_SCREENSHOT
+        MENUITEM "Title",                                  ID_VIEW_TAB_TITLE
+        MENUITEM "Scores",                                ID_VIEW_TAB_SCORES
+        MENUITEM "How To",                                ID_VIEW_TAB_HOWTO
+        MENUITEM "Select",                                ID_VIEW_TAB_SELECT
+        MENUITEM "Versus",                                ID_VIEW_TAB_VERSUS
+        MENUITEM "Boss",                                ID_VIEW_TAB_BOSSES
+        MENUITEM "End",                                    ID_VIEW_TAB_ENDS
+        MENUITEM "Game Over",                            ID_VIEW_TAB_GAMEOVER
+        MENUITEM "Logo",                                  ID_VIEW_TAB_LOGO
+        MENUITEM "Artwork",                               ID_VIEW_TAB_ARTWORK
+        MENUITEM "Flyer",                                  ID_VIEW_TAB_FLYER
+        MENUITEM "Cabinet",                                ID_VIEW_TAB_CABINET
+        MENUITEM "Marquee",                                ID_VIEW_TAB_MARQUEE
+        MENUITEM "Control Panel",                          ID_VIEW_TAB_CONTROL_PANEL
+        MENUITEM "PCB",                                 ID_VIEW_TAB_PCB
+        MENUITEM "History",                                ID_VIEW_TAB_HISTORY
     END
 END
 
@@ -273,7 +273,7 @@ IDI_WIN_NOROMS          ICON                    "res\\win_noro.ico"
 IDI_WIN_UNKNOWN         ICON                    "res\\win_unkn.ico"
 IDI_WIN_CLONE           ICON                    "res\\win_clone.ico"
 IDI_WIN_REDX            ICON                    "res\\win_redx.ico"
-IDI_WIN_IMPERFECT       ICON 					"res\\win_imp.ico"
+IDI_WIN_IMPERFECT       ICON                     "res\\win_imp.ico"
 IDI_FOLDER_AVAILABLE    ICON                    "res\\foldavail.ico"
 IDI_FOLDER              ICON                    "res\\folder.ico"
 IDI_FOLDER_MANUFACTURER ICON                    "res\\foldmanu.ico"
@@ -296,47 +296,47 @@ IDI_SOURCE              ICON                    "res\\source.ico"
 IDI_HARDDISK            ICON                    "res\\harddisk.ico"
 IDI_DISPLAY             ICON                    "res\\display.ico"
 IDI_AUDIT_PASS          ICON                    "res\\audit_pass.ico"
-IDI_MISC                ICON 					"res\\misc.ico"
-IDI_VECTOR              ICON 					"res\\vector.ico"
-IDI_SCREEN              ICON 					"res\\screen.ico"
-IDI_ADVANCED            ICON 					"res\\advanced.ico"
-IDI_AUDIT_FAIL			ICON	  				"res\\audit_fail.ico"
-IDI_FOLDER_IMPERFECT    ICON 					"res\\foldimp.ico"
-IDI_FOLDER_CPU          ICON 					"res\\foldcsb.ico"
-IDI_FOLDER_SOUND        ICON 					"res\\foldcsb.ico"
-IDI_FOLDER_BIOS         ICON 					"res\\foldbios.ico"
-IDI_FOLDER_DUMP         ICON 					"res\\foldcsb.ico"
-IDI_SYSTRAY             ICON    				"res\\mameui.ico"
-IDI_DEBUG				ICON					"res\\debug.ico"
-IDI_MONITOR    			ICON 					"res\\monitor.ico"
-IDI_MECHANICAL    		ICON 					"res\\mechanical.ico"
-IDI_FOLDER_ALLGAMES		ICON 					"res\\allgames.ico"
-IDI_FOLDER_CLONES       ICON 					"res\\foldclone.ico"
-IDI_FOLDER_ORIGINALS    ICON 					"res\\foldorig.ico"
-IDI_FOLDER_RASTER    	ICON 					"res\\foldrast.ico"
-IDI_FOLDER_VECTOR    	ICON 					"res\\foldvec.ico"
-IDI_FOLDER_SAMPLES    	ICON 					"res\\foldsamp.ico"
-IDI_FOLDER_MONITOR    	ICON 					"res\\multimon.ico"
-IDI_FOLDER_FPS    		ICON 					"res\\foldfps.ico"
-IDI_FOLDER_RESOL    	ICON 					"res\\foldres.ico"
-IDI_FOLDER_LIGHTGUN    	ICON 					"res\\foldgun.ico"
-IDI_FOLDER_TRACKBALL    ICON 					"res\\foldball.ico"
-IDI_FOLDER_SAVESTATE    ICON 					"res\\savestate.ico"
-IDI_OPENGL				ICON					"res\\opengl.ico"
-IDI_SHADER				ICON					"res\\shader.ico"
-IDI_SNAPSHOT			ICON					"res\\snapshot.ico"
-IDI_DISPLAYSHEET		ICON					"res\\display.ico"
-IDI_ADVANCEDSHEET		ICON					"res\\advanced.ico"
-IDI_SCREENSHEET			ICON					"res\\screen.ico"
-IDI_OPENGLSHEET			ICON					"res\\opengl.ico"
-IDI_SHADERSHEET			ICON					"res\\shader.ico"
-IDI_VECTORSHEET			ICON					"res\\vector.ico"
-IDI_SOUNDSHEET			ICON					"res\\sound.ico"
-IDI_INPUTSHEET			ICON					"res\\keyboard.ico"
-IDI_CONTROLSHEET		ICON					"res\\joystick.ico"
-IDI_MISCSHEET			ICON					"res\\misc.ico"
-IDI_MISC2SHEET			ICON					"res\\debug.ico"
-IDI_SNAPSHEET			ICON					"res\\snapshot.ico"
+IDI_MISC                ICON                     "res\\misc.ico"
+IDI_VECTOR              ICON                     "res\\vector.ico"
+IDI_SCREEN              ICON                     "res\\screen.ico"
+IDI_ADVANCED            ICON                     "res\\advanced.ico"
+IDI_AUDIT_FAIL            ICON                      "res\\audit_fail.ico"
+IDI_FOLDER_IMPERFECT    ICON                     "res\\foldimp.ico"
+IDI_FOLDER_CPU          ICON                     "res\\foldcsb.ico"
+IDI_FOLDER_SOUND        ICON                     "res\\foldcsb.ico"
+IDI_FOLDER_BIOS         ICON                     "res\\foldbios.ico"
+IDI_FOLDER_DUMP         ICON                     "res\\foldcsb.ico"
+IDI_SYSTRAY             ICON                    "res\\mameui.ico"
+IDI_DEBUG                ICON                    "res\\debug.ico"
+IDI_MONITOR                ICON                     "res\\monitor.ico"
+IDI_MECHANICAL            ICON                     "res\\mechanical.ico"
+IDI_FOLDER_ALLGAMES        ICON                     "res\\allgames.ico"
+IDI_FOLDER_CLONES       ICON                     "res\\foldclone.ico"
+IDI_FOLDER_ORIGINALS    ICON                     "res\\foldorig.ico"
+IDI_FOLDER_RASTER        ICON                     "res\\foldrast.ico"
+IDI_FOLDER_VECTOR        ICON                     "res\\foldvec.ico"
+IDI_FOLDER_SAMPLES        ICON                     "res\\foldsamp.ico"
+IDI_FOLDER_MONITOR        ICON                     "res\\multimon.ico"
+IDI_FOLDER_FPS            ICON                     "res\\foldfps.ico"
+IDI_FOLDER_RESOL        ICON                     "res\\foldres.ico"
+IDI_FOLDER_LIGHTGUN        ICON                     "res\\foldgun.ico"
+IDI_FOLDER_TRACKBALL    ICON                     "res\\foldball.ico"
+IDI_FOLDER_SAVESTATE    ICON                     "res\\savestate.ico"
+IDI_OPENGL                ICON                    "res\\opengl.ico"
+IDI_SHADER                ICON                    "res\\shader.ico"
+IDI_SNAPSHOT            ICON                    "res\\snapshot.ico"
+IDI_DISPLAYSHEET        ICON                    "res\\display.ico"
+IDI_ADVANCEDSHEET        ICON                    "res\\advanced.ico"
+IDI_SCREENSHEET            ICON                    "res\\screen.ico"
+IDI_OPENGLSHEET            ICON                    "res\\opengl.ico"
+IDI_SHADERSHEET            ICON                    "res\\shader.ico"
+IDI_VECTORSHEET            ICON                    "res\\vector.ico"
+IDI_SOUNDSHEET            ICON                    "res\\sound.ico"
+IDI_INPUTSHEET            ICON                    "res\\keyboard.ico"
+IDI_CONTROLSHEET        ICON                    "res\\joystick.ico"
+IDI_MISCSHEET            ICON                    "res\\misc.ico"
+IDI_MISC2SHEET            ICON                    "res\\debug.ico"
+IDI_SNAPSHEET            ICON                    "res\\snapshot.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -375,8 +375,8 @@ IDD_ABOUT DIALOGEX 0, 0, 320, 186
 STYLE WS_POPUP | WS_VISIBLE | WS_BORDER | DS_SETFONT
 FONT 8, "Tahoma"
 BEGIN
-	RTEXT			"",IDC_BUILD,6,4,308,10
-	LTEXT			"",IDC_BUILDVER,6,4,120,10
+    RTEXT            "",IDC_BUILD,6,4,308,10
+    LTEXT            "",IDC_BUILDVER,6,4,120,10
     CONTROL         "",IDC_ABOUT,WC_STATIC,SS_BITMAP,6,16,56,17
     CTEXT           "MAME Copyright (C) 1997-2017 The MAME Team",IDC_TEXT1,6,106,310,10
     CTEXT           "MAMEUI version by Christopher Kirmse and The MAMEUI Team",IDC_TEXT2,6,118,310,10
@@ -401,7 +401,7 @@ BEGIN
     LTEXT           "0",IDC_ROMS_INCORRECT,52,42,20,10
     LTEXT           "0",IDC_ROMS_NOTFOUND,52,56,20,10
     LTEXT           "0",IDC_ROMS_TOTAL,52,70,20,10
-	GROUPBOX        "Details",IDC_STATIC,6,88,272,92
+    GROUPBOX        "Details",IDC_STATIC,6,88,272,92
     EDITTEXT        IDC_AUDIT_DETAILS,12,100,260,72,ES_MULTILINE | WS_BORDER | WS_VSCROLL | NOT WS_TABSTOP
     DEFPUSHBUTTON   "Cancel",IDCANCEL,116,186,50,14
 END
@@ -446,7 +446,7 @@ BEGIN
     LTEXT           WC_STATIC,IDC_PROP_SOURCE,68,226,142,10
     LTEXT           "Clone of:",IDC_PROP_CLONEOF_TEXT,12,236,50,10
     LTEXT           WC_STATIC,IDC_PROP_CLONEOF,68,236,142,30,SS_NOPREFIX
-    PUSHBUTTON   	"OK",IDOK,84,274,50,14
+    PUSHBUTTON       "OK",IDOK,84,274,50,14
 END
 
 IDD_GAME_AUDIT DIALOGEX 0, 0, 220, 278
@@ -464,7 +464,7 @@ BEGIN
     EDITTEXT        IDC_ROM_DETAILS,12,60,196,80,ES_MULTILINE | WS_BORDER | WS_VSCROLL | NOT WS_TABSTOP
     GROUPBOX        "Audit details",IDC_STATIC,6,152,208,100
     EDITTEXT        IDC_AUDIT_DETAILS_PROP,12,164,196,80,ES_MULTILINE | WS_BORDER | WS_VSCROLL | NOT WS_TABSTOP
-    PUSHBUTTON   	"OK",IDOK,84,258,50,14
+    PUSHBUTTON       "OK",IDOK,84,258,50,14
 END
 
 IDD_PROP_DISPLAY DIALOGEX 0, 0, 220, 280
@@ -596,7 +596,7 @@ BEGIN
     EDITTEXT         IDC_BGFX_CHAINS,10,150,200,14,ES_LEFT | WS_BORDER
     PUSHBUTTON      "Select chain",IDC_SELECT_BGFX,10,168,60,14,0,0
     PUSHBUTTON      "Reset chain",IDC_RESET_BGFX,150,168,60,14,0,0
-	PUSHBUTTON      "Reset",IDC_PROP_RESET,4,282,98,14,0,0
+    PUSHBUTTON      "Reset",IDC_PROP_RESET,4,282,98,14,0,0
     PUSHBUTTON      "Restore default options",IDC_USE_DEFAULT,118,282,98,14,0,0
 END
 
@@ -660,11 +660,11 @@ BEGIN
     GROUPBOX        "In Game MAME interface language",IDC_STATIC,4,124,212,28
     COMBOBOX        IDC_LANGUAGE,10,134,200,62,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP,0
     CONTROL         "Enable internal LUA plugins",IDC_PLUGINS,WC_BUTTON,BS_AUTOCHECKBOX | WS_TABSTOP,10,156,104,10,0
-	GROUPBOX        "Enabled plugins",IDC_STATIC,4,168,212,48
+    GROUPBOX        "Enabled plugins",IDC_STATIC,4,168,212,48
     EDITTEXT        IDC_PLUGIN,10,178,200,14,ES_LEFT | WS_BORDER
     COMBOBOX        IDC_SELECT_PLUGIN,10,197,70,62,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP,0
     PUSHBUTTON      "Reset plugins",IDC_RESET_PLUGIN,140,196,70,14,0,0
-	PUSHBUTTON      "Reset",IDC_PROP_RESET,4,282,98,14,0,0
+    PUSHBUTTON      "Reset",IDC_PROP_RESET,4,282,98,14,0,0
     PUSHBUTTON      "Restore default options",IDC_USE_DEFAULT,118,282,98,14,0,0
 END
 
@@ -692,10 +692,10 @@ BEGIN
     CONTROL         "Dual lightguns",IDC_DUAL_LIGHTGUN,WC_BUTTON,BS_AUTOCHECKBOX | WS_TABSTOP,120,98,88,10,0
     CONTROL         "Multiple keyboards",IDC_MULTIKEYBOARD,WC_BUTTON,BS_AUTOCHECKBOX | WS_TABSTOP,120,110,78,10,0
     CONTROL         "Multiple mice",IDC_MULTIMOUSE,WC_BUTTON,BS_AUTOCHECKBOX | WS_TABSTOP,120,122,58,10,0
-	GROUPBOX        "Joystick map",IDC_STATIC,4,146,212,48
+    GROUPBOX        "Joystick map",IDC_STATIC,4,146,212,48
     EDITTEXT        IDC_JOYSTICKMAP,10,156,200,14,ES_AUTOHSCROLL | WS_BORDER,0
     PUSHBUTTON      "Reset joystick map",IDC_RESET_JOYSTICKMAP,72,174,70,14,0,0
-	PUSHBUTTON      "Reset",IDC_PROP_RESET,4,282,98,14,0,0
+    PUSHBUTTON      "Reset",IDC_PROP_RESET,4,282,98,14,0,0
     PUSHBUTTON      "Restore default options",IDC_USE_DEFAULT,118,282,98,14,0,0
 END
 
@@ -816,7 +816,7 @@ BEGIN
     CONTROL         "Control panels",IDC_CPANELS,WC_BUTTON,BS_AUTOCHECKBOX | WS_TABSTOP,120,86,84,10,0
     CONTROL         "Marquees",IDC_MARQUEES,WC_BUTTON,BS_AUTOCHECKBOX | WS_TABSTOP,120,98,84,10,0
     CONTROL         "Crop artwork",IDC_ARTWORK_CROP,WC_BUTTON,BS_AUTOCHECKBOX | WS_TABSTOP,120,110,54,10,0
-	PUSHBUTTON      "Reset",IDC_PROP_RESET,4,282,98,14,0,0
+    PUSHBUTTON      "Reset",IDC_PROP_RESET,4,282,98,14,0,0
     PUSHBUTTON      "Restore default options",IDC_USE_DEFAULT,118,282,98,14,0,0
 END
 
@@ -898,11 +898,11 @@ BEGIN
     CONTROL         "Display NO ROMS games always as available",IDC_DISPLAY_NO_ROMS,WC_BUTTON,BS_AUTOCHECKBOX | WS_TABSTOP,12,86,168,10
     CONTROL         "Enable new faster Audit All Games method",IDC_ENABLE_FASTAUDIT,WC_BUTTON,BS_AUTOCHECKBOX | WS_TABSTOP,12,100,168,10
     CONTROL         "Enable scan of 7-Zip archives",IDC_ENABLE_SEVENZIP,WC_BUTTON,BS_AUTOCHECKBOX | WS_TABSTOP,24,114,154,10
-	GROUPBOX        "Display info on tab",IDC_STATIC,6,132,180,28
+    GROUPBOX        "Display info on tab",IDC_STATIC,6,132,180,28
     COMBOBOX        IDC_HISTORY_TAB,12,142,168,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Bookkeeping",IDC_STATIC,192,4,180,38
     CONTROL         "Reset all play statistics",IDC_RESET_PLAYSTATS,WC_BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP,198,16,120,10
-	GROUPBOX        "Screenshot area",IDC_STATIC,192,46,180,114
+    GROUPBOX        "Screenshot area",IDC_STATIC,192,46,180,114
     CONTROL         "Stretch screenshot larger than natural size",IDC_STRETCH_SCREENSHOT_LARGER,WC_BUTTON,BS_AUTOCHECKBOX | WS_TABSTOP,198,58,170,10,0
     GROUPBOX        "Screenshot cycle time in seconds",IDC_STATIC,198,72,168,28
     CONTROL         "",IDC_CYCLETIMESEC,TRACKBAR_CLASS,TBS_AUTOTICKS | WS_TABSTOP,206,84,134,10,0
@@ -950,74 +950,74 @@ END
 
 IDA_TAB_KEYS ACCELERATORS
 BEGIN
-    "1",            ID_VIEW_BYGAME,          	VIRTKEY, ALT, NOINVERT
+    "1",            ID_VIEW_BYGAME,              VIRTKEY, ALT, NOINVERT
     "2",            ID_VIEW_BYDIRECTORY,        VIRTKEY, ALT, NOINVERT
-    "3",            ID_VIEW_BYSOURCE,          	VIRTKEY, ALT, NOINVERT
+    "3",            ID_VIEW_BYSOURCE,              VIRTKEY, ALT, NOINVERT
     "4",            ID_VIEW_BYMANUFACTURER,     VIRTKEY, ALT, NOINVERT
-    "5",            ID_VIEW_BYYEAR,          	VIRTKEY, ALT, NOINVERT
+    "5",            ID_VIEW_BYYEAR,              VIRTKEY, ALT, NOINVERT
     "6",            ID_VIEW_BYTIMESPLAYED,      VIRTKEY, ALT, NOINVERT
     "1",            ID_OPTIONS_TREE_FONT,       VIRTKEY, CONTROL, NOINVERT
-    "2",            ID_OPTIONS_FONT,        	VIRTKEY, CONTROL, NOINVERT
+    "2",            ID_OPTIONS_FONT,            VIRTKEY, CONTROL, NOINVERT
     "3",            ID_OPTIONS_HISTORY_FONT,    VIRTKEY, CONTROL, NOINVERT
     "4",            ID_OPTIONS_FOLDERS_COLOR,   VIRTKEY, CONTROL, NOINVERT
     "5",            ID_OPTIONS_LIST_COLOR,      VIRTKEY, CONTROL, NOINVERT
     "6",            ID_OPTIONS_HISTORY_COLOR,   VIRTKEY, CONTROL, NOINVERT
-    "A",            ID_GAME_AUDIT,          	VIRTKEY, ALT, NOINVERT
-    "A",            ID_FILE_AUDIT,          	VIRTKEY, CONTROL, NOINVERT
-	"B",            ID_VIEW_PAGETAB,        	VIRTKEY, ALT, NOINVERT
-	"C",			ID_CUSTOMIZE_FIELDS,		VIRTKEY, CONTROL, NOINVERT
-    "D",            ID_OPTIONS_DIR, 			VIRTKEY, CONTROL, NOINVERT
+    "A",            ID_GAME_AUDIT,              VIRTKEY, ALT, NOINVERT
+    "A",            ID_FILE_AUDIT,              VIRTKEY, CONTROL, NOINVERT
+    "B",            ID_VIEW_PAGETAB,            VIRTKEY, ALT, NOINVERT
+    "C",            ID_CUSTOMIZE_FIELDS,        VIRTKEY, CONTROL, NOINVERT
+    "D",            ID_OPTIONS_DIR,             VIRTKEY, CONTROL, NOINVERT
     "D",            ID_FOLDER_SOURCEPROPERTIES, VIRTKEY, ALT, NOINVERT
-    "E",            ID_TOOLBAR_EDIT,        	VIRTKEY, CONTROL, NOINVERT
-    "F",            ID_VIEW_FOLDERS,        	VIRTKEY, ALT, NOINVERT
-    "F",            ID_CONTEXT_FILTERS,     	VIRTKEY, CONTROL, NOINVERT
-	"G",            ID_ENABLE_INDENT,          	VIRTKEY, CONTROL, NOINVERT
-    "G",            ID_GAME_PROPERTIES, 		VIRTKEY, ALT, NOINVERT
-	"I",            ID_GAME_INFO,          		VIRTKEY, ALT, NOINVERT
-    "I",            ID_OPTIONS_INTERFACE, 		VIRTKEY, CONTROL, NOINVERT
-    "L",            ID_VIEW_ICONS_LARGE,     	VIRTKEY, CONTROL, NOINVERT
-    "M",            ID_PLAY_M1,     			VIRTKEY, ALT, NOINVERT
-    "M",            ID_VIDEO_SNAP,     			VIRTKEY, CONTROL, NOINVERT
-    "O",            ID_OPTIONS_DEFAULTS, 		VIRTKEY, CONTROL, NOINVERT
-    "O",            ID_FILE_PLAY, 				VIRTKEY, ALT, NOINVERT
-    "P",            ID_VIEW_PICTURE_AREA,   	VIRTKEY, ALT, NOINVERT
-    "P",            ID_FOLDER_PROPERTIES,   	VIRTKEY, CONTROL, NOINVERT
-    "R",            ID_CONTEXT_SELECT_RANDOM, 	VIRTKEY, ALT, NOINVERT
-    "R",            ID_OPTIONS_RESET_DEFAULTS, 	VIRTKEY, CONTROL, NOINVERT
-    "S",            ID_VIEW_STATUS,         	VIRTKEY, ALT, NOINVERT
-    "S",            ID_VIEW_ICONS_SMALL,     	VIRTKEY, CONTROL, NOINVERT
-    "T",            ID_VIEW_TOOLBARS,       	VIRTKEY, ALT, NOINVERT
-    "U",            ID_FOLDER_AUDIT,        	VIRTKEY, CONTROL, NOINVERT
+    "E",            ID_TOOLBAR_EDIT,            VIRTKEY, CONTROL, NOINVERT
+    "F",            ID_VIEW_FOLDERS,            VIRTKEY, ALT, NOINVERT
+    "F",            ID_CONTEXT_FILTERS,         VIRTKEY, CONTROL, NOINVERT
+    "G",            ID_ENABLE_INDENT,              VIRTKEY, CONTROL, NOINVERT
+    "G",            ID_GAME_PROPERTIES,         VIRTKEY, ALT, NOINVERT
+    "I",            ID_GAME_INFO,                  VIRTKEY, ALT, NOINVERT
+    "I",            ID_OPTIONS_INTERFACE,         VIRTKEY, CONTROL, NOINVERT
+    "L",            ID_VIEW_ICONS_LARGE,         VIRTKEY, CONTROL, NOINVERT
+    "M",            ID_PLAY_M1,                 VIRTKEY, ALT, NOINVERT
+    "M",            ID_VIDEO_SNAP,                 VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_OPTIONS_DEFAULTS,         VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_PLAY,                 VIRTKEY, ALT, NOINVERT
+    "P",            ID_VIEW_PICTURE_AREA,       VIRTKEY, ALT, NOINVERT
+    "P",            ID_FOLDER_PROPERTIES,       VIRTKEY, CONTROL, NOINVERT
+    "R",            ID_CONTEXT_SELECT_RANDOM,     VIRTKEY, ALT, NOINVERT
+    "R",            ID_OPTIONS_RESET_DEFAULTS,     VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_VIEW_STATUS,             VIRTKEY, ALT, NOINVERT
+    "S",            ID_VIEW_ICONS_SMALL,         VIRTKEY, CONTROL, NOINVERT
+    "T",            ID_VIEW_TOOLBARS,           VIRTKEY, ALT, NOINVERT
+    "U",            ID_FOLDER_AUDIT,            VIRTKEY, CONTROL, NOINVERT
     "V",            ID_CONTEXT_RESET_PLAYCOUNT, VIRTKEY, ALT, NOINVERT
-    "W",            ID_CONTEXT_ADD_CUSTOM,  	VIRTKEY, ALT, NOINVERT
+    "W",            ID_CONTEXT_ADD_CUSTOM,      VIRTKEY, ALT, NOINVERT
     "X",            ID_CONTEXT_REMOVE_CUSTOM,   VIRTKEY, ALT, NOINVERT
     "Y",            ID_CONTEXT_RESET_PLAYTIME,  VIRTKEY, ALT, NOINVERT
-    "Z",            ID_VIEW_ZIP,        		VIRTKEY, ALT, NOINVERT
-	VK_F1,          ID_HELP_CONTENTS,       	VIRTKEY, NOINVERT
-	VK_F2,			ID_CONTEXT_RENAME_CUSTOM,	VIRTKEY, NOINVERT
-	VK_F3,          ID_HELP_TROUBLE,       		VIRTKEY, NOINVERT
-	VK_F1,          ID_FILE_PLAY_BACK,       	VIRTKEY, ALT, NOINVERT
-	VK_F2,			ID_PLAY_AUDIO,				VIRTKEY, ALT, NOINVERT
-	VK_F3,          ID_PLAY_MNG,       			VIRTKEY, ALT, NOINVERT
-    VK_F4,          ID_FILE_EXIT,       		VIRTKEY, ALT, NOINVERT
-    VK_F5,          ID_PLAY_VIDEO,     			VIRTKEY, ALT, NOINVERT
-	VK_F1,          ID_FILE_PLAY_RECORD,       	VIRTKEY, CONTROL, NOINVERT
-	VK_F2,			ID_FILE_PLAY_RECORD_WAVE,	VIRTKEY, CONTROL, NOINVERT
-	VK_F3,          ID_FILE_PLAY_RECORD_MNG,    VIRTKEY, CONTROL, NOINVERT
+    "Z",            ID_VIEW_ZIP,                VIRTKEY, ALT, NOINVERT
+    VK_F1,          ID_HELP_CONTENTS,           VIRTKEY, NOINVERT
+    VK_F2,            ID_CONTEXT_RENAME_CUSTOM,    VIRTKEY, NOINVERT
+    VK_F3,          ID_HELP_TROUBLE,               VIRTKEY, NOINVERT
+    VK_F1,          ID_FILE_PLAY_BACK,           VIRTKEY, ALT, NOINVERT
+    VK_F2,            ID_PLAY_AUDIO,                VIRTKEY, ALT, NOINVERT
+    VK_F3,          ID_PLAY_MNG,                   VIRTKEY, ALT, NOINVERT
+    VK_F4,          ID_FILE_EXIT,               VIRTKEY, ALT, NOINVERT
+    VK_F5,          ID_PLAY_VIDEO,                 VIRTKEY, ALT, NOINVERT
+    VK_F1,          ID_FILE_PLAY_RECORD,           VIRTKEY, CONTROL, NOINVERT
+    VK_F2,            ID_FILE_PLAY_RECORD_WAVE,    VIRTKEY, CONTROL, NOINVERT
+    VK_F3,          ID_FILE_PLAY_RECORD_MNG,    VIRTKEY, CONTROL, NOINVERT
     VK_F5,          ID_FILE_PLAY_RECORD_AVI,    VIRTKEY, CONTROL, NOINVERT
-    VK_F5,          ID_UPDATE_GAMELIST,     	VIRTKEY, NOINVERT
-	VK_F6,          ID_HELP_WHATS_NEW,       	VIRTKEY, NOINVERT
-	VK_F7,          ID_MAME_HOMEPAGE,       	VIRTKEY, NOINVERT
-    VK_F7,          ID_FILE_LOADSTATE,     		VIRTKEY, ALT, NOINVERT
-    VK_F8,         	ID_MAME_FAQ,     			VIRTKEY, NOINVERT
-    VK_F8,         	ID_FILE_GAMELIST,     		VIRTKEY, ALT, NOINVERT
-    VK_F9,          ID_HELP_ABOUT,     			VIRTKEY, NOINVERT
-    VK_F9,          ID_FILE_ROMSLIST,     		VIRTKEY, ALT, NOINVERT
-    VK_F11,         ID_VIEW_FULLSCREEN,     	VIRTKEY, NOINVERT
-    VK_DOWN,        ID_SORT_DESCENDING,     	VIRTKEY, ALT, NOINVERT
-    VK_NEXT,        ID_UI_HISTORY_DOWN,     	VIRTKEY, CONTROL, NOINVERT
-    VK_UP,        	ID_SORT_ASCENDING,     		VIRTKEY, ALT, NOINVERT
-    VK_PRIOR,       ID_UI_HISTORY_UP,       	VIRTKEY, CONTROL, NOINVERT
+    VK_F5,          ID_UPDATE_GAMELIST,         VIRTKEY, NOINVERT
+    VK_F6,          ID_HELP_WHATS_NEW,           VIRTKEY, NOINVERT
+    VK_F7,          ID_MAME_HOMEPAGE,           VIRTKEY, NOINVERT
+    VK_F7,          ID_FILE_LOADSTATE,             VIRTKEY, ALT, NOINVERT
+    VK_F8,             ID_MAME_FAQ,                 VIRTKEY, NOINVERT
+    VK_F8,             ID_FILE_GAMELIST,             VIRTKEY, ALT, NOINVERT
+    VK_F9,          ID_HELP_ABOUT,                 VIRTKEY, NOINVERT
+    VK_F9,          ID_FILE_ROMSLIST,             VIRTKEY, ALT, NOINVERT
+    VK_F11,         ID_VIEW_FULLSCREEN,         VIRTKEY, NOINVERT
+    VK_DOWN,        ID_SORT_DESCENDING,         VIRTKEY, ALT, NOINVERT
+    VK_NEXT,        ID_UI_HISTORY_DOWN,         VIRTKEY, CONTROL, NOINVERT
+    VK_UP,            ID_SORT_ASCENDING,             VIRTKEY, ALT, NOINVERT
+    VK_PRIOR,       ID_UI_HISTORY_UP,           VIRTKEY, CONTROL, NOINVERT
 END
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1026,62 +1026,62 @@ END
 //
 
 IDB_TOOLBAR             BITMAP                  "res\\toolbar.bmp"
-IDB_SNAPSHOT	    	BITMAP  				"res\\snapshot.bmp"
-IDB_SPLASH				BITMAP  				"res\\splash.bmp"
-IDB_ABOUTMENU			BITMAP					"res\\aboutmenu.bmp"
-IDB_CUSTOM				BITMAP					"res\\custom.bmp"
-IDB_DIRECTORIES			BITMAP					"res\\directories.bmp"
-IDB_EXIT				BITMAP					"res\\exit.bmp"
-IDB_FULLSCREEN			BITMAP					"res\\fullscreen.bmp"
-IDB_INTERFACE			BITMAP					"res\\interface.bmp"
-IDB_HELP				BITMAP					"res\\help.bmp"
-IDB_MAMEHOME			BITMAP					"res\\mamehome.bmp"
-IDB_PLAY				BITMAP					"res\\play.bmp"
-IDB_PLAYM1				BITMAP					"res\\playm1.bmp"
-IDB_OPTIONS				BITMAP					"res\\options.bmp"
-IDB_REFRESH				BITMAP					"res\\refresh.bmp"
-IDB_ZIP					BITMAP					"res\\zip.bmp"
+IDB_SNAPSHOT            BITMAP                  "res\\snapshot.bmp"
+IDB_SPLASH                BITMAP                  "res\\splash.bmp"
+IDB_ABOUTMENU            BITMAP                    "res\\aboutmenu.bmp"
+IDB_CUSTOM                BITMAP                    "res\\custom.bmp"
+IDB_DIRECTORIES            BITMAP                    "res\\directories.bmp"
+IDB_EXIT                BITMAP                    "res\\exit.bmp"
+IDB_FULLSCREEN            BITMAP                    "res\\fullscreen.bmp"
+IDB_INTERFACE            BITMAP                    "res\\interface.bmp"
+IDB_HELP                BITMAP                    "res\\help.bmp"
+IDB_MAMEHOME            BITMAP                    "res\\mamehome.bmp"
+IDB_PLAY                BITMAP                    "res\\play.bmp"
+IDB_PLAYM1                BITMAP                    "res\\playm1.bmp"
+IDB_OPTIONS                BITMAP                    "res\\options.bmp"
+IDB_REFRESH                BITMAP                    "res\\refresh.bmp"
+IDB_ZIP                    BITMAP                    "res\\zip.bmp"
 IDB_MANUAL              BITMAP                  "res\\pdf.bmp"
-IDB_SAVELIST			BITMAP					"res\\savelist.bmp"
-IDB_SAVEROMS			BITMAP					"res\\saveroms.bmp"
-IDB_PLAYBACK			BITMAP					"res\\playback.bmp"
-IDB_PROPERTIES			BITMAP					"res\\properties.bmp"
-IDB_AUDIT				BITMAP					"res\\audit.bmp"
-IDB_VIDEO				BITMAP					"res\\video.bmp"
-IDB_FONTS				BITMAP					"res\\fonts.bmp"
-IDB_FOLDERS				BITMAP					"res\\folders.bmp"
-IDB_SORT				BITMAP					"res\\sort.bmp"
-IDB_DRIVER				BITMAP					"res\\driver.bmp"
-IDB_FAQ					BITMAP					"res\\faq.bmp"
-IDB_TABS				BITMAP					"res\\tabs.bmp"
-IDB_TROUBLE				BITMAP					"res\\trouble.bmp"
-IDB_COUNT				BITMAP					"res\\count.bmp"
-IDB_RELEASE				BITMAP					"res\\release.bmp"
-IDB_TIME				BITMAP					"res\\time.bmp"
-IDB_DESCRIPTION			BITMAP					"res\\description.bmp"
-IDB_ROM					BITMAP					"res\\rom.bmp"
-IDB_SOURCE				BITMAP					"res\\source.bmp"
-IDB_MANUFACTURER		BITMAP					"res\\manufacturer.bmp"
-IDB_YEAR				BITMAP					"res\\year.bmp"
-IDB_PLAYWAV				BITMAP					"res\\playwav.bmp"
-IDB_FONT1				BITMAP					"res\\font1.bmp"
-IDB_FONT2				BITMAP					"res\\font2.bmp"
-IDB_INFOBACK			BITMAP					"res\\infoback.bmp"
-IDB_LISTBACK			BITMAP					"res\\listback.bmp"
-IDB_TREEBACK			BITMAP					"res\\treeback.bmp"
-IDB_ASCENDING			BITMAP					"res\\ascending.bmp"
-IDB_FIELDS				BITMAP					"res\\fields.bmp"
-IDB_RECAVI				BITMAP					"res\\recavi.bmp"
-IDB_RECINPUT			BITMAP					"res\\recinput.bmp"
-IDB_RECWAV				BITMAP					"res\\recwav.bmp"
-IDB_PLAYMNG				BITMAP					"res\\playmng.bmp"
-IDB_RANDOM				BITMAP					"res\\random.bmp"
-IDB_RECMNG				BITMAP					"res\\recmng.bmp"
-IDB_SAVESTATE			BITMAP					"res\\savestate.bmp"
-IDB_FILTERS				BITMAP					"res\\filters.bmp"
-IDB_REMOVE				BITMAP					"res\\remove.bmp"
-IDB_RENAME				BITMAP					"res\\rename.bmp"
-IDB_RESET				BITMAP					"res\\reset.bmp"
+IDB_SAVELIST            BITMAP                    "res\\savelist.bmp"
+IDB_SAVEROMS            BITMAP                    "res\\saveroms.bmp"
+IDB_PLAYBACK            BITMAP                    "res\\playback.bmp"
+IDB_PROPERTIES            BITMAP                    "res\\properties.bmp"
+IDB_AUDIT                BITMAP                    "res\\audit.bmp"
+IDB_VIDEO                BITMAP                    "res\\video.bmp"
+IDB_FONTS                BITMAP                    "res\\fonts.bmp"
+IDB_FOLDERS                BITMAP                    "res\\folders.bmp"
+IDB_SORT                BITMAP                    "res\\sort.bmp"
+IDB_DRIVER                BITMAP                    "res\\driver.bmp"
+IDB_FAQ                    BITMAP                    "res\\faq.bmp"
+IDB_TABS                BITMAP                    "res\\tabs.bmp"
+IDB_TROUBLE                BITMAP                    "res\\trouble.bmp"
+IDB_COUNT                BITMAP                    "res\\count.bmp"
+IDB_RELEASE                BITMAP                    "res\\release.bmp"
+IDB_TIME                BITMAP                    "res\\time.bmp"
+IDB_DESCRIPTION            BITMAP                    "res\\description.bmp"
+IDB_ROM                    BITMAP                    "res\\rom.bmp"
+IDB_SOURCE                BITMAP                    "res\\source.bmp"
+IDB_MANUFACTURER        BITMAP                    "res\\manufacturer.bmp"
+IDB_YEAR                BITMAP                    "res\\year.bmp"
+IDB_PLAYWAV                BITMAP                    "res\\playwav.bmp"
+IDB_FONT1                BITMAP                    "res\\font1.bmp"
+IDB_FONT2                BITMAP                    "res\\font2.bmp"
+IDB_INFOBACK            BITMAP                    "res\\infoback.bmp"
+IDB_LISTBACK            BITMAP                    "res\\listback.bmp"
+IDB_TREEBACK            BITMAP                    "res\\treeback.bmp"
+IDB_ASCENDING            BITMAP                    "res\\ascending.bmp"
+IDB_FIELDS                BITMAP                    "res\\fields.bmp"
+IDB_RECAVI                BITMAP                    "res\\recavi.bmp"
+IDB_RECINPUT            BITMAP                    "res\\recinput.bmp"
+IDB_RECWAV                BITMAP                    "res\\recwav.bmp"
+IDB_PLAYMNG                BITMAP                    "res\\playmng.bmp"
+IDB_RANDOM                BITMAP                    "res\\random.bmp"
+IDB_RECMNG                BITMAP                    "res\\recmng.bmp"
+IDB_SAVESTATE            BITMAP                    "res\\savestate.bmp"
+IDB_FILTERS                BITMAP                    "res\\filters.bmp"
+IDB_REMOVE                BITMAP                    "res\\remove.bmp"
+IDB_RENAME                BITMAP                    "res\\rename.bmp"
+IDB_RESET                BITMAP                    "res\\reset.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1096,4 +1096,4 @@ IDC_CURSOR_HSPLIT       CURSOR                  "res\\splith.cur"
 //
 
 1                       RT_MANIFEST             "res\\mameui.manifest"
-2                       ICON         			"res\\mameui.ico"
+2                       ICON                     "res\\mameui.ico"

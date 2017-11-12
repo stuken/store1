@@ -4548,19 +4548,19 @@ static void UpdateMenu(HMENU hMenu)
 
 	if (lpFolder->m_dwFlags & F_CUSTOM)
 	{
-		EnableMenuItem(hMenu, ID_CONTEXT_REMOVE_CUSTOM,	MF_ENABLED);
-		EnableMenuItem(hMenu, ID_CONTEXT_RENAME_CUSTOM,	MF_ENABLED);
+		EnableMenuItem(hMenu, ID_CONTEXT_REMOVE_CUSTOM, MF_ENABLED);
+		EnableMenuItem(hMenu, ID_CONTEXT_RENAME_CUSTOM, MF_ENABLED);
 	}
 	else
 	{
-		EnableMenuItem(hMenu, ID_CONTEXT_REMOVE_CUSTOM,	MF_GRAYED);
-		EnableMenuItem(hMenu, ID_CONTEXT_RENAME_CUSTOM,	MF_GRAYED);
+		EnableMenuItem(hMenu, ID_CONTEXT_REMOVE_CUSTOM, MF_GRAYED);
+		EnableMenuItem(hMenu, ID_CONTEXT_RENAME_CUSTOM, MF_GRAYED);
 	}
 
 	if (lpFolder->m_dwFlags & F_INIEDIT)
-		EnableMenuItem(hMenu,ID_FOLDER_PROPERTIES,	MF_ENABLED);
+		EnableMenuItem(hMenu,ID_FOLDER_PROPERTIES, MF_ENABLED);
 	else
-		EnableMenuItem(hMenu,ID_FOLDER_PROPERTIES,	MF_GRAYED);
+		EnableMenuItem(hMenu,ID_FOLDER_PROPERTIES, MF_GRAYED);
 
 	CheckMenuRadioItem(hMenu, ID_VIEW_TAB_SCREENSHOT, ID_VIEW_TAB_HISTORY, ID_VIEW_TAB_SCREENSHOT + TabView_GetCurrentTab(hTabCtrl), MF_BYCOMMAND);
 

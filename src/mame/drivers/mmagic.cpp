@@ -1,6 +1,5 @@
 // license:GPL-2.0+
 // copyright-holders:Dirk Best
-// Sound code copyright: Robbbert //MAMEFX
 /***************************************************************************
 
     "Monkey Magic" ?? 1979 Nintendo
@@ -50,9 +49,9 @@
 
 #include "emu.h"
 #include "cpu/i8085/i8085.h"
+#include "sound/samples.h"
+#include "speaker.h"
 #include "screen.h"
-#include "sound/samples.h" //MAMEFX
-#include "speaker.h" //MAMEFX
 
 
 //**************************************************************************
@@ -74,14 +73,14 @@ public:
 		m_maincpu(*this, "maincpu"),
 		m_screen(*this, "screen"),
 		m_palette(*this, "palette"),
+		m_samples(*this,"samples"),
 		m_vram(*this, "vram"),
 		m_tiles(*this, "tiles"),
 		m_colors(*this, "colors"),
 		m_ball_x(0x00),
 		m_ball_y(0x00),
-		m_color(0x00)
-		, m_samples(*this, "samples") //MAMEFX
-		, m_audio_sw(0x80) //MAMEFX
+		m_color(0x00),
+		m_audio(0x00)
 	{}
 
 	DECLARE_READ8_MEMBER(vblank_r);
@@ -99,6 +98,7 @@ private:
 	required_device<cpu_device> m_maincpu;
 	required_device<screen_device> m_screen;
 	required_device<palette_device> m_palette;
+	required_device<samples_device> m_samples;
 	required_shared_ptr<uint8_t> m_vram;
 	required_region_ptr<uint8_t> m_tiles;
 	required_region_ptr<uint8_t> m_colors;
@@ -106,8 +106,7 @@ private:
 	uint8_t m_ball_x;
 	uint8_t m_ball_y;
 	uint8_t m_color;
-	required_device<samples_device> m_samples; //MAMEFX
-	uint8_t m_audio_sw; //MAMEFX
+	uint8_t m_audio;
 };
 
 
@@ -251,7 +250,7 @@ uint32_t mmagic_state::screen_update(screen_device &screen, bitmap_rgb32 &bitmap
 //**************************************************************************
 //  AUDIO EMULATION
 //**************************************************************************
-//MAMEFX start
+
 static const char *const mmagic_sample_names[] =
 {
 	"*mmagic",
@@ -263,21 +262,24 @@ static const char *const mmagic_sample_names[] =
 	"6",
 	"6-2",
 	"1",
-	0
+	nullptr
 };
 
 WRITE8_MEMBER( mmagic_state::audio_w )
 {
+	if (LOG_AUDIO)
+		logerror("audio_w: %02x\n", data);
+
 	data ^= 0xff;
-	if (data != m_audio_sw)
+	if (data != m_audio)
 	{
 		if (BIT(data, 7))
-			m_samples->start(0, m_audio_sw & 7);
+			m_samples->start(0, m_audio & 7);
 
-		m_audio_sw = data;
+		m_audio = data;
 	}
 }
-//MAMEFX end
+
 
 //**************************************************************************
 //  DRIVER INIT
@@ -289,6 +291,7 @@ void mmagic_state::machine_start()
 	save_item(NAME(m_ball_x));
 	save_item(NAME(m_ball_y));
 	save_item(NAME(m_color));
+	save_item(NAME(m_audio));
 }
 
 
@@ -298,7 +301,7 @@ void mmagic_state::machine_start()
 
 static MACHINE_CONFIG_START( mmagic )
 	// basic machine hardware
-	MCFG_CPU_ADD("maincpu", I8085A, XTAL_6_144MHz)  // NEC D8085A
+	MCFG_CPU_ADD("maincpu", I8085A, XTAL_6_144MHz) // NEC D8085A
 	MCFG_CPU_PROGRAM_MAP(mmagic_mem)
 	MCFG_CPU_IO_MAP(mmagic_io)
 
@@ -310,14 +313,12 @@ static MACHINE_CONFIG_START( mmagic )
 	MCFG_PALETTE_ADD_3BIT_RGB("palette")
 
 	// sound hardware
-	// TODO: SN76477 + discrete sound
-//MAMEFX start
 	MCFG_SPEAKER_STANDARD_MONO("mono")
 	MCFG_SOUND_ADD("samples", SAMPLES, 0)
 	MCFG_SAMPLES_CHANNELS(1)
 	MCFG_SAMPLES_NAMES(mmagic_sample_names)
-	MCFG_SOUND_ROUTE(ALL_OUTPUTS, "mono", 0.50)
-//MAMEFX end
+	MCFG_SOUND_ROUTE(ALL_OUTPUTS, "mono", 0.5)
+	// TODO: replace samples with SN76477 + discrete sound
 MACHINE_CONFIG_END
 
 
@@ -349,4 +350,4 @@ ROM_END
 //**************************************************************************
 
 //    YEAR  NAME    PARENT  MACHINE INPUT   CLASS         INIT  ROT     COMPANY     FULLNAME        FLAGS
-GAME( 1979, mmagic, 0,      mmagic, mmagic, mmagic_state, 0,    ROT270, "Nintendo", "Monkey Magic", MACHINE_SUPPORTS_SAVE ) //MAMEFX sound flag removed
+GAME( 1979, mmagic, 0,      mmagic, mmagic, mmagic_state, 0,    ROT270, "Nintendo", "Monkey Magic", MACHINE_SUPPORTS_SAVE | MACHINE_IMPERFECT_SOUND )

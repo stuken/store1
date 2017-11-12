@@ -249,7 +249,7 @@ intptr_t CALLBACK InterfaceDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARA
 				(void)ComboBox_SetItemData(GetDlgItem(hDlg, IDC_HISTORY_TAB), i, g_ComboBoxHistoryTab[i].m_pData);
 			}
 
-			if (GetHistoryTab() < MAX_TAB_TYPES) 
+			if (GetHistoryTab() < MAX_TAB_TYPES)
 				(void)ComboBox_SetCurSel(GetDlgItem(hDlg, IDC_HISTORY_TAB), GetHistoryTab());
 			else 
 				(void)ComboBox_SetCurSel(GetDlgItem(hDlg, IDC_HISTORY_TAB), GetHistoryTab() - TAB_SUBTRACT);
