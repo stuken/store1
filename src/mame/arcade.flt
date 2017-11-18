@@ -2,61 +2,61 @@
 1943.cpp
 1945kiii.cpp
 20pacgal.cpp
-//24cdjuke.cpp
+//24cdjuke.cpp  // mechanical
 2mindril.cpp
 30test.cpp
 39in1.cpp
-//3do.cpp
+//3do.cpp      // check, chd
 3x3puzzl.cpp
 40love.cpp
-//4enlinea.cpp
+//4enlinea.cpp  // check
 4enraya.cpp
-//4roses.cpp
-//5clown.cpp
+//4roses.cpp    // check
+//5clown.cpp    // poker
 8080bw.cpp
 88games.cpp
-//a1supply.cpp
-//ace.cpp
-//acefruit.cpp
-//aces1.cpp
-//acesp.cpp
-//acommand.cpp
+//a1supply.cpp  // check
+ace.cpp
+//acefruit.cpp  // fruit
+//aces1.cpp     // fruit
+//acesp.cpp     // fruit
+acommand.cpp
 actfancr.cpp
-//adp.cpp
+adp.cpp
 aeroboto.cpp
 aerofgt.cpp
-//age_candy.cpp
+//age_candy.cpp  // mechanical
 airbustr.cpp
-//airraid.cpp
+airraid.cpp
 ajax.cpp
 albazc.cpp
 albazg.cpp
 aleck64.cpp
-//aleisttl.cpp
-//alg.cpp
+//aleisttl.cpp  // check
+alg.cpp
 alien.cpp
 aliens.cpp
 alinvade.cpp
-//allied.cpp
+//allied.cpp    // pinball
 alpha68k.cpp
-//alvg.cpp
-//amaticmg.cpp
+//alvg.cpp      // pinball
+amaticmg.cpp
 ambush.cpp
-//amerihok.cpp
-//ampoker2.cpp
+//amerihok.cpp   // check
+//ampoker2.cpp   // poker
 amspdwy.cpp
-//amusco.cpp
-//anes.cpp
+//amusco.cpp     // poker
+//anes.cpp       // check
 angelkds.cpp
 appoooh.cpp
 aquarium.cpp
 arabian.cpp
-//arachnid.cpp
+arachnid.cpp
 arcadecl.cpp
 argus.cpp
-//aristmk4.cpp
-//aristmk5.cpp
-//aristmk6.cpp
+//aristmk4.cpp   // fruit
+//aristmk5.cpp   // fruit
+//aristmk6.cpp   // fruit
 arkanoid.cpp
 armedf.cpp
 arsystems.cpp
@@ -65,14 +65,14 @@ ashnojoe.cpp
 asterix.cpp
 asteroid.cpp
 astinvad.cpp
-//astrafr.cpp
-//astrcorp.cpp
+//astrafr.cpp    // fruit
+astrcorp.cpp
 astrocde.cpp
 astrof.cpp
-//astropc.cpp
+//astropc.cpp    // check
 asuka.cpp
-//atari_s1.cpp
-//atari_s2.cpp
+//atari_s1.cpp   // pinball
+//atari_s2.cpp   // pinball
 atarifb.cpp
 atarig1.cpp
 atarig42.cpp
@@ -81,24 +81,24 @@ atarigx2.cpp
 atarisy1.cpp
 atarisy2.cpp
 atarisy4.cpp
-//atarittl.cpp
+//atarittl.cpp   // check
 atetris.cpp
-//atlantis.cpp
-//atronic.cpp
+//atlantis.cpp   // chd, check
+//atronic.cpp    // check
 attckufo.cpp
-//atvtrack.cpp
+//atvtrack.cpp   // check
 avalnche.cpp
-//avt.cpp
+avt.cpp
 aztarac.cpp
 backfire.cpp
 badlands.cpp
 bagman.cpp
-//bailey.cpp
+//bailey.cpp    // check
 balsente.cpp
 bankp.cpp
 baraduke.cpp
 barata.cpp
-//barni.cpp
+//barni.cpp     // pinball
 bartop52.cpp
 batman.cpp
 battlane.cpp
@@ -109,33 +109,33 @@ bbusters.cpp
 beaminv.cpp
 beathead.cpp
 beezer.cpp
-//belatra.cpp
+//belatra.cpp    // check
 berzerk.cpp
 bestleag.cpp
-//bfcobra.cpp
-//bfm_ad5.cpp
-//bfm_sc1.cpp
-//bfm_sc2.cpp
-//bfm_sc4.cpp
-//bfm_sc5.cpp
-//bfm_swp.cpp
-//bfmsys83.cpp
-//bfmsys85.cpp
-//bgt.cpp
+bfcobra.cpp
+//bfm_ad5.cpp    // fruit
+//bfm_sc1.cpp    // fruit
+//bfm_sc2.cpp    // fruit
+//bfm_sc4.cpp    // fruit
+//bfm_sc5.cpp    // fruit
+//bfm_swp.cpp    // fruit
+//bfmsys83.cpp   // fruit
+//bfmsys85.cpp   // fruit
+//bgt.cpp        // check
 big10.cpp
 bigevglf.cpp
 bigstrkb.cpp
-//bingo.cpp
-//bingoc.cpp
-//bingoman.cpp
-//bingor.cpp
-//bingowav.cpp
+//bingo.cpp      // check
+//bingoc.cpp     // check
+//bingoman.cpp   // check
+//bingor.cpp     // check
+//bingowav.cpp   // check
 bionicc.cpp
 bishi.cpp
 bking.cpp
 blackt96.cpp
 bladestl.cpp
-//blitz68k.cpp
+//blitz68k.cpp   // fruit&poker
 blktiger.cpp
 blmbycar.cpp
 blockade.cpp
@@ -152,7 +152,7 @@ bogeyman.cpp
 bombjack.cpp
 boogwing.cpp
 bottom9.cpp
-//bowltry.cpp
+//bowltry.cpp    // check
 boxer.cpp
 brkthru.cpp
 bsktball.cpp
@@ -160,15 +160,15 @@ btime.cpp
 btoads.cpp
 bublbobl.cpp
 buggychl.cpp
-//buster.cpp
+//buster.cpp    // fruit
 bwidow.cpp
 bwing.cpp
 bzone.cpp
-//by17.cpp
-//by35.cpp
-//by6803.cpp
-//by68701.cpp
-//byvid.cpp
+//by17.cpp     // pinball
+//by35.cpp     // pinball
+//by6803.cpp   // pinball
+//by68701.cpp  // pinball
+byvid.cpp    // pinball-video
 cabal.cpp
 //cabaret.cpp
 calchase.cpp
@@ -382,7 +382,7 @@ fitfight.cpp
 //flicker.cpp
 flipjack.cpp
 flkatck.cpp
-//flower.cpp
+flower.cpp
 flstory.cpp
 flyball.cpp
 foodf.cpp
@@ -672,7 +672,7 @@ majorpkr.cpp
 //manohman.cpp
 mappy.cpp
 marineb.cpp
-//marinedt.cpp
+marinedt.cpp
 mario.cpp
 markham.cpp
 //marywu.cpp
@@ -907,7 +907,7 @@ poolshrk.cpp
 pooyan.cpp
 popeye.cpp
 popobear.cpp
-//popper.cpp
+popper.cpp
 portrait.cpp
 //potgoldu.cpp
 powerbal.cpp
