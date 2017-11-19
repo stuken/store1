@@ -2,6 +2,7 @@
 // copyright-holders:Chris Kirmse, Mike Haaland, René Single, Mamesick
 
 #include "winui.h"
+#include <fstream>
 
 static int MIN_WIDTH  = DBU_MIN_WIDTH;
 static int MIN_HEIGHT = DBU_MIN_HEIGHT;
@@ -234,10 +235,10 @@ static HWND hSearchWnd = NULL;
 static HWND	hProgress = NULL;
 static HACCEL hAccel = NULL;
 static HINSTANCE hInst = NULL;
-static HFONT hFontGui = NULL;     		/* Font for tab view and search window */
-static HFONT hFontList = NULL;     		/* Font for list view */
-static HFONT hFontHist = NULL;     		/* Font for history view */
-static HFONT hFontTree = NULL;     		/* Font for folders view */
+static HFONT hFontGui = NULL;     /* Font for tab view and search window */
+static HFONT hFontList = NULL;    /* Font for list view */
+static HFONT hFontHist = NULL;    /* Font for history view */
+static HFONT hFontTree = NULL;    /* Font for folders view */
 /* menu icons bitmaps */
 static HBITMAP hAboutMenu = NULL;
 static HBITMAP hCustom = NULL;
@@ -253,6 +254,7 @@ static HBITMAP hOptions = NULL;
 static HBITMAP hRefresh = NULL;
 static HBITMAP hZip = NULL;
 static HBITMAP hManual = NULL;
+static HBITMAP hNotepad = NULL;
 static HBITMAP hSaveList = NULL;
 static HBITMAP hSaveRoms = NULL;
 static HBITMAP hPlayback = NULL;
@@ -1285,6 +1287,7 @@ static void Win32UI_exit(void)
 	DeleteBitmap(hRefresh);
 	DeleteBitmap(hZip);
 	DeleteBitmap(hManual);
+	DeleteBitmap(hNotepad);
 	DeleteBitmap(hSaveList);
 	DeleteBitmap(hSaveRoms);
 	DeleteBitmap(hPlayback);
@@ -1900,6 +1903,8 @@ static void InitMenuIcons(void)
 	hZip = CreateBitmapTransparent(hTemp);
 	hTemp = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_MANUAL));
 	hManual = CreateBitmapTransparent(hTemp);
+	hTemp = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_NOTEPAD));
+	hNotepad = CreateBitmapTransparent(hTemp);
 	hTemp = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_SAVELIST));
 	hSaveList = CreateBitmapTransparent(hTemp);
 	hTemp = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_SAVEROMS));
@@ -3345,6 +3350,26 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 			SetFocus(hWndList);
 			return true;
 		}
+
+	case ID_NOTEPAD:
+		{
+			int nGame = Picker_GetSelectedItem(hWndList);
+			if (nGame >= 0)
+			{
+				const char* filename = "history.wtx";
+				string t2 = GetGameHistory(nGame);
+				std::ofstream outfile (filename, std::ios::out | std::ios::trunc);
+				size_t size = t2.size();
+				char t1[size+1];
+				strcpy(t1, t2.c_str());
+				outfile.write(t1, size);
+				outfile.close();
+				string path = string(".\\") + filename;
+				ShellExecuteCommon(hMain, path.c_str());
+			}
+			SetFocus(hWndList);
+		}
+		break;
 
 		case ID_PLAY_M1:
 		{
@@ -4797,6 +4822,7 @@ void InitBodyContextMenu(HMENU hBodyContextMenu)
 	SetMenuItemBitmaps(hBodyContextMenu, ID_PLAY_M1, MF_BYCOMMAND, hPlayM1, hPlayM1);
 	SetMenuItemBitmaps(hBodyContextMenu, ID_VIEW_ZIP, MF_BYCOMMAND, hZip, hZip);
 	SetMenuItemBitmaps(hBodyContextMenu, ID_MANUAL, MF_BYCOMMAND, hManual, hManual);
+	SetMenuItemBitmaps(hBodyContextMenu, ID_NOTEPAD, MF_BYCOMMAND, hNotepad, hNotepad);
 	SetMenuItemBitmaps(hBodyContextMenu, ID_GAME_PROPERTIES, MF_BYCOMMAND, hProperties, hProperties);
 	SetMenuItemBitmaps(hBodyContextMenu, ID_GAME_INFO, MF_BYCOMMAND, hRelease, hRelease);
 	SetMenuItemBitmaps(hBodyContextMenu, ID_GAME_AUDIT, MF_BYCOMMAND, hAuditMenu, hAuditMenu);

@@ -148,6 +148,7 @@
 #define IDI_SNAPSHOT                    268
 #define IDD_PROP_SNAP                   269
 #define IDB_MANUAL                      270
+#define IDB_NOTEPAD                     271
 #define IDI_DISPLAYSHEET                272
 #define IDI_ADVANCEDSHEET               273
 #define IDI_SCREENSHEET                 274
@@ -570,6 +571,7 @@
 #define ID_OPTIONS_TREE_FONT            40115
 #define ID_VIEW_FULLSCREEN              40116
 #define ID_ENABLE_INDENT                40117
+#define ID_NOTEPAD                      40118
 #define ID_VIEW_TAB_SCREENSHOT          40120
 #define ID_VIEW_TAB_TITLE               40121
 #define ID_VIEW_TAB_SCORES              40122
