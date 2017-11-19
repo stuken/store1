@@ -20754,6 +20754,10 @@ pentacup2                       //
 @source:microtan.cpp
 microtan                        // 1979 Microtan 65
 
+@source:microterm.cpp
+mt420                           //
+mt5510                          //
+
 @source:microvsn.cpp
 microvsn                        // Milton Bradley
 
@@ -28568,6 +28572,7 @@ chocovdr                        // 2002.10 Uchuu Daisakusen : Chocovader Contact
 gamshara                        // 2002.08 Gamshara (10021 Ver.A)
 gamsharaj                       // 2002.08 Gamshara (10021 Ver.A)
 gjspace                         // 2001.12 Gekitoride-Jong Space (10011 Ver.A)
+g13jnc                          // 2001.?? Golgo 13: Juusei no Chinkonka (Japan, GLT1 VER.A)
 gunbalina                       // 2000.12 Gunbalina (GNN1 Ver.A)
 knpuzzle                        // 2001.12 Kotoba no Puzzle Mojipittan (KPM1 Ver.A)
 konotako                        // 2003.?? Kono Tako (10021 Ver.A)
@@ -36304,8 +36309,6 @@ cit220p
 d461
 hp700_92
 hp2622a
-mt5510
-mt420
 qvt70
 qvt102
 qvt103
