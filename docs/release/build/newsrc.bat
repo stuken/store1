@@ -48,7 +48,6 @@ copy /Y %from%\src\mame\drivers\ironhors.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\jailbrek.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\megasys1.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\midas.cpp           %to%\src\mame\drivers
-copy /Y %from%\src\mame\drivers\mmagic.cpp          %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\mystwarr.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\namconb1.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\nemesis.cpp         %to%\src\mame\drivers
