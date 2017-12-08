@@ -528,7 +528,7 @@ ikki.cpp
 imolagp.cpp
 //inder.cpp        // pinball
 //inderp.cpp       // pinball
-//instantm.cpp     // check
+//instantm.cpp     // mechanical
 //intrscti.cpp     // check
 inufuku.cpp
 invqix.cpp
@@ -1146,7 +1146,7 @@ su2000.cpp
 sub.cpp
 //subhuntr.cpp     // check
 subs.cpp
-subsino.cpp
+//subsino.cpp      // fruit/poker
 subsino2.cpp
 //summit.cpp       // fruit
 //sumt8035.cpp     // mechanical
