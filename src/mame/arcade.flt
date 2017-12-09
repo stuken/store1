@@ -830,6 +830,7 @@ nmk16.cpp
 //norautp.cpp      // poker
 //notechan.cpp     // check
 nova2001.cpp
+//nsg6809.cpp      // mechanical
 //nsm.cpp          // pinball
 //nsmpoker.cpp     // check
 nss.cpp
