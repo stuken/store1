@@ -172,6 +172,7 @@ byvid.cpp          // pinball-video
 cabal.cpp
 //cabaret.cpp      // poker
 calchase.cpp
+calcune.cpp             // ok
 //calomega.cpp     // poker
 calorie.cpp
 canyon.cpp
@@ -528,7 +529,7 @@ ikki.cpp
 imolagp.cpp
 //inder.cpp        // pinball
 //inderp.cpp       // pinball
-//instantm.cpp     // check
+//instantm.cpp     // mechanical
 //intrscti.cpp     // check
 inufuku.cpp
 invqix.cpp
@@ -830,6 +831,7 @@ nmk16.cpp
 //norautp.cpp      // poker
 //notechan.cpp     // check
 nova2001.cpp
+//nsg6809.cpp      // mechanical
 //nsm.cpp          // pinball
 //nsmpoker.cpp     // check
 nss.cpp
@@ -1146,7 +1148,7 @@ su2000.cpp
 sub.cpp
 //subhuntr.cpp     // check
 subs.cpp
-subsino.cpp
+//subsino.cpp      // fruit/poker
 subsino2.cpp
 //summit.cpp       // fruit
 //sumt8035.cpp     // mechanical
@@ -1353,9 +1355,10 @@ xyonix.cpp
 yiear.cpp
 yunsun16.cpp
 yunsung8.cpp
-//zac_1.cpp        // pinball
-//zac_2.cpp        // pinball
-//zac_proto.cpp    // pinball
+//yuvomz80.cpp          // mechanical
+//zac_1.cpp             // pinball
+//zac_2.cpp             // pinball
+//zac_proto.cpp         // pinball
 zac2650.cpp
 zaccaria.cpp
 zaxxon.cpp

@@ -1,5 +1,5 @@
 @echo off
-echo HAVE YOU UPDATED the version number in WINUI.H ???
+echo HAVE YOU UPDATED the version number in WINUI.H and MAKEFILE ???
 pause
 
 
