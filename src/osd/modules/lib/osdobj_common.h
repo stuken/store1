@@ -267,7 +267,7 @@ private:
 	osd_module_manager m_mod_man;
 	font_module *m_font_module;
 
-	void update_option(const char * key, std::vector<const char *> &values) const;
+	void update_option(const std::string &key, std::vector<const char *> &values);
 	// FIXME: should be elsewhere
 	osd_module *select_module_options(const core_options &opts, const std::string &opt_name)
 	{
@@ -303,6 +303,7 @@ protected:
 
 private:
 	std::vector<const char *> m_video_names;
+	std::unordered_map<std::string, std::string> m_option_descs;
 };
 
 
