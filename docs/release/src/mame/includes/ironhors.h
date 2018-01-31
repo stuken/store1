@@ -10,7 +10,7 @@
 #include "machine/timer.h"
 #include "sound/discrete.h"
 
-#define MASTER_CLOCK        XTAL_18_432MHz
+#define MASTER_CLOCK        XTAL(18'432'000)
 
 class ironhors_state : public driver_device
 {
@@ -52,6 +52,8 @@ public:
 	DECLARE_PALETTE_INIT(ironhors);
 	DECLARE_VIDEO_START(farwest);
 
+	void farwest(machine_config &config);
+	void ironhors(machine_config &config);
 protected:
 	virtual void machine_start() override;
 	virtual void machine_reset() override;

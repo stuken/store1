@@ -38,6 +38,7 @@ copy /Y %from%\src\mame\drivers\aliens.cpp          %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\astrocde.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\btime.cpp           %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\cave.cpp            %to%\src\mame\drivers
+copy /Y %from%\src\mame\drivers\citycon.cpp         %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\cps1.cpp            %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\crimfght.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\darkseal.cpp        %to%\src\mame\drivers

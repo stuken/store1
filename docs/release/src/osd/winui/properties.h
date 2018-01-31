@@ -16,6 +16,7 @@
 #define NUMDEVICES 				WINUI_ARRAY_LENGTH(g_ComboBoxDevice)
 #define NUMSNAPNAME 			WINUI_ARRAY_LENGTH(g_ComboBoxSnapName)
 #define NUMSNAPVIEW 			WINUI_ARRAY_LENGTH(g_ComboBoxSnapView)
+#define NUMGLSLFILTER 			WINUI_ARRAY_LENGTH(g_ComboBoxGLSLFilter)
 
 /* Called in winui.c to create the property page */
 void InitPropertyPage(HINSTANCE hInst, HWND hWnd, OPTIONS_TYPE opt_type, int folder_id, int game_num);

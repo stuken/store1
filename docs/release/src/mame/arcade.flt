@@ -266,6 +266,7 @@ cv1k.cpp
 cvs.cpp
 cyberbal.cpp
 cybertnk.cpp
+cybstorm.cpp
 cyclemb.cpp
 d9final.cpp
 dacholer.cpp
@@ -636,9 +637,10 @@ lockon.cpp
 looping.cpp
 lordgun.cpp
 lsasquad.cpp
-ltcasino.cpp
+//ltcasino.cpp     // gambling
 //ltd.cpp          // pinball
-luckgrln.cpp
+//luckybal.cpp     // gambling
+//luckgrln.cpp     // gambling
 //lucky74.cpp      // poker
 //lvcards.cpp      // poker
 lwings.cpp
@@ -692,7 +694,7 @@ mcr68.cpp
 meadows.cpp
 //meadwttl.cpp     // ttl
 mediagx.cpp
-megadrvb.cpp
+megadriv_acbl.cpp
 megaphx.cpp
 megaplay.cpp
 megasys1.cpp
@@ -828,6 +830,7 @@ nitedrvr.cpp
 niyanpai.cpp
 nmg5.cpp
 nmk16.cpp
+//nmkmedal.cpp     // mechanical
 //norautp.cpp      // poker
 //notechan.cpp     // check
 nova2001.cpp
@@ -838,6 +841,7 @@ nss.cpp
 nwk-tr.cpp
 nycaptor.cpp
 nyny.cpp
+odyssey.cpp
 offtwall.cpp
 ohmygod.cpp
 ojankohs.cpp
@@ -934,6 +938,7 @@ quakeat.cpp
 quantum.cpp
 quasar.cpp
 queen.cpp
+quickpick5.cpp
 quizdna.cpp
 quizo.cpp
 quizpani.cpp
@@ -1141,6 +1146,7 @@ statriv2.cpp
 //stellafr.cpp     // fruit
 stfight.cpp
 stlforce.cpp
+strkzn.cpp
 strnskil.cpp
 stuntair.cpp
 stv.cpp

@@ -180,6 +180,9 @@ public:
 	void irrmaze(machine_config &config);
 	void kf2k2mp(machine_config &config);
 	void bangbead(machine_config &config);
+	void neo304h(machine_config &config); //MAMEFX
+	void neo288h(machine_config &config); //MAMEFX
+	void cyberlip(machine_config &config); //MAMEFX
 protected:
 	void common_machine_start();
 

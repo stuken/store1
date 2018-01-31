@@ -201,4 +201,18 @@ void SetStatusBarText(int part_index, const char *message);
 void SetStatusBarTextF(int part_index, const char *fmt, ...);
 const char * GetSearchText(void);
 
+
+char *core_strdup(const char *str)
+{
+	char *cpy = nullptr;
+	if (str != nullptr)
+	{
+		cpy = (char*) malloc(strlen(str)+1);
+		if (cpy != nullptr)
+			strcpy(cpy, str);
+	}
+	return cpy;
+}
+
+
 #endif

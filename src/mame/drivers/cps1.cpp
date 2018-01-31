@@ -3393,7 +3393,7 @@ MACHINE_CONFIG_DERIVED(cps_state::cps1_12MHz, cps1_10MHz)
 	MCFG_CPU_CLOCK( XTAL(12'000'000) )    /* verified on pcb */
 MACHINE_CONFIG_END
 
-static MACHINE_CONFIG_DERIVED( sf2hf, cps1_10MHz )
+MACHINE_CONFIG_DERIVED( cps_state::sf2hf, cps1_10MHz )
 
 	/* basic machine hardware */
 	MCFG_CPU_MODIFY("maincpu")

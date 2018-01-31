@@ -2963,7 +2963,7 @@ static void InitializeLanguageUI(HWND hWnd)
 		if (directory == nullptr)
 			return;
 
-		for (const osd::directory::entry *entry = directory->read(); entry != nullptr; entry = directory->read())
+		for (const osd::directory::entry *entry = directory->read(); entry; entry = directory->read())
 		{
 			if (entry->type == osd::directory::entry::entry_type::DIR)
 			{

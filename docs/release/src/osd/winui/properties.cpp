@@ -112,6 +112,7 @@ static void InitializeBIOSUI(HWND hWnd);
 static void InitializeControllerMappingUI(HWND hWnd);
 static void InitializeLanguageUI(HWND hWnd);
 static void InitializePluginsUI(HWND hWnd);
+static void InitializeGLSLFilterUI(HWND hWnd);
 static void UpdateOptions(HWND hDlg, datamap *map, windows_options &opts);
 static void UpdateProperties(HWND hDlg, datamap *map, windows_options &opts);
 static void PropToOptions(HWND hWnd, windows_options &opts);
@@ -302,6 +303,12 @@ const DUALCOMBOSTR g_ComboBoxSnapView[] =
 	{ TEXT("Cocktail"),     "cocktail" }
 };
 
+const DUALCOMBOSTR g_ComboBoxGLSLFilter[] =
+{
+	{ TEXT("Plain"),		"0" },
+	{ TEXT("Bilinear"),	   	"1" },
+	{ TEXT("Bicubic"),    	"2" }
+};
 /***************************************************************
  * Public functions
  ***************************************************************/
@@ -2403,7 +2410,7 @@ static void BuildDataMap(void)
 	datamap_add(properties_datamap, IDC_GLSLVBO,				DM_BOOL,	OSDOPTION_GL_VBO);
 	datamap_add(properties_datamap, IDC_GLSLPBO,				DM_BOOL,	OSDOPTION_GL_PBO);
 	datamap_add(properties_datamap, IDC_GLSL,					DM_BOOL,	OSDOPTION_GL_GLSL);
-	datamap_add(properties_datamap, IDC_GLSLFILTER,				DM_BOOL,	OSDOPTION_GLSL_FILTER);
+	datamap_add(properties_datamap, IDC_GLSLFILTER,				DM_STRING,	OSDOPTION_GLSL_FILTER);
 	datamap_add(properties_datamap, IDC_GLSLSYNC,				DM_BOOL,	OSDOPTION_GLSL_SYNC);
 	datamap_add(properties_datamap, IDC_BGFX_CHAINS,			DM_STRING,	OSDOPTION_BGFX_SCREEN_CHAINS);
 	datamap_add(properties_datamap, IDC_MAME_SHADER0,			DM_STRING,	OSDOPTION_SHADER_MAME "0");
@@ -2468,8 +2475,10 @@ static void BuildDataMap(void)
 	datamap_add(properties_datamap, IDC_LUASCRIPT,				DM_STRING,	OPTION_AUTOBOOT_SCRIPT);
 	datamap_add(properties_datamap, IDC_BOOTDELAY,				DM_INT,		OPTION_AUTOBOOT_DELAY);
 	datamap_add(properties_datamap, IDC_BOOTDELAYDISP,			DM_INT,		OPTION_AUTOBOOT_DELAY);
-	datamap_add(properties_datamap, IDC_PLUGINS,				DM_STRING,	OPTION_PLUGINS);
+	datamap_add(properties_datamap, IDC_PLUGINS,				DM_BOOL,	OPTION_PLUGINS);
 	datamap_add(properties_datamap, IDC_PLUGIN,					DM_STRING,	OPTION_PLUGIN);
+	datamap_add(properties_datamap, IDC_NVRAM_SAVE,				DM_BOOL,	OPTION_NVRAM_SAVE);
+	datamap_add(properties_datamap, IDC_REWIND,					DM_BOOL,	OPTION_REWIND);
 	// windows performance options
 	datamap_add(properties_datamap, IDC_HIGH_PRIORITY,			DM_INT,		WINOPTION_PRIORITY);
 	datamap_add(properties_datamap, IDC_HIGH_PRIORITYTXT,		DM_INT,		WINOPTION_PRIORITY);
@@ -2603,6 +2612,7 @@ static void InitializeOptions(HWND hDlg)
 	InitializeSnapNameUI(hDlg);
 	InitializeLanguageUI(hDlg);
 	InitializePluginsUI(hDlg);
+	InitializeGLSLFilterUI(hDlg);
 }
 
 static void OptOnHScroll(HWND hWnd, HWND hWndCtl, UINT code, int pos)
@@ -2953,7 +2963,7 @@ static void InitializeLanguageUI(HWND hWnd)
 		if (directory == nullptr)
 			return;
 
-		for (const osd::directory::entry *entry = directory->read(); entry != nullptr; entry = directory->read())
+		for (const osd::directory::entry *entry = directory->read(); entry; entry = directory->read())
 		{
 			if (entry->type == osd::directory::entry::entry_type::DIR)
 			{
@@ -3012,6 +3022,20 @@ static void InitializePluginsUI(HWND hWnd)
 
 	(void)ComboBox_SetCurSel(hCtrl, -1);
 	(void)ComboBox_SetCueBannerText(hCtrl, TEXT("Select a plugin"));
+}
+
+static void InitializeGLSLFilterUI(HWND hWnd)
+{
+	HWND hCtrl = GetDlgItem(hWnd, IDC_GLSLFILTER);
+
+	if (hCtrl)
+	{
+		for (int i = 0; i < NUMGLSLFILTER; i++)
+		{
+			(void)ComboBox_InsertString(hCtrl, i, g_ComboBoxGLSLFilter[i].m_pText);
+			(void)ComboBox_SetItemData(hCtrl, i, g_ComboBoxGLSLFilter[i].m_pData);
+		}
+	}
 }
 
 static bool SelectEffect(HWND hWnd)
@@ -3546,6 +3570,8 @@ static void DisableVisualStyles(HWND hDlg)
 	SetWindowTheme(GetDlgItem(hDlg, IDC_LUASCRIPT), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_PLUGINS), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_PLUGIN), L" ", L" ");
+	SetWindowTheme(GetDlgItem(hDlg, IDC_NVRAM_SAVE), L" ", L" ");
+	SetWindowTheme(GetDlgItem(hDlg, IDC_REWIND), L" ", L" ");
 	/* Snap/Movie/Playback */
 	SetWindowTheme(GetDlgItem(hDlg, IDC_SNAPVIEW), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_SNAPNAME), L" ", L" ");

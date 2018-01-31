@@ -418,7 +418,7 @@ MACHINE_CONFIG_START(gberet_state::gberet)
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
-	MCFG_SCREEN_RAW_PARAMS(XTAL_18_432MHz/3, 396, 8, 248, 256, 16, 240) // measured 60.60	
+	MCFG_SCREEN_RAW_PARAMS(XTAL(18'432'000)/3, 396, 8, 248, 256, 16, 240) // measured 60.60
 	MCFG_SCREEN_UPDATE_DRIVER(gberet_state, screen_update_gberet)
 	MCFG_SCREEN_PALETTE("palette")
 

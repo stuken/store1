@@ -701,7 +701,7 @@ MACHINE_CONFIG_DERIVED(thunderx_state::thunderx, scontra)
 	MCFG_KONAMICPU_LINE_CB(WRITE8(thunderx_state, banking_callback))
 
 	MCFG_DEVICE_MODIFY("audiocpu")
-	MCFG_CPU_CLOCK(XTAL_3_579545MHz)     /* verified on pcb */
+	MCFG_CPU_CLOCK(XTAL(3'579'545))     /* verified on pcb */
 	MCFG_CPU_PROGRAM_MAP(thunderx_sound_map)
 
 	MCFG_DEVICE_MODIFY("bank5800")
