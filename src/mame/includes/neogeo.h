@@ -183,6 +183,10 @@ public:
 	void neo304h(machine_config &config); //MAMEFX
 	void neo288h(machine_config &config); //MAMEFX
 	void cyberlip(machine_config &config); //MAMEFX
+	void audio_io_map(address_map &map);
+	void audio_map(address_map &map);
+	void main_map_slot(address_map &map);
+	void neogeo_main_map(address_map &map);
 protected:
 	void common_machine_start();
 
@@ -327,6 +331,7 @@ class aes_state : public neogeo_state
 	DECLARE_MACHINE_START(aes);
 
 	void aes(machine_config &config);
+	void aes_main_map(address_map &map);
 protected:
 	required_ioport m_io_in2;
 };
