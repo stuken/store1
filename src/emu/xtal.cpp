@@ -66,6 +66,7 @@ const double XTAL::known_xtals[] = {
 	  1'000'000, /* 1_MHz_XTAL             Used to drive OKI M6295 chips */
 	  1'056'000, /* 1.056_MHz_XTAL         Resonator - OKI M6295 on Trio The Punch h/w */
 	  1'294'400, /* 1.2944_MHz_XTAL        BBN BitGraph PSG */
+	  1'689'600, /* 1.6896_MHz_XTAL        Diablo 1355WP Printer */
 	  1'750'000, /* 1.75_MHz_XTAL          RCA CDP1861 */
 	  1'797'100, /* 1.7971_MHz_XTAL        SWTPC 6800 (with MIKBUG) */
 	  1'843'200, /* 1.8432_MHz_XTAL        Bondwell 12/14 */
@@ -328,7 +329,7 @@ const double XTAL::known_xtals[] = {
 	 57'272'727, /* 57.272727_MHz_XTAL     Psikyo SH2 with /2 divider (16x NTSC subcarrier)*/
 	 58'000'000, /* 58_MHz_XTAL            Magic Reel (Play System) */
 	 59'292'000, /* 59.292_MHz_XTAL        Data General D461 */
-	 60'000'000, /* 60_MHz_XTAL            - */
+	 60'000'000, /* 60_MHz_XTAL            ARM610 */
 	 61'440'000, /* 61.44_MHz_XTAL         Donkey Kong */
 	 64'000'000, /* 64_MHz_XTAL            BattleToads */
 	 66'666'700, /* 66.6667_MHz_XTAL       Later Midway games */
@@ -337,6 +338,7 @@ const double XTAL::known_xtals[] = {
 	 72'000'000, /* 72_MHz_XTAL            Aristocrat MKV */
 	 72'576'000, /* 72.576_MHz_XTAL        Centipede, Millipede, Missile Command, Let's Go Bowling "Multipede" */
 	 73'728'000, /* 73.728_MHz_XTAL        Ms. Pac-Man/Galaga 20th Anniversary */
+	 80'000'000, /* 80_MHz_XTAL            ARM710 */
 	 87'183'360, /* 87.18336_MHz_XTAL      AT&T 630 MTG */
 	100'000'000, /* 100_MHz_XTAL           PSX-based Namco System 12, Vegas, Sony ZN1-2-based */
 	101'491'200, /* 101.4912_MHz_XTAL      PSX-based Namco System 10 */

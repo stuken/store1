@@ -37,10 +37,12 @@ public:
 		: atari_common_state(mconfig, type, tag)
 	{ }
 
+	void a5200(machine_config &config);
+
+protected:
 	TIMER_DEVICE_CALLBACK_MEMBER( bartop_interrupt );
 
 	virtual void machine_reset() override;
-	void a5200(machine_config &config);
 	void a5200_mem(address_map &map);
 };
 
@@ -113,6 +115,8 @@ INPUT_PORTS_END
 
 void bartop52_state::machine_reset()
 {
+	atari_common_state::machine_reset();
+
 	pokey_device *pokey = machine().device<pokey_device>("pokey");
 	pokey->write(15,0);
 }
@@ -129,6 +133,7 @@ MACHINE_CONFIG_START(bartop52_state::a5200)
 	MCFG_TIMER_DRIVER_ADD_SCANLINE("scantimer", bartop52_state, bartop_interrupt, "screen", 0, 1)
 
 	MCFG_DEVICE_ADD("gtia", ATARI_GTIA, 0)
+	MCFG_GTIA_REGION(GTIA_NTSC)
 
 	MCFG_DEVICE_ADD("antic", ATARI_ANTIC, 0)
 	MCFG_ANTIC_GTIA("gtia")
@@ -143,7 +148,7 @@ MACHINE_CONFIG_START(bartop52_state::a5200)
 	MCFG_SCREEN_PALETTE("palette")
 
 	MCFG_PALETTE_ADD("palette", 256)
-	MCFG_PALETTE_INIT_OWNER(atari_common_state, atari)
+	MCFG_PALETTE_INIT_OWNER(bartop52_state, atari)
 
 	/* sound hardware */
 	MCFG_SPEAKER_STANDARD_MONO("mono")
@@ -153,8 +158,8 @@ MACHINE_CONFIG_START(bartop52_state::a5200)
 	MCFG_POKEY_POT1_R_CB(IOPORT("analog_1"))
 	MCFG_POKEY_POT2_R_CB(IOPORT("analog_2"))
 	MCFG_POKEY_POT3_R_CB(IOPORT("analog_3"))
-	MCFG_POKEY_KEYBOARD_CB(atari_common_state, a5200_keypads)
-	MCFG_POKEY_INTERRUPT_CB(atari_common_state, interrupt_cb)
+	MCFG_POKEY_KEYBOARD_CB(bartop52_state, a5200_keypads)
+	MCFG_POKEY_INTERRUPT_CB(bartop52_state, interrupt_cb)
 
 	MCFG_SOUND_ROUTE(ALL_OUTPUTS, "mono", 1.00)
 

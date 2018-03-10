@@ -2293,6 +2293,7 @@ files {
 	MAME_DIR .. "src/mame/machine/konamigx.cpp",
 	MAME_DIR .. "src/mame/video/konamigx.cpp",
 	MAME_DIR .. "src/mame/drivers/konamim2.cpp",
+	MAME_DIR .. "src/mame/drivers/konblands.cpp",
 	MAME_DIR .. "src/mame/drivers/konmedal.cpp",
 	MAME_DIR .. "src/mame/drivers/konmedal68k.cpp",
 	MAME_DIR .. "src/mame/drivers/kontest.cpp",
@@ -2539,8 +2540,6 @@ files {
 createMAMEProjects(_target, _subtarget, "metro")
 files {
 	MAME_DIR .. "src/mame/drivers/hyprduel.cpp",
-	MAME_DIR .. "src/mame/includes/hyprduel.h",
-	MAME_DIR .. "src/mame/video/hyprduel.cpp",
 	MAME_DIR .. "src/mame/drivers/metro.cpp",
 	MAME_DIR .. "src/mame/includes/metro.h",
 	MAME_DIR .. "src/mame/video/metro.cpp",
@@ -3188,6 +3187,7 @@ files {
 	MAME_DIR .. "src/mame/audio/dsbz80.cpp",
 	MAME_DIR .. "src/mame/audio/dsbz80.h",
 	MAME_DIR .. "src/mame/drivers/model2.cpp",
+	MAME_DIR .. "src/mame/machine/model2.cpp",
 	MAME_DIR .. "src/mame/includes/model2.h",
 	MAME_DIR .. "src/mame/video/model2rd.hxx",
 	MAME_DIR .. "src/mame/video/model2.cpp",
@@ -3848,7 +3848,6 @@ files {
 	MAME_DIR .. "src/mame/video/undrfire.cpp",
 	MAME_DIR .. "src/mame/drivers/volfied.cpp",
 	MAME_DIR .. "src/mame/includes/volfied.h",
-	MAME_DIR .. "src/mame/machine/volfied.cpp",
 	MAME_DIR .. "src/mame/video/volfied.cpp",
 	MAME_DIR .. "src/mame/drivers/warriorb.cpp",
 	MAME_DIR .. "src/mame/includes/warriorb.h",

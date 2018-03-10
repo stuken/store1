@@ -204,7 +204,7 @@ static int NumberOfScreens(const machine_config &config)
 
 static bool isDriverVector(const machine_config &config)
 {
-	const screen_device *screen  = config.first_screen();
+	const screen_device *screen = screen_device_iterator(config.root_device()).first();
 
 	if (screen != nullptr) 
 	{

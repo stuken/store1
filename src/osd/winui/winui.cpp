@@ -2088,7 +2088,7 @@ static char *GameInfoScreen(int driver_index)
 	}
 	else
 	{
-		const screen_device *screen = config.first_screen();
+		const screen_device *screen = screen_device_iterator(config.root_device()).first();
 
 		if (screen == nullptr)
 			strcpy(scrtxt, "Screenless");
