@@ -71,54 +71,6 @@ static void video_notifier_callback(const char *outname, s32 value, void *param)
 //-------------------------------------------------
 
 video_manager::video_manager(running_machine &machine)
-#if 0
-<<<<<<< HEAD
-	: m_machine(machine),
-		m_screenless_frame_timer(nullptr),
-		m_output_changed(false),
-		m_throttle_last_ticks(0),
-		m_throttle_realtime(attotime::zero),
-		m_throttle_emutime(attotime::zero),
-		m_throttle_history(0),
-		m_speed_last_realtime(0),
-		m_speed_last_emutime(attotime::zero),
-		m_speed_percent(1.0),
-		m_overall_real_seconds(0),
-		m_overall_real_ticks(0),
-		m_overall_emutime(attotime::zero),
-		m_overall_valid_counter(0),
-		m_throttled(machine.options().throttle()),
-		m_throttle_rate(1.0f),
-		m_syncrefresh(machine.options().sync_refresh()),
-		m_fastforward(false),
-		m_seconds_to_run(machine.options().seconds_to_run()),
-		m_auto_frameskip(machine.options().auto_frameskip()),
-		m_speed(original_speed_setting()),
-		m_empty_skip_count(0),
-		m_frameskip_level(machine.options().frameskip()),
-		m_frameskip_counter(0),
-		m_frameskip_adjust(0),
-		m_skipping_this_frame(false),
-		m_average_oversleep(0),
-		m_snap_target(nullptr),
-		m_snap_native(true),
-		m_snap_width(0),
-		m_snap_height(0),
-		m_mng_frame_period(attotime::zero),
-		m_mng_next_frame_time(attotime::zero),
-		m_mng_frame(0),
-		m_avi_file(nullptr),
-		m_avi_frame_period(attotime::zero),
-		m_avi_next_frame_time(attotime::zero),
-		m_avi_frame(0),
-		m_timecode_enabled(false),
-		m_timecode_write(false),
-		m_timecode_text(""),
-		m_timecode_start(attotime::zero),
-		m_timecode_total(attotime::zero)
-
-=======
-#endif
 	: m_machine(machine)
 	, m_screenless_frame_timer(nullptr)
 	, m_output_changed(false)
@@ -135,6 +87,7 @@ video_manager::video_manager(running_machine &machine)
 	, m_overall_valid_counter(0)
 	, m_throttled(machine.options().throttle())
 	, m_throttle_rate(1.0f)
+	, m_syncrefresh(machine.options().sync_refresh()) // MAMEFX
 	, m_fastforward(false)
 	, m_seconds_to_run(machine.options().seconds_to_run())
 	, m_auto_frameskip(machine.options().auto_frameskip())
@@ -410,7 +363,7 @@ void video_manager::save_active_screen_snapshots()
 		for (screen_device &screen : screen_device_iterator(machine().root_device()))
 			if (machine().render().is_live(screen))
 			{
-				emu_file file(machine().options().snapshot_directory(), OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS);
+				emu_file file(machine().options().video_directory(), OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS); // MAMEFX
 				osd_file::error filerr = open_next(file, "png");
 				if (filerr == osd_file::error::NONE)
 					save_snapshot(&screen, file);
@@ -420,7 +373,7 @@ void video_manager::save_active_screen_snapshots()
 	// otherwise, just write a single snapshot
 	else
 	{
-		emu_file file(machine().options().snapshot_directory(), OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS);
+		emu_file file(machine().options().video_directory(), OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS); // MAMEFX
 		osd_file::error filerr = open_next(file, "png");
 		if (filerr == osd_file::error::NONE)
 			save_snapshot(nullptr, file);
@@ -482,7 +435,7 @@ void video_manager::begin_recording_mng(const char *name, uint32_t index, screen
 	info.m_mng_next_frame_time = machine().time();
 
 	// create a new movie file and start recording
-	info.m_mng_file = std::make_unique<emu_file>(machine().options().video_directory(), OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS); //MAMEFX
+	info.m_mng_file = std::make_unique<emu_file>(machine().options().video_directory(), OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS); // MAMEFX
 	osd_file::error filerr;
 	if (name != nullptr)
 	{
@@ -978,9 +931,11 @@ void video_manager::update_throttle(attotime emutime)
 		3,4,4,5,4,5,5,6, 4,5,5,6,5,6,6,7, 4,5,5,6,5,6,6,7, 5,6,6,7,6,7,7,8
 	};
 
+	// MAMEFX start
 	// if we're only syncing to the refresh, bail now
 	if (m_syncrefresh)
 		return;
+	// MAMEFX end
 
 	// outer scope so we can break out in case of a resync
 	while (1)
@@ -1249,8 +1204,10 @@ void video_manager::recompute_speed(const attotime &emutime)
 		osd_ticks_t tps = osd_ticks_per_second();
 		m_speed_percent = delta_emutime.as_double() * (double)tps / (double)delta_realtime;
 
+		// MAMEFX start
 		if (m_syncrefresh && m_throttled)
 			m_speed = m_speed_percent * 1000;
+		// MAMEFX end
 
 		// remember the last times
 		m_speed_last_realtime = realtime;
@@ -1279,7 +1236,7 @@ void video_manager::recompute_speed(const attotime &emutime)
 	if (m_seconds_to_run > 1 && emutime.seconds() >= m_seconds_to_run) // MAMEFX
 	{
 		// create a final screenshot
-		emu_file file(machine().options().snapshot_directory(), OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS);
+		emu_file file(machine().options().video_directory(), OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS); // MAMEFX
 		osd_file::error filerr = file.open(machine().basename(), PATH_SEPARATOR "final.png");
 		if (filerr == osd_file::error::NONE)
 			save_snapshot(nullptr, file);
