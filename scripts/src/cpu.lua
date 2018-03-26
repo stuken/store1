@@ -271,8 +271,13 @@ if (CPUS["DSP16"]~=null) then
 	files {
 		MAME_DIR .. "src/devices/cpu/dsp16/dsp16.cpp",
 		MAME_DIR .. "src/devices/cpu/dsp16/dsp16.h",
+		MAME_DIR .. "src/devices/cpu/dsp16/dsp16core.cpp",
+		MAME_DIR .. "src/devices/cpu/dsp16/dsp16core.h",
+		MAME_DIR .. "src/devices/cpu/dsp16/dsp16core.ipp",
 		MAME_DIR .. "src/devices/cpu/dsp16/dsp16fe.cpp",
 		MAME_DIR .. "src/devices/cpu/dsp16/dsp16fe.h",
+		MAME_DIR .. "src/devices/cpu/dsp16/dsp16rc.cpp",
+		MAME_DIR .. "src/devices/cpu/dsp16/dsp16rc.h",
 	}
 end
 
@@ -1122,7 +1127,7 @@ if (CPUS["SSEM"]~=null or _OPTIONS["with-tools"]) then
 end
 
 ------------------------------------------
--- Diablo Systems printer CPU 
+-- Diablo Systems printer CPU
 --@src/devices/cpu/diablo/diablo1300.h,CPUS["DIABLO"] = true
 --------------------------------------------------
 

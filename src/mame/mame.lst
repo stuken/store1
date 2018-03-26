@@ -10804,6 +10804,9 @@ cybstorm                        // (proto)          (c) 1993
 cyclemb                         // P0  (c) 1984 Taito Corporation [+ Seta]
 skydest                         // PD0 (c) 1985 Taito Corporation
 
+@source:cz101.cpp
+cz101                           // 1984 Casio
+
 @source:czk80.cpp
 czk80                           //
 
@@ -14813,6 +14816,7 @@ ktmnt                           // Konami
 ktopgun                         // Konami
 nummunch                        // VTech
 nupogodi                        // Elektronika
+taddams                         // Tiger
 taltbeast                       // Tiger
 tapollo13                       // Tiger
 tbatfor                         // Tiger
@@ -14820,7 +14824,10 @@ tbatman                         // Tiger
 tbtoads                         // Tiger
 tbttf                           // Tiger
 tddragon                        // Tiger
+tddragon3                       // Tiger
+tdennis                         // Tiger
 tdummies                        // Tiger
+tflash                          // Tiger
 tgaiden                         // Tiger
 tgaunt                          // Tiger
 tgoldeye                        // Tiger
@@ -14828,6 +14835,7 @@ tgoldnaxe                       // Tiger
 thook                           // Tiger
 tigarden                        // Tronica
 tjdredd                         // Tiger
+tjpark                          // Tiger
 tkarnov                         // Tiger
 tmchammer                       // Tiger
 tmkombat                        // Tiger
@@ -14844,9 +14852,11 @@ tsjam                           // Tiger
 tskelwarr                       // Tiger
 tsonic                          // Tiger
 tsonic2                         // Tiger
+tspidman                        // Tiger
 tstrider                        // Tiger
 tswampt                         // Tiger
 tvindictr                       // Tiger
+txmenpx                         // Tiger
 
 @source:hh_tms1k.cpp
 7in1ss                          // Tiger Electronics
@@ -15162,7 +15172,7 @@ hp85                            //
 hshavoc                         // (c) 1993 Data East
 
 @source:ht6000.cpp
-ht6000							// 1987 Casio
+ht6000                          // 1987 Casio
 
 @source:ht68k.cpp
 ht68k                           //
@@ -21331,11 +21341,11 @@ bel                             // 1998.12 Behind Enemy Lines
 daytona                         // 1994.03 Daytona USA (Japan, Revision A)
 daytona93                       // 1993    Japan
 daytonam                        // 2001    Kyle Hodgetts hack
-daytonas                        // 
+daytonas                        //
 daytonase                       // 1994    Daytona USA Special Edition (Japan, Revision A)
 daytonat                        // 1994?   Kyle Hodgetts hack
 daytonata                       // 1994?   Kyle Hodgetts hack
-daytonagtx						// 2004    Kyle Hodgetts hack
+daytonagtx                      // 2004    Kyle Hodgetts hack
 desert                          // 1994.07 Desert Tank
 doa                             // 1996.11 Dead or Alive (Revision B)
 doaa                            // 1996.11 Dead or Alive (Revision A)
@@ -32292,6 +32302,9 @@ progolfa                        // (c) 1981
 @source:prophet600.cpp
 prpht600                        // 1983 Sequential Circuits
 
+@source:proteus.cpp
+proteus                         // Poly Proteus
+
 @source:proteus3.cpp
 proteus3                        //
 
@@ -32950,7 +32963,7 @@ rvoicepc                        //
 rx78                            //
 
 @source:rz1.cpp
-rz1								// 1986 Casio
+rz1                             // 1986 Casio
 
 @source:rzone.cpp
 rzbatfor                        //
@@ -36800,6 +36813,7 @@ ti84pse                         // 2004 TI-84 Plus Silver Edition (Boot Code 1.0
 ti84psev3                       // 2011 TI-84 Plus Silver Edition (Boot Code 1.03)
 ti84pseb                        // 20?? TI-84 Plus Silver Edition (Bootleg)
 ti84pob                         // 201? TI-84 Plus Orion (Bootleg)
+ti84pov2                        // 201? TI-84 Plus Orion (Boot Code 1.02)
 ti84pov3                        // 201? TI-84 Plus Orion (Boot Code 1.03)
 ti84pcse                        // 20?? TI-84 Plus Color Silver Edition (Boot Code 4.0)
 ti84pce                         // 2015 TI-84 Plus Color Edition (Boot Code 5.00)
@@ -39056,7 +39070,7 @@ rad_snowp                       //
 rad_madf                        //
 rad_fb                          //
 epo_efdx                        //
-rad_rh				     		//
+rad_rh                          //
 has_wamg                        //
 eka_base                        //
 eka_strt                        //
