@@ -45,7 +45,6 @@ copy /Y %from%\src\mame\drivers\darkseal.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\deniam.cpp          %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\gberet.cpp          %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\gng.cpp             %to%\src\mame\drivers
-copy /Y %from%\src\mame\drivers\ironhors.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\jailbrek.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\megasys1.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\midas.cpp           %to%\src\mame\drivers
@@ -62,8 +61,6 @@ copy /Y %from%\src\mame\drivers\thunderx.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\vaportra.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\vendetta.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\xmen.cpp            %to%\src\mame\drivers
-copy /Y %from%\src\mame\includes\ironhors.h         %to%\src\mame\includes
-copy /Y %from%\src\mame\machine\bonzeadv.cpp        %to%\src\mame\machine
 copy /Y %from%\src\mame\video\cidelsa.cpp           %to%\src\mame\video
 copy /Y %from%\src\mame\video\cps1.cpp              %to%\src\mame\video
 copy /Y %from%\src\mame\video\mystwarr.cpp          %to%\src\mame\video

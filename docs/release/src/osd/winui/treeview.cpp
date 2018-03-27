@@ -776,7 +776,7 @@ static void CreateResolutionFoldersIni(int parent_index)
 			}
 		}
 
-		const screen_device *screen = config.first_screen();
+		const screen_device *screen = screen_device_iterator(config.root_device()).first();
 
 		if (screen == nullptr)
 		{
@@ -837,9 +837,9 @@ static void CreateFPSFoldersIni(int parent_index)
 			AddGame(lpVector, jj);
 			continue;
 		}
-		
-		const screen_device *screen = config.first_screen();
-		
+
+		const screen_device *screen = screen_device_iterator(config.root_device()).first();
+
 		if (screen == nullptr)
 		{
 			AddGame(lpScreenless, jj);

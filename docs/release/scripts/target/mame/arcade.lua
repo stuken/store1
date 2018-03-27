@@ -61,7 +61,7 @@ CPUS["MIPS"] = true
 CPUS["R3000"] = true
 CPUS["PSX"] = true
 CPUS["SH"] = true
-CPUS["DSP16A"] = true
+CPUS["DSP16"] = true
 CPUS["DSP32C"] = true
 CPUS["PIC16C5X"] = true
 CPUS["PIC16C62X"] = true
@@ -268,6 +268,7 @@ SOUNDS["TA7630"] = true
 SOUNDS["MM5837"] = true
 --SOUNDS["DAVE"] = true
 SOUNDS["LC7535"] = true
+--SOUNDS["UPD934G"] = true
 
 --------------------------------------------------
 -- specify available video cores
@@ -479,6 +480,7 @@ MACHINES["MB87078"] = true
 --MACHINES["MB8795"] = true
 MACHINES["MB89352"] = true
 MACHINES["MB89371"] = true
+MACHINES["MB89374"] = true
 --MACHINES["MC14411"] = true
 MACHINES["MC146818"] = true
 MACHINES["MC2661"] = true
@@ -745,7 +747,7 @@ function linkProjects_mame_arcade(_target, _subtarget)
 		"ascii",
 		"atari",
 		"atlus",
-		"barcrest",
+		"barcrest",   -- not used in ARCADE
 		"bfm",
 		"bmc",
 		"capcom",
@@ -778,7 +780,7 @@ function linkProjects_mame_arcade(_target, _subtarget)
 		"kaneko",
 		"konami",
 		"matic",
-		"maygay",
+		"maygay",   -- not used in ARCADE
 		"meadows",
 		"merit",
 		"metro",
@@ -815,7 +817,7 @@ function linkProjects_mame_arcade(_target, _subtarget)
 		"subsino",
 		"suna",
 		"sunelect",
-		"sure",
+		"sure",   -- not used in ARCADE
 		"taito",
 		"tatsumi",
 		"tch",
@@ -1289,26 +1291,26 @@ files {
 createMAMEProjects(_target, _subtarget, "barcrest")
 files {
 	MAME_DIR .. "src/mame/drivers/mpu2.cpp",
-	MAME_DIR .. "src/mame/drivers/mpu3.cpp",
-	MAME_DIR .. "src/mame/machine/mpu4.cpp",
-	MAME_DIR .. "src/mame/includes/mpu4.h",
-	MAME_DIR .. "src/mame/drivers/mpu4.cpp",
-	MAME_DIR .. "src/mame/drivers/mpu4avan.cpp",
-	MAME_DIR .. "src/mame/drivers/mpu4bwb.cpp",
-	MAME_DIR .. "src/mame/drivers/mpu4concept.cpp",
-	MAME_DIR .. "src/mame/drivers/mpu4crystal.cpp",
-	MAME_DIR .. "src/mame/drivers/mpu4dealem.cpp",
-	MAME_DIR .. "src/mame/drivers/mpu4empire.cpp",
-	MAME_DIR .. "src/mame/drivers/mpu4mdm.cpp",
-	MAME_DIR .. "src/mame/drivers/mpu4misc.cpp",
-	MAME_DIR .. "src/mame/drivers/mpu4mod2sw.cpp",
-	MAME_DIR .. "src/mame/drivers/mpu4mod4yam.cpp",
-	MAME_DIR .. "src/mame/drivers/mpu4plasma.cpp",
-	MAME_DIR .. "src/mame/drivers/mpu4sw.cpp",
-	MAME_DIR .. "src/mame/drivers/mpu4union.cpp",
-	MAME_DIR .. "src/mame/drivers/mpu4vid.cpp",
-	MAME_DIR .. "src/mame/drivers/mpu5.cpp",
-	MAME_DIR .. "src/mame/drivers/mpu5.hxx",
+--	MAME_DIR .. "src/mame/drivers/mpu3.cpp",
+--	MAME_DIR .. "src/mame/machine/mpu4.cpp",
+--	MAME_DIR .. "src/mame/includes/mpu4.h",
+--	MAME_DIR .. "src/mame/drivers/mpu4.cpp",
+--	MAME_DIR .. "src/mame/drivers/mpu4avan.cpp",
+--	MAME_DIR .. "src/mame/drivers/mpu4bwb.cpp",
+--	MAME_DIR .. "src/mame/drivers/mpu4concept.cpp",
+--	MAME_DIR .. "src/mame/drivers/mpu4crystal.cpp",
+--	MAME_DIR .. "src/mame/drivers/mpu4dealem.cpp",
+--	MAME_DIR .. "src/mame/drivers/mpu4empire.cpp",
+--	MAME_DIR .. "src/mame/drivers/mpu4mdm.cpp",
+--	MAME_DIR .. "src/mame/drivers/mpu4misc.cpp",
+--	MAME_DIR .. "src/mame/drivers/mpu4mod2sw.cpp",
+--	MAME_DIR .. "src/mame/drivers/mpu4mod4yam.cpp",
+--	MAME_DIR .. "src/mame/drivers/mpu4plasma.cpp",
+--	MAME_DIR .. "src/mame/drivers/mpu4sw.cpp",
+--	MAME_DIR .. "src/mame/drivers/mpu4union.cpp",
+--	MAME_DIR .. "src/mame/drivers/mpu4vid.cpp",
+--	MAME_DIR .. "src/mame/drivers/mpu5.cpp",
+--	MAME_DIR .. "src/mame/drivers/mpu5.hxx",
 }
 
 createMAMEProjects(_target, _subtarget, "bfm")
@@ -2293,6 +2295,7 @@ files {
 	MAME_DIR .. "src/mame/machine/konamigx.cpp",
 	MAME_DIR .. "src/mame/video/konamigx.cpp",
 	MAME_DIR .. "src/mame/drivers/konamim2.cpp",
+	MAME_DIR .. "src/mame/drivers/konblands.cpp",
 	MAME_DIR .. "src/mame/drivers/konmedal.cpp",
 	MAME_DIR .. "src/mame/drivers/konmedal68k.cpp",
 	MAME_DIR .. "src/mame/drivers/kontest.cpp",
@@ -2504,12 +2507,12 @@ files {
 
 createMAMEProjects(_target, _subtarget, "maygay")
 files {
-	MAME_DIR .. "src/mame/drivers/maygay1b.cpp",
-	MAME_DIR .. "src/mame/includes/maygay1b.h",
-	MAME_DIR .. "src/mame/drivers/maygay1b.hxx",
-	MAME_DIR .. "src/mame/drivers/maygayv1.cpp",
-	MAME_DIR .. "src/mame/drivers/maygayep.cpp",
-	MAME_DIR .. "src/mame/drivers/maygaysw.cpp",
+--	MAME_DIR .. "src/mame/drivers/maygay1b.cpp",
+--	MAME_DIR .. "src/mame/includes/maygay1b.h",
+--	MAME_DIR .. "src/mame/drivers/maygay1b.hxx",
+--	MAME_DIR .. "src/mame/drivers/maygayv1.cpp",
+--	MAME_DIR .. "src/mame/drivers/maygayep.cpp",
+--	MAME_DIR .. "src/mame/drivers/maygaysw.cpp",
 	MAME_DIR .. "src/mame/drivers/mmm.cpp",
 }
 
@@ -2539,8 +2542,6 @@ files {
 createMAMEProjects(_target, _subtarget, "metro")
 files {
 	MAME_DIR .. "src/mame/drivers/hyprduel.cpp",
-	MAME_DIR .. "src/mame/includes/hyprduel.h",
-	MAME_DIR .. "src/mame/video/hyprduel.cpp",
 	MAME_DIR .. "src/mame/drivers/metro.cpp",
 	MAME_DIR .. "src/mame/includes/metro.h",
 	MAME_DIR .. "src/mame/video/metro.cpp",
@@ -3188,6 +3189,7 @@ files {
 	MAME_DIR .. "src/mame/audio/dsbz80.cpp",
 	MAME_DIR .. "src/mame/audio/dsbz80.h",
 	MAME_DIR .. "src/mame/drivers/model2.cpp",
+	MAME_DIR .. "src/mame/machine/model2.cpp",
 	MAME_DIR .. "src/mame/includes/model2.h",
 	MAME_DIR .. "src/mame/video/model2rd.hxx",
 	MAME_DIR .. "src/mame/video/model2.cpp",
@@ -3644,8 +3646,6 @@ files {
 	MAME_DIR .. "src/mame/video/ashnojoe.cpp",
 	MAME_DIR .. "src/mame/drivers/asuka.cpp",
 	MAME_DIR .. "src/mame/includes/asuka.h",
-	MAME_DIR .. "src/mame/machine/bonzeadv.cpp",
-	MAME_DIR .. "src/mame/machine/bonzeadv.h",
 	MAME_DIR .. "src/mame/video/asuka.cpp",
 	MAME_DIR .. "src/mame/drivers/bigevglf.cpp",
 	MAME_DIR .. "src/mame/includes/bigevglf.h",
@@ -3764,7 +3764,6 @@ files {
 	MAME_DIR .. "src/mame/video/qix.cpp",
 	MAME_DIR .. "src/mame/drivers/rbisland.cpp",
 	MAME_DIR .. "src/mame/includes/rbisland.h",
-	MAME_DIR .. "src/mame/machine/rbisland.cpp",
 	MAME_DIR .. "src/mame/video/rbisland.cpp",
 	MAME_DIR .. "src/mame/drivers/rastan.cpp",
 	MAME_DIR .. "src/mame/includes/rastan.h",
@@ -3848,7 +3847,6 @@ files {
 	MAME_DIR .. "src/mame/video/undrfire.cpp",
 	MAME_DIR .. "src/mame/drivers/volfied.cpp",
 	MAME_DIR .. "src/mame/includes/volfied.h",
-	MAME_DIR .. "src/mame/machine/volfied.cpp",
 	MAME_DIR .. "src/mame/video/volfied.cpp",
 	MAME_DIR .. "src/mame/drivers/warriorb.cpp",
 	MAME_DIR .. "src/mame/includes/warriorb.h",
@@ -4331,6 +4329,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/jp.cpp",
 	MAME_DIR .. "src/mame/drivers/jvh.cpp",
 	MAME_DIR .. "src/mame/drivers/kissproto.cpp",
+	MAME_DIR .. "src/mame/drivers/lckydraw.cpp",
 	MAME_DIR .. "src/mame/drivers/ltd.cpp",
 	MAME_DIR .. "src/mame/drivers/macp.cpp",
 	MAME_DIR .. "src/mame/drivers/micropin.cpp",
@@ -4744,7 +4743,6 @@ files {
 	MAME_DIR .. "src/mame/drivers/taxidriv.cpp",
 	MAME_DIR .. "src/mame/includes/taxidriv.h",
 	MAME_DIR .. "src/mame/video/taxidriv.cpp",
-	MAME_DIR .. "src/mame/drivers/tcl.cpp",
 	MAME_DIR .. "src/mame/drivers/thayers.cpp",
 	MAME_DIR .. "src/mame/drivers/thedeep.cpp",
 	MAME_DIR .. "src/mame/includes/thedeep.h",

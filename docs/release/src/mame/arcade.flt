@@ -1,26 +1,26 @@
-1942.cpp
-1943.cpp
-1945kiii.cpp
-20pacgal.cpp
+1942.cpp           // ok
+1943.cpp           // ok
+1945kiii.cpp       // ok
+20pacgal.cpp       // ok
 //24cdjuke.cpp     // mechanical
-2mindril.cpp
-30test.cpp
-39in1.cpp
+2mindril.cpp       // ok
+30test.cpp         // ok
+39in1.cpp          // ok
 //3do.cpp          // chd
-3x3puzzl.cpp
-40love.cpp
+3x3puzzl.cpp       // ok
+40love.cpp         // ok
 //4enlinea.cpp     // check
-4enraya.cpp
+4enraya.cpp        // ok
 //4roses.cpp       // check
 //5clown.cpp       // poker
-8080bw.cpp
-88games.cpp
+8080bw.cpp         // ok
+88games.cpp        // ok
 //a1supply.cpp     // check
-ace.cpp
+ace.cpp            // ok
 //acefruit.cpp     // fruit
 //aces1.cpp        // fruit
 //acesp.cpp        // fruit
-acommand.cpp
+acommand.cpp       // ok
 actfancr.cpp
 adp.cpp
 aeroboto.cpp
@@ -600,6 +600,7 @@ konamigq.cpp
 konamigv.cpp
 konamigx.cpp
 konamim2.cpp
+//konblands.cpp    // not working; check back later
 //konendev.cpp     // fruit
 //konmedal.cpp     // check
 //konmedal68k.cpp  // check
@@ -624,6 +625,7 @@ lastfght.cpp
 //laz_ribrac.cpp   // mechanical
 lazercmd.cpp
 lbeach.cpp
+lckydraw.cpp
 legionna.cpp
 leland.cpp
 lemmings.cpp
@@ -642,9 +644,9 @@ lordgun.cpp
 lsasquad.cpp
 //ltcasino.cpp     // gambling
 //ltd.cpp          // pinball
-//luckybal.cpp     // gambling
 //luckgrln.cpp     // gambling
 //lucky74.cpp      // poker
+//luckybal.cpp     // gambling
 //lvcards.cpp      // poker
 lwings.cpp
 m10.cpp
@@ -1213,7 +1215,6 @@ tattack.cpp
 taxidriv.cpp
 tbowl.cpp
 tceptor.cpp
-//tcl.cpp          // check
 //techno.cpp       // pinball
 tecmo.cpp
 tecmo16.cpp
