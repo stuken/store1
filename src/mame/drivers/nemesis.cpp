@@ -66,16 +66,16 @@ So this is the correct behavior of real hardware, not an emulation bug.
 #include "konamigt.lh"
 
 
-INTERRUPT_GEN_MEMBER(nemesis_state::nemesis_interrupt)
+WRITE_LINE_MEMBER(nemesis_state::nemesis_vblank_irq)
 {
-	if (m_irq_on)
-		device.execute().set_input_line(1, HOLD_LINE);
+	if (state && m_irq_on)
+		m_maincpu->set_input_line(1, HOLD_LINE);
 }
 
-INTERRUPT_GEN_MEMBER(nemesis_state::blkpnthr_interrupt)
+WRITE_LINE_MEMBER(nemesis_state::blkpnthr_vblank_irq)
 {
-	if (m_irq_on)
-		device.execute().set_input_line(2, HOLD_LINE);
+	if (state && m_irq_on)
+		m_maincpu->set_input_line(2, HOLD_LINE);
 }
 
 TIMER_DEVICE_CALLBACK_MEMBER(nemesis_state::konamigt_interrupt)
@@ -1256,7 +1256,7 @@ static INPUT_PORTS_START( hcrash )
 	PORT_BIT( 0x08, IP_ACTIVE_HIGH, IPT_BUTTON2 ) PORT_CONDITION("DSW1", 0x03, EQUALS, 0x02)        // only in WEC Le Mans 24 cabinets
 	PORT_BIT( 0x08, IP_ACTIVE_HIGH, IPT_UNKNOWN ) PORT_CONDITION("DSW1", 0x03, NOTEQUALS, 0x02) // player 2?
 	PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_BUTTON3 )
-	PORT_BIT( 0x20, IP_ACTIVE_HIGH, IPT_SPECIAL )   // must be 0 otherwise game freezes when using WEC Le Mans 24 cabinet
+	PORT_BIT( 0x20, IP_ACTIVE_HIGH, IPT_CUSTOM )   // must be 0 otherwise game freezes when using WEC Le Mans 24 cabinet
 	PORT_BIT( 0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN )
 	PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN )
 
@@ -1464,7 +1464,6 @@ MACHINE_CONFIG_START(nemesis_state::nemesis)
 	MCFG_CPU_ADD("maincpu", M68000,18432000/2)         /* 9.216 MHz? */
 //          14318180/2, /* From schematics, should be accurate */
 	MCFG_CPU_PROGRAM_MAP(nemesis_map)
-	MCFG_CPU_VBLANK_INT_DRIVER("screen", nemesis_state,  nemesis_interrupt)
 
 	MCFG_CPU_ADD("audiocpu", Z80,14318180/4) /* From schematics, should be accurate */
 	MCFG_CPU_PROGRAM_MAP(sound_map) /* fixed */
@@ -1489,6 +1488,7 @@ MACHINE_CONFIG_START(nemesis_state::nemesis)
 	MCFG_SCREEN_VISIBLE_AREA(0*8, 32*8-1, 2*8, 30*8-1)
 	MCFG_SCREEN_UPDATE_DRIVER(nemesis_state, screen_update_nemesis)
 	MCFG_SCREEN_PALETTE("palette")
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(nemesis_state, nemesis_vblank_irq))
 
 	MCFG_GFXDECODE_ADD("gfxdecode", "palette", nemesis)
 	MCFG_PALETTE_ADD("palette", 2048)
@@ -1532,7 +1532,6 @@ MACHINE_CONFIG_START(nemesis_state::gx400)
 
 	MCFG_CPU_ADD("audiocpu", Z80,14318180/4)        /* 3.579545 MHz */
 	MCFG_CPU_PROGRAM_MAP(gx400_sound_map)
-	MCFG_CPU_VBLANK_INT_DRIVER("screen", nemesis_state,  nmi_line_pulse)    /* interrupts are triggered by the main CPU */
 
 	MCFG_DEVICE_ADD("outlatch", LS259, 0)
 	MCFG_ADDRESSABLE_LATCH_Q0_OUT_CB(WRITELINE(nemesis_state, coin1_lockout_w))
@@ -1556,6 +1555,7 @@ MACHINE_CONFIG_START(nemesis_state::gx400)
 	MCFG_SCREEN_VISIBLE_AREA(0*8, 32*8-1, 2*8, 30*8-1)
 	MCFG_SCREEN_UPDATE_DRIVER(nemesis_state, screen_update_nemesis)
 	MCFG_SCREEN_PALETTE("palette")
+	MCFG_SCREEN_VBLANK_CALLBACK(INPUTLINE("audiocpu", INPUT_LINE_NMI))
 
 	MCFG_GFXDECODE_ADD("gfxdecode", "palette", nemesis)
 	MCFG_PALETTE_ADD("palette", 2048)
@@ -1670,7 +1670,6 @@ MACHINE_CONFIG_START(nemesis_state::rf2_gx400)
 
 	MCFG_CPU_ADD("audiocpu", Z80,14318180/4)        /* 3.579545 MHz */
 	MCFG_CPU_PROGRAM_MAP(gx400_sound_map)
-	MCFG_CPU_VBLANK_INT_DRIVER("screen", nemesis_state,  nmi_line_pulse)    /* interrupts are triggered by the main CPU */
 
 	MCFG_DEVICE_ADD("outlatch", LS259, 0)
 	MCFG_ADDRESSABLE_LATCH_Q0_OUT_CB(WRITELINE(nemesis_state, coin1_lockout_w))
@@ -1694,6 +1693,7 @@ MACHINE_CONFIG_START(nemesis_state::rf2_gx400)
 	MCFG_SCREEN_VISIBLE_AREA(0*8, 32*8-1, 2*8, 30*8-1)
 	MCFG_SCREEN_UPDATE_DRIVER(nemesis_state, screen_update_nemesis)
 	MCFG_SCREEN_PALETTE("palette")
+	MCFG_SCREEN_VBLANK_CALLBACK(INPUTLINE("audiocpu", INPUT_LINE_NMI))
 
 	MCFG_GFXDECODE_ADD("gfxdecode", "palette", nemesis)
 	MCFG_PALETTE_ADD("palette", 2048)
@@ -1739,7 +1739,6 @@ MACHINE_CONFIG_START(nemesis_state::salamand)
 	/* basic machine hardware */
 	MCFG_CPU_ADD("maincpu", M68000,18432000/2)       /* 9.216MHz */
 	MCFG_CPU_PROGRAM_MAP(salamand_map)
-	MCFG_CPU_VBLANK_INT_DRIVER("screen", nemesis_state,  nemesis_interrupt)
 
 	MCFG_CPU_ADD("audiocpu", Z80, 3579545)         /* 3.579545 MHz */
 	MCFG_CPU_PROGRAM_MAP(sal_sound_map)
@@ -1755,6 +1754,7 @@ MACHINE_CONFIG_START(nemesis_state::salamand)
 	MCFG_SCREEN_VISIBLE_AREA(0*8, 32*8-1, 2*8, 30*8-1)
 	MCFG_SCREEN_UPDATE_DRIVER(nemesis_state, screen_update_nemesis)
 	MCFG_SCREEN_PALETTE("palette")
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(nemesis_state, nemesis_vblank_irq))
 
 	MCFG_GFXDECODE_ADD("gfxdecode", "palette", nemesis)
 	MCFG_PALETTE_ADD("palette", 2048)
@@ -1790,7 +1790,6 @@ MACHINE_CONFIG_START(nemesis_state::blkpnthr)
 	/* basic machine hardware */
 	MCFG_CPU_ADD("maincpu", M68000,18432000/2)         /* 9.216 MHz? */
 	MCFG_CPU_PROGRAM_MAP(blkpnthr_map)
-	MCFG_CPU_VBLANK_INT_DRIVER("screen", nemesis_state,  blkpnthr_interrupt)
 
 	MCFG_CPU_ADD("audiocpu", Z80, 3579545)        /* 3.579545 MHz */
 	MCFG_CPU_PROGRAM_MAP(blkpnthr_sound_map)
@@ -1806,6 +1805,7 @@ MACHINE_CONFIG_START(nemesis_state::blkpnthr)
 	MCFG_SCREEN_VISIBLE_AREA(0*8, 32*8-1, 2*8, 30*8-1)
 	MCFG_SCREEN_UPDATE_DRIVER(nemesis_state, screen_update_nemesis)
 	MCFG_SCREEN_PALETTE("palette")
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(nemesis_state, blkpnthr_vblank_irq))
 
 	MCFG_GFXDECODE_ADD("gfxdecode", "palette", nemesis)
 	MCFG_PALETTE_ADD("palette", 2048)
@@ -1836,7 +1836,6 @@ MACHINE_CONFIG_START(nemesis_state::citybomb)
 	/* basic machine hardware */
 	MCFG_CPU_ADD("maincpu", M68000,18432000/2)         /* 9.216 MHz? */
 	MCFG_CPU_PROGRAM_MAP(citybomb_map)
-	MCFG_CPU_VBLANK_INT_DRIVER("screen", nemesis_state,  nemesis_interrupt)
 
 	MCFG_CPU_ADD("audiocpu", Z80, 3579545)        /* 3.579545 MHz */
 	MCFG_CPU_PROGRAM_MAP(city_sound_map)
@@ -1852,6 +1851,7 @@ MACHINE_CONFIG_START(nemesis_state::citybomb)
 	MCFG_SCREEN_VISIBLE_AREA(0*8, 32*8-1, 2*8, 30*8-1)
 	MCFG_SCREEN_UPDATE_DRIVER(nemesis_state, screen_update_nemesis)
 	MCFG_SCREEN_PALETTE("palette")
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(nemesis_state, nemesis_vblank_irq))
 
 	MCFG_GFXDECODE_ADD("gfxdecode", "palette", nemesis)
 	MCFG_PALETTE_ADD("palette", 2048)
@@ -1886,7 +1886,6 @@ MACHINE_CONFIG_START(nemesis_state::nyanpani)
 	/* basic machine hardware */
 	MCFG_CPU_ADD("maincpu", M68000,18432000/2)         /* 9.216 MHz? */
 	MCFG_CPU_PROGRAM_MAP(nyanpani_map)
-	MCFG_CPU_VBLANK_INT_DRIVER("screen", nemesis_state,  nemesis_interrupt)
 
 	MCFG_CPU_ADD("audiocpu", Z80, 3579545)        /* 3.579545 MHz */
 	MCFG_CPU_PROGRAM_MAP(city_sound_map)
@@ -1902,6 +1901,7 @@ MACHINE_CONFIG_START(nemesis_state::nyanpani)
 	MCFG_SCREEN_VISIBLE_AREA(0*8, 32*8-1, 2*8, 30*8-1)
 	MCFG_SCREEN_UPDATE_DRIVER(nemesis_state, screen_update_nemesis)
 	MCFG_SCREEN_PALETTE("palette")
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(nemesis_state, nemesis_vblank_irq))
 
 	MCFG_GFXDECODE_ADD("gfxdecode", "palette", nemesis)
 	MCFG_PALETTE_ADD("palette", 2048)
@@ -2694,7 +2694,6 @@ MACHINE_CONFIG_START(nemesis_state::bubsys)
 
 	MCFG_CPU_ADD("audiocpu", Z80,14318180/4)        /* 3.579545 MHz */
 	MCFG_CPU_PROGRAM_MAP(gx400_sound_map)
-	MCFG_CPU_VBLANK_INT_DRIVER("screen", nemesis_state, nmi_line_pulse)    /* interrupts are triggered by the main CPU */
 
 	MCFG_DEVICE_ADD("outlatch", LS259, 0)
 	MCFG_ADDRESSABLE_LATCH_Q0_OUT_CB(WRITELINE(nemesis_state, coin1_lockout_w))
@@ -2718,6 +2717,7 @@ MACHINE_CONFIG_START(nemesis_state::bubsys)
 	MCFG_SCREEN_VISIBLE_AREA(0*8, 32*8-1, 2*8, 30*8-1)
 	MCFG_SCREEN_UPDATE_DRIVER(nemesis_state, screen_update_nemesis)
 	MCFG_SCREEN_PALETTE("palette")
+	MCFG_SCREEN_VBLANK_CALLBACK(INPUTLINE("audiocpu", INPUT_LINE_NMI))
 
 	MCFG_GFXDECODE_ADD("gfxdecode", "palette", nemesis)
 	MCFG_PALETTE_ADD("palette", 2048)
