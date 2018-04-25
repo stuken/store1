@@ -363,7 +363,7 @@ void video_manager::save_active_screen_snapshots()
 		for (screen_device &screen : screen_device_iterator(machine().root_device()))
 			if (machine().render().is_live(screen))
 			{
-				emu_file file(machine().options().video_directory(), OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS); // MAMEFX
+				emu_file file(machine().options().snapshot_directory(), OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS);
 				osd_file::error filerr = open_next(file, "png");
 				if (filerr == osd_file::error::NONE)
 					save_snapshot(&screen, file);
@@ -373,7 +373,7 @@ void video_manager::save_active_screen_snapshots()
 	// otherwise, just write a single snapshot
 	else
 	{
-		emu_file file(machine().options().video_directory(), OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS); // MAMEFX
+		emu_file file(machine().options().snapshot_directory(), OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS);
 		osd_file::error filerr = open_next(file, "png");
 		if (filerr == osd_file::error::NONE)
 			save_snapshot(nullptr, file);
@@ -1236,7 +1236,7 @@ void video_manager::recompute_speed(const attotime &emutime)
 	if (m_seconds_to_run > 1 && emutime.seconds() >= m_seconds_to_run) // MAMEFX
 	{
 		// create a final screenshot
-		emu_file file(machine().options().video_directory(), OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS); // MAMEFX
+		emu_file file(machine().options().snapshot_directory(), OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS);
 		osd_file::error filerr = file.open(machine().basename(), PATH_SEPARATOR "final.png");
 		if (filerr == osd_file::error::NONE)
 			save_snapshot(nullptr, file);
