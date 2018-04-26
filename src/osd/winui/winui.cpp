@@ -299,7 +299,6 @@ static int optionfolder_count = 0;
 /* global data--know where to send messages */
 static bool in_emulation = false;
 static bool game_launched = false;
-static bool switched = false;
 /* idle work at startup */
 static bool idle_work = false;
 /* object pool in use */
@@ -488,24 +487,41 @@ public:
 			return;
 		}
 
+		int s_action = 0;
+		bool s_switched = false;
+		char buffer[4096];
+		vsnprintf(buffer, ARRAY_LENGTH(buffer), msg, args);
+
 		if (channel == OSD_OUTPUT_CHANNEL_ERROR)
 		{
-			switched = false;
-			char buffer[4096];
+			s_action = 0x80;
+		}
+		else
+		if (channel == OSD_OUTPUT_CHANNEL_WARNING)
+		{
+			if (strstr(buffer, "WRONG"))
+			{
+				s_action = 0x81;
+			}
+		}
 
+		if (s_action)
+		{
 			// if we are in fullscreen mode, go to windowed mode
 			if ((video_config.windowed == 0) && !osd_common_t::s_window_list.empty())
 			{
 				winwindow_toggle_full_screen();
-				switched = true;
+				s_switched = true;
 			}
 
-			vsnprintf(buffer, WINUI_ARRAY_LENGTH(buffer), msg, args);
-			winui_message_box_utf8(!osd_common_t::s_window_list.empty() ? std::static_pointer_cast<win_window_info>(osd_common_t::s_window_list.front())->platform_window() : nullptr, buffer, MAMEUINAME, MB_ICONERROR | MB_OK);
+			winui_message_box_utf8(!osd_common_t::s_window_list.empty() ?
+				std::static_pointer_cast<win_window_info>(osd_common_t::s_window_list.front())->platform_window() :
+					hMain, buffer, MAMEUINAME, (BIT(s_action, 0) ? MB_ICONINFORMATION : MB_ICONERROR) | MB_OK);
 
-			if (switched)
+			if (s_switched)
 				winwindow_toggle_full_screen();
 		}
+
 //		else
 //			chain_output(channel, msg, args);   // goes down the black hole
 		// LOG all messages
