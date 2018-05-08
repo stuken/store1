@@ -634,9 +634,9 @@ WRITE_LINE_MEMBER(midas_state::screen_vblank_midas)
 MACHINE_CONFIG_START(midas_state::livequiz)
 
 	/* basic machine hardware */
-	MCFG_CPU_ADD("maincpu", M68000, XTAL(24'000'000) / 2)
-	MCFG_CPU_PROGRAM_MAP(livequiz_map)
-	MCFG_CPU_VBLANK_INT_DRIVER("screen", midas_state,  irq1_line_hold)
+	MCFG_DEVICE_ADD("maincpu", M68000, XTAL(24'000'000) / 2)
+	MCFG_DEVICE_PROGRAM_MAP(livequiz_map)
+	MCFG_DEVICE_VBLANK_INT_DRIVER("screen", midas_state,  irq1_line_hold)
 
 	MCFG_EEPROM_SERIAL_93C46_ADD("eeprom")
 
@@ -644,7 +644,7 @@ MACHINE_CONFIG_START(midas_state::livequiz)
 	MCFG_SCREEN_ADD("screen", RASTER)
 	MCFG_SCREEN_RAW_PARAMS(NEOGEO_PIXEL_CLOCK, NEOGEO_HTOTAL, NEOGEO_HBEND, NEOGEO_HBSTART, NEOGEO_VTOTAL, NEOGEO_VBEND, NEOGEO_VBSTART)
 	MCFG_SCREEN_UPDATE_DRIVER(midas_state, screen_update_midas)
-	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(midas_state, screen_vblank_midas))
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(*this, midas_state, screen_vblank_midas))
 
 	MCFG_DEVICE_ADD("spritegen", NEOGEO_SPRITE_MIDAS, 0)
 
@@ -654,7 +654,7 @@ MACHINE_CONFIG_START(midas_state::livequiz)
 
 	/* sound hardware */
 	MCFG_SPEAKER_STANDARD_STEREO("lspeaker", "rspeaker")
-	MCFG_SOUND_ADD("ymz", YMZ280B, XTAL(16'934'400))
+	MCFG_DEVICE_ADD("ymz", YMZ280B, XTAL(16'934'400))
 	MCFG_SOUND_ROUTE(0, "lspeaker", 0.80)
 	MCFG_SOUND_ROUTE(1, "rspeaker", 0.80)
 MACHINE_CONFIG_END
@@ -662,9 +662,9 @@ MACHINE_CONFIG_END
 MACHINE_CONFIG_START(midas_state::hammer)
 
 	/* basic machine hardware */
-	MCFG_CPU_ADD("maincpu", M68000, XTAL(28'000'000) / 2)
-	MCFG_CPU_PROGRAM_MAP(hammer_map)
-	MCFG_CPU_VBLANK_INT_DRIVER("screen", midas_state,  irq1_line_hold)
+	MCFG_DEVICE_ADD("maincpu", M68000, XTAL(28'000'000) / 2)
+	MCFG_DEVICE_PROGRAM_MAP(hammer_map)
+	MCFG_DEVICE_VBLANK_INT_DRIVER("screen", midas_state,  irq1_line_hold)
 
 	MCFG_EEPROM_SERIAL_93C46_ADD("eeprom")
 
@@ -676,7 +676,7 @@ MACHINE_CONFIG_START(midas_state::hammer)
 	MCFG_SCREEN_ADD("screen", RASTER)
 	MCFG_SCREEN_RAW_PARAMS(NEOGEO_PIXEL_CLOCK, NEOGEO_HTOTAL, NEOGEO_HBEND, NEOGEO_HBSTART, NEOGEO_VTOTAL, NEOGEO_VBEND, NEOGEO_VBSTART)
 	MCFG_SCREEN_UPDATE_DRIVER(midas_state, screen_update_midas)
-	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(midas_state, screen_vblank_midas))
+	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(*this, midas_state, screen_vblank_midas))
 
 	MCFG_DEVICE_ADD("spritegen", NEOGEO_SPRITE_MIDAS, 0)
 
@@ -687,7 +687,7 @@ MACHINE_CONFIG_START(midas_state::hammer)
 
 	/* sound hardware */
 	MCFG_SPEAKER_STANDARD_STEREO("lspeaker", "rspeaker")
-	MCFG_SOUND_ADD("ymz", YMZ280B, XTAL(16'934'400))
+	MCFG_DEVICE_ADD("ymz", YMZ280B, XTAL(16'934'400))
 	MCFG_SOUND_ROUTE(0, "lspeaker", 0.80)
 	MCFG_SOUND_ROUTE(1, "rspeaker", 0.80)
 MACHINE_CONFIG_END

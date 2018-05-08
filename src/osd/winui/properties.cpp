@@ -305,9 +305,9 @@ const DUALCOMBOSTR g_ComboBoxSnapView[] =
 
 const DUALCOMBOSTR g_ComboBoxGLSLFilter[] =
 {
-	{ TEXT("Plain"),		"0" },
-	{ TEXT("Bilinear"),	   	"1" },
-	{ TEXT("Bicubic"),    	"2" }
+	{ TEXT("Plain"),    "0" },
+	{ TEXT("Bilinear"), "1" },
+	{ TEXT("Bicubic"),  "2" }
 };
 /***************************************************************
  * Public functions

@@ -23,6 +23,7 @@ public:
 		m_palette(*this, "palette"),
 		m_soundlatch(*this, "soundlatch"),
 		m_disc_ih(*this, "disc_ih"),
+		m_interrupt_enable(*this, "int_enable"),
 		m_scroll(*this, "scroll"),
 		m_colorram(*this, "colorram"),
 		m_videoram(*this, "videoram"),
@@ -44,6 +45,7 @@ public:
 	uint32_t screen_update(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 	uint32_t screen_update_farwest(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 
+	TIMER_DEVICE_CALLBACK_MEMBER(irq);
 	TIMER_DEVICE_CALLBACK_MEMBER(farwest_irq);
 	TIMER_DEVICE_CALLBACK_MEMBER(interrupt_tick);
 	INTERRUPT_GEN_MEMBER(farwest_irq);
@@ -74,7 +76,7 @@ private:
 	required_device<discrete_device> m_disc_ih;
 
 	/* memory pointers */
-	//required_shared_ptr<uint8_t> m_interrupt_enable;
+	required_shared_ptr<uint8_t> m_interrupt_enable;
 	required_shared_ptr<uint8_t> m_scroll;
 	required_shared_ptr<uint8_t> m_colorram;
 	required_shared_ptr<uint8_t> m_videoram;

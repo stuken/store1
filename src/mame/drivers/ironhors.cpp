@@ -25,7 +25,22 @@
  *
  *************************************/
 
-/* straight copied from gberet.c  and adapted */
+TIMER_DEVICE_CALLBACK_MEMBER(ironhors_state::irq)
+{
+	int scanline = param;
+
+	if (scanline == 240)
+	{
+		if (*m_interrupt_enable & 4)
+			m_maincpu->set_input_line(M6809_FIRQ_LINE, HOLD_LINE);
+	}
+	else if (((scanline+16) % 64) == 0)
+	{
+		if (*m_interrupt_enable & 1)
+			m_maincpu->set_input_line(INPUT_LINE_NMI, PULSE_LINE);
+	}
+}
+
 TIMER_DEVICE_CALLBACK_MEMBER(ironhors_state::interrupt_tick)
 {
 	uint8_t ticks_mask = ~m_interrupt_ticks & (m_interrupt_ticks + 1); // 0->1
@@ -76,8 +91,8 @@ void ironhors_state::master_map(address_map &map)
 {
 	map(0x0000, 0x0002).ram();
 	map(0x0003, 0x0003).ram().w(this, FUNC(ironhors_state::charbank_w));
-	//map(0x0004, 0x0004).ram().share("int_enable");
-	map(0x0004, 0x0004).w(this, FUNC(ironhors_state::irq_ctrl_w));
+	map(0x0004, 0x0004).ram().share("int_enable");
+	//map(0x0004, 0x0004).w(this, FUNC(ironhors_state::irq_ctrl_w));
 	map(0x0005, 0x001f).ram();
 	map(0x0020, 0x003f).ram().share("scroll");
 	map(0x0040, 0x005f).ram();
@@ -130,8 +145,8 @@ void ironhors_state::farwest_master_map(address_map &map)
 	map(0x0b02, 0x0b02).portr("P1");
 	map(0x0b03, 0x0b03).portr("SYSTEM");
 	map(0x1800, 0x1800).w(this, FUNC(ironhors_state::sh_irqtrigger_w));
-	//map(0x1a00, 0x1a00).ram().share("int_enable");
-	map(0x1a00, 0x1a00).w(this, FUNC(ironhors_state::irq_enable_w));
+	map(0x1a00, 0x1a00).ram().share("int_enable");
+	//map(0x1a00, 0x1a00).w(this, FUNC(ironhors_state::irq_enable_w));
 	map(0x1a01, 0x1a01).ram().w(this, FUNC(ironhors_state::charbank_w));
 	map(0x1a02, 0x1a02).w(this, FUNC(ironhors_state::palettebank_w));
 //  map(0x1c00, 0x1fff).ram();
@@ -328,7 +343,7 @@ static const discrete_mixer_desc ironhors_mixer_desc_final =
 		0,
 		0, 1};
 
-static DISCRETE_SOUND_START( ironhors )
+static DISCRETE_SOUND_START( ironhors_discrete )
 
 	DISCRETE_INPUTX_STREAM(NODE_01, 0, 5.0, 0)
 	DISCRETE_INPUTX_STREAM(NODE_02, 1, 5.0, 0)
@@ -399,13 +414,14 @@ These clocks make the emulation run too fast.
 MACHINE_CONFIG_START(ironhors_state::ironhors)
 
 	/* basic machine hardware */
-	MCFG_CPU_ADD("maincpu", MC6809E, MASTER_CLOCK/6)        /* 3.072 MHz??? mod by Shingo Suzuki 1999/10/15 */
-	MCFG_CPU_PROGRAM_MAP(master_map)
-	MCFG_TIMER_DRIVER_ADD_SCANLINE("scantimer", ironhors_state, interrupt_tick, "screen", 0, 16)
+	MCFG_DEVICE_ADD("maincpu", MC6809E, 18432000/6)        /* 3.072 MHz??? mod by Shingo Suzuki 1999/10/15 */
+	MCFG_DEVICE_PROGRAM_MAP(master_map)
+	//MCFG_TIMER_DRIVER_ADD_SCANLINE("scantimer", ironhors_state, interrupt_tick, "screen", 0, 16) // MAMEFX
+	MCFG_TIMER_DRIVER_ADD_SCANLINE("scantimer", ironhors_state, irq, "screen", 0, 1)
 
-	MCFG_CPU_ADD("soundcpu", Z80, MASTER_CLOCK/6)      /* 3.072 MHz */
-	MCFG_CPU_PROGRAM_MAP(slave_map)
-	MCFG_CPU_IO_MAP(slave_io_map)
+	MCFG_DEVICE_ADD("soundcpu", Z80, 18432000/6)      /* 3.072 MHz */
+	MCFG_DEVICE_PROGRAM_MAP(slave_map)
+	MCFG_DEVICE_IO_MAP(slave_io_map)
 
 
 	/* video hardware */
@@ -424,16 +440,15 @@ MACHINE_CONFIG_START(ironhors_state::ironhors)
 
 	MCFG_GENERIC_LATCH_8_ADD("soundlatch")
 
-	MCFG_SOUND_ADD("ym2203", YM2203, MASTER_CLOCK/6)
-	MCFG_AY8910_PORT_A_WRITE_CB(WRITE8(ironhors_state, filter_w))
+	MCFG_DEVICE_ADD("ym2203", YM2203, 18432000/6)
+	MCFG_AY8910_PORT_A_WRITE_CB(WRITE8(*this, ironhors_state, filter_w))
 
-	MCFG_SOUND_ROUTE_EX(0, "disc_ih", 1.0, 0)
-	MCFG_SOUND_ROUTE_EX(1, "disc_ih", 1.0, 1)
-	MCFG_SOUND_ROUTE_EX(2, "disc_ih", 1.0, 2)
-	MCFG_SOUND_ROUTE_EX(3, "disc_ih", 1.0, 3)
+	MCFG_SOUND_ROUTE(0, "disc_ih", 1.0, 0)
+	MCFG_SOUND_ROUTE(1, "disc_ih", 1.0, 1)
+	MCFG_SOUND_ROUTE(2, "disc_ih", 1.0, 2)
+	MCFG_SOUND_ROUTE(3, "disc_ih", 1.0, 3)
 
-	MCFG_SOUND_ADD("disc_ih", DISCRETE, 0)
-	MCFG_DISCRETE_INTF(ironhors)
+	MCFG_DEVICE_ADD("disc_ih", DISCRETE, ironhors_discrete)
 	MCFG_SOUND_ROUTE(ALL_OUTPUTS, "mono", 1.0)
 
 MACHINE_CONFIG_END
@@ -448,16 +463,20 @@ WRITE8_MEMBER(ironhors_state::irq_enable_w)
 	// bit 4 is also used....
 }
 
-INTERRUPT_GEN_MEMBER(ironhors_state::farwest_irq)
+TIMER_DEVICE_CALLBACK_MEMBER(ironhors_state::farwest_irq)
 {
-	if (m_irq_enable)
-		m_maincpu->set_input_line(M6809_FIRQ_LINE, HOLD_LINE);
-}
+	int scanline = param;
 
-INTERRUPT_GEN_MEMBER(ironhors_state::farwest_irq_nmi)
-{
-	if (m_nmi_enable)
-		m_maincpu->set_input_line(INPUT_LINE_NMI, PULSE_LINE);
+	if ((scanline % 2) == 1)
+	{
+		if (*m_interrupt_enable & 4)
+			m_maincpu->set_input_line(M6809_FIRQ_LINE, HOLD_LINE);
+	}
+	else if ((scanline % 2) == 0)
+	{
+		if (*m_interrupt_enable & 1)
+			m_maincpu->set_input_line(INPUT_LINE_NMI, PULSE_LINE);
+	}
 }
 
 READ8_MEMBER(ironhors_state::farwest_soundlatch_r)
@@ -468,14 +487,13 @@ READ8_MEMBER(ironhors_state::farwest_soundlatch_r)
 MACHINE_CONFIG_START(ironhors_state::farwest)
 	ironhors(config);
 
-	MCFG_CPU_MODIFY("maincpu")
-	MCFG_CPU_PROGRAM_MAP(farwest_master_map)
-	MCFG_CPU_VBLANK_INT_DRIVER("screen", ironhors_state, farwest_irq)
-	MCFG_CPU_PERIODIC_INT_DRIVER(ironhors_state, farwest_irq_nmi, 480)		/* 8*60, seems ok */
-	MCFG_DEVICE_REMOVE("scantimer")
+	MCFG_DEVICE_MODIFY("maincpu")
+	MCFG_DEVICE_PROGRAM_MAP(farwest_master_map)
+	MCFG_DEVICE_MODIFY("scantimer")
+	MCFG_TIMER_DRIVER_CALLBACK(ironhors_state, farwest_irq)
 
-	MCFG_CPU_MODIFY("soundcpu")
-	MCFG_CPU_PROGRAM_MAP(farwest_slave_map)
+	MCFG_DEVICE_MODIFY("soundcpu")
+	MCFG_DEVICE_PROGRAM_MAP(farwest_slave_map)
 	MCFG_DEVICE_REMOVE_ADDRESS_MAP(AS_IO)
 
 	MCFG_GFXDECODE_MODIFY("gfxdecode", farwest)
@@ -483,9 +501,9 @@ MACHINE_CONFIG_START(ironhors_state::farwest)
 	MCFG_SCREEN_MODIFY("screen")
 	MCFG_SCREEN_UPDATE_DRIVER(ironhors_state, screen_update_farwest)
 
-	MCFG_SOUND_MODIFY("ym2203")
-	MCFG_AY8910_PORT_B_READ_CB(READ8(ironhors_state, farwest_soundlatch_r))
-	MCFG_AY8910_PORT_A_WRITE_CB(WRITE8(ironhors_state, filter_w))
+	MCFG_DEVICE_MODIFY("ym2203")
+	MCFG_AY8910_PORT_B_READ_CB(READ8(*this, ironhors_state, farwest_soundlatch_r))
+	MCFG_AY8910_PORT_A_WRITE_CB(WRITE8(*this, ironhors_state, filter_w))
 MACHINE_CONFIG_END
 
 

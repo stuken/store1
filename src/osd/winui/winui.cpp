@@ -618,6 +618,8 @@ int MameUIMain(HINSTANCE hInstance, LPWSTR lpCmdLine)
 	unlink("winui.log");
 	unlink("verbose.log");
 
+	printf("ARCADE starting\n");fflush(stdout);
+
 	if (__argc != 1)
 	{
 		extern int main_(int argc, char *argv[]);
@@ -1143,9 +1145,13 @@ static void Win32UI_init(void)
 	LONG_PTR l;
 	struct TabViewOptions opts;
 
+	printf("Win32UI_init: About to init options\n");fflush(stdout);
+
 	/* Init DirectInput */
 	DirectInputInitialize();
 	OptionsInit();
+
+	printf("Win32UI_init: Options loaded\n");fflush(stdout);
 
 	if (RequiredDriverCache())
 		winui_set_window_text_utf8(GetDlgItem(hSplash, IDC_PROGBAR), "Building folders structure...");
