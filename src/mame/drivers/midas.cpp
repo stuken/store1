@@ -653,7 +653,8 @@ MACHINE_CONFIG_START(midas_state::livequiz)
 	MCFG_PALETTE_FORMAT(XRGB)
 
 	/* sound hardware */
-	MCFG_SPEAKER_STANDARD_STEREO("lspeaker", "rspeaker")
+	SPEAKER(config, "lspeaker").front_left();
+	SPEAKER(config, "rspeaker").front_right();
 	MCFG_DEVICE_ADD("ymz", YMZ280B, XTAL(16'934'400))
 	MCFG_SOUND_ROUTE(0, "lspeaker", 0.80)
 	MCFG_SOUND_ROUTE(1, "rspeaker", 0.80)
@@ -686,7 +687,8 @@ MACHINE_CONFIG_START(midas_state::hammer)
 
 
 	/* sound hardware */
-	MCFG_SPEAKER_STANDARD_STEREO("lspeaker", "rspeaker")
+	SPEAKER(config, "lspeaker").front_left();
+	SPEAKER(config, "rspeaker").front_right();
 	MCFG_DEVICE_ADD("ymz", YMZ280B, XTAL(16'934'400))
 	MCFG_SOUND_ROUTE(0, "lspeaker", 0.80)
 	MCFG_SOUND_ROUTE(1, "rspeaker", 0.80)

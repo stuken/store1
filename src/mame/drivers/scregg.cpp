@@ -287,7 +287,7 @@ MACHINE_CONFIG_START(scregg_state::dommy)
 	MCFG_PALETTE_INIT_OWNER(scregg_state,btime)
 
 	/* sound hardware */
-	MCFG_SPEAKER_STANDARD_MONO("mono")
+	SPEAKER(config, "mono").front_center();
 
 	MCFG_DEVICE_ADD("ay1", AY8910, XTAL(12'000'000)/8)
 	MCFG_SOUND_ROUTE(ALL_OUTPUTS, "mono", 0.23)
@@ -320,7 +320,7 @@ MACHINE_CONFIG_START(scregg_state::scregg)
 	MCFG_PALETTE_INIT_OWNER(scregg_state,btime)
 
 	/* sound hardware */
-	MCFG_SPEAKER_STANDARD_MONO("mono")
+	SPEAKER(config, "mono").front_center();
 
 	MCFG_DEVICE_ADD("ay1", AY8910, XTAL(12'000'000)/8)
 	MCFG_SOUND_ROUTE(ALL_OUTPUTS, "mono", 0.23)

@@ -1938,7 +1938,8 @@ MACHINE_CONFIG_END
 
 
 MACHINE_CONFIG_START(neogeo_base_state::neogeo_stereo)
-	MCFG_SPEAKER_STANDARD_STEREO("lspeaker", "rspeaker")
+	SPEAKER(config, "lspeaker").front_left();
+	SPEAKER(config, "rspeaker").front_right();
 
 	MCFG_DEVICE_MODIFY("ymsnd")
 	MCFG_SOUND_ROUTE(0, "lspeaker", 0.28)
@@ -1968,7 +1969,7 @@ MACHINE_CONFIG_END
 
 
 MACHINE_CONFIG_START(ngarcade_base_state::neogeo_mono)
-	MCFG_SPEAKER_STANDARD_MONO("speaker")
+	SPEAKER(config, "speaker").front_center();
 
 	MCFG_DEVICE_MODIFY("ymsnd")
 	MCFG_SOUND_ROUTE(0, "speaker", 0.28)
