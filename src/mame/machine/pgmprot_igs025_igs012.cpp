@@ -106,11 +106,9 @@ static const uint8_t drgw2_source_data[0x08][0xec] =
 	{ 0, }  // Region 7, not used
 };
 
-MACHINE_RESET_MEMBER(pgm_012_025_state,drgw2)
+void pgm_012_025_state::machine_reset_drgw2()
 {
-	MACHINE_RESET_CALL_MEMBER(pgm);
-
-
+	machine_reset_pgm();
 }
 
 void pgm_012_025_state::drgw2_common_init()
@@ -142,11 +140,11 @@ MACHINE_CONFIG_START(pgm_012_025_state::pgm_012_025_drgw2)
 	MCFG_DEVICE_ADD("igs025", IGS025, 0)
 	//MCFG_IGS025_SET_EXTERNAL_EXECUTE( pgm_022_025_state, igs025_to_igs012_callback )
 
-	MCFG_MACHINE_RESET_OVERRIDE(pgm_012_025_state,drgw2)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_drgw2, this));
 MACHINE_CONFIG_END
 
 
-DRIVER_INIT_MEMBER(pgm_012_025_state,drgw2)
+void pgm_012_025_state::init_drgw2()
 {
 	/* incomplete? */
 	uint16_t *mem16 = (uint16_t *)memregion("maincpu")->base();
@@ -162,7 +160,7 @@ DRIVER_INIT_MEMBER(pgm_012_025_state,drgw2)
 	mem16[0x1311ce / 2] = 0x4e93;
 }
 
-DRIVER_INIT_MEMBER(pgm_012_025_state,dw2v100x)
+void pgm_012_025_state::init_dw2v100x()
 {
 	uint16_t *mem16 = (uint16_t *)memregion("maincpu")->base();
 
@@ -177,7 +175,7 @@ DRIVER_INIT_MEMBER(pgm_012_025_state,dw2v100x)
 	mem16[0x1311ba / 2] = 0x4e93;
 }
 
-DRIVER_INIT_MEMBER(pgm_012_025_state,drgw2c)
+void pgm_012_025_state::init_drgw2c()
 {
 	uint16_t *mem16 = (uint16_t *)memregion("maincpu")->base();
 
@@ -192,7 +190,7 @@ DRIVER_INIT_MEMBER(pgm_012_025_state,drgw2c)
 	mem16[0x1304f2 / 2] = 0x4e93;
 }
 
-DRIVER_INIT_MEMBER(pgm_012_025_state,drgw2j)
+void pgm_012_025_state::init_drgw2j()
 {
 	uint16_t *mem16 = (uint16_t *)memregion("maincpu")->base();
 
@@ -207,7 +205,7 @@ DRIVER_INIT_MEMBER(pgm_012_025_state,drgw2j)
 	mem16[0x1303f6 / 2] = 0x4e93;
 }
 
-DRIVER_INIT_MEMBER(pgm_012_025_state,drgw2hk)
+void pgm_012_025_state::init_drgw2hk()
 {
 	drgw2_common_init();
 

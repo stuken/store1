@@ -43,8 +43,8 @@ public:
 
 	required_device<cpu_device> m_maincpu;
 
-	DECLARE_MACHINE_RESET(ec1841);
-	DECLARE_DRIVER_INIT(ec1841);
+	void machine_reset_ec1841();
+	void init_ec1841();
 
 	struct
 	{
@@ -150,7 +150,7 @@ WRITE8_MEMBER(ec184x_state::memboard_w)
 	m_memory.enable[offset] = data;
 }
 
-DRIVER_INIT_MEMBER(ec184x_state, ec1841)
+void ec184x_state::init_ec1841()
 {
 	address_space &program = m_maincpu->space(AS_PROGRAM);
 	ram_device *m_ram = machine().device<ram_device>(RAM_TAG);
@@ -175,7 +175,7 @@ DRIVER_INIT_MEMBER(ec184x_state, ec1841)
 	}
 }
 
-MACHINE_RESET_MEMBER(ec184x_state, ec1841)
+void ec184x_state::machine_reset_ec1841()
 {
 	memset(m_memory.enable, 0, sizeof(m_memory.enable));
 	// mark 1st board enabled
@@ -253,7 +253,7 @@ MACHINE_CONFIG_START(ec184x_state::ec1841)
 	MCFG_DEVICE_IO_MAP(ec1841_io)
 	MCFG_DEVICE_IRQ_ACKNOWLEDGE_DEVICE("mb:pic8259", pic8259_device, inta_cb)
 
-	MCFG_MACHINE_RESET_OVERRIDE(ec184x_state, ec1841)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_ec1841, this));
 
 	MCFG_EC1841_MOTHERBOARD_ADD("mb", "maincpu")
 
@@ -373,8 +373,8 @@ ROM_START( ec1847 )
 	ROM_LOAD( "317_d28_2732.bin", 0x00000, 0x1000, CRC(8939599b) SHA1(53d02460cf93596882a96758ef4bac5fa1ce55b2)) // monochrome font
 ROM_END
 
-//     YEAR  ROM NAME  PARENT   COMPAT  MACHINE  INPUT  STATE         INIT    COMPANY       FULLNAME   FLAGS
-COMP ( 1987, ec1840,   ibm5150, 0,      ec1840,  0,     ec184x_state, 0,      "<unknown>",  "EC-1840", MACHINE_NOT_WORKING )
-COMP ( 1987, ec1841,   ibm5150, 0,      ec1841,  0,     ec184x_state, ec1841, "<unknown>",  "EC-1841", 0 )
-COMP ( 1989, ec1845,   ibm5150, 0,      ec1841,  0,     ec184x_state, ec1841, "<unknown>",  "EC-1845", MACHINE_NOT_WORKING )
-COMP ( 1990, ec1847,   ibm5150, 0,      ec1847,  0,     ec184x_state, 0,      "<unknown>",  "EC-1847", MACHINE_NOT_WORKING )
+//    YEAR  NAME    PARENT   COMPAT  MACHINE  INPUT  STATE         INIT         COMPANY      FULLNAME   FLAGS
+COMP( 1987, ec1840, ibm5150, 0,      ec1840,  0,     ec184x_state, empty_init,  "<unknown>", "EC-1840", MACHINE_NOT_WORKING )
+COMP( 1987, ec1841, ibm5150, 0,      ec1841,  0,     ec184x_state, init_ec1841, "<unknown>", "EC-1841", 0 )
+COMP( 1989, ec1845, ibm5150, 0,      ec1841,  0,     ec184x_state, init_ec1841, "<unknown>", "EC-1845", MACHINE_NOT_WORKING )
+COMP( 1990, ec1847, ibm5150, 0,      ec1847,  0,     ec184x_state, empty_init,  "<unknown>", "EC-1847", MACHINE_NOT_WORKING )

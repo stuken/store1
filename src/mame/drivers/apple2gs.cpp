@@ -103,7 +103,7 @@ static const gfx_layout apple2gs_dbltext_layout =
 	8*8         /* every char takes 8 bytes */
 };
 
-static GFXDECODE_START( apple2gs )
+static GFXDECODE_START( gfx_apple2gs )
 	GFXDECODE_ENTRY( "gfx1", 0x0000, apple2gs_text_layout, 0, 2 )
 	GFXDECODE_ENTRY( "gfx1", 0x0000, apple2gs_dbltext_layout, 0, 2 )
 GFXDECODE_END
@@ -340,12 +340,12 @@ MACHINE_CONFIG_START(apple2gs_state::apple2gs)
 
 	MCFG_PALETTE_ADD("palette", 16)
 	MCFG_PALETTE_INIT_OWNER(apple2gs_state, apple2gs)
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", apple2gs )
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_apple2gs )
 
-	MCFG_MACHINE_START_OVERRIDE(apple2gs_state, apple2gs )
-	MCFG_MACHINE_RESET_OVERRIDE(apple2gs_state, apple2gs )
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_apple2gs, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_apple2gs, this));
 
-	MCFG_VIDEO_START_OVERRIDE(apple2gs_state, apple2gs )
+	set_video_start_cb(config, driver_callback_delegate(&video_start_apple2gs, this));
 
 	/* keyboard controller */
 	MCFG_DEVICE_ADD("ay3600", AY3600, 0)
@@ -425,7 +425,7 @@ MACHINE_CONFIG_END
 
 MACHINE_CONFIG_START(apple2gs_state::apple2gsr1)
 	apple2gs(config);
-	MCFG_MACHINE_START_OVERRIDE(apple2gs_state, apple2gsr1 )
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_apple2gsr1, this));
 
 	#if RUN_ADB_MICRO
 	MCFG_DEVICE_REPLACE(ADBMICRO_TAG, M50740, XTAL(3'579'545))
@@ -588,10 +588,10 @@ ROM_START(apple2gsr0p2)  // 3/10/1986 Cortland prototype, boots as "Apple //'ing
 	ROM_LOAD( "341-0132-d.e12", 0x000, 0x800, CRC(c506efb9) SHA1(8e14e85c645187504ec9d162b3ea614a0c421d32) )
 ROM_END
 
-/*    YEAR  NAME          PARENT    COMPAT  MACHINE     INPUT     STATE           INIT  COMPANY           FULLNAME */
-COMP( 1989, apple2gs,     0,        apple2, apple2gs,   apple2gs, apple2gs_state, 0,    "Apple Computer", "Apple IIgs (ROM03)", MACHINE_SUPPORTS_SAVE )
-COMP( 198?, apple2gsr3p,  apple2gs, 0,      apple2gs,   apple2gs, apple2gs_state, 0,    "Apple Computer", "Apple IIgs (ROM03 prototype)", MACHINE_NOT_WORKING )
-COMP( 1987, apple2gsr1,   apple2gs, 0,      apple2gsr1, apple2gs, apple2gs_state, 0,    "Apple Computer", "Apple IIgs (ROM01)", MACHINE_SUPPORTS_SAVE )
-COMP( 1986, apple2gsr0,   apple2gs, 0,      apple2gsr1, apple2gs, apple2gs_state, 0,    "Apple Computer", "Apple IIgs (ROM00)", MACHINE_SUPPORTS_SAVE )
-COMP( 1986, apple2gsr0p,  apple2gs, 0,      apple2gsr1, apple2gs, apple2gs_state, 0,    "Apple Computer", "Apple IIgs (ROM00 prototype 6/19/1986)", MACHINE_SUPPORTS_SAVE )
-COMP( 1986, apple2gsr0p2, apple2gs, 0,      apple2gsr1, apple2gs, apple2gs_state, 0,    "Apple Computer", "Apple IIgs (ROM00 prototype 3/10/1986)", MACHINE_SUPPORTS_SAVE )
+/*    YEAR  NAME          PARENT    COMPAT  MACHINE     INPUT     CLASS           INIT        COMPANY           FULLNAME */
+COMP( 1989, apple2gs,     0,        apple2, apple2gs,   apple2gs, apple2gs_state, empty_init, "Apple Computer", "Apple IIgs (ROM03)", MACHINE_SUPPORTS_SAVE )
+COMP( 198?, apple2gsr3p,  apple2gs, 0,      apple2gs,   apple2gs, apple2gs_state, empty_init, "Apple Computer", "Apple IIgs (ROM03 prototype)", MACHINE_NOT_WORKING )
+COMP( 1987, apple2gsr1,   apple2gs, 0,      apple2gsr1, apple2gs, apple2gs_state, empty_init, "Apple Computer", "Apple IIgs (ROM01)", MACHINE_SUPPORTS_SAVE )
+COMP( 1986, apple2gsr0,   apple2gs, 0,      apple2gsr1, apple2gs, apple2gs_state, empty_init, "Apple Computer", "Apple IIgs (ROM00)", MACHINE_SUPPORTS_SAVE )
+COMP( 1986, apple2gsr0p,  apple2gs, 0,      apple2gsr1, apple2gs, apple2gs_state, empty_init, "Apple Computer", "Apple IIgs (ROM00 prototype 6/19/1986)", MACHINE_SUPPORTS_SAVE )
+COMP( 1986, apple2gsr0p2, apple2gs, 0,      apple2gsr1, apple2gs, apple2gs_state, empty_init, "Apple Computer", "Apple IIgs (ROM00 prototype 3/10/1986)", MACHINE_SUPPORTS_SAVE )

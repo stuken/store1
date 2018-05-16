@@ -1976,21 +1976,21 @@ static const gfx_layout suprtrio_tlayout =
 };
 
 
-static GFXDECODE_START( tumbleb )
+static GFXDECODE_START( gfx_tumbleb )
 	GFXDECODE_ENTRY( "tilegfx", 0, tcharlayout, 256, 16 )  /* Characters 8x8 */
 	GFXDECODE_ENTRY( "tilegfx", 0, tlayout,     512, 16 )  /* Tiles 16x16 */
 	GFXDECODE_ENTRY( "tilegfx", 0, tlayout,     256, 16 )  /* Tiles 16x16 */
 	GFXDECODE_ENTRY( "sprgfx", 0, tlayout,       0, 16 )  /* Sprites 16x16 */
 GFXDECODE_END
 
-static GFXDECODE_START( suprtrio )
+static GFXDECODE_START( gfx_suprtrio )
 	GFXDECODE_ENTRY( "tilegfx", 0, tcharlayout,        256, 16 )   /* Characters 8x8 */
 	GFXDECODE_ENTRY( "tilegfx", 0, suprtrio_tlayout,   512, 16 )   /* Tiles 16x16 */
 	GFXDECODE_ENTRY( "tilegfx", 0, suprtrio_tlayout,   256, 16 )   /* Tiles 16x16 */
 	GFXDECODE_ENTRY( "sprgfx", 0, tlayout,              0, 16 )   /* Sprites 16x16 */
 GFXDECODE_END
 
-static GFXDECODE_START( fncywld )
+static GFXDECODE_START( gfx_fncywld )
 	GFXDECODE_ENTRY( "tilegfx", 0, tcharlayout, 0x400, 0x40 )  /* Characters 8x8 */
 	GFXDECODE_ENTRY( "tilegfx", 0, tlayout,     0x400, 0x40 )  /* Tiles 16x16 */
 	GFXDECODE_ENTRY( "tilegfx", 0, tlayout,     0x200, 0x40 )  /* Tiles 16x16 */
@@ -2000,7 +2000,7 @@ GFXDECODE_END
 /******************************************************************************/
 
 
-MACHINE_START_MEMBER(tumbleb_state,tumbleb)
+void tumbleb_state::machine_start_tumbleb()
 {
 	save_item(NAME(m_music_command));
 	save_item(NAME(m_music_bank));
@@ -2010,7 +2010,7 @@ MACHINE_START_MEMBER(tumbleb_state,tumbleb)
 	save_item(NAME(m_tilebank));
 }
 
-MACHINE_RESET_MEMBER(tumbleb_state,tumbleb)
+void tumbleb_state::machine_reset_tumbleb()
 {
 	m_music_command = 0;
 	m_music_bank = 0;
@@ -2026,8 +2026,8 @@ MACHINE_CONFIG_START(tumbleb_state::tumblepb)
 	MCFG_DEVICE_PROGRAM_MAP(tumblepopb_main_map)
 	MCFG_DEVICE_VBLANK_INT_DRIVER("screen", tumbleb_state,  irq6_line_hold)
 
-	MCFG_MACHINE_START_OVERRIDE(tumbleb_state,tumbleb)
-	MCFG_MACHINE_RESET_OVERRIDE(tumbleb_state,tumbleb)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_tumbleb, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_tumbleb, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -2043,11 +2043,11 @@ MACHINE_CONFIG_START(tumbleb_state::tumblepb)
 	MCFG_DECO_SPRITE_ISBOOTLEG(true)
 	MCFG_DECO_SPRITE_GFXDECODE("gfxdecode")
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", tumbleb)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_tumbleb)
 	MCFG_PALETTE_ADD("palette", 1024)
 	MCFG_PALETTE_FORMAT(xxxxBBBBGGGGRRRR)
 
-	MCFG_VIDEO_START_OVERRIDE(tumbleb_state,tumblepb)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_tumblepb, this));
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();
@@ -2064,8 +2064,8 @@ MACHINE_CONFIG_START(tumbleb_state::tumbleb2)
 	MCFG_DEVICE_PROGRAM_MAP(tumblepopb_main_map)
 	MCFG_DEVICE_VBLANK_INT_DRIVER("screen", tumbleb_state,  tumbleb2_interrupt)
 
-	MCFG_MACHINE_START_OVERRIDE(tumbleb_state,tumbleb)
-	MCFG_MACHINE_RESET_OVERRIDE(tumbleb_state,tumbleb)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_tumbleb, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_tumbleb, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -2081,11 +2081,11 @@ MACHINE_CONFIG_START(tumbleb_state::tumbleb2)
 	MCFG_DECO_SPRITE_ISBOOTLEG(true)
 	MCFG_DECO_SPRITE_GFXDECODE("gfxdecode")
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", tumbleb)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_tumbleb)
 	MCFG_PALETTE_ADD("palette", 1024)
 	MCFG_PALETTE_FORMAT(xxxxBBBBGGGGRRRR)
 
-	MCFG_VIDEO_START_OVERRIDE(tumbleb_state,tumblepb)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_tumblepb, this));
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();
@@ -2105,8 +2105,8 @@ MACHINE_CONFIG_START(tumbleb_state::jumpkids)
 	MCFG_DEVICE_ADD("audiocpu", Z80, 8000000/2)
 	MCFG_DEVICE_PROGRAM_MAP(jumpkids_sound_map)
 
-	MCFG_MACHINE_START_OVERRIDE(tumbleb_state,tumbleb)
-	MCFG_MACHINE_RESET_OVERRIDE(tumbleb_state,tumbleb)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_tumbleb, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_tumbleb, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -2122,11 +2122,11 @@ MACHINE_CONFIG_START(tumbleb_state::jumpkids)
 	MCFG_DECO_SPRITE_ISBOOTLEG(true)
 	MCFG_DECO_SPRITE_GFXDECODE("gfxdecode")
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", tumbleb)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_tumbleb)
 	MCFG_PALETTE_ADD("palette", 1024)
 	MCFG_PALETTE_FORMAT(xxxxBBBBGGGGRRRR)
 
-	MCFG_VIDEO_START_OVERRIDE(tumbleb_state,tumblepb)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_tumblepb, this));
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();
@@ -2144,8 +2144,8 @@ MACHINE_CONFIG_START(tumbleb_state::fncywld)
 	MCFG_DEVICE_PROGRAM_MAP(fncywld_main_map)
 	MCFG_DEVICE_VBLANK_INT_DRIVER("screen", tumbleb_state,  irq6_line_hold)
 
-	MCFG_MACHINE_START_OVERRIDE(tumbleb_state,tumbleb)
-	MCFG_MACHINE_RESET_OVERRIDE(tumbleb_state,tumbleb)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_tumbleb, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_tumbleb, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -2162,11 +2162,11 @@ MACHINE_CONFIG_START(tumbleb_state::fncywld)
 	MCFG_DECO_SPRITE_TRANSPEN(15)
 	MCFG_DECO_SPRITE_GFXDECODE("gfxdecode")
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", fncywld)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_fncywld)
 	MCFG_PALETTE_ADD("palette", 0x800)
 	MCFG_PALETTE_FORMAT(xxxxRRRRGGGGBBBB)
 
-	MCFG_VIDEO_START_OVERRIDE(tumbleb_state,fncywld)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_fncywld, this));
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();
@@ -2180,7 +2180,7 @@ MACHINE_CONFIG_END
 
 
 
-MACHINE_RESET_MEMBER(tumbleb_state,htchctch)
+void tumbleb_state::machine_reset_htchctch()
 {
 	if (memregion("user1") != nullptr)
 	{
@@ -2192,7 +2192,7 @@ MACHINE_RESET_MEMBER(tumbleb_state,htchctch)
 			m_mainram[0x000 / 2 + i] = PROTDATA[i];
 	}
 
-	MACHINE_RESET_CALL_MEMBER(tumbleb);
+	machine_reset_tumbleb();
 }
 
 MACHINE_CONFIG_START(tumbleb_state::htchctch)
@@ -2205,8 +2205,8 @@ MACHINE_CONFIG_START(tumbleb_state::htchctch)
 	MCFG_DEVICE_ADD("audiocpu", Z80, 15000000/4) /* verified on dquizgo */
 	MCFG_DEVICE_PROGRAM_MAP(semicom_sound_map)
 
-	MCFG_MACHINE_START_OVERRIDE(tumbleb_state,tumbleb)
-	MCFG_MACHINE_RESET_OVERRIDE(tumbleb_state,htchctch)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_tumbleb, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_htchctch, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -2222,11 +2222,11 @@ MACHINE_CONFIG_START(tumbleb_state::htchctch)
 	MCFG_DECO_SPRITE_ISBOOTLEG(true)
 	MCFG_DECO_SPRITE_GFXDECODE("gfxdecode")
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", tumbleb)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_tumbleb)
 	MCFG_PALETTE_ADD("palette", 1024)
 	MCFG_PALETTE_FORMAT(xBBBBBGGGGGRRRRR)
 
-	MCFG_VIDEO_START_OVERRIDE(tumbleb_state,tumblepb)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_tumblepb, this));
 
 	/* sound hardware - same as hyperpac */
 	SPEAKER(config, "mono").front_center();
@@ -2290,7 +2290,7 @@ MACHINE_CONFIG_END
 
 MACHINE_CONFIG_START(tumbleb_state::sdfight)
 	bcstory(config);
-	MCFG_VIDEO_START_OVERRIDE(tumbleb_state,sdfight)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_sdfight, this));
 	MCFG_SCREEN_MODIFY("screen")
 	MCFG_SCREEN_UPDATE_DRIVER(tumbleb_state, screen_update_sdfight)
 MACHINE_CONFIG_END
@@ -2319,8 +2319,8 @@ MACHINE_CONFIG_START(tumbleb_state::suprtrio)
 	MCFG_DEVICE_ADD("audiocpu", Z80, 8000000)
 	MCFG_DEVICE_PROGRAM_MAP(suprtrio_sound_map)
 
-	MCFG_MACHINE_START_OVERRIDE(tumbleb_state,tumbleb)
-	MCFG_MACHINE_RESET_OVERRIDE(tumbleb_state,tumbleb)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_tumbleb, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_tumbleb, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -2336,11 +2336,11 @@ MACHINE_CONFIG_START(tumbleb_state::suprtrio)
 	MCFG_DECO_SPRITE_ISBOOTLEG(true)
 	MCFG_DECO_SPRITE_GFXDECODE("gfxdecode")
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", suprtrio)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_suprtrio)
 	MCFG_PALETTE_ADD("palette", 1024)
 	MCFG_PALETTE_FORMAT(xBBBBBGGGGGRRRRR)
 
-	MCFG_VIDEO_START_OVERRIDE(tumbleb_state,suprtrio)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_suprtrio, this));
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();
@@ -2358,8 +2358,8 @@ MACHINE_CONFIG_START(tumbleb_state::pangpang)
 	MCFG_DEVICE_PROGRAM_MAP(pangpang_main_map)
 	MCFG_DEVICE_VBLANK_INT_DRIVER("screen", tumbleb_state,  tumbleb2_interrupt)
 
-	MCFG_MACHINE_START_OVERRIDE(tumbleb_state,tumbleb)
-	MCFG_MACHINE_RESET_OVERRIDE(tumbleb_state,tumbleb)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_tumbleb, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_tumbleb, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -2375,11 +2375,11 @@ MACHINE_CONFIG_START(tumbleb_state::pangpang)
 	MCFG_DECO_SPRITE_ISBOOTLEG(true)
 	MCFG_DECO_SPRITE_GFXDECODE("gfxdecode")
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", tumbleb)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_tumbleb)
 	MCFG_PALETTE_ADD("palette", 1024)
 	MCFG_PALETTE_FORMAT(xxxxBBBBGGGGRRRR)
 
-	MCFG_VIDEO_START_OVERRIDE(tumbleb_state,pangpang)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_pangpang, this));
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();
@@ -3435,7 +3435,7 @@ void tumbleb_state::tumblepb_gfx_rearrange(int rgn)
 	}
 }
 
-DRIVER_INIT_MEMBER(tumbleb_state,tumblepb)
+void tumbleb_state::init_tumblepb()
 {
 	tumblepb_gfx_rearrange(1);
 
@@ -3444,13 +3444,13 @@ DRIVER_INIT_MEMBER(tumbleb_state,tumblepb)
 	#endif
 }
 
-DRIVER_INIT_MEMBER(tumbleb_state,tumblepba)
+void tumbleb_state::init_tumblepba()
 {
 	// rearrange the bg data instead of the sprite data on this one!
 	tumblepb_gfx_rearrange(2);
 }
 
-DRIVER_INIT_MEMBER(tumbleb_state,tumbleb2)
+void tumbleb_state::init_tumbleb2()
 {
 	tumblepb_gfx_rearrange(1);
 
@@ -3461,7 +3461,7 @@ DRIVER_INIT_MEMBER(tumbleb_state,tumbleb2)
 
 }
 
-DRIVER_INIT_MEMBER(tumbleb_state,jumpkids)
+void tumbleb_state::init_jumpkids()
 {
 	tumblepb_gfx_rearrange(1);
 
@@ -3470,7 +3470,7 @@ DRIVER_INIT_MEMBER(tumbleb_state,jumpkids)
 	#endif
 }
 
-DRIVER_INIT_MEMBER(tumbleb_state,fncywld)
+void tumbleb_state::init_fncywld()
 {
 	tumblepb_gfx_rearrange(1);
 
@@ -3492,14 +3492,14 @@ READ16_MEMBER(tumbleb_state::bcstory_1a0_read)
 	else return ioport("SYSTEM")->read();
 }
 
-DRIVER_INIT_MEMBER(tumbleb_state,bcstory)
+void tumbleb_state::init_bcstory()
 {
 	tumblepb_gfx_rearrange(1);
 	m_maincpu->space(AS_PROGRAM).install_read_handler(0x180008, 0x180009, read16_delegate(FUNC(tumbleb_state::bcstory_1a0_read),this)); // io should be here??
 }
 
 
-DRIVER_INIT_MEMBER(tumbleb_state,htchctch)
+void tumbleb_state::init_htchctch()
 {
 	uint16_t *PROTDATA = (uint16_t*)memregion("user1")->base();
 	int i, len = memregion("user1")->bytes();
@@ -3546,15 +3546,15 @@ void tumbleb_state::suprtrio_decrypt_gfx()
 	}
 }
 
-DRIVER_INIT_MEMBER(tumbleb_state,suprtrio)
+void tumbleb_state::init_suprtrio()
 {
 	suprtrio_decrypt_code();
 	suprtrio_decrypt_gfx();
 }
 
-DRIVER_INIT_MEMBER(tumbleb_state,chokchok)
+void tumbleb_state::init_chokchok()
 {
-	DRIVER_INIT_CALL(htchctch);
+	init_htchctch();
 
 	/* different palette format, closer to tumblep -- is this controlled by a register? the palette was right with the hatch catch trojan */
 	m_maincpu->space(AS_PROGRAM).install_write_handler(0x140000, 0x140fff, write16_delegate(FUNC(palette_device::write16), m_palette.target()));
@@ -3563,15 +3563,15 @@ DRIVER_INIT_MEMBER(tumbleb_state,chokchok)
 	m_maincpu->space(AS_PROGRAM).install_write_handler(0x100002, 0x100003, write16_delegate(FUNC(tumbleb_state::chokchok_tilebank_w),this));
 }
 
-DRIVER_INIT_MEMBER(tumbleb_state,carket)
+void tumbleb_state::init_carket()
 {
-	DRIVER_INIT_CALL(htchctch);
+	init_htchctch();
 
 	/* slightly different banking */
 	m_maincpu->space(AS_PROGRAM).install_write_handler(0x100002, 0x100003, write16_delegate(FUNC(tumbleb_state::chokchok_tilebank_w),this));
 }
 
-DRIVER_INIT_MEMBER(tumbleb_state,wlstar)
+void tumbleb_state::init_wlstar()
 {
 	tumblepb_gfx_rearrange(1);
 
@@ -3581,13 +3581,13 @@ DRIVER_INIT_MEMBER(tumbleb_state,wlstar)
 	m_protbase = 0x0000;
 }
 
-DRIVER_INIT_MEMBER(tumbleb_state,wondl96)
+void tumbleb_state::init_wondl96()
 {
-	DRIVER_INIT_CALL(wlstar);
+	init_wlstar();
 	m_protbase = 0x0200;
 }
 
-DRIVER_INIT_MEMBER(tumbleb_state,dquizgo)
+void tumbleb_state::init_dquizgo()
 {
 	tumblepb_gfx_rearrange(1);
 }
@@ -3597,44 +3597,44 @@ DRIVER_INIT_MEMBER(tumbleb_state,dquizgo)
 /******************************************************************************/
 
 /* Misc 'bootleg' hardware - close to base Tumble Pop */
-GAME( 1991, tumbleb,  tumblep, tumblepb,    tumblepb, tumbleb_state, tumblepb, ROT0, "bootleg", "Tumble Pop (bootleg)", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE  )
-GAME( 1991, tumbleb2, tumblep, tumbleb2,    tumblepb, tumbleb_state, tumbleb2, ROT0, "bootleg", "Tumble Pop (bootleg with PIC)", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE  ) // PIC is protected, sound simulation not 100%
-GAME( 1991, tumblepba, tumblep, tumblepb,    tumblepb, tumbleb_state, tumblepba, ROT0, "bootleg (Playmark)", "Tumble Pop (Playmark bootleg)", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE | MACHINE_NOT_WORKING  ) // Playmark stickers on ROMs
+GAME( 1991, tumbleb,  tumblep, tumblepb,    tumblepb, tumbleb_state, init_tumblepb, ROT0, "bootleg", "Tumble Pop (bootleg)", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE  )
+GAME( 1991, tumbleb2, tumblep, tumbleb2,    tumblepb, tumbleb_state, init_tumbleb2, ROT0, "bootleg", "Tumble Pop (bootleg with PIC)", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE  ) // PIC is protected, sound simulation not 100%
+GAME( 1991, tumblepba,tumblep, tumblepb,    tumblepb, tumbleb_state, init_tumblepba,ROT0, "bootleg (Playmark)", "Tumble Pop (Playmark bootleg)", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE | MACHINE_NOT_WORKING  ) // Playmark stickers on ROMs
 
-GAME( 1993, jumpkids, 0,       jumpkids,    tumblepb, tumbleb_state, jumpkids, ROT0, "Comad",    "Jump Kids", MACHINE_SUPPORTS_SAVE )
+GAME( 1993, jumpkids, 0,       jumpkids,    tumblepb, tumbleb_state, init_jumpkids, ROT0, "Comad",    "Jump Kids", MACHINE_SUPPORTS_SAVE )
 
-GAME( 1994, pangpang, 0,       pangpang,    tumblepb, tumbleb_state, tumbleb2, ROT0, "Dong Gue La Mi Ltd.", "Pang Pang", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE  ) // PIC is protected, sound simulation not 100%
+GAME( 1994, pangpang, 0,       pangpang,    tumblepb, tumbleb_state, init_tumbleb2, ROT0, "Dong Gue La Mi Ltd.", "Pang Pang", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE  ) // PIC is protected, sound simulation not 100%
 
 /* Misc 'bootleg' hardware - more changes from base hardware */
-GAME( 1994, suprtrio, 0,       suprtrio,    suprtrio, tumbleb_state, suprtrio, ROT0, "Gameace", "Super Trio", MACHINE_SUPPORTS_SAVE )
+GAME( 1994, suprtrio, 0,       suprtrio,    suprtrio, tumbleb_state, init_suprtrio, ROT0, "Gameace", "Super Trio", MACHINE_SUPPORTS_SAVE )
 
-GAME( 1996, fncywld,  0,       fncywld,     fncywld, tumbleb_state,  fncywld,  ROT0, "Unico",   "Fancy World - Earth of Crisis" , MACHINE_SUPPORTS_SAVE ) // game says 1996, testmode 1995?
+GAME( 1996, fncywld,  0,       fncywld,     fncywld, tumbleb_state,  init_fncywld,  ROT0, "Unico",   "Fancy World - Earth of Crisis" , MACHINE_SUPPORTS_SAVE ) // game says 1996, testmode 1995?
 
 // Unico - Magic Purple almost certainly goes here
 
 /* First Amusement / Mijin / SemiCom hardware (MCU protected) */
-GAME( 1994, metlsavr, 0,       metlsavr,    metlsavr, tumbleb_state, chokchok, ROT0, "First Amusement", "Metal Saver", MACHINE_SUPPORTS_SAVE )
+GAME( 1994, metlsavr, 0,       metlsavr,    metlsavr, tumbleb_state, init_chokchok, ROT0, "First Amusement", "Metal Saver", MACHINE_SUPPORTS_SAVE )
 
-GAME( 1994, magicbal, 0,       metlsavr,    magicbal, tumbleb_state, chokchok, ROT0, "SemiCom", "Magicball Fighting (Korea)", MACHINE_SUPPORTS_SAVE) // also still has the Metal Saver (c)1994 First Amusement tiles in the GFX
+GAME( 1994, magicbal, 0,       metlsavr,    magicbal, tumbleb_state, init_chokchok, ROT0, "SemiCom", "Magicball Fighting (Korea)", MACHINE_SUPPORTS_SAVE) // also still has the Metal Saver (c)1994 First Amusement tiles in the GFX
 
-GAME( 1995, chokchok, 0,       chokchok,    chokchok, tumbleb_state, chokchok, ROT0, "SemiCom", "Choky! Choky!", MACHINE_IMPERFECT_GRAPHICS | MACHINE_SUPPORTS_SAVE  )
+GAME( 1995, chokchok, 0,       chokchok,    chokchok, tumbleb_state, init_chokchok, ROT0, "SemiCom", "Choky! Choky!", MACHINE_IMPERFECT_GRAPHICS | MACHINE_SUPPORTS_SAVE  )
 
-GAME( 1995, wlstar,   0,       cookbib_mcu, wlstar, tumbleb_state,   wlstar,   ROT0, "Mijin",   "Wonder League Star - Sok-Magicball Fighting (Korea)", MACHINE_SUPPORTS_SAVE ) // translates to 'Wonder League Star - Return of Magicball Fighting'
+GAME( 1995, wlstar,   0,       cookbib_mcu, wlstar, tumbleb_state,   init_wlstar,   ROT0, "Mijin",   "Wonder League Star - Sok-Magicball Fighting (Korea)", MACHINE_SUPPORTS_SAVE ) // translates to 'Wonder League Star - Return of Magicball Fighting'
 
-GAME( 1995, htchctch, 0,       htchctch,    htchctch, tumbleb_state, htchctch, ROT0, "SemiCom", "Hatch Catch" , MACHINE_SUPPORTS_SAVE ) // not 100% sure about gfx offsets
+GAME( 1995, htchctch, 0,       htchctch,    htchctch, tumbleb_state, init_htchctch, ROT0, "SemiCom", "Hatch Catch" , MACHINE_SUPPORTS_SAVE ) // not 100% sure about gfx offsets
 
-GAME( 1995, cookbib,  0,       cookbib,     cookbib, tumbleb_state,  htchctch, ROT0, "SemiCom", "Cookie & Bibi (set 1)" , MACHINE_SUPPORTS_SAVE ) // not 100% sure about gfx offsets
-GAME( 1995, cookbiba, cookbib, cookbib,     cookbib, tumbleb_state,  htchctch, ROT0, "SemiCom", "Cookie & Bibi (set 2)" , MACHINE_SUPPORTS_SAVE )
+GAME( 1995, cookbib,  0,       cookbib,     cookbib, tumbleb_state,  init_htchctch, ROT0, "SemiCom", "Cookie & Bibi (set 1)" , MACHINE_SUPPORTS_SAVE ) // not 100% sure about gfx offsets
+GAME( 1995, cookbiba, cookbib, cookbib,     cookbib, tumbleb_state,  init_htchctch, ROT0, "SemiCom", "Cookie & Bibi (set 2)" , MACHINE_SUPPORTS_SAVE )
 
-GAME( 1996, carket,   0,       htchctch,    carket,  tumbleb_state,  carket,   ROT0, "SemiCom", "Carket Ball", MACHINE_SUPPORTS_SAVE  )
+GAME( 1996, carket,   0,       htchctch,    carket,  tumbleb_state,  init_carket,   ROT0, "SemiCom", "Carket Ball", MACHINE_SUPPORTS_SAVE  )
 
-GAME( 1996, wondl96,  0,       cookbib_mcu, wondl96, tumbleb_state,  wondl96,  ROT0, "SemiCom", "Wonder League '96 (Korea)", MACHINE_SUPPORTS_SAVE )
+GAME( 1996, wondl96,  0,       cookbib_mcu, wondl96, tumbleb_state,  init_wondl96,  ROT0, "SemiCom", "Wonder League '96 (Korea)", MACHINE_SUPPORTS_SAVE )
 
-GAME( 1996, sdfight,  0,       sdfight,     sdfight, tumbleb_state,  bcstory,  ROT0, "SemiCom / Tirano", "SD Fighters (Korea)", MACHINE_SUPPORTS_SAVE )
+GAME( 1996, sdfight,  0,       sdfight,     sdfight, tumbleb_state,  init_bcstory,  ROT0, "SemiCom / Tirano", "SD Fighters (Korea)", MACHINE_SUPPORTS_SAVE )
 
-GAME( 1997, bcstry,   0,       bcstory,     bcstory, tumbleb_state,  bcstory,  ROT0, "SemiCom / Tirano", "B.C. Story (set 1)", MACHINE_IMPERFECT_GRAPHICS | MACHINE_SUPPORTS_SAVE ) // gfx offsets?
-GAME( 1997, bcstrya,  bcstry,  bcstory,     bcstory, tumbleb_state,  bcstory,  ROT0, "SemiCom / Tirano", "B.C. Story (set 2)", MACHINE_IMPERFECT_GRAPHICS | MACHINE_SUPPORTS_SAVE ) // gfx offsets?
+GAME( 1997, bcstry,   0,       bcstory,     bcstory, tumbleb_state,  init_bcstory,  ROT0, "SemiCom / Tirano", "B.C. Story (set 1)", MACHINE_IMPERFECT_GRAPHICS | MACHINE_SUPPORTS_SAVE ) // gfx offsets?
+GAME( 1997, bcstrya,  bcstry,  bcstory,     bcstory, tumbleb_state,  init_bcstory,  ROT0, "SemiCom / Tirano", "B.C. Story (set 2)", MACHINE_IMPERFECT_GRAPHICS | MACHINE_SUPPORTS_SAVE ) // gfx offsets?
 
-GAME( 1997, semibase, 0,       semibase,    semibase, tumbleb_state, bcstory,  ROT0, "SemiCom / DMD", "MuHanSeungBu (SemiCom Baseball) (Korea)", MACHINE_IMPERFECT_GRAPHICS | MACHINE_SUPPORTS_SAVE )// sprite offsets..
+GAME( 1997, semibase, 0,       semibase,    semibase, tumbleb_state, init_bcstory,  ROT0, "SemiCom / DMD", "MuHanSeungBu (SemiCom Baseball) (Korea)", MACHINE_IMPERFECT_GRAPHICS | MACHINE_SUPPORTS_SAVE )// sprite offsets..
 
-GAME( 1998, dquizgo,  0,       cookbib,     dquizgo, tumbleb_state,  dquizgo,  ROT0, "SemiCom / AceVer", "Date Quiz Go Go (Korea)", MACHINE_IMPERFECT_GRAPHICS | MACHINE_SUPPORTS_SAVE ) // check layer offsets
+GAME( 1998, dquizgo,  0,       cookbib,     dquizgo, tumbleb_state,  init_dquizgo,  ROT0, "SemiCom / AceVer", "Date Quiz Go Go (Korea)", MACHINE_IMPERFECT_GRAPHICS | MACHINE_SUPPORTS_SAVE ) // check layer offsets

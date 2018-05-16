@@ -173,36 +173,36 @@ public:
 	DECLARE_READ8_MEMBER(dsw1_r);
 	DECLARE_READ8_MEMBER(dsw2_r);
 	DECLARE_READ16_MEMBER(extra_r);
-	DECLARE_DRIVER_INIT(bank6502);
-	DECLARE_DRIVER_INIT(downtown);
-	DECLARE_DRIVER_INIT(rezon);
-	DECLARE_DRIVER_INIT(twineagl);
-	DECLARE_DRIVER_INIT(crazyfgt);
-	DECLARE_DRIVER_INIT(metafox);
-	DECLARE_DRIVER_INIT(arbalest);
-	DECLARE_DRIVER_INIT(wiggie);
-	DECLARE_DRIVER_INIT(blandia);
-	DECLARE_DRIVER_INIT(kiwame);
-	DECLARE_DRIVER_INIT(eightfrc);
-	DECLARE_DRIVER_INIT(pairlove);
+	void init_bank6502();
+	void init_downtown();
+	void init_rezon();
+	void init_twineagl();
+	void init_crazyfgt();
+	void init_metafox();
+	void init_arbalest();
+	void init_wiggie();
+	void init_blandia();
+	void init_kiwame();
+	void init_eightfrc();
+	void init_pairlove();
 	template<int Offset> TILE_GET_INFO_MEMBER(twineagl_get_tile_info);
 	template<int Layer, int Offset> TILE_GET_INFO_MEMBER(get_tile_info);
-	DECLARE_VIDEO_START(seta_no_layers);
-	DECLARE_VIDEO_START(kyustrkr_no_layers);
-	DECLARE_VIDEO_START(twineagl_1_layer);
-	DECLARE_VIDEO_START(seta_1_layer);
-	DECLARE_MACHINE_RESET(calibr50);
+	void video_start_seta_no_layers()     ATTR_COLD;
+	void video_start_kyustrkr_no_layers() ATTR_COLD;
+	void video_start_twineagl_1_layer()   ATTR_COLD;
+	void video_start_seta_1_layer()       ATTR_COLD;
+	void machine_reset_calibr50();
 	DECLARE_PALETTE_INIT(palette_init_RRRRRGGGGGBBBBB_proms);
 	DECLARE_PALETTE_INIT(usclssic);
-	DECLARE_MACHINE_START(usclssic);
-	DECLARE_VIDEO_START(seta_2_layers);
+	void machine_start_usclssic()         ATTR_COLD;
+	void video_start_seta_2_layers()      ATTR_COLD;
 	DECLARE_PALETTE_INIT(blandia);
 	DECLARE_PALETTE_INIT(zingzip);
-	DECLARE_MACHINE_START(wrofaero);
+	void machine_start_wrofaero()         ATTR_COLD;
 	DECLARE_PALETTE_INIT(gundhara);
 	DECLARE_PALETTE_INIT(jjsquawk);
-	DECLARE_MACHINE_START(keroppi);
-	DECLARE_VIDEO_START(oisipuzl_2_layers);
+	void machine_start_keroppi()          ATTR_COLD;
+	void video_start_oisipuzl_2_layers()  ATTR_COLD;
 	uint32_t screen_update_seta_no_layers(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 	uint32_t screen_update_seta(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 	uint32_t screen_update_usclssic(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
@@ -360,9 +360,9 @@ public:
 
 	DECLARE_WRITE16_MEMBER(spritectrl_w);
 
-	DECLARE_MACHINE_RESET(setaroul);
+	void machine_reset_setaroul();
 
-	DECLARE_VIDEO_START(setaroul_1_layer);
+	void video_start_setaroul_1_layer() ATTR_COLD;
 	DECLARE_PALETTE_INIT(setaroul);
 	uint32_t screen_update(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 
@@ -414,14 +414,14 @@ public:
 
 	DECLARE_READ16_MEMBER(trackball_r);
 
-	DECLARE_VIDEO_START(jockeyc_1_layer);
+	void video_start_jockeyc_1_layer() ATTR_COLD;
 
 	TIMER_DEVICE_CALLBACK_MEMBER(interrupt);
 
 	DECLARE_WRITE16_MEMBER(inttoote_mux_w);
 	DECLARE_WRITE16_MEMBER(inttoote_out_w);
 	DECLARE_READ16_MEMBER(inttoote_700000_r);
-	DECLARE_DRIVER_INIT(inttoote);
+	void init_inttoote();
 	void inttoote(machine_config &config);
 	void jockeyc(machine_config &config);
 	void inttoote_map(address_map &map);

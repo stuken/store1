@@ -90,8 +90,8 @@ public:
 	DECLARE_WRITE_LINE_MEMBER(pia_irq);
 	DECLARE_INPUT_CHANGED_MEMBER(main_nmi);
 	DECLARE_INPUT_CHANGED_MEMBER(audio_nmi);
-	DECLARE_MACHINE_RESET(s8);
-	DECLARE_DRIVER_INIT(s8);
+	void machine_reset_s8();
+	void init_s8();
 	void s8(machine_config &config);
 	void s8_audio_map(address_map &map);
 	void s8_main_map(address_map &map);
@@ -302,11 +302,11 @@ void s8_state::device_timer(emu_timer &timer, device_timer_id id, int param, voi
 	}
 }
 
-MACHINE_RESET_MEMBER( s8_state, s8 )
+void s8_state::machine_reset_s8()
 {
 }
 
-DRIVER_INIT_MEMBER( s8_state, s8 )
+void s8_state::init_s8()
 {
 	m_irq_timer = timer_alloc(TIMER_IRQ);
 	m_irq_timer->adjust(attotime::from_ticks(980,1e6),1);
@@ -316,7 +316,7 @@ MACHINE_CONFIG_START(s8_state::s8)
 	/* basic machine hardware */
 	MCFG_DEVICE_ADD("maincpu", M6802, XTAL(4'000'000))
 	MCFG_DEVICE_PROGRAM_MAP(s8_main_map)
-	MCFG_MACHINE_RESET_OVERRIDE(s8_state, s8)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_s8, this));
 
 	/* Video */
 	MCFG_DEFAULT_LAYOUT(layout_s8)
@@ -396,5 +396,5 @@ ROM_START(pfevr_p3)
 ROM_END
 
 
-GAME(1984, pfevr_l2, 0,        s8, s8, s8_state, s8, ROT0, "Williams", "Pennant Fever (L-2)", MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
-GAME(1984, pfevr_p3, pfevr_l2, s8, s8, s8_state, s8, ROT0, "Williams", "Pennant Fever (P-3)", MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
+GAME(1984, pfevr_l2, 0,        s8, s8, s8_state, init_s8, ROT0, "Williams", "Pennant Fever (L-2)", MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
+GAME(1984, pfevr_p3, pfevr_l2, s8, s8, s8_state, init_s8, ROT0, "Williams", "Pennant Fever (P-3)", MACHINE_MECHANICAL | MACHINE_NOT_WORKING )

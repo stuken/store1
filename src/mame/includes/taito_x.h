@@ -25,8 +25,8 @@ public:
 	DECLARE_WRITE16_MEMBER(daisenpu_input_w);
 	DECLARE_WRITE16_MEMBER(kyustrkr_input_w);
 	DECLARE_WRITE8_MEMBER(sound_bankswitch_w);
-	DECLARE_DRIVER_INIT(kyustrkr);
-	DECLARE_MACHINE_START(taitox);
+	void init_kyustrkr();
+	void machine_start_taitox() ATTR_COLD;
 
 	INTERRUPT_GEN_MEMBER(interrupt);
 	TIMER_DEVICE_CALLBACK_MEMBER(cchip_irq_clear_cb);

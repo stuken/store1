@@ -192,8 +192,8 @@ public:
 	/* devices */
 	DECLARE_READ16_MEMBER(input_r);
 	DECLARE_WRITE16_MEMBER(input_w);
-	DECLARE_MACHINE_START(skattv);
-	DECLARE_MACHINE_RESET(skattv);
+	void machine_start_skattv() ATTR_COLD;
+	void machine_reset_skattv();
 	DECLARE_PALETTE_INIT(adp);
 	DECLARE_PALETTE_INIT(fstation);
 	IRQ_CALLBACK_MEMBER(duart_iack_handler);
@@ -245,12 +245,12 @@ IRQ_CALLBACK_MEMBER(adp_state::duart_iack_handler)
 	return m_duart->get_irq_vector();
 }
 
-MACHINE_START_MEMBER(adp_state,skattv)
+void adp_state::machine_start_skattv()
 {
 	save_item(NAME(m_mux_data));
 }
 
-MACHINE_RESET_MEMBER(adp_state,skattv)
+void adp_state::machine_reset_skattv()
 {
 	m_mux_data = 0;
 }
@@ -554,8 +554,8 @@ MACHINE_CONFIG_START(adp_state::quickjac)
 	MCFG_DEVICE_PROGRAM_MAP(quickjac_mem)
 	MCFG_DEVICE_IRQ_ACKNOWLEDGE_DRIVER(adp_state, duart_iack_handler)
 
-	MCFG_MACHINE_START_OVERRIDE(adp_state,skattv)
-	MCFG_MACHINE_RESET_OVERRIDE(adp_state,skattv)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_skattv, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_skattv, this));
 
 	MCFG_DEVICE_ADD( "duart", MC68681, XTAL(8'664'000) / 2 )
 	MCFG_MC68681_IRQ_CALLBACK(INPUTLINE("maincpu", M68K_IRQ_4))
@@ -723,10 +723,10 @@ ROM_START( fstation )
 ROM_END
 
 
-GAME( 1993, quickjac,  0,        quickjac,    quickjac, adp_state, 0, ROT0,  "ADP",     "Quick Jack",                        MACHINE_NOT_WORKING )
-GAME( 1994, skattv,    0,        skattv,      skattv,   adp_state, 0, ROT0,  "ADP",     "Skat TV",                           MACHINE_NOT_WORKING )
-GAME( 1995, skattva,   skattv,   skattva,     skattva,  adp_state, 0, ROT0,  "ADP",     "Skat TV (version TS3)",             MACHINE_NOT_WORKING )
-GAME( 1997, fashiong,  0,        fashiong,    skattv,   adp_state, 0, ROT0,  "ADP",     "Fashion Gambler (set 1)",           MACHINE_NOT_WORKING )
-GAME( 1997, fashiong2, fashiong, fashiong,    skattv,   adp_state, 0, ROT0,  "ADP",     "Fashion Gambler (set 2)",           MACHINE_NOT_WORKING )
-GAME( 1999, funlddlx,  0,        funland,     skattv,   adp_state, 0, ROT0,  "Stella",  "Funny Land de Luxe",                MACHINE_NOT_WORKING )
-GAME( 2000, fstation,  0,        fstation,    fstation, adp_state, 0, ROT0,  "ADP",     "Fun Station Spielekoffer 9 Spiele", MACHINE_NOT_WORKING )
+GAME( 1993, quickjac,  0,        quickjac, quickjac, adp_state, empty_init, ROT0, "ADP",     "Quick Jack",                        MACHINE_NOT_WORKING )
+GAME( 1994, skattv,    0,        skattv,   skattv,   adp_state, empty_init, ROT0, "ADP",     "Skat TV",                           MACHINE_NOT_WORKING )
+GAME( 1995, skattva,   skattv,   skattva,  skattva,  adp_state, empty_init, ROT0, "ADP",     "Skat TV (version TS3)",             MACHINE_NOT_WORKING )
+GAME( 1997, fashiong,  0,        fashiong, skattv,   adp_state, empty_init, ROT0, "ADP",     "Fashion Gambler (set 1)",           MACHINE_NOT_WORKING )
+GAME( 1997, fashiong2, fashiong, fashiong, skattv,   adp_state, empty_init, ROT0, "ADP",     "Fashion Gambler (set 2)",           MACHINE_NOT_WORKING )
+GAME( 1999, funlddlx,  0,        funland,  skattv,   adp_state, empty_init, ROT0, "Stella",  "Funny Land de Luxe",                MACHINE_NOT_WORKING )
+GAME( 2000, fstation,  0,        fstation, fstation, adp_state, empty_init, ROT0, "ADP",     "Fun Station Spielekoffer 9 Spiele", MACHINE_NOT_WORKING )

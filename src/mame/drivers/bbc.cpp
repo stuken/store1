@@ -845,8 +845,8 @@ MACHINE_CONFIG_START(bbc_state::bbca)
 	MCFG_RAM_EXTRA_OPTIONS("32K")
 	MCFG_RAM_DEFAULT_VALUE(0x00)
 
-	MCFG_MACHINE_START_OVERRIDE(bbc_state, bbca)
-	MCFG_MACHINE_RESET_OVERRIDE(bbc_state, bbca)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_bbca, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_bbca, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -868,7 +868,7 @@ MACHINE_CONFIG_START(bbc_state::bbca)
 	MCFG_MC6845_OUT_HSYNC_CB(WRITELINE(*this, bbc_state, bbc_hsync_changed))
 	MCFG_MC6845_OUT_VSYNC_CB(WRITELINE(*this, bbc_state, bbc_vsync_changed))
 
-	MCFG_VIDEO_START_OVERRIDE(bbc_state, bbc)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_bbc, this));
 
 	MCFG_DEFAULT_LAYOUT(layout_bbc)
 
@@ -925,8 +925,8 @@ MACHINE_CONFIG_START(bbc_state::bbcb)
 	MCFG_DEVICE_MODIFY("maincpu")
 	MCFG_DEVICE_PROGRAM_MAP(bbcb_nofdc_mem)
 
-	MCFG_MACHINE_START_OVERRIDE(bbc_state, bbcb)
-	MCFG_MACHINE_RESET_OVERRIDE(bbc_state, bbcb)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_bbcb, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_bbcb, this));
 
 	/* internal ram */
 	MCFG_RAM_MODIFY(RAM_TAG)
@@ -1053,8 +1053,8 @@ MACHINE_CONFIG_START(bbc_state::bbcbp)
 	MCFG_DEVICE_PROGRAM_MAP(bbcbp_mem)
 	MCFG_DEVICE_OPCODES_MAP(bbcbp_fetch)
 
-	MCFG_MACHINE_START_OVERRIDE(bbc_state, bbcbp)
-	MCFG_MACHINE_RESET_OVERRIDE(bbc_state, bbcbp)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_bbcbp, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_bbcbp, this));
 
 	/* fdc */
 	MCFG_DEVICE_REMOVE("fdc")
@@ -1076,8 +1076,8 @@ MACHINE_CONFIG_START(bbc_state::bbcbp128)
 	MCFG_DEVICE_PROGRAM_MAP(bbcbp128_mem)
 	MCFG_DEVICE_OPCODES_MAP(bbcbp_fetch)
 
-	MCFG_MACHINE_START_OVERRIDE(bbc_state, bbcbp)
-	MCFG_MACHINE_RESET_OVERRIDE(bbc_state, bbcbp)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_bbcbp, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_bbcbp, this));
 MACHINE_CONFIG_END
 
 
@@ -1094,7 +1094,7 @@ MACHINE_CONFIG_START(torch_state::torchf)
 	MCFG_DEVICE_MODIFY("maincpu")
 	MCFG_DEVICE_PROGRAM_MAP(bbcb_mem)
 
-	MCFG_MACHINE_RESET_OVERRIDE(bbc_state, torch)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_torch, this));
 
 	/* fdc */
 	MCFG_DEVICE_REMOVE("fdc")
@@ -1310,8 +1310,8 @@ MACHINE_CONFIG_START(bbc_state::bbcm)
 	MCFG_RAM_DEFAULT_SIZE("32K")
 	MCFG_RAM_DEFAULT_VALUE(0x00)
 
-	MCFG_MACHINE_START_OVERRIDE(bbc_state, bbcm)
-	MCFG_MACHINE_RESET_OVERRIDE(bbc_state, bbcm)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_bbcm, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_bbcm, this));
 
 	MCFG_DEFAULT_LAYOUT(layout_bbcm)
 
@@ -1335,7 +1335,7 @@ MACHINE_CONFIG_START(bbc_state::bbcm)
 	MCFG_MC6845_OUT_HSYNC_CB(WRITELINE(*this, bbc_state, bbc_hsync_changed))
 	MCFG_MC6845_OUT_VSYNC_CB(WRITELINE(*this, bbc_state, bbc_vsync_changed))
 
-	MCFG_VIDEO_START_OVERRIDE(bbc_state, bbc)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_bbc, this));
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();
@@ -1568,7 +1568,7 @@ MACHINE_CONFIG_END
 
 MACHINE_CONFIG_START(bbc_state::cfa3000)
 	bbcm(config);
-	MCFG_MACHINE_START_OVERRIDE(bbc_state, cfa3000)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_cfa3000, this));
 
 	/* fdc */
 	MCFG_DEVICE_MODIFY("wd1770:0")
@@ -1625,8 +1625,8 @@ MACHINE_CONFIG_START(bbc_state::bbcmc)
 	/* eeprom pcd8572 */
 	//MCFG_DEVICE_REMOVE("rtc")
 
-	MCFG_MACHINE_START_OVERRIDE(bbc_state, bbcmc)
-	MCFG_MACHINE_RESET_OVERRIDE(bbc_state, bbcmc)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_bbcmc, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_bbcmc, this));
 
 	/* user via */
 	MCFG_DEVICE_MODIFY("via6522_1")
@@ -1681,14 +1681,14 @@ MACHINE_CONFIG_END
 MACHINE_CONFIG_START(bbc_state::ltmpbp)
 	bbcbp(config);
 	/* basic machine hardware */
-	MCFG_MACHINE_RESET_OVERRIDE(bbc_state, ltmpbp)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_ltmpbp, this));
 MACHINE_CONFIG_END
 
 
 MACHINE_CONFIG_START(bbc_state::ltmpm)
 	bbcm(config);
 	/* basic machine hardware */
-	MCFG_MACHINE_RESET_OVERRIDE(bbc_state, ltmpm)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_ltmpm, this));
 MACHINE_CONFIG_END
 
 
@@ -2439,33 +2439,33 @@ ROM_END
 #define rom_ltmpm rom_bbcm
 
 
-/*     YEAR  NAME      PARENT   COMPAT MACHINE   INPUT   CLASS           INIT     COMPANY            FULLNAME                              FLAGS */
-COMP ( 1981, bbcb,     0,       bbca,  bbcb,     bbcb,   bbc_state,      bbc,     "Acorn",           "BBC Micro Model B",                  MACHINE_IMPERFECT_GRAPHICS)
-COMP ( 1981, bbca,     bbcb,    0,     bbca,     bbca,   bbc_state,      bbc,     "Acorn",           "BBC Micro Model A",                  MACHINE_IMPERFECT_GRAPHICS)
-COMP ( 1982, torchf,   bbcb,    0,     torchf,   torch,  torch_state,    bbc,     "Torch Computers", "Torch CF240",                        MACHINE_IMPERFECT_GRAPHICS)
-COMP ( 1982, torchh10, bbcb,    0,     torchh10, torch,  torch_state,    bbc,     "Torch Computers", "Torch CH240/10",                     MACHINE_NOT_WORKING)
-COMP ( 1982, torchh21, bbcb,    0,     torchh21, torch,  torch_state,    bbc,     "Torch Computers", "Torch CH240/21",                     MACHINE_NOT_WORKING)
-COMP ( 1982, bbcb_de,  bbcb,    0,     bbcb_de,  bbcb,   bbc_state,      bbc,     "Acorn",           "BBC Micro Model B (German)",         MACHINE_IMPERFECT_GRAPHICS)
-COMP ( 1983, bbcb_us,  bbcb,    0,     bbcb_us,  bbcb,   bbc_state,      bbc,     "Acorn",           "BBC Micro Model B (US)",             MACHINE_IMPERFECT_GRAPHICS)
-COMP ( 1985, bbcbp,    0,       bbcb,  bbcbp,    bbcbp,  bbc_state,      bbc,     "Acorn",           "BBC Micro Model B+ 64K",             MACHINE_IMPERFECT_GRAPHICS)
-COMP ( 1985, bbcbp128, bbcbp,   0,     bbcbp128, bbcbp,  bbc_state,      bbc,     "Acorn",           "BBC Micro Model B+ 128K",            MACHINE_IMPERFECT_GRAPHICS)
-COMP ( 1985, abc110,   bbcbp,   0,     abc110,   abc,    bbc_state,      bbc,     "Acorn",           "ABC 110",                            MACHINE_NOT_WORKING)
-COMP ( 1985, acw443,   bbcbp,   0,     acw443,   abc,    bbc_state,      bbc,     "Acorn",           "ABC 210/Cambridge Workstation",      MACHINE_NOT_WORKING)
-COMP ( 1985, abc310,   bbcbp,   0,     abc310,   abc,    bbc_state,      bbc,     "Acorn",           "ABC 310",                            MACHINE_NOT_WORKING)
-COMP ( 1985, ltmpbp,   bbcbp,   0,     ltmpbp,   ltmpbp, bbc_state,      bbc,     "Lawrie T&M Ltd.", "LTM Portable (B+)",                  MACHINE_IMPERFECT_GRAPHICS)
-COMP ( 1985, reutapm,  bbcbp,   0,     reutapm,  bbcb,   bbc_state,      bbc,     "Acorn",           "Reuters APM",                        MACHINE_NO_SOUND_HW | MACHINE_NOT_WORKING)
-COMP ( 1986, econx25,  bbcbp,   0,     econx25,  bbcbp,  bbc_state,      bbc,     "Acorn",           "Econet X25 Gateway",                 MACHINE_NOT_WORKING)
-COMP ( 1986, bbcm,     0,       bbcb,  bbcm,     bbcm,   bbc_state,      bbc,     "Acorn",           "BBC Master 128",                     MACHINE_IMPERFECT_GRAPHICS)
-COMP ( 1986, bbcmt,    bbcm,    0,     bbcmt,    bbcm,   bbc_state,      bbc,     "Acorn",           "BBC Master Turbo",                   MACHINE_IMPERFECT_GRAPHICS)
-COMP ( 1986, bbcmaiv,  bbcm,    0,     bbcmaiv,  bbcm,   bbc_state,      bbc,     "Acorn",           "BBC Master AIV",                     MACHINE_NOT_WORKING)
-COMP ( 1986, bbcmet,   bbcm,    0,     bbcmet,   bbcm,   bbc_state,      bbc,     "Acorn",           "BBC Master ET",                      MACHINE_IMPERFECT_GRAPHICS)
-COMP ( 1986, bbcm512,  bbcm,    0,     bbcm512,  bbcm,   bbc_state,      bbc,     "Acorn",           "BBC Master 512",                     MACHINE_IMPERFECT_GRAPHICS)
-COMP ( 1986, bbcmarm,  bbcm,    0,     bbcmarm,  bbcm,   bbc_state,      bbc,     "Acorn",           "BBC Master (ARM Evaluation)",        MACHINE_NOT_WORKING)
-COMP ( 1986, ltmpm,    bbcm,    0,     ltmpm,    ltmpm,  bbc_state,      bbc,     "Lawrie T&M Ltd.", "LTM Portable (Master)",              MACHINE_IMPERFECT_GRAPHICS)
-COMP ( 1986, bbcmc,    0,       bbcm,  bbcmc,    bbcm,   bbc_state,      bbc,     "Acorn",           "BBC Master Compact",                 MACHINE_IMPERFECT_GRAPHICS)
-COMP ( 1986, bbcmc_ar, bbcmc,   0,     bbcmc,    bbcm,   bbc_state,      bbc,     "Acorn",           "BBC Master Compact (Arabic)",        MACHINE_IMPERFECT_GRAPHICS)
-COMP ( 1987, pro128s,  bbcmc,   0,     pro128s,  bbcm,   bbc_state,      bbc,     "Olivetti",        "Prodest PC 128S",                    MACHINE_IMPERFECT_GRAPHICS)
-COMP ( 1988, discmon,  bbcm,    0,     discmon,  bbcm,   bbc_state,      bbc,     "Arbiter Leisure", "Arbiter Discmonitor A-01",           MACHINE_NOT_WORKING)
-COMP ( 1988, discmate, bbcm,    0,     discmate, bbcm,   bbc_state,      bbc,     "Arbiter Leisure", "Arbiter Discmate A-02",              MACHINE_NOT_WORKING)
-//COMP ( 1988, discmast, bbcm,    0,     discmast, bbcm,   bbc_state,      bbc,     "Arbiter Leisure", "Arbiter Discmaster A-03",            MACHINE_NOT_WORKING)
-COMP ( 1989, cfa3000,  bbcm,    0,     cfa3000,  bbcm,   bbc_state,      bbc,     "Tinsley Medical Instruments",  "Henson CFA 3000",       MACHINE_NOT_WORKING)
+/*     YEAR  NAME      PARENT  COMPAT MACHINE   INPUT   CLASS        INIT      COMPANY            FULLNAME                              FLAGS */
+COMP ( 1981, bbcb,     0,      bbca,  bbcb,     bbcb,   bbc_state,   init_bbc, "Acorn",           "BBC Micro Model B",                  MACHINE_IMPERFECT_GRAPHICS)
+COMP ( 1981, bbca,     bbcb,   0,     bbca,     bbca,   bbc_state,   init_bbc, "Acorn",           "BBC Micro Model A",                  MACHINE_IMPERFECT_GRAPHICS)
+COMP ( 1982, torchf,   bbcb,   0,     torchf,   torch,  torch_state, init_bbc, "Torch Computers", "Torch CF240",                        MACHINE_IMPERFECT_GRAPHICS)
+COMP ( 1982, torchh10, bbcb,   0,     torchh10, torch,  torch_state, init_bbc, "Torch Computers", "Torch CH240/10",                     MACHINE_NOT_WORKING)
+COMP ( 1982, torchh21, bbcb,   0,     torchh21, torch,  torch_state, init_bbc, "Torch Computers", "Torch CH240/21",                     MACHINE_NOT_WORKING)
+COMP ( 1982, bbcb_de,  bbcb,   0,     bbcb_de,  bbcb,   bbc_state,   init_bbc, "Acorn",           "BBC Micro Model B (German)",         MACHINE_IMPERFECT_GRAPHICS)
+COMP ( 1983, bbcb_us,  bbcb,   0,     bbcb_us,  bbcb,   bbc_state,   init_bbc, "Acorn",           "BBC Micro Model B (US)",             MACHINE_IMPERFECT_GRAPHICS)
+COMP ( 1985, bbcbp,    0,      bbcb,  bbcbp,    bbcbp,  bbc_state,   init_bbc, "Acorn",           "BBC Micro Model B+ 64K",             MACHINE_IMPERFECT_GRAPHICS)
+COMP ( 1985, bbcbp128, bbcbp,  0,     bbcbp128, bbcbp,  bbc_state,   init_bbc, "Acorn",           "BBC Micro Model B+ 128K",            MACHINE_IMPERFECT_GRAPHICS)
+COMP ( 1985, abc110,   bbcbp,  0,     abc110,   abc,    bbc_state,   init_bbc, "Acorn",           "ABC 110",                            MACHINE_NOT_WORKING)
+COMP ( 1985, acw443,   bbcbp,  0,     acw443,   abc,    bbc_state,   init_bbc, "Acorn",           "ABC 210/Cambridge Workstation",      MACHINE_NOT_WORKING)
+COMP ( 1985, abc310,   bbcbp,  0,     abc310,   abc,    bbc_state,   init_bbc, "Acorn",           "ABC 310",                            MACHINE_NOT_WORKING)
+COMP ( 1985, ltmpbp,   bbcbp,  0,     ltmpbp,   ltmpbp, bbc_state,   init_bbc, "Lawrie T&M Ltd.", "LTM Portable (B+)",                  MACHINE_IMPERFECT_GRAPHICS)
+COMP ( 1985, reutapm,  bbcbp,  0,     reutapm,  bbcb,   bbc_state,   init_bbc, "Acorn",           "Reuters APM",                        MACHINE_NO_SOUND_HW | MACHINE_NOT_WORKING)
+COMP ( 1986, econx25,  bbcbp,  0,     econx25,  bbcbp,  bbc_state,   init_bbc, "Acorn",           "Econet X25 Gateway",                 MACHINE_NOT_WORKING)
+COMP ( 1986, bbcm,     0,      bbcb,  bbcm,     bbcm,   bbc_state,   init_bbc, "Acorn",           "BBC Master 128",                     MACHINE_IMPERFECT_GRAPHICS)
+COMP ( 1986, bbcmt,    bbcm,   0,     bbcmt,    bbcm,   bbc_state,   init_bbc, "Acorn",           "BBC Master Turbo",                   MACHINE_IMPERFECT_GRAPHICS)
+COMP ( 1986, bbcmaiv,  bbcm,   0,     bbcmaiv,  bbcm,   bbc_state,   init_bbc, "Acorn",           "BBC Master AIV",                     MACHINE_NOT_WORKING)
+COMP ( 1986, bbcmet,   bbcm,   0,     bbcmet,   bbcm,   bbc_state,   init_bbc, "Acorn",           "BBC Master ET",                      MACHINE_IMPERFECT_GRAPHICS)
+COMP ( 1986, bbcm512,  bbcm,   0,     bbcm512,  bbcm,   bbc_state,   init_bbc, "Acorn",           "BBC Master 512",                     MACHINE_IMPERFECT_GRAPHICS)
+COMP ( 1986, bbcmarm,  bbcm,   0,     bbcmarm,  bbcm,   bbc_state,   init_bbc, "Acorn",           "BBC Master (ARM Evaluation)",        MACHINE_NOT_WORKING)
+COMP ( 1986, ltmpm,    bbcm,   0,     ltmpm,    ltmpm,  bbc_state,   init_bbc, "Lawrie T&M Ltd.", "LTM Portable (Master)",              MACHINE_IMPERFECT_GRAPHICS)
+COMP ( 1986, bbcmc,    0,      bbcm,  bbcmc,    bbcm,   bbc_state,   init_bbc, "Acorn",           "BBC Master Compact",                 MACHINE_IMPERFECT_GRAPHICS)
+COMP ( 1986, bbcmc_ar, bbcmc,  0,     bbcmc,    bbcm,   bbc_state,   init_bbc, "Acorn",           "BBC Master Compact (Arabic)",        MACHINE_IMPERFECT_GRAPHICS)
+COMP ( 1987, pro128s,  bbcmc,  0,     pro128s,  bbcm,   bbc_state,   init_bbc, "Olivetti",        "Prodest PC 128S",                    MACHINE_IMPERFECT_GRAPHICS)
+COMP ( 1988, discmon,  bbcm,   0,     discmon,  bbcm,   bbc_state,   init_bbc, "Arbiter Leisure", "Arbiter Discmonitor A-01",           MACHINE_NOT_WORKING)
+COMP ( 1988, discmate, bbcm,   0,     discmate, bbcm,   bbc_state,   init_bbc, "Arbiter Leisure", "Arbiter Discmate A-02",              MACHINE_NOT_WORKING)
+//COMP ( 1988, discmast, bbcm,   0,     discmast, bbcm,   bbc_state,   init_bbc, "Arbiter Leisure", "Arbiter Discmaster A-03",            MACHINE_NOT_WORKING)
+COMP ( 1989, cfa3000,  bbcm,   0,     cfa3000,  bbcm,   bbc_state,   init_bbc, "Tinsley Medical Instruments",  "Henson CFA 3000",       MACHINE_NOT_WORKING)

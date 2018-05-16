@@ -279,7 +279,7 @@ MACHINE_CONFIG_START(rm380z_state::rm480z)
 	MCFG_DEVICE_PROGRAM_MAP(rm480z_mem)
 	MCFG_DEVICE_IO_MAP(rm480z_io)
 
-	MCFG_MACHINE_RESET_OVERRIDE(rm380z_state, rm480z)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_rm480z, this));
 	/* video hardware */
 //  MCFG_SCREEN_ADD("screen", RASTER)
 //  MCFG_SCREEN_REFRESH_RATE(50)
@@ -350,10 +350,10 @@ ROM_END
 
 
 /* Driver */
-//   YEAR  NAME        PARENT    COMPAT  MACHINE     INPUT     CLASS            INIT        COMPANY                 FULLNAME                FLAGS
-COMP(1978, rm380z,     0,         0,     rm380z,     rm380z,   rm380z_state,    rm380z,     "Research Machines",    "RM-380Z, COS 4.0B",    MACHINE_NO_SOUND_HW)
-COMP(1978, rm380z34d,  rm380z,    0,     rm380z,     rm380z,   rm380z_state,    rm380z34d,  "Research Machines",    "RM-380Z, COS 3.4D",    MACHINE_NO_SOUND_HW)
-COMP(1978, rm380z34e,  rm380z,    0,     rm380z,     rm380z,   rm380z_state,    rm380z34e,  "Research Machines",    "RM-380Z, COS 3.4E",    MACHINE_NO_SOUND_HW)
-COMP(1981, rm480z,     rm380z,    0,     rm480z,     rm380z,   rm380z_state,    rm380z34e,  "Research Machines",    "LINK RM-480Z (set 1)", MACHINE_NOT_WORKING | MACHINE_NO_SOUND)
-COMP(1981, rm480za,    rm380z,    0,     rm480z,     rm380z,   rm380z_state,    rm380z34e,  "Research Machines",    "LINK RM-480Z (set 2)", MACHINE_NOT_WORKING | MACHINE_NO_SOUND)
+//   YEAR  NAME       PARENT  COMPAT  MACHINE  INPUT   CLASS         INIT            COMPANY              FULLNAME                FLAGS
+COMP(1978, rm380z,    0,      0,      rm380z,  rm380z, rm380z_state, init_rm380z,    "Research Machines", "RM-380Z, COS 4.0B",    MACHINE_NO_SOUND_HW)
+COMP(1978, rm380z34d, rm380z, 0,      rm380z,  rm380z, rm380z_state, init_rm380z34d, "Research Machines", "RM-380Z, COS 3.4D",    MACHINE_NO_SOUND_HW)
+COMP(1978, rm380z34e, rm380z, 0,      rm380z,  rm380z, rm380z_state, init_rm380z34e, "Research Machines", "RM-380Z, COS 3.4E",    MACHINE_NO_SOUND_HW)
+COMP(1981, rm480z,    rm380z, 0,      rm480z,  rm380z, rm380z_state, init_rm380z34e, "Research Machines", "LINK RM-480Z (set 1)", MACHINE_NOT_WORKING | MACHINE_NO_SOUND)
+COMP(1981, rm480za,   rm380z, 0,      rm480z,  rm380z, rm380z_state, init_rm380z34e, "Research Machines", "LINK RM-480Z (set 2)", MACHINE_NOT_WORKING | MACHINE_NO_SOUND)
 

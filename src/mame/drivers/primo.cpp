@@ -304,7 +304,7 @@ MACHINE_CONFIG_START(primo_state::primob32)
 	MCFG_DEVICE_MODIFY("maincpu")
 	MCFG_DEVICE_IO_MAP(primob_port)
 
-	MCFG_MACHINE_RESET_OVERRIDE(primo_state, primob)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_primob, this));
 MACHINE_CONFIG_END
 
 MACHINE_CONFIG_START(primo_state::primob48)
@@ -312,7 +312,7 @@ MACHINE_CONFIG_START(primo_state::primob48)
 	MCFG_DEVICE_MODIFY("maincpu")
 	MCFG_DEVICE_IO_MAP(primob_port)
 
-	MCFG_MACHINE_RESET_OVERRIDE(primo_state, primob)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_primob, this));
 MACHINE_CONFIG_END
 
 MACHINE_CONFIG_START(primo_state::primob64)
@@ -320,7 +320,7 @@ MACHINE_CONFIG_START(primo_state::primob64)
 	MCFG_DEVICE_MODIFY("maincpu")
 	MCFG_DEVICE_IO_MAP(primob_port)
 
-	MCFG_MACHINE_RESET_OVERRIDE(primo_state, primob)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_primob, this));
 MACHINE_CONFIG_END
 
 MACHINE_CONFIG_START(primo_state::primoc64)
@@ -328,7 +328,7 @@ MACHINE_CONFIG_START(primo_state::primoc64)
 	MCFG_DEVICE_MODIFY("maincpu")
 	MCFG_DEVICE_IO_MAP(primob_port)
 
-	MCFG_MACHINE_RESET_OVERRIDE(primo_state, primob)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_primob, this));
 MACHINE_CONFIG_END
 
 ROM_START( primoa32 )
@@ -382,11 +382,11 @@ ROM_START( primoc64 )
 	ROM_LOAD( "c64_4.rom", 0x13000, 0x1000, CRC(3770e3e6) SHA1(792cc71d8f89eb447f94aded5afc70d626a26030) )
 ROM_END
 
-//     YEAR  NAME      PARENT    COMPAT MACHINE   INPUT  STATE        INIT     COMPANY     FULLNAME       FLAGS
-COMP ( 1984, primoa32, 0,        0,     primoa32, primo, primo_state, primo32, "Microkey", "Primo A-32" , 0 )
-COMP ( 1984, primoa48, primoa32, 0,     primoa48, primo, primo_state, primo48, "Microkey", "Primo A-48" , 0 )
-COMP ( 1984, primoa64, primoa32, 0,     primoa64, primo, primo_state, primo64, "Microkey", "Primo A-64" , 0 )
-COMP ( 1984, primob32, primoa32, 0,     primob32, primo, primo_state, primo32, "Microkey", "Primo B-32" , 0 )
-COMP ( 1984, primob48, primoa32, 0,     primob48, primo, primo_state, primo48, "Microkey", "Primo B-48" , 0 )
-COMP ( 1984, primob64, primoa32, 0,     primob64, primo, primo_state, primo64, "Microkey", "Primo B-64" , 0 )
-COMP ( 1984, primoc64, primoa32, 0,     primoc64, primo, primo_state, primo64, "Microkey", "Primo C-64" , MACHINE_NOT_WORKING )
+//    YEAR  NAME      PARENT    COMPAT  MACHINE   INPUT  CLASS        INIT          COMPANY     FULLNAME      FLAGS
+COMP( 1984, primoa32, 0,        0,      primoa32, primo, primo_state, init_primo32, "Microkey", "Primo A-32", 0 )
+COMP( 1984, primoa48, primoa32, 0,      primoa48, primo, primo_state, init_primo48, "Microkey", "Primo A-48", 0 )
+COMP( 1984, primoa64, primoa32, 0,      primoa64, primo, primo_state, init_primo64, "Microkey", "Primo A-64", 0 )
+COMP( 1984, primob32, primoa32, 0,      primob32, primo, primo_state, init_primo32, "Microkey", "Primo B-32", 0 )
+COMP( 1984, primob48, primoa32, 0,      primob48, primo, primo_state, init_primo48, "Microkey", "Primo B-48", 0 )
+COMP( 1984, primob64, primoa32, 0,      primob64, primo, primo_state, init_primo64, "Microkey", "Primo B-64", 0 )
+COMP( 1984, primoc64, primoa32, 0,      primoc64, primo, primo_state, init_primo64, "Microkey", "Primo C-64", MACHINE_NOT_WORKING )

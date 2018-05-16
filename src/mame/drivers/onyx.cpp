@@ -38,7 +38,7 @@ To Do:
 #include "cpu/z8000/z8000.h"
 #include "machine/clock.h"
 #include "bus/rs232/rs232.h"
-//#include "cpu/z80/z80daisy.h"
+//#include "machine/z80daisy.h"
 #include "machine/z80ctc.h"
 #include "machine/z80pio.h"
 #include "machine/z80sio.h"
@@ -63,7 +63,7 @@ public:
 		, m_pio2(*this, "pio2")
 	{ }
 
-	DECLARE_MACHINE_RESET(c8002);
+	void machine_reset_c8002();
 
 	void c8002(machine_config &config);
 	void c5000(machine_config &config);
@@ -86,7 +86,7 @@ static INPUT_PORTS_START( c8002 )
 INPUT_PORTS_END
 
 
-MACHINE_RESET_MEMBER(onyx_state, c8002)
+void onyx_state::machine_reset_c8002()
 {
 }
 
@@ -143,7 +143,7 @@ MACHINE_CONFIG_START(onyx_state::c8002)
 	//MCFG_Z80_DAISY_CHAIN(sub_daisy_chain)
 	MCFG_DEVICE_PROGRAM_MAP(submem)
 	MCFG_DEVICE_IO_MAP(subio)
-	MCFG_MACHINE_RESET_OVERRIDE(onyx_state, c8002)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_c8002, this));
 
 	MCFG_DEVICE_ADD("sio1_clock", CLOCK, 307200)
 	MCFG_CLOCK_SIGNAL_HANDLER(WRITELINE("sio1", z80sio_device, rxca_w))
@@ -215,8 +215,8 @@ ROM_END
 
 /* Driver */
 
-//    YEAR  NAME   PARENT  COMPAT   MACHINE    INPUT  CLASS       INIT  COMPANY          FULLNAME  FLAGS
-COMP( 1982, c8002, 0,      0,       c8002,     c8002, onyx_state, 0,    "Onyx Systems",  "C8002",  MACHINE_NOT_WORKING | MACHINE_NO_SOUND_HW )
+//    YEAR  NAME   PARENT  COMPAT  MACHINE  INPUT  CLASS       INIT        COMPANY         FULLNAME  FLAGS
+COMP( 1982, c8002, 0,      0,      c8002,   c8002, onyx_state, empty_init, "Onyx Systems", "C8002",  MACHINE_NOT_WORKING | MACHINE_NO_SOUND_HW )
 
 
 
@@ -249,7 +249,7 @@ MACHINE_CONFIG_START(onyx_state::c5000)
 	//MCFG_Z80_DAISY_CHAIN(sub_daisy_chain)
 	MCFG_DEVICE_PROGRAM_MAP(c5000_mem)
 	MCFG_DEVICE_IO_MAP(c5000_io)
-	//MCFG_MACHINE_RESET_OVERRIDE(onyx_state, c8002)
+	//set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_c8002, this));
 
 	MCFG_DEVICE_ADD("sio1_clock", CLOCK, 614400)
 	MCFG_CLOCK_SIGNAL_HANDLER(WRITELINE("sio1", z80sio_device, rxtxcb_w))
@@ -285,5 +285,5 @@ ROM_END
 
 /* Driver */
 
-//    YEAR  NAME   PARENT  COMPAT   MACHINE    INPUT  CLASS       INIT  COMPANY          FULLNAME  FLAGS
-COMP( 1981, c5000, 0,      0,       c5000,     c8002, onyx_state, 0,    "Onyx Systems",  "C5000",  MACHINE_NOT_WORKING | MACHINE_NO_SOUND_HW )
+//    YEAR  NAME   PARENT  COMPAT   MACHINE    INPUT  CLASS       INIT        COMPANY          FULLNAME  FLAGS
+COMP( 1981, c5000, 0,      0,       c5000,     c8002, onyx_state, empty_init, "Onyx Systems",  "C5000",  MACHINE_NOT_WORKING | MACHINE_NO_SOUND_HW )

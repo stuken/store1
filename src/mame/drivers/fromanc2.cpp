@@ -436,7 +436,7 @@ static const gfx_layout fromanc2_tilelayout =
 	32*8
 };
 
-static GFXDECODE_START( fromanc2 )
+static GFXDECODE_START( gfx_fromanc2 )
 	GFXDECODE_ENTRY( "gfx1", 0, fromanc2_tilelayout,   0, 4 )
 	GFXDECODE_ENTRY( "gfx2", 0, fromanc2_tilelayout, 256, 4 )
 	GFXDECODE_ENTRY( "gfx3", 0, fromanc2_tilelayout, 512, 4 )
@@ -454,7 +454,7 @@ static const gfx_layout fromancr_tilelayout =
 	64*8
 };
 
-static GFXDECODE_START( fromancr )
+static GFXDECODE_START( gfx_fromancr )
 	GFXDECODE_ENTRY( "gfx1", 0, fromancr_tilelayout, 512, 1 )
 	GFXDECODE_ENTRY( "gfx2", 0, fromancr_tilelayout, 256, 1 )
 	GFXDECODE_ENTRY( "gfx3", 0, fromancr_tilelayout,   0, 1 )
@@ -467,7 +467,7 @@ GFXDECODE_END
  *
  *************************************/
 
-MACHINE_START_MEMBER(fromanc2_state,fromanc4)
+void fromanc2_state::machine_start_fromanc4()
 {
 	save_item(NAME(m_portselect));
 	save_item(NAME(m_sndcpu_nmi_flag));
@@ -478,7 +478,7 @@ MACHINE_START_MEMBER(fromanc2_state,fromanc4)
 	/* video-related elements are saved in video_start */
 }
 
-MACHINE_START_MEMBER(fromanc2_state,fromanc2)
+void fromanc2_state::machine_start_fromanc2()
 {
 	m_bankedram = std::make_unique<uint8_t[]>(0x4000 * 3);
 
@@ -486,7 +486,7 @@ MACHINE_START_MEMBER(fromanc2_state,fromanc2)
 	membank("bank2")->configure_entry(0, memregion("sub")->base() + 0x08000);
 	membank("bank2")->configure_entries(1, 3, m_bankedram.get(), 0x4000);
 
-	MACHINE_START_CALL_MEMBER(fromanc4);
+	machine_start_fromanc4();
 
 	save_item(NAME(m_subcpu_int_flag));
 	save_item(NAME(m_subcpu_nmi_flag));
@@ -516,12 +516,12 @@ MACHINE_CONFIG_START(fromanc2_state::fromanc2)
 	MCFG_DEVICE_PROGRAM_MAP(fromanc2_sub_map)
 	MCFG_DEVICE_IO_MAP(fromanc2_sub_io_map)
 
-	MCFG_MACHINE_START_OVERRIDE(fromanc2_state,fromanc2)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_fromanc2, this));
 
 	MCFG_EEPROM_SERIAL_93C46_ADD("eeprom")
 
 	/* video hardware */
-	MCFG_GFXDECODE_ADD("gfxdecode", "lpalette", fromanc2)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "lpalette", gfx_fromanc2)
 
 	MCFG_PALETTE_ADD("lpalette", 2048)
 	MCFG_PALETTE_FORMAT(GGGGGRRRRRBBBBBx)
@@ -546,7 +546,7 @@ MACHINE_CONFIG_START(fromanc2_state::fromanc2)
 	MCFG_SCREEN_UPDATE_DRIVER(fromanc2_state, screen_update_right)
 	MCFG_SCREEN_PALETTE("rpalette")
 
-	MCFG_VIDEO_START_OVERRIDE(fromanc2_state,fromanc2)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_fromanc2, this));
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();
@@ -576,12 +576,12 @@ MACHINE_CONFIG_START(fromanc2_state::fromancr)
 	MCFG_DEVICE_PROGRAM_MAP(fromanc2_sub_map)
 	MCFG_DEVICE_IO_MAP(fromanc2_sub_io_map)
 
-	MCFG_MACHINE_START_OVERRIDE(fromanc2_state,fromanc2)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_fromanc2, this));
 
 	MCFG_EEPROM_SERIAL_93C46_ADD("eeprom")
 
 	/* video hardware */
-	MCFG_GFXDECODE_ADD("gfxdecode", "lpalette", fromancr)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "lpalette", gfx_fromancr)
 
 	MCFG_PALETTE_ADD("lpalette", 2048)
 	MCFG_PALETTE_FORMAT(xGGGGGRRRRRBBBBB)
@@ -606,7 +606,7 @@ MACHINE_CONFIG_START(fromanc2_state::fromancr)
 	MCFG_SCREEN_UPDATE_DRIVER(fromanc2_state, screen_update_right)
 	MCFG_SCREEN_PALETTE("rpalette")
 
-	MCFG_VIDEO_START_OVERRIDE(fromanc2_state,fromancr)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_fromancr, this));
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();
@@ -632,7 +632,7 @@ MACHINE_CONFIG_START(fromanc2_state::fromanc4)
 	MCFG_DEVICE_PROGRAM_MAP(fromanc2_sound_map)
 	MCFG_DEVICE_IO_MAP(fromanc2_sound_io_map)
 
-	MCFG_MACHINE_START_OVERRIDE(fromanc2_state,fromanc4)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_fromanc4, this));
 
 	MCFG_EEPROM_SERIAL_93C46_ADD("eeprom")
 
@@ -642,7 +642,7 @@ MACHINE_CONFIG_START(fromanc2_state::fromanc4)
 	//MCFG_INS8250_OUT_RTS_CB(WRITELINE("link", rs232_port_device, write_rts))
 
 	/* video hardware */
-	MCFG_GFXDECODE_ADD("gfxdecode", "lpalette", fromancr)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "lpalette", gfx_fromancr)
 
 	MCFG_PALETTE_ADD("lpalette", 2048)
 	MCFG_PALETTE_FORMAT(xRRRRRGGGGGBBBBB)
@@ -667,7 +667,7 @@ MACHINE_CONFIG_START(fromanc2_state::fromanc4)
 	MCFG_SCREEN_UPDATE_DRIVER(fromanc2_state, screen_update_right)
 	MCFG_SCREEN_PALETTE("rpalette")
 
-	MCFG_VIDEO_START_OVERRIDE(fromanc2_state,fromanc4)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_fromanc4, this));
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();
@@ -827,14 +827,14 @@ ROM_END
  *
  *************************************/
 
-DRIVER_INIT_MEMBER(fromanc2_state,fromanc2)
+void fromanc2_state::init_fromanc2()
 {
 	m_subcpu_nmi_flag = 1;
 	m_subcpu_int_flag = 1;
 	m_sndcpu_nmi_flag = 1;
 }
 
-DRIVER_INIT_MEMBER(fromanc2_state,fromanc4)
+void fromanc2_state::init_fromanc4()
 {
 	m_sndcpu_nmi_flag = 1;
 }
@@ -846,7 +846,7 @@ DRIVER_INIT_MEMBER(fromanc2_state,fromanc4)
  *
  *************************************/
 
-GAME( 1995, fromanc2,  0,        fromanc2, fromanc2, fromanc2_state, fromanc2, ROT0, "Video System Co.", "Taisen Idol-Mahjong Final Romance 2 (Japan, newer)", MACHINE_SUPPORTS_SAVE )
-GAME( 1995, fromanc2o, fromanc2, fromanc2, fromanc2, fromanc2_state, fromanc2, ROT0, "Video System Co.", "Taisen Idol-Mahjong Final Romance 2 (Japan, older)", MACHINE_SUPPORTS_SAVE )
-GAME( 1995, fromancr,  0,        fromancr, fromanc2, fromanc2_state, fromanc2, ROT0, "Video System Co.", "Taisen Mahjong Final Romance R (Japan)",      MACHINE_SUPPORTS_SAVE )
-GAME( 1998, fromanc4,  0,        fromanc4, fromanc4, fromanc2_state, fromanc4, ROT0, "Video System Co.", "Taisen Mahjong Final Romance 4 (Japan)",      MACHINE_NODEVICE_LAN | MACHINE_SUPPORTS_SAVE )
+GAME( 1995, fromanc2,  0,        fromanc2, fromanc2, fromanc2_state, init_fromanc2, ROT0, "Video System Co.", "Taisen Idol-Mahjong Final Romance 2 (Japan, newer)", MACHINE_SUPPORTS_SAVE )
+GAME( 1995, fromanc2o, fromanc2, fromanc2, fromanc2, fromanc2_state, init_fromanc2, ROT0, "Video System Co.", "Taisen Idol-Mahjong Final Romance 2 (Japan, older)", MACHINE_SUPPORTS_SAVE )
+GAME( 1995, fromancr,  0,        fromancr, fromanc2, fromanc2_state, init_fromanc2, ROT0, "Video System Co.", "Taisen Mahjong Final Romance R (Japan)",      MACHINE_SUPPORTS_SAVE )
+GAME( 1998, fromanc4,  0,        fromanc4, fromanc4, fromanc2_state, init_fromanc4, ROT0, "Video System Co.", "Taisen Mahjong Final Romance 4 (Japan)",      MACHINE_NODEVICE_LAN | MACHINE_SUPPORTS_SAVE )

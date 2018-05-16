@@ -124,9 +124,9 @@ void pgm_arm_type2_state::_55857F_arm7_map(address_map &map)
 	map(0x50000000, 0x500003ff).ram();
 }
 
-MACHINE_START_MEMBER(pgm_arm_type2_state,pgm_arm_type2)
+void pgm_arm_type2_state::machine_start_pgm_arm_type2()
 {
-	MACHINE_START_CALL_MEMBER(pgm);
+	machine_start_pgm();
 	/* register type specific Save State stuff here */
 }
 
@@ -135,7 +135,7 @@ MACHINE_START_MEMBER(pgm_arm_type2_state,pgm_arm_type2)
 MACHINE_CONFIG_START(pgm_arm_type2_state::pgm_arm_type2)
 	pgmbase(config);
 
-	MCFG_MACHINE_START_OVERRIDE(pgm_arm_type2_state, pgm_arm_type2 )
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_pgm_arm_type2, this));
 
 	MCFG_DEVICE_MODIFY("maincpu")
 	MCFG_DEVICE_PROGRAM_MAP(kov2_mem)
@@ -175,7 +175,7 @@ WRITE32_MEMBER(pgm_arm_type2_state::kov2p_arm_region_w )
 }
 
 
-DRIVER_INIT_MEMBER(pgm_arm_type2_state,kov2)
+void pgm_arm_type2_state::init_kov2()
 {
 	pgm_basic_init();
 	pgm_kov2_decrypt(machine());
@@ -186,7 +186,7 @@ DRIVER_INIT_MEMBER(pgm_arm_type2_state,kov2)
 }
 
 
-DRIVER_INIT_MEMBER(pgm_arm_type2_state,kov2p)
+void pgm_arm_type2_state::init_kov2p()
 {
 	// this hacks the identification of the kov2 rom to return the string required for kov2p
 	// this isn't guaranteed to work properly (and definitely wouldn't on real hardware due to the internal
@@ -208,7 +208,7 @@ WRITE32_MEMBER(pgm_arm_type2_state::martmast_arm_region_w )
 }
 
 
-DRIVER_INIT_MEMBER(pgm_arm_type2_state,martmast)
+void pgm_arm_type2_state::init_martmast()
 {
 	pgm_basic_init();
 	pgm_mm_decrypt(machine());
@@ -254,7 +254,7 @@ READ16_MEMBER(pgm_arm_type2_state::ddp2_main_speedup_r )
 
 }
 
-DRIVER_INIT_MEMBER(pgm_arm_type2_state,ddp2)
+void pgm_arm_type2_state::init_ddp2()
 {
 	pgm_basic_init();
 	pgm_ddp2_decrypt(machine());
@@ -265,14 +265,14 @@ DRIVER_INIT_MEMBER(pgm_arm_type2_state,ddp2)
 }
 
 
-DRIVER_INIT_MEMBER(pgm_arm_type2_state,dw2001)
+void pgm_arm_type2_state::init_dw2001()
 {
 	pgm_basic_init();
 	kov2_latch_init();
 	pgm_mm_decrypt(machine()); // encryption is the same as martial masters
 }
 
-DRIVER_INIT_MEMBER(pgm_arm_type2_state,dwpc)
+void pgm_arm_type2_state::init_dwpc()
 {
 	pgm_basic_init();
 	kov2_latch_init();

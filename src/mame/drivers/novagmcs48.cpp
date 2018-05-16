@@ -49,7 +49,7 @@ public:
 	DECLARE_WRITE8_MEMBER(presto_mux_w);
 	DECLARE_WRITE8_MEMBER(presto_control_w);
 	DECLARE_READ8_MEMBER(presto_input_r);
-	DECLARE_MACHINE_RESET(octo);
+	void machine_reset_octo();
 	DECLARE_INPUT_CHANGED_MEMBER(octo_cpu_freq);
 	void octo_set_cpu_freq();
 	void presto(machine_config &config);
@@ -98,7 +98,7 @@ void novagmcs48_state::octo_set_cpu_freq()
 	m_maincpu->set_unscaled_clock((ioport("FAKE")->read() & 1) ? (15000000) : (12000000));
 }
 
-MACHINE_RESET_MEMBER(novagmcs48_state, octo)
+void novagmcs48_state::machine_reset_octo()
 {
 	novagbase_state::machine_reset();
 	octo_set_cpu_freq();
@@ -169,7 +169,7 @@ MACHINE_CONFIG_START(novagmcs48_state::octo)
 	MCFG_DEVICE_MODIFY("maincpu")
 	MCFG_DEVICE_CLOCK(12000000) // LC circuit, measured, see octo_set_cpu_freq
 
-	MCFG_MACHINE_RESET_OVERRIDE(novagmcs48_state, octo)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_octo, this));
 MACHINE_CONFIG_END
 
 
@@ -194,6 +194,6 @@ ROM_END
     Drivers
 ******************************************************************************/
 
-//    YEAR  NAME      PARENT  CMP MACHINE  INPUT    STATE          INIT  COMPANY, FULLNAME, FLAGS
-CONS( 1984, npresto,  0,       0, presto,  presto,  novagmcs48_state, 0, "Novag", "Presto (Novag)", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK | MACHINE_IMPERFECT_CONTROLS )
-CONS( 1987, nocto,    npresto, 0, octo,    octo,    novagmcs48_state, 0, "Novag", "Octo (Novag)", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK | MACHINE_IMPERFECT_CONTROLS )
+//    YEAR  NAME     PARENT   COMPAT  MACHINE  INPUT   CLASS             INIT        COMPANY  FULLNAME          FLAGS
+CONS( 1984, npresto, 0,       0,      presto,  presto, novagmcs48_state, empty_init, "Novag", "Presto (Novag)", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK | MACHINE_IMPERFECT_CONTROLS )
+CONS( 1987, nocto,   npresto, 0,      octo,    octo,   novagmcs48_state, empty_init, "Novag", "Octo (Novag)",   MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK | MACHINE_IMPERFECT_CONTROLS )

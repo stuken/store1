@@ -655,14 +655,14 @@ static const gfx_layout pro_tiles =
 };
 
 
-static GFXDECODE_START( liberate )
+static GFXDECODE_START( gfx_liberate )
 	GFXDECODE_ENTRY( "gfx1", 0x00000, charlayout,  0, 4 )
 	GFXDECODE_ENTRY( "gfx1", 0x00000, sprites,     0, 4 )
 	GFXDECODE_ENTRY( "gfx2", 0x00000, tiles1,      0, 4 )
 	GFXDECODE_ENTRY( "gfx2", 0x00000, tiles2,      0, 4 )
 GFXDECODE_END
 
-static GFXDECODE_START( prosport )
+static GFXDECODE_START( gfx_prosport )
 	GFXDECODE_ENTRY( "prosport_fg_gfx",  0x00000, charlayout,  0, 4 )
 	GFXDECODE_ENTRY( "protenns_fg_gfx",  0x00000, charlayout,  0, 4 )
 	GFXDECODE_ENTRY( "probowl_fg_gfx",   0x00000, charlayout,  0, 4 )
@@ -674,7 +674,7 @@ static GFXDECODE_START( prosport )
 	GFXDECODE_ENTRY( "gfx2", 0x00000, pro_tiles,   0, 4 ) //backgrounds
 GFXDECODE_END
 
-static GFXDECODE_START( prosoccr )
+static GFXDECODE_START( gfx_prosoccr )
 	GFXDECODE_ENTRY( "fg_gfx", 0x00000, charlayout,        0, 4 )
 	GFXDECODE_ENTRY( "sp_gfx", 0x00000, sprites,           0, 4 )
 	GFXDECODE_ENTRY( "bg_gfx", 0x00000, prosoccr_bg_gfx,   8, 2 )
@@ -719,7 +719,7 @@ WRITE_LINE_MEMBER(liberate_state::prosport_interrupt)
  *
  *************************************/
 
-MACHINE_START_MEMBER(liberate_state,liberate)
+void liberate_state::machine_start_liberate()
 {
 	save_item(NAME(m_background_disable));
 	save_item(NAME(m_background_color));
@@ -730,7 +730,7 @@ MACHINE_START_MEMBER(liberate_state,liberate)
 	save_item(NAME(m_io_ram));
 }
 
-MACHINE_RESET_MEMBER(liberate_state,liberate)
+void liberate_state::machine_reset_liberate()
 {
 	memset(m_io_ram, 0, ARRAY_LENGTH(m_io_ram));
 
@@ -754,8 +754,8 @@ MACHINE_CONFIG_START(liberate_state::liberate_base)
 
 	MCFG_QUANTUM_TIME(attotime::from_hz(12000))
 
-	MCFG_MACHINE_START_OVERRIDE(liberate_state,liberate)
-	MCFG_MACHINE_RESET_OVERRIDE(liberate_state,liberate)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_liberate, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_liberate, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -767,11 +767,11 @@ MACHINE_CONFIG_START(liberate_state::liberate_base)
 	MCFG_SCREEN_PALETTE("palette")
 	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(*this, liberate_state, deco16_interrupt))
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", liberate)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_liberate)
 	MCFG_PALETTE_ADD("palette", 33)
 	MCFG_PALETTE_INIT_OWNER(liberate_state,liberate)
 
-	MCFG_VIDEO_START_OVERRIDE(liberate_state,liberate)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_liberate, this));
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();
@@ -802,7 +802,7 @@ MACHINE_CONFIG_END
 MACHINE_CONFIG_START(liberate_state::boomrang)
 	liberate_base(config);
 
-	MCFG_VIDEO_START_OVERRIDE(liberate_state,boomrang)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_boomrang, this));
 	MCFG_SCREEN_MODIFY("screen")
 	MCFG_SCREEN_UPDATE_DRIVER(liberate_state, screen_update_boomrang)
 MACHINE_CONFIG_END
@@ -826,9 +826,9 @@ MACHINE_CONFIG_START(liberate_state::prosoccr)
 	MCFG_SCREEN_VISIBLE_AREA(1*8, 31*8-1, 0*8, 32*8-1)
 	MCFG_SCREEN_UPDATE_DRIVER(liberate_state, screen_update_prosoccr)
 
-	MCFG_GFXDECODE_MODIFY("gfxdecode", prosoccr)
+	MCFG_GFXDECODE_MODIFY("gfxdecode", gfx_prosoccr)
 
-	MCFG_VIDEO_START_OVERRIDE(liberate_state,prosoccr)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_prosoccr, this));
 MACHINE_CONFIG_END
 
 MACHINE_CONFIG_START(liberate_state::prosport)
@@ -844,8 +844,8 @@ MACHINE_CONFIG_START(liberate_state::prosport)
 
 //  MCFG_QUANTUM_TIME(attotime::from_hz(12000))
 
-	MCFG_MACHINE_START_OVERRIDE(liberate_state,liberate)
-	MCFG_MACHINE_RESET_OVERRIDE(liberate_state,liberate)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_liberate, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_liberate, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -857,11 +857,11 @@ MACHINE_CONFIG_START(liberate_state::prosport)
 	MCFG_SCREEN_PALETTE("palette")
 	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(*this, liberate_state, deco16_interrupt))
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", prosport)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_prosport)
 	MCFG_PALETTE_ADD("palette", 256)
 	MCFG_PALETTE_FORMAT(BBGGGRRR_inverted)
 
-	MCFG_VIDEO_START_OVERRIDE(liberate_state,prosport)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_prosport, this));
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();
@@ -1283,25 +1283,23 @@ ROM_END
  *
  *************************************/
 
-DRIVER_INIT_MEMBER(liberate_state,prosport)
+void liberate_state::init_prosport()
 {
 	uint8_t *RAM = memregion("maincpu")->base();
-	int i;
-
 	/* Main cpu has the nibbles swapped */
-	for (i = 0; i < 0x10000; i++)
+	for (int i = 0; i < 0x10000; i++)
 		RAM[i] = ((RAM[i] & 0x0f) << 4) | ((RAM[i] & 0xf0) >> 4);
 
 }
 
-DRIVER_INIT_MEMBER(liberate_state,yellowcb)
+void liberate_state::init_yellowcb()
 {
-	DRIVER_INIT_CALL(prosport);
+	init_prosport();
 
 	m_maincpu->space(AS_PROGRAM).install_read_port(0xa000, 0xa000, "IN0");
 }
 
-DRIVER_INIT_MEMBER(liberate_state,liberate)
+void liberate_state::init_liberate()
 {
 	uint8_t *ROM = memregion("maincpu")->base();
 
@@ -1319,14 +1317,14 @@ DRIVER_INIT_MEMBER(liberate_state,liberate)
  *
  *************************************/
 
-GAME( 1983, prosoccr,  0,        prosoccr,  prosoccr, liberate_state, prosport, ROT270, "Data East Corporation", "Pro Soccer", MACHINE_SUPPORTS_SAVE )
-GAME( 1983, prosport,  0,        prosport,  prosport, liberate_state, prosport, ROT270, "Data East Corporation", "Pro Sports - Bowling, Tennis, and Golf", MACHINE_NO_COCKTAIL | MACHINE_IMPERFECT_GRAPHICS | MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE )
-GAME( 1983, prosporta, prosport, prosport,  prosport, liberate_state, prosport, ROT270, "Data East Corporation (Digital Controls license)", "Pro Sports - Bowling, Tennis, and Golf (USA)", MACHINE_NO_COCKTAIL | MACHINE_IMPERFECT_GRAPHICS | MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE )
-GAME( 1983, boomrang,  0,        boomrang,  boomrang, liberate_state, prosport, ROT270, "Data East Corporation", "Boomer Rang'r / Genesis (set 1)", MACHINE_SUPPORTS_SAVE )
-GAME( 1983, boomranga, boomrang, boomrang,  boomrang, liberate_state, prosport, ROT270, "Data East Corporation", "Boomer Rang'r / Genesis (set 2)", MACHINE_SUPPORTS_SAVE )
-GAME( 1984, kamikcab,  0,        boomrang,  kamikcab, liberate_state, prosport, ROT270, "Data East Corporation", "Kamikaze Cabbie", MACHINE_SUPPORTS_SAVE )
-GAME( 1984, yellowcbj, kamikcab, boomrang,  yellowcb, liberate_state, yellowcb, ROT270, "Data East Corporation", "Yellow Cab (Japan)", MACHINE_SUPPORTS_SAVE )
-GAME( 1984, yellowcbb, kamikcab, boomrang,  yellowcb, liberate_state, yellowcb, ROT270, "bootleg",               "Yellow Cab (bootleg)", MACHINE_SUPPORTS_SAVE )
-GAME( 1984, liberate,  0,        liberate,  liberate, liberate_state, liberate, ROT270, "Data East Corporation", "Liberation", MACHINE_SUPPORTS_SAVE )
-GAME( 1984, dualaslt,  liberate, liberate,  dualaslt, liberate_state, liberate, ROT270, "Data East USA",         "Dual Assault", MACHINE_SUPPORTS_SAVE )
-GAME( 1984, liberateb, liberate, liberatb,  liberatb, liberate_state, prosport, ROT270, "bootleg",               "Liberation (bootleg)", MACHINE_SUPPORTS_SAVE )
+GAME( 1983, prosoccr,  0,        prosoccr, prosoccr, liberate_state, init_prosport, ROT270, "Data East Corporation", "Pro Soccer", MACHINE_SUPPORTS_SAVE )
+GAME( 1983, prosport,  0,        prosport, prosport, liberate_state, init_prosport, ROT270, "Data East Corporation", "Pro Sports - Bowling, Tennis, and Golf", MACHINE_NO_COCKTAIL | MACHINE_IMPERFECT_GRAPHICS | MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE )
+GAME( 1983, prosporta, prosport, prosport, prosport, liberate_state, init_prosport, ROT270, "Data East Corporation (Digital Controls license)", "Pro Sports - Bowling, Tennis, and Golf (USA)", MACHINE_NO_COCKTAIL | MACHINE_IMPERFECT_GRAPHICS | MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE )
+GAME( 1983, boomrang,  0,        boomrang, boomrang, liberate_state, init_prosport, ROT270, "Data East Corporation", "Boomer Rang'r / Genesis (set 1)", MACHINE_SUPPORTS_SAVE )
+GAME( 1983, boomranga, boomrang, boomrang, boomrang, liberate_state, init_prosport, ROT270, "Data East Corporation", "Boomer Rang'r / Genesis (set 2)", MACHINE_SUPPORTS_SAVE )
+GAME( 1984, kamikcab,  0,        boomrang, kamikcab, liberate_state, init_prosport, ROT270, "Data East Corporation", "Kamikaze Cabbie", MACHINE_SUPPORTS_SAVE )
+GAME( 1984, yellowcbj, kamikcab, boomrang, yellowcb, liberate_state, init_yellowcb, ROT270, "Data East Corporation", "Yellow Cab (Japan)", MACHINE_SUPPORTS_SAVE )
+GAME( 1984, yellowcbb, kamikcab, boomrang, yellowcb, liberate_state, init_yellowcb, ROT270, "bootleg",               "Yellow Cab (bootleg)", MACHINE_SUPPORTS_SAVE )
+GAME( 1984, liberate,  0,        liberate, liberate, liberate_state, init_liberate, ROT270, "Data East Corporation", "Liberation", MACHINE_SUPPORTS_SAVE )
+GAME( 1984, dualaslt,  liberate, liberate, dualaslt, liberate_state, init_liberate, ROT270, "Data East USA",         "Dual Assault", MACHINE_SUPPORTS_SAVE )
+GAME( 1984, liberateb, liberate, liberatb, liberatb, liberate_state, init_prosport, ROT270, "bootleg",               "Liberation (bootleg)", MACHINE_SUPPORTS_SAVE )

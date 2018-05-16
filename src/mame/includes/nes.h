@@ -93,13 +93,13 @@ public:
 	uint32_t screen_update_nes(screen_device &screen, bitmap_rgb32 &bitmap, const rectangle &cliprect);
 	NESCTRL_BRIGHTPIXEL_CB(bright_pixel);
 
-	DECLARE_DRIVER_INIT(famicom);
+	void init_famicom();
 
 	// these are needed until we modernize the FDS controller
-	DECLARE_MACHINE_START(fds);
-	DECLARE_MACHINE_START(famitwin);
-	DECLARE_MACHINE_RESET(fds);
-	DECLARE_MACHINE_RESET(famitwin);
+	void machine_start_fds()      ATTR_COLD;
+	void machine_start_famitwin() ATTR_COLD;
+	void machine_reset_fds();
+	void machine_reset_famitwin();
 	void setup_disk(nes_disksys_device *slot);
 
 	void suborkbd(machine_config &config);

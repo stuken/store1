@@ -142,12 +142,12 @@ public:
 	DECLARE_CUSTOM_INPUT_MEMBER(analog_bit_r);
 	DECLARE_WRITE_LINE_MEMBER(ser_irq);
 	DECLARE_READ16_MEMBER(eeprom_data_r);
-	DECLARE_DRIVER_INIT(gaelco3d);
+	void init_gaelco3d();
 	virtual void machine_start() override;
 	virtual void machine_reset() override;
 	virtual void video_start() override;
-	DECLARE_MACHINE_RESET(gaelco3d2);
-	DECLARE_MACHINE_RESET(common);
+	void machine_reset_gaelco3d2();
+	void machine_reset_common();
 	uint32_t screen_update_gaelco3d(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 	INTERRUPT_GEN_MEMBER(vblank_gen);
 	TIMER_DEVICE_CALLBACK_MEMBER(adsp_autobuffer_irq);

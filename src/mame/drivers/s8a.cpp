@@ -66,8 +66,8 @@ public:
 	DECLARE_WRITE_LINE_MEMBER(pia_irq);
 	DECLARE_INPUT_CHANGED_MEMBER(main_nmi);
 	DECLARE_INPUT_CHANGED_MEMBER(audio_nmi);
-	DECLARE_MACHINE_RESET(s8a);
-	DECLARE_DRIVER_INIT(s8a);
+	void machine_reset_s8a();
+	void init_s8a();
 	void s8a(machine_config &config);
 	void s8a_audio_map(address_map &map);
 	void s8a_main_map(address_map &map);
@@ -274,11 +274,11 @@ void s8a_state::device_timer(emu_timer &timer, device_timer_id id, int param, vo
 	}
 }
 
-MACHINE_RESET_MEMBER( s8a_state, s8a )
+void s8a_state::machine_reset_s8a()
 {
 }
 
-DRIVER_INIT_MEMBER( s8a_state, s8a )
+void s8a_state::init_s8a()
 {
 	m_irq_timer = timer_alloc(TIMER_IRQ);
 	m_irq_timer->adjust(attotime::from_ticks(980,1e6),1);
@@ -288,7 +288,7 @@ MACHINE_CONFIG_START(s8a_state::s8a)
 	/* basic machine hardware */
 	MCFG_DEVICE_ADD("maincpu", M6802, XTAL(4'000'000))
 	MCFG_DEVICE_PROGRAM_MAP(s8a_main_map)
-	MCFG_MACHINE_RESET_OVERRIDE(s8a_state, s8a)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_s8a, this));
 
 	/* Video */
 	MCFG_DEFAULT_LAYOUT(layout_s8a)
@@ -359,4 +359,4 @@ ROM_START(scrzy_l1)
 	ROM_LOAD("ic49.bin", 0x0000, 0x4000, CRC(bcc8ccc4) SHA1(2312f9cc4f5a2dadfbfa61d13c31bb5838adf152) )
 ROM_END
 
-GAME( 1984, scrzy_l1, 0, s8a, s8a, s8a_state, s8a, ROT0, "Williams", "Still Crazy", MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
+GAME( 1984, scrzy_l1, 0, s8a, s8a, s8a_state, init_s8a, ROT0, "Williams", "Still Crazy", MACHINE_MECHANICAL | MACHINE_NOT_WORKING )

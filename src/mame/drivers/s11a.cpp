@@ -143,9 +143,9 @@ static INPUT_PORTS_START( s11a )
 INPUT_PORTS_END
 
 
-MACHINE_RESET_MEMBER( s11a_state, s11a )
+void s11a_state::machine_reset_s11a()
 {
-	MACHINE_RESET_CALL_MEMBER(s11);
+	machine_reset_s11();
 	membank("bgbank")->set_entry(0);
 }
 
@@ -166,7 +166,7 @@ WRITE8_MEMBER( s11a_state::bgbank_w )
 	membank("bgbank")->set_entry(data & 0x03);
 }
 
-DRIVER_INIT_MEMBER( s11a_state, s11a )
+void s11a_state::init_s11a()
 {
 	uint8_t *BGROM = memregion("bgcpu")->base();
 	membank("bgbank")->configure_entries(0, 4, &BGROM[0x10000], 0x8000);
@@ -178,7 +178,7 @@ MACHINE_CONFIG_START(s11a_state::s11a)
 	/* basic machine hardware */
 	MCFG_DEVICE_ADD("maincpu", M6808, XTAL(4'000'000))
 	MCFG_DEVICE_PROGRAM_MAP(s11a_main_map)
-	MCFG_MACHINE_RESET_OVERRIDE(s11a_state, s11a)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_s11a, this));
 
 	/* Video */
 	MCFG_DEFAULT_LAYOUT(layout_s11a)
@@ -459,15 +459,15 @@ ROM_START(pb_p4)
 	ROM_LOAD("pbot_u19.l1", 0x18000, 0x8000, CRC(40eb4e9f) SHA1(07b0557b35599a2dd5aa66a306fbbe8f50eed998))
 ROM_END
 
-GAME(1987, f14_l1,   0,       s11a, s11a, s11a_state, s11a, ROT0, "Williams", "F-14 Tomcat (L-1)", MACHINE_IS_SKELETON_MECHANICAL)
-GAME(1987, f14_p3,   f14_l1,  s11a, s11a, s11a_state, s11a, ROT0, "Williams", "F-14 Tomcat (P-3)", MACHINE_IS_SKELETON_MECHANICAL)
-GAME(1987, f14_p4,   f14_l1,  s11a, s11a, s11a_state, s11a, ROT0, "Williams", "F-14 Tomcat (P-4)", MACHINE_IS_SKELETON_MECHANICAL)
-GAME(1987, f14_p5,   f14_l1,  s11a, s11a, s11a_state, s11a, ROT0, "Williams", "F-14 Tomcat (P-5)", MACHINE_IS_SKELETON_MECHANICAL)
-GAME(1987, fire_l3,  0,       s11a, s11a, s11a_state, s11a, ROT0, "Williams", "Fire! (L-3)",       MACHINE_IS_SKELETON_MECHANICAL)
-GAME(1987, fire_l2,  fire_l3, s11a, s11a, s11a_state, s11a, ROT0, "Williams", "Fire! (L-2)",       MACHINE_IS_SKELETON_MECHANICAL)
-GAME(1987, milln_l3, 0,       s11a, s11a, s11a_state, s11a, ROT0, "Williams", "Millionaire (L-3)", MACHINE_IS_SKELETON_MECHANICAL)
-GAME(1986, pb_l5,    0,       s11a, s11a, s11a_state, s11a, ROT0, "Williams", "Pin-Bot (L-5)",     MACHINE_IS_SKELETON_MECHANICAL)
-GAME(1986, pb_l1,    pb_l5,   s11a, s11a, s11a_state, s11a, ROT0, "Williams", "Pin-Bot (L-1)",     MACHINE_IS_SKELETON_MECHANICAL)
-GAME(1986, pb_l2,    pb_l5,   s11a, s11a, s11a_state, s11a, ROT0, "Williams", "Pin-Bot (L-2)",     MACHINE_IS_SKELETON_MECHANICAL)
-GAME(1986, pb_l3,    pb_l5,   s11a, s11a, s11a_state, s11a, ROT0, "Williams", "Pin-Bot (L-3)",     MACHINE_IS_SKELETON_MECHANICAL)
-GAME(1986, pb_p4,    pb_l5,   s11a, s11a, s11a_state, s11a, ROT0, "Williams", "Pin-Bot (P-4)",     MACHINE_IS_SKELETON_MECHANICAL)
+GAME(1987, f14_l1,   0,       s11a, s11a, s11a_state, init_s11a, ROT0, "Williams", "F-14 Tomcat (L-1)", MACHINE_IS_SKELETON_MECHANICAL)
+GAME(1987, f14_p3,   f14_l1,  s11a, s11a, s11a_state, init_s11a, ROT0, "Williams", "F-14 Tomcat (P-3)", MACHINE_IS_SKELETON_MECHANICAL)
+GAME(1987, f14_p4,   f14_l1,  s11a, s11a, s11a_state, init_s11a, ROT0, "Williams", "F-14 Tomcat (P-4)", MACHINE_IS_SKELETON_MECHANICAL)
+GAME(1987, f14_p5,   f14_l1,  s11a, s11a, s11a_state, init_s11a, ROT0, "Williams", "F-14 Tomcat (P-5)", MACHINE_IS_SKELETON_MECHANICAL)
+GAME(1987, fire_l3,  0,       s11a, s11a, s11a_state, init_s11a, ROT0, "Williams", "Fire! (L-3)",       MACHINE_IS_SKELETON_MECHANICAL)
+GAME(1987, fire_l2,  fire_l3, s11a, s11a, s11a_state, init_s11a, ROT0, "Williams", "Fire! (L-2)",       MACHINE_IS_SKELETON_MECHANICAL)
+GAME(1987, milln_l3, 0,       s11a, s11a, s11a_state, init_s11a, ROT0, "Williams", "Millionaire (L-3)", MACHINE_IS_SKELETON_MECHANICAL)
+GAME(1986, pb_l5,    0,       s11a, s11a, s11a_state, init_s11a, ROT0, "Williams", "Pin-Bot (L-5)",     MACHINE_IS_SKELETON_MECHANICAL)
+GAME(1986, pb_l1,    pb_l5,   s11a, s11a, s11a_state, init_s11a, ROT0, "Williams", "Pin-Bot (L-1)",     MACHINE_IS_SKELETON_MECHANICAL)
+GAME(1986, pb_l2,    pb_l5,   s11a, s11a, s11a_state, init_s11a, ROT0, "Williams", "Pin-Bot (L-2)",     MACHINE_IS_SKELETON_MECHANICAL)
+GAME(1986, pb_l3,    pb_l5,   s11a, s11a, s11a_state, init_s11a, ROT0, "Williams", "Pin-Bot (L-3)",     MACHINE_IS_SKELETON_MECHANICAL)
+GAME(1986, pb_p4,    pb_l5,   s11a, s11a, s11a_state, init_s11a, ROT0, "Williams", "Pin-Bot (P-4)",     MACHINE_IS_SKELETON_MECHANICAL)

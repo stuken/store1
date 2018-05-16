@@ -150,11 +150,11 @@ static const gfx_layout kaypro484_charlayout =
 	8*16                    /* every char takes 16 bytes */
 };
 
-static GFXDECODE_START( kayproii )
+static GFXDECODE_START( gfx_kayproii )
 	GFXDECODE_ENTRY( "chargen", 0x0000, kayproii_charlayout, 0, 1 )
 GFXDECODE_END
 
-static GFXDECODE_START( kaypro484 )
+static GFXDECODE_START( gfx_kaypro484 )
 	GFXDECODE_ENTRY( "chargen", 0x0000, kaypro484_charlayout, 0, 1 )
 GFXDECODE_END
 
@@ -202,8 +202,8 @@ MACHINE_CONFIG_START(kaypro_state::kayproii)
 	MCFG_DEVICE_IO_MAP(kayproii_io)
 	MCFG_Z80_DAISY_CHAIN(kayproii_daisy_chain)
 
-	MCFG_MACHINE_START_OVERRIDE(kaypro_state, kayproii )
-	MCFG_MACHINE_RESET_OVERRIDE(kaypro_state, kaypro )
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_kayproii, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_kaypro, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD_MONOCHROME("screen", RASTER, rgb_t::green())
@@ -211,11 +211,11 @@ MACHINE_CONFIG_START(kaypro_state::kayproii)
 	MCFG_SCREEN_VBLANK_TIME(ATTOSECONDS_IN_USEC(0))
 	MCFG_SCREEN_SIZE(80*7, 24*10)
 	MCFG_SCREEN_VISIBLE_AREA(0,80*7-1,0,24*10-1)
-	MCFG_VIDEO_START_OVERRIDE(kaypro_state, kaypro )
+	set_video_start_cb(config, driver_callback_delegate(&video_start_kaypro, this));
 	MCFG_SCREEN_UPDATE_DRIVER(kaypro_state, screen_update_kayproii)
 	MCFG_SCREEN_PALETTE("palette")
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", kayproii)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_kayproii)
 	MCFG_PALETTE_ADD_MONOCHROME("palette")
 
 	/* sound hardware */
@@ -294,7 +294,7 @@ MACHINE_CONFIG_START(kaypro_state::kaypro484)
 	MCFG_DEVICE_IO_MAP(kaypro484_io)
 	MCFG_Z80_DAISY_CHAIN(kaypro484_daisy_chain)
 
-	MCFG_MACHINE_RESET_OVERRIDE(kaypro_state, kaypro )
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_kaypro, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -302,10 +302,10 @@ MACHINE_CONFIG_START(kaypro_state::kaypro484)
 	MCFG_SCREEN_VBLANK_TIME(ATTOSECONDS_IN_USEC(0))
 	MCFG_SCREEN_SIZE(80*8, 25*16)
 	MCFG_SCREEN_VISIBLE_AREA(0,80*8-1,0,25*16-1)
-	MCFG_VIDEO_START_OVERRIDE(kaypro_state, kaypro )
+	set_video_start_cb(config, driver_callback_delegate(&video_start_kaypro, this));
 	MCFG_SCREEN_UPDATE_DRIVER(kaypro_state, screen_update_kaypro484)
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", kaypro484)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_kaypro484)
 	MCFG_PALETTE_ADD("palette", 3)
 	MCFG_PALETTE_INIT_OWNER(kaypro_state, kaypro)
 
@@ -399,7 +399,7 @@ MACHINE_CONFIG_START(kaypro_state::omni2)
 	MCFG_SCREEN_UPDATE_DRIVER(kaypro_state, screen_update_omni2)
 MACHINE_CONFIG_END
 
-DRIVER_INIT_MEMBER( kaypro_state, kaypro )
+void kaypro_state::init_kaypro()
 {
 	uint8_t *main = memregion("roms")->base();
 	uint8_t *ram = memregion("rambank")->base();
@@ -677,19 +677,19 @@ ROM_START(omni4)
 ROM_END
 
 
-/*    YEAR  NAME         PARENT     COMPAT  MACHINE    INPUT   CLASS         INIT    COMPANY                FULLNAME */
-COMP( 1982, kayproii,    0,         0,      kayproii,  kaypro, kaypro_state, kaypro, "Non Linear Systems",  "Kaypro II - 2/83" , 0 )
-COMP( 1983, kayproiv,    kayproii,  0,      kayproiv,  kaypro, kaypro_state, kaypro, "Non Linear Systems",  "Kaypro IV - 4/83" , 0 ) // model 81-004
-COMP( 1983, kaypro10,    0,         0,      kaypro10,  kaypro, kaypro_state, kaypro, "Non Linear Systems",  "Kaypro 10 - 1983", 0 )
-COMP( 1983, kayproiip88, kayproii,  0,      kayproii,  kaypro, kaypro_state, kaypro, "Non Linear Systems",  "Kaypro 4 plus88 - 4/83" , MACHINE_NOT_WORKING ) // model 81-004 with an added 8088 daughterboard and rom
-COMP( 1984, kaypro484,   0,         0,      kaypro484, kaypro, kaypro_state, kaypro, "Non Linear Systems",  "Kaypro 4/84" , MACHINE_NOT_WORKING ) // model 81-015
-COMP( 1984, kaypro284,   kaypro484, 0,      kaypro284, kaypro, kaypro_state, kaypro, "Non Linear Systems",  "Kaypro 2/84" , MACHINE_NOT_WORKING ) // model 81-015
-COMP( 1984, kaypro484p88,kaypro484, 0,      kaypro484, kaypro, kaypro_state, kaypro, "Non Linear Systems",  "Kaypro 4/84 plus88", MACHINE_NOT_WORKING ) // model 81-015 with an added 8088 daughterboard and rom
-COMP( 1984, kaypro1084,  kaypro10,  0,      kaypro10,  kaypro, kaypro_state, kaypro, "Non Linear Systems",  "Kaypro 10" , MACHINE_NOT_WORKING ) // model 81-005
-COMP( 1984, robie,       0,         0,      kaypro484, kaypro, kaypro_state, kaypro, "Non Linear Systems",  "Kaypro Robie" , MACHINE_NOT_WORKING )
-COMP( 1985, kaypro2x,    kaypro484, 0,      kaypro484, kaypro, kaypro_state, kaypro, "Non Linear Systems",  "Kaypro 2x" , MACHINE_NOT_WORKING ) // model 81-025
-COMP( 1985, kaypronew2,  0,         0,      kaypronew2,kaypro, kaypro_state, kaypro, "Non Linear Systems",  "Kaypro New 2", MACHINE_NOT_WORKING )
-COMP( 1985, kaypro4x,    robie,     0,      kaypro484, kaypro, kaypro_state, kaypro, "Non Linear Systems",  "Kaypro 4x" , MACHINE_NOT_WORKING )
-COMP( 1986, kaypro1,     kaypro484, 0,      kaypro484, kaypro, kaypro_state, kaypro, "Non Linear Systems",  "Kaypro 1", MACHINE_NOT_WORKING )
-COMP( 198?, omni2,       kayproii,  0,      omni2,     kaypro, kaypro_state, kaypro, "Non Linear Systems",  "Omni II Logic Analyzer" , 0 )
-COMP( 198?, omni4,       kaypro484, 0,      kaypro484, kaypro, kaypro_state, kaypro, "Omni Logic Inc.",     "Omni 4 Logic Analyzer" , MACHINE_NOT_WORKING )
+/*    YEAR  NAME          PARENT     COMPAT  MACHINE     INPUT   CLASS         INIT         COMPANY               FULLNAME */
+COMP( 1982, kayproii,     0,         0,      kayproii,   kaypro, kaypro_state, init_kaypro, "Non Linear Systems", "Kaypro II - 2/83" , 0 )
+COMP( 1983, kayproiv,     kayproii,  0,      kayproiv,   kaypro, kaypro_state, init_kaypro, "Non Linear Systems", "Kaypro IV - 4/83" , 0 ) // model 81-004
+COMP( 1983, kaypro10,     0,         0,      kaypro10,   kaypro, kaypro_state, init_kaypro, "Non Linear Systems", "Kaypro 10 - 1983", 0 )
+COMP( 1983, kayproiip88,  kayproii,  0,      kayproii,   kaypro, kaypro_state, init_kaypro, "Non Linear Systems", "Kaypro 4 plus88 - 4/83" , MACHINE_NOT_WORKING ) // model 81-004 with an added 8088 daughterboard and rom
+COMP( 1984, kaypro484,    0,         0,      kaypro484,  kaypro, kaypro_state, init_kaypro, "Non Linear Systems", "Kaypro 4/84" , MACHINE_NOT_WORKING ) // model 81-015
+COMP( 1984, kaypro284,    kaypro484, 0,      kaypro284,  kaypro, kaypro_state, init_kaypro, "Non Linear Systems", "Kaypro 2/84" , MACHINE_NOT_WORKING ) // model 81-015
+COMP( 1984, kaypro484p88, kaypro484, 0,      kaypro484,  kaypro, kaypro_state, init_kaypro, "Non Linear Systems", "Kaypro 4/84 plus88", MACHINE_NOT_WORKING ) // model 81-015 with an added 8088 daughterboard and rom
+COMP( 1984, kaypro1084,   kaypro10,  0,      kaypro10,   kaypro, kaypro_state, init_kaypro, "Non Linear Systems", "Kaypro 10" , MACHINE_NOT_WORKING ) // model 81-005
+COMP( 1984, robie,        0,         0,      kaypro484,  kaypro, kaypro_state, init_kaypro, "Non Linear Systems", "Kaypro Robie" , MACHINE_NOT_WORKING )
+COMP( 1985, kaypro2x,     kaypro484, 0,      kaypro484,  kaypro, kaypro_state, init_kaypro, "Non Linear Systems", "Kaypro 2x" , MACHINE_NOT_WORKING ) // model 81-025
+COMP( 1985, kaypronew2,   0,         0,      kaypronew2, kaypro, kaypro_state, init_kaypro, "Non Linear Systems", "Kaypro New 2", MACHINE_NOT_WORKING )
+COMP( 1985, kaypro4x,     robie,     0,      kaypro484,  kaypro, kaypro_state, init_kaypro, "Non Linear Systems", "Kaypro 4x" , MACHINE_NOT_WORKING )
+COMP( 1986, kaypro1,      kaypro484, 0,      kaypro484,  kaypro, kaypro_state, init_kaypro, "Non Linear Systems", "Kaypro 1", MACHINE_NOT_WORKING )
+COMP( 198?, omni2,        kayproii,  0,      omni2,      kaypro, kaypro_state, init_kaypro, "Non Linear Systems", "Omni II Logic Analyzer" , 0 )
+COMP( 198?, omni4,        kaypro484, 0,      kaypro484,  kaypro, kaypro_state, init_kaypro, "Omni Logic Inc.",    "Omni 4 Logic Analyzer" , MACHINE_NOT_WORKING )

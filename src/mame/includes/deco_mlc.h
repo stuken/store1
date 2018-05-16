@@ -74,10 +74,10 @@ public:
 	DECLARE_READ16_MEMBER( sh96_protection_region_0_146_r );
 	DECLARE_WRITE16_MEMBER( sh96_protection_region_0_146_w );
 
-	DECLARE_DRIVER_INIT(mlc);
-	DECLARE_DRIVER_INIT(avengrgs);
-	DECLARE_MACHINE_RESET(mlc);
-	DECLARE_VIDEO_START(mlc);
+	void init_mlc();
+	void init_avengrgs();
+	void machine_reset_mlc();
+	void video_start_mlc() ATTR_COLD;
 	uint32_t screen_update(screen_device &screen, bitmap_rgb32 &bitmap, const rectangle &cliprect);
 	DECLARE_WRITE_LINE_MEMBER(screen_vblank_mlc);
 	TIMER_DEVICE_CALLBACK_MEMBER(interrupt_gen);

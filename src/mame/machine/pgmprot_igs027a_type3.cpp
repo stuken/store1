@@ -152,9 +152,7 @@ void pgm_arm_type3_state::_55857G_arm7_map(address_map &map)
 }
 
 
-
-
-MACHINE_RESET_MEMBER(pgm_arm_type3_state, pgm_arm_type3_reset)
+void pgm_arm_type3_state::machine_reset_pgm_arm_type3_reset()
 {
 	// internal roms aren't fully dumped
 	uint16_t *temp16 = (uint16_t *)memregion("prot")->base();
@@ -178,12 +176,12 @@ MACHINE_RESET_MEMBER(pgm_arm_type3_state, pgm_arm_type3_reset)
 			temp16[(base) / 2] = regionhack; base += 2;
 		}
 	}
-	MACHINE_RESET_CALL_MEMBER(pgm);
+	machine_reset_pgm();
 }
 
-MACHINE_START_MEMBER(pgm_arm_type3_state,pgm_arm_type3)
+void pgm_arm_type3_state::machine_start_pgm_arm_type3()
 {
-	MACHINE_START_CALL_MEMBER(pgm);
+	machine_start_pgm();
 	/* register type specific Save State stuff here */
 }
 
@@ -193,7 +191,7 @@ MACHINE_START_MEMBER(pgm_arm_type3_state,pgm_arm_type3)
 MACHINE_CONFIG_START(pgm_arm_type3_state::pgm_arm_type3)
 	pgmbase(config);
 
-	MCFG_MACHINE_START_OVERRIDE(pgm_arm_type3_state, pgm_arm_type3 )
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_pgm_arm_type3, this));
 
 	MCFG_DEVICE_MODIFY("maincpu")
 	MCFG_DEVICE_PROGRAM_MAP(svg_68k_mem)
@@ -202,7 +200,7 @@ MACHINE_CONFIG_START(pgm_arm_type3_state::pgm_arm_type3)
 	MCFG_DEVICE_ADD("prot", ARM7, XTAL(33'000'000))    // 55857G - 33Mhz Xtal, at least on SVG
 	MCFG_DEVICE_PROGRAM_MAP(_55857G_arm7_map)
 
-	MCFG_MACHINE_RESET_OVERRIDE(pgm_arm_type3_state, pgm_arm_type3_reset)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_pgm_arm_type3_reset, this));
 MACHINE_CONFIG_END
 
 
@@ -510,7 +508,7 @@ void pgm_arm_type3_state::pgm_create_dummy_internal_arm_region_theglad(int is_sv
 	temp16[(base) /2] = 0xE59F; base += 2;
 }
 
-DRIVER_INIT_MEMBER(pgm_arm_type3_state,theglad)
+void pgm_arm_type3_state::init_theglad()
 {
 	svg_basic_init();
 	pgm_theglad_decrypt(machine());
@@ -579,9 +577,9 @@ void pgm_arm_type3_state::pgm_patch_external_arm_rom_jumptable_theglada(int base
 	}
 }
 
-DRIVER_INIT_MEMBER(pgm_arm_type3_state, theglada)
+void pgm_arm_type3_state::init_theglada()
 {
-	DRIVER_INIT_CALL(theglad);
+	init_theglad();
 
 	pgm_patch_external_arm_rom_jumptable_theglada(0x82078);
 
@@ -647,7 +645,7 @@ INPUT_PORTS_START( svgpcb )
 	PORT_CONFSETTING(      0x00ff, "Don't Change" ) // don't hack the region
 INPUT_PORTS_END
 
-DRIVER_INIT_MEMBER(pgm_arm_type3_state,svg)
+void pgm_arm_type3_state::init_svg()
 {
 	svg_basic_init();
 	pgm_svg_decrypt(machine());
@@ -659,7 +657,7 @@ DRIVER_INIT_MEMBER(pgm_arm_type3_state,svg)
 
 }
 
-DRIVER_INIT_MEMBER(pgm_arm_type3_state,svgpcb)
+void pgm_arm_type3_state::init_svgpcb()
 {
 	svg_basic_init();
 	pgm_svgpcb_decrypt(machine());
@@ -679,7 +677,7 @@ READ32_MEMBER(pgm_arm_type3_state::killbldp_speedup_r )
 	return m_arm_ram2[0x00c/4];
 }
 
-DRIVER_INIT_MEMBER(pgm_arm_type3_state,killbldp)
+void pgm_arm_type3_state::init_killbldp()
 {
 	svg_basic_init();
 	pgm_killbldp_decrypt(machine());
@@ -719,7 +717,7 @@ READ16_MEMBER(pgm_arm_type3_state::dmnfrnt_main_speedup_r )
 	return data;
 }
 
-DRIVER_INIT_MEMBER(pgm_arm_type3_state,dmnfrnt)
+void pgm_arm_type3_state::init_dmnfrnt()
 {
 	svg_basic_init();
 	pgm_dfront_decrypt(machine());
@@ -797,11 +795,9 @@ INPUT_PORTS_START( happy6 )
 	PORT_CONFSETTING(      0x00ff, "Don't Change" ) // don't hack the region
 INPUT_PORTS_END
 
-DRIVER_INIT_MEMBER(pgm_arm_type3_state,happy6)
+void pgm_arm_type3_state::init_happy6()
 {
-	uint8_t *src;
-
-	src = (uint8_t *)(machine().root_device().memregion("tiles")->base()) + 0x180000;
+	uint8_t *src = (uint8_t *)(machine().root_device().memregion("tiles")->base()) + 0x180000;
 	pgm_descramble_happy6(src);
 	pgm_descramble_happy6_2(src);
 

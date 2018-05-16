@@ -30,8 +30,8 @@ public:
 	DECLARE_WRITE8_MEMBER(scorpion_0000_w);
 	DECLARE_WRITE8_MEMBER(scorpion_port_7ffd_w);
 	DECLARE_WRITE8_MEMBER(scorpion_port_1ffd_w);
-	DECLARE_MACHINE_START(scorpion);
-	DECLARE_MACHINE_RESET(scorpion);
+	void machine_start_scorpion() ATTR_COLD;
+	void machine_reset_scorpion();
 	TIMER_DEVICE_CALLBACK_MEMBER(nmi_check_callback);
 	void scorpion(machine_config &config);
 	void profi(machine_config &config);
@@ -206,7 +206,7 @@ void scorpion_state::scorpion_switch(address_map &map)
 	map(0x4000, 0xffff).r(this, FUNC(scorpion_state::beta_disable_r));
 }
 
-MACHINE_RESET_MEMBER(scorpion_state,scorpion)
+void scorpion_state::machine_reset_scorpion()
 {
 	uint8_t *messram = m_ram->pointer();
 	m_program = &m_maincpu->space(AS_PROGRAM);
@@ -230,7 +230,8 @@ MACHINE_RESET_MEMBER(scorpion_state,scorpion)
 	m_port_1ffd_data = 0;
 	scorpion_update_memory();
 }
-MACHINE_START_MEMBER(scorpion_state,scorpion)
+
+void scorpion_state::machine_start_scorpion()
 {
 }
 
@@ -275,17 +276,17 @@ static const gfx_layout profi_8_charlayout =
 	8*8                 /* every char takes 8 bytes */
 };
 
-static GFXDECODE_START( scorpion )
+static GFXDECODE_START( gfx_scorpion )
 	GFXDECODE_ENTRY( "maincpu", 0x17d00, spectrum_charlayout, 0, 8 )
 GFXDECODE_END
 
-static GFXDECODE_START( profi )
+static GFXDECODE_START( gfx_profi )
 	GFXDECODE_ENTRY( "maincpu", 0x17d00, spectrum_charlayout, 0, 8 )
 	GFXDECODE_ENTRY( "maincpu", 0x1abfc, profi_8_charlayout, 0, 8 )
 	/* There are more characters after this, that haven't been decoded */
 GFXDECODE_END
 
-static GFXDECODE_START( quorum )
+static GFXDECODE_START( gfx_quorum )
 	GFXDECODE_ENTRY( "maincpu", 0x1fb00, quorum_charlayout, 0, 8 )
 GFXDECODE_END
 
@@ -296,9 +297,9 @@ MACHINE_CONFIG_START(scorpion_state::scorpion)
 	MCFG_DEVICE_IO_MAP(scorpion_io)
 	MCFG_DEVICE_OPCODES_MAP(scorpion_switch)
 
-	MCFG_MACHINE_START_OVERRIDE(scorpion_state, scorpion )
-	MCFG_MACHINE_RESET_OVERRIDE(scorpion_state, scorpion )
-	MCFG_GFXDECODE_MODIFY("gfxdecode", scorpion)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_scorpion, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_scorpion, this));
+	MCFG_GFXDECODE_MODIFY("gfxdecode", gfx_scorpion)
 
 	MCFG_BETA_DISK_ADD(BETA_DISK_TAG)
 
@@ -313,12 +314,12 @@ MACHINE_CONFIG_END
 
 MACHINE_CONFIG_START(scorpion_state::profi)
 	scorpion(config);
-	MCFG_GFXDECODE_MODIFY("gfxdecode", profi)
+	MCFG_GFXDECODE_MODIFY("gfxdecode", gfx_profi)
 MACHINE_CONFIG_END
 
 MACHINE_CONFIG_START(scorpion_state::quorum)
 	scorpion(config);
-	MCFG_GFXDECODE_MODIFY("gfxdecode", quorum)
+	MCFG_GFXDECODE_MODIFY("gfxdecode", gfx_quorum)
 MACHINE_CONFIG_END
 
 
@@ -399,9 +400,9 @@ ROM_START( kay1024 )
 	ROMX_LOAD( "kay1024s.rom", 0x010000, 0x10000, CRC(67351caa) SHA1(1d9c0606b380c000ca1dfa33f90a122ecf9df1f1), ROM_BIOS(3))
 ROM_END
 
-//    YEAR  NAME      PARENT    COMPAT  MACHINE     INPUT      CLASS           INIT    COMPANY              FULLNAME           FLAGS
-COMP( 1994, scorpio,  spec128,  0,      scorpion,   spec_plus, scorpion_state, 0,      "Zonov and Co.",     "Scorpion ZS-256", 0 )
-COMP( 1991, profi,    spec128,  0,      profi,      spec_plus, scorpion_state, 0,      "Kondor and Kramis", "Profi",           MACHINE_NOT_WORKING )
-COMP( 1998, kay1024,  spec128,  0,      scorpion,   spec_plus, scorpion_state, 0,      "NEMO",              "Kay 1024",        MACHINE_NOT_WORKING )
-COMP( 19??, quorum,   spec128,  0,      quorum,     spec_plus, scorpion_state, 0,      "<unknown>",         "Quorum",          MACHINE_NOT_WORKING )
-COMP( 19??, bestzx,   spec128,  0,      scorpion,   spec_plus, scorpion_state, 0,      "<unknown>",         "BestZX",          MACHINE_NOT_WORKING )
+//    YEAR  NAME     PARENT   COMPAT  MACHINE   INPUT      CLASS           INIT        COMPANY              FULLNAME           FLAGS
+COMP( 1994, scorpio, spec128, 0,      scorpion, spec_plus, scorpion_state, empty_init, "Zonov and Co.",     "Scorpion ZS-256", 0 )
+COMP( 1991, profi,   spec128, 0,      profi,    spec_plus, scorpion_state, empty_init, "Kondor and Kramis", "Profi",           MACHINE_NOT_WORKING )
+COMP( 1998, kay1024, spec128, 0,      scorpion, spec_plus, scorpion_state, empty_init, "NEMO",              "Kay 1024",        MACHINE_NOT_WORKING )
+COMP( 19??, quorum,  spec128, 0,      quorum,   spec_plus, scorpion_state, empty_init, "<unknown>",         "Quorum",          MACHINE_NOT_WORKING )
+COMP( 19??, bestzx,  spec128, 0,      scorpion, spec_plus, scorpion_state, empty_init, "<unknown>",         "BestZX",          MACHINE_NOT_WORKING )

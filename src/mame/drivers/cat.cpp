@@ -287,10 +287,11 @@ public:
 	emu_timer *m_keyboard_timer;
 	emu_timer *m_6ms_timer;
 
-	DECLARE_MACHINE_START(cat);
-	DECLARE_MACHINE_RESET(cat);
-	DECLARE_VIDEO_START(cat);
-	DECLARE_DRIVER_INIT(cat);
+	void machine_start_cat() ATTR_COLD;
+	void machine_reset_cat();
+	void video_start_cat() ATTR_COLD;
+
+	void init_cat();
 
 	uint32_t screen_update_cat(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 
@@ -365,16 +366,15 @@ protected:
 
 // TODO: this init doesn't actually work yet! please fix me!
 /*
-DRIVER_INIT_MEMBER( cat_state,cat )
+void cat_state::init_cat()
 {
     uint8_t *svrom = memregion("svrom")->base();
-    int i;
     // fill svrom with the correct 2e80 pattern except where svrom1 sits
     // first half
-    for (i = 0; i < 0x20000; i+=2)
+    for (int i = 0; i < 0x20000; i+=2)
         svrom[i] = 0x2E;
     // second half
-    for (i = 0x20000; i < 0x40000; i+=2)
+    for (int i = 0x20000; i < 0x40000; i+=2)
     {
         svrom[i] = 0x2E;
         svrom[i+1] = 0x80;
@@ -922,7 +922,7 @@ IRQ_CALLBACK_MEMBER(cat_state::cat_int_ack)
 	return M68K_INT_ACK_AUTOVECTOR;
 }
 
-MACHINE_START_MEMBER(cat_state,cat)
+void cat_state::machine_start_cat()
 {
 	m_duart_ktobf_ff = 0; // reset doesn't touch this
 	m_duart_prn_ack_prev_state = 1; // technically uninitialized
@@ -935,7 +935,7 @@ MACHINE_START_MEMBER(cat_state,cat)
 	machine().device<nvram_device>("nvram")->set_base(m_svram, 0x4000);
 }
 
-MACHINE_RESET_MEMBER(cat_state,cat)
+void cat_state::machine_reset_cat()
 {
 	m_6ms_counter = 0;
 	m_wdt_counter = 0;
@@ -943,7 +943,7 @@ MACHINE_RESET_MEMBER(cat_state,cat)
 	m_6ms_timer->adjust(attotime::zero, 0, attotime::from_hz((XTAL(19'968'000)/2)/65536));
 }
 
-VIDEO_START_MEMBER(cat_state,cat)
+void cat_state::video_start_cat()
 {
 }
 
@@ -1062,8 +1062,8 @@ MACHINE_CONFIG_START(cat_state::cat)
 	MCFG_DEVICE_PROGRAM_MAP(cat_mem)
 	MCFG_DEVICE_IRQ_ACKNOWLEDGE_DRIVER(cat_state,cat_int_ack)
 
-	MCFG_MACHINE_START_OVERRIDE(cat_state,cat)
-	MCFG_MACHINE_RESET_OVERRIDE(cat_state,cat)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_cat, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_cat, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -1076,7 +1076,7 @@ MACHINE_CONFIG_START(cat_state::cat)
 
 	MCFG_PALETTE_ADD_MONOCHROME("palette")
 
-	MCFG_VIDEO_START_OVERRIDE(cat_state,cat)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_cat, this));
 
 	MCFG_DEVICE_ADD( "duartn68681", MC68681, (XTAL(19'968'000)*2)/11 ) // duart is normally clocked by 3.6864mhz xtal, but cat seemingly uses a divider from the main xtal instead which probably yields 3.63054545Mhz. There is a trace to cut and a mounting area to allow using an actual 3.6864mhz xtal if you so desire
 	MCFG_MC68681_IRQ_CALLBACK(WRITELINE(*this, cat_state, cat_duart_irq_handler))
@@ -1178,5 +1178,5 @@ ROM_END
 
 /* Driver */
 
-/*    YEAR  NAME  PARENT  COMPAT   MACHINE    INPUT    DEVICE         INIT     COMPANY   FULLNAME       FLAGS */
-COMP( 1987, cat,  0,      0,       cat,       cat,     cat_state,     0,       "Canon",  "Cat",         MACHINE_NOT_WORKING)
+/*    YEAR  NAME  PARENT  COMPAT  MACHINE  INPUT  CLASS      INIT        COMPANY  FULLNAME  FLAGS */
+COMP( 1987, cat,  0,      0,      cat,     cat,   cat_state, empty_init, "Canon", "Cat",    MACHINE_NOT_WORKING)

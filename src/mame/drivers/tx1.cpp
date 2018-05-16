@@ -632,7 +632,7 @@ MACHINE_CONFIG_START(tx1_state::tx1)
 	MCFG_DEVICE_IO_MAP(tx1_sound_io)
 	MCFG_DEVICE_PERIODIC_INT_DRIVER(tx1_state, irq0_line_hold,  TX1_PIXEL_CLOCK / 4 / 2048 / 2)
 
-	MCFG_MACHINE_RESET_OVERRIDE(tx1_state,tx1)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_tx1, this));
 	MCFG_NVRAM_ADD_0FILL("nvram")
 
 	MCFG_DEVICE_ADD("ppi8255", I8255A, 0)
@@ -662,7 +662,7 @@ MACHINE_CONFIG_START(tx1_state::tx1)
 	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(*this, tx1_state, screen_vblank_tx1))
 	MCFG_SCREEN_PALETTE("palette")
 
-	MCFG_VIDEO_START_OVERRIDE(tx1_state,tx1)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_tx1, this));
 
 	SPEAKER(config, "frontleft", -0.2, 0.0, 1.0);
 	SPEAKER(config, "frontright", 0.2, 0.0, 1.0);
@@ -696,7 +696,7 @@ MACHINE_CONFIG_START(tx1_state::buggyboy)
 	MCFG_DEVICE_PERIODIC_INT_DRIVER(tx1_state, z80_irq,  BUGGYBOY_ZCLK / 2 / 4 / 2048)
 	MCFG_DEVICE_IO_MAP(buggyboy_sound_io)
 
-	MCFG_MACHINE_RESET_OVERRIDE(tx1_state,buggyboy)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_buggyboy, this));
 	MCFG_NVRAM_ADD_0FILL("nvram")
 
 	MCFG_DEVICE_ADD("ppi8255", I8255A, 0)
@@ -725,7 +725,7 @@ MACHINE_CONFIG_START(tx1_state::buggyboy)
 
 	MCFG_PALETTE_ADD("palette", 256)
 	MCFG_PALETTE_INIT_OWNER(tx1_state,buggyboy)
-	MCFG_VIDEO_START_OVERRIDE(tx1_state,buggyboy)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_buggyboy, this));
 
 	SPEAKER(config, "frontleft", -0.2, 0.0, 1.0);
 	SPEAKER(config, "frontright", 0.2, 0.0, 1.0);
@@ -762,7 +762,7 @@ MACHINE_CONFIG_START(tx1_state::buggybjr)
 	MCFG_DEVICE_IO_MAP(buggyboy_sound_io)
 	MCFG_DEVICE_PERIODIC_INT_DRIVER(tx1_state, z80_irq,  BUGGYBOY_ZCLK / 2 / 4 / 2048)
 
-	MCFG_MACHINE_RESET_OVERRIDE(tx1_state,buggyboy)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_buggyboy, this));
 	MCFG_NVRAM_ADD_0FILL("nvram")
 
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -773,7 +773,7 @@ MACHINE_CONFIG_START(tx1_state::buggybjr)
 
 	MCFG_PALETTE_ADD("palette", 256)
 	MCFG_PALETTE_INIT_OWNER(tx1_state,buggyboy)
-	MCFG_VIDEO_START_OVERRIDE(tx1_state,buggybjr)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_buggybjr, this));
 
 	SPEAKER(config, "frontleft", -0.2, 0.0, 1.0);
 	SPEAKER(config, "frontright", 0.2, 0.0, 1.0);
@@ -1259,8 +1259,8 @@ ROM_END
  *
  *************************************/
 
-GAMEL( 1983, tx1,        0,        tx1,      tx1,      tx1_state, 0,     ROT0, "Tatsumi (Atari/Namco/Taito license)", "TX-1 (World)",        MACHINE_IMPERFECT_SOUND, layout_tx1 )
-GAMEL( 1983, tx1jb,      tx1,      tx1,      tx1j,     tx1_state, 0,     ROT0, "Tatsumi",                             "TX-1 (Japan rev. B)", MACHINE_IMPERFECT_SOUND, layout_tx1 )
-GAMEL( 1983, tx1jc,      tx1,      tx1,      tx1j,     tx1_state, 0,     ROT0, "Tatsumi",                             "TX-1 (Japan rev. C)", MACHINE_IMPERFECT_SOUND, layout_tx1 )
-GAMEL( 1985, buggyboy,   0,        buggyboy, buggyboy, tx1_state, 0,     ROT0, "Tatsumi", "Buggy Boy/Speed Buggy (cockpit)",          0, layout_buggyboy )
-GAMEL( 1986, buggyboyjr, buggyboy, buggybjr, buggybjr, tx1_state, 0,     ROT0, "Tatsumi", "Buggy Boy Junior/Speed Buggy (upright)",   0, layout_buggybjr )
+GAMEL( 1983, tx1,        0,        tx1,      tx1,      tx1_state, empty_init, ROT0, "Tatsumi (Atari/Namco/Taito license)", "TX-1 (World)",        MACHINE_IMPERFECT_SOUND, layout_tx1 )
+GAMEL( 1983, tx1jb,      tx1,      tx1,      tx1j,     tx1_state, empty_init, ROT0, "Tatsumi",                             "TX-1 (Japan rev. B)", MACHINE_IMPERFECT_SOUND, layout_tx1 )
+GAMEL( 1983, tx1jc,      tx1,      tx1,      tx1j,     tx1_state, empty_init, ROT0, "Tatsumi",                             "TX-1 (Japan rev. C)", MACHINE_IMPERFECT_SOUND, layout_tx1 )
+GAMEL( 1985, buggyboy,   0,        buggyboy, buggyboy, tx1_state, empty_init, ROT0, "Tatsumi",                             "Buggy Boy/Speed Buggy (cockpit)",          0, layout_buggyboy )
+GAMEL( 1986, buggyboyjr, buggyboy, buggybjr, buggybjr, tx1_state, empty_init, ROT0, "Tatsumi",                             "Buggy Boy Junior/Speed Buggy (upright)",   0, layout_buggybjr )

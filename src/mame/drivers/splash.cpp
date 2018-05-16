@@ -468,18 +468,18 @@ static const gfx_layout tilelayout16 =
 	32*8
 };
 
-static GFXDECODE_START( splash )
+static GFXDECODE_START( gfx_splash )
 	GFXDECODE_ENTRY( "gfx1", 0x000000, tilelayout8 ,0,128 )
 	GFXDECODE_ENTRY( "gfx1", 0x000000, tilelayout16,0,128 )
 GFXDECODE_END
 
 
-MACHINE_START_MEMBER(splash_state,splash)
+void splash_state::machine_start_splash()
 {
 	save_item(NAME(m_adpcm_data));
 }
 
-MACHINE_RESET_MEMBER(splash_state,splash)
+void splash_state::machine_reset_splash()
 {
 	m_adpcm_data = 0;
 	m_ret = 0x100;
@@ -511,12 +511,12 @@ MACHINE_CONFIG_START(splash_state::splash)
 	MCFG_SCREEN_UPDATE_DRIVER(splash_state, screen_update)
 	MCFG_SCREEN_PALETTE("palette")
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", splash)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_splash)
 	MCFG_PALETTE_ADD("palette", 2048)
 	MCFG_PALETTE_FORMAT(xRRRRRGGGGGBBBBB)
 
-	MCFG_MACHINE_START_OVERRIDE(splash_state, splash )
-	MCFG_MACHINE_RESET_OVERRIDE(splash_state, splash )
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_splash, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_splash, this));
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();
@@ -534,7 +534,7 @@ MACHINE_CONFIG_START(splash_state::splash)
 MACHINE_CONFIG_END
 
 
-MACHINE_START_MEMBER(splash_state, roldfrog)
+void splash_state::machine_start_roldfrog()
 {
 	save_item(NAME(m_ret));
 	save_item(NAME(m_vblank_irq));
@@ -574,12 +574,12 @@ MACHINE_CONFIG_START(splash_state::roldfrog)
 	MCFG_SCREEN_UPDATE_DRIVER(splash_state, screen_update)
 	MCFG_SCREEN_PALETTE("palette")
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", splash)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_splash)
 	MCFG_PALETTE_ADD("palette", 2048)
 	MCFG_PALETTE_FORMAT(xRRRRRGGGGGBBBBB)
 
-	MCFG_MACHINE_START_OVERRIDE(splash_state, roldfrog )
-	MCFG_MACHINE_RESET_OVERRIDE(splash_state, splash )
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_roldfrog, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_splash, this));
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();
@@ -663,7 +663,7 @@ MACHINE_CONFIG_START(funystrp_state::funystrp)
 	MCFG_SCREEN_UPDATE_DRIVER(funystrp_state, screen_update_funystrp)
 	MCFG_SCREEN_PALETTE("palette")
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", splash)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_splash)
 	MCFG_PALETTE_ADD("palette", 2048)
 	MCFG_PALETTE_FORMAT(xRRRRRGGGGGBBBBB)
 
@@ -1075,28 +1075,28 @@ ROM_END
 
 /* DRIVER INITs */
 
-DRIVER_INIT_MEMBER(splash_state,splash)
+void splash_state::init_splash()
 {
 	m_bitmap_type = 0;
 	m_sprite_attr2_shift = 8;
 }
 
-DRIVER_INIT_MEMBER(splash_state,splash10)
+void splash_state::init_splash10()
 {
 	m_bitmap_type = 0;
 	m_sprite_attr2_shift = 0;
 }
 
-DRIVER_INIT_MEMBER(splash_state,roldfrog)
+void splash_state::init_roldfrog()
 {
-	uint8_t * ROM = (uint8_t *)memregion("audiocpu")->base();
+	uint8_t *ROM = (uint8_t*)memregion("audiocpu")->base();
 	membank("sound_bank")->configure_entries(0, 16, &ROM[0x10000], 0x8000);
 
 	m_bitmap_type = 1;
 	m_sprite_attr2_shift = 8;
 }
 
-DRIVER_INIT_MEMBER(splash_state,rebus)
+void splash_state::init_rebus()
 {
 	uint16_t *ROM = (uint16_t *)memregion("maincpu")->base();
 
@@ -1437,7 +1437,7 @@ WRITE16_MEMBER(funystrp_state::protection_w)
 	}
 }
 
-DRIVER_INIT_MEMBER(funystrp_state,funystrp)
+void funystrp_state::init_funystrp()
 {
 	m_bitmap_type = 0;
 	m_sprite_attr2_shift = 0;
@@ -1450,13 +1450,13 @@ DRIVER_INIT_MEMBER(funystrp_state,funystrp)
 	m_maincpu->space(AS_PROGRAM).install_read_handler(0x100000, 0x1fffff, read16_delegate(FUNC(funystrp_state::protection_r),this));
 }
 
-GAME( 1992, splash,   0,        splash,   splash,   splash_state, splash,   ROT0, "Gaelco / OMK Software",  "Splash! (Ver. 1.2 World)", MACHINE_SUPPORTS_SAVE )
-GAME( 1992, splash10, splash,   splash,   splash,   splash_state, splash10, ROT0, "Gaelco / OMK Software",  "Splash! (Ver. 1.0 World)", MACHINE_SUPPORTS_SAVE )
-GAME( 1992, paintlad, splash,   splash,   splash,   splash_state, splash,   ROT0, "Gaelco / OMK Software",  "Painted Lady (Splash) (Ver. 1.3 US)", MACHINE_SUPPORTS_SAVE )
+GAME( 1992, splash,   0,        splash,   splash,   splash_state,   init_splash,   ROT0, "Gaelco / OMK Software",  "Splash! (Ver. 1.2 World)", MACHINE_SUPPORTS_SAVE )
+GAME( 1992, splash10, splash,   splash,   splash,   splash_state,   init_splash10, ROT0, "Gaelco / OMK Software",  "Splash! (Ver. 1.0 World)", MACHINE_SUPPORTS_SAVE )
+GAME( 1992, paintlad, splash,   splash,   splash,   splash_state,   init_splash,   ROT0, "Gaelco / OMK Software",  "Painted Lady (Splash) (Ver. 1.3 US)", MACHINE_SUPPORTS_SAVE )
 
-GAME( 1993, roldfrog, 0,        roldfrog, splash,   splash_state, roldfrog, ROT0, "Microhard",              "The Return of Lady Frog (set 1)", MACHINE_SUPPORTS_SAVE )
-GAME( 1993, roldfroga,roldfrog, roldfrog, splash,   splash_state, roldfrog, ROT0, "Microhard",              "The Return of Lady Frog (set 2)", MACHINE_SUPPORTS_SAVE )
-GAME( 1995, rebus,    0,        roldfrog, splash,   splash_state, rebus,    ROT0, "Microhard",              "Rebus", MACHINE_NOT_WORKING | MACHINE_UNEMULATED_PROTECTION | MACHINE_NO_SOUND | MACHINE_SUPPORTS_SAVE )
-GAME( 199?, funystrp, 0,        funystrp, funystrp, funystrp_state, funystrp, ROT0, "Microhard / MagicGames", "Funny Strip", MACHINE_NOT_WORKING | MACHINE_UNEMULATED_PROTECTION | MACHINE_SUPPORTS_SAVE )
-GAME( 199?, puckpepl, funystrp, funystrp, funystrp, funystrp_state, funystrp, ROT0, "Microhard",              "Puck People", MACHINE_NOT_WORKING | MACHINE_UNEMULATED_PROTECTION | MACHINE_SUPPORTS_SAVE )
-GAME( 199?, ringball, funystrp, funystrp, funystrp, funystrp_state, funystrp, ROT0, "Microhard",              "Ring & Ball (unknown title)", MACHINE_NOT_WORKING | MACHINE_UNEMULATED_PROTECTION | MACHINE_SUPPORTS_SAVE ) // Wouldn't surprise me if in-game is actually called King & Bell ...
+GAME( 1993, roldfrog, 0,        roldfrog, splash,   splash_state,   init_roldfrog, ROT0, "Microhard",              "The Return of Lady Frog (set 1)", MACHINE_SUPPORTS_SAVE )
+GAME( 1993, roldfroga,roldfrog, roldfrog, splash,   splash_state,   init_roldfrog, ROT0, "Microhard",              "The Return of Lady Frog (set 2)", MACHINE_SUPPORTS_SAVE )
+GAME( 1995, rebus,    0,        roldfrog, splash,   splash_state,   init_rebus,    ROT0, "Microhard",              "Rebus", MACHINE_NOT_WORKING | MACHINE_UNEMULATED_PROTECTION | MACHINE_NO_SOUND | MACHINE_SUPPORTS_SAVE )
+GAME( 199?, funystrp, 0,        funystrp, funystrp, funystrp_state, init_funystrp, ROT0, "Microhard / MagicGames", "Funny Strip", MACHINE_NOT_WORKING | MACHINE_UNEMULATED_PROTECTION | MACHINE_SUPPORTS_SAVE )
+GAME( 199?, puckpepl, funystrp, funystrp, funystrp, funystrp_state, init_funystrp, ROT0, "Microhard",              "Puck People", MACHINE_NOT_WORKING | MACHINE_UNEMULATED_PROTECTION | MACHINE_SUPPORTS_SAVE )
+GAME( 199?, ringball, funystrp, funystrp, funystrp, funystrp_state, init_funystrp, ROT0, "Microhard",              "Ring & Ball (unknown title)", MACHINE_NOT_WORKING | MACHINE_UNEMULATED_PROTECTION | MACHINE_SUPPORTS_SAVE ) // Wouldn't surprise me if in-game is actually called King & Bell ...

@@ -88,8 +88,8 @@ public:
 	TIMER_DEVICE_CALLBACK_MEMBER(irq);
 	DECLARE_INPUT_CHANGED_MEMBER(main_nmi);
 	DECLARE_INPUT_CHANGED_MEMBER(audio_nmi);
-	DECLARE_MACHINE_RESET(s3);
-	DECLARE_MACHINE_RESET(s3a);
+	void machine_reset_s3();
+	void machine_reset_s3a();
 	void s3a(machine_config &config);
 	void s3(machine_config &config);
 	void s3_audio_map(address_map &map);
@@ -273,13 +273,13 @@ static INPUT_PORTS_START( s3 )
 	PORT_DIPSETTING(    0x07, "31" )
 INPUT_PORTS_END
 
-MACHINE_RESET_MEMBER( s3_state, s3 )
+void s3_state::machine_reset_s3()
 {
 	m_t_c = 0;
 	m_chimes = 1;
 }
 
-MACHINE_RESET_MEMBER( s3_state, s3a )
+void s3_state::machine_reset_s3a()
 {
 	m_t_c = 0;
 	m_chimes = 0;
@@ -438,7 +438,7 @@ MACHINE_CONFIG_START(s3_state::s3)
 	MCFG_DEVICE_ADD("maincpu", M6800, 3580000)
 	MCFG_DEVICE_PROGRAM_MAP(s3_main_map)
 	MCFG_TIMER_DRIVER_ADD_PERIODIC("irq", s3_state, irq, attotime::from_hz(250))
-	MCFG_MACHINE_RESET_OVERRIDE(s3_state, s3)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_s3, this));
 
 	/* Video */
 	MCFG_DEFAULT_LAYOUT(layout_s3)
@@ -490,7 +490,7 @@ MACHINE_CONFIG_START(s3_state::s3a)
 	/* Add the soundcard */
 	MCFG_DEVICE_ADD("audiocpu", M6802, 3580000)
 	MCFG_DEVICE_PROGRAM_MAP(s3_audio_map)
-	MCFG_MACHINE_RESET_OVERRIDE(s3_state, s3a)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_s3a, this));
 
 	SPEAKER(config, "speaker").front_center();
 	MCFG_DEVICE_ADD("dac", MC1408, 0) MCFG_SOUND_ROUTE(ALL_OUTPUTS, "speaker", 0.5)
@@ -593,10 +593,10 @@ ROM_START(pkrno_l1)
 	ROM_LOAD("sound1.716",   0x0000, 0x0800, CRC(f4190ca3) SHA1(ee234fb5c894fca5876ee6dc7ea8e89e7e0aec9c))
 ROM_END
 
-GAME( 1977, httip_l1, 0, s3,  s3, s3_state, 0, ROT0, "Williams", "Hot Tip (L-1)",          MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
-GAME( 1977, lucky_l1, 0, s3,  s3, s3_state, 0, ROT0, "Williams", "Lucky Seven (L-1)",      MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
-GAME( 1978, wldcp_l1, 0, s3a, s3, s3_state, 0, ROT0, "Williams", "World Cup (L-1)",        MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
-GAME( 1978, cntct_l1, 0, s3a, s3, s3_state, 0, ROT0, "Williams", "Contact (L-1)",          MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
-GAME( 1978, disco_l1, 0, s3a, s3, s3_state, 0, ROT0, "Williams", "Disco Fever (L-1)",      MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
-GAME( 1978, phnix_l1, 0, s3a, s3, s3_state, 0, ROT0, "Williams", "Phoenix (L-1)",          MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
-GAME( 1978, pkrno_l1, 0, s3a, s3, s3_state, 0, ROT0, "Williams", "Pokerino (L-1)",         MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
+GAME( 1977, httip_l1, 0, s3,  s3, s3_state, empty_init, ROT0, "Williams", "Hot Tip (L-1)",          MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
+GAME( 1977, lucky_l1, 0, s3,  s3, s3_state, empty_init, ROT0, "Williams", "Lucky Seven (L-1)",      MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
+GAME( 1978, wldcp_l1, 0, s3a, s3, s3_state, empty_init, ROT0, "Williams", "World Cup (L-1)",        MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
+GAME( 1978, cntct_l1, 0, s3a, s3, s3_state, empty_init, ROT0, "Williams", "Contact (L-1)",          MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
+GAME( 1978, disco_l1, 0, s3a, s3, s3_state, empty_init, ROT0, "Williams", "Disco Fever (L-1)",      MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
+GAME( 1978, phnix_l1, 0, s3a, s3, s3_state, empty_init, ROT0, "Williams", "Phoenix (L-1)",          MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
+GAME( 1978, pkrno_l1, 0, s3a, s3, s3_state, empty_init, ROT0, "Williams", "Pokerino (L-1)",         MACHINE_MECHANICAL | MACHINE_NOT_WORKING )

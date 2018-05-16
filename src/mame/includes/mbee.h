@@ -12,7 +12,7 @@
 #include "bus/centronics/ctronics.h"
 
 #include "cpu/z80/z80.h"
-#include "cpu/z80/z80daisy.h"
+#include "machine/z80daisy.h"
 
 #include "imagedev/cassette.h"
 #include "imagedev/snapquik.h"
@@ -92,25 +92,25 @@ public:
 	DECLARE_WRITE_LINE_MEMBER(crtc_vs);
 	DECLARE_READ8_MEMBER(fdc_status_r);
 	DECLARE_WRITE8_MEMBER(fdc_motor_w);
-	DECLARE_DRIVER_INIT(mbeepc85);
-	DECLARE_DRIVER_INIT(mbee256);
-	DECLARE_DRIVER_INIT(mbee56);
-	DECLARE_DRIVER_INIT(mbeett);
-	DECLARE_DRIVER_INIT(mbeeppc);
-	DECLARE_DRIVER_INIT(mbee);
-	DECLARE_DRIVER_INIT(mbeepc);
-	DECLARE_DRIVER_INIT(mbeeic);
-	DECLARE_DRIVER_INIT(mbee128);
-	DECLARE_MACHINE_RESET(mbee);
-	DECLARE_VIDEO_START(mono);
-	DECLARE_VIDEO_START(standard);
-	DECLARE_VIDEO_START(premium);
+	void init_mbeepc85();
+	void init_mbee256();
+	void init_mbee56();
+	void init_mbeett();
+	void init_mbeeppc();
+	void init_mbee();
+	void init_mbeepc();
+	void init_mbeeic();
+	void init_mbee128();
+	void machine_reset_mbee();
+	void video_start_mono()     ATTR_COLD;
+	void video_start_standard() ATTR_COLD;
+	void video_start_premium()  ATTR_COLD;
 	DECLARE_PALETTE_INIT(standard);
 	DECLARE_PALETTE_INIT(premium);
-	DECLARE_MACHINE_RESET(mbee56);
-	DECLARE_MACHINE_RESET(mbee128);
-	DECLARE_MACHINE_RESET(mbee256);
-	DECLARE_MACHINE_RESET(mbeett);
+	void machine_reset_mbee56();
+	void machine_reset_mbee128();
+	void machine_reset_mbee256();
+	void machine_reset_mbeett();
 	uint32_t screen_update_mbee(screen_device &screen, bitmap_rgb32 &bitmap, const rectangle &cliprect);
 	TIMER_CALLBACK_MEMBER(timer_newkb);
 	DECLARE_QUICKLOAD_LOAD_MEMBER(mbee);

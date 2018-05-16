@@ -94,16 +94,16 @@ public:
 	DECLARE_READ8_MEMBER(jngolady_rng_r);
 	DECLARE_READ8_MEMBER(input_mux_r);
 	DECLARE_READ8_MEMBER(input_system_r);
-	DECLARE_DRIVER_INIT(jngolady);
-	DECLARE_DRIVER_INIT(luckygrl);
+	void init_jngolady();
+	void init_luckygrl();
 	virtual void machine_start() override;
 	virtual void machine_reset() override;
 	virtual void video_start() override;
 	DECLARE_PALETTE_INIT(jangou);
-	DECLARE_MACHINE_START(jngolady);
-	DECLARE_MACHINE_RESET(jngolady);
-	DECLARE_MACHINE_START(common);
-	DECLARE_MACHINE_RESET(common);
+	void machine_start_jngolady() ATTR_COLD;
+	void machine_reset_jngolady();
+	void machine_start_common() ATTR_COLD;
+	void machine_reset_common();
 	uint32_t screen_update_jangou(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 	TIMER_CALLBACK_MEMBER(cvsd_bit_timer_callback);
 	DECLARE_WRITE_LINE_MEMBER(jngolady_vclk_cb);
@@ -815,14 +815,14 @@ INPUT_PORTS_END
  *
  *************************************/
 
-MACHINE_START_MEMBER(jangou_state,common)
+void jangou_state::machine_start_common()
 {
 	save_item(NAME(m_mux_data));
 }
 
 void jangou_state::machine_start()
 {
-	MACHINE_START_CALL_MEMBER(common);
+	machine_start_common();
 
 	save_item(NAME(m_cvsd_shiftreg));
 	save_item(NAME(m_cvsd_shift_cnt));
@@ -832,9 +832,9 @@ void jangou_state::machine_start()
 	m_cvsd_bit_timer->adjust(attotime::from_hz(MASTER_CLOCK / 1024), 0, attotime::from_hz(MASTER_CLOCK / 1024));
 }
 
-MACHINE_START_MEMBER(jangou_state,jngolady)
+void jangou_state::machine_start_jngolady()
 {
-	MACHINE_START_CALL_MEMBER(common);
+	machine_start_common();
 
 	save_item(NAME(m_adpcm_byte));
 	save_item(NAME(m_msm5205_vclk_toggle));
@@ -842,22 +842,22 @@ MACHINE_START_MEMBER(jangou_state,jngolady)
 	save_item(NAME(m_z80_latch));
 }
 
-MACHINE_RESET_MEMBER(jangou_state,common)
+void jangou_state::machine_reset_common()
 {
 	m_mux_data = 0;
 }
 
 void jangou_state::machine_reset()
 {
-	MACHINE_RESET_CALL_MEMBER(common);
+	machine_reset_common();
 
 	m_cvsd_shiftreg = 0;
 	m_cvsd_shift_cnt = 0;
 }
 
-MACHINE_RESET_MEMBER(jangou_state,jngolady)
+void jangou_state::machine_reset_jngolady()
 {
-	MACHINE_RESET_CALL_MEMBER(common);
+	machine_reset_common();
 
 	m_adpcm_byte = 0;
 	m_msm5205_vclk_toggle = 0;
@@ -918,8 +918,8 @@ MACHINE_CONFIG_START(jangou_state::jngolady)
 	MCFG_DEVICE_ADD("nsc", NSC8105, MASTER_CLOCK / 8)
 	MCFG_DEVICE_PROGRAM_MAP(nsc_map)
 
-	MCFG_MACHINE_START_OVERRIDE(jangou_state,jngolady)
-	MCFG_MACHINE_RESET_OVERRIDE(jangou_state,jngolady)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_jngolady, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_jngolady, this));
 
 	/* sound hardware */
 	MCFG_DEVICE_REMOVE("cvsd")
@@ -941,8 +941,8 @@ MACHINE_CONFIG_START(jangou_state::cntrygrl)
 
 	MCFG_DEVICE_REMOVE("cpu1")
 
-	MCFG_MACHINE_START_OVERRIDE(jangou_state,common)
-	MCFG_MACHINE_RESET_OVERRIDE(jangou_state,common)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_common, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_common, this));
 
 	/* sound hardware */
 	MCFG_DEVICE_REMOVE("cvsd")
@@ -962,8 +962,8 @@ MACHINE_CONFIG_START(jangou_state::roylcrdn)
 
 	MCFG_NVRAM_ADD_0FILL("nvram")
 
-	MCFG_MACHINE_START_OVERRIDE(jangou_state,common)
-	MCFG_MACHINE_RESET_OVERRIDE(jangou_state,common)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_common, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_common, this));
 
 	/* sound hardware */
 	MCFG_DEVICE_REMOVE("cvsd")
@@ -1244,15 +1244,14 @@ READ8_MEMBER(jangou_state::jngolady_rng_r)
 	return machine().rand();
 }
 
-DRIVER_INIT_MEMBER(jangou_state,jngolady)
+void jangou_state::init_jngolady()
 {
 	m_nsc->space(AS_PROGRAM).install_read_handler(0x08, 0x08, read8_delegate(FUNC(jangou_state::jngolady_rng_r),this) );
 }
 
-DRIVER_INIT_MEMBER(jangou_state,luckygrl)
+void jangou_state::init_luckygrl()
 {
 	// this is WRONG
-	int A;
 	uint8_t *ROM = memregion("cpu0")->base();
 
 	unsigned char patn1[32] = {
@@ -1265,7 +1264,7 @@ DRIVER_INIT_MEMBER(jangou_state,luckygrl)
 		0x28, 0x88, 0x28, 0x88, 0x28, 0x88, 0x28, 0x88, 0x28, 0x88, 0x28, 0x88, 0x28, 0x88, 0x28, 0x88
 	};
 
-	for (A = 0; A < 0x3000; A++)
+	for (int A = 0; A < 0x3000; A++)
 	{
 		uint8_t dat = ROM[A];
 		if (A&0x100) dat = dat ^ patn2[A & 0x1f];
@@ -1277,10 +1276,9 @@ DRIVER_INIT_MEMBER(jangou_state,luckygrl)
 
 	#if 0
 	{
-		FILE *fp;
 		char filename[256];
 		sprintf(filename,"decrypted_%s", machine().system().name);
-		fp=fopen(filename, "w+b");
+		FILE *fp = fopen(filename, "w+b");
 		if (fp)
 		{
 			fwrite(ROM, 0x3000, 1, fp);
@@ -1298,16 +1296,16 @@ DRIVER_INIT_MEMBER(jangou_state,luckygrl)
  *
  *************************************/
 
-GAME( 1983,  jangou,     0,        jangou,   jangou,   jangou_state,  0,        ROT0, "Nichibutsu",     "Jangou [BET] (Japan)", MACHINE_SUPPORTS_SAVE )
-GAME( 1983,  macha,      0,        jangou,   macha,    jangou_state,  0,        ROT0, "Logitec",        "Monoshiri Quiz Osyaberi Macha (Japan)", MACHINE_SUPPORTS_SAVE )
-GAME( 1984,  jngolady,   0,        jngolady, jngolady, jangou_state,  jngolady, ROT0, "Nichibutsu",     "Jangou Lady (Japan)", MACHINE_SUPPORTS_SAVE )
-GAME( 1984,  cntrygrl,   0,        cntrygrl, cntrygrl, jangou_state,  0,        ROT0, "Royal Denshi",   "Country Girl (Japan set 1)",  MACHINE_SUPPORTS_SAVE )
-GAME( 1984,  cntrygrla,  cntrygrl, cntrygrl, cntrygrl, jangou_state,  0,        ROT0, "Nichibutsu",     "Country Girl (Japan set 2)",  MACHINE_SUPPORTS_SAVE )
-GAME( 1984,  fruitbun,   cntrygrl, cntrygrl, cntrygrl, jangou_state,  0,        ROT0, "Nichibutsu",     "Fruits & Bunny (World?)",  MACHINE_SUPPORTS_SAVE )
-GAME( 1985,  roylcrdn,   0,        roylcrdn, roylcrdn, jangou_state,  0,        ROT0, "Nichibutsu",     "Royal Card (Nichibutsu)", MACHINE_SUPPORTS_SAVE )
+GAME( 1983,  jangou,    0,        jangou,   jangou,   jangou_state,  empty_init,    ROT0, "Nichibutsu",     "Jangou [BET] (Japan)", MACHINE_SUPPORTS_SAVE )
+GAME( 1983,  macha,     0,        jangou,   macha,    jangou_state,  empty_init,    ROT0, "Logitec",        "Monoshiri Quiz Osyaberi Macha (Japan)", MACHINE_SUPPORTS_SAVE )
+GAME( 1984,  jngolady,  0,        jngolady, jngolady, jangou_state,  init_jngolady, ROT0, "Nichibutsu",     "Jangou Lady (Japan)", MACHINE_SUPPORTS_SAVE )
+GAME( 1984,  cntrygrl,  0,        cntrygrl, cntrygrl, jangou_state,  empty_init,    ROT0, "Royal Denshi",   "Country Girl (Japan set 1)",  MACHINE_SUPPORTS_SAVE )
+GAME( 1984,  cntrygrla, cntrygrl, cntrygrl, cntrygrl, jangou_state,  empty_init,    ROT0, "Nichibutsu",     "Country Girl (Japan set 2)",  MACHINE_SUPPORTS_SAVE )
+GAME( 1984,  fruitbun,  cntrygrl, cntrygrl, cntrygrl, jangou_state,  empty_init,    ROT0, "Nichibutsu",     "Fruits & Bunny (World?)",  MACHINE_SUPPORTS_SAVE )
+GAME( 1985,  roylcrdn,  0,        roylcrdn, roylcrdn, jangou_state,  empty_init,    ROT0, "Nichibutsu",     "Royal Card (Nichibutsu)", MACHINE_SUPPORTS_SAVE )
 
 /* The following might not run there... */
-GAME( 1984?, luckygrl,   0,        cntrygrl, cntrygrl, jangou_state,  luckygrl, ROT0, "Wing Co., Ltd.", "Lucky Girl? (Wing)", MACHINE_NOT_WORKING | MACHINE_SUPPORTS_SAVE )
+GAME( 1984?, luckygrl,  0,        cntrygrl, cntrygrl, jangou_state,  init_luckygrl, ROT0, "Wing Co., Ltd.", "Lucky Girl? (Wing)", MACHINE_NOT_WORKING | MACHINE_SUPPORTS_SAVE )
 
 /*
 Some other games that might run on this HW:

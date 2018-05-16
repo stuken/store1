@@ -47,7 +47,7 @@
 
 #include "emu.h"
 #include "cpu/z80/z80.h"
-#include "cpu/z80/z80daisy.h"
+#include "machine/z80daisy.h"
 #include "cpu/z8000/z8000.h"
 #include "machine/upd765.h"
 #include "machine/z80ctc.h"
@@ -93,8 +93,8 @@ public:
 
 	DECLARE_READ8_MEMBER(p8k_port0_r);
 	DECLARE_WRITE8_MEMBER(p8k_port0_w);
-	DECLARE_DRIVER_INIT(p8k);
-	DECLARE_MACHINE_RESET(p8k);
+	void init_p8k();
+	void machine_reset_p8k();
 
 	DECLARE_WRITE_LINE_MEMBER(fdc_irq);
 	DECLARE_WRITE_LINE_MEMBER(p8k_daisy_interrupt);
@@ -274,7 +274,7 @@ static INPUT_PORTS_START( p8k )
 INPUT_PORTS_END
 
 
-MACHINE_RESET_MEMBER(p8k_state,p8k)
+void p8k_state::machine_reset_p8k()
 {
 	membank("bank0")->set_entry(0);
 	membank("bank1")->set_entry(0);
@@ -294,7 +294,7 @@ MACHINE_RESET_MEMBER(p8k_state,p8k)
 	membank("bank15")->set_entry(0);
 }
 
-DRIVER_INIT_MEMBER(p8k_state,p8k)
+void p8k_state::init_p8k()
 {
 	uint8_t *RAM = memregion("maincpu")->base();
 	membank("bank0")->configure_entries(0, 48, &RAM[0x0000], 0x1000);
@@ -418,7 +418,7 @@ MACHINE_CONFIG_START(p8k_state::p8k)
 	MCFG_Z80_DAISY_CHAIN(p8k_daisy_chain)
 	MCFG_DEVICE_PROGRAM_MAP(p8k_memmap)
 	MCFG_DEVICE_IO_MAP(p8k_iomap)
-	MCFG_MACHINE_RESET_OVERRIDE(p8k_state,p8k)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_p8k, this));
 
 	/* peripheral hardware */
 	MCFG_DEVICE_ADD("dma", Z80DMA, XTAL(4'000'000))
@@ -561,6 +561,6 @@ ROM_END
 
 /* Driver */
 
-//    YEAR  NAME        PARENT  COMPAT   MACHINE    INPUT  STATE      INIT    COMPANY                   FULLNAME               FLAGS
-COMP( 1989, p8000,      0,      0,       p8k,       p8k,   p8k_state, p8k,    "EAW electronic Treptow", "P8000 (8bit Board)",  MACHINE_NOT_WORKING)
-COMP( 1989, p8000_16,   p8000,  0,       p8k_16,    p8k,   p8k_state, 0,      "EAW electronic Treptow", "P8000 (16bit Board)", MACHINE_NOT_WORKING)
+//    YEAR  NAME      PARENT  COMPAT  MACHINE  INPUT  CLASS      INIT        COMPANY                   FULLNAME               FLAGS
+COMP( 1989, p8000,    0,      0,      p8k,     p8k,   p8k_state, init_p8k,   "EAW electronic Treptow", "P8000 (8bit Board)",  MACHINE_NOT_WORKING)
+COMP( 1989, p8000_16, p8000,  0,      p8k_16,  p8k,   p8k_state, empty_init, "EAW electronic Treptow", "P8000 (16bit Board)", MACHINE_NOT_WORKING)

@@ -1905,7 +1905,7 @@ static INPUT_PORTS_START( fm8 )
 	PORT_DIPSETTING(0x02,"BASIC")
 INPUT_PORTS_END
 
-DRIVER_INIT_MEMBER(fm7_state,fm7)
+void fm7_state::init_fm7()
 {
 //  m_shared_ram = std::make_unique<uint8_t[]>(0x80);
 	m_video_ram = std::make_unique<uint8_t[]>(0x18000);  // 2 pages on some systems
@@ -1915,7 +1915,7 @@ DRIVER_INIT_MEMBER(fm7_state,fm7)
 	m_fm77av_vsync_timer = timer_alloc(TIMER_FM77AV_VSYNC);
 }
 
-MACHINE_START_MEMBER(fm7_state,fm7)
+void fm7_state::machine_start_fm7()
 {
 	// The FM-7 has no initialisation ROM, and no other obvious
 	// way to set the reset vector, so for now this will have to do.
@@ -1930,7 +1930,7 @@ MACHINE_START_MEMBER(fm7_state,fm7)
 	m_beeper->set_state(0);
 }
 
-MACHINE_START_MEMBER(fm7_state,fm77av)
+void fm7_state::machine_start_fm77av()
 {
 	uint8_t* RAM = memregion("maincpu")->base();
 	uint8_t* ROM = memregion("init")->base();
@@ -1950,7 +1950,7 @@ MACHINE_START_MEMBER(fm7_state,fm77av)
 	m_beeper->set_state(0);
 }
 
-MACHINE_START_MEMBER(fm7_state,fm11)
+void fm7_state::machine_start_fm11()
 {
 	uint8_t* RAM = memregion("maincpu")->base();
 	uint8_t* ROM = memregion("init")->base();
@@ -1962,7 +1962,7 @@ MACHINE_START_MEMBER(fm7_state,fm11)
 	memcpy(RAM+0x3fff0,ROM+0x0ff0,16);
 }
 
-MACHINE_START_MEMBER(fm7_state,fm16)
+void fm7_state::machine_start_fm16()
 {
 	m_type = SYS_FM16;
 	m_beeper->set_state(0);
@@ -2084,7 +2084,7 @@ MACHINE_CONFIG_START(fm7_state::fm7)
 	BEEP(config, "beeper", 1200).add_route(ALL_OUTPUTS, "mono", 0.50);
 	WAVE(config, "wave", "cassette").add_route(ALL_OUTPUTS, "mono", 0.25);
 
-	MCFG_MACHINE_START_OVERRIDE(fm7_state,fm7)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_fm7, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -2135,7 +2135,7 @@ MACHINE_CONFIG_START(fm7_state::fm8)
 	BEEP(config, "beeper", 1200).add_route(ALL_OUTPUTS, "mono", 0.50);
 	WAVE(config, "wave", "cassette").add_route(ALL_OUTPUTS, "mono", 0.25);
 
-	MCFG_MACHINE_START_OVERRIDE(fm7_state,fm7)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_fm7, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -2186,7 +2186,7 @@ MACHINE_CONFIG_START(fm7_state::fm77av)
 	BEEP(config, "beeper", 1200).add_route(ALL_OUTPUTS, "mono", 0.50);
 	WAVE(config, "wave", "cassette").add_route(ALL_OUTPUTS, "mono", 0.25);
 
-	MCFG_MACHINE_START_OVERRIDE(fm7_state,fm77av)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_fm77av, this));
 
 	MCFG_ADDRESS_BANK("av_bank1")
 	MCFG_ADDRESS_BANK("av_bank2")
@@ -2259,7 +2259,7 @@ MACHINE_CONFIG_START(fm7_state::fm11)
 	BEEP(config, "beeper", 1200).add_route(ALL_OUTPUTS, "mono", 0.50);
 	WAVE(config, "wave", "cassette").add_route(ALL_OUTPUTS, "mono", 0.25);
 
-	MCFG_MACHINE_START_OVERRIDE(fm7_state,fm11)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_fm11, this));
 
 	MCFG_ADDRESS_BANK("av_bank1")
 	MCFG_ADDRESS_BANK("av_bank2")
@@ -2322,7 +2322,7 @@ MACHINE_CONFIG_START(fm7_state::fm16beta)
 	BEEP(config, "beeper", 1200).add_route(ALL_OUTPUTS, "mono", 0.50);
 	WAVE(config, "wave", "cassette").add_route(ALL_OUTPUTS, "mono", 0.25);
 
-	MCFG_MACHINE_START_OVERRIDE(fm7_state,fm16)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_fm16, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -2514,13 +2514,13 @@ ROM_END
 
 /* Driver */
 
-/*    YEAR  NAME      PARENT  COMPAT  MACHINE  INPUT  CLASS       INIT  COMPANY      FULLNAME         FLAGS */
-COMP( 1981, fm8,      0,      0,      fm8,     fm8,   fm7_state,  fm7,  "Fujitsu",   "FM-8",          0)
-COMP( 1982, fm7,      0,      0,      fm7,     fm7,   fm7_state,  fm7,  "Fujitsu",   "FM-7",          0)
-COMP( 1984, fmnew7,   fm7,    0,      fm7,     fm7,   fm7_state,  fm7,  "Fujitsu",   "FM-NEW7",       0)
-COMP( 1985, fm77av,   fm7,    0,      fm77av,  fm7,   fm7_state,  fm7,  "Fujitsu",   "FM-77AV",       MACHINE_IMPERFECT_GRAPHICS)
-COMP( 1985, fm7740sx, fm7,    0,      fm77av,  fm7,   fm7_state,  fm7,  "Fujitsu",   "FM-77AV40SX",   MACHINE_NOT_WORKING)
+/*    YEAR  NAME      PARENT  COMPAT  MACHINE   INPUT  CLASS      INIT      COMPANY    FULLNAME         FLAGS */
+COMP( 1981, fm8,      0,      0,      fm8,      fm8,   fm7_state, init_fm7, "Fujitsu", "FM-8",          0)
+COMP( 1982, fm7,      0,      0,      fm7,      fm7,   fm7_state, init_fm7, "Fujitsu", "FM-7",          0)
+COMP( 1984, fmnew7,   fm7,    0,      fm7,      fm7,   fm7_state, init_fm7, "Fujitsu", "FM-NEW7",       0)
+COMP( 1985, fm77av,   fm7,    0,      fm77av,   fm7,   fm7_state, init_fm7, "Fujitsu", "FM-77AV",       MACHINE_IMPERFECT_GRAPHICS)
+COMP( 1985, fm7740sx, fm7,    0,      fm77av,   fm7,   fm7_state, init_fm7, "Fujitsu", "FM-77AV40SX",   MACHINE_NOT_WORKING)
 
 // These may be separated into a separate driver, depending on how different they are to the FM-8/FM-7
-COMP( 1982, fm11,     0,      0,      fm11,     fm7,   fm7_state,  fm7, "Fujitsu",   "FM-11 EX",      MACHINE_NOT_WORKING)
-COMP( 1982, fm16beta, 0,      0,      fm16beta, fm7,   fm7_state,  fm7, "Fujitsu",   "FM-16\xCE\xB2", MACHINE_NOT_WORKING)
+COMP( 1982, fm11,     0,      0,      fm11,     fm7,   fm7_state, init_fm7, "Fujitsu", "FM-11 EX",      MACHINE_NOT_WORKING)
+COMP( 1982, fm16beta, 0,      0,      fm16beta, fm7,   fm7_state, init_fm7, "Fujitsu", "FM-16\xCE\xB2", MACHINE_NOT_WORKING)

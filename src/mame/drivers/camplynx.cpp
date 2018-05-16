@@ -196,10 +196,10 @@ public:
 	DECLARE_WRITE8_MEMBER(port82_w); // banking 128k
 	DECLARE_WRITE8_MEMBER(port84_w); // dac port 48k
 	DECLARE_INPUT_CHANGED_MEMBER(brk_key);
-	DECLARE_MACHINE_RESET(lynx48k);
-	DECLARE_MACHINE_RESET(lynx128k);
-	DECLARE_DRIVER_INIT(lynx48k);
-	DECLARE_DRIVER_INIT(lynx128k);
+	void machine_reset_lynx48k();
+	void machine_reset_lynx128k();
+	void init_lynx48k();
+	void init_lynx128k();
 	DECLARE_FLOPPY_FORMATS(camplynx_floppy_formats);
 	MC6845_UPDATE_ROW(lynx48k_update_row);
 	MC6845_UPDATE_ROW(lynx128k_update_row);
@@ -724,7 +724,7 @@ READ8_MEMBER( camplynx_state::port82_r )
 	return data;
 }
 
-MACHINE_RESET_MEMBER(camplynx_state, lynx48k)
+void camplynx_state::machine_reset_lynx48k()
 {
 	address_space &mem = m_maincpu->space(AS_PROGRAM);
 	m_port58 = 0;
@@ -733,7 +733,7 @@ MACHINE_RESET_MEMBER(camplynx_state, lynx48k)
 	m_maincpu->reset();
 }
 
-MACHINE_RESET_MEMBER(camplynx_state, lynx128k)
+void camplynx_state::machine_reset_lynx128k()
 {
 	address_space &mem = m_maincpu->space(AS_PROGRAM);
 	m_port58 = 0;
@@ -869,7 +869,7 @@ MACHINE_CONFIG_START(camplynx_state::lynx48k)
 	MCFG_DEVICE_PROGRAM_MAP(lynx48k_mem)
 	MCFG_DEVICE_IO_MAP(lynx48k_io)
 
-	MCFG_MACHINE_RESET_OVERRIDE(camplynx_state, lynx48k)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_lynx48k, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -914,7 +914,7 @@ MACHINE_CONFIG_START(camplynx_state::lynx128k)
 	MCFG_DEVICE_PROGRAM_MAP(lynx128k_mem)
 	MCFG_DEVICE_IO_MAP(lynx128k_io)
 
-	MCFG_MACHINE_RESET_OVERRIDE(camplynx_state, lynx128k)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_lynx128k, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -945,7 +945,7 @@ MACHINE_CONFIG_START(camplynx_state::lynx128k)
 	MCFG_SOFTWARE_LIST_FILTER("flop_list", "128K")
 MACHINE_CONFIG_END
 
-DRIVER_INIT_MEMBER(camplynx_state, lynx48k)
+void camplynx_state::init_lynx48k()
 {
 	m_is_128k = false;
 	m_p_ram = memregion("maincpu")->base();
@@ -959,7 +959,7 @@ DRIVER_INIT_MEMBER(camplynx_state, lynx48k)
 	membank("bankr8")->configure_entries(0, 32, &m_p_ram[0], 0x2000);
 }
 
-DRIVER_INIT_MEMBER(camplynx_state, lynx128k)
+void camplynx_state::init_lynx128k()
 {
 	m_is_128k = true;
 	m_p_ram = memregion("maincpu")->base();
@@ -1010,7 +1010,7 @@ ROM_END
 
 
 /* Driver */
-/*    YEAR  NAME       PARENT     COMPAT   MACHINE    INPUT    CLASS            INIT      COMPANY       FULLNAME     FLAGS */
-COMP( 1983, lynx48k,   0,         0,       lynx48k,   lynx48k, camplynx_state,  lynx48k,  "Camputers",  "Lynx 48k",  0 )
-COMP( 1983, lynx96k,   lynx48k,   0,       lynx96k,   lynx48k, camplynx_state,  lynx48k,  "Camputers",  "Lynx 96k",  0 )
-COMP( 1983, lynx128k,  lynx48k,   0,       lynx128k,  lynx48k, camplynx_state,  lynx128k, "Camputers",  "Lynx 128k", 0 )
+/*    YEAR  NAME      PARENT   COMPAT  MACHINE   INPUT    CLASS           INIT           COMPANY      FULLNAME     FLAGS */
+COMP( 1983, lynx48k,  0,       0,      lynx48k,  lynx48k, camplynx_state, init_lynx48k,  "Camputers", "Lynx 48k",  0 )
+COMP( 1983, lynx96k,  lynx48k, 0,      lynx96k,  lynx48k, camplynx_state, init_lynx48k,  "Camputers", "Lynx 96k",  0 )
+COMP( 1983, lynx128k, lynx48k, 0,      lynx128k, lynx48k, camplynx_state, init_lynx128k, "Camputers", "Lynx 128k", 0 )

@@ -250,7 +250,7 @@ void spectrum_state::spectrum_128_mem(address_map &map)
 	map(0xc000, 0xffff).bankrw("bank4");
 }
 
-MACHINE_RESET_MEMBER(spectrum_state,spectrum_128)
+void spectrum_state::machine_reset_spectrum_128()
 {
 	uint8_t *messram = m_ram->pointer();
 
@@ -263,7 +263,7 @@ MACHINE_RESET_MEMBER(spectrum_state,spectrum_128)
 	/* Bank 2 is always in 0x8000 - 0xbfff */
 	membank("bank3")->set_base(messram + (2<<14));
 
-	MACHINE_RESET_CALL_MEMBER(spectrum);
+	machine_reset_spectrum();
 
 	/* set initial ram config */
 	m_port_7ffd_data = 0;
@@ -301,13 +301,13 @@ MACHINE_CONFIG_START(spectrum_state::spectrum_128)
 	MCFG_DEVICE_VBLANK_INT_DRIVER("screen", spectrum_state, spec_interrupt)
 	MCFG_QUANTUM_TIME(attotime::from_hz(60))
 
-	MCFG_MACHINE_RESET_OVERRIDE(spectrum_state, spectrum_128 )
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_spectrum_128, this));
 
 	/* video hardware */
 	MCFG_SCREEN_MODIFY("screen")
 	MCFG_SCREEN_RAW_PARAMS(X1_128_SINCLAIR / 2.5f, 456, 0, 352,  311, 0, 296)
 
-	MCFG_VIDEO_START_OVERRIDE(spectrum_state, spectrum_128 )
+	set_video_start_cb(config, driver_callback_delegate(&video_start_spectrum_128, this));
 	MCFG_GFXDECODE_MODIFY("gfxdecode", spec128)
 
 	/* sound hardware */
@@ -377,8 +377,8 @@ ROM_START(hc2000)
 	ROMX_LOAD("hc2000.v2",  0x14000,0x4000, CRC(65d90464) SHA1(5e2096e6460ff2120c8ada97579fdf82c1199c09), ROM_BIOS(2))
 ROM_END
 
-//    YEAR  NAME      PARENT   COMPAT  MACHINE       INPUT      STATE           INIT  COMPANY                  FULLNAME           FLAGS
-COMP( 1986, spec128,  0,       0,      spectrum_128, spec128,   spectrum_state, 0,    "Sinclair Research Ltd", "ZX Spectrum 128", 0 )
-COMP( 1986, specpls2, spec128, 0,      spectrum_128, spec_plus, spectrum_state, 0,    "Amstrad plc",           "ZX Spectrum +2",  0 )
-COMP( 1991, hc128,    spec128, 0,      spectrum_128, spec_plus, spectrum_state, 0,    "ICE-Felix",             "HC-128",          0 )
-COMP( 1992, hc2000,   spec128, 0,      spectrum_128, spec_plus, spectrum_state, 0,    "ICE-Felix",             "HC-2000",         MACHINE_NOT_WORKING )
+//    YEAR  NAME      PARENT   COMPAT  MACHINE       CLASS      STATE           INIT        COMPANY                  FULLNAME           FLAGS
+COMP( 1986, spec128,  0,       0,      spectrum_128, spec128,   spectrum_state, empty_init, "Sinclair Research Ltd", "ZX Spectrum 128", 0 )
+COMP( 1986, specpls2, spec128, 0,      spectrum_128, spec_plus, spectrum_state, empty_init, "Amstrad plc",           "ZX Spectrum +2",  0 )
+COMP( 1991, hc128,    spec128, 0,      spectrum_128, spec_plus, spectrum_state, empty_init, "ICE-Felix",             "HC-128",          0 )
+COMP( 1992, hc2000,   spec128, 0,      spectrum_128, spec_plus, spectrum_state, empty_init, "ICE-Felix",             "HC-2000",         MACHINE_NOT_WORKING )

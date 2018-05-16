@@ -135,10 +135,10 @@ public:
 	DECLARE_INPUT_CHANGED_MEMBER(p2_s1);
 	DECLARE_INPUT_CHANGED_MEMBER(p2_s2);
 
-	DECLARE_DRIVER_INIT(gladiatr);
+	void init_gladiatr();
 
-	DECLARE_MACHINE_RESET(gladiator);
-	DECLARE_VIDEO_START(gladiatr);
+	void machine_reset_gladiator();
+	void video_start_gladiatr() ATTR_COLD;
 
 	uint32_t screen_update_gladiatr(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 	void swap_block(uint8_t *src1,uint8_t *src2,int len);
@@ -185,10 +185,10 @@ public:
 	DECLARE_WRITE8_MEMBER(ppking_adpcm_w);
 	DECLARE_WRITE8_MEMBER(cpu2_irq_ack_w);
 
-	DECLARE_DRIVER_INIT(ppking);
+	void init_ppking();
 
-	DECLARE_MACHINE_RESET(ppking);
-	DECLARE_VIDEO_START(ppking);
+	void machine_reset_ppking();
+	void video_start_ppking() ATTR_COLD;
 
 	uint32_t screen_update_ppking(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 

@@ -74,11 +74,11 @@ public:
 	DECLARE_READ8_MEMBER(uart_ready_r);
 	DECLARE_WRITE8_MEMBER(uart_mode_w);
 	DECLARE_WRITE8_MEMBER(uart_reset_w);
-	DECLARE_DRIVER_INIT(sapizps3);
-	DECLARE_DRIVER_INIT(sapizps3a);
-	DECLARE_DRIVER_INIT(sapizps3b);
-	DECLARE_MACHINE_RESET(sapi1);
-	DECLARE_MACHINE_RESET(sapizps3);
+	void init_sapizps3();
+	void init_sapizps3a();
+	void init_sapizps3b();
+	void machine_reset_sapi1();
+	void machine_reset_sapizps3();
 	MC6845_UPDATE_ROW(crtc_update_row);
 	uint32_t screen_update_sapi1(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 	uint32_t screen_update_sapi3(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
@@ -583,32 +583,32 @@ WRITE8_MEMBER( sapi1_state::sapi3_25_w )
 	m_zps3_25 = data & 0xfc; //??
 }
 
-MACHINE_RESET_MEMBER( sapi1_state, sapi1 )
+void sapi1_state::machine_reset_sapi1()
 {
 	m_keyboard_mask = 0;
 	m_refresh_counter = 0x20;
 }
 
-MACHINE_RESET_MEMBER( sapi1_state, sapizps3 )
+void sapi1_state::machine_reset_sapizps3()
 {
 	m_keyboard_mask = 0;
 	m_bank1->set_entry(1);
 }
 
-DRIVER_INIT_MEMBER( sapi1_state, sapizps3 )
+void sapi1_state::init_sapizps3()
 {
 	uint8_t *RAM = memregion("maincpu")->base();
 	m_bank1->configure_entries(0, 2, &RAM[0x0000], 0x10000);
 }
 
-DRIVER_INIT_MEMBER( sapi1_state, sapizps3a )
+void sapi1_state::init_sapizps3a()
 {
 	uint8_t *RAM = memregion("maincpu")->base();
 	m_bank1->configure_entries(0, 2, &RAM[0x0000], 0xf800);
 	m_uart->write_swe(0);
 }
 
-DRIVER_INIT_MEMBER( sapi1_state, sapizps3b )
+void sapi1_state::init_sapizps3b()
 {
 	uint8_t *RAM = memregion("maincpu")->base();
 	m_bank1->configure_entries(0, 2, &RAM[0x0000], 0x10000);
@@ -620,7 +620,7 @@ MACHINE_CONFIG_START(sapi1_state::sapi1)
 	/* basic machine hardware */
 	MCFG_DEVICE_ADD("maincpu", I8080A, XTAL(18'000'000) / 9) // Tesla MHB8080A + MHB8224 + MHB8228
 	MCFG_DEVICE_PROGRAM_MAP(sapi1_mem)
-	MCFG_MACHINE_RESET_OVERRIDE(sapi1_state, sapi1)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_sapi1, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -653,7 +653,7 @@ MACHINE_CONFIG_START(sapi1_state::sapi3)
 	MCFG_DEVICE_MODIFY("maincpu")
 	MCFG_DEVICE_PROGRAM_MAP(sapi3_mem)
 	MCFG_DEVICE_IO_MAP(sapi3_io)
-	MCFG_MACHINE_RESET_OVERRIDE(sapi1_state, sapizps3 )
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_sapizps3, this));
 	MCFG_SCREEN_MODIFY("screen")
 	MCFG_SCREEN_SIZE(40*6, 20*9)
 	MCFG_SCREEN_VISIBLE_AREA(0, 40*6-1, 0, 20*9-1)
@@ -691,7 +691,7 @@ MACHINE_CONFIG_START(sapi1_state::sapi3a)
 	MCFG_DEVICE_ADD("maincpu", I8080A, XTAL(18'000'000) / 9) // Tesla MHB8080A + MHB8224 + MHB8228
 	MCFG_DEVICE_PROGRAM_MAP(sapi3a_mem)
 	MCFG_DEVICE_IO_MAP(sapi3a_io)
-	MCFG_MACHINE_RESET_OVERRIDE(sapi1_state, sapizps3 )
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_sapizps3, this));
 
 	/* video hardware */
 	MCFG_DEVICE_ADD("uart", AY51013, 0) // Tesla MHB1012
@@ -767,9 +767,9 @@ ROM_END
 
 /* Driver */
 
-//    YEAR  NAME       PARENT   COMPAT  MACHINE     INPUT  CLASS        INIT       COMPANY  FULLNAME                   FLAGS
-COMP( 1985, sapi1,     0,       0,      sapi1,      sapi1, sapi1_state, 0,         "Tesla", "SAPI-1 ZPS 1",            MACHINE_NO_SOUND_HW )
-COMP( 1985, sapizps2,  sapi1,   0,      sapi2,      sapi1, sapi1_state, 0,         "Tesla", "SAPI-1 ZPS 2",            MACHINE_NO_SOUND_HW )
-COMP( 1985, sapizps3,  sapi1,   0,      sapi3,      sapi1, sapi1_state, sapizps3,  "Tesla", "SAPI-1 ZPS 3",            MACHINE_NOT_WORKING | MACHINE_NO_SOUND_HW )
-COMP( 1985, sapizps3a, sapi1,   0,      sapi3a,     sapi1, sapi1_state, sapizps3a, "Tesla", "SAPI-1 ZPS 3 (terminal)", MACHINE_NOT_WORKING | MACHINE_NO_SOUND_HW )
-COMP( 1985, sapizps3b, sapi1,   0,      sapi3b,     sapi1, sapi1_state, sapizps3b, "Tesla", "SAPI-1 ZPS 3 (6845)",     MACHINE_NOT_WORKING | MACHINE_NO_SOUND_HW )
+//    YEAR  NAME       PARENT  COMPAT  MACHINE  INPUT  CLASS        INIT            COMPANY  FULLNAME                   FLAGS
+COMP( 1985, sapi1,     0,      0,      sapi1,   sapi1, sapi1_state, empty_init,     "Tesla", "SAPI-1 ZPS 1",            MACHINE_NO_SOUND_HW )
+COMP( 1985, sapizps2,  sapi1,  0,      sapi2,   sapi1, sapi1_state, empty_init,     "Tesla", "SAPI-1 ZPS 2",            MACHINE_NO_SOUND_HW )
+COMP( 1985, sapizps3,  sapi1,  0,      sapi3,   sapi1, sapi1_state, init_sapizps3,  "Tesla", "SAPI-1 ZPS 3",            MACHINE_NOT_WORKING | MACHINE_NO_SOUND_HW )
+COMP( 1985, sapizps3a, sapi1,  0,      sapi3a,  sapi1, sapi1_state, init_sapizps3a, "Tesla", "SAPI-1 ZPS 3 (terminal)", MACHINE_NOT_WORKING | MACHINE_NO_SOUND_HW )
+COMP( 1985, sapizps3b, sapi1,  0,      sapi3b,  sapi1, sapi1_state, init_sapizps3b, "Tesla", "SAPI-1 ZPS 3 (6845)",     MACHINE_NOT_WORKING | MACHINE_NO_SOUND_HW )

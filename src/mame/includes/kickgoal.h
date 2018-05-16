@@ -32,7 +32,7 @@ public:
 	DECLARE_WRITE16_MEMBER(kickgoal_bgram_w);
 	DECLARE_WRITE16_MEMBER(kickgoal_bg2ram_w);
 	DECLARE_WRITE16_MEMBER(actionhw_snd_w);
-	DECLARE_DRIVER_INIT(kickgoal);
+	void init_kickgoal();
 
 	TILE_GET_INFO_MEMBER(get_kickgoal_fg_tile_info);
 	TILE_GET_INFO_MEMBER(get_kickgoal_bg_tile_info);
@@ -41,8 +41,8 @@ public:
 	TILEMAP_MAPPER_MEMBER(tilemap_scan_kicksbg);
 	TILEMAP_MAPPER_MEMBER(tilemap_scan_kicksbg2);
 	TILEMAP_MAPPER_MEMBER(tilemap_scan_actionhwbg2);
-	DECLARE_VIDEO_START(kickgoal);
-	DECLARE_VIDEO_START(actionhw);
+	void video_start_kickgoal() ATTR_COLD;
+	void video_start_actionhw() ATTR_COLD;
 
 	INTERRUPT_GEN_MEMBER(kickgoal_interrupt);
 

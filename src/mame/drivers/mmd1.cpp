@@ -171,9 +171,9 @@ public:
 	DECLARE_WRITE8_MEMBER(mmd2_digit_w);
 	DECLARE_WRITE8_MEMBER(mmd2_status_callback);
 	DECLARE_WRITE_LINE_MEMBER(mmd2_inte_callback);
-	DECLARE_DRIVER_INIT(mmd2);
-	DECLARE_MACHINE_RESET(mmd1);
-	DECLARE_MACHINE_RESET(mmd2);
+	void init_mmd2();
+	void machine_reset_mmd1();
+	void machine_reset_mmd2();
 	void mmd1(machine_config &config);
 	void mmd2(machine_config &config);
 	void mmd1_io(address_map &map);
@@ -441,12 +441,12 @@ WRITE_LINE_MEMBER( mmd1_state::mmd2_inte_callback )
 	output().set_value("led_inte", state);
 }
 
-MACHINE_RESET_MEMBER(mmd1_state,mmd1)
+void mmd1_state::machine_reset_mmd1()
 {
 	m_return_code = 0xff;
 }
 
-MACHINE_RESET_MEMBER(mmd1_state,mmd2)
+void mmd1_state::machine_reset_mmd2()
 {
 	membank("bank1")->set_entry(0);
 	membank("bank2")->set_entry(0);
@@ -458,7 +458,7 @@ MACHINE_RESET_MEMBER(mmd1_state,mmd2)
 	membank("bank8")->set_entry(0);
 }
 
-DRIVER_INIT_MEMBER(mmd1_state,mmd2)
+void mmd1_state::init_mmd2()
 {
 /*
 We preset all banks here, so that bankswitching will incur no speed penalty.
@@ -497,7 +497,7 @@ MACHINE_CONFIG_START(mmd1_state::mmd1)
 	MCFG_DEVICE_PROGRAM_MAP(mmd1_mem)
 	MCFG_DEVICE_IO_MAP(mmd1_io)
 
-	MCFG_MACHINE_RESET_OVERRIDE(mmd1_state,mmd1)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_mmd1, this));
 
 	/* video hardware */
 	MCFG_DEFAULT_LAYOUT(layout_mmd1)
@@ -511,7 +511,7 @@ MACHINE_CONFIG_START(mmd1_state::mmd2)
 	MCFG_I8085A_STATUS(WRITE8(*this, mmd1_state, mmd2_status_callback))
 	MCFG_I8085A_INTE(WRITELINE(*this, mmd1_state, mmd2_inte_callback))
 
-	MCFG_MACHINE_RESET_OVERRIDE(mmd1_state,mmd2)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_mmd2, this));
 
 	/* video hardware */
 	MCFG_DEFAULT_LAYOUT(layout_mmd2)
@@ -542,6 +542,6 @@ ROM_END
 
 /* Driver */
 
-//    YEAR  NAME   PARENT  COMPAT  MACHINE  INPUT  STATE       INIT  COMPANY                FULLNAME  FLAGS
-COMP( 1976, mmd1,  0,      0,      mmd1,    mmd1,  mmd1_state, 0,    "E&L Instruments Inc", "MMD-1",  MACHINE_NO_SOUND_HW )
-COMP( 1976, mmd2,  mmd1,   0,      mmd2,    mmd2,  mmd1_state, mmd2, "E&L Instruments Inc", "MMD-2",  MACHINE_NO_SOUND_HW )
+//    YEAR  NAME   PARENT  COMPAT  MACHINE  INPUT  CLASS       INIT        COMPANY                FULLNAME  FLAGS
+COMP( 1976, mmd1,  0,      0,      mmd1,    mmd1,  mmd1_state, empty_init, "E&L Instruments Inc", "MMD-1",  MACHINE_NO_SOUND_HW )
+COMP( 1976, mmd2,  mmd1,   0,      mmd2,    mmd2,  mmd1_state, init_mmd2,  "E&L Instruments Inc", "MMD-2",  MACHINE_NO_SOUND_HW )

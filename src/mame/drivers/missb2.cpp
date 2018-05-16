@@ -39,9 +39,9 @@ public:
 	DECLARE_WRITE8_MEMBER(missb2_oki_w);
 	DECLARE_READ8_MEMBER(missb2_oki_r);
 	DECLARE_WRITE_LINE_MEMBER(irqhandler);
-	DECLARE_DRIVER_INIT(missb2);
-	DECLARE_MACHINE_START(missb2);
-	DECLARE_MACHINE_RESET(missb2);
+	void init_missb2();
+	void machine_start_missb2() ATTR_COLD;
+	void machine_reset_missb2();
 	uint32_t screen_update_missb2(screen_device &screen, bitmap_rgb32 &bitmap, const rectangle &cliprect);
 
 	void missb2(machine_config &config);
@@ -420,12 +420,12 @@ static const gfx_layout bglayout_alt =
 
 /* Graphics Decode Information */
 
-static GFXDECODE_START( missb2 )
+static GFXDECODE_START( gfx_missb2 )
 	GFXDECODE_ENTRY( "gfx1", 0x00000, charlayout, 0, 1 )
 	GFXDECODE_ENTRY( "gfx2", 0x00000, bglayout,   0, 2 )
 GFXDECODE_END
 
-static GFXDECODE_START( bublpong )
+static GFXDECODE_START( gfx_bublpong )
 	GFXDECODE_ENTRY( "gfx1", 0x00000, charlayout, 0, 1 )
 	GFXDECODE_ENTRY( "gfx2", 0x00000, bglayout_alt,   0, 2 )
 GFXDECODE_END
@@ -445,7 +445,7 @@ WRITE_LINE_MEMBER(missb2_state::irqhandler)
 
 /* Machine Driver */
 
-MACHINE_START_MEMBER(missb2_state,missb2)
+void missb2_state::machine_start_missb2()
 {
 	m_gfxdecode->gfx(1)->set_palette(*m_bgpalette);
 
@@ -454,9 +454,9 @@ MACHINE_START_MEMBER(missb2_state,missb2)
 	save_item(NAME(m_sreset_old));
 }
 
-MACHINE_RESET_MEMBER(missb2_state,missb2)
+void missb2_state::machine_reset_missb2()
 {
-	MACHINE_RESET_CALL_MEMBER(common);
+	machine_reset_common();
 	m_oki->reset();
 	bublbobl_bankswitch_w(m_maincpu->space(AS_PROGRAM), 0, 0x00, 0xFF); // force a bankswitch write of all zeroes, as /RESET clears the latch
 }
@@ -481,8 +481,8 @@ MACHINE_CONFIG_START(missb2_state::missb2)
 	MCFG_WATCHDOG_ADD("watchdog")
 	MCFG_WATCHDOG_VBLANK_INIT("screen", 128);
 
-	MCFG_MACHINE_START_OVERRIDE(missb2_state,missb2)
-	MCFG_MACHINE_RESET_OVERRIDE(missb2_state,missb2)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_missb2, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_missb2, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -492,7 +492,7 @@ MACHINE_CONFIG_START(missb2_state::missb2)
 	MCFG_SCREEN_VISIBLE_AREA(0, 32*8-1, 2*8, 30*8-1)
 	MCFG_SCREEN_UPDATE_DRIVER(missb2_state, screen_update_missb2)
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", missb2)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_missb2)
 	MCFG_PALETTE_ADD("palette", 256)
 	MCFG_PALETTE_FORMAT(RRRRGGGGBBBBxxxx)
 	MCFG_PALETTE_ENDIANNESS(ENDIANNESS_BIG)
@@ -522,7 +522,7 @@ MACHINE_CONFIG_END
 
 MACHINE_CONFIG_START(missb2_state::bublpong)
 	missb2(config);
-	MCFG_GFXDECODE_MODIFY("gfxdecode", bublpong)
+	MCFG_GFXDECODE_MODIFY("gfxdecode", gfx_bublpong)
 MACHINE_CONFIG_END
 
 /* ROMs */
@@ -607,7 +607,7 @@ void missb2_state::configure_banks()
 	membank("bank3")->configure_entries(0, 7, &SUBCPU[0x9000], 0x1000);
 }
 
-DRIVER_INIT_MEMBER(missb2_state,missb2)
+void missb2_state::init_missb2()
 {
 	configure_banks();
 	m_video_enable = 0;
@@ -615,5 +615,5 @@ DRIVER_INIT_MEMBER(missb2_state,missb2)
 
 /* Game Drivers */
 
-GAME( 1996, missb2,   0,      missb2,   missb2, missb2_state, missb2, ROT0,  "Alpha Co.", "Miss Bubble II",   MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE )
-GAME( 1996, bublpong, missb2, bublpong, missb2, missb2_state, missb2, ROT0,  "Top Ltd.",  "Bubble Pong Pong", MACHINE_SUPPORTS_SAVE )
+GAME( 1996, missb2,   0,      missb2,   missb2, missb2_state, init_missb2, ROT0,  "Alpha Co.", "Miss Bubble II",   MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE )
+GAME( 1996, bublpong, missb2, bublpong, missb2, missb2_state, init_missb2, ROT0,  "Top Ltd.",  "Bubble Pong Pong", MACHINE_SUPPORTS_SAVE )

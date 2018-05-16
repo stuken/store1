@@ -41,12 +41,12 @@ public:
 	WRITE_LINE_MEMBER(vdp_lv6irqline_callback_genesis_68k);
 	WRITE_LINE_MEMBER(vdp_lv4irqline_callback_genesis_68k);
 
-	DECLARE_MACHINE_START(calcune);
-	DECLARE_MACHINE_RESET(calcune);
+	void machine_start_calcune() ATTR_COLD;
+	void machine_reset_calcune();
 
 	IRQ_CALLBACK_MEMBER(genesis_int_callback);
 
-	DECLARE_DRIVER_INIT(calcune);
+	void init_calcune();
 
 	DECLARE_READ16_MEMBER(cal_700000_r);
 	DECLARE_WRITE16_MEMBER(cal_770000_w);
@@ -198,7 +198,7 @@ uint32_t calcune_state::screen_update_calcune(screen_device &screen, bitmap_rgb3
 	return 0;
 }
 
-MACHINE_RESET_MEMBER(calcune_state,calcune)
+void calcune_state::machine_reset_calcune()
 {
 	m_vdp->device_reset_old();
 	m_vdp2->device_reset_old();
@@ -242,7 +242,7 @@ WRITE_LINE_MEMBER(calcune_state::vdp_lv4irqline_callback_genesis_68k)
 		m_maincpu->set_input_line(4, CLEAR_LINE);
 }
 
-MACHINE_START_MEMBER(calcune_state,calcune)
+void calcune_state::machine_start_calcune()
 {
 	m_vdp->stop_timers();
 	m_vdp2->stop_timers();
@@ -256,8 +256,8 @@ MACHINE_CONFIG_START(calcune_state::calcune)
 	MCFG_DEVICE_ADD("z80", Z80, MASTER_CLOCK_NTSC / 15) /* 3.58 MHz */
 	MCFG_DEVICE_DISABLE() /* no code is ever uploaded for the Z80, so it's unused here even if it is present on the PCB */
 
-	MCFG_MACHINE_START_OVERRIDE(calcune_state,calcune)
-	MCFG_MACHINE_RESET_OVERRIDE(calcune_state,calcune)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_calcune, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_calcune, this));
 
 	MCFG_SCREEN_ADD("megadriv", RASTER)
 	MCFG_SCREEN_REFRESH_RATE(60)
@@ -306,7 +306,7 @@ MACHINE_CONFIG_START(calcune_state::calcune)
 	MCFG_SOUND_ROUTE(ALL_OUTPUTS, "rspeaker",0.25)
 MACHINE_CONFIG_END
 
-DRIVER_INIT_MEMBER(calcune_state,calcune)
+void calcune_state::init_calcune()
 {
 	m_vdp->set_use_cram(1);
 	m_vdp->set_vdp_pal(false);
@@ -335,4 +335,4 @@ ROM_END
 
 
 
-GAME( 1996, calcune,  0,        calcune,   calcune,     calcune_state, calcune, ROT0, "Yuvo", "Calcune (Japan, prototype)", 0 )
+GAME( 1996, calcune, 0, calcune, calcune, calcune_state, init_calcune, ROT0, "Yuvo", "Calcune (Japan, prototype)", 0 )

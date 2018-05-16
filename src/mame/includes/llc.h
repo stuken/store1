@@ -13,7 +13,7 @@
 
 
 #include "cpu/z80/z80.h"
-#include "cpu/z80/z80daisy.h"
+#include "machine/z80daisy.h"
 #include "machine/k7659kb.h"
 #include "machine/ram.h"
 #include "machine/z80ctc.h"
@@ -44,11 +44,11 @@ public:
 	DECLARE_READ8_MEMBER(llc2_port1_b_r);
 	DECLARE_READ8_MEMBER(llc2_port2_a_r);
 	DECLARE_WRITE8_MEMBER(llc2_port1_b_w);
-	DECLARE_DRIVER_INIT(llc2);
-	DECLARE_DRIVER_INIT(llc1);
-	DECLARE_MACHINE_START(llc1);
-	DECLARE_MACHINE_RESET(llc1);
-	DECLARE_MACHINE_RESET(llc2);
+	void init_llc2();
+	void init_llc1();
+	void machine_start_llc1() ATTR_COLD;
+	void machine_reset_llc1();
+	void machine_reset_llc2();
 	uint32_t screen_update_llc1(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 	uint32_t screen_update_llc2(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 

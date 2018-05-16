@@ -302,7 +302,7 @@ INTERRUPT_GEN_MEMBER( cdi_state::mcu_frame )
 	m_scc->mcu_frame();
 }
 
-MACHINE_RESET_MEMBER( cdi_state, cdimono1 )
+void cdi_state::machine_reset_cdimono1()
 {
 	uint16_t *src   = (uint16_t*)memregion("maincpu")->base();
 	uint16_t *dst   = m_planea;
@@ -316,7 +316,7 @@ MACHINE_RESET_MEMBER( cdi_state, cdimono1 )
 	m_dmadac[1] = machine().device<dmadac_sound_device>("dac2");
 }
 
-MACHINE_RESET_MEMBER( cdi_state, cdimono2 )
+void cdi_state::machine_reset_cdimono2()
 {
 	uint16_t *src   = (uint16_t*)memregion("maincpu")->base();
 	uint16_t *dst   = m_planea;
@@ -328,17 +328,17 @@ MACHINE_RESET_MEMBER( cdi_state, cdimono2 )
 	m_dmadac[1] = machine().device<dmadac_sound_device>("dac2");
 }
 
-MACHINE_RESET_MEMBER( cdi_state, quizard1 )
+void cdi_state::machine_reset_quizard1()
 {
-	MACHINE_RESET_CALL_MEMBER( cdimono1 );
+	machine_reset_cdimono1();
 
 	m_scc->set_quizard_mcu_value(0x021f);
 	m_scc->set_quizard_mcu_ack(0x5a);
 }
 
-MACHINE_RESET_MEMBER( cdi_state, quizard2 )
+void cdi_state::machine_reset_quizard2()
 {
-	MACHINE_RESET_CALL_MEMBER( cdimono1 );
+	machine_reset_cdimono1();
 
 	// 0x2b1: Italian
 	// 0x001: French
@@ -350,17 +350,17 @@ MACHINE_RESET_MEMBER( cdi_state, quizard2 )
 
 
 
-MACHINE_RESET_MEMBER( cdi_state, quizard3 )
+void cdi_state::machine_reset_quizard3()
 {
-	MACHINE_RESET_CALL_MEMBER( cdimono1 );
+	machine_reset_cdimono1();
 
 	m_scc->set_quizard_mcu_value(0x00ae);
 	m_scc->set_quizard_mcu_ack(0x58);
 }
 
-MACHINE_RESET_MEMBER( cdi_state, quizard4 )
+void cdi_state::machine_reset_quizard4()
 {
-	MACHINE_RESET_CALL_MEMBER( cdimono1 );
+	machine_reset_cdimono1();
 
 	//m_scc->set_quizard_mcu_value(0x0139);
 	m_scc->set_quizard_mcu_value(0x011f);
@@ -847,7 +847,7 @@ MACHINE_CONFIG_START(cdi_state::cdimono2)
 
 	MCFG_DEFAULT_LAYOUT(layout_cdi)
 
-	MCFG_MACHINE_RESET_OVERRIDE( cdi_state, cdimono2 )
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_cdimono2, this));
 
 	MCFG_CDI68070_ADD("scc68070")
 	MCFG_DEVICE_ADD("servo", M68HC05EG, 2000000) /* Unknown clock speed, docs say 2MHz internal clock */
@@ -902,7 +902,7 @@ MACHINE_CONFIG_START(cdi_state::cdi910)
 
 	MCFG_DEFAULT_LAYOUT(layout_cdi)
 
-	MCFG_MACHINE_RESET_OVERRIDE( cdi_state, cdimono2 )
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_cdimono2, this));
 
 	MCFG_CDI68070_ADD("scc68070")
 	MCFG_DEVICE_ADD("servo", M68HC05EG, 2000000) /* Unknown clock speed, docs say 2MHz internal clock */
@@ -935,7 +935,7 @@ MACHINE_CONFIG_END
 // CD-i Mono-I, with CD-ROM image device (MESS) and Software List (MESS)
 MACHINE_CONFIG_START(cdi_state::cdimono1)
 	cdimono1_base(config);
-	MCFG_MACHINE_RESET_OVERRIDE(cdi_state, cdimono1)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_cdimono1, this));
 
 	MCFG_CDROM_ADD( "cdrom" )
 	MCFG_CDROM_INTERFACE("cdi_cdrom")
@@ -958,7 +958,7 @@ READ8_MEMBER( cdi_state::quizard_mcu_p1_r )
 
 MACHINE_CONFIG_START(cdi_state::quizard1)
 	quizard(config);
-	MCFG_MACHINE_RESET_OVERRIDE(cdi_state, quizard1 )
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_quizard1, this));
 
 	MCFG_DEVICE_ADD("mcu", I8751, 8000000)
 	MCFG_MCS51_PORT_P1_IN_CB(READ8(*this, cdi_state, quizard_mcu_p1_r))
@@ -968,17 +968,17 @@ MACHINE_CONFIG_END
 
 MACHINE_CONFIG_START(cdi_state::quizard2)
 	quizard(config);
-	MCFG_MACHINE_RESET_OVERRIDE(cdi_state, quizard2 )
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_quizard2, this));
 MACHINE_CONFIG_END
 
 MACHINE_CONFIG_START(cdi_state::quizard3)
 	quizard(config);
-	MCFG_MACHINE_RESET_OVERRIDE(cdi_state, quizard3 )
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_quizard3, this));
 MACHINE_CONFIG_END
 
 MACHINE_CONFIG_START(cdi_state::quizard4)
 	quizard(config);
-	MCFG_MACHINE_RESET_OVERRIDE(cdi_state, quizard4 )
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_quizard4, this));
 
 	MCFG_DEVICE_ADD("mcu", I8751, 8000000)
 	MCFG_MCS51_PORT_P1_IN_CB(READ8(*this, cdi_state, quizard_mcu_p1_r))
@@ -1287,31 +1287,30 @@ ROM_END
 *      Game driver(s)    *
 *************************/
 
-/*    YEAR  NAME      PARENT    COMPAT    MACHINE   INPUT     DEVICE     INIT      COMPANY     FULLNAME */
-
+/*    YEAR  NAME      PARENT  COMPAT  MACHINE   INPUT     CLASS      INIT        COMPANY         FULLNAME */
 // BIOS / System
-CONS( 1991, cdimono1, 0,        0,        cdimono1, cdi,      cdi_state, 0,        "Philips",  "CD-i (Mono-I) (PAL)",   MACHINE_IMPERFECT_GRAPHICS | MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE  )
-CONS( 1991, cdimono2, 0,        0,        cdimono2, cdimono2, cdi_state, 0,        "Philips",  "CD-i (Mono-II) (NTSC)",   MACHINE_NOT_WORKING )
-CONS( 1991, cdi910,   0,        0,        cdi910,   cdimono2, cdi_state, 0,        "Philips",  "CD-i 910-17P Mini-MMC (PAL)",   MACHINE_NOT_WORKING  )
-CONS( 1991, cdi490a,  0,        0,        cdimono1, cdi,      cdi_state, 0,        "Philips",  "CD-i 490",   MACHINE_NOT_WORKING  )
+CONS( 1991, cdimono1, 0,      0,      cdimono1, cdi,      cdi_state, empty_init, "Philips",      "CD-i (Mono-I) (PAL)",   MACHINE_IMPERFECT_GRAPHICS | MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE  )
+CONS( 1991, cdimono2, 0,      0,      cdimono2, cdimono2, cdi_state, empty_init, "Philips",      "CD-i (Mono-II) (NTSC)",   MACHINE_NOT_WORKING )
+CONS( 1991, cdi910,   0,      0,      cdi910,   cdimono2, cdi_state, empty_init, "Philips",      "CD-i 910-17P Mini-MMC (PAL)",   MACHINE_NOT_WORKING  )
+CONS( 1991, cdi490a,  0,      0,      cdimono1, cdi,      cdi_state, empty_init, "Philips",      "CD-i 490",   MACHINE_NOT_WORKING  )
 
 // The Quizard games are RETAIL CD-i units, with additional JAMMA adapters & dongles for protection, hence being 'clones' of the system.
+/*    YEAR  NAME         PARENT    MACHINE        INPUT     DEVICE     INIT         MONITOR     COMPANY         FULLNAME */
+GAME( 1995, cdibios,     0,        cdimono1_base, quizard,  cdi_state, empty_init,  ROT0,       "Philips",      "CD-i (Mono-I) (PAL) BIOS", MACHINE_IMPERFECT_SOUND | MACHINE_IMPERFECT_GRAPHICS | MACHINE_IS_BIOS_ROOT )
 
-GAME( 1995, cdibios,  0,               cdimono1_base,  quizard, cdi_state,      0, ROT0,     "Philips",      "CD-i (Mono-I) (PAL) BIOS", MACHINE_IMPERFECT_SOUND | MACHINE_IMPERFECT_GRAPHICS | MACHINE_IS_BIOS_ROOT )
+GAME( 1995, quizard,     cdibios,  quizard1,      quizard,  cdi_state, empty_init,  ROT0,       "TAB Austria",  "Quizard (v1.8)", MACHINE_IMPERFECT_SOUND | MACHINE_UNEMULATED_PROTECTION )
+GAME( 1995, quizard_17,  quizard,  quizard1,      quizard,  cdi_state, empty_init,  ROT0,       "TAB Austria",  "Quizard (v1.7)", MACHINE_IMPERFECT_SOUND | MACHINE_UNEMULATED_PROTECTION )
+GAME( 1995, quizard_12,  quizard,  quizard1,      quizard,  cdi_state, empty_init,  ROT0,       "TAB Austria",  "Quizard (v1.2)", MACHINE_IMPERFECT_SOUND | MACHINE_UNEMULATED_PROTECTION )
+GAME( 1995, quizard_10,  quizard,  quizard1,      quizard,  cdi_state, empty_init,  ROT0,       "TAB Austria",  "Quizard (v1.0)", MACHINE_IMPERFECT_SOUND | MACHINE_UNEMULATED_PROTECTION )
 
-GAME( 1995, quizard,     cdibios,      quizard1,       quizard, cdi_state,      0, ROT0,     "TAB Austria",  "Quizard (v1.8)", MACHINE_IMPERFECT_SOUND | MACHINE_UNEMULATED_PROTECTION )
-GAME( 1995, quizard_17,  quizard,      quizard1,       quizard, cdi_state,      0, ROT0,     "TAB Austria",  "Quizard (v1.7)", MACHINE_IMPERFECT_SOUND | MACHINE_UNEMULATED_PROTECTION )
-GAME( 1995, quizard_12,  quizard,      quizard1,       quizard, cdi_state,      0, ROT0,     "TAB Austria",  "Quizard (v1.2)", MACHINE_IMPERFECT_SOUND | MACHINE_UNEMULATED_PROTECTION )
-GAME( 1995, quizard_10,  quizard,      quizard1,       quizard, cdi_state,      0, ROT0,     "TAB Austria",  "Quizard (v1.0)", MACHINE_IMPERFECT_SOUND | MACHINE_UNEMULATED_PROTECTION )
-
-GAME( 1995, quizard2,    cdibios,      quizard2,       quizard, cdi_state,      0, ROT0,     "TAB Austria",  "Quizard 2 (v2.3)", MACHINE_IMPERFECT_SOUND | MACHINE_UNEMULATED_PROTECTION )
-GAME( 1995, quizard2_22, quizard2,     quizard2,       quizard, cdi_state,      0, ROT0,     "TAB Austria",  "Quizard 2 (v2.2)", MACHINE_IMPERFECT_SOUND | MACHINE_UNEMULATED_PROTECTION )
+GAME( 1995, quizard2,    cdibios,  quizard2,      quizard,  cdi_state, empty_init,  ROT0,       "TAB Austria",  "Quizard 2 (v2.3)", MACHINE_IMPERFECT_SOUND | MACHINE_UNEMULATED_PROTECTION )
+GAME( 1995, quizard2_22, quizard2, quizard2,      quizard,  cdi_state, empty_init,  ROT0,       "TAB Austria",  "Quizard 2 (v2.2)", MACHINE_IMPERFECT_SOUND | MACHINE_UNEMULATED_PROTECTION )
 
 // Quizard 3 and 4 will hang after inserting a coin (incomplete protection sims?)
 
-GAME( 1995, quizard3,    cdibios,      quizard3,       quizard, cdi_state,      0, ROT0,     "TAB Austria",  "Quizard 3 (v3.4)", MACHINE_NOT_WORKING | MACHINE_IMPERFECT_SOUND | MACHINE_UNEMULATED_PROTECTION )
-GAME( 1996, quizard3_32, quizard3,     quizard3,       quizard, cdi_state,      0, ROT0,     "TAB Austria",  "Quizard 3 (v3.2)", MACHINE_NOT_WORKING | MACHINE_IMPERFECT_SOUND | MACHINE_UNEMULATED_PROTECTION )
+GAME( 1995, quizard3,    cdibios,  quizard3,      quizard,  cdi_state, empty_init,  ROT0,       "TAB Austria",  "Quizard 3 (v3.4)", MACHINE_NOT_WORKING | MACHINE_IMPERFECT_SOUND | MACHINE_UNEMULATED_PROTECTION )
+GAME( 1996, quizard3_32, quizard3, quizard3,      quizard,  cdi_state, empty_init,  ROT0,       "TAB Austria",  "Quizard 3 (v3.2)", MACHINE_NOT_WORKING | MACHINE_IMPERFECT_SOUND | MACHINE_UNEMULATED_PROTECTION )
 
-GAME( 1998, quizard4,    cdibios,      quizard4,       quizard, cdi_state,      0, ROT0,     "TAB Austria",  "Quizard 4 Rainbow (v4.2)", MACHINE_NOT_WORKING | MACHINE_IMPERFECT_SOUND | MACHINE_UNEMULATED_PROTECTION )
-GAME( 1998, quizard4_41, quizard4,     quizard4,       quizard, cdi_state,      0, ROT0,     "TAB Austria",  "Quizard 4 Rainbow (v4.1)", MACHINE_NOT_WORKING | MACHINE_IMPERFECT_SOUND | MACHINE_UNEMULATED_PROTECTION )
-GAME( 1997, quizard4_40, quizard4,     quizard4,       quizard, cdi_state,      0, ROT0,     "TAB Austria",  "Quizard 4 Rainbow (v4.0)", MACHINE_NOT_WORKING | MACHINE_IMPERFECT_SOUND | MACHINE_UNEMULATED_PROTECTION )
+GAME( 1998, quizard4,    cdibios,  quizard4,      quizard,  cdi_state, empty_init,  ROT0,       "TAB Austria",  "Quizard 4 Rainbow (v4.2)", MACHINE_NOT_WORKING | MACHINE_IMPERFECT_SOUND | MACHINE_UNEMULATED_PROTECTION )
+GAME( 1998, quizard4_41, quizard4, quizard4,      quizard,  cdi_state, empty_init,  ROT0,       "TAB Austria",  "Quizard 4 Rainbow (v4.1)", MACHINE_NOT_WORKING | MACHINE_IMPERFECT_SOUND | MACHINE_UNEMULATED_PROTECTION )
+GAME( 1997, quizard4_40, quizard4, quizard4,      quizard,  cdi_state, empty_init,  ROT0,       "TAB Austria",  "Quizard 4 Rainbow (v4.0)", MACHINE_NOT_WORKING | MACHINE_IMPERFECT_SOUND | MACHINE_UNEMULATED_PROTECTION )

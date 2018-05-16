@@ -92,10 +92,10 @@ public:
 	DECLARE_WRITE8_MEMBER(pzlestar_mem_bank_w);
 	DECLARE_READ8_MEMBER(pzlestar_mem_bank_r);
 	DECLARE_WRITE8_MEMBER(sexyboom_bank_w);
-	DECLARE_DRIVER_INIT(pzlestar);
+	void init_pzlestar();
 	virtual void machine_start() override;
-	DECLARE_MACHINE_RESET(pzlestar);
-	DECLARE_MACHINE_RESET(sexyboom);
+	void machine_reset_pzlestar();
+	void machine_reset_sexyboom();
 	void pzlestar_map_banks();
 	void sexyboom_map_bank(int bank);
 	DECLARE_READ8_MEMBER(sec_slot_r);
@@ -437,13 +437,13 @@ void sangho_state::machine_start()
 	m_ram = std::make_unique<uint8_t[]>(0x20000); // TODO: define how much RAM these ones have (MSX2+ can potentially go up to 4MB)
 }
 
-MACHINE_RESET_MEMBER(sangho_state,pzlestar)
+void sangho_state::machine_reset_pzlestar()
 {
 	m_pzlestar_mem_bank = 2;
 	pzlestar_map_banks();
 }
 
-MACHINE_RESET_MEMBER(sangho_state,sexyboom)
+void sangho_state::machine_reset_sexyboom()
 {
 	m_sexyboom_bank[0] = 0x00;
 	m_sexyboom_bank[1] = 0x00;
@@ -470,7 +470,7 @@ MACHINE_CONFIG_START(sangho_state::pzlestar)
 	MCFG_V99X8_INTERRUPT_CALLBACK(INPUTLINE("maincpu", 0))
 	MCFG_V99X8_SCREEN_ADD_NTSC("screen", "v9958", XTAL(21'477'272))
 
-	MCFG_MACHINE_RESET_OVERRIDE(sangho_state,pzlestar)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_pzlestar, this));
 
 	SPEAKER(config, "mono").front_center();
 	MCFG_DEVICE_ADD("ymsnd", YM2413,  XTAL(21'477'272)/6)
@@ -489,7 +489,7 @@ MACHINE_CONFIG_START(sangho_state::sexyboom)
 	MCFG_V99X8_INTERRUPT_CALLBACK(INPUTLINE("maincpu", 0))
 	MCFG_V99X8_SCREEN_ADD_NTSC("screen", "v9958", XTAL(21'477'272))
 
-	MCFG_MACHINE_RESET_OVERRIDE(sangho_state,sexyboom)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_sexyboom, this));
 
 	MCFG_PALETTE_ADD("palette", 19780)
 
@@ -537,7 +537,7 @@ ROM_START( sexyboom )
 	/* 15 empty */
 ROM_END
 
-DRIVER_INIT_MEMBER(sangho_state,pzlestar)
+void sangho_state::init_pzlestar()
 {
 	uint8_t *ROM = m_region_user1->base();
 
@@ -546,5 +546,5 @@ DRIVER_INIT_MEMBER(sangho_state,pzlestar)
 	ROM[0x12ca8] = 0x00;
 }
 
-GAME( 1991, pzlestar,  0,    pzlestar, pzlestar, sangho_state,  pzlestar,   ROT270, "Sang Ho Soft", "Puzzle Star (Sang Ho Soft)", MACHINE_IMPERFECT_COLORS | MACHINE_IMPERFECT_SOUND )
-GAME( 1992, sexyboom,  0,    sexyboom, sexyboom, sangho_state,  0,          ROT270, "Sang Ho Soft", "Sexy Boom", 0 )
+GAME( 1991, pzlestar,  0,    pzlestar, pzlestar, sangho_state, init_pzlestar, ROT270, "Sang Ho Soft", "Puzzle Star (Sang Ho Soft)", MACHINE_IMPERFECT_COLORS | MACHINE_IMPERFECT_SOUND )
+GAME( 1992, sexyboom,  0,    sexyboom, sexyboom, sangho_state, empty_init,    ROT270, "Sang Ho Soft", "Sexy Boom", 0 )

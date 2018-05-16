@@ -44,7 +44,7 @@ Memo:
 
 
 
-DRIVER_INIT_MEMBER(niyanpai_state,niyanpai)
+void niyanpai_state::init_niyanpai()
 {
 	//uint8_t *SNDROM = memregion(":nichisnd:audiorom")->base();
 
@@ -71,7 +71,7 @@ READ16_MEMBER(niyanpai_state::dipsw_r)
 	return ((dipsw_a << 8) | dipsw_b);
 }
 
-MACHINE_START_MEMBER(niyanpai_state, musobana)
+void niyanpai_state::machine_start_musobana()
 {
 	save_item(NAME(m_motor_on));
 	save_item(NAME(m_musobana_inputport));
@@ -728,7 +728,7 @@ MACHINE_CONFIG_START(niyanpai_state::musobana)
 	MCFG_DEVICE_MODIFY("maincpu")
 	MCFG_DEVICE_PROGRAM_MAP(musobana_map)
 
-	MCFG_MACHINE_START_OVERRIDE(niyanpai_state, musobana)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_musobana, this));
 MACHINE_CONFIG_END
 
 MACHINE_CONFIG_START(niyanpai_state::mhhonban)
@@ -842,8 +842,8 @@ ROM_START( zokumahj )
 ROM_END
 
 
-GAME( 1996, niyanpai, 0,        niyanpai, niyanpai, niyanpai_state, niyanpai, ROT0, "Nichibutsu", "Niyanpai (Japan)", MACHINE_SUPPORTS_SAVE )
-GAME( 1995, musobana, 0,        musobana, musobana, niyanpai_state, niyanpai, ROT0, "Nichibutsu / Yubis", "Musoubana (Japan)", MACHINE_SUPPORTS_SAVE )
-GAME( 1994, 4psimasy, 0,        musobana, 4psimasy, niyanpai_state, niyanpai, ROT0, "Sphinx / AV Japan", "Mahjong 4P Simasyo (Japan)", MACHINE_SUPPORTS_SAVE )
-GAME( 1994, mhhonban, 0,        mhhonban, mhhonban, niyanpai_state, niyanpai, ROT0, "Nichibutsu", "Mahjong Housoukyoku Honbanchuu (Japan)", MACHINE_SUPPORTS_SAVE )
-GAME( 199?, zokumahj, mhhonban, zokumahj, zokumahj, niyanpai_state, niyanpai, ROT0, "Nichibutsu?", "Zoku Mahjong Housoukyoku (Japan)", MACHINE_SUPPORTS_SAVE )
+GAME( 1996, niyanpai, 0,        niyanpai, niyanpai, niyanpai_state, init_niyanpai, ROT0, "Nichibutsu", "Niyanpai (Japan)", MACHINE_SUPPORTS_SAVE )
+GAME( 1995, musobana, 0,        musobana, musobana, niyanpai_state, init_niyanpai, ROT0, "Nichibutsu / Yubis", "Musoubana (Japan)", MACHINE_SUPPORTS_SAVE )
+GAME( 1994, 4psimasy, 0,        musobana, 4psimasy, niyanpai_state, init_niyanpai, ROT0, "Sphinx / AV Japan", "Mahjong 4P Simasyo (Japan)", MACHINE_SUPPORTS_SAVE )
+GAME( 1994, mhhonban, 0,        mhhonban, mhhonban, niyanpai_state, init_niyanpai, ROT0, "Nichibutsu", "Mahjong Housoukyoku Honbanchuu (Japan)", MACHINE_SUPPORTS_SAVE )
+GAME( 199?, zokumahj, mhhonban, zokumahj, zokumahj, niyanpai_state, init_niyanpai, ROT0, "Nichibutsu?", "Zoku Mahjong Housoukyoku (Japan)", MACHINE_SUPPORTS_SAVE )

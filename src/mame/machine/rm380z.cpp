@@ -242,21 +242,21 @@ void rm380z_state::machine_start()
 	m_static_vblank_timer->adjust(attotime::from_hz(TIMER_SPEED), 0, attotime::from_hz(TIMER_SPEED));
 }
 
-DRIVER_INIT_MEMBER( rm380z_state, rm380z )
+void rm380z_state::init_rm380z()
 {
 	m_videomode=RM380Z_VIDEOMODE_80COL;
 	m_old_videomode=m_videomode;
 	m_port0_mask=0xff;
 }
 
-DRIVER_INIT_MEMBER( rm380z_state, rm380z34d )
+void rm380z_state::init_rm380z34d()
 {
 	m_videomode=RM380Z_VIDEOMODE_40COL;
 	m_old_videomode=m_videomode;
 	m_port0_mask=0xdf;      // disable 80 column mode
 }
 
-DRIVER_INIT_MEMBER( rm380z_state, rm380z34e )
+void rm380z_state::init_rm380z34e()
 {
 	m_videomode=RM380Z_VIDEOMODE_40COL;
 	m_old_videomode=m_videomode;
@@ -311,6 +311,6 @@ void rm380z_state::config_memory_map()
 	}
 }
 
-MACHINE_RESET_MEMBER( rm380z_state, rm480z )
+void rm380z_state::machine_reset_rm480z()
 {
 }

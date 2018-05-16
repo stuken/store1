@@ -75,13 +75,13 @@ public:
 	DECLARE_READ8_MEMBER(eeprom_r);
 	DECLARE_WRITE8_MEMBER(eeprom_w);
 
-	DECLARE_DRIVER_INIT(kaneko16);
-	DECLARE_DRIVER_INIT(bakubrkr);
+	void init_kaneko16();
+	void init_bakubrkr();
 
 
-	DECLARE_MACHINE_RESET(gtmr);
-	DECLARE_VIDEO_START(kaneko16);
-	DECLARE_MACHINE_RESET(mgcrystl);
+	void machine_reset_gtmr();
+	void video_start_kaneko16() ATTR_COLD;
+	void machine_reset_mgcrystl();
 	uint32_t screen_update_kaneko16(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 
 	template<class _BitmapClass>
@@ -120,7 +120,7 @@ public:
 	DECLARE_READ16_MEMBER(gtmr_wheel_r);
 	DECLARE_READ16_MEMBER(gtmr2_wheel_r);
 	DECLARE_READ16_MEMBER(gtmr2_IN1_r);
-	DECLARE_DRIVER_INIT(gtmr);
+	void init_gtmr();
 	void kaneko16_common_oki_bank_install(int bankno, size_t fixedsize, size_t bankedsize);
 
 	void bonkadv(machine_config &config);
@@ -169,12 +169,12 @@ public:
 	DECLARE_READ16_MEMBER(berlwall_spriteregs_r);
 	DECLARE_WRITE16_MEMBER(berlwall_spriteregs_w);
 
-	DECLARE_DRIVER_INIT(berlwall);
-	DECLARE_DRIVER_INIT(berlwallk);
-	DECLARE_DRIVER_INIT(berlwallt);
-	DECLARE_DRIVER_INIT(berlwall_common);
+	void init_berlwall();
+	void init_berlwallk();
+	void init_berlwallt();
+	void init_berlwall_common();
 	DECLARE_PALETTE_INIT(berlwall);
-	DECLARE_VIDEO_START(berlwall);
+	void video_start_berlwall() ATTR_COLD;
 	uint32_t screen_update_berlwall(screen_device &screen, bitmap_rgb32 &bitmap, const rectangle &cliprect);
 	void kaneko16_render_15bpp_bitmap(bitmap_rgb32 &bitmap, const rectangle &cliprect);
 
@@ -194,8 +194,8 @@ public:
 
 	DECLARE_WRITE16_MEMBER(shogwarr_oki_bank_w);
 
-	DECLARE_DRIVER_INIT(shogwarr);
-	DECLARE_DRIVER_INIT(brapboys);
+	void init_shogwarr();
+	void init_brapboys();
 
 	TIMER_DEVICE_CALLBACK_MEMBER(shogwarr_interrupt);
 

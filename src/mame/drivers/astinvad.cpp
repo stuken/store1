@@ -79,13 +79,13 @@ public:
 	DECLARE_WRITE8_MEMBER(spcking2_sound1_w);
 	DECLARE_WRITE8_MEMBER(spcking2_sound2_w);
 	DECLARE_WRITE8_MEMBER(spcking2_sound3_w);
-	DECLARE_DRIVER_INIT(kamikaze);
-	DECLARE_DRIVER_INIT(spcking2);
-	DECLARE_MACHINE_START(kamikaze);
-	DECLARE_MACHINE_RESET(kamikaze);
-	DECLARE_MACHINE_START(spaceint);
-	DECLARE_MACHINE_RESET(spaceint);
-	DECLARE_VIDEO_START(spaceint);
+	void init_kamikaze();
+	void init_spcking2();
+	void machine_start_kamikaze() ATTR_COLD;
+	void machine_reset_kamikaze();
+	void machine_start_spaceint() ATTR_COLD;
+	void machine_reset_spaceint();
+	void video_start_spaceint()   ATTR_COLD;
 	uint32_t screen_update_astinvad(screen_device &screen, bitmap_rgb32 &bitmap, const rectangle &cliprect);
 	uint32_t screen_update_spcking2(screen_device &screen, bitmap_rgb32 &bitmap, const rectangle &cliprect);
 	uint32_t screen_update_spaceint(screen_device &screen, bitmap_rgb32 &bitmap, const rectangle &cliprect);
@@ -130,7 +130,7 @@ private:
  *
  *************************************/
 
-VIDEO_START_MEMBER(astinvad_state,spaceint)
+void astinvad_state::video_start_spaceint()
 {
 	m_colorram = std::make_unique<uint8_t[]>(m_videoram.bytes());
 
@@ -280,7 +280,7 @@ TIMER_CALLBACK_MEMBER(astinvad_state::kamizake_int_gen)
 }
 
 
-MACHINE_START_MEMBER(astinvad_state,kamikaze)
+void astinvad_state::machine_start_kamikaze()
 {
 	m_int_timer = timer_alloc(TIMER_INT_GEN);
 	m_int_timer->adjust(m_screen->time_until_pos(128), 128);
@@ -291,7 +291,7 @@ MACHINE_START_MEMBER(astinvad_state,kamikaze)
 	save_item(NAME(m_sound_state));
 }
 
-MACHINE_RESET_MEMBER(astinvad_state,kamikaze)
+void astinvad_state::machine_reset_kamikaze()
 {
 	m_screen_flip = 0;
 	m_screen_red = 0;
@@ -300,13 +300,13 @@ MACHINE_RESET_MEMBER(astinvad_state,kamikaze)
 }
 
 
-MACHINE_START_MEMBER(astinvad_state,spaceint)
+void astinvad_state::machine_start_spaceint()
 {
 	save_item(NAME(m_screen_flip));
 	save_item(NAME(m_sound_state));
 }
 
-MACHINE_RESET_MEMBER(astinvad_state,spaceint)
+void astinvad_state::machine_reset_spaceint()
 {
 	m_screen_flip = 0;
 	m_sound_state[0] = 0;
@@ -670,8 +670,8 @@ MACHINE_CONFIG_START(astinvad_state::kamikaze)
 	MCFG_DEVICE_PROGRAM_MAP(kamikaze_map)
 	MCFG_DEVICE_IO_MAP(kamikaze_portmap)
 
-	MCFG_MACHINE_START_OVERRIDE(astinvad_state, kamikaze)
-	MCFG_MACHINE_RESET_OVERRIDE(astinvad_state, kamikaze)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_kamikaze, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_kamikaze, this));
 
 	MCFG_DEVICE_ADD("ppi8255_0", I8255A, 0)
 	MCFG_I8255_IN_PORTA_CB(IOPORT("IN0"))
@@ -723,11 +723,11 @@ MACHINE_CONFIG_START(astinvad_state::spaceint)
 	MCFG_DEVICE_IO_MAP(spaceint_portmap)
 	MCFG_DEVICE_VBLANK_INT_DRIVER("screen", astinvad_state, irq0_line_hold)
 
-	MCFG_MACHINE_START_OVERRIDE(astinvad_state, spaceint)
-	MCFG_MACHINE_RESET_OVERRIDE(astinvad_state, spaceint)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_spaceint, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_spaceint, this));
 
 	/* video hardware */
-	MCFG_VIDEO_START_OVERRIDE(astinvad_state, spaceint)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_spaceint, this));
 
 	MCFG_SCREEN_ADD("screen", RASTER)
 	MCFG_SCREEN_SIZE(32*8, 32*8)
@@ -838,14 +838,14 @@ ROM_END
  *
  *************************************/
 
-DRIVER_INIT_MEMBER(astinvad_state,kamikaze)
+void astinvad_state::init_kamikaze()
 {
 	/* the flip screen logic adds 32 to the Y after flipping */
 	m_flip_yoffs = 32;
 }
 
 
-DRIVER_INIT_MEMBER(astinvad_state,spcking2)
+void astinvad_state::init_spcking2()
 {
 	/* don't have the schematics, but the blanking must center the screen here */
 	m_flip_yoffs = 0;
@@ -859,9 +859,9 @@ DRIVER_INIT_MEMBER(astinvad_state,spcking2)
  *
  *************************************/
 
-GAME( 1980,  kamikaze, 0,        kamikaze, kamikaze,  astinvad_state, kamikaze, ROT270, "Leijac Corporation", "Kamikaze", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE )
-GAME( 1980,  astinvad, kamikaze, kamikaze, astinvad,  astinvad_state, kamikaze, ROT270, "Leijac Corporation (Stern Electronics license)", "Astro Invader", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE )
-GAME( 1980?, kosmokil, kamikaze, kamikaze, kamikaze,  astinvad_state, kamikaze, ROT270, "bootleg (BEM)", "Kosmo Killer", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE ) // says >BEM< Mi Italy but it looks hacked in, dif revision of game tho.
-GAME( 1979,  spcking2, 0,        spcking2, spcking2,  astinvad_state, spcking2, ROT270, "Konami", "Space King 2", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE )
-GAME( 1980,  spaceint, 0,        spaceint, spaceint,  astinvad_state, 0,        ROT90,  "Shoei", "Space Intruder", MACHINE_IMPERFECT_SOUND | MACHINE_WRONG_COLORS | MACHINE_SUPPORTS_SAVE )
-GAME( 1980,  spaceintj,spaceint, spaceint, spaceintj, astinvad_state, 0,        ROT90,  "Shoei", "Space Intruder (Japan)", MACHINE_IMPERFECT_SOUND | MACHINE_WRONG_COLORS | MACHINE_SUPPORTS_SAVE )
+GAME( 1980,  kamikaze,  0,        kamikaze, kamikaze,  astinvad_state, init_kamikaze, ROT270, "Leijac Corporation", "Kamikaze", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE )
+GAME( 1980,  astinvad,  kamikaze, kamikaze, astinvad,  astinvad_state, init_kamikaze, ROT270, "Leijac Corporation (Stern Electronics license)", "Astro Invader", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE )
+GAME( 1980?, kosmokil,  kamikaze, kamikaze, kamikaze,  astinvad_state, init_kamikaze, ROT270, "bootleg (BEM)", "Kosmo Killer", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE ) // says >BEM< Mi Italy but it looks hacked in, dif revision of game tho.
+GAME( 1979,  spcking2,  0,        spcking2, spcking2,  astinvad_state, init_spcking2, ROT270, "Konami", "Space King 2", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE )
+GAME( 1980,  spaceint,  0,        spaceint, spaceint,  astinvad_state, empty_init,    ROT90,  "Shoei", "Space Intruder", MACHINE_IMPERFECT_SOUND | MACHINE_WRONG_COLORS | MACHINE_SUPPORTS_SAVE )
+GAME( 1980,  spaceintj, spaceint, spaceint, spaceintj, astinvad_state, empty_init,    ROT90,  "Shoei", "Space Intruder (Japan)", MACHINE_IMPERFECT_SOUND | MACHINE_WRONG_COLORS | MACHINE_SUPPORTS_SAVE )

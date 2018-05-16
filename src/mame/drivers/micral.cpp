@@ -72,8 +72,8 @@ public:
 		, m_crtc(*this, "crtc")
 	{ }
 
-	DECLARE_DRIVER_INIT(micral);
-	DECLARE_MACHINE_RESET(micral);
+	void init_micral();
+	void machine_reset_micral();
 	DECLARE_READ8_MEMBER(keyin_r);
 	DECLARE_READ8_MEMBER(status_r);
 	DECLARE_READ8_MEMBER(unk_r);
@@ -345,7 +345,7 @@ uint32_t micral_state::screen_update(screen_device &screen, bitmap_ind16 &bitmap
 	return 0;
 }
 
-DRIVER_INIT_MEMBER( micral_state, micral )
+void micral_state::init_micral()
 {
 	//uint8_t *main = memregion("maincpu")->base();
 
@@ -354,7 +354,7 @@ DRIVER_INIT_MEMBER( micral_state, micral )
 	//membank("bankw0")->configure_entry(0, &main[0xf800]);
 }
 
-MACHINE_RESET_MEMBER( micral_state, micral )
+void micral_state::machine_reset_micral()
 {
 	//membank("bankr0")->set_entry(0); // point at rom
 	//membank("bankw0")->set_entry(0); // always write to ram
@@ -382,7 +382,7 @@ MACHINE_CONFIG_START(micral_state::micral)
 	MCFG_DEVICE_PROGRAM_MAP(mem_kbd)
 	MCFG_DEVICE_IO_MAP(io_kbd)
 
-	MCFG_MACHINE_RESET_OVERRIDE(micral_state, micral)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_micral, this));
 
 	// video hardware
 	MCFG_SCREEN_ADD_MONOCHROME("screen", RASTER, rgb_t::green())
@@ -393,7 +393,7 @@ MACHINE_CONFIG_START(micral_state::micral)
 	MCFG_SCREEN_VISIBLE_AREA(0, 639, 0, 239)
 	MCFG_SCREEN_PALETTE("palette")
 	MCFG_PALETTE_ADD_MONOCHROME("palette")
-	//MCFG_GFXDECODE_ADD("gfxdecode", "palette", micral)
+	//MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_micral)
 
 	MCFG_DEVICE_ADD("crtc", CRT5037, 4000000 / 8)  // xtal freq unknown
 	MCFG_TMS9927_CHAR_WIDTH(8)  // unknown
@@ -429,5 +429,5 @@ ROM_END
 
 /* Driver */
 
-//    YEAR  NAME    PARENT  COMPAT  MACHINE    INPUT    CLASS          INIT     COMPANY     FULLNAME         FLAGS
-COMP( 1981, micral, 0,      0,      micral,    micral,  micral_state,  micral,  "Bull R2E", "Micral 80-22G", MACHINE_IS_SKELETON )
+//    YEAR  NAME    PARENT  COMPAT  MACHINE  INPUT   CLASS         INIT         COMPANY     FULLNAME         FLAGS
+COMP( 1981, micral, 0,      0,      micral,  micral, micral_state, init_micral, "Bull R2E", "Micral 80-22G", MACHINE_IS_SKELETON )

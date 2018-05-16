@@ -20,7 +20,7 @@ Since IM2 is used, it is assumed there are Z80 peripherals on board.
 
 #include "emu.h"
 #include "cpu/z80/z80.h"
-#include "cpu/z80/z80daisy.h"
+#include "machine/z80daisy.h"
 #include "machine/z80ctc.h"
 #include "machine/z80pio.h"
 #include "machine/z80sio.h"
@@ -36,8 +36,8 @@ public:
 		, m_maincpu(*this, "maincpu")
 	{ }
 
-	DECLARE_DRIVER_INIT(ccs300);
-	DECLARE_MACHINE_RESET(ccs300);
+	void init_ccs300();
+	void machine_reset_ccs300();
 	DECLARE_WRITE8_MEMBER(port40_w);
 
 	void ccs300(machine_config &config);
@@ -90,13 +90,13 @@ WRITE8_MEMBER( ccs300_state::port40_w )
 	membank("bankr0")->set_entry( (data) ? 1 : 0);
 }
 
-MACHINE_RESET_MEMBER( ccs300_state, ccs300 )
+void ccs300_state::machine_reset_ccs300()
 {
 	membank("bankr0")->set_entry(0); // point at rom
 	membank("bankw0")->set_entry(0); // always write to ram
 }
 
-DRIVER_INIT_MEMBER( ccs300_state, ccs300 )
+void ccs300_state::init_ccs300()
 {
 	uint8_t *main = memregion("maincpu")->base();
 
@@ -122,7 +122,7 @@ MACHINE_CONFIG_START(ccs300_state::ccs300)
 	MCFG_DEVICE_IO_MAP(ccs300_io)
 	MCFG_Z80_DAISY_CHAIN(daisy_chain)
 
-	MCFG_MACHINE_RESET_OVERRIDE(ccs300_state, ccs300)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_ccs300, this));
 
 	/* video hardware */
 	MCFG_DEVICE_ADD("uart_clock", CLOCK, 153600)
@@ -156,5 +156,5 @@ ROM_END
 
 /* Driver */
 
-/*    YEAR  NAME    PARENT   COMPAT   MACHINE    INPUT    CLASS          INIT      COMPANY                        FULLNAME         FLAGS */
-COMP( 19??, ccs300, ccs2810, 0,       ccs300,    ccs300,  ccs300_state,  ccs300,   "California Computer Systems", "CCS Model 300", MACHINE_IS_SKELETON )
+/*    YEAR  NAME    PARENT   COMPAT  MACHINE  INPUT   CLASS         INIT         COMPANY                        FULLNAME         FLAGS */
+COMP( 19??, ccs300, ccs2810, 0,      ccs300,  ccs300, ccs300_state, init_ccs300, "California Computer Systems", "CCS Model 300", MACHINE_IS_SKELETON )

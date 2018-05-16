@@ -13,11 +13,11 @@ public:
 		m_rom(*this, "maincpu")
 	{}
 
-	DECLARE_DRIVER_INIT(megadriv_radica_6button_pal);
+	void init_megadriv_radica_6button_pal();
 
-	DECLARE_MACHINE_START(megadriv_radica_6button);
-	DECLARE_MACHINE_START(megadriv_radica_3button);
-	DECLARE_MACHINE_RESET(megadriv_radica);
+	void machine_start_megadriv_radica_6button() ATTR_COLD;
+	void machine_start_megadriv_radica_3button() ATTR_COLD;
+	void machine_reset_megadriv_radica();
 
 	DECLARE_READ16_MEMBER(read);
 	DECLARE_READ16_MEMBER(read_a13);

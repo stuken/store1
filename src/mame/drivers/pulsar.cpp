@@ -38,7 +38,7 @@ X - Test off-board memory banks
 #include "emu.h"
 #include "bus/rs232/rs232.h"
 #include "cpu/z80/z80.h"
-#include "cpu/z80/z80daisy.h"
+#include "machine/z80daisy.h"
 #include "machine/z80dart.h"
 #include "machine/msm5832.h"
 #include "machine/i8255.h"
@@ -59,8 +59,8 @@ public:
 		, m_rtc(*this, "rtc")
 		{ }
 
-	DECLARE_DRIVER_INIT(pulsar);
-	DECLARE_MACHINE_RESET(pulsar);
+	void init_pulsar();
+	void machine_reset_pulsar();
 	TIMER_CALLBACK_MEMBER(pulsar_reset);
 	DECLARE_WRITE8_MEMBER(baud_w);
 	DECLARE_WRITE8_MEMBER(ppi_pa_w);
@@ -188,7 +188,7 @@ static void pulsar_floppies(device_slot_interface &device)
 static INPUT_PORTS_START( pulsar )
 INPUT_PORTS_END
 
-MACHINE_RESET_MEMBER( pulsar_state, pulsar )
+void pulsar_state::machine_reset_pulsar()
 {
 	machine().scheduler().timer_set(attotime::from_usec(3), timer_expired_delegate(FUNC(pulsar_state::pulsar_reset),this));
 	membank("bankr0")->set_entry(0); // point at rom
@@ -198,7 +198,7 @@ MACHINE_RESET_MEMBER( pulsar_state, pulsar )
 	m_rtc->cs_w(1); // always enabled
 }
 
-DRIVER_INIT_MEMBER( pulsar_state, pulsar )
+void pulsar_state::init_pulsar()
 {
 	uint8_t *main = memregion("maincpu")->base();
 
@@ -217,7 +217,7 @@ MACHINE_CONFIG_START(pulsar_state::pulsar)
 	MCFG_DEVICE_PROGRAM_MAP(pulsar_mem)
 	MCFG_DEVICE_IO_MAP(pulsar_io)
 	MCFG_Z80_DAISY_CHAIN(daisy_chain_intf)
-	MCFG_MACHINE_RESET_OVERRIDE(pulsar_state, pulsar)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_pulsar, this));
 
 	/* Devices */
 	MCFG_DEVICE_ADD("ppi", I8255, 0)
@@ -264,5 +264,5 @@ ROM_END
 
 /* Driver */
 
-//    YEAR  NAME      PARENT  COMPAT  MACHINE  INPUT    CLASS          INIT     COMPANY   FULLNAME            FLAGS
-COMP( 1981, pulsarlb, 0,      0,      pulsar,  pulsar,  pulsar_state,  pulsar,  "Pulsar", "Little Big Board", MACHINE_NO_SOUND_HW )
+//    YEAR  NAME      PARENT  COMPAT  MACHINE  INPUT   CLASS         INIT         COMPANY   FULLNAME            FLAGS
+COMP( 1981, pulsarlb, 0,      0,      pulsar,  pulsar, pulsar_state, init_pulsar, "Pulsar", "Little Big Board", MACHINE_NO_SOUND_HW )

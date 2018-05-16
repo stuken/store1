@@ -154,15 +154,15 @@ public:
 		m_avbank(*this, "av_bank%u", 1)
 	{
 	}
-	DECLARE_DRIVER_INIT(fm7);
+	void init_fm7();
 
 	virtual void machine_reset() override;
 	virtual void video_start() override;
 
-	DECLARE_MACHINE_START(fm7);
-	DECLARE_MACHINE_START(fm77av);
-	DECLARE_MACHINE_START(fm11);
-	DECLARE_MACHINE_START(fm16);
+	void machine_start_fm7()    ATTR_COLD;
+	void machine_start_fm77av() ATTR_COLD;
+	void machine_start_fm11()   ATTR_COLD;
+	void machine_start_fm16()   ATTR_COLD;
 
 	DECLARE_WRITE_LINE_MEMBER(fm7_fdc_intrq_w);
 	DECLARE_WRITE_LINE_MEMBER(fm7_fdc_drq_w);

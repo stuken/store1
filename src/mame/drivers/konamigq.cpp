@@ -117,9 +117,9 @@ public:
 	DECLARE_WRITE16_MEMBER(tms57002_data_word_w);
 	DECLARE_READ16_MEMBER(tms57002_status_word_r);
 	DECLARE_WRITE16_MEMBER(tms57002_control_word_w);
-	DECLARE_DRIVER_INIT(konamigq);
-	DECLARE_MACHINE_START(konamigq);
-	DECLARE_MACHINE_RESET(konamigq);
+	void init_konamigq();
+	void machine_start_konamigq() ATTR_COLD;
+	void machine_reset_konamigq();
 	INTERRUPT_GEN_MEMBER(tms_sync);
 	DECLARE_WRITE_LINE_MEMBER(k054539_irq_gen);
 
@@ -312,18 +312,18 @@ void konamigq_state::scsi_dma_write( uint32_t *p_n_psxram, uint32_t n_address, i
 {
 }
 
-DRIVER_INIT_MEMBER(konamigq_state,konamigq)
+void konamigq_state::init_konamigq()
 {
 }
 
-MACHINE_START_MEMBER(konamigq_state,konamigq)
+void konamigq_state::machine_start_konamigq()
 {
 	save_item(NAME(m_sector_buffer));
 	save_item(NAME(m_sound_ctrl));
 	save_item(NAME(m_sound_intck));
 }
 
-MACHINE_RESET_MEMBER(konamigq_state,konamigq)
+void konamigq_state::machine_reset_konamigq()
 {
 }
 
@@ -345,8 +345,8 @@ MACHINE_CONFIG_START(konamigq_state::konamigq)
 	MCFG_DEVICE_DATA_MAP(konamigq_dasp_map)
 	MCFG_DEVICE_PERIODIC_INT_DRIVER(konamigq_state, tms_sync, 48000)
 
-	MCFG_MACHINE_START_OVERRIDE(konamigq_state, konamigq)
-	MCFG_MACHINE_RESET_OVERRIDE(konamigq_state, konamigq)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_konamigq, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_konamigq, this));
 
 	MCFG_DEVICE_ADD("mb89371", MB89371, 0)
 	MCFG_EEPROM_SERIAL_93C46_ADD("eeprom")
@@ -479,4 +479,4 @@ ROM_START( cryptklr )
 	DISK_IMAGE( "420uaa04", 0, SHA1(67cb1418fc0de2a89fc61847dc9efb9f1bebb347) )
 ROM_END
 
-GAME( 1995, cryptklr, 0, konamigq, konamigq, konamigq_state, konamigq, ROT0, "Konami", "Crypt Killer (GQ420 UAA)", MACHINE_IMPERFECT_GRAPHICS )
+GAME( 1995, cryptklr, 0, konamigq, konamigq, konamigq_state, init_konamigq, ROT0, "Konami", "Crypt Killer (GQ420 UAA)", MACHINE_IMPERFECT_GRAPHICS )

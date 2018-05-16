@@ -86,12 +86,12 @@ public:
 	DECLARE_READ8_MEMBER(macs_input_r);
 	DECLARE_WRITE8_MEMBER(macs_rom_bank_w);
 	DECLARE_WRITE8_MEMBER(macs_output_w);
-	DECLARE_DRIVER_INIT(macs);
-	DECLARE_DRIVER_INIT(kisekaeh);
-	DECLARE_DRIVER_INIT(kisekaem);
-	DECLARE_DRIVER_INIT(macs2);
-	DECLARE_MACHINE_RESET(macs);
-	DECLARE_MACHINE_START(macs);
+	void init_macs();
+	void init_kisekaeh();
+	void init_kisekaem();
+	void init_macs2();
+	void machine_reset_macs();
+	void machine_start_macs();
 	ST0016_DMA_OFFS_CB(dma_offset);
 
 	uint32_t screen_update_macs(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
@@ -505,8 +505,8 @@ MACHINE_CONFIG_START(macs_state::macs)
 
 	MCFG_DEVICE_VBLANK_INT_DRIVER("screen", macs_state, irq0_line_hold)
 
-	MCFG_MACHINE_START_OVERRIDE(macs_state, macs)
-	MCFG_MACHINE_RESET_OVERRIDE(macs_state, macs)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_macs, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_macs, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -654,7 +654,7 @@ static const uint8_t ramdata[160]=
 };
 #endif
 
-MACHINE_START_MEMBER(macs_state,macs)
+void macs_state::machine_start_macs()
 {
 	m_rombank[0]->configure_entries(0  , 256, memregion("maincpu")->base(), 0x4000);
 	m_rombank[0]->configure_entries(256, 256, m_cart1->get_rom_base(), 0x4000);
@@ -673,7 +673,7 @@ MACHINE_START_MEMBER(macs_state,macs)
 	m_rambank[1]->set_entry(0);
 }
 
-MACHINE_RESET_MEMBER(macs_state,macs)
+void macs_state::machine_reset_macs()
 {
 	#if 0
 	uint8_t *macs_ram1 = m_ram1.get();
@@ -748,28 +748,28 @@ MACHINE_RESET_MEMBER(macs_state,macs)
 }
 
 
-DRIVER_INIT_MEMBER(macs_state,macs)
+void macs_state::init_macs()
 {
 	m_ram1=std::make_unique<uint8_t[]>(0x20000);
 	m_maincpu->set_st0016_game_flag((10 | 0x80));
 	m_rev = 1;
 }
 
-DRIVER_INIT_MEMBER(macs_state,macs2)
+void macs_state::init_macs2()
 {
 	m_ram1=std::make_unique<uint8_t[]>(0x20000);
 	m_maincpu->set_st0016_game_flag((10 | 0x80));
 	m_rev = 2;
 }
 
-DRIVER_INIT_MEMBER(macs_state,kisekaeh)
+void macs_state::init_kisekaeh()
 {
 	m_ram1=std::make_unique<uint8_t[]>(0x20000);
 	m_maincpu->set_st0016_game_flag((11 | 0x180));
 	m_rev = 1;
 }
 
-DRIVER_INIT_MEMBER(macs_state,kisekaem)
+void macs_state::init_kisekaem()
 {
 	m_ram1=std::make_unique<uint8_t[]>(0x20000);
 	m_maincpu->set_st0016_game_flag((10 | 0x180));
@@ -777,11 +777,11 @@ DRIVER_INIT_MEMBER(macs_state,kisekaem)
 }
 
 
-GAME( 1995, macsbios, 0,        macs, macs_m,   macs_state, macs,     ROT0, "I'Max",            "Multi Amenity Cassette System BIOS",   MACHINE_IS_BIOS_ROOT | MACHINE_IMPERFECT_SOUND | MACHINE_NOT_WORKING )
-GAME( 1995, mac2bios, 0,        macs, macs_m,   macs_state, macs2,    ROT0, "I'Max",            "Multi Amenity Cassette System 2 BIOS", MACHINE_IS_BIOS_ROOT | MACHINE_IMPERFECT_SOUND | MACHINE_NOT_WORKING )
+GAME( 1995, macsbios, 0,        macs, macs_m,   macs_state, init_macs,     ROT0, "I'Max",            "Multi Amenity Cassette System BIOS",   MACHINE_IS_BIOS_ROOT | MACHINE_IMPERFECT_SOUND | MACHINE_NOT_WORKING )
+GAME( 1995, mac2bios, 0,        macs, macs_m,   macs_state, init_macs2,    ROT0, "I'Max",            "Multi Amenity Cassette System 2 BIOS", MACHINE_IS_BIOS_ROOT | MACHINE_IMPERFECT_SOUND | MACHINE_NOT_WORKING )
 
-GAME( 1995, kisekaem, macsbios, macs, kisekaem, macs_state, kisekaem, ROT0, "I'Max",            "Kisekae Mahjong",                      MACHINE_NOT_WORKING | MACHINE_IMPERFECT_SOUND )
-GAME( 1995, kisekaeh, macsbios, macs, macs_h,   macs_state, kisekaeh, ROT0, "I'Max",            "Kisekae Hanafuda",                     MACHINE_NOT_WORKING | MACHINE_IMPERFECT_SOUND )
-GAME( 1996, cultname, macsbios, macs, macs_m,   macs_state, macs,     ROT0, "I'Max",            "Seimei-Kantei-Meimei-Ki Cult Name",    MACHINE_NOT_WORKING | MACHINE_IMPERFECT_SOUND )
-GAME( 1999, yuka,     macsbios, macs, macs_h,   macs_state, macs2,    ROT0, "Yubis / T.System", "Yu-Ka",                                0 )
-GAME( 1999, yujan,    macsbios, macs, macs_m,   macs_state, macs2,    ROT0, "Yubis / T.System", "Yu-Jan",                               0 )
+GAME( 1995, kisekaem, macsbios, macs, kisekaem, macs_state, init_kisekaem, ROT0, "I'Max",            "Kisekae Mahjong",                      MACHINE_NOT_WORKING | MACHINE_IMPERFECT_SOUND )
+GAME( 1995, kisekaeh, macsbios, macs, macs_h,   macs_state, init_kisekaeh, ROT0, "I'Max",            "Kisekae Hanafuda",                     MACHINE_NOT_WORKING | MACHINE_IMPERFECT_SOUND )
+GAME( 1996, cultname, macsbios, macs, macs_m,   macs_state, init_macs,     ROT0, "I'Max",            "Seimei-Kantei-Meimei-Ki Cult Name",    MACHINE_NOT_WORKING | MACHINE_IMPERFECT_SOUND )
+GAME( 1999, yuka,     macsbios, macs, macs_h,   macs_state, init_macs2,    ROT0, "Yubis / T.System", "Yu-Ka",                                0 )
+GAME( 1999, yujan,    macsbios, macs, macs_m,   macs_state, init_macs2,    ROT0, "Yubis / T.System", "Yu-Jan",                               0 )

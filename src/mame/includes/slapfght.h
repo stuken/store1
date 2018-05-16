@@ -99,15 +99,15 @@ public:
 	virtual void machine_reset() override;
 
 	void init_banks();
-	DECLARE_DRIVER_INIT(getstarb1);
-	DECLARE_DRIVER_INIT(slapfigh);
-	DECLARE_DRIVER_INIT(getstarb2);
+	void init_getstarb1();
+	void init_slapfigh();
+	void init_getstarb2();
 
 	TILE_GET_INFO_MEMBER(get_pf_tile_info);
 	TILE_GET_INFO_MEMBER(get_pf1_tile_info);
 	TILE_GET_INFO_MEMBER(get_fix_tile_info);
-	DECLARE_VIDEO_START(perfrman);
-	DECLARE_VIDEO_START(slapfight);
+	void video_start_perfrman()  ATTR_COLD;
+	void video_start_slapfight() ATTR_COLD;
 
 	void draw_perfrman_sprites(bitmap_ind16 &bitmap, const rectangle &cliprect, int layer);
 	void draw_slapfight_sprites(bitmap_ind16 &bitmap, const rectangle &cliprect);

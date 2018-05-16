@@ -50,9 +50,9 @@ public:
 	DECLARE_WRITE8_MEMBER(sound_bankswitch_w);
 	DECLARE_WRITE16_MEMBER(pivram_word_w);
 	DECLARE_WRITE16_MEMBER(piv_ctrl_word_w);
-	DECLARE_DRIVER_INIT(wgp);
-	DECLARE_DRIVER_INIT(wgp2);
-	DECLARE_VIDEO_START(wgp2);
+	void init_wgp();
+	void init_wgp2();
+	void video_start_wgp2() ATTR_COLD;
 	uint32_t screen_update(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 	INTERRUPT_GEN_MEMBER(cpub_interrupt);
 

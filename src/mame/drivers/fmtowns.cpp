@@ -2755,7 +2755,7 @@ static const gfx_layout text_chars =
 	8*16
 };
 
-static GFXDECODE_START( towns )
+static GFXDECODE_START( gfx_towns )
 	GFXDECODE_ENTRY( "user",   0x180000 + 0x3d800, text_chars,  0, 16 )
 	GFXDECODE_ENTRY( "user",   0x180000, fnt_chars_16x16,  0, 16 )
 GFXDECODE_END
@@ -2767,7 +2767,7 @@ MACHINE_CONFIG_START(towns_state::towns_base)
 	MCFG_DEVICE_IO_MAP(towns_io)
 	MCFG_DEVICE_VBLANK_INT_DRIVER("screen", towns_state,  towns_vsync_irq)
 	MCFG_DEVICE_IRQ_ACKNOWLEDGE_DEVICE("pic8259_master", pic8259_device, inta_cb)
-	//MCFG_MACHINE_RESET_OVERRIDE(towns_state,towns)
+	//set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_towns, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -2777,7 +2777,7 @@ MACHINE_CONFIG_START(towns_state::towns_base)
 	MCFG_SCREEN_VISIBLE_AREA(0, 768-1, 0, 512-1)
 	MCFG_SCREEN_UPDATE_DRIVER(towns_state, screen_update)
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette16_0", towns)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette16_0", gfx_towns)
 	MCFG_PALETTE_ADD("palette256", 256)
 	MCFG_PALETTE_ADD("palette16_0", 16)
 	MCFG_PALETTE_ADD("palette16_1", 16)
@@ -2865,7 +2865,7 @@ MACHINE_CONFIG_START(towns_state::towns_base)
 	MCFG_UPD71071_DMA_WRITE_0_CB(WRITE16(*this, towns_state, towns_fdc_dma_w))
 	MCFG_UPD71071_DMA_WRITE_1_CB(WRITE16(*this, towns_state, towns_scsi_dma_w))
 
-	//MCFG_VIDEO_START_OVERRIDE(towns_state,towns)
+	//set_video_start_cb(config, driver_callback_delegate(&video_start_towns, this));
 
 	MCFG_DEVICE_ADD("i8251", I8251, 0)
 	MCFG_I8251_RXRDY_HANDLER(WRITELINE(*this, towns_state, towns_rxrdy_irq))
@@ -3096,14 +3096,14 @@ ROM_END
 
 /* Driver */
 
-/*    YEAR  NAME    PARENT  COMPAT      MACHINE     INPUT  STATE           INIT  COMPANY      FULLNAME                FLAGS */
-COMP( 1989, fmtowns,  0,        0,      towns,      towns, towns_state,    0,    "Fujitsu",   "FM-Towns",             MACHINE_NOT_WORKING)
-COMP( 1989, fmtownsa, fmtowns,  0,      towns,      towns, towns_state,    0,    "Fujitsu",   "FM-Towns (alternate)", MACHINE_NOT_WORKING)
-COMP( 1991, fmtownsux,fmtowns,  0,      townsux,    towns, towns16_state,  0,    "Fujitsu",   "FM-Towns II UX",       MACHINE_NOT_WORKING)
-COMP( 1992, fmtownshr,fmtowns,  0,      townshr,    towns, towns_state,    0,    "Fujitsu",   "FM-Towns II HR",       MACHINE_NOT_WORKING)
-COMP( 1993, fmtownsmx,fmtowns,  0,      townshr,    towns, towns_state,    0,    "Fujitsu",   "FM-Towns II MX",       MACHINE_NOT_WORKING)
-COMP( 1994, fmtownsftv,fmtowns, 0,      townsftv,   towns, towns_state,    0,    "Fujitsu",   "FM-Towns II FreshTV",  MACHINE_NOT_WORKING)
-COMP( 19??, fmtownssj,fmtowns,  0,      townssj,    towns, towns_state,    0,    "Fujitsu",   "FM-Towns II SJ",       MACHINE_NOT_WORKING)
-CONS( 1993, fmtmarty, 0,        0,      marty,      marty, marty_state,    0,    "Fujitsu",   "FM-Towns Marty",       MACHINE_NOT_WORKING)
-CONS( 1993, fmtmarty2,fmtmarty, 0,      marty,      marty, marty_state,    0,    "Fujitsu",   "FM-Towns Marty 2",     MACHINE_NOT_WORKING)
-CONS( 1994, carmarty, fmtmarty, 0,      marty,      marty, marty_state,    0,    "Fujitsu",   "FM-Towns Car Marty",   MACHINE_NOT_WORKING)
+/*    YEAR  NAME        PARENT    COMPAT  MACHINE   INPUT  CLASS          INIT        COMPANY    FULLNAME                FLAGS */
+COMP( 1989, fmtowns,    0,        0,      towns,    towns, towns_state,   empty_init, "Fujitsu", "FM-Towns",             MACHINE_NOT_WORKING)
+COMP( 1989, fmtownsa,   fmtowns,  0,      towns,    towns, towns_state,   empty_init, "Fujitsu", "FM-Towns (alternate)", MACHINE_NOT_WORKING)
+COMP( 1991, fmtownsux,  fmtowns,  0,      townsux,  towns, towns16_state, empty_init, "Fujitsu", "FM-Towns II UX",       MACHINE_NOT_WORKING)
+COMP( 1992, fmtownshr,  fmtowns,  0,      townshr,  towns, towns_state,   empty_init, "Fujitsu", "FM-Towns II HR",       MACHINE_NOT_WORKING)
+COMP( 1993, fmtownsmx,  fmtowns,  0,      townshr,  towns, towns_state,   empty_init, "Fujitsu", "FM-Towns II MX",       MACHINE_NOT_WORKING)
+COMP( 1994, fmtownsftv, fmtowns,  0,      townsftv, towns, towns_state,   empty_init, "Fujitsu", "FM-Towns II FreshTV",  MACHINE_NOT_WORKING)
+COMP( 19??, fmtownssj,  fmtowns,  0,      townssj,  towns, towns_state,   empty_init, "Fujitsu", "FM-Towns II SJ",       MACHINE_NOT_WORKING)
+CONS( 1993, fmtmarty,   0,        0,      marty,    marty, marty_state,   empty_init, "Fujitsu", "FM-Towns Marty",       MACHINE_NOT_WORKING)
+CONS( 1993, fmtmarty2,  fmtmarty, 0,      marty,    marty, marty_state,   empty_init, "Fujitsu", "FM-Towns Marty 2",     MACHINE_NOT_WORKING)
+CONS( 1994, carmarty,   fmtmarty, 0,      marty,    marty, marty_state,   empty_init, "Fujitsu", "FM-Towns Car Marty",   MACHINE_NOT_WORKING)

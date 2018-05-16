@@ -22,7 +22,7 @@ public:
 
 
 	DECLARE_WRITE_LINE_MEMBER(sound_irq);
-	DECLARE_DRIVER_INIT(igs_fear);
+	void init_igs_fear();
 	//virtual void video_start();
 	virtual void video_start_igs_fear();
 	uint32_t screen_update_igs_fear(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
@@ -64,7 +64,7 @@ static const gfx_layout fearlayout =
 };
 
 
-static GFXDECODE_START( igs_fear )
+static GFXDECODE_START( gfx_igs_fear )
 	GFXDECODE_ENTRY( "gfx1", 0, fearlayout,   0, 16  )
 	GFXDECODE_ENTRY( "gfx2", 0, fearlayout,   0, 16  )
 	GFXDECODE_ENTRY( "gfx3", 0, fearlayout,   0, 16  )
@@ -88,13 +88,13 @@ MACHINE_CONFIG_START(igs_fear_state::igs_fear)
 	MCFG_SCREEN_SIZE(512, 256)
 	MCFG_SCREEN_VISIBLE_AREA(0, 512-1, 0, 256-1)
 
-	MCFG_VIDEO_START_OVERRIDE(igs_fear_state, igs_fear)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_igs_fear, this));
 	MCFG_SCREEN_UPDATE_DRIVER(igs_fear_state, screen_update_igs_fear)
 	MCFG_SCREEN_PALETTE("palette")
 
 	MCFG_PALETTE_ADD("palette", 0x200)
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", igs_fear)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_igs_fear)
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();
@@ -162,11 +162,11 @@ void igs_fear_state::pgm_create_dummy_internal_arm_region()
 
 
 
-DRIVER_INIT_MEMBER(igs_fear_state,igs_fear)
+void igs_fear_state::init_igs_fear()
 {
 	fearless_decrypt(machine());
 	//sdwx_gfx_decrypt(machine());
 	pgm_create_dummy_internal_arm_region();
 }
 
-GAME( 2006,  fearless,  0, igs_fear,    fear, igs_fear_state, igs_fear,    ROT0, "IGS", "Fearless Pinocchio (V101US)",   MACHINE_IS_SKELETON )
+GAME( 2006, fearless, 0, igs_fear, fear, igs_fear_state, init_igs_fear, ROT0, "IGS", "Fearless Pinocchio (V101US)",   MACHINE_IS_SKELETON )

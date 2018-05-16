@@ -57,11 +57,11 @@ public:
 	DECLARE_READ16_MEMBER(pedal_1_r);
 	DECLARE_READ8_MEMBER(audio_io_r);
 	DECLARE_WRITE8_MEMBER(audio_io_w);
-	DECLARE_DRIVER_INIT(badlands);
+	void init_badlands();
 	TILE_GET_INFO_MEMBER(get_playfield_tile_info);
-	DECLARE_MACHINE_START(badlands);
-	DECLARE_MACHINE_RESET(badlands);
-	DECLARE_VIDEO_START(badlands);
+	void machine_start_badlands() ATTR_COLD;
+	void machine_reset_badlands();
+	void video_start_badlands() ATTR_COLD;
 	uint32_t screen_update_badlands(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 	INTERRUPT_GEN_MEMBER(vblank_int);
 	DECLARE_WRITE16_MEMBER(video_int_ack_w);

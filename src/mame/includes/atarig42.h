@@ -43,7 +43,7 @@ protected:
 	TILE_GET_INFO_MEMBER(get_alpha_tile_info);
 	TILE_GET_INFO_MEMBER(get_playfield_tile_info);
 	TILEMAP_MAPPER_MEMBER(atarig42_playfield_scan);
-	DECLARE_VIDEO_START(atarig42);
+	void video_start_atarig42() ATTR_COLD;
 	uint32_t screen_update_atarig42(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 	void atarig42(machine_config &config);
 	void main_map(address_map &map);
@@ -79,7 +79,7 @@ class atarig42_0x200_state : public atarig42_state
 {
 public:
 	using atarig42_state::atarig42_state;
-	DECLARE_DRIVER_INIT(roadriot);
+	void init_roadriot();
 	void atarig42_0x200(machine_config &config);
 
 protected:
@@ -92,7 +92,7 @@ class atarig42_0x400_state : public atarig42_state
 {
 public:
 	using atarig42_state::atarig42_state;
-	DECLARE_DRIVER_INIT(guardian);
+	void init_guardian();
 	void atarig42_0x400(machine_config &config);
 
 protected:

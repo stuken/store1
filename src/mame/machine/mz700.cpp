@@ -34,7 +34,7 @@
     INITIALIZATION
 ***************************************************************************/
 
-DRIVER_INIT_MEMBER(mz_state,mz700)
+void mz_state::init_mz700()
 {
 	m_mz700 = true;
 	m_mz700_mode = true;
@@ -53,7 +53,7 @@ DRIVER_INIT_MEMBER(mz_state,mz700)
 	membank("bankd")->configure_entry(1, m_videoram.get()); // vram
 }
 
-DRIVER_INIT_MEMBER(mz_state,mz800)
+void mz_state::init_mz800()
 {
 	m_mz700 = false;
 	m_mz700_mode = true;//false;
@@ -93,7 +93,7 @@ void mz_state::machine_start()
 	mz700_bank_4_w(m_maincpu->space(AS_IO), 0, 0);
 }
 
-MACHINE_RESET_MEMBER( mz_state, mz700 )
+void mz_state::machine_reset_mz700()
 {
 	membank("bankr0")->set_entry(1); //rom
 	membank("bankw0")->set_entry(0); //ram
@@ -101,7 +101,7 @@ MACHINE_RESET_MEMBER( mz_state, mz700 )
 	m_banke->set_bank(1); //devices
 }
 
-MACHINE_RESET_MEMBER( mz_state, mz800 )
+void mz_state::machine_reset_mz800()
 {
 	// default to mz700 mode or mz1500 won't start.
 	membank("bankr0")->set_entry(1); //rom

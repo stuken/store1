@@ -249,11 +249,11 @@ public:
 	DECLARE_WRITE32_MEMBER(dsp_dataram_w);
 	DECLARE_WRITE16_MEMBER(sound_ctrl_w);
 
-	DECLARE_DRIVER_INIT(common);
-	DECLARE_DRIVER_INIT(zr107);
-	DECLARE_DRIVER_INIT(jetwave);
-	DECLARE_VIDEO_START(zr107);
-	DECLARE_VIDEO_START(jetwave);
+	void init_common();
+	void init_zr107();
+	void init_jetwave();
+	void video_start_zr107()   ATTR_COLD;
+	void video_start_jetwave() ATTR_COLD;
 	uint32_t screen_update_zr107(screen_device &screen, bitmap_rgb32 &bitmap, const rectangle &cliprect);
 	uint32_t screen_update_jetwave(screen_device &screen, bitmap_rgb32 &bitmap, const rectangle &cliprect);
 	INTERRUPT_GEN_MEMBER(zr107_vblank);
@@ -277,7 +277,7 @@ protected:
 
 
 
-VIDEO_START_MEMBER(zr107_state,jetwave)
+void zr107_state::video_start_jetwave()
 {
 }
 
@@ -317,7 +317,7 @@ K056832_CB_MEMBER(zr107_state::tile_callback)
 	*color += layer * 0x40;
 }
 
-VIDEO_START_MEMBER(zr107_state,zr107)
+void zr107_state::video_start_zr107()
 {
 	m_k056832->set_layer_offs(0, -29, -27);
 	m_k056832->set_layer_offs(1, -29, -27);
@@ -804,7 +804,7 @@ MACHINE_CONFIG_START(zr107_state::zr107)
 
 	MCFG_PALETTE_ADD("palette", 65536)
 
-	MCFG_VIDEO_START_OVERRIDE(zr107_state,zr107)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_zr107, this));
 
 	MCFG_DEVICE_ADD("k056832", K056832, 0)
 	MCFG_K056832_CB(zr107_state, tile_callback)
@@ -876,7 +876,7 @@ MACHINE_CONFIG_START(zr107_state::jetwave)
 
 	MCFG_PALETTE_ADD("palette", 65536)
 
-	MCFG_VIDEO_START_OVERRIDE(zr107_state,jetwave)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_jetwave, this));
 
 	MCFG_DEVICE_ADD("k001604", K001604, 0)
 	MCFG_K001604_LAYER_SIZE(0)
@@ -925,7 +925,7 @@ MACHINE_CONFIG_END
 
 /*****************************************************************************/
 
-DRIVER_INIT_MEMBER(zr107_state,common)
+void zr107_state::init_common()
 {
 	m_sharc_dataram = std::make_unique<uint32_t[]>(0x100000/4);
 	m_led_reg0 = m_led_reg1 = 0x7f;
@@ -934,12 +934,12 @@ DRIVER_INIT_MEMBER(zr107_state,common)
 	m_dsp->enable_recompiler();
 }
 
-DRIVER_INIT_MEMBER(zr107_state,zr107)
+void zr107_state::init_zr107()
 {
 	init_common();
 }
 
-DRIVER_INIT_MEMBER(zr107_state,jetwave)
+void zr107_state::init_jetwave()
 {
 	init_common();
 }
@@ -1182,12 +1182,12 @@ ROM_END
 
 /*****************************************************************************/
 
-GAME( 1995, midnrun,  0,        zr107,   midnrun,  zr107_state, zr107,   ROT0, "Konami", "Midnight Run: Road Fighters 2 (EAA, Euro v1.11)", MACHINE_IMPERFECT_GRAPHICS )
-GAME( 1995, midnruna, midnrun,  zr107,   midnrun,  zr107_state, zr107,   ROT0, "Konami", "Midnight Run: Road Fighters 2 (AAA, Asia v1.10)", MACHINE_IMPERFECT_GRAPHICS )
-GAME( 1996, windheat, 0,        zr107,   windheat, zr107_state, zr107,   ROT0, "Konami", "Winding Heat (EAA, Euro v2.11)", MACHINE_IMPERFECT_GRAPHICS )
-GAME( 1996, windheatu,windheat, zr107,   windheat, zr107_state, zr107,   ROT0, "Konami", "Winding Heat (UBC, USA v2.22)", MACHINE_IMPERFECT_GRAPHICS )
-GAME( 1996, windheatj,windheat, zr107,   windheat, zr107_state, zr107,   ROT0, "Konami", "Winding Heat (JAA, Japan v2.11)", MACHINE_IMPERFECT_GRAPHICS )
-GAME( 1996, windheata,windheat, zr107,   windheat, zr107_state, zr107,   ROT0, "Konami", "Winding Heat (AAA, Asia v2.11)", MACHINE_IMPERFECT_GRAPHICS )
-GAME( 1996, jetwave,  0,        jetwave, jetwave,  zr107_state, jetwave, ROT0, "Konami", "Jet Wave (EAB, Euro v1.04)", MACHINE_IMPERFECT_GRAPHICS )
-GAME( 1996, waveshrk, jetwave,  jetwave, jetwave,  zr107_state, jetwave, ROT0, "Konami", "Wave Shark (UAB, USA v1.04)", MACHINE_IMPERFECT_GRAPHICS )
-GAME( 1996, jetwavej, jetwave,  jetwave, jetwave,  zr107_state, jetwave, ROT0, "Konami", "Jet Wave (JAB, Japan v1.04)", MACHINE_IMPERFECT_GRAPHICS )
+GAME( 1995, midnrun,  0,        zr107,   midnrun,  zr107_state, init_zr107,   ROT0, "Konami", "Midnight Run: Road Fighters 2 (EAA, Euro v1.11)", MACHINE_IMPERFECT_GRAPHICS )
+GAME( 1995, midnruna, midnrun,  zr107,   midnrun,  zr107_state, init_zr107,   ROT0, "Konami", "Midnight Run: Road Fighters 2 (AAA, Asia v1.10)", MACHINE_IMPERFECT_GRAPHICS )
+GAME( 1996, windheat, 0,        zr107,   windheat, zr107_state, init_zr107,   ROT0, "Konami", "Winding Heat (EAA, Euro v2.11)", MACHINE_IMPERFECT_GRAPHICS )
+GAME( 1996, windheatu,windheat, zr107,   windheat, zr107_state, init_zr107,   ROT0, "Konami", "Winding Heat (UBC, USA v2.22)", MACHINE_IMPERFECT_GRAPHICS )
+GAME( 1996, windheatj,windheat, zr107,   windheat, zr107_state, init_zr107,   ROT0, "Konami", "Winding Heat (JAA, Japan v2.11)", MACHINE_IMPERFECT_GRAPHICS )
+GAME( 1996, windheata,windheat, zr107,   windheat, zr107_state, init_zr107,   ROT0, "Konami", "Winding Heat (AAA, Asia v2.11)", MACHINE_IMPERFECT_GRAPHICS )
+GAME( 1996, jetwave,  0,        jetwave, jetwave,  zr107_state, init_jetwave, ROT0, "Konami", "Jet Wave (EAB, Euro v1.04)", MACHINE_IMPERFECT_GRAPHICS )
+GAME( 1996, waveshrk, jetwave,  jetwave, jetwave,  zr107_state, init_jetwave, ROT0, "Konami", "Wave Shark (UAB, USA v1.04)", MACHINE_IMPERFECT_GRAPHICS )
+GAME( 1996, jetwavej, jetwave,  jetwave, jetwave,  zr107_state, init_jetwave, ROT0, "Konami", "Jet Wave (JAB, Japan v1.04)", MACHINE_IMPERFECT_GRAPHICS )

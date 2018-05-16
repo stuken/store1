@@ -27,9 +27,9 @@ public:
 	DECLARE_WRITE8_MEMBER(bg_speech_clock_w);
 	DECLARE_WRITE8_MEMBER(bg_speech_digit_w);
 
-	DECLARE_MACHINE_RESET(s11b);
-	DECLARE_DRIVER_INIT(s11b);
-	DECLARE_DRIVER_INIT(s11b_invert);
+	void machine_reset_s11b();
+	void init_s11b();
+	void init_s11b_invert();
 
 	void s11b(machine_config &config);
 	void s11b_audio_map(address_map &map);

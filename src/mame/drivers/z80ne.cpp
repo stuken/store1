@@ -421,8 +421,8 @@ MACHINE_CONFIG_START(z80ne_state::z80ne)
 	MCFG_DEVICE_PROGRAM_MAP(z80ne_mem)
 	MCFG_DEVICE_IO_MAP(z80ne_io)
 
-	MCFG_MACHINE_START_OVERRIDE(z80ne_state,z80ne)
-	MCFG_MACHINE_RESET_OVERRIDE(z80ne_state,z80ne)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_z80ne, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_z80ne, this));
 
 	MCFG_DEVICE_ADD( "uart", AY31015, 0 )
 	MCFG_AY31015_TX_CLOCK(4800.0)
@@ -453,8 +453,8 @@ MACHINE_CONFIG_START(z80ne_state::z80net)
 	MCFG_DEVICE_PROGRAM_MAP(z80net_mem)
 	MCFG_DEVICE_IO_MAP(z80net_io)
 
-	MCFG_MACHINE_START_OVERRIDE(z80ne_state, z80net )
-	MCFG_MACHINE_RESET_OVERRIDE(z80ne_state, z80net )
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_z80net, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_z80net, this));
 
 	MCFG_DEVICE_ADD("lx387_kr2376", KR2376_ST, 50000)
 	MCFG_KR2376_MATRIX_X0(IOPORT("X0"))
@@ -492,8 +492,8 @@ MACHINE_CONFIG_START(z80ne_state::z80netb)
 	MCFG_DEVICE_PROGRAM_MAP(z80netb_mem)
 	MCFG_DEVICE_IO_MAP(z80net_io)
 
-	MCFG_MACHINE_START_OVERRIDE(z80ne_state,z80netb)
-	MCFG_MACHINE_RESET_OVERRIDE(z80ne_state,z80netb)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_z80netb, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_z80netb, this));
 
 	MCFG_DEVICE_ADD( "uart", AY31015, 0 )
 	MCFG_AY31015_TX_CLOCK(4800.0)
@@ -543,8 +543,8 @@ MACHINE_CONFIG_START(z80netf_state::z80netf)
 	MCFG_DEVICE_PROGRAM_MAP(z80netf_mem)
 	MCFG_DEVICE_IO_MAP(z80netf_io)
 
-	MCFG_MACHINE_START_OVERRIDE(z80netf_state,z80netf)
-	MCFG_MACHINE_RESET_OVERRIDE(z80netf_state,z80netf)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_z80netf, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_z80netf, this));
 
 	MCFG_DEVICE_ADD( "uart", AY31015, 0 )
 	MCFG_AY31015_TX_CLOCK(4800.0)
@@ -637,8 +637,8 @@ ROM_START( z80netf )
 	ROM_LOAD( "ep2390.ic6", 0x14C00, 0x0400, CRC(28d28eee) SHA1(b80f75c1ac4905ae369ecbc9b9ce120cc85502ed) )
 ROM_END
 
-//    YEAR  NAME      PARENT    COMPAT  MACHINE   INPUT    STATE          INIT     COMPANY               FULLNAME                      FLAGS
-COMP( 1980, z80ne,    0,        0,      z80ne,    z80ne,   z80ne_state,   z80ne,   "Nuova Elettronica",  "Z80NE",                      MACHINE_NO_SOUND_HW)
-COMP( 1980, z80net,   z80ne,    0,      z80net,   z80net,  z80ne_state,   z80net,  "Nuova Elettronica",  "Z80NE + LX.388",             MACHINE_NO_SOUND_HW)
-COMP( 1980, z80netb,  z80ne,    0,      z80netb,  z80net,  z80ne_state,   z80netb, "Nuova Elettronica",  "Z80NE + LX.388 + Basic 16k", MACHINE_NO_SOUND_HW)
-COMP( 1980, z80netf,  z80ne,    0,      z80netf,  z80netf, z80netf_state, z80netf, "Nuova Elettronica",  "Z80NE + LX.388 + LX.390",    MACHINE_NO_SOUND_HW)
+//    YEAR  NAME     PARENT  COMPAT  MACHINE  INPUT    CLASS          INIT          COMPANY               FULLNAME                      FLAGS
+COMP( 1980, z80ne,   0,      0,      z80ne,   z80ne,   z80ne_state,   init_z80ne,   "Nuova Elettronica",  "Z80NE",                      MACHINE_NO_SOUND_HW)
+COMP( 1980, z80net,  z80ne,  0,      z80net,  z80net,  z80ne_state,   init_z80net,  "Nuova Elettronica",  "Z80NE + LX.388",             MACHINE_NO_SOUND_HW)
+COMP( 1980, z80netb, z80ne,  0,      z80netb, z80net,  z80ne_state,   init_z80netb, "Nuova Elettronica",  "Z80NE + LX.388 + Basic 16k", MACHINE_NO_SOUND_HW)
+COMP( 1980, z80netf, z80ne,  0,      z80netf, z80netf, z80netf_state, init_z80netf, "Nuova Elettronica",  "Z80NE + LX.388 + LX.390",    MACHINE_NO_SOUND_HW)

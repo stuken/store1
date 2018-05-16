@@ -105,10 +105,10 @@ public:
 	DECLARE_WRITE_LINE_MEMBER(flip_screen_w);
 	DECLARE_WRITE8_MEMBER(equites_8910porta_w);
 	DECLARE_WRITE8_MEMBER(equites_8910portb_w);
-	DECLARE_DRIVER_INIT(equites);
+	void init_equites();
 	TILE_GET_INFO_MEMBER(equites_fg_info);
 	TILE_GET_INFO_MEMBER(equites_bg_info);
-	DECLARE_VIDEO_START(equites);
+	void video_start_equites() ATTR_COLD;
 	DECLARE_PALETTE_INIT(equites);
 	uint32_t screen_update_equites(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 	DECLARE_WRITE_LINE_MEMBER(equites_8155_timer_pulse);
@@ -153,7 +153,7 @@ class splndrbt_state : public equites_state
 {
 public:
 	using equites_state::equites_state;
-	DECLARE_DRIVER_INIT(splndrbt);
+	void init_splndrbt();
 	void splndrbt(machine_config &config);
 	void hvoltage(machine_config &config);
 
@@ -165,7 +165,7 @@ protected:
 	DECLARE_WRITE16_MEMBER(splndrbt_bg_scrolly_w);
 	TILE_GET_INFO_MEMBER(splndrbt_fg_info);
 	TILE_GET_INFO_MEMBER(splndrbt_bg_info);
-	DECLARE_VIDEO_START(splndrbt);
+	void video_start_splndrbt() ATTR_COLD;
 	DECLARE_PALETTE_INIT(splndrbt);
 	uint32_t screen_update_splndrbt(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 	TIMER_DEVICE_CALLBACK_MEMBER(splndrbt_scanline);

@@ -77,8 +77,8 @@ public:
 	DECLARE_WRITE_LINE_MEMBER(pia_irq);
 	DECLARE_INPUT_CHANGED_MEMBER(main_nmi);
 	DECLARE_INPUT_CHANGED_MEMBER(audio_nmi);
-	DECLARE_MACHINE_RESET(s9);
-	DECLARE_DRIVER_INIT(s9);
+	void machine_reset_s9();
+	void init_s9();
 	void s9(machine_config &config);
 	void s9_audio_map(address_map &map);
 	void s9_main_map(address_map &map);
@@ -308,11 +308,11 @@ void s9_state::device_timer(emu_timer &timer, device_timer_id id, int param, voi
 	}
 }
 
-MACHINE_RESET_MEMBER( s9_state, s9 )
+void s9_state::machine_reset_s9()
 {
 }
 
-DRIVER_INIT_MEMBER( s9_state, s9 )
+void s9_state::init_s9()
 {
 	m_irq_timer = timer_alloc(TIMER_IRQ);
 	m_irq_timer->adjust(attotime::from_ticks(980,1e6),1);
@@ -322,7 +322,7 @@ MACHINE_CONFIG_START(s9_state::s9)
 	/* basic machine hardware */
 	MCFG_DEVICE_ADD("maincpu", M6808, XTAL(4'000'000))
 	MCFG_DEVICE_PROGRAM_MAP(s9_main_map)
-	MCFG_MACHINE_RESET_OVERRIDE(s9_state, s9)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_s9, this));
 
 	/* Video */
 	MCFG_DEFAULT_LAYOUT(layout_s9)
@@ -518,13 +518,13 @@ ROM_START(alcat_l7)
 ROM_END
 
 
-GAME( 1983, ratrc_l1, 0,        s9, s9, s9_state, s9, ROT0, "Williams", "Rat Race (L-1)",              MACHINE_MECHANICAL | MACHINE_NOT_WORKING)
-GAME( 1985, sorcr_l1, sorcr_l2, s9, s9, s9_state, s9, ROT0, "Williams", "Sorcerer (L-1)",              MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
-GAME( 1985, sorcr_l2, 0,        s9, s9, s9_state, s9, ROT0, "Williams", "Sorcerer (L-2)",              MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
-GAME( 1984, sshtl_l7, 0,        s9, s9, s9_state, s9, ROT0, "Williams", "Space Shuttle (L-7)",         MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
-GAME( 1984, sshtl_l3, sshtl_l7, s9, s9, s9_state, s9, ROT0, "Williams", "Space Shuttle (L-3)",         MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
-GAME( 1985, comet_l4, comet_l5, s9, s9, s9_state, s9, ROT0, "Williams", "Comet (L-4)",                 MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
-GAME( 1985, comet_l5, 0,        s9, s9, s9_state, s9, ROT0, "Williams", "Comet (L-5)",                 MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
-GAME( 1984, szone_l5, 0,        s9, s9, s9_state, s9, ROT0, "Williams", "Strike Zone (Shuffle) (L-5)", MACHINE_MECHANICAL | MACHINE_NOT_WORKING)
-GAME( 1984, szone_l2, szone_l5, s9, s9, s9_state, s9, ROT0, "Williams", "Strike Zone (Shuffle) (L-2)", MACHINE_MECHANICAL | MACHINE_NOT_WORKING)
-GAME( 1985, alcat_l7, 0,        s9, s9, s9_state, s9, ROT0, "Williams", "Alley Cats (Shuffle) (L-7)",  MACHINE_MECHANICAL | MACHINE_NOT_WORKING | MACHINE_NO_SOUND)
+GAME( 1983, ratrc_l1, 0,        s9, s9, s9_state, init_s9, ROT0, "Williams", "Rat Race (L-1)",              MACHINE_MECHANICAL | MACHINE_NOT_WORKING)
+GAME( 1985, sorcr_l1, sorcr_l2, s9, s9, s9_state, init_s9, ROT0, "Williams", "Sorcerer (L-1)",              MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
+GAME( 1985, sorcr_l2, 0,        s9, s9, s9_state, init_s9, ROT0, "Williams", "Sorcerer (L-2)",              MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
+GAME( 1984, sshtl_l7, 0,        s9, s9, s9_state, init_s9, ROT0, "Williams", "Space Shuttle (L-7)",         MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
+GAME( 1984, sshtl_l3, sshtl_l7, s9, s9, s9_state, init_s9, ROT0, "Williams", "Space Shuttle (L-3)",         MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
+GAME( 1985, comet_l4, comet_l5, s9, s9, s9_state, init_s9, ROT0, "Williams", "Comet (L-4)",                 MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
+GAME( 1985, comet_l5, 0,        s9, s9, s9_state, init_s9, ROT0, "Williams", "Comet (L-5)",                 MACHINE_MECHANICAL | MACHINE_NOT_WORKING )
+GAME( 1984, szone_l5, 0,        s9, s9, s9_state, init_s9, ROT0, "Williams", "Strike Zone (Shuffle) (L-5)", MACHINE_MECHANICAL | MACHINE_NOT_WORKING)
+GAME( 1984, szone_l2, szone_l5, s9, s9, s9_state, init_s9, ROT0, "Williams", "Strike Zone (Shuffle) (L-2)", MACHINE_MECHANICAL | MACHINE_NOT_WORKING)
+GAME( 1985, alcat_l7, 0,        s9, s9, s9_state, init_s9, ROT0, "Williams", "Alley Cats (Shuffle) (L-7)",  MACHINE_MECHANICAL | MACHINE_NOT_WORKING | MACHINE_NO_SOUND)

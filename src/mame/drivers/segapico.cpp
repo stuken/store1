@@ -153,9 +153,9 @@ public:
 	DECLARE_WRITE16_MEMBER(pico_68k_io_write);
 	DECLARE_WRITE_LINE_MEMBER(sound_cause_irq);
 
-	DECLARE_DRIVER_INIT(pico);
-	DECLARE_DRIVER_INIT(picou);
-	DECLARE_DRIVER_INIT(picoj);
+	void init_pico();
+	void init_picou();
+	void init_picoj();
 	void pico_mem(address_map &map);
 };
 
@@ -167,7 +167,7 @@ public:
 	m_picocart(*this, "picoslot") { }
 
 	required_device<pico_cart_slot_device> m_picocart;
-	DECLARE_MACHINE_START(pico);
+	void machine_start_pico() ATTR_COLD;
 	void pico(machine_config &config);
 	void picopal(machine_config &config);
 };
@@ -378,7 +378,7 @@ static void pico_cart(device_slot_interface &device)
 	device.option_add_internal("rom_sramsafe",  MD_ROM_SRAM);   // not sure these are needed...
 }
 
-MACHINE_START_MEMBER(pico_state,pico)
+void pico_state::machine_start_pico()
 {
 	m_maincpu->space(AS_PROGRAM).install_readwrite_handler(0x000000, 0x7fffff, read16_delegate(FUNC(base_md_cart_slot_device::read),(base_md_cart_slot_device*)m_picocart), write16_delegate(FUNC(base_md_cart_slot_device::write),(base_md_cart_slot_device*)m_picocart));
 	m_maincpu->space(AS_PROGRAM).install_readwrite_handler(0xa13000, 0xa130ff, read16_delegate(FUNC(base_md_cart_slot_device::read_a13),(base_md_cart_slot_device*)m_picocart), write16_delegate(FUNC(base_md_cart_slot_device::write_a13),(base_md_cart_slot_device*)m_picocart));
@@ -397,8 +397,8 @@ MACHINE_CONFIG_START(pico_state::pico)
 	MCFG_DEVICE_REMOVE("genesis_snd_z80")
 	MCFG_DEVICE_REMOVE("ymsnd")
 
-	MCFG_MACHINE_START_OVERRIDE( pico_state, pico )
-	MCFG_MACHINE_RESET_OVERRIDE( pico_base_state, ms_megadriv )
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_pico, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_ms_megadriv, this));
 
 	MCFG_PICO_CARTRIDGE_ADD("picoslot", pico_cart, nullptr)
 	MCFG_SOFTWARE_LIST_ADD("cart_list","pico")
@@ -418,8 +418,8 @@ MACHINE_CONFIG_START(pico_state::picopal)
 	MCFG_DEVICE_REMOVE("genesis_snd_z80")
 	MCFG_DEVICE_REMOVE("ymsnd")
 
-	MCFG_MACHINE_START_OVERRIDE( pico_state, pico )
-	MCFG_MACHINE_RESET_OVERRIDE( pico_base_state, ms_megadriv )
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_pico, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_ms_megadriv, this));
 
 	MCFG_PICO_CARTRIDGE_ADD("picoslot", pico_cart, nullptr)
 	MCFG_SOFTWARE_LIST_ADD("cart_list","pico")
@@ -448,34 +448,34 @@ ROM_START( picoj )
 ROM_END
 
 
-DRIVER_INIT_MEMBER(pico_base_state, pico)
+void pico_base_state::init_pico()
 {
-	DRIVER_INIT_CALL(megadrie);
-	DRIVER_INIT_CALL(mess_md_common);
+	init_megadrie();
+	init_mess_md_common();
 
 	m_version_hi_nibble = 0x60; // Export PAL
 }
 
-DRIVER_INIT_MEMBER(pico_base_state, picou)
+void pico_base_state::init_picou()
 {
-	DRIVER_INIT_CALL(megadriv);
-	DRIVER_INIT_CALL(mess_md_common);
+	init_megadriv();
+	init_mess_md_common();
 
 	m_version_hi_nibble = 0x40; // Export NTSC
 }
 
-DRIVER_INIT_MEMBER(pico_base_state, picoj)
+void pico_base_state::init_picoj()
 {
-	DRIVER_INIT_CALL(megadrij);
-	DRIVER_INIT_CALL(mess_md_common);
+	init_megadrij();
+	init_mess_md_common();
 
 	m_version_hi_nibble = 0x00; // JPN NTSC
 }
 
 
-CONS( 1994, pico,       0,         0,      picopal,         pico, pico_state,   pico,    "Sega",   "Pico (Europe, PAL)", MACHINE_NOT_WORKING)
-CONS( 1994, picou,      pico,      0,      pico,            pico, pico_state,   picou,   "Sega",   "Pico (USA, NTSC)", MACHINE_NOT_WORKING)
-CONS( 1993, picoj,      pico,      0,      pico,            pico, pico_state,   picoj,   "Sega",   "Pico (Japan, NTSC)", MACHINE_NOT_WORKING)
+CONS( 1994, pico,  0,    0, picopal, pico, pico_state, init_pico,  "Sega", "Pico (Europe, PAL)", MACHINE_NOT_WORKING)
+CONS( 1994, picou, pico, 0, pico,    pico, pico_state, init_picou, "Sega", "Pico (USA, NTSC)", MACHINE_NOT_WORKING)
+CONS( 1993, picoj, pico, 0, pico,    pico, pico_state, init_picoj, "Sega", "Pico (Japan, NTSC)", MACHINE_NOT_WORKING)
 
 /*
 
@@ -563,7 +563,7 @@ public:
 	m_picocart(*this, "coperaslot") { }
 
 	required_device<copera_cart_slot_device> m_picocart;
-	DECLARE_MACHINE_START(copera);
+	void machine_start_copera() ATTR_COLD;
 	void copera(machine_config &config);
 	void copera_mem(address_map &map);
 };
@@ -590,7 +590,7 @@ static void copera_cart(device_slot_interface &device)
 	device.option_add_internal("rom_sramsafe",  MD_ROM_SRAM);   // not sure these are needed...
 }
 
-MACHINE_START_MEMBER(copera_state,copera)
+void copera_state::machine_start_copera()
 {
 	m_maincpu->space(AS_PROGRAM).install_readwrite_handler(0x000000, 0x7fffff, read16_delegate(FUNC(base_md_cart_slot_device::read),(base_md_cart_slot_device*)m_picocart), write16_delegate(FUNC(base_md_cart_slot_device::write),(base_md_cart_slot_device*)m_picocart));
 	m_maincpu->space(AS_PROGRAM).install_readwrite_handler(0xa13000, 0xa130ff, read16_delegate(FUNC(base_md_cart_slot_device::read_a13),(base_md_cart_slot_device*)m_picocart), write16_delegate(FUNC(base_md_cart_slot_device::write_a13),(base_md_cart_slot_device*)m_picocart));
@@ -613,8 +613,8 @@ MACHINE_CONFIG_START(copera_state::copera)
 	MCFG_DEVICE_REMOVE("genesis_snd_z80")
 	MCFG_DEVICE_REMOVE("ymsnd")
 
-	MCFG_MACHINE_START_OVERRIDE( copera_state, copera )
-	MCFG_MACHINE_RESET_OVERRIDE( pico_base_state, ms_megadriv )
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_copera, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_ms_megadriv, this));
 
 	MCFG_COPERA_CARTRIDGE_ADD("coperaslot", copera_cart, nullptr)
 	MCFG_SOFTWARE_LIST_ADD("cart_list","copera")
@@ -632,4 +632,4 @@ ROM_START( copera )
 	ROM_REGION( 0x10000, "soundcpu", ROMREGION_ERASEFF)
 ROM_END
 
-CONS( 1993, copera,       0,         0,      copera,         pico, copera_state,   picoj,    "Yamaha / Sega",   "Yamaha Mixt Book Player Copera", MACHINE_NOT_WORKING)
+CONS( 1993, copera, 0, 0, copera, pico, copera_state, init_picoj, "Yamaha / Sega", "Yamaha Mixt Book Player Copera", MACHINE_NOT_WORKING)

@@ -41,9 +41,9 @@ public:
 
 	DECLARE_CUSTOM_INPUT_MEMBER(opwolf_gun_x_r);
 	DECLARE_CUSTOM_INPUT_MEMBER(opwolf_gun_y_r);
-	DECLARE_DRIVER_INIT(opwolf);
-	DECLARE_DRIVER_INIT(opwolfb);
-	DECLARE_DRIVER_INIT(opwolfp);
+	void init_opwolf();
+	void init_opwolfb();
+	void init_opwolfp();
 	void opwolf(machine_config &config);
 	void opwolfb(machine_config &config);
 	void opwolfp(machine_config &config);
@@ -70,7 +70,7 @@ protected:
 
 	virtual void machine_start() override;
 	virtual void device_timer(emu_timer &timer, device_timer_id id, int param, void *ptr) override;
-	DECLARE_MACHINE_RESET(opwolf);
+	void machine_reset_opwolf();
 	uint32_t screen_update_opwolf(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 	TIMER_CALLBACK_MEMBER(opwolf_timer_callback);
 	TIMER_CALLBACK_MEMBER(cchip_timer);

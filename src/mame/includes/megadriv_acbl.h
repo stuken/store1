@@ -10,13 +10,13 @@ public:
 	md_boot_state(const machine_config &mconfig, device_type type, const char *tag)
 	: md_base_state(mconfig, type, tag) { m_protcount = 0;}
 
-	DECLARE_DRIVER_INIT(aladmdb);
-	DECLARE_DRIVER_INIT(mk3mdb);
-	DECLARE_DRIVER_INIT(ssf2mdb);
-	DECLARE_DRIVER_INIT(srmdb);
-	DECLARE_DRIVER_INIT(topshoot);
-	DECLARE_DRIVER_INIT(puckpkmn);
-	DECLARE_DRIVER_INIT(hshavoc);
+	void init_aladmdb();
+	void init_mk3mdb();
+	void init_ssf2mdb();
+	void init_srmdb();
+	void init_topshoot();
+	void init_puckpkmn();
+	void init_hshavoc();
 	DECLARE_WRITE16_MEMBER(bl_710000_w);
 	DECLARE_READ16_MEMBER(bl_710000_r);
 	DECLARE_WRITE16_MEMBER(aladmdb_w);
@@ -28,8 +28,8 @@ public:
 	DECLARE_READ16_MEMBER(puckpkmna_70001c_r);
 	DECLARE_READ16_MEMBER(puckpkmna_4b2476_r);
 
-	DECLARE_MACHINE_START(md_bootleg) { MACHINE_START_CALL_MEMBER(megadriv); m_vdp->stop_timers(); }
-	DECLARE_MACHINE_START(md_6button);
+	void machine_start_md_bootleg() { machine_start_megadriv(); m_vdp->stop_timers(); }
+	void machine_start_md_6button() ATTR_COLD;
 	void megadrvb(machine_config &config);
 	void megadrvb_6b(machine_config &config);
 	void md_bootleg(machine_config &config);

@@ -60,7 +60,7 @@ MACHINE_CONFIG_START(apple3_state::apple3)
 	MCFG_DEVICE_PROGRAM_MAP(apple3_map)
 	MCFG_QUANTUM_TIME(attotime::from_hz(60))
 
-	MCFG_MACHINE_RESET_OVERRIDE(apple3_state, apple3 )
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_apple3, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -74,7 +74,7 @@ MACHINE_CONFIG_START(apple3_state::apple3)
 	MCFG_PALETTE_ADD("palette", 32)
 	MCFG_PALETTE_INIT_OWNER(apple3_state, apple3 )
 
-	MCFG_VIDEO_START_OVERRIDE(apple3_state, apple3 )
+	set_video_start_cb(config, driver_callback_delegate(&video_start_apple3, this));
 
 	MCFG_TIMER_DRIVER_ADD_SCANLINE("scantimer", apple3_state, apple3_interrupt, "screen", 0, 1)
 
@@ -354,5 +354,5 @@ ROM_START(apple3)
 	ROM_LOAD( "apple3.rom", 0x0000, 0x1000, CRC(55e8eec9) SHA1(579ee4cd2b208d62915a0aa482ddc2744ff5e967))
 ROM_END
 
-/*    YEAR  NAME        PARENT  COMPAT  MACHINE    INPUT   STATE         INIT    COMPANY           FULLNAME */
-COMP( 1980, apple3,     0,      0,      apple3,    apple3, apple3_state, apple3, "Apple Computer", "Apple ///", MACHINE_SUPPORTS_SAVE )
+/*    YEAR  NAME    PARENT  COMPAT  MACHINE  INPUT   CLASS         INIT         COMPANY           FULLNAME */
+COMP( 1980, apple3, 0,      0,      apple3,  apple3, apple3_state, init_apple3, "Apple Computer", "Apple ///", MACHINE_SUPPORTS_SAVE )

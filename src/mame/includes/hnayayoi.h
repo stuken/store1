@@ -39,11 +39,11 @@ public:
 	DECLARE_WRITE_LINE_MEMBER(coin_counter_w);
 	DECLARE_WRITE_LINE_MEMBER(nmi_enable_w);
 	DECLARE_WRITE_LINE_MEMBER(nmi_clock_w);
-	DECLARE_DRIVER_INIT(hnfubuki);
+	void init_hnfubuki();
 	virtual void machine_start() override;
 	virtual void machine_reset() override;
 	virtual void video_start() override;
-	DECLARE_VIDEO_START(untoucha);
+	void video_start_untoucha() ATTR_COLD;
 	MC6845_UPDATE_ROW(hnayayoi_update_row);
 	MC6845_UPDATE_ROW(untoucha_update_row);
 	void common_vh_start( int num_pixmaps );

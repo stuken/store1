@@ -30,7 +30,7 @@ public:
 		{ }
 
 	DECLARE_READ32_MEMBER(dd_null_r);
-	DECLARE_MACHINE_START(n64dd);
+	void machine_start_n64dd() ATTR_COLD;
 	INTERRUPT_GEN_MEMBER(n64_reset_poll);
 	DECLARE_DEVICE_IMAGE_LOAD_MEMBER(n64_cart);
 	void mempak_format(uint8_t* pak);
@@ -378,7 +378,7 @@ DEVICE_IMAGE_LOAD_MEMBER(n64_mess_state,n64_cart)
 	return image_init_result::PASS;
 }
 
-MACHINE_START_MEMBER(n64_mess_state,n64dd)
+void n64_mess_state::machine_start_n64dd()
 {
 	machine_start();
 	machine().device<n64_periphs>("rcp")->dd_present = true;
@@ -487,7 +487,7 @@ MACHINE_CONFIG_START(n64_mess_state::n64dd)
 	MCFG_DEVICE_MODIFY("maincpu")
 	MCFG_DEVICE_PROGRAM_MAP(n64dd_map)
 
-	MCFG_MACHINE_START_OVERRIDE(n64_mess_state, n64dd)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_n64dd, this));
 
 	MCFG_DEVICE_REMOVE("cartslot")
 	MCFG_GENERIC_CARTSLOT_ADD("cartslot", generic_plain_slot, "n64_cart")
@@ -537,5 +537,5 @@ ROM_START( n64dd )
 	ROM_LOAD( "normslp.rom", 0x00, 0x80, CRC(4f2ae525) SHA1(eab43f8cc52c8551d9cff6fced18ef80eaba6f05) )
 ROM_END
 
-CONS(1996, n64,     0,      0,      n64,    n64, n64_mess_state, 0,  "Nintendo", "Nintendo 64",   MACHINE_NOT_WORKING | MACHINE_IMPERFECT_GRAPHICS )
-CONS(1996, n64dd,   n64,    0,      n64dd,  n64, n64_mess_state, 0,  "Nintendo", "Nintendo 64DD", MACHINE_NOT_WORKING | MACHINE_IMPERFECT_GRAPHICS )
+CONS(1996, n64,   0,   0, n64,   n64, n64_mess_state, empty_init, "Nintendo", "Nintendo 64",   MACHINE_NOT_WORKING | MACHINE_IMPERFECT_GRAPHICS )
+CONS(1996, n64dd, n64, 0, n64dd, n64, n64_mess_state, empty_init, "Nintendo", "Nintendo 64DD", MACHINE_NOT_WORKING | MACHINE_IMPERFECT_GRAPHICS )

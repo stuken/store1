@@ -126,10 +126,10 @@ public:
 	DECLARE_WRITE16_MEMBER(crtc_w);
 	DECLARE_WRITE16_MEMBER(vcombat_dac_w);
 	DECLARE_WRITE_LINE_MEMBER(sound_update);
-	DECLARE_DRIVER_INIT(shadfgtr);
-	DECLARE_DRIVER_INIT(vcombat);
-	DECLARE_MACHINE_RESET(vcombat);
-	DECLARE_MACHINE_RESET(shadfgtr);
+	void init_shadfgtr();
+	void init_vcombat();
+	void machine_reset_vcombat();
+	void machine_reset_shadfgtr();
 	uint32_t update_screen(screen_device &screen, bitmap_rgb32 &bitmap, const rectangle &cliprect, int index);
 	uint32_t screen_update_vcombat_main(screen_device &screen, bitmap_rgb32 &bitmap, const rectangle &cliprect);
 	uint32_t screen_update_vcombat_aux(screen_device &screen, bitmap_rgb32 &bitmap, const rectangle &cliprect);
@@ -149,7 +149,7 @@ public:
 uint32_t vcombat_state::update_screen(screen_device &screen, bitmap_rgb32 &bitmap, const rectangle &cliprect, int index)
 {
 	int y;
-	const rgb_t *const pens = m_tlc34076->get_pens();
+	const pen_t *const pens = m_tlc34076->pens();
 
 	uint16_t *m68k_buf = m_m68k_framebuffer[(*m_framebuffer_ctrl & 0x20) ? 1 : 0].get();
 	uint16_t *i860_buf = m_i860_framebuffer[index][0].get();
@@ -427,7 +427,7 @@ void vcombat_state::sound_map(address_map &map)
 }
 
 
-MACHINE_RESET_MEMBER(vcombat_state,vcombat)
+void vcombat_state::machine_reset_vcombat()
 {
 	m_vid_0->i860_set_pin(DEC_PIN_BUS_HOLD, 1);
 	m_vid_1->i860_set_pin(DEC_PIN_BUS_HOLD, 1);
@@ -435,7 +435,7 @@ MACHINE_RESET_MEMBER(vcombat_state,vcombat)
 	m_crtc_select = 0;
 }
 
-MACHINE_RESET_MEMBER(vcombat_state,shadfgtr)
+void vcombat_state::machine_reset_shadfgtr()
 {
 	m_vid_0->i860_set_pin(DEC_PIN_BUS_HOLD, 1);
 
@@ -443,7 +443,7 @@ MACHINE_RESET_MEMBER(vcombat_state,shadfgtr)
 }
 
 
-DRIVER_INIT_MEMBER(vcombat_state,vcombat)
+void vcombat_state::init_vcombat()
 {
 	uint8_t *ROM = memregion("maincpu")->base();
 
@@ -475,7 +475,7 @@ DRIVER_INIT_MEMBER(vcombat_state,vcombat)
 	ROM[0x4017] = 0x66;
 }
 
-DRIVER_INIT_MEMBER(vcombat_state,shadfgtr)
+void vcombat_state::init_shadfgtr()
 {
 	/* Allocate th 68000 frame buffers */
 	m_m68k_framebuffer[0] = std::make_unique<uint16_t[]>(0x8000);
@@ -572,7 +572,7 @@ MACHINE_CONFIG_START(vcombat_state::vcombat)
 	MCFG_DEVICE_PERIODIC_INT_DRIVER(vcombat_state, irq1_line_hold,  15000) /* Remove this if MC6845 is enabled */
 
 	MCFG_NVRAM_ADD_0FILL("nvram")
-	MCFG_MACHINE_RESET_OVERRIDE(vcombat_state,vcombat)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_vcombat, this));
 
 /* Temporary hack for experimenting with timing. */
 #if 0
@@ -615,7 +615,7 @@ MACHINE_CONFIG_START(vcombat_state::shadfgtr)
 	MCFG_DEVICE_PROGRAM_MAP(sound_map)
 
 	MCFG_NVRAM_ADD_0FILL("nvram")
-	MCFG_MACHINE_RESET_OVERRIDE(vcombat_state,shadfgtr)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_shadfgtr, this));
 
 	MCFG_TLC34076_ADD("tlc34076", TLC34076_6_BIT)
 
@@ -693,5 +693,5 @@ ROM_START( shadfgtr )
 ROM_END
 
 //    YEAR  NAME      PARENT  MACHINE   INPUT     STATE          INIT      MONITOR              COMPANY         FULLNAME           FLAGS
-GAME( 1993, vcombat,  0,      vcombat,  vcombat,  vcombat_state, vcombat,  ORIENTATION_FLIP_X,  "VR8 Inc.",     "Virtual Combat",  MACHINE_NOT_WORKING )
-GAME( 1993, shadfgtr, 0,      shadfgtr, shadfgtr, vcombat_state, shadfgtr, ROT0,                "Dutech Inc.",  "Shadow Fighters", MACHINE_NOT_WORKING )
+GAME( 1993, vcombat,  0,      vcombat,  vcombat,  vcombat_state, init_vcombat,  ORIENTATION_FLIP_X,  "VR8 Inc.",     "Virtual Combat",  MACHINE_NOT_WORKING )
+GAME( 1993, shadfgtr, 0,      shadfgtr, shadfgtr, vcombat_state, init_shadfgtr, ROT0,                "Dutech Inc.",  "Shadow Fighters", MACHINE_NOT_WORKING )

@@ -81,14 +81,14 @@ public:
 
 	void atarigt_colorram_w(offs_t address, uint16_t data, uint16_t mem_mask);
 	uint16_t atarigt_colorram_r(offs_t address);
-	DECLARE_DRIVER_INIT(primrage);
-	DECLARE_DRIVER_INIT(tmek);
+	void init_primrage();
+	void init_tmek();
 	TILE_GET_INFO_MEMBER(get_alpha_tile_info);
 	TILE_GET_INFO_MEMBER(get_playfield_tile_info);
 	TILEMAP_MAPPER_MEMBER(atarigt_playfield_scan);
-	DECLARE_MACHINE_START(atarigt);
-	DECLARE_MACHINE_RESET(atarigt);
-	DECLARE_VIDEO_START(atarigt);
+	void machine_start_atarigt() ATTR_COLD;
+	void machine_reset_atarigt();
+	void video_start_atarigt() ATTR_COLD;
 	uint32_t screen_update_atarigt(screen_device &screen, bitmap_rgb32 &bitmap, const rectangle &cliprect);
 	void atarigt(machine_config &config);
 	void tmek(machine_config &config);

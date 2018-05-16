@@ -114,8 +114,8 @@ public:
 		, m_floppy1(*this, "fdc:1")
 	{ }
 
-	DECLARE_DRIVER_INIT(amust);
-	DECLARE_MACHINE_RESET(amust);
+	void init_amust();
+	void machine_reset_amust();
 	DECLARE_READ8_MEMBER(port04_r);
 	DECLARE_WRITE8_MEMBER(port04_w);
 	DECLARE_READ8_MEMBER(port05_r);
@@ -320,7 +320,7 @@ static const gfx_layout amust_charlayout =
 	8*8                    /* every char takes 8 bytes */
 };
 
-static GFXDECODE_START( amust )
+static GFXDECODE_START( gfx_amust )
 	GFXDECODE_ENTRY( "chargen", 0x0000, amust_charlayout, 0, 1 )
 GFXDECODE_END
 
@@ -353,7 +353,7 @@ MC6845_UPDATE_ROW( amust_state::crtc_update_row )
 	}
 }
 
-MACHINE_RESET_MEMBER( amust_state, amust )
+void amust_state::machine_reset_amust()
 {
 	membank("bankr0")->set_entry(0); // point at rom
 	membank("bankw0")->set_entry(0); // always write to ram
@@ -367,7 +367,7 @@ MACHINE_RESET_MEMBER( amust_state, amust )
 	m_maincpu->set_state_int(Z80_PC, 0xf800);
 }
 
-DRIVER_INIT_MEMBER( amust_state, amust )
+void amust_state::init_amust()
 {
 	u8 *main = memregion("maincpu")->base();
 
@@ -382,7 +382,7 @@ MACHINE_CONFIG_START(amust_state::amust)
 	MCFG_DEVICE_PROGRAM_MAP(mem_map)
 	MCFG_DEVICE_IO_MAP(io_map)
 	MCFG_DEVICE_VBLANK_INT_DRIVER("screen", amust_state, irq_vs)
-	MCFG_MACHINE_RESET_OVERRIDE(amust_state, amust)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_amust, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD_MONOCHROME("screen", RASTER, rgb_t::green())
@@ -392,7 +392,7 @@ MACHINE_CONFIG_START(amust_state::amust)
 	MCFG_SCREEN_VISIBLE_AREA(0, 640-1, 0, 480-1)
 	MCFG_SCREEN_UPDATE_DEVICE("crtc", mc6845_device, screen_update)
 	MCFG_PALETTE_ADD_MONOCHROME("palette")
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", amust)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_amust)
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();
@@ -463,5 +463,5 @@ ROM_END
 
 /* Driver */
 
-//    YEAR  NAME    PARENT  COMPAT   MACHINE    INPUT    CLASS          INIT     COMPANY  FULLNAME               FLAGS
-COMP( 1983, amust,  0,      0,       amust,     amust,   amust_state,   amust,  "Amust",  "Amust Executive 816", MACHINE_NOT_WORKING )
+//    YEAR  NAME   PARENT  COMPAT  MACHINE  INPUT  CLASS        INIT        COMPANY  FULLNAME               FLAGS
+COMP( 1983, amust, 0,      0,      amust,   amust, amust_state, init_amust, "Amust", "Amust Executive 816", MACHINE_NOT_WORKING )

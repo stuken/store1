@@ -257,7 +257,7 @@ void legionna_state::common_video_start()
 	m_text_layer->set_transparent_pen(15);
 }
 
-VIDEO_START_MEMBER(legionna_state,legionna)
+void legionna_state::video_start_legionna()
 {
 	common_video_start();
 	
@@ -267,7 +267,7 @@ VIDEO_START_MEMBER(legionna_state,legionna)
 	m_sprite_pri_mask[3] = 0xfffe;
 }
 
-VIDEO_START_MEMBER(legionna_state,heatbrl)
+void legionna_state::video_start_heatbrl()
 {
 	common_video_start();
 
@@ -278,9 +278,9 @@ VIDEO_START_MEMBER(legionna_state,heatbrl)
 	m_sprite_pri_mask[3] = 0xffff;
 }
 
-VIDEO_START_MEMBER(legionna_state,godzilla)
+void legionna_state::video_start_godzilla()
 {
-	VIDEO_START_CALL_MEMBER(legionna);
+	video_start_legionna();
 
 	m_has_extended_banking = 1;
 	m_has_extended_priority = 0;
@@ -292,7 +292,7 @@ VIDEO_START_MEMBER(legionna_state,godzilla)
 	m_sprite_pri_mask[3] = 0xffff;
 }
 
-VIDEO_START_MEMBER(legionna_state,denjinmk)
+void legionna_state::video_start_denjinmk()
 {
 	m_back_data = make_unique_clear<uint16_t[]>(0x800/2);
 	m_fore_data =  make_unique_clear<uint16_t[]>(0x800/2);
@@ -322,7 +322,7 @@ VIDEO_START_MEMBER(legionna_state,denjinmk)
 	m_text_layer->set_transparent_pen(7);//?
 }
 
-VIDEO_START_MEMBER(legionna_state,cupsoc)
+void legionna_state::video_start_cupsoc()
 {
 	m_back_data = make_unique_clear<uint16_t[]>(0x800/2);
 	m_fore_data =  make_unique_clear<uint16_t[]>(0x800/2);
@@ -347,9 +347,9 @@ VIDEO_START_MEMBER(legionna_state,cupsoc)
 	m_text_layer->set_transparent_pen(15);
 }
 
-VIDEO_START_MEMBER(legionna_state,grainbow)
+void legionna_state::video_start_grainbow()
 {
-	VIDEO_START_CALL_MEMBER(legionna);
+	video_start_legionna();
 	m_sprite_xoffs = m_sprite_yoffs = 16;
 
 	m_has_extended_banking = 0;
@@ -439,8 +439,8 @@ void legionna_state::draw_sprites(screen_device &screen, bitmap_ind16 &bitmap,co
 
 			if(machine().input().code_pressed_once(KEYCODE_A))
 				pri_test++;
-				
-			if(machine().input().code_pressed_once(KEYCODE_A))
+
+			if(machine().input().code_pressed_once(KEYCODE_S))
 				pri_test--;
 
 			pri_test&=3;
@@ -473,7 +473,7 @@ void legionna_state::draw_sprites(screen_device &screen, bitmap_ind16 &bitmap,co
 					test^=0x40;
 
 				if(machine().input().code_pressed_once(KEYCODE_I))
-					test^=0x80;				
+					test^=0x80;
 
 				pri_mask = 0xffff & test;
 				data = (data & 0xffc0) | (machine().rand() & 0x3f);

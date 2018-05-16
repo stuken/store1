@@ -853,7 +853,7 @@ static const gfx_layout spritelayout =
 	128*8
 };
 
-static GFXDECODE_START( bigtwin )
+static GFXDECODE_START( gfx_bigtwin )
 	GFXDECODE_ENTRY( "gfx2", 0, spritelayout, 0x200, 16 )   /* colors 0x200-0x2ff */
 	GFXDECODE_ENTRY( "gfx1", 0, tilelayout,   0x000,  8 )   /* colors 0x000-0x07f */
 	GFXDECODE_ENTRY( "gfx1", 0, charlayout,   0x080,  8 )   /* colors 0x080-0x0ff */
@@ -899,13 +899,13 @@ static const gfx_layout wspritelayout =
 	32*8
 };
 
-static GFXDECODE_START( wbeachvl )
+static GFXDECODE_START( gfx_wbeachvl )
 	GFXDECODE_ENTRY( "gfx1", 0, wspritelayout, 0x600, 16 )  /* colors 0x600-0x7ff */
 	GFXDECODE_ENTRY( "gfx1", 0, wtilelayout,   0x000, 16 )  /* colors 0x000-0x3ff */
 	GFXDECODE_ENTRY( "gfx1", 0, wcharlayout,   0x400,  8 )  /* colors 0x400-0x5ff */
 GFXDECODE_END
 
-static GFXDECODE_START( excelsr )
+static GFXDECODE_START( gfx_excelsr )
 	GFXDECODE_ENTRY( "gfx2", 0, tilelayout, 0x200, 16 ) /* colors 0x200-0x2ff */
 	GFXDECODE_ENTRY( "gfx1", 0, tilelayout, 0x000,  8 ) /* colors 0x000-0x07f */
 	GFXDECODE_ENTRY( "gfx1", 0, tilelayout, 0x080,  8 ) /* colors 0x080-0x0ff */
@@ -961,28 +961,28 @@ static const gfx_layout hotmind_charlayout =
 };
 
 
-static GFXDECODE_START( hrdtimes )
+static GFXDECODE_START( gfx_hrdtimes )
 	GFXDECODE_ENTRY( "gfx2", 0,       hrdtimes_full_layout, 0x200, 32 )    /* colors 0x200-0x2ff - Sprites */
 	GFXDECODE_ENTRY( "gfx1", 0,       hrdtimes_tilelayout,  0x000, 16 )    /* colors 0x000-0x0ff - BG */
 	GFXDECODE_ENTRY( "gfx1", 0x80000, hrdtimes_tilelayout,  0x000, 16 )    /* colors 0x000-0x0ff - FG */
 	GFXDECODE_ENTRY( "gfx1", 0xfc000, hrdtimes_charlayout,  0x100,  8 )    /* colors 0x100-0x17f - Text */
 GFXDECODE_END
 
-static GFXDECODE_START( hotmind )
+static GFXDECODE_START( gfx_hotmind )
 	GFXDECODE_ENTRY( "gfx2", 0,       hrdtimes_full_layout, 0x200, 32 )    /* colors 0x200-0x2ff */
 	GFXDECODE_ENTRY( "gfx1", 0,       hrdtimes_tilelayout,  0x000, 16 )    /* colors 0x000-0x0ff */
 	GFXDECODE_ENTRY( "gfx1", 0x20000, hrdtimes_tilelayout,  0x000, 16 )    /* colors 0x000-0x0ff */
 	GFXDECODE_ENTRY( "gfx1", 0x30000, hotmind_charlayout,   0x100,  8 )    /* colors 0x100-0x17f */
 GFXDECODE_END
 
-static GFXDECODE_START( luckboomh )
+static GFXDECODE_START( gfx_luckboomh )
 	GFXDECODE_ENTRY( "gfx2", 0,       hrdtimes_full_layout, 0x200, 32 )    /* colors 0x200-0x2ff */
 	GFXDECODE_ENTRY( "gfx1", 0,       hrdtimes_full_layout, 0x000, 16 )    /* colors 0x000-0x0ff */
 	GFXDECODE_ENTRY( "gfx1", 0,       hrdtimes_full_layout, 0x000, 16 )    /* colors 0x000-0x0ff */
 	GFXDECODE_ENTRY( "gfx1", 0x30000, hotmind_charlayout,   0x100,  8 )    /* colors 0x100-0x17f */
 GFXDECODE_END
 
-static GFXDECODE_START( bigtwinb )
+static GFXDECODE_START( gfx_bigtwinb )
 	GFXDECODE_ENTRY( "gfx2", 0,       spritelayout,        0x300, 16 )    /* colors 0x300-0x3ff */
 	GFXDECODE_ENTRY( "gfx1", 0,       hrdtimes_tilelayout, 0x000, 16 )    /* colors 0x000-0x0ff */
 	GFXDECODE_ENTRY( "gfx1", 0x40000, hrdtimes_tilelayout, 0x000, 16 )    /* colors 0x000-0x0ff */
@@ -1003,7 +1003,7 @@ void playmark_state::configure_oki_banks()
 	}
 }
 
-MACHINE_START_MEMBER(playmark_state,playmark)
+void playmark_state::machine_start_playmark()
 {
 	save_item(NAME(m_bgscrollx));
 	save_item(NAME(m_bgscrolly));
@@ -1024,7 +1024,7 @@ MACHINE_START_MEMBER(playmark_state,playmark)
 
 
 
-MACHINE_RESET_MEMBER(playmark_state,playmark)
+void playmark_state::machine_reset_playmark()
 {
 	m_bgscrollx = 0;
 	m_bgscrolly = 0;
@@ -1055,8 +1055,8 @@ MACHINE_CONFIG_START(playmark_state::bigtwin)
 	MCFG_PIC16C5x_READ_C_CB(READ8(*this, playmark_state, playmark_snd_flag_r))
 	MCFG_PIC16C5x_WRITE_C_CB(WRITE8(*this, playmark_state, playmark_snd_control_w))
 
-	MCFG_MACHINE_START_OVERRIDE(playmark_state,playmark)
-	MCFG_MACHINE_RESET_OVERRIDE(playmark_state,playmark)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_playmark, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_playmark, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -1067,11 +1067,11 @@ MACHINE_CONFIG_START(playmark_state::bigtwin)
 	MCFG_SCREEN_UPDATE_DRIVER(playmark_state, screen_update_bigtwin)
 	MCFG_SCREEN_PALETTE("palette")
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", bigtwin)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_bigtwin)
 	MCFG_PALETTE_ADD("palette", 1024)
 	MCFG_PALETTE_FORMAT(RRRRGGGGBBBBRGBx)
 
-	MCFG_VIDEO_START_OVERRIDE(playmark_state,bigtwin)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_bigtwin, this));
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();
@@ -1095,8 +1095,8 @@ MACHINE_CONFIG_START(playmark_state::bigtwinb)
 	MCFG_PIC16C5x_READ_C_CB(READ8(*this, playmark_state, playmark_snd_flag_r))
 	MCFG_PIC16C5x_WRITE_C_CB(WRITE8(*this, playmark_state, playmark_snd_control_w))
 
-	MCFG_MACHINE_START_OVERRIDE(playmark_state,playmark)
-	MCFG_MACHINE_RESET_OVERRIDE(playmark_state,playmark)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_playmark, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_playmark, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -1107,11 +1107,11 @@ MACHINE_CONFIG_START(playmark_state::bigtwinb)
 	MCFG_SCREEN_UPDATE_DRIVER(playmark_state, screen_update_bigtwinb)
 	MCFG_SCREEN_PALETTE("palette")
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", bigtwinb)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_bigtwinb)
 	MCFG_PALETTE_ADD("palette", 1024)
 	MCFG_PALETTE_FORMAT(RRRRGGGGBBBBRGBx)
 
-	MCFG_VIDEO_START_OVERRIDE(playmark_state,bigtwinb)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_bigtwinb, this));
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();
@@ -1139,8 +1139,8 @@ MACHINE_CONFIG_START(playmark_state::wbeachvl)
 	MCFG_EEPROM_SERIAL_93C46_ADD("eeprom")
 	MCFG_EEPROM_SERIAL_DEFAULT_VALUE(0)
 
-	MCFG_MACHINE_START_OVERRIDE(playmark_state,playmark)
-	MCFG_MACHINE_RESET_OVERRIDE(playmark_state,playmark)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_playmark, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_playmark, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -1151,11 +1151,11 @@ MACHINE_CONFIG_START(playmark_state::wbeachvl)
 	MCFG_SCREEN_UPDATE_DRIVER(playmark_state, screen_update_wbeachvl)
 	MCFG_SCREEN_PALETTE("palette")
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", wbeachvl)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_wbeachvl)
 	MCFG_PALETTE_ADD("palette", 2048)
 	MCFG_PALETTE_FORMAT(RRRRRGGGGGBBBBBx)
 
-	MCFG_VIDEO_START_OVERRIDE(playmark_state,wbeachvl)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_wbeachvl, this));
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();
@@ -1179,8 +1179,8 @@ MACHINE_CONFIG_START(playmark_state::excelsr)
 	MCFG_PIC16C5x_READ_C_CB(READ8(*this, playmark_state, playmark_snd_flag_r))
 	MCFG_PIC16C5x_WRITE_C_CB(WRITE8(*this, playmark_state, playmark_snd_control_w))
 
-	MCFG_MACHINE_START_OVERRIDE(playmark_state,playmark)
-	MCFG_MACHINE_RESET_OVERRIDE(playmark_state,playmark)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_playmark, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_playmark, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -1191,11 +1191,11 @@ MACHINE_CONFIG_START(playmark_state::excelsr)
 	MCFG_SCREEN_UPDATE_DRIVER(playmark_state, screen_update_excelsr)
 	MCFG_SCREEN_PALETTE("palette")
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", excelsr)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_excelsr)
 	MCFG_PALETTE_ADD("palette", 1024)
 	MCFG_PALETTE_FORMAT(RRRRGGGGBBBBRGBx)
 
-	MCFG_VIDEO_START_OVERRIDE(playmark_state,excelsr)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_excelsr, this));
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();
@@ -1220,8 +1220,8 @@ MACHINE_CONFIG_START(playmark_state::hrdtimes)
 	MCFG_PIC16C5x_WRITE_C_CB(WRITE8(*this, playmark_state, hrdtimes_snd_control_w))
 	MCFG_DEVICE_DISABLE()       /* Internal code is not dumped yet */
 
-	MCFG_MACHINE_START_OVERRIDE(playmark_state,playmark)
-	MCFG_MACHINE_RESET_OVERRIDE(playmark_state,playmark)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_playmark, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_playmark, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -1232,11 +1232,11 @@ MACHINE_CONFIG_START(playmark_state::hrdtimes)
 	MCFG_SCREEN_UPDATE_DRIVER(playmark_state, screen_update_hrdtimes)
 	MCFG_SCREEN_PALETTE("palette")
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", hrdtimes)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_hrdtimes)
 	MCFG_PALETTE_ADD("palette", 1024)
 	MCFG_PALETTE_FORMAT(RRRRGGGGBBBBRGBx)
 
-	MCFG_VIDEO_START_OVERRIDE(playmark_state,hrdtimes)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_hrdtimes, this));
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();
@@ -1263,8 +1263,8 @@ MACHINE_CONFIG_START(playmark_state::hotmind)
 	MCFG_EEPROM_SERIAL_93C46_ADD("eeprom")
 	MCFG_EEPROM_SERIAL_DEFAULT_VALUE(0)
 
-	MCFG_MACHINE_START_OVERRIDE(playmark_state,playmark)
-	MCFG_MACHINE_RESET_OVERRIDE(playmark_state,playmark)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_playmark, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_playmark, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -1275,11 +1275,11 @@ MACHINE_CONFIG_START(playmark_state::hotmind)
 	MCFG_SCREEN_UPDATE_DRIVER(playmark_state, screen_update_hrdtimes)
 	MCFG_SCREEN_PALETTE("palette")
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", hotmind)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_hotmind)
 	MCFG_PALETTE_ADD("palette", 1024)
 	MCFG_PALETTE_FORMAT(RRRRGGGGBBBBRGBx)
 
-	MCFG_VIDEO_START_OVERRIDE(playmark_state,hotmind)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_hotmind, this));
 
 	MCFG_TICKET_DISPENSER_ADD("ticket", attotime::from_msec(350), TICKET_MOTOR_ACTIVE_HIGH, TICKET_STATUS_ACTIVE_HIGH )
 	MCFG_TICKET_DISPENSER_ADD("token",  attotime::from_msec(350), TICKET_MOTOR_ACTIVE_HIGH, TICKET_STATUS_ACTIVE_HIGH )
@@ -1308,8 +1308,8 @@ MACHINE_CONFIG_START(playmark_state::luckboomh)
 
 	MCFG_NVRAM_ADD_0FILL("nvram")
 
-	MCFG_MACHINE_START_OVERRIDE(playmark_state,playmark)
-	MCFG_MACHINE_RESET_OVERRIDE(playmark_state,playmark)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_playmark, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_playmark, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -1320,11 +1320,11 @@ MACHINE_CONFIG_START(playmark_state::luckboomh)
 	MCFG_SCREEN_UPDATE_DRIVER(playmark_state, screen_update_hrdtimes)
 	MCFG_SCREEN_PALETTE("palette")
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", luckboomh)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_luckboomh)
 	MCFG_PALETTE_ADD("palette", 1024)
 	MCFG_PALETTE_FORMAT(RRRRGGGGBBBBRGBx)
 
-	MCFG_VIDEO_START_OVERRIDE(playmark_state,luckboomh)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_luckboomh, this));
 
 	MCFG_TICKET_DISPENSER_ADD("ticket", attotime::from_msec(350), TICKET_MOTOR_ACTIVE_HIGH, TICKET_STATUS_ACTIVE_HIGH )
 	MCFG_TICKET_DISPENSER_ADD("token",  attotime::from_msec(350), TICKET_MOTOR_ACTIVE_HIGH, TICKET_STATUS_ACTIVE_HIGH )
@@ -1808,21 +1808,21 @@ void playmark_state::playmark_decode_pic_hex_dump(void)
 }
 
 
-DRIVER_INIT_MEMBER(playmark_state,pic_decode)
+void playmark_state::init_pic_decode()
 {
 	playmark_decode_pic_hex_dump();
 }
 
 
 
-GAME( 1995, bigtwin,   0,        bigtwin,   bigtwin,   playmark_state, pic_decode, ROT0, "Playmark", "Big Twin", MACHINE_SUPPORTS_SAVE )
-GAME( 1995, bigtwinb,  bigtwin,  bigtwinb,  bigtwinb,  playmark_state, pic_decode, ROT0, "Playmark", "Big Twin (No Girls Conversion)", MACHINE_SUPPORTS_SAVE )
-GAME( 1995, wbeachvl,  0,        wbeachvl,  wbeachvl,  playmark_state, 0,          ROT0, "Playmark", "World Beach Volley (set 1)", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE )
-GAME( 1995, wbeachvl2, wbeachvl, wbeachvl,  wbeachvl,  playmark_state, 0,          ROT0, "Playmark", "World Beach Volley (set 2)", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE )
-GAME( 1995, wbeachvl3, wbeachvl, wbeachvl,  wbeachvl,  playmark_state, 0,          ROT0, "Playmark", "World Beach Volley (set 3)", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE )
-GAME( 1996, excelsr,   0,        excelsr,   excelsr,   playmark_state, pic_decode, ROT0, "Playmark", "Excelsior (set 1)", MACHINE_SUPPORTS_SAVE )
-GAME( 1996, excelsra,  excelsr,  excelsr,   excelsr,   playmark_state, pic_decode, ROT0, "Playmark", "Excelsior (set 2)", MACHINE_SUPPORTS_SAVE )
-GAME( 1994, hrdtimes,  0,        hrdtimes,  hrdtimes,  playmark_state, 0,          ROT0, "Playmark", "Hard Times (set 1)", MACHINE_NO_SOUND | MACHINE_SUPPORTS_SAVE )
-GAME( 1994, hrdtimesa, hrdtimes, hrdtimes,  hrdtimes,  playmark_state, 0,          ROT0, "Playmark", "Hard Times (set 2)", MACHINE_NO_SOUND | MACHINE_SUPPORTS_SAVE )
-GAME( 1995, hotmind,   0,        hotmind,   hotmind,   playmark_state, pic_decode, ROT0, "Playmark", "Hot Mind (Hard Times hardware)", MACHINE_SUPPORTS_SAVE )
-GAME( 1996, luckboomh, luckboom, luckboomh, luckboomh, playmark_state, pic_decode, ROT0, "Playmark", "Lucky Boom (Hard Times hardware)", MACHINE_IMPERFECT_GRAPHICS | MACHINE_SUPPORTS_SAVE )
+GAME( 1995, bigtwin,   0,        bigtwin,   bigtwin,   playmark_state, init_pic_decode, ROT0, "Playmark", "Big Twin", MACHINE_SUPPORTS_SAVE )
+GAME( 1995, bigtwinb,  bigtwin,  bigtwinb,  bigtwinb,  playmark_state, init_pic_decode, ROT0, "Playmark", "Big Twin (No Girls Conversion)", MACHINE_SUPPORTS_SAVE )
+GAME( 1995, wbeachvl,  0,        wbeachvl,  wbeachvl,  playmark_state, empty_init,      ROT0, "Playmark", "World Beach Volley (set 1)", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE )
+GAME( 1995, wbeachvl2, wbeachvl, wbeachvl,  wbeachvl,  playmark_state, empty_init,      ROT0, "Playmark", "World Beach Volley (set 2)", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE )
+GAME( 1995, wbeachvl3, wbeachvl, wbeachvl,  wbeachvl,  playmark_state, empty_init,      ROT0, "Playmark", "World Beach Volley (set 3)", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE )
+GAME( 1996, excelsr,   0,        excelsr,   excelsr,   playmark_state, init_pic_decode, ROT0, "Playmark", "Excelsior (set 1)", MACHINE_SUPPORTS_SAVE )
+GAME( 1996, excelsra,  excelsr,  excelsr,   excelsr,   playmark_state, init_pic_decode, ROT0, "Playmark", "Excelsior (set 2)", MACHINE_SUPPORTS_SAVE )
+GAME( 1994, hrdtimes,  0,        hrdtimes,  hrdtimes,  playmark_state, empty_init,      ROT0, "Playmark", "Hard Times (set 1)", MACHINE_NO_SOUND | MACHINE_SUPPORTS_SAVE )
+GAME( 1994, hrdtimesa, hrdtimes, hrdtimes,  hrdtimes,  playmark_state, empty_init,      ROT0, "Playmark", "Hard Times (set 2)", MACHINE_NO_SOUND | MACHINE_SUPPORTS_SAVE )
+GAME( 1995, hotmind,   0,        hotmind,   hotmind,   playmark_state, init_pic_decode, ROT0, "Playmark", "Hot Mind (Hard Times hardware)", MACHINE_SUPPORTS_SAVE )
+GAME( 1996, luckboomh, luckboom, luckboomh, luckboomh, playmark_state, init_pic_decode, ROT0, "Playmark", "Lucky Boom (Hard Times hardware)", MACHINE_IMPERFECT_GRAPHICS | MACHINE_SUPPORTS_SAVE )

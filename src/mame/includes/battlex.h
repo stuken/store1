@@ -35,7 +35,7 @@ public:
 	DECLARE_WRITE8_MEMBER(battlex_videoram_w);
 	DECLARE_WRITE8_MEMBER(battlex_flipscreen_w);
 	DECLARE_CUSTOM_INPUT_MEMBER(battlex_in0_b4_r);
-	DECLARE_DRIVER_INIT(battlex);
+	void init_battlex();
 	TILE_GET_INFO_MEMBER(get_bg_tile_info);
 	virtual void machine_start() override;
 	virtual void machine_reset() override;
@@ -47,7 +47,7 @@ public:
 	required_device<gfxdecode_device> m_gfxdecode;
 	required_device<palette_device> m_palette;
 
-	DECLARE_VIDEO_START(dodgeman);
+	void video_start_dodgeman(); ATTR_COLD
 	TILE_GET_INFO_MEMBER(get_dodgeman_bg_tile_info);
 	void dodgeman(machine_config &config);
 	void battlex(machine_config &config);

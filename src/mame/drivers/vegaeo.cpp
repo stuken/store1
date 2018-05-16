@@ -47,8 +47,8 @@ public:
 	DECLARE_WRITE8_MEMBER(qs1000_p2_w);
 	DECLARE_WRITE8_MEMBER(qs1000_p3_w);
 
-	DECLARE_DRIVER_INIT(vegaeo);
-	DECLARE_VIDEO_START(vega);
+	void init_vegaeo();
+	void video_start_vega() ATTR_COLD;
 
 	uint32_t screen_update_vega(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 	void vega(machine_config &config);
@@ -150,7 +150,7 @@ static INPUT_PORTS_START( crazywar )
 INPUT_PORTS_END
 
 
-VIDEO_START_MEMBER(vegaeo_state,vega)
+void vegaeo_state::video_start_vega()
 {
 	m_vram = std::make_unique<uint8_t[]>(0x14000*2);
 	save_pointer(NAME(m_vram.get()), 0x14000*2);
@@ -190,7 +190,7 @@ MACHINE_CONFIG_START(vegaeo_state::vega)
 	MCFG_PALETTE_FORMAT(xRRRRRGGGGGBBBBB)
 	MCFG_PALETTE_MEMBITS(16)
 
-	MCFG_VIDEO_START_OVERRIDE(vegaeo_state,vega)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_vega, this));
 
 	/* sound hardware */
 	SPEAKER(config, "lspeaker").front_left();
@@ -286,7 +286,7 @@ ROM_START( crazywar )
 	ROM_LOAD( "qs1001a.u86",  0x200000, 0x080000, CRC(d13c6407) SHA1(57b14f97c7d4f9b5d9745d3571a0b7115fbe3176) )
 ROM_END
 
-DRIVER_INIT_MEMBER(vegaeo_state,vegaeo)
+void vegaeo_state::init_vegaeo()
 {
 	// Set up the QS1000 program ROM banking, taking care not to overlap the internal RAM
 	machine().device("qs1000:cpu")->memory().space(AS_IO).install_read_bank(0x0100, 0xffff, "bank");
@@ -295,4 +295,4 @@ DRIVER_INIT_MEMBER(vegaeo_state,vegaeo)
 	init_speedup();
 }
 
-GAME( 2002, crazywar, 0, vega, crazywar, vegaeo_state, vegaeo, ROT0, "Eolith", "Crazy War", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE )
+GAME( 2002, crazywar, 0, vega, crazywar, vegaeo_state, init_vegaeo, ROT0, "Eolith", "Crazy War", MACHINE_IMPERFECT_SOUND | MACHINE_SUPPORTS_SAVE )

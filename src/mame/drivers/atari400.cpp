@@ -261,13 +261,13 @@ public:
 		m_cart(*this, "cartleft"),
 		m_cart2(*this, "cartright") { }
 
-	DECLARE_MACHINE_START(a400);
-	DECLARE_MACHINE_START(a800);
-	DECLARE_MACHINE_START(a800xl);
-	DECLARE_MACHINE_START(a5200);
+	void machine_start_a400() ATTR_COLD;
+	void machine_start_a800() ATTR_COLD;
+	void machine_start_a800xl() ATTR_COLD;
+	void machine_start_a5200() ATTR_COLD;
 	DECLARE_PALETTE_INIT(a400);
 
-	DECLARE_MACHINE_RESET(a400);
+	void machine_reset_a400();
 
 	DECLARE_WRITE8_MEMBER(gtia_cb);
 
@@ -2010,14 +2010,14 @@ TIMER_DEVICE_CALLBACK_MEMBER( a400_state::a5200_interrupt )
 	m_antic->generic_interrupt(4);
 }
 
-MACHINE_RESET_MEMBER( a400_state, a400 )
+void a400_state::machine_reset_a400()
 {
 	pokey_device *pokey = machine().device<pokey_device>("pokey");
 	pokey->write(15,0);
 }
 
 
-MACHINE_START_MEMBER( a400_state, a400 )
+void a400_state::machine_start_a400()
 {
 	setup_ram(0, m_ram->size());
 	setup_ram(1, m_ram->size());
@@ -2030,7 +2030,7 @@ MACHINE_START_MEMBER( a400_state, a400 )
 }
 
 
-MACHINE_START_MEMBER( a400_state, a800 )
+void a400_state::machine_start_a800()
 {
 	setup_ram(0, m_ram->size());
 	setup_ram(1, m_ram->size());
@@ -2043,7 +2043,7 @@ MACHINE_START_MEMBER( a400_state, a800 )
 	save_item(NAME(m_last_offs));
 }
 
-MACHINE_START_MEMBER( a400_state, a800xl )
+void a400_state::machine_start_a800xl()
 {
 	m_mmu = 0xfd;
 	m_ext_bank = 0x03;  // only used by a130xe
@@ -2057,7 +2057,7 @@ MACHINE_START_MEMBER( a400_state, a800xl )
 }
 
 
-MACHINE_START_MEMBER( a400_state, a5200 )
+void a400_state::machine_start_a5200()
 {
 	setup_cart(m_cart);
 
@@ -2109,7 +2109,7 @@ MACHINE_CONFIG_START(a400_state::atari_common_nodac)
 	/* basic machine hardware */
 	MCFG_DEVICE_ADD("maincpu", M6502, pokey_device::FREQ_17_EXACT)
 
-	MCFG_MACHINE_RESET_OVERRIDE( a400_state, a400 )
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_a400, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -2187,7 +2187,7 @@ MACHINE_CONFIG_START(a400_state::a400)
 	MCFG_DEVICE_PROGRAM_MAP(a400_mem)
 	MCFG_TIMER_DRIVER_ADD_SCANLINE("scantimer", a400_state, a400_interrupt, "screen", 0, 1)
 
-	MCFG_MACHINE_START_OVERRIDE( a400_state, a400 )
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_a400, this));
 
 	MCFG_SCREEN_MODIFY("screen")
 	MCFG_SCREEN_REFRESH_RATE_ANTIC_60HZ()
@@ -2206,7 +2206,7 @@ MACHINE_CONFIG_START(a400_state::a400pal)
 	MCFG_DEVICE_PROGRAM_MAP(a400_mem)
 	MCFG_TIMER_DRIVER_ADD_SCANLINE("scantimer", a400_state, a400_interrupt, "screen", 0, 1)
 
-	MCFG_MACHINE_START_OVERRIDE( a400_state, a400 )
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_a400, this));
 
 	MCFG_SCREEN_MODIFY("screen")
 	MCFG_SCREEN_REFRESH_RATE_ANTIC_50HZ()
@@ -2225,7 +2225,7 @@ MACHINE_CONFIG_START(a400_state::a800)
 	MCFG_DEVICE_PROGRAM_MAP(a400_mem)
 	MCFG_TIMER_DRIVER_ADD_SCANLINE("scantimer", a400_state, a400_interrupt, "screen", 0, 1)
 
-	MCFG_MACHINE_START_OVERRIDE( a400_state, a800 )
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_a800, this));
 
 	MCFG_SCREEN_MODIFY("screen")
 	MCFG_SCREEN_REFRESH_RATE_ANTIC_60HZ()
@@ -2246,7 +2246,7 @@ MACHINE_CONFIG_START(a400_state::a800pal)
 	MCFG_DEVICE_PROGRAM_MAP(a400_mem)
 	MCFG_TIMER_DRIVER_ADD_SCANLINE("scantimer", a400_state, a400_interrupt, "screen", 0, 1)
 
-	MCFG_MACHINE_START_OVERRIDE( a400_state, a800 )
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_a800, this));
 
 	MCFG_SCREEN_MODIFY("screen")
 	MCFG_SCREEN_REFRESH_RATE_ANTIC_50HZ()
@@ -2270,7 +2270,7 @@ MACHINE_CONFIG_START(a400_state::a600xl)
 	MCFG_DEVICE_MODIFY("pia")
 	MCFG_PIA_WRITEPB_HANDLER(WRITE8(*this, a400_state, a600xl_pia_pb_w))
 
-	MCFG_MACHINE_START_OVERRIDE( a400_state, a800xl )
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_a800xl, this));
 
 	MCFG_SCREEN_MODIFY("screen")
 	MCFG_SCREEN_REFRESH_RATE_ANTIC_60HZ()
@@ -2295,7 +2295,7 @@ MACHINE_CONFIG_START(a400_state::a800xl)
 	MCFG_DEVICE_MODIFY("pia")
 	MCFG_PIA_WRITEPB_HANDLER(WRITE8(*this, a400_state, a800xl_pia_pb_w))
 
-	MCFG_MACHINE_START_OVERRIDE( a400_state, a800xl )
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_a800xl, this));
 
 	MCFG_RAM_MODIFY(RAM_TAG)
 	MCFG_RAM_DEFAULT_SIZE("64K")
@@ -2394,7 +2394,7 @@ MACHINE_CONFIG_START(a400_state::a5200)
 	MCFG_PIA_READPB_HANDLER(NOOP) // FIXME: is there anything connected here
 	MCFG_PIA_CB2_HANDLER(NOOP) // FIXME: is there anything connected here
 
-	MCFG_MACHINE_START_OVERRIDE( a400_state, a5200 )
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_a5200, this));
 
 	MCFG_SCREEN_MODIFY( "screen" )
 	MCFG_SCREEN_REFRESH_RATE_ANTIC_60HZ()
@@ -2523,19 +2523,19 @@ ROM_END
  *
  **************************************************************/
 
-/*     YEAR  NAME      PARENT    COMPAT MACHINE     INPUT   STATE          INIT  COMPANY    FULLNAME */
-COMP ( 1979, a400,     0,        0,     a400,       a800,   a400_state,    0,    "Atari",   "Atari 400 (NTSC)",     0)
-COMP ( 1979, a400pal,  a400,     0,     a400pal,    a800,   a400_state,    0,    "Atari",   "Atari 400 (PAL)",      0)
-COMP ( 1979, a800,     0,        0,     a800,       a800,   a400_state,    0,    "Atari",   "Atari 800 (NTSC)",     0)
-COMP ( 1979, a800pal,  a800,     0,     a800pal,    a800,   a400_state,    0,    "Atari",   "Atari 800 (PAL)",      0)
-COMP ( 1982, a1200xl,  a800,     0,     a1200xl,    a800xl, a400_state,    0,    "Atari",   "Atari 1200XL",         MACHINE_NOT_WORKING )      // 64k RAM
-COMP ( 1983, a600xl,   a800xl,   0,     a600xl,     a800xl, a400_state,    0,    "Atari",   "Atari 600XL",          MACHINE_IMPERFECT_GRAPHICS )      // 16k RAM
-COMP ( 1983, a800xl,   0,        0,     a800xl,     a800xl, a400_state,    0,    "Atari",   "Atari 800XL (NTSC)",   MACHINE_IMPERFECT_GRAPHICS )      // 64k RAM
-COMP ( 1983, a800xlp,  a800xl,   0,     a800xlpal,  a800xl, a400_state,    0,    "Atari",   "Atari 800XL (PAL)",    MACHINE_IMPERFECT_GRAPHICS )      // 64k RAM
-COMP ( 1986, a65xe,    a800xl,   0,     a800xl,     a800xl, a400_state,    0,    "Atari",   "Atari 65XE",           MACHINE_IMPERFECT_GRAPHICS )      // 64k RAM
-COMP ( 1986, a65xea,   a800xl,   0,     a800xl,     a800xl, a400_state,    0,    "Atari",   "Atari 65XE (Arabic)",  MACHINE_NOT_WORKING )
-COMP ( 1986, a130xe,   a800xl,   0,     a130xe,     a800xl, a400_state,    0,    "Atari",   "Atari 130XE",          MACHINE_NOT_WORKING )      // 128k RAM
-COMP ( 1986, a800xe,   a800xl,   0,     a800xl,     a800xl, a400_state,    0,    "Atari",   "Atari 800XE",          MACHINE_IMPERFECT_GRAPHICS )      // 64k RAM
-COMP ( 1987, xegs,     0,        0,     xegs,       a800xl, a400_state,    0,    "Atari",   "Atari XE Game System", MACHINE_IMPERFECT_GRAPHICS )  // 64k RAM
+/*     YEAR  NAME    PARENT  COMPAT  MACHINE    INPUT   CLASS       INIT        COMPANY  FULLNAME */
+COMP( 1979, a400,    0,      0,      a400,      a800,   a400_state, empty_init, "Atari", "Atari 400 (NTSC)",     0)
+COMP( 1979, a400pal, a400,   0,      a400pal,   a800,   a400_state, empty_init, "Atari", "Atari 400 (PAL)",      0)
+COMP( 1979, a800,    0,      0,      a800,      a800,   a400_state, empty_init, "Atari", "Atari 800 (NTSC)",     0)
+COMP( 1979, a800pal, a800,   0,      a800pal,   a800,   a400_state, empty_init, "Atari", "Atari 800 (PAL)",      0)
+COMP( 1982, a1200xl, a800,   0,      a1200xl,   a800xl, a400_state, empty_init, "Atari", "Atari 1200XL",         MACHINE_NOT_WORKING )      // 64k RAM
+COMP( 1983, a600xl,  a800xl, 0,      a600xl,    a800xl, a400_state, empty_init, "Atari", "Atari 600XL",          MACHINE_IMPERFECT_GRAPHICS )      // 16k RAM
+COMP( 1983, a800xl,  0,      0,      a800xl,    a800xl, a400_state, empty_init, "Atari", "Atari 800XL (NTSC)",   MACHINE_IMPERFECT_GRAPHICS )      // 64k RAM
+COMP( 1983, a800xlp, a800xl, 0,      a800xlpal, a800xl, a400_state, empty_init, "Atari", "Atari 800XL (PAL)",    MACHINE_IMPERFECT_GRAPHICS )      // 64k RAM
+COMP( 1986, a65xe,   a800xl, 0,      a800xl,    a800xl, a400_state, empty_init, "Atari", "Atari 65XE",           MACHINE_IMPERFECT_GRAPHICS )      // 64k RAM
+COMP( 1986, a65xea,  a800xl, 0,      a800xl,    a800xl, a400_state, empty_init, "Atari", "Atari 65XE (Arabic)",  MACHINE_NOT_WORKING )
+COMP( 1986, a130xe,  a800xl, 0,      a130xe,    a800xl, a400_state, empty_init, "Atari", "Atari 130XE",          MACHINE_NOT_WORKING )      // 128k RAM
+COMP( 1986, a800xe,  a800xl, 0,      a800xl,    a800xl, a400_state, empty_init, "Atari", "Atari 800XE",          MACHINE_IMPERFECT_GRAPHICS )      // 64k RAM
+COMP( 1987, xegs,    0,      0,      xegs,      a800xl, a400_state, empty_init, "Atari", "Atari XE Game System", MACHINE_IMPERFECT_GRAPHICS )  // 64k RAM
 
-CONS ( 1982, a5200,    0,        0,     a5200,      a5200,  a400_state,    0,    "Atari",   "Atari 5200",           0)
+CONS( 1982, a5200,   0,      0,      a5200,     a5200,  a400_state, empty_init, "Atari", "Atari 5200",           0)

@@ -30,7 +30,7 @@ Both roms contain Z80 code.
 
 #include "emu.h"
 #include "cpu/z80/z80.h"
-#include "cpu/z80/z80daisy.h"
+#include "machine/z80daisy.h"
 #include "machine/z80ctc.h"
 #include "machine/z80sio.h"
 #include "machine/clock.h"
@@ -46,8 +46,8 @@ public:
 	{ }
 
 	DECLARE_WRITE8_MEMBER(port1a_w);
-	DECLARE_DRIVER_INIT(dsb46);
-	DECLARE_MACHINE_RESET(dsb46);
+	void init_dsb46();
+	void machine_reset_dsb46();
 
 	void dsb46(machine_config &config);
 	void dsb46_io(address_map &map);
@@ -79,7 +79,7 @@ void dsb46_state::dsb46_io(address_map &map)
 static INPUT_PORTS_START( dsb46 )
 INPUT_PORTS_END
 
-DRIVER_INIT_MEMBER(dsb46_state, dsb46)
+void dsb46_state::init_dsb46()
 {
 	uint8_t *RAM = memregion("maincpu")->base();
 	membank("read")->configure_entry(0, &RAM[0x10000]);
@@ -87,7 +87,7 @@ DRIVER_INIT_MEMBER(dsb46_state, dsb46)
 	membank("write")->configure_entry(0, &RAM[0x00000]);
 }
 
-MACHINE_RESET_MEMBER( dsb46_state,dsb46 )
+void dsb46_state::machine_reset_dsb46()
 {
 	membank("read")->set_entry(0);
 	membank("write")->set_entry(0);
@@ -114,7 +114,7 @@ MACHINE_CONFIG_START(dsb46_state::dsb46)
 	MCFG_DEVICE_IO_MAP(dsb46_io)
 	MCFG_Z80_DAISY_CHAIN(daisy_chain)
 
-	MCFG_MACHINE_RESET_OVERRIDE(dsb46_state, dsb46)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_dsb46, this));
 
 	/* video hardware */
 	MCFG_DEVICE_ADD("ctc_clock", CLOCK, XTAL(1'843'200))
@@ -148,4 +148,4 @@ ROM_START( dsb46 )
 	ROM_LOAD( "ades.bin", 0x0000, 0x4000, CRC(d374abf0) SHA1(331f51a2bb81375aeffbe63c1ebc1d7cd779b9c3) )
 ROM_END
 
-COMP( 198?, dsb46, 0, 0, dsb46, dsb46, dsb46_state, dsb46, "Davidge", "DSB-4/6",  MACHINE_NOT_WORKING | MACHINE_NO_SOUND_HW )
+COMP( 198?, dsb46, 0, 0, dsb46, dsb46, dsb46_state, init_dsb46, "Davidge", "DSB-4/6",  MACHINE_NOT_WORKING | MACHINE_NO_SOUND_HW )

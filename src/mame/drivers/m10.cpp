@@ -168,7 +168,7 @@ PALETTE_INIT_MEMBER(m10_state,m10)
 	}
 }
 
-MACHINE_START_MEMBER(m10_state,m10)
+void m10_state::machine_start_m10()
 {
 	m_interrupt_timer = timer_alloc(TIMER_INTERRUPT);
 
@@ -177,7 +177,7 @@ MACHINE_START_MEMBER(m10_state,m10)
 	save_item(NAME(m_last));
 }
 
-MACHINE_RESET_MEMBER(m10_state,m10)
+void m10_state::machine_reset_m10()
 {
 	m_bottomline = 0;
 	m_flip = 0;
@@ -780,7 +780,7 @@ static const gfx_layout charlayout =
 };
 
 
-static GFXDECODE_START( m10 )
+static GFXDECODE_START( gfx_m10 )
 	GFXDECODE_ENTRY( "gfx1", 0x0000, charlayout, 0, 8 )
 GFXDECODE_END
 
@@ -818,8 +818,8 @@ MACHINE_CONFIG_START(m10_state::m10)
 	MCFG_DEVICE_ADD("maincpu", M6502,IREMM10_CPU_CLOCK)
 	MCFG_DEVICE_PROGRAM_MAP(m10_main)
 
-	MCFG_MACHINE_START_OVERRIDE(m10_state,m10)
-	MCFG_MACHINE_RESET_OVERRIDE(m10_state,m10)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_m10, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_m10, this));
 
 	//MCFG_DEVICE_VBLANK_INT_DRIVER("screen", m10_state,  m10_interrupt)
 
@@ -829,11 +829,11 @@ MACHINE_CONFIG_START(m10_state::m10)
 	MCFG_SCREEN_UPDATE_DRIVER(m10_state, screen_update_m10)
 	MCFG_SCREEN_PALETTE("palette")
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", m10)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_m10)
 	MCFG_PALETTE_ADD("palette", 2*8)
 
 	MCFG_PALETTE_INIT_OWNER(m10_state,m10)
-	MCFG_VIDEO_START_OVERRIDE(m10_state,m10)
+	set_video_start_cb(config, driver_callback_delegate(&video_start_m10, this));
 
 	/* 74LS123 */
 
@@ -882,8 +882,8 @@ MACHINE_CONFIG_START(m10_state::m15)
 	MCFG_DEVICE_ADD("maincpu", M6502,IREMM15_CPU_CLOCK)
 	MCFG_DEVICE_PROGRAM_MAP(m15_main)
 
-	MCFG_MACHINE_START_OVERRIDE(m10_state,m10)
-	MCFG_MACHINE_RESET_OVERRIDE(m10_state,m10)
+	set_machine_start_cb(config, driver_callback_delegate(&machine_start_m10, this));
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_m10, this));
 
 	MCFG_DEVICE_VBLANK_INT_DRIVER("screen", m10_state,  m15_interrupt)
 
@@ -893,11 +893,11 @@ MACHINE_CONFIG_START(m10_state::m15)
 	MCFG_SCREEN_UPDATE_DRIVER(m10_state, screen_update_m15)
 	MCFG_SCREEN_PALETTE("palette")
 
-	MCFG_GFXDECODE_ADD("gfxdecode", "palette", empty)
+	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfxdecode_device::empty)
 	MCFG_PALETTE_ADD("palette", 2*8)
 
 	MCFG_PALETTE_INIT_OWNER(m10_state,m10)
-	MCFG_VIDEO_START_OVERRIDE(m10_state, m15 )
+	set_video_start_cb(config, driver_callback_delegate(&video_start_m15, this));
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();
@@ -926,19 +926,15 @@ MACHINE_CONFIG_END
  * Hacks to work around missing roms to get at least some
  * video output
  */
-DRIVER_INIT_MEMBER(m10_state,andromed)
+void m10_state::init_andromed()
 {
-	int i;
-
-	for (i = 0x1c00; i < 0x2000; i++)
+	for (int i = 0x1c00; i < 0x2000; i++)
 		m_rom[i] = 0x60;
 }
 
-DRIVER_INIT_MEMBER(m10_state,ipminva1)
+void m10_state::init_ipminva1()
 {
-	int i;
-
-	for (i = 0x1400; i < 0x17ff; i++)
+	for (int i = 0x1400; i < 0x17ff; i++)
 		m_rom[i] = 0x60;
 }
 
@@ -1050,10 +1046,10 @@ ROM_START( greenber )
 	ROM_LOAD( "gb9", 0x3000, 0x0400, CRC(c27b9ba3) SHA1(a2f4f0c4b61eb03bba13ae5d25dc01009a4f86ee) ) // ok ?
 ROM_END
 
-GAME( 1979, andromed,  0,        m11,     skychut,  m10_state, andromed, ROT270, "IPM",  "Andromeda (Japan?)",            MACHINE_NO_SOUND | MACHINE_IMPERFECT_COLORS | MACHINE_NOT_WORKING | MACHINE_SUPPORTS_SAVE )
-GAME( 1979, ipminvad,  0,        m10,     ipminvad, m10_state, 0,        ROT270, "IPM",  "IPM Invader",                   MACHINE_IMPERFECT_SOUND | MACHINE_IMPERFECT_COLORS | MACHINE_SUPPORTS_SAVE )
-GAME( 1979, ipminvad1, ipminvad, m10,     ipminvad, m10_state, ipminva1, ROT270, "IPM",  "IPM Invader (Incomplete Dump)", MACHINE_IMPERFECT_SOUND | MACHINE_NOT_WORKING | MACHINE_SUPPORTS_SAVE )
-GAME( 1980, skychut,   0,        m11,     skychut,  m10_state, 0,        ROT270, "Irem", "Sky Chuter",                    MACHINE_NO_SOUND | MACHINE_IMPERFECT_COLORS | MACHINE_SUPPORTS_SAVE )
-GAME( 1979, spacbeam,  0,        m15,     spacbeam, m10_state, 0,        ROT270, "Irem", "Space Beam",                    MACHINE_NO_SOUND | MACHINE_IMPERFECT_COLORS | MACHINE_SUPPORTS_SAVE ) // IPM or Irem?
-GAME( 1979, headoni,   0,        headoni, headoni,  m10_state, 0,        ROT270, "Irem", "Head On (Irem, M-15 Hardware)", MACHINE_NO_SOUND | MACHINE_IMPERFECT_COLORS | MACHINE_SUPPORTS_SAVE )
-GAME( 1980, greenber,  0,        m15,     spacbeam, m10_state, 0,        ROT270, "Irem", "Green Beret (Irem)",            MACHINE_NO_SOUND | MACHINE_IMPERFECT_COLORS | MACHINE_NOT_WORKING | MACHINE_SUPPORTS_SAVE )
+GAME( 1979, andromed,  0,        m11,     skychut,  m10_state, init_andromed, ROT270, "IPM",  "Andromeda (Japan?)",            MACHINE_NO_SOUND | MACHINE_IMPERFECT_COLORS | MACHINE_NOT_WORKING | MACHINE_SUPPORTS_SAVE )
+GAME( 1979, ipminvad,  0,        m10,     ipminvad, m10_state, empty_init,    ROT270, "IPM",  "IPM Invader",                   MACHINE_IMPERFECT_SOUND | MACHINE_IMPERFECT_COLORS | MACHINE_SUPPORTS_SAVE )
+GAME( 1979, ipminvad1, ipminvad, m10,     ipminvad, m10_state, init_ipminva1, ROT270, "IPM",  "IPM Invader (Incomplete Dump)", MACHINE_IMPERFECT_SOUND | MACHINE_NOT_WORKING | MACHINE_SUPPORTS_SAVE )
+GAME( 1980, skychut,   0,        m11,     skychut,  m10_state, empty_init,    ROT270, "Irem", "Sky Chuter",                    MACHINE_NO_SOUND | MACHINE_IMPERFECT_COLORS | MACHINE_SUPPORTS_SAVE )
+GAME( 1979, spacbeam,  0,        m15,     spacbeam, m10_state, empty_init,    ROT270, "Irem", "Space Beam",                    MACHINE_NO_SOUND | MACHINE_IMPERFECT_COLORS | MACHINE_SUPPORTS_SAVE ) // IPM or Irem?
+GAME( 1979, headoni,   0,        headoni, headoni,  m10_state, empty_init,    ROT270, "Irem", "Head On (Irem, M-15 Hardware)", MACHINE_NO_SOUND | MACHINE_IMPERFECT_COLORS | MACHINE_SUPPORTS_SAVE )
+GAME( 1980, greenber,  0,        m15,     spacbeam, m10_state, empty_init,    ROT270, "Irem", "Green Beret (Irem)",            MACHINE_NO_SOUND | MACHINE_IMPERFECT_COLORS | MACHINE_NOT_WORKING | MACHINE_SUPPORTS_SAVE )

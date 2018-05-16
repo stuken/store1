@@ -75,8 +75,8 @@ public:
 		, m_keyboard(*this, "X%u", 0)
 		{}
 
-	DECLARE_DRIVER_INIT(sbrain);
-	DECLARE_MACHINE_RESET(sbrain);
+	void init_sbrain();
+	void machine_reset_sbrain();
 	DECLARE_READ8_MEMBER(ppi_pa_r);
 	DECLARE_WRITE8_MEMBER(ppi_pa_w);
 	DECLARE_READ8_MEMBER(ppi_pb_r);
@@ -458,7 +458,7 @@ TIMER_DEVICE_CALLBACK_MEMBER(sbrain_state::kbd_scan)
 	m_term_data = 0xff;
 }
 
-DRIVER_INIT_MEMBER( sbrain_state, sbrain )
+void sbrain_state::init_sbrain()
 {
 	u8 *main = memregion("maincpu")->base();
 	u8 *sub = memregion("subcpu")->base();
@@ -475,7 +475,7 @@ static void sbrain_floppies(device_slot_interface &device)
 	device.option_add("525dd", FLOPPY_525_DD);
 }
 
-MACHINE_RESET_MEMBER( sbrain_state, sbrain )
+void sbrain_state::machine_reset_sbrain()
 {
 	m_keydown = 0;
 	m_bankr0->set_entry(1); // point at rom
@@ -548,7 +548,7 @@ MACHINE_CONFIG_START(sbrain_state::sbrain)
 	MCFG_DEVICE_PROGRAM_MAP(sbrain_submem)
 	MCFG_DEVICE_IO_MAP(sbrain_subio)
 
-	MCFG_MACHINE_RESET_OVERRIDE(sbrain_state, sbrain)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_sbrain, this));
 
 	/* video hardware */
 	MCFG_SCREEN_ADD_MONOCHROME("screen", RASTER, rgb_t::amber())
@@ -611,4 +611,4 @@ ROM_START( sbrain )
 	ROM_LOAD( "c10_char.bin", 0x0000, 0x2000, BAD_DUMP CRC(cb530b6f) SHA1(95590bbb433db9c4317f535723b29516b9b9fcbf))
 ROM_END
 
-COMP( 1981, sbrain, 0, 0, sbrain, sbrain, sbrain_state, sbrain, "Intertec", "Superbrain", MACHINE_NOT_WORKING )
+COMP( 1981, sbrain, 0, 0, sbrain, sbrain, sbrain_state, init_sbrain, "Intertec", "Superbrain", MACHINE_NOT_WORKING )

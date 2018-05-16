@@ -32,8 +32,8 @@ public:
 		, m_maincpu(*this, "maincpu")
 	{ }
 
-	DECLARE_DRIVER_INIT(rd100);
-	DECLARE_MACHINE_RESET(rd100);
+	void init_rd100();
+	void machine_reset_rd100();
 	uint32_t screen_update(screen_device &screen, bitmap_rgb32 &bitmap, const rectangle &cliprect);
 
 	void rd100(machine_config &config);
@@ -89,11 +89,11 @@ uint32_t rd100_state::screen_update(screen_device &screen, bitmap_rgb32 &bitmap,
 	return 0;
 }
 
-DRIVER_INIT_MEMBER( rd100_state, rd100 )
+void rd100_state::init_rd100()
 {
 }
 
-MACHINE_RESET_MEMBER( rd100_state, rd100 )
+void rd100_state::machine_reset_rd100()
 {
 }
 
@@ -102,7 +102,7 @@ MACHINE_CONFIG_START(rd100_state::rd100)
 	MCFG_DEVICE_ADD("maincpu", MC6809, XTAL(4'000'000)) // MC6809P???
 	MCFG_DEVICE_PROGRAM_MAP(mem_map)
 
-	MCFG_MACHINE_RESET_OVERRIDE(rd100_state, rd100)
+	set_machine_reset_cb(config, driver_callback_delegate(&machine_reset_rd100, this));
 
 	MCFG_DEVICE_ADD("pia1", PIA6821, 0)
 
@@ -116,7 +116,7 @@ MACHINE_CONFIG_START(rd100_state::rd100)
 	MCFG_SCREEN_SIZE(64*6, 32*8)
 	MCFG_SCREEN_VISIBLE_AREA(0, 64*6-1, 0, 32*8-1)
 	MCFG_PALETTE_ADD_MONOCHROME("palette")
-	//MCFG_GFXDECODE_ADD("gfxdecode", "palette", rd100)
+	//MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_rd100)
 MACHINE_CONFIG_END
 
 ROM_START( rd100 )
@@ -126,5 +126,5 @@ ROM_END
 
 /* Driver */
 
-//    YEAR  NAME    PARENT  COMPAT   MACHINE    INPUT   CLASS          INIT    COMPANY      FULLNAME  FLAGS
-COMP( 1989, rd100,  0,      0,       rd100,     rd100,  rd100_state,   rd100,  "Data R.D.", "RD100",  MACHINE_IS_SKELETON )
+//    YEAR  NAME   PARENT  COMPAT  MACHINE  INPUT  CLASS        INIT        COMPANY      FULLNAME  FLAGS
+COMP( 1989, rd100, 0,      0,      rd100,   rd100, rd100_state, init_rd100, "Data R.D.", "RD100",  MACHINE_IS_SKELETON )

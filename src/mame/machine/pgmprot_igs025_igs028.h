@@ -19,8 +19,8 @@ public:
 
 	void igs025_to_igs028_callback( void );
 
-	DECLARE_DRIVER_INIT(olds);
-	DECLARE_MACHINE_RESET(olds);
+	void init_olds();
+	void machine_reset_olds();
 	void pgm_028_025_ol(machine_config &config);
 	void olds_mem(address_map &map);
 };
