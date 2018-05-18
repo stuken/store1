@@ -257,7 +257,7 @@ void legionna_state::common_video_start()
 	m_text_layer->set_transparent_pen(15);
 }
 
-void legionna_state::video_start_legionna()
+VIDEO_START_MEMBER(legionna_state,legionna)
 {
 	common_video_start();
 	
@@ -267,7 +267,7 @@ void legionna_state::video_start_legionna()
 	m_sprite_pri_mask[3] = 0xfffe;
 }
 
-void legionna_state::video_start_heatbrl()
+VIDEO_START_MEMBER(legionna_state,heatbrl)
 {
 	common_video_start();
 
@@ -278,9 +278,9 @@ void legionna_state::video_start_heatbrl()
 	m_sprite_pri_mask[3] = 0xffff;
 }
 
-void legionna_state::video_start_godzilla()
+VIDEO_START_MEMBER(legionna_state,godzilla)
 {
-	video_start_legionna();
+	VIDEO_START_CALL_MEMBER(legionna);
 
 	m_has_extended_banking = 1;
 	m_has_extended_priority = 0;
@@ -292,7 +292,7 @@ void legionna_state::video_start_godzilla()
 	m_sprite_pri_mask[3] = 0xffff;
 }
 
-void legionna_state::video_start_denjinmk()
+VIDEO_START_MEMBER(legionna_state,denjinmk)
 {
 	m_back_data = make_unique_clear<uint16_t[]>(0x800/2);
 	m_fore_data =  make_unique_clear<uint16_t[]>(0x800/2);
@@ -322,7 +322,7 @@ void legionna_state::video_start_denjinmk()
 	m_text_layer->set_transparent_pen(7);//?
 }
 
-void legionna_state::video_start_cupsoc()
+VIDEO_START_MEMBER(legionna_state,cupsoc)
 {
 	m_back_data = make_unique_clear<uint16_t[]>(0x800/2);
 	m_fore_data =  make_unique_clear<uint16_t[]>(0x800/2);
@@ -347,9 +347,9 @@ void legionna_state::video_start_cupsoc()
 	m_text_layer->set_transparent_pen(15);
 }
 
-void legionna_state::video_start_grainbow()
+VIDEO_START_MEMBER(legionna_state,grainbow)
 {
-	video_start_legionna();
+	VIDEO_START_CALL_MEMBER(legionna);
 	m_sprite_xoffs = m_sprite_yoffs = 16;
 
 	m_has_extended_banking = 0;

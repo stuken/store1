@@ -1302,14 +1302,16 @@ GFXDECODE_END
 
 WRITE8_MEMBER(mappy_state::out_lamps)
 {
-	output().set_led_value(0, data & 1);
-	output().set_led_value(1, data & 2);
+	m_leds[0] = BIT(data, 0);
+	m_leds[1] = BIT(data, 1);
 	machine().bookkeeping().coin_lockout_global_w(data & 4);
 	machine().bookkeeping().coin_counter_w(0, ~data & 8);
 }
 
 void mappy_state::machine_start()
 {
+	m_leds.resolve();
+	
 	save_item(NAME(m_main_irq_mask));
 	save_item(NAME(m_sub_irq_mask));
 	save_item(NAME(m_sub2_irq_mask));
@@ -1354,7 +1356,7 @@ MACHINE_CONFIG_START(mappy_state::superpac_common)
 	MCFG_SCREEN_PALETTE("palette")
 	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(*this, mappy_state, vblank_irq))   // cause IRQs on both CPUs; also update the custom I/O chips
 
-	set_video_start_cb(config, driver_callback_delegate(&video_start_superpac, this));
+	MCFG_VIDEO_START_OVERRIDE(mappy_state,superpac)
 
 	/* sound hardware */
 	SPEAKER(config, "speaker").front_center();
@@ -1482,7 +1484,7 @@ MACHINE_CONFIG_START(mappy_state::phozon)
 	MCFG_SCREEN_PALETTE("palette")
 	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(*this, mappy_state, vblank_irq))   // cause IRQs on all three CPUs; also update the custom I/O chips
 
-	set_video_start_cb(config, driver_callback_delegate(&video_start_phozon, this));
+	MCFG_VIDEO_START_OVERRIDE(mappy_state,phozon)
 
 	/* sound hardware */
 	SPEAKER(config, "speaker").front_center();
@@ -1532,7 +1534,7 @@ MACHINE_CONFIG_START(mappy_state::mappy_common)
 	MCFG_SCREEN_PALETTE("palette")
 	MCFG_SCREEN_VBLANK_CALLBACK(WRITELINE(*this, mappy_state, vblank_irq))   // cause IRQs on both CPUs; also update the custom I/O chips
 
-	set_video_start_cb(config, driver_callback_delegate(&video_start_mappy, this));
+	MCFG_VIDEO_START_OVERRIDE(mappy_state,mappy)
 
 	/* sound hardware */
 	SPEAKER(config, "speaker").front_center();

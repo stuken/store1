@@ -25,7 +25,9 @@ public:
 		m_dac(*this, "dac"),
 		m_gfxdecode(*this, "gfxdecode"),
 		m_screen(*this, "screen"),
-		m_palette(*this, "palette")  { }
+		m_palette(*this, "palette"),
+		m_leds(*this, "led%u", 0U)
+	{ }
 
 	required_shared_ptr<uint8_t> m_videoram;
 	required_shared_ptr<uint8_t> m_spriteram;
@@ -39,6 +41,7 @@ public:
 	required_device<gfxdecode_device> m_gfxdecode;
 	required_device<screen_device> m_screen;
 	required_device<palette_device> m_palette;
+	output_finder<2> m_leds;
 
 	tilemap_t *m_bg_tilemap;
 	bitmap_ind16 m_sprite_bitmap;
@@ -65,11 +68,11 @@ public:
 	TILE_GET_INFO_MEMBER(phozon_get_tile_info);
 	TILE_GET_INFO_MEMBER(mappy_get_tile_info);
 	virtual void machine_start() override;
-	void video_start_superpac() ATTR_COLD;
+	DECLARE_VIDEO_START(superpac);
 	DECLARE_PALETTE_INIT(superpac);
-	void video_start_phozon()   ATTR_COLD;
+	DECLARE_VIDEO_START(phozon);
 	DECLARE_PALETTE_INIT(phozon);
-	void video_start_mappy()    ATTR_COLD;
+	DECLARE_VIDEO_START(mappy);
 	DECLARE_PALETTE_INIT(mappy);
 	uint32_t screen_update_superpac(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 	uint32_t screen_update_phozon(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);

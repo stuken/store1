@@ -52,7 +52,7 @@ public:
 	INTERRUPT_GEN_MEMBER(farwest_irq_nmi);
 
 	DECLARE_PALETTE_INIT(ironhors);
-	void video_start_farwest() ATTR_COLD;
+	DECLARE_VIDEO_START(farwest);
 
 	void farwest(machine_config &config);
 	void ironhors(machine_config &config);
