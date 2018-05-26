@@ -21,10 +21,10 @@ ace.cpp            // ok
 //aces1.cpp        // fruit
 //acesp.cpp        // fruit
 acommand.cpp       // ok
-actfancr.cpp
-adp.cpp
-aeroboto.cpp
-aerofgt.cpp
+actfancr.cpp       // ok
+adp.cpp            // ok
+aeroboto.cpp       // ok
+aerofgt.cpp        // ok
 //age_candy.cpp    // mechanical
 airbustr.cpp
 airraid.cpp
@@ -427,8 +427,9 @@ galpani2.cpp
 galpani3.cpp
 galpanic.cpp
 galspnbl.cpp
-//gambl186.cpp    // check
-//gamecstl.cpp    // chd
+//gambl186.cpp     // check
+//gamecstl.cpp     // chd
+//gamemasters.cpp  // mechanical
 gameplan.cpp
 //gammagic.cpp    // check
 //gamtor.cpp      // check
@@ -1041,6 +1042,7 @@ segas18.cpp
 segas24.cpp
 segas32.cpp
 //segasp.cpp       // check
+//segattl.cpp      // ttl
 //segaufo.cpp      // mechanical
 segaxbd.cpp
 segaybd.cpp
