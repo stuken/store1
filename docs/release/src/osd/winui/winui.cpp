@@ -299,7 +299,6 @@ static int optionfolder_count = 0;
 /* global data--know where to send messages */
 static bool in_emulation = false;
 static bool game_launched = false;
-static bool switched = false;
 /* idle work at startup */
 static bool idle_work = false;
 /* object pool in use */
@@ -488,24 +487,41 @@ public:
 			return;
 		}
 
+		int s_action = 0;
+		bool s_switched = false;
+		char buffer[4096];
+		vsnprintf(buffer, ARRAY_LENGTH(buffer), msg, args);
+
 		if (channel == OSD_OUTPUT_CHANNEL_ERROR)
 		{
-			switched = false;
-			char buffer[4096];
+			s_action = 0x80;
+		}
+		else
+		if (channel == OSD_OUTPUT_CHANNEL_WARNING)
+		{
+			if (strstr(buffer, "WRONG"))
+			{
+				s_action = 0x81;
+			}
+		}
 
+		if (s_action)
+		{
 			// if we are in fullscreen mode, go to windowed mode
 			if ((video_config.windowed == 0) && !osd_common_t::s_window_list.empty())
 			{
 				winwindow_toggle_full_screen();
-				switched = true;
+				s_switched = true;
 			}
 
-			vsnprintf(buffer, WINUI_ARRAY_LENGTH(buffer), msg, args);
-			winui_message_box_utf8(!osd_common_t::s_window_list.empty() ? std::static_pointer_cast<win_window_info>(osd_common_t::s_window_list.front())->platform_window() : nullptr, buffer, MAMEUINAME, MB_ICONERROR | MB_OK);
+			winui_message_box_utf8(!osd_common_t::s_window_list.empty() ?
+				std::static_pointer_cast<win_window_info>(osd_common_t::s_window_list.front())->platform_window() :
+					hMain, buffer, MAMEUINAME, (BIT(s_action, 0) ? MB_ICONINFORMATION : MB_ICONERROR) | MB_OK);
 
-			if (switched)
+			if (s_switched)
 				winwindow_toggle_full_screen();
 		}
+
 //		else
 //			chain_output(channel, msg, args);   // goes down the black hole
 		// LOG all messages
@@ -601,6 +617,8 @@ int MameUIMain(HINSTANCE hInstance, LPWSTR lpCmdLine)
 	// delete old log file, ignore any error
 	unlink("winui.log");
 	unlink("verbose.log");
+
+	printf("ARCADE starting\n");fflush(stdout);
 
 	if (__argc != 1)
 	{
@@ -1127,9 +1145,13 @@ static void Win32UI_init(void)
 	LONG_PTR l;
 	struct TabViewOptions opts;
 
+	printf("Win32UI_init: About to init options\n");fflush(stdout);
+
 	/* Init DirectInput */
 	DirectInputInitialize();
 	OptionsInit();
+
+	printf("Win32UI_init: Options loaded\n");fflush(stdout);
 
 	if (RequiredDriverCache())
 		winui_set_window_text_utf8(GetDlgItem(hSplash, IDC_PROGBAR), "Building folders structure...");

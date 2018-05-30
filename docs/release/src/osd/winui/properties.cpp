@@ -305,9 +305,9 @@ const DUALCOMBOSTR g_ComboBoxSnapView[] =
 
 const DUALCOMBOSTR g_ComboBoxGLSLFilter[] =
 {
-	{ TEXT("Plain"),		"0" },
-	{ TEXT("Bilinear"),	   	"1" },
-	{ TEXT("Bicubic"),    	"2" }
+	{ TEXT("Plain"),    "0" },
+	{ TEXT("Bilinear"), "1" },
+	{ TEXT("Bicubic"),  "2" }
 };
 /***************************************************************
  * Public functions
@@ -1796,7 +1796,7 @@ static void OptionsToProp(HWND hWnd, windows_options &opts)
 
 	hCtrl = GetDlgItem(hWnd, IDC_EFFECT);
 
-	if (hCtrl) 
+	if (hCtrl)
 	{
 		const char* effect = opts.value(OPTION_EFFECT);
 
@@ -1814,7 +1814,7 @@ static void OptionsToProp(HWND hWnd, windows_options &opts)
 
 	hCtrl = GetDlgItem(hWnd, IDC_CHEATFILE);
 
-	if (hCtrl) 
+	if (hCtrl)
 	{
 		const char* cheatfile = opts.value(OPTION_CHEATPATH);
 
@@ -1836,7 +1836,7 @@ static void OptionsToProp(HWND hWnd, windows_options &opts)
 
 	hCtrl = GetDlgItem(hWnd, IDC_JOYSTICKMAP);
 
-	if (hCtrl) 
+	if (hCtrl)
 	{
 		const char* joymap = opts.value(OPTION_JOYSTICK_MAP);
 
@@ -1845,7 +1845,7 @@ static void OptionsToProp(HWND hWnd, windows_options &opts)
 
 	hCtrl = GetDlgItem(hWnd, IDC_LUASCRIPT);
 
-	if (hCtrl) 
+	if (hCtrl)
 	{
 		const char* script = opts.value(OPTION_AUTOBOOT_SCRIPT);
 
@@ -1866,7 +1866,7 @@ static void OptionsToProp(HWND hWnd, windows_options &opts)
 
 	hCtrl = GetDlgItem(hWnd, IDC_PLUGIN);
 
-	if (hCtrl) 
+	if (hCtrl)
 	{
 		const char* plugin = opts.value(OPTION_PLUGIN);
 
@@ -1878,7 +1878,7 @@ static void OptionsToProp(HWND hWnd, windows_options &opts)
 
 	hCtrl = GetDlgItem(hWnd, IDC_BGFX_CHAINS);
 
-	if (hCtrl) 
+	if (hCtrl)
 	{
 		const char* chains = opts.value(OSDOPTION_BGFX_SCREEN_CHAINS);
 

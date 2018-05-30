@@ -21,10 +21,10 @@ ace.cpp            // ok
 //aces1.cpp        // fruit
 //acesp.cpp        // fruit
 acommand.cpp       // ok
-actfancr.cpp
-adp.cpp
-aeroboto.cpp
-aerofgt.cpp
+actfancr.cpp       // ok
+adp.cpp            // ok
+aeroboto.cpp       // ok
+aerofgt.cpp        // ok
 //age_candy.cpp    // mechanical
 airbustr.cpp
 airraid.cpp
@@ -333,6 +333,7 @@ drtomy.cpp
 dunhuang.cpp
 //dwarfd.cpp       // poker
 dynadice.cpp
+dynamoah.cpp
 dynax.cpp
 dynduke.cpp
 //ecoinf1.cpp      // fruit
@@ -426,8 +427,9 @@ galpani2.cpp
 galpani3.cpp
 galpanic.cpp
 galspnbl.cpp
-//gambl186.cpp    // check
-//gamecstl.cpp    // chd
+//gambl186.cpp     // check
+//gamecstl.cpp     // chd
+//gamemasters.cpp  // mechanical
 gameplan.cpp
 //gammagic.cpp    // check
 //gamtor.cpp      // check
@@ -1040,6 +1042,7 @@ segas18.cpp
 segas24.cpp
 segas32.cpp
 //segasp.cpp       // check
+//segattl.cpp      // ttl
 //segaufo.cpp      // mechanical
 segaxbd.cpp
 segaybd.cpp
@@ -1153,7 +1156,6 @@ statriv2.cpp
 stfight.cpp
 stlforce.cpp
 strkzn.cpp
-strnskil.cpp
 stuntair.cpp
 stv.cpp
 su2000.cpp
@@ -1363,6 +1365,7 @@ xtheball.cpp
 xxmissio.cpp
 xybots.cpp
 xyonix.cpp
+y2.cpp
 yiear.cpp
 yunsun16.cpp
 yunsung8.cpp
