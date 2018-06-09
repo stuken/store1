@@ -756,9 +756,9 @@ void mediagx_state::mediagx_map(address_map &map)
 	map(0x000b0000, 0x000b7fff).ram().share("cga_ram");
 	map(0x000c0000, 0x000fffff).ram().share("bios_ram");
 	map(0x00100000, 0x00ffffff).ram();
-	map(0x40008000, 0x400080ff).rw(this, FUNC(mediagx_state::biu_ctrl_r), FUNC(mediagx_state::biu_ctrl_w));
-	map(0x40008300, 0x400083ff).rw(this, FUNC(mediagx_state::disp_ctrl_r), FUNC(mediagx_state::disp_ctrl_w));
-	map(0x40008400, 0x400084ff).rw(this, FUNC(mediagx_state::memory_ctrl_r), FUNC(mediagx_state::memory_ctrl_w));
+	map(0x40008000, 0x400080ff).rw(FUNC(mediagx_state::biu_ctrl_r), FUNC(mediagx_state::biu_ctrl_w));
+	map(0x40008300, 0x400083ff).rw(FUNC(mediagx_state::disp_ctrl_r), FUNC(mediagx_state::disp_ctrl_w));
+	map(0x40008400, 0x400084ff).rw(FUNC(mediagx_state::memory_ctrl_r), FUNC(mediagx_state::memory_ctrl_w));
 	map(0x40800000, 0x40bfffff).ram().share("vram");
 	map(0xfffc0000, 0xffffffff).rom().region("bios", 0);    /* System BIOS */
 }
@@ -766,12 +766,12 @@ void mediagx_state::mediagx_map(address_map &map)
 void mediagx_state::mediagx_io(address_map &map)
 {
 	pcat32_io_common(map);
-	map(0x0022, 0x0023).rw(this, FUNC(mediagx_state::io20_r), FUNC(mediagx_state::io20_w));
+	map(0x0022, 0x0023).rw(FUNC(mediagx_state::io20_r), FUNC(mediagx_state::io20_w));
 	map(0x00e8, 0x00eb).noprw();     // I/O delay port
-	map(0x01f0, 0x01f7).rw(m_ide, FUNC(ide_controller_32_device::read_cs0), FUNC(ide_controller_32_device::write_cs0));
-	map(0x0378, 0x037b).rw(this, FUNC(mediagx_state::parallel_port_r), FUNC(mediagx_state::parallel_port_w));
-	map(0x03f0, 0x03f7).rw(m_ide, FUNC(ide_controller_32_device::read_cs1), FUNC(ide_controller_32_device::write_cs1));
-	map(0x0400, 0x04ff).rw(this, FUNC(mediagx_state::ad1847_r), FUNC(mediagx_state::ad1847_w));
+	map(0x01f0, 0x01f7).rw(m_ide, FUNC(ide_controller_32_device::cs0_r), FUNC(ide_controller_32_device::cs0_w));
+	map(0x0378, 0x037b).rw(FUNC(mediagx_state::parallel_port_r), FUNC(mediagx_state::parallel_port_w));
+	map(0x03f0, 0x03f7).rw(m_ide, FUNC(ide_controller_32_device::cs1_r), FUNC(ide_controller_32_device::cs1_w));
+	map(0x0400, 0x04ff).rw(FUNC(mediagx_state::ad1847_r), FUNC(mediagx_state::ad1847_w));
 	map(0x0cf8, 0x0cff).rw("pcibus", FUNC(pci_bus_legacy_device::read), FUNC(pci_bus_legacy_device::write));
 }
 
@@ -1020,11 +1020,11 @@ void mediagx_state::init_a51site4()
 ROM_START( a51site4 )
 	ROM_REGION32_LE(0x40000, "bios", 0)
 	ROM_SYSTEM_BIOS(0, "new", "v1.0h" )
-	ROMX_LOAD("a51s4_bios_09-15-98.u1", 0x00000, 0x40000, CRC(f8cd6a6b) SHA1(75f851ae21517b729a5596ce5e042ebfaac51778), ROM_BIOS(1)) /* Build date 09/15/98 string stored at 0x3fff5 */
+	ROMX_LOAD("a51s4_bios_09-15-98.u1", 0x00000, 0x40000, CRC(f8cd6a6b) SHA1(75f851ae21517b729a5596ce5e042ebfaac51778), ROM_BIOS(0)) /* Build date 09/15/98 string stored at 0x3fff5 */
 	ROM_SYSTEM_BIOS(1, "old", "v1.0f" )
-	ROMX_LOAD("a51s4_bios_07-11-98.u1", 0x00000, 0x40000, CRC(5ee189cc) SHA1(0b0d9321a4c59b1deea6854923e655a4d8c4fcfe), ROM_BIOS(2)) /* Build date 07/11/98 string stored at 0x3fff5 */
+	ROMX_LOAD("a51s4_bios_07-11-98.u1", 0x00000, 0x40000, CRC(5ee189cc) SHA1(0b0d9321a4c59b1deea6854923e655a4d8c4fcfe), ROM_BIOS(1)) /* Build date 07/11/98 string stored at 0x3fff5 */
 	ROM_SYSTEM_BIOS(2, "older", "v1.0d" ) /* doesn't work with the HDs currently available, shows "FOR EVALUATION ONLY" */
-	ROMX_LOAD("a51s4_bios_04-22-98.u1", 0x00000, 0x40000, CRC(2008bfc6) SHA1(004bec8759fb04d375c6efc49d048693d1f871ee), ROM_BIOS(3)) /* Build date 04/22/98 string stored at 0x3fff5 */
+	ROMX_LOAD("a51s4_bios_04-22-98.u1", 0x00000, 0x40000, CRC(2008bfc6) SHA1(004bec8759fb04d375c6efc49d048693d1f871ee), ROM_BIOS(2)) /* Build date 04/22/98 string stored at 0x3fff5 */
 
 	ROM_REGION(0x08100, "gfx1", 0)
 	ROM_LOAD("cga.chr",     0x00000, 0x01000, CRC(42009069) SHA1(ed08559ce2d7f97f68b9f540bddad5b6295294dd))
@@ -1036,11 +1036,11 @@ ROM_END
 ROM_START( a51site4a ) /* When dumped connected straight to IDE the cylinders were 4968 and heads were 16 */
 	ROM_REGION32_LE(0x40000, "bios", 0)
 	ROM_SYSTEM_BIOS(0, "new", "v1.0h" )
-	ROMX_LOAD("a51s4_bios_09-15-98.u1", 0x00000, 0x40000, CRC(f8cd6a6b) SHA1(75f851ae21517b729a5596ce5e042ebfaac51778), ROM_BIOS(1)) /* Build date 09/15/98 string stored at 0x3fff5 */
+	ROMX_LOAD("a51s4_bios_09-15-98.u1", 0x00000, 0x40000, CRC(f8cd6a6b) SHA1(75f851ae21517b729a5596ce5e042ebfaac51778), ROM_BIOS(0)) /* Build date 09/15/98 string stored at 0x3fff5 */
 	ROM_SYSTEM_BIOS(1, "old", "v1.0f" )
-	ROMX_LOAD("a51s4_bios_07-11-98.u1", 0x00000, 0x40000, CRC(5ee189cc) SHA1(0b0d9321a4c59b1deea6854923e655a4d8c4fcfe), ROM_BIOS(2)) /* Build date 07/11/98 string stored at 0x3fff5 */
+	ROMX_LOAD("a51s4_bios_07-11-98.u1", 0x00000, 0x40000, CRC(5ee189cc) SHA1(0b0d9321a4c59b1deea6854923e655a4d8c4fcfe), ROM_BIOS(1)) /* Build date 07/11/98 string stored at 0x3fff5 */
 	ROM_SYSTEM_BIOS(2, "older", "v1.0d" ) /* doesn't work with the HDs currently available, shows "FOR EVALUATION ONLY" */
-	ROMX_LOAD("a51s4_bios_04-22-98.u1", 0x00000, 0x40000, CRC(2008bfc6) SHA1(004bec8759fb04d375c6efc49d048693d1f871ee), ROM_BIOS(3)) /* Build date 04/22/98 string stored at 0x3fff5, doesn't work */
+	ROMX_LOAD("a51s4_bios_04-22-98.u1", 0x00000, 0x40000, CRC(2008bfc6) SHA1(004bec8759fb04d375c6efc49d048693d1f871ee), ROM_BIOS(2)) /* Build date 04/22/98 string stored at 0x3fff5, doesn't work */
 
 	ROM_REGION(0x08100, "gfx1", 0)
 	ROM_LOAD("cga.chr",     0x00000, 0x01000, CRC(42009069) SHA1(ed08559ce2d7f97f68b9f540bddad5b6295294dd))

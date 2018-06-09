@@ -340,6 +340,7 @@ dynduke.cpp
 //ecoinf2.cpp      // fruit
 //ecoinf3.cpp      // fruit
 //ecoinfr.cpp      // fruit
+efdt.cpp           // ok
 egghunt.cpp
 //electra.cpp      // ttl
 embargo.cpp

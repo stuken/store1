@@ -169,9 +169,9 @@ void wicat_state::wicat_mem(address_map &map)
 	map(0x000000, 0x001fff).rom().region("c2", 0x0000);
 	map(0x020000, 0x1fffff).ram();
 	map(0x200000, 0x2fffff).ram();
-	map(0x300000, 0xdfffff).rw(this, FUNC(wicat_state::invalid_r), FUNC(wicat_state::invalid_w));
+	map(0x300000, 0xdfffff).rw(FUNC(wicat_state::invalid_r), FUNC(wicat_state::invalid_w));
 	map(0xeff800, 0xeffbff).ram();  // memory mapping SRAM, used during boot sequence for storing various data (TODO)
-	map(0xeffc00, 0xeffc01).rw(this, FUNC(wicat_state::memmap_r), FUNC(wicat_state::memmap_w));
+	map(0xeffc00, 0xeffc01).rw(FUNC(wicat_state::memmap_r), FUNC(wicat_state::memmap_w));
 	map(0xf00000, 0xf00007).rw(m_uart0, FUNC(mc2661_device::read), FUNC(mc2661_device::write)).umask16(0xff00);  // UARTs
 	map(0xf00008, 0xf0000f).rw(m_uart1, FUNC(mc2661_device::read), FUNC(mc2661_device::write)).umask16(0xff00);
 	map(0xf00010, 0xf00017).rw(m_uart2, FUNC(mc2661_device::read), FUNC(mc2661_device::write)).umask16(0xff00);
@@ -179,12 +179,12 @@ void wicat_state::wicat_mem(address_map &map)
 	map(0xf00020, 0xf00027).rw(m_uart4, FUNC(mc2661_device::read), FUNC(mc2661_device::write)).umask16(0xff00);
 	map(0xf00028, 0xf0002f).rw(m_uart5, FUNC(mc2661_device::read), FUNC(mc2661_device::write)).umask16(0xff00);
 	map(0xf00030, 0xf00037).rw(m_uart6, FUNC(mc2661_device::read), FUNC(mc2661_device::write)).umask16(0xff00);
-	map(0xf00040, 0xf0005f).rw(this, FUNC(wicat_state::via_r), FUNC(wicat_state::via_w));
+	map(0xf00040, 0xf0005f).rw(FUNC(wicat_state::via_r), FUNC(wicat_state::via_w));
 	map(0xf00060, 0xf0007f).rw(m_rtc, FUNC(mm58274c_device::read), FUNC(mm58274c_device::write)).umask16(0xff00);
 	map(0xf000d0, 0xf000d0).w("ledlatch", FUNC(ls259_device::write_nibble_d3));
-	map(0xf00180, 0xf0018f).rw(this, FUNC(wicat_state::hdc_r), FUNC(wicat_state::hdc_w));  // WD1000
-	map(0xf00190, 0xf0019f).rw(this, FUNC(wicat_state::fdc_r), FUNC(wicat_state::fdc_w));  // FD1795
-	map(0xf00f00, 0xf00fff).rw(this, FUNC(wicat_state::invalid_r), FUNC(wicat_state::invalid_w));
+	map(0xf00180, 0xf0018f).rw(FUNC(wicat_state::hdc_r), FUNC(wicat_state::hdc_w));  // WD1000
+	map(0xf00190, 0xf0019f).rw(FUNC(wicat_state::fdc_r), FUNC(wicat_state::fdc_w));  // FD1795
+	map(0xf00f00, 0xf00fff).rw(FUNC(wicat_state::invalid_r), FUNC(wicat_state::invalid_w));
 }
 
 void wicat_state::wicat_video_mem(address_map &map)
@@ -196,16 +196,16 @@ void wicat_state::wicat_video_mem(address_map &map)
 void wicat_state::wicat_video_io(address_map &map)
 {
 	// these are largely wild guesses...
-	map(0x0000, 0x0003).rw(this, FUNC(wicat_state::video_timer_r), FUNC(wicat_state::video_timer_w));  // some sort of timer?
-	map(0x0100, 0x0107).rw(this, FUNC(wicat_state::video_uart0_r), FUNC(wicat_state::video_uart0_w));  // INS2651 UART #1
-	map(0x0200, 0x0207).rw(this, FUNC(wicat_state::video_uart1_r), FUNC(wicat_state::video_uart1_w));  // INS2651 UART #2
-	map(0x0304, 0x0304).r(this, FUNC(wicat_state::video_status_r));
-	map(0x0400, 0x047f).rw(this, FUNC(wicat_state::videosram_r), FUNC(wicat_state::videosram_w));  // XD2210  4-bit NOVRAM
-	map(0x0500, 0x0500).w(this, FUNC(wicat_state::videosram_recall_w));
-	map(0x0600, 0x0600).w(this, FUNC(wicat_state::videosram_store_w));
-	map(0x0800, 0x080f).rw(this, FUNC(wicat_state::video_ctrl_r), FUNC(wicat_state::video_ctrl_w));
-	map(0x0a00, 0x0a1f).rw(this, FUNC(wicat_state::video_dma_r), FUNC(wicat_state::video_dma_w)); // AM9517A DMA
-	map(0x0b00, 0x0b03).rw(this, FUNC(wicat_state::video_r), FUNC(wicat_state::video_w));  // i8275 CRTC
+	map(0x0000, 0x0003).rw(FUNC(wicat_state::video_timer_r), FUNC(wicat_state::video_timer_w));  // some sort of timer?
+	map(0x0100, 0x0107).rw(FUNC(wicat_state::video_uart0_r), FUNC(wicat_state::video_uart0_w));  // INS2651 UART #1
+	map(0x0200, 0x0207).rw(FUNC(wicat_state::video_uart1_r), FUNC(wicat_state::video_uart1_w));  // INS2651 UART #2
+	map(0x0304, 0x0304).r(FUNC(wicat_state::video_status_r));
+	map(0x0400, 0x047f).rw(FUNC(wicat_state::videosram_r), FUNC(wicat_state::videosram_w));  // XD2210  4-bit NOVRAM
+	map(0x0500, 0x0500).w(FUNC(wicat_state::videosram_recall_w));
+	map(0x0600, 0x0600).w(FUNC(wicat_state::videosram_store_w));
+	map(0x0800, 0x080f).rw(FUNC(wicat_state::video_ctrl_r), FUNC(wicat_state::video_ctrl_w));
+	map(0x0a00, 0x0a1f).rw(FUNC(wicat_state::video_dma_r), FUNC(wicat_state::video_dma_w)); // AM9517A DMA
+	map(0x0b00, 0x0b03).rw(FUNC(wicat_state::video_r), FUNC(wicat_state::video_w));  // i8275 CRTC
 	map(0x0e00, 0x0eff).ram();
 	map(0x4000, 0x5fff).ram().share("vram"); // video RAM?
 	map(0x8000, 0x8fff).rom().region("g2char", 0x0000);
@@ -921,7 +921,8 @@ MACHINE_CONFIG_START(wicat_state::wicat)
 	MCFG_DEVICE_ADD("wd1kcpu", N8X300, 8_MHz_XTAL)
 	MCFG_DEVICE_PROGRAM_MAP(wicat_wd1000_mem)
 	MCFG_DEVICE_IO_MAP(wicat_wd1000_io)
-	MCFG_FD1795_ADD("fdc", 8_MHz_XTAL)
+
+	MCFG_DEVICE_ADD("fdc", FD1795, 8_MHz_XTAL)
 	MCFG_FLOPPY_DRIVE_ADD("fdc:0", wicat_floppies, "525qd", floppy_image_device::default_floppy_formats)
 	MCFG_FLOPPY_DRIVE_SOUND(true)
 	MCFG_FLOPPY_DRIVE_ADD("fdc:1", wicat_floppies, nullptr, floppy_image_device::default_floppy_formats)
@@ -951,15 +952,15 @@ ROM_START( wicat )
 	// System 150 CPU/MU board
 	ROM_REGION16_BE(0x2000, "c2", 0)
 	ROM_SYSTEM_BIOS( 0, "cms", "CMS HD / Floppy Boot / Boot v1.56" )
-	ROMX_LOAD("s156.a5", 0x00000, 0x0800, CRC(2c1e9542) SHA1(50184e04f0c881818e96e2162111d16304e8762f), ROM_SKIP(1) | ROM_BIOS(1) )
-	ROMX_LOAD("s156.a7", 0x00001, 0x0800, CRC(5a0cb30d) SHA1(aa106ad5a8b9e89613f7ea026d62832cfdb19fd0), ROM_SKIP(1) | ROM_BIOS(1) )
-	ROMX_LOAD("37m.b5",  0x01000, 0x0800, CRC(831571fb) SHA1(fcc647b3ef9f0cca3e8212f850f96676d24cf318), ROM_SKIP(1) | ROM_BIOS(1) )
-	ROMX_LOAD("37m.b7",  0x01001, 0x0800, CRC(3c346e8e) SHA1(d8ff8297d265b25655c854ed8515fa9e16c63f39), ROM_SKIP(1) | ROM_BIOS(1) )
+	ROMX_LOAD("s156.a5", 0x00000, 0x0800, CRC(2c1e9542) SHA1(50184e04f0c881818e96e2162111d16304e8762f), ROM_SKIP(1) | ROM_BIOS(0) )
+	ROMX_LOAD("s156.a7", 0x00001, 0x0800, CRC(5a0cb30d) SHA1(aa106ad5a8b9e89613f7ea026d62832cfdb19fd0), ROM_SKIP(1) | ROM_BIOS(0) )
+	ROMX_LOAD("37m.b5",  0x01000, 0x0800, CRC(831571fb) SHA1(fcc647b3ef9f0cca3e8212f850f96676d24cf318), ROM_SKIP(1) | ROM_BIOS(0) )
+	ROMX_LOAD("37m.b7",  0x01001, 0x0800, CRC(3c346e8e) SHA1(d8ff8297d265b25655c854ed8515fa9e16c63f39), ROM_SKIP(1) | ROM_BIOS(0) )
 	ROM_SYSTEM_BIOS( 1, "wd3", "WD3 HD Boot / Boot v1.56" )
-	ROMX_LOAD("boot156.a5", 0x00000, 0x0800, CRC(58510a52) SHA1(d2135b056a04ba830b0ae1cef539e4a9a1b58f82), ROM_SKIP(1) | ROM_BIOS(2) )
-	ROMX_LOAD("boot156.a7", 0x00001, 0x0800, CRC(e53999f1) SHA1(9c6c6a3a56b5c16a35e1fe824f37c8ae739ebcb9), ROM_SKIP(1) | ROM_BIOS(2) )
-	ROMX_LOAD("wd3_15.b5",  0x01000, 0x0800, CRC(a765899b) SHA1(8427c564029914b7dbc29768ce451604180e390f), ROM_SKIP(1) | ROM_BIOS(2) )
-	ROMX_LOAD("wd3_15.b7",  0x01001, 0x0800, CRC(9d986585) SHA1(1ac7579c692f827b121c56dac0a77b15400caba1), ROM_SKIP(1) | ROM_BIOS(2) )
+	ROMX_LOAD("boot156.a5", 0x00000, 0x0800, CRC(58510a52) SHA1(d2135b056a04ba830b0ae1cef539e4a9a1b58f82), ROM_SKIP(1) | ROM_BIOS(1) )
+	ROMX_LOAD("boot156.a7", 0x00001, 0x0800, CRC(e53999f1) SHA1(9c6c6a3a56b5c16a35e1fe824f37c8ae739ebcb9), ROM_SKIP(1) | ROM_BIOS(1) )
+	ROMX_LOAD("wd3_15.b5",  0x01000, 0x0800, CRC(a765899b) SHA1(8427c564029914b7dbc29768ce451604180e390f), ROM_SKIP(1) | ROM_BIOS(1) )
+	ROMX_LOAD("wd3_15.b7",  0x01001, 0x0800, CRC(9d986585) SHA1(1ac7579c692f827b121c56dac0a77b15400caba1), ROM_SKIP(1) | ROM_BIOS(1) )
 
 	// Terminal CPU board (Graphical)
 	// "MG8000 VERSION 3.0"

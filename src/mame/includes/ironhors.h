@@ -23,13 +23,11 @@ public:
 		m_palette(*this, "palette"),
 		m_soundlatch(*this, "soundlatch"),
 		m_disc_ih(*this, "disc_ih"),
-		m_interrupt_enable(*this, "int_enable"),
 		m_scroll(*this, "scroll"),
 		m_colorram(*this, "colorram"),
 		m_videoram(*this, "videoram"),
 		m_spriteram2(*this, "spriteram2"),
-		m_spriteram(*this, "spriteram")
-		{ }
+		m_spriteram(*this, "spriteram") { }
 
 	DECLARE_WRITE8_MEMBER(sh_irqtrigger_w);
 	DECLARE_WRITE8_MEMBER(videoram_w);
@@ -76,7 +74,7 @@ private:
 	required_device<discrete_device> m_disc_ih;
 
 	/* memory pointers */
-	required_shared_ptr<uint8_t> m_interrupt_enable;
+	//required_shared_ptr<uint8_t> m_interrupt_enable;
 	required_shared_ptr<uint8_t> m_scroll;
 	required_shared_ptr<uint8_t> m_colorram;
 	required_shared_ptr<uint8_t> m_videoram;
@@ -88,16 +86,14 @@ private:
 	int        m_palettebank;
 	int        m_charbank;
 	int        m_spriterambank;
-
-	/* misc */
-	uint8_t m_interrupt_mask;
-	uint8_t m_interrupt_ticks;
-	uint8_t m_irq_enable;
-	uint8_t m_nmi_enable;
-
-	TILE_GET_INFO_MEMBER(get_bg_tile_info);
-	TILE_GET_INFO_MEMBER(farwest_get_bg_tile_info);
+	uint8_t    m_interrupt_mask;
+	uint8_t    m_interrupt_ticks;
+	uint8_t    m_irq_enable;
+	uint8_t    m_nmi_enable;
 
 	void draw_sprites( bitmap_ind16 &bitmap, const rectangle &cliprect );
 	void farwest_draw_sprites( bitmap_ind16 &bitmap, const rectangle &cliprect );
+
+	TILE_GET_INFO_MEMBER(get_bg_tile_info);
+	TILE_GET_INFO_MEMBER(farwest_get_bg_tile_info);
 };
