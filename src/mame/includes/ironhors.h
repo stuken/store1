@@ -9,6 +9,7 @@
 #include "machine/gen_latch.h"
 #include "machine/timer.h"
 #include "sound/discrete.h"
+#include "emupal.h"
 
 #define MASTER_CLOCK        XTAL(18'432'000)
 
