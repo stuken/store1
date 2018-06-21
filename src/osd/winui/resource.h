@@ -464,6 +464,7 @@
 #define IDC_AUTOSTRETCHXY               1400
 #define IDC_NVRAM_SAVE                  1401
 #define IDC_REWIND                      1402
+#define IDC_DRC_CORE					1403
 #define ID_CONTEXT_SHOW_FOLDER_START    39000
 #define ID_CONTEXT_SHOW_FOLDER_END      39499
 #define ID_SHOW_FOLDER_START1           39500
