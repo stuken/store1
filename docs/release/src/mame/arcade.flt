@@ -340,6 +340,7 @@ dynduke.cpp
 //ecoinf2.cpp      // fruit
 //ecoinf3.cpp      // fruit
 //ecoinfr.cpp      // fruit
+efdt.cpp           // ok
 egghunt.cpp
 //electra.cpp      // ttl
 embargo.cpp
@@ -831,6 +832,7 @@ neoprint.cpp
 news.cpp
 //nexus3d.cpp     // check
 //nibble.cpp      // check
+//nichild.cpp     // check (black screen)
 nightgal.cpp
 ninjakd2.cpp
 ninjaw.cpp

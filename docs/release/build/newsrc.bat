@@ -59,6 +59,7 @@ copy /Y %from%\src\mame\drivers\simpsons.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\ssv.cpp             %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\thunderx.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\vaportra.cpp        %to%\src\mame\drivers
+copy /Y %from%\src\mame\drivers\vegas.cpp           %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\vendetta.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\xmen.cpp            %to%\src\mame\drivers
 copy /Y %from%\src\mame\video\cidelsa.cpp           %to%\src\mame\video
