@@ -11,8 +11,6 @@
 #include "sound/discrete.h"
 #include "emupal.h"
 
-#define MASTER_CLOCK        XTAL(18'432'000)
-
 class ironhors_state : public driver_device
 {
 public:
@@ -24,6 +22,7 @@ public:
 		m_palette(*this, "palette"),
 		m_soundlatch(*this, "soundlatch"),
 		m_disc_ih(*this, "disc_ih"),
+		m_interrupt_enable(*this, "int_enable"),
 		m_scroll(*this, "scroll"),
 		m_colorram(*this, "colorram"),
 		m_videoram(*this, "videoram"),
@@ -38,17 +37,12 @@ public:
 	DECLARE_WRITE8_MEMBER(flipscreen_w);
 	DECLARE_WRITE8_MEMBER(filter_w);
 	DECLARE_READ8_MEMBER(farwest_soundlatch_r);
-	DECLARE_WRITE8_MEMBER(irq_ctrl_w);
-	DECLARE_WRITE8_MEMBER(irq_enable_w);
 
 	uint32_t screen_update(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 	uint32_t screen_update_farwest(screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect);
 
 	TIMER_DEVICE_CALLBACK_MEMBER(irq);
 	TIMER_DEVICE_CALLBACK_MEMBER(farwest_irq);
-	TIMER_DEVICE_CALLBACK_MEMBER(interrupt_tick);
-	INTERRUPT_GEN_MEMBER(farwest_irq);
-	INTERRUPT_GEN_MEMBER(farwest_irq_nmi);
 
 	DECLARE_PALETTE_INIT(ironhors);
 	DECLARE_VIDEO_START(farwest);
@@ -75,7 +69,7 @@ private:
 	required_device<discrete_device> m_disc_ih;
 
 	/* memory pointers */
-	//required_shared_ptr<uint8_t> m_interrupt_enable;
+	required_shared_ptr<uint8_t> m_interrupt_enable;
 	required_shared_ptr<uint8_t> m_scroll;
 	required_shared_ptr<uint8_t> m_colorram;
 	required_shared_ptr<uint8_t> m_videoram;
@@ -87,10 +81,6 @@ private:
 	int        m_palettebank;
 	int        m_charbank;
 	int        m_spriterambank;
-	uint8_t    m_interrupt_mask;
-	uint8_t    m_interrupt_ticks;
-	uint8_t    m_irq_enable;
-	uint8_t    m_nmi_enable;
 
 	void draw_sprites( bitmap_ind16 &bitmap, const rectangle &cliprect );
 	void farwest_draw_sprites( bitmap_ind16 &bitmap, const rectangle &cliprect );

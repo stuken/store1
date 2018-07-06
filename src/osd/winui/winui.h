@@ -42,6 +42,7 @@
 #include "pluginopts.h"
 #include "ui/moptions.h"
 #include "ui/info.h"
+#include "romload.h"
 
 // special Windows headers, after MAME ones
 #include <dinput.h>
