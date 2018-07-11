@@ -13,8 +13,8 @@
     - MBK
     - OBJ 3
     - LBK
-	TODO: Anything else doesn't match this scheme (most notably Denjin Makai), 
-	      guess it's selectable by PROM, CRTC or COP ...
+    TODO: Anything else doesn't match this scheme (most notably Denjin Makai),
+          guess it's selectable by PROM, CRTC or COP ...
 
 ***************************************************************************/
 
@@ -216,7 +216,7 @@ TILE_GET_INFO_MEMBER(legionna_state::get_text_tile_info)
 	SET_TILE_INFO_MEMBER(0,tile,color,0);
 }
 
-void legionna_state::common_video_start()
+void legionna_state::common_video_allocate_ptr()
 {
 	m_back_data = make_unique_clear<uint16_t[]>(0x800/2);
 	m_fore_data = make_unique_clear<uint16_t[]>(0x800/2);
@@ -240,17 +240,16 @@ void legionna_state::common_video_start()
 	save_item(NAME(m_mid_gfx_bank));
 	save_item(NAME(m_fore_gfx_bank));
 	save_item(NAME(m_layer_disable));
+}
 
-	//common_video_allocate_ptr();
+void legionna_state::common_video_start()
+{
+	common_video_allocate_ptr();
 
 	m_background_layer = &machine().tilemap().create(*m_gfxdecode, tilemap_get_info_delegate(FUNC(legionna_state::get_back_tile_info),this),TILEMAP_SCAN_ROWS,16,16,32,32);
 	m_midground_layer =  &machine().tilemap().create(*m_gfxdecode, tilemap_get_info_delegate(FUNC(legionna_state::get_mid_tile_info),this), TILEMAP_SCAN_ROWS,16,16,32,32);
 	m_foreground_layer = &machine().tilemap().create(*m_gfxdecode, tilemap_get_info_delegate(FUNC(legionna_state::get_fore_tile_info),this),TILEMAP_SCAN_ROWS,16,16,32,32);
 	m_text_layer =       &machine().tilemap().create(*m_gfxdecode, tilemap_get_info_delegate(FUNC(legionna_state::get_text_tile_info),this),TILEMAP_SCAN_ROWS,  8,8,64,32);
-
-	m_scrollram16 = std::make_unique<uint16_t[]>(0x60/2);
-	m_sprite_xoffs = 0;
-	m_sprite_yoffs = 0;
 
 	m_has_extended_banking = 0;
 	m_has_extended_priority = 0;
@@ -264,7 +263,7 @@ void legionna_state::common_video_start()
 VIDEO_START_MEMBER(legionna_state,legionna)
 {
 	common_video_start();
-	
+
 	m_sprite_pri_mask[0] = 0x0000;
 	m_sprite_pri_mask[1] = 0xfff0;
 	m_sprite_pri_mask[2] = 0xfffc;
@@ -288,7 +287,7 @@ VIDEO_START_MEMBER(legionna_state,godzilla)
 
 	m_has_extended_banking = 1;
 	m_has_extended_priority = 0;
-	
+
 	m_sprite_pri_mask[0] = 0xfff0;
 	m_sprite_pri_mask[1] = 0xfffc;
 	m_sprite_pri_mask[2] = 0xfffe;
@@ -298,23 +297,16 @@ VIDEO_START_MEMBER(legionna_state,godzilla)
 
 VIDEO_START_MEMBER(legionna_state,denjinmk)
 {
-	m_back_data = make_unique_clear<uint16_t[]>(0x800/2);
-	m_fore_data =  make_unique_clear<uint16_t[]>(0x800/2);
-	m_mid_data =  make_unique_clear<uint16_t[]>(0x800/2);
-	m_textram =  make_unique_clear<uint16_t[]>(0x1000/2);
+	common_video_allocate_ptr();
 
 	m_background_layer = &machine().tilemap().create(*m_gfxdecode, tilemap_get_info_delegate(FUNC(legionna_state::get_back_tile_info),this),TILEMAP_SCAN_ROWS,16,16,32,32);
 	m_midground_layer =  &machine().tilemap().create(*m_gfxdecode, tilemap_get_info_delegate(FUNC(legionna_state::get_mid_tile_info_denji),this), TILEMAP_SCAN_ROWS,16,16,32,32);
 	m_foreground_layer = &machine().tilemap().create(*m_gfxdecode, tilemap_get_info_delegate(FUNC(legionna_state::get_fore_tile_info_denji),this),TILEMAP_SCAN_ROWS,16,16,32,32);
 	m_text_layer =       &machine().tilemap().create(*m_gfxdecode, tilemap_get_info_delegate(FUNC(legionna_state::get_text_tile_info),this),TILEMAP_SCAN_ROWS,  8,8,64,32);
 
-	m_scrollram16 = std::make_unique<uint16_t[]>(0x60/2);
-	m_sprite_xoffs = 0;
-	m_sprite_yoffs = 0;
-
 	m_has_extended_banking = 1;
 	m_has_extended_priority = 0;
-	
+
 	m_sprite_pri_mask[0] = 0xfff0; // normal sprites
 	m_sprite_pri_mask[1] = 0xfffc; // luna park horse rides
 	m_sprite_pri_mask[2] = 0xfffe; // door at the end of sewers part in level 1
@@ -328,19 +320,12 @@ VIDEO_START_MEMBER(legionna_state,denjinmk)
 
 VIDEO_START_MEMBER(legionna_state,cupsoc)
 {
-	m_back_data = make_unique_clear<uint16_t[]>(0x800/2);
-	m_fore_data =  make_unique_clear<uint16_t[]>(0x800/2);
-	m_mid_data =  make_unique_clear<uint16_t[]>(0x800/2);
-	m_textram =  make_unique_clear<uint16_t[]>(0x1000/2);
+	common_video_allocate_ptr();
 
 	m_background_layer = &machine().tilemap().create(*m_gfxdecode, tilemap_get_info_delegate(FUNC(legionna_state::get_back_tile_info),this),TILEMAP_SCAN_ROWS,16,16,32,32);
 	m_midground_layer =  &machine().tilemap().create(*m_gfxdecode, tilemap_get_info_delegate(FUNC(legionna_state::get_mid_tile_info_cupsoc),this), TILEMAP_SCAN_ROWS,16,16,32,32);
 	m_foreground_layer = &machine().tilemap().create(*m_gfxdecode, tilemap_get_info_delegate(FUNC(legionna_state::get_fore_tile_info),this),TILEMAP_SCAN_ROWS,16,16,32,32);
 	m_text_layer =       &machine().tilemap().create(*m_gfxdecode, tilemap_get_info_delegate(FUNC(legionna_state::get_text_tile_info),this),TILEMAP_SCAN_ROWS,  8,8,64,32);
-
-	m_scrollram16 = std::make_unique<uint16_t[]>(0x60/2);
-	m_sprite_xoffs = 0;
-	m_sprite_yoffs = 0;
 
 	m_has_extended_banking = 0;
 	m_has_extended_priority = 1;
@@ -449,7 +434,7 @@ void legionna_state::draw_sprites(screen_device &screen, bitmap_ind16 &bitmap,co
 
 			pri_test&=3;
 			popmessage("%02x",pri_test);
-			
+
 			// quick and dirty priority tester
 			if(cur_pri == pri_test)
 			{
@@ -612,7 +597,7 @@ uint32_t legionna_state::screen_update_heatbrl(screen_device &screen, bitmap_ind
 	/* Setup the tilemaps */
 	screen.priority().fill(0, cliprect);
 	bitmap.fill(m_palette->black_pen(), cliprect);    /* wrong color? */
-	
+
 	// TODO: priority order is different than anything else?
 	if (!(m_layer_disable&0x0004)) m_foreground_layer->draw(screen, bitmap, cliprect, 0, 0);
 	if (!(m_layer_disable&0x0002)) m_midground_layer->draw(screen, bitmap, cliprect, 0, 1);
