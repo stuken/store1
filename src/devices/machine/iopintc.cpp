@@ -2,20 +2,25 @@
 // copyright-holders:Ryan Holtz
 /******************************************************************************
 *
-*   Sony Playstation 2 IOP interrupt controller device skeleton
+*   Sony PlayStation 2 IOP interrupt controller device skeleton
 *
 *   To Do:
 *     Everything
 *
 */
 
+#include "emu.h"
 #include "iopintc.h"
 
-DEFINE_DEVICE_TYPE(SONYIOP_INTC, iop_intc_device, "iopintc", "Playstation 2 IOP INTC")
+DEFINE_DEVICE_TYPE(SONYIOP_INTC, iop_intc_device, "iopintc", "PlayStation 2 IOP INTC")
 
 iop_intc_device::iop_intc_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock)
 	: device_t(mconfig, SONYIOP_INTC, tag, owner, clock)
 	, m_iop(*this, finder_base::DUMMY_TAG)
+{
+}
+
+iop_intc_device::~iop_intc_device()
 {
 }
 
@@ -40,11 +45,11 @@ READ32_MEMBER(iop_intc_device::read)
 	{
 		case 0: // I_STAT
 			ret = m_status;
-			logerror("%s: read: I_STAT %08x & %08x\n", machine().describe_context(), ret, mem_mask);
+			//logerror("%s: read: I_STAT %08x & %08x\n", machine().describe_context(), ret, mem_mask);
 			break;
 		case 1: // I_MASK
 			ret = m_mask;
-			logerror("%s: read: I_MASK %08x & %08x\n", machine().describe_context(), ret, mem_mask);
+			//logerror("%s: read: I_MASK %08x & %08x\n", machine().describe_context(), ret, mem_mask);
 			break;
 		case 2: // I_ENABLE
 			ret = m_enabled ? 1 : 0;
@@ -64,12 +69,12 @@ WRITE32_MEMBER(iop_intc_device::write)
 	switch (offset)
 	{
 		case 0: // I_STAT
-			logerror("%s: write: I_STAT = %08x & %08x\n", machine().describe_context(), data, mem_mask);
+			//logerror("%s: write: I_STAT = %08x & %08x\n", machine().describe_context(), data, mem_mask);
 			m_status &= data;
 			update_interrupts();
 			break;
 		case 1: // I_MASK
-			logerror("%s: write: I_MASK = %08x & %08x\n", machine().describe_context(), data, mem_mask);
+			//logerror("%s: write: I_MASK = %08x & %08x\n", machine().describe_context(), data, mem_mask);
 			m_mask = data;
 			update_interrupts();
 			break;
@@ -86,7 +91,7 @@ WRITE32_MEMBER(iop_intc_device::write)
 
 void iop_intc_device::raise_interrupt(uint32_t line)
 {
-	logerror("%s: raise_interrupt: %d\n", machine().describe_context(), line);
+	//logerror("%s: raise_interrupt: %d\n", machine().describe_context(), line);
 	m_status |= (1 << line);
 	update_interrupts();
 }

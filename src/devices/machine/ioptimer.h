@@ -2,7 +2,7 @@
 // copyright-holders:Ryan Holtz
 /******************************************************************************
 *
-*   Sony Playstation 2 IOP Timer device skeleton
+*   Sony PlayStation 2 IOP timer device skeleton
 *
 *   To Do:
 *     Everything
@@ -14,14 +14,13 @@
 
 #pragma once
 
-
 #define MCFG_IOP_TIMER_IRQ_CALLBACK(_write) \
 	downcast<iop_timer_device &>(*device).set_int_cb(DEVCB_##_write);
 
 class iop_timer_device : public device_t
 {
 public:
-    iop_timer_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock);
+	iop_timer_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock);
 
 	template <class Object> devcb_base &set_int_cb(Object &&cb) { return m_int_cb.set_callback(std::forward<Object>(cb)); }
 
@@ -51,8 +50,8 @@ protected:
 		GATM_BOTH
 	};
 
-    virtual void device_start() override;
-    virtual void device_reset() override;
+	virtual void device_start() override;
+	virtual void device_reset() override;
 
 	TIMER_CALLBACK_MEMBER(compare);
 	TIMER_CALLBACK_MEMBER(overflow);
@@ -60,10 +59,10 @@ protected:
 	void set_ctrl(uint32_t data);
 
 	void update_gate();
-    void update_interrupts();
+	void update_interrupts();
 
 	void update_compare_timer();
-    void update_overflow_timer();
+	void update_overflow_timer();
 
 	void update_count();
 
@@ -72,26 +71,26 @@ protected:
 
 	uint32_t m_ctrl;
 
-    attotime m_last_update_time;
-    attotime m_elapsed_time;
-   	bool m_zero_return;
-   	uint32_t m_count;
-   	uint32_t m_compare;
+	attotime m_last_update_time;
+	attotime m_elapsed_time;
+	bool m_zero_return;
+	uint32_t m_count;
+	uint32_t m_compare;
 
-    bool m_gate_enable;
-   	timer_gate_mode m_gate_mode;
+	bool m_gate_enable;
+	timer_gate_mode m_gate_mode;
 
-   	bool m_cmp_int_enabled;
-   	bool m_cmp_int;
+	bool m_cmp_int_enabled;
+	bool m_cmp_int;
 
-   	bool m_ovf_int_enabled;
-   	bool m_ovf_int;
+	bool m_ovf_int_enabled;
+	bool m_ovf_int;
 
 	bool m_repeat_int;
 	bool m_toggle_int;
 
-   	bool m_ienable;
-   	devcb_write_line m_int_cb;
+	bool m_ienable;
+	devcb_write_line m_int_cb;
 };
 
 DECLARE_DEVICE_TYPE(SONYIOP_TIMER, iop_timer_device)

@@ -2,7 +2,7 @@
 // copyright-holders:Ryan Holtz
 /******************************************************************************
 *
-*   Sony Playstation 2 SIF device skeleton
+*   Sony PlayStation 2 SIF device skeleton
 *
 *   To Do:
 *     Everything
@@ -14,20 +14,20 @@
 
 #pragma once
 
-#include "emu.h"
 #include "ps2intc.h"
 
 class ps2_sif_device : public device_t
 {
 public:
 	template <typename T>
-    ps2_sif_device(const machine_config &mconfig, const char *tag, device_t *owner, T &&intc_tag)
-    	: ps2_sif_device(mconfig, tag, owner, (uint32_t)0)
-    {
+	ps2_sif_device(const machine_config &mconfig, const char *tag, device_t *owner, T &&intc_tag)
+		: ps2_sif_device(mconfig, tag, owner, (uint32_t)0)
+	{
 		m_intc.set_tag(std::forward<T>(intc_tag));
 	}
 
-    ps2_sif_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock);
+	ps2_sif_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock);
+	virtual ~ps2_sif_device() override;
 
 	DECLARE_READ32_MEMBER(ee_r);
 	DECLARE_WRITE32_MEMBER(ee_w);
@@ -41,8 +41,8 @@ public:
 	static const size_t MAX_FIFO_DEPTH;
 
 protected:
-    virtual void device_start() override;
-    virtual void device_reset() override;
+	virtual void device_start() override;
+	virtual void device_reset() override;
 
 	required_device<ps2_intc_device> m_intc;
 

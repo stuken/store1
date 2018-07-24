@@ -2,33 +2,38 @@
 // copyright-holders:Ryan Holtz
 /******************************************************************************
 *
-*   Sony Playstation 2 DMAC device skeleton
+*   Sony PlayStation 2 EE DMA controller device skeleton
 *
 *   To Do:
 *     Everything
 *
 */
 
-#ifndef MAME_MACHINE_PS2DMAC_H
-#define MAME_MACHINE_PS2DMAC_H
+#ifndef MAME_MACHINE_PS2DMA_H
+#define MAME_MACHINE_PS2DMA_H
 
 #pragma once
 
-#include "emu.h"
+#include "cpu/mips/ps2vu.h"
+#include "video/ps2gs.h"
+#include "ps2sif.h"
 
 class ps2_dmac_device : public device_t, public device_execute_interface
 {
 public:
-	template <typename T, typename U, typename V>
-    ps2_dmac_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock, T &&ee_tag, U &&ram_tag, V &&sif_tag)
-    	: ps2_dmac_device(mconfig, tag, owner, clock)
-    {
+	template <typename T, typename U, typename V, typename W, typename X>
+	ps2_dmac_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock, T &&ee_tag, U &&ram_tag, V &&sif_tag, W &&gs_tag, X &&vu1_tag)
+		: ps2_dmac_device(mconfig, tag, owner, clock)
+	{
 		m_ee.set_tag(std::forward<T>(ee_tag));
 		m_ram.set_tag(std::forward<U>(ram_tag));
 		m_sif.set_tag(std::forward<V>(sif_tag));
+		m_gs.set_tag(std::forward<W>(gs_tag));
+		m_vu1.set_tag(std::forward<X>(vu1_tag));
 	}
 
-    ps2_dmac_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock);
+	ps2_dmac_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock);
+	virtual ~ps2_dmac_device() override;
 
 	enum channel_type : uint32_t
 	{
@@ -53,12 +58,12 @@ public:
 	DECLARE_WRITE32_MEMBER(disable_mask_w);
 
 protected:
-    virtual void device_start() override;
-    virtual void device_reset() override;
+	virtual void device_start() override;
+	virtual void device_reset() override;
 	virtual void execute_run() override;
 
-    enum tag_id
-    {
+	enum tag_id
+	{
 		ID_REFE = 0,
 		ID_CNT,
 		ID_NEXT,
@@ -113,6 +118,8 @@ protected:
 		uint32_t m_tag_addr;
 	};
 
+	void transfer_vif1();
+	void transfer_gif();
 	void transfer_sif0();
 	void transfer_sif1();
 	void transfer_finish(uint32_t chan);
@@ -122,6 +129,8 @@ protected:
 	required_device<cpu_device> m_ee;
 	required_shared_ptr<uint64_t> m_ram;
 	required_device<ps2_sif_device> m_sif;
+	required_device<ps2_gs_device> m_gs;
+	required_device<sonyvu1_device> m_vu1;
 
 	int m_icount;
 
@@ -140,4 +149,4 @@ protected:
 
 DECLARE_DEVICE_TYPE(SONYPS2_DMAC, ps2_dmac_device)
 
-#endif // MAME_MACHINE_PS2DMAC_H
+#endif // MAME_MACHINE_PS2DMA_H

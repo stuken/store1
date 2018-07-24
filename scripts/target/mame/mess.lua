@@ -271,6 +271,7 @@ SOUNDS["MEA8000"] = true
 SOUNDS["DAVE"] = true
 --SOUNDS["LC7535"] = true
 SOUNDS["UPD934G"] = true
+SOUNDS["IOPSPU"] = true
 
 --------------------------------------------------
 -- specify available video cores
@@ -360,6 +361,8 @@ VIDEOS["MGA2064W"] = true
 VIDEOS["PPU2C0X"] = true
 VIDEOS["DP8510"] = true
 VIDEOS["MB88303"] = true
+VIDEOS["PS2GS"] = true
+VIDEOS["PS2GIF"] = true
 
 --------------------------------------------------
 -- specify available machine cores
@@ -642,6 +645,17 @@ MACHINES["ADC0844"] = true
 MACHINES["28FXXX"] = true
 -- MACHINES["GEN_FIFO"] = true
 MACHINES["Z80DAISY"] = true
+MACHINES["PS2DMAC"] = true
+MACHINES["PS2INTC"] = true
+MACHINES["PS2MC"] = true
+MACHINES["PS2PAD"] = true
+MACHINES["PS2SIF"] = true
+MACHINES["PS2TIMER"] = true
+MACHINES["IOPCDVD"] = true
+MACHINES["IOPDMA"] = true
+MACHINES["IOPINTC"] = true
+MACHINES["IOPSIO2"] = true
+MACHINES["IOPTIMER"] = true
 
 --------------------------------------------------
 -- specify available bus cores
@@ -1533,6 +1547,7 @@ files {
 	MAME_DIR .. "src/mame/machine/macpci.cpp",
 	MAME_DIR .. "src/mame/machine/cuda.cpp",
 	MAME_DIR .. "src/mame/machine/cuda.h",
+	MAME_DIR .. "src/mame/drivers/iphone2g.cpp",
 }
 
 createMESSProjects(_target, _subtarget, "applied")
@@ -1884,6 +1899,9 @@ files {
 createMESSProjects(_target, _subtarget, "dec")
 files {
 	MAME_DIR .. "src/mame/drivers/dct11em.cpp",
+	MAME_DIR .. "src/mame/drivers/decstation.cpp",
+	MAME_DIR .. "src/mame/machine/decioga.cpp",
+	MAME_DIR .. "src/mame/machine/decioga.h",
 	MAME_DIR .. "src/mame/drivers/dectalk.cpp",
 	MAME_DIR .. "src/mame/drivers/decwritr.cpp",
 	MAME_DIR .. "src/mame/drivers/pdp11.cpp",
@@ -2972,6 +2990,8 @@ files {
 	MAME_DIR .. "src/mame/machine/x68k_hdc.h",
 	MAME_DIR .. "src/mame/machine/x68k_kbd.cpp",
 	MAME_DIR .. "src/mame/machine/x68k_kbd.h",
+	MAME_DIR .. "src/mame/video/x68k_crtc.cpp",
+	MAME_DIR .. "src/mame/video/x68k_crtc.h",
 	MAME_DIR .. "src/mame/drivers/mz80.cpp",
 	MAME_DIR .. "src/mame/includes/mz80.h",
 	MAME_DIR .. "src/mame/video/mz80.cpp",
@@ -3058,26 +3078,6 @@ files {
 	MAME_DIR .. "src/mame/drivers/pve500.cpp",
 	MAME_DIR .. "src/mame/drivers/smc777.cpp",
 	MAME_DIR .. "src/mame/drivers/ps2sony.cpp",
-	MAME_DIR .. "src/mame/machine/ps2timer.cpp",
-	MAME_DIR .. "src/mame/machine/ps2timer.h",
-	MAME_DIR .. "src/mame/machine/ps2dma.cpp",
-	MAME_DIR .. "src/mame/machine/ps2dma.h",
-	MAME_DIR .. "src/mame/machine/ps2intc.cpp",
-	MAME_DIR .. "src/mame/machine/ps2intc.h",
-	MAME_DIR .. "src/mame/machine/ps2sif.cpp",
-	MAME_DIR .. "src/mame/machine/ps2sif.h",
-	MAME_DIR .. "src/mame/machine/iopcdvd.cpp",
-	MAME_DIR .. "src/mame/machine/iopcdvd.h",
-	MAME_DIR .. "src/mame/machine/iopdma.cpp",
-	MAME_DIR .. "src/mame/machine/iopdma.h",
-	MAME_DIR .. "src/mame/machine/iopintc.cpp",
-	MAME_DIR .. "src/mame/machine/iopintc.h",
-	MAME_DIR .. "src/mame/machine/iopsio2.cpp",
-	MAME_DIR .. "src/mame/machine/iopsio2.h",
-	MAME_DIR .. "src/mame/machine/ioptimer.cpp",
-	MAME_DIR .. "src/mame/machine/ioptimer.h",
-	MAME_DIR .. "src/mame/audio/iopspu.cpp",
-	MAME_DIR .. "src/mame/audio/iopspu.h",
 }
 
 createMESSProjects(_target, _subtarget, "sord")
@@ -3351,6 +3351,7 @@ files {
 	MAME_DIR .. "src/mame/includes/dgnalpha.h",
 	MAME_DIR .. "src/mame/video/gime.cpp",
 	MAME_DIR .. "src/mame/video/gime.h",
+	MAME_DIR .. "src/mame/drivers/meritum.cpp",
 	MAME_DIR .. "src/mame/drivers/trs80.cpp",
 	MAME_DIR .. "src/mame/includes/trs80.h",
 	MAME_DIR .. "src/mame/machine/trs80.cpp",
@@ -3359,6 +3360,10 @@ files {
 	MAME_DIR .. "src/mame/includes/trs80m2.h",
 	MAME_DIR .. "src/mame/machine/trs80m2kb.cpp",
 	MAME_DIR .. "src/mame/machine/trs80m2kb.h",
+	MAME_DIR .. "src/mame/drivers/trs80m3.cpp",
+	MAME_DIR .. "src/mame/includes/trs80m3.h",
+	MAME_DIR .. "src/mame/machine/trs80m3.cpp",
+	MAME_DIR .. "src/mame/video/trs80m3.cpp",
 	MAME_DIR .. "src/mame/drivers/tandy2k.cpp",
 	MAME_DIR .. "src/mame/includes/tandy2k.h",
 	MAME_DIR .. "src/mame/machine/tandy2kb.cpp",

@@ -2,7 +2,7 @@
 // copyright-holders:Ryan Holtz
 /******************************************************************************
 *
-*   Sony Playstation 2 IOP DMA device skeleton
+*   Sony PlayStation 2 IOP DMAC device skeleton
 *
 *   To Do:
 *     Everything
@@ -14,19 +14,18 @@
 
 #pragma once
 
-#include "emu.h"
 #include "ps2sif.h"
 #include "iopintc.h"
 #include "iopsio2.h"
-#include "audio/iopspu.h"
+#include "sound/iopspu.h"
 
 class iop_dma_device : public device_t, public device_execute_interface
 {
 public:
 	template <typename T, typename U, typename V, typename W, typename X>
-    iop_dma_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock, T &&intc_tag, U &&ram_tag, V &&sif_tag, W &&spu_tag, X &&sio2_tag)
-    	: iop_dma_device(mconfig, tag, owner, clock)
-    {
+	iop_dma_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock, T &&intc_tag, U &&ram_tag, V &&sif_tag, W &&spu_tag, X &&sio2_tag)
+		: iop_dma_device(mconfig, tag, owner, clock)
+	{
 		m_intc.set_tag(std::forward<T>(intc_tag));
 		m_ram.set_tag(std::forward<U>(ram_tag));
 		m_sif.set_tag(std::forward<V>(sif_tag));
@@ -34,7 +33,8 @@ public:
 		m_sio2.set_tag(std::forward<X>(sio2_tag));
 	}
 
-    iop_dma_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock);
+	iop_dma_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock);
+	virtual ~iop_dma_device() override;
 
 	DECLARE_READ32_MEMBER(bank0_r);
 	DECLARE_WRITE32_MEMBER(bank0_w);
@@ -127,8 +127,8 @@ protected:
 		uint32_t m_count;
 	};
 
-    virtual void device_start() override;
-    virtual void device_reset() override;
+	virtual void device_start() override;
+	virtual void device_reset() override;
 	virtual void execute_run() override;
 
 	void set_dpcr(uint32_t data, uint32_t index);

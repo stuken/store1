@@ -2,7 +2,7 @@
 // copyright-holders:Ryan Holtz
 /******************************************************************************
 *
-*   Sony Playstation 2 IOP SPU device skeleton
+*   Sony PlayStation 2 IOP SPU device skeleton
 *
 *   To Do:
 *     Everything
@@ -14,7 +14,6 @@
 
 #pragma once
 
-#include "emu.h"
 #include "cpu/mips/r3000.h"
 #include "machine/iopintc.h"
 
@@ -22,14 +21,15 @@ class iop_spu_device : public device_t, public device_sound_interface
 {
 public:
 	template <typename T, typename U>
-    iop_spu_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock, T &&iop_tag, U &&intc_tag)
-    	: iop_spu_device(mconfig, tag, owner, clock)
-    {
+	iop_spu_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock, T &&iop_tag, U &&intc_tag)
+		: iop_spu_device(mconfig, tag, owner, clock)
+	{
 		m_iop.set_tag(std::forward<T>(iop_tag));
 		m_intc.set_tag(std::forward<U>(intc_tag));
 	}
 
-    iop_spu_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock);
+	iop_spu_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock);
+	virtual ~iop_spu_device() override;
 
 	DECLARE_READ16_MEMBER(read);
 	DECLARE_WRITE16_MEMBER(write);
@@ -44,8 +44,8 @@ public:
 	void dma_done(int bank);
 
 protected:
-    virtual void device_start() override;
-    virtual void device_reset() override;
+	virtual void device_start() override;
+	virtual void device_reset() override;
 
 	// sound stream update overrides
 	virtual void sound_stream_update(sound_stream &stream, stream_sample_t **inputs, stream_sample_t **outputs, int samples) override;
@@ -57,8 +57,8 @@ protected:
 
 	enum
 	{
-		STATUS_DMA_DONE		= (1 <<  7),
-		STATUS_DMA_ACTIVE	= (1 << 10)
+		STATUS_DMA_DONE     = (1 <<  7),
+		STATUS_DMA_ACTIVE   = (1 << 10)
 	};
 
 	class voice_t

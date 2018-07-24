@@ -2,20 +2,25 @@
 // copyright-holders:Ryan Holtz
 /******************************************************************************
 *
-*   Sony Playstation 2 EE interrupt controller device skeleton
+*   Sony PlayStation 2 EE interrupt controller device skeleton
 *
 *   To Do:
 *     Everything
 *
 */
 
+#include "emu.h"
 #include "ps2intc.h"
 
-DEFINE_DEVICE_TYPE(SONYPS2_INTC, ps2_intc_device, "ps2intc", "Playstation 2 EE INTC")
+DEFINE_DEVICE_TYPE(SONYPS2_INTC, ps2_intc_device, "ps2intc", "PlayStation 2 EE INTC")
 
 ps2_intc_device::ps2_intc_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock)
 	: device_t(mconfig, SONYPS2_INTC, tag, owner, clock)
 	, m_ee(*this, finder_base::DUMMY_TAG)
+{
+}
+
+ps2_intc_device::~ps2_intc_device()
 {
 }
 
