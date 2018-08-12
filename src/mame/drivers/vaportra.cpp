@@ -216,9 +216,9 @@ MACHINE_CONFIG_START(vaportra_state::vaportra)
 	MCFG_DEVICE_PROGRAM_MAP(main_map)
 	MCFG_DEVICE_VBLANK_INT_DRIVER("screen", vaportra_state, irq6_line_assert)
 
-	MCFG_DEVICE_ADD(m_audiocpu, H6280, XTAL(24'000'000)/4) /* Custom chip 45; Audio section crystal is 32.220 MHz but CPU clock is confirmed as coming from the 24MHz crystal (6Mhz exactly on the CPU) */
-	MCFG_DEVICE_PROGRAM_MAP(sound_map)
-
+	H6280(config, m_audiocpu, XTAL(24'000'000)/4); /* Custom chip 45; Audio section crystal is 32.220 MHz but CPU clock is confirmed as coming from the 24MHz crystal (6Mhz exactly on the CPU) */
+	m_audiocpu->set_addrmap(AS_PROGRAM, &vaportra_state::sound_map);
+	m_audiocpu->add_route(ALL_OUTPUTS, "mono", 0); // internal sound unused
 
 	/* video hardware */
 	MCFG_DEVICE_ADD(m_spriteram, BUFFERED_SPRITERAM16)
