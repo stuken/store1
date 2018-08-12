@@ -618,13 +618,15 @@ int MameUIMain(HINSTANCE hInstance, LPWSTR lpCmdLine)
 	unlink("winui.log");
 	unlink("verbose.log");
 
-	printf("ARCADE starting\n");fflush(stdout);
-
 	if (__argc != 1)
 	{
 		extern int main_(int argc, char *argv[]);
 		exit(main_(__argc, __argv));
 	}
+
+	// No printf's allowed before here, otherwise they get into queries from mame, such as listxml.
+
+	printf("ARCADE starting\n");fflush(stdout);
 
 	WNDCLASS wndclass;
 	MSG msg;
