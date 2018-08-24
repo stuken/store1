@@ -6,10 +6,10 @@ Nutting Icebox
 
 2018-08-19 Skeleton driver. It's all guesswork.
 
-It's a case with many slots for daughter boards, and 2 floppy drives. It appears to be an "in-circuit emulator"
-for an unknown arcade board.
+It's a case with many slots for daughter boards, and 2 floppy drives. It's an "in-circuit emulator"
+for Bally / Astrocade development.
 
-The unit has 5 boards: 3 boards were photographed and are: a cpu board (Z80 and unmarked XTAL),
+The unit has 5 daughter boards: 3 boards were photographed and are: a cpu board (Z80 and unmarked XTAL),
                     a RS232 board (2x 8251, 8 dipswitches connected to a BR1941L, 4.9152 XTAL),
                     and a board covered with TTL.
 
@@ -34,6 +34,73 @@ The floppy drives are a special type containing a FDC within. The FDC is a FD177
 I suspect the drive issues a NMI when the internal DRQ asserts (code around F21C). Need to resolve how
 it handles writing data to 0000-up while keeping the NMI handler.
 
+
+NOTES FROM AL KOSSOW
+--------------------
+
+This is the Nutting Associates ICE box used for Bally arcade and Astrocade development.
+
+The games are written in "Terse", a dialect of FORTH with graphics and sound extensions.
+
+The game graphics and sound hardware were in a separate chassis connected through 50 pin ribbon cables.
+There is 64K of ram that can be mapped to the addresses used where the proms in the game would be.
+
+Development appeared to have started under CP/M, then they migrated to development in the Terse environment.
+The sector size also changed from 128 to 1024 bytes. For some reason, the hardware inverts the sector data.
+CP/M flipped the bits, Terse does not.
+
+There is a 122 pin backplane, and five cards. The bus buffers for the floppies and the external hardware
+are on the backplane. There is an I/O, memory mapper, dual 32k static ram, and CPU cards. The I/O card has
+a three byte FIFO and a buffer for forcing 00 onto the data bus, which appears to be related to handling
+breakpoints from looking at the code in ICE.ASM.
+
+The eprom dump is for booting Terse, and earlier version of the prom is documented in ICE.ASM which may be for CP/M
+
+The CPU card has 1K of ram, mapped to FC00. They must have moved the sector buffering to main RAM, since a
+1K sector obviously wouldn't fit.
+
+The crystal on the CPU is 9.8304MHz. It may be possible to alter the cpu speed. There is a FAST signal on the bp.
+
+registers from the ICE.ASM listing
+
+CRTD	E0
+CRTS	E1
+LPTD	E2
+LPTS	E3
+
+DATA	E4	1771 regs
+SECTOR	E5
+TRACK	E6
+COMMAND	E7
+
+CENABE	F0
+SELECT	F1	There are two select signals on the bp, floppy drive select? interrupt select
+FIFO	F2	3 BYTE FIFO
+
+EXTL	F8	These are probably for the mapping registers
+EXTH	F9
+
+WPROTL	FA
+WPROTH	FB
+
+BADRH	FC	BASE ADR? breakpoint
+BADRL	FD
+
+BTYPE	FE
+MISC	FF
+
+the 0 is forced onto the bus when bp signal IRESET/ is asserted. it appears to come from the CPU board (only
+the cpu and io board are connected to it)
+
+the box doesn't do remapping, it just has two 16 bit write-only registers that can unmap and write protect memory
+in 16 4k chunks, (extl,exth), (wprotl,wproth) .
+
+breakpoint (badrh, barl) specifies an adr to nmi on, with a 4 bit reference type in btype (wr, req, iorq, mreq)
+
+it looks like zeroing btype disables it.
+
+io port 0xff (misc) is on the I/O board.
+
 ******************************************************************************************************************/
 
 #include "emu.h"
@@ -42,7 +109,6 @@ it handles writing data to 0000-up while keeping the NMI handler.
 #include "machine/com8116.h"
 #include "bus/rs232/rs232.h"
 //#include "machine/wd_fdc.h"
-#include "screen.h"
 
 
 class icebox_state : public driver_device
@@ -148,7 +214,7 @@ DEVICE_INPUT_DEFAULTS_END
 
 MACHINE_CONFIG_START(icebox_state::icebox)
 	/* basic machine hardware */
-	MCFG_DEVICE_ADD("maincpu",Z80, 2'000'000) // unknown crystal and clock
+	MCFG_DEVICE_ADD("maincpu",Z80, 9'830'400 / 4) // unknown divisor
 	MCFG_DEVICE_PROGRAM_MAP(mem_map)
 	MCFG_DEVICE_IO_MAP(io_map)
 
