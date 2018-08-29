@@ -210,8 +210,9 @@ MACHINE_CONFIG_START(darkseal_state::darkseal)
 	MCFG_DEVICE_PROGRAM_MAP(darkseal_map)
 	MCFG_DEVICE_VBLANK_INT_DRIVER("screen", darkseal_state,  irq6_line_assert)/* VBL */
 
-	MCFG_DEVICE_ADD(m_audiocpu, H6280, XTAL(32'220'000)/4) /* Custom chip 45, Audio section crystal is 32.220 MHz */
-	MCFG_DEVICE_PROGRAM_MAP(sound_map)
+	H6280(config, m_audiocpu, XTAL(32'220'000)/4); /* Custom chip 45, Audio section crystal is 32.220 MHz */
+	m_audiocpu->set_addrmap(AS_PROGRAM, &darkseal_state::sound_map);
+	m_audiocpu->add_route(ALL_OUTPUTS, "mono", 0); // internal sound unused
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -258,7 +259,6 @@ MACHINE_CONFIG_START(darkseal_state::darkseal)
 	MCFG_DEVICE_ADD(m_sprgen, DECO_SPRITE, 0)
 	MCFG_DECO_SPRITE_GFX_REGION(3)
 	MCFG_DECO_SPRITE_GFXDECODE("gfxdecode")
-
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();

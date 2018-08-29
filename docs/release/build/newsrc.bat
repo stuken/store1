@@ -9,6 +9,9 @@ copy /Y %from%\src\devices\machine\idehd.cpp        %to%\src\devices\machine
 md %to%\src\devices\sound
 copy /Y %from%\src\devices\sound\qs1000.cpp         %to%\src\devices\sound
 
+md %to%\src\devices\cpu\h6280
+copy /Y %from%\src\devices\cpu\h6280\h6280.h        %to%\src\devices\cpu\h6280
+
 md %to%\src\devices\cpu\psx
 copy /Y %from%\src\devices\cpu\psx\irq.cpp          %to%\src\devices\cpu\psx
 
