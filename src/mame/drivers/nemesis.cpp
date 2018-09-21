@@ -1548,7 +1548,7 @@ MACHINE_CONFIG_START(nemesis_state::gx400)
 	intlatch.q_out_cb<2>().set(FUNC(nemesis_state::gfx_flipx_w));
 	intlatch.q_out_cb<3>().set(FUNC(nemesis_state::gfx_flipy_w));
 
-	MCFG_WATCHDOG_ADD("watchdog")
+	WATCHDOG_TIMER(config, "watchdog");
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -1621,7 +1621,7 @@ MACHINE_CONFIG_START(nemesis_state::konamigt)
 	intlatch.q_out_cb<2>().set(FUNC(nemesis_state::gfx_flipx_w));
 	intlatch.q_out_cb<3>().set(FUNC(nemesis_state::gfx_flipy_w));
 
-	MCFG_WATCHDOG_ADD("watchdog")
+	WATCHDOG_TIMER(config, "watchdog");
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -1689,7 +1689,7 @@ MACHINE_CONFIG_START(nemesis_state::rf2_gx400)
 	intlatch.q_out_cb<2>().set(FUNC(nemesis_state::gfx_flipx_w));
 	intlatch.q_out_cb<3>().set(FUNC(nemesis_state::gfx_flipy_w));
 
-	MCFG_WATCHDOG_ADD("watchdog")
+	WATCHDOG_TIMER(config, "watchdog");
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -1749,7 +1749,7 @@ MACHINE_CONFIG_START(nemesis_state::salamand)
 	MCFG_DEVICE_ADD("audiocpu", Z80, 3579545)         /* 3.579545 MHz */
 	MCFG_DEVICE_PROGRAM_MAP(sal_sound_map)
 
-	MCFG_WATCHDOG_ADD("watchdog")
+	WATCHDOG_TIMER(config, "watchdog");
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -1801,7 +1801,7 @@ MACHINE_CONFIG_START(nemesis_state::blkpnthr)
 	MCFG_DEVICE_ADD("audiocpu", Z80, 3579545)        /* 3.579545 MHz */
 	MCFG_DEVICE_PROGRAM_MAP(blkpnthr_sound_map)
 
-	MCFG_WATCHDOG_ADD("watchdog")
+	WATCHDOG_TIMER(config, "watchdog");
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -1848,7 +1848,7 @@ MACHINE_CONFIG_START(nemesis_state::citybomb)
 	MCFG_DEVICE_ADD("audiocpu", Z80, 3579545)        /* 3.579545 MHz */
 	MCFG_DEVICE_PROGRAM_MAP(city_sound_map)
 
-	MCFG_WATCHDOG_ADD("watchdog")
+	WATCHDOG_TIMER(config, "watchdog");
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -1899,7 +1899,7 @@ MACHINE_CONFIG_START(nemesis_state::nyanpani)
 	MCFG_DEVICE_ADD("audiocpu", Z80, 3579545)        /* 3.579545 MHz */
 	MCFG_DEVICE_PROGRAM_MAP(city_sound_map)
 
-	MCFG_WATCHDOG_ADD("watchdog")
+	WATCHDOG_TIMER(config, "watchdog");
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -1956,7 +1956,7 @@ MACHINE_CONFIG_START(nemesis_state::hcrash)
 	intlatch.q_out_cb<1>().set(FUNC(nemesis_state::irq2_enable_w)); // or at 0x0c2804 ?
 	intlatch.q_out_cb<2>().set_nop(); // ?
 
-	MCFG_WATCHDOG_ADD("watchdog")
+	WATCHDOG_TIMER(config, "watchdog");
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)
@@ -2718,7 +2718,7 @@ MACHINE_CONFIG_START(nemesis_state::bubsys)
 	intlatch.q_out_cb<2>().set(FUNC(nemesis_state::gfx_flipx_w));
 	intlatch.q_out_cb<3>().set(FUNC(nemesis_state::gfx_flipy_w));
 
-	MCFG_WATCHDOG_ADD("watchdog")
+	WATCHDOG_TIMER(config, "watchdog");
 
 	/* video hardware */
 	MCFG_SCREEN_ADD("screen", RASTER)

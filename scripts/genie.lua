@@ -461,7 +461,6 @@ configuration { "vs*" }
 	flags {
 		"NoPCH",
 		"ExtraWarnings",
-		"NoEditAndContinue",
 	}
 	if not _OPTIONS["NOWERROR"] then
 		flags{
@@ -473,12 +472,14 @@ configuration { "vs*" }
 configuration { "Debug", "vs*" }
 	flags {
 		"Symbols",
-		"NoIncrementalLink",
+		"NoMultiProcessorCompilation",
 	}
 
 configuration { "Release", "vs*" }
 	flags {
 		"Optimize",
+		"NoEditAndContinue",
+		"NoIncrementalLink",
 	}
 
 -- Force VS2015/17 targets to use bundled SDL2
