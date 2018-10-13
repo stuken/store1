@@ -319,6 +319,7 @@ const double XTAL::known_xtals[] = {
 	 34'846'000, /* 34.846_MHz_XTAL        Visual 550 */
 	 35'904'000, /* 35.904_MHz_XTAL        Used on HP98543 graphics board */
 	 36'000'000, /* 36_MHz_XTAL            Sega Model 1 video board */
+	 37'980'000, /* 37.98_MHz_XTAL         Falco 5220 */
 	 38'769'220, /* 38.76922_MHz_XTAL      Namco System 21 video board */
 	 38'863'630, /* 38.86363_MHz_XTAL      Sharp X68000 15.98kHz video */
 	 39'321'600, /* 39.3216_MHz_XTAL       Sun 2/120 */
@@ -347,6 +348,7 @@ const double XTAL::known_xtals[] = {
 	 50'000'000, /* 50_MHz_XTAL            Williams/Midway T/W/V-unit system */
 	 50'113'000, /* 50.113_MHz_XTAL        Namco NA-1 (14x NTSC subcarrier)*/
 	 50'349'000, /* 50.349_MHz_XTAL        Sega System 18 (~3200x NTSC line rate) */
+	 51'200'000, /* 51.2_MHz_XTAL          Namco Super System 22 video clock */
 	 52'000'000, /* 52_MHz_XTAL            Cojag */
 	 52'832'000, /* 52.832_MHz_XTAL        Wang PC TIG video controller */
 	 53'203'400, /* 53.2034_MHz_XTAL       Master System, Mega Drive PAL (~12x PAL subcarrier) */
@@ -359,6 +361,7 @@ const double XTAL::known_xtals[] = {
 	 60'000'000, /* 60_MHz_XTAL            ARM610 */
 	 61'440'000, /* 61.44_MHz_XTAL         Donkey Kong */
 	 64'000'000, /* 64_MHz_XTAL            BattleToads */
+	 64'108'800, /* 64.108.800_Mhz_XTAL    HP Topcat high-res */
 	 66'666'700, /* 66.6667_MHz_XTAL       Later Midway games */
 	 67'737'600, /* 67.7376_MHz_XTAL       PSX-based h/w, Sony ZN1-2-based */
 	 68'850'000, /* 68.85_MHz_XTAL         Wyse WY-50 */
