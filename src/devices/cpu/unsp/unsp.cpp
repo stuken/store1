@@ -13,7 +13,6 @@
 #include "unspdasm.h"
 #include "debugger.h"
 
-
 DEFINE_DEVICE_TYPE(UNSP, unsp_device, "unsp", "SunPlus u'nSP")
 
 
@@ -30,6 +29,9 @@ unsp_device::unsp_device(const machine_config &mconfig, const char *tag, device_
 	, m_program(nullptr)
 	, m_icount(0)
 	, m_debugger_temp(0)
+#if UNSP_LOG_OPCODES
+	, m_log_ops(0)
+#endif
 {
 }
 
@@ -116,6 +118,9 @@ void unsp_device::device_start()
 	state_add(UNSP_IRQ,    "IRQ", m_irq).formatstr("%1u");
 	state_add(UNSP_FIQ,    "FIQ", m_fiq).formatstr("%1u");
 	state_add(UNSP_SB,     "SB", m_sb).formatstr("%1u");
+#if UNSP_LOG_OPCODES
+	state_add(UNSP_LOG_OPS,"LOG", m_log_ops).formatstr("%1u");
+#endif
 
 	state_add(STATE_GENPC, "GENPC", m_debugger_temp).callexport().noshow();
 	state_add(STATE_GENPCBASE, "CURPC", m_debugger_temp).callexport().noshow();
@@ -240,6 +245,7 @@ void unsp_device::trigger_irq(int line)
 {
 	if (!m_enable_irq || m_irq || m_fiq)
 	{
+		//logerror("Enable %d, IRQ %d, FIQ %d, bailing\n", m_enable_irq ? 1 : 0, m_irq ? 1 : 0, m_fiq ? 1 : 0);
 		return;
 	}
 
@@ -274,16 +280,22 @@ void unsp_device::check_irqs()
 
 	if (highest_irq == UNSP_FIQ_LINE)
 	{
+		//logerror("Trying to trigger FIQ\n");
 		trigger_fiq();
 	}
 	else
 	{
+		//logerror("Trying to trigger IRQ\n");
 		trigger_irq(highest_irq - 1);
 	}
 }
 
 void unsp_device::execute_run()
 {
+#if UNSP_LOG_OPCODES
+	unsp_disassembler dasm;
+#endif
+
 	uint32_t lres = 0;
 	uint16_t r0 = 0;
 	uint16_t r1 = 0;
@@ -295,6 +307,15 @@ void unsp_device::execute_run()
 
 		debugger_instruction_hook(UNSP_LPC);
 		const uint32_t op = read16(UNSP_LPC);
+
+#if UNSP_LOG_OPCODES
+		if (m_log_ops)
+		{
+			std::stringstream strbuffer;
+			dasm.disassemble(strbuffer, UNSP_LPC, op, read16(UNSP_LPC+1));
+			logerror("%06x: %s\n", UNSP_LPC, strbuffer.str().c_str());
+		}
+#endif
 
 		UNSP_REG(PC)++;
 
@@ -602,7 +623,7 @@ void unsp_device::execute_run()
 			case 0x00: // r, [bp+imm6]
 				m_icount -= 6;
 
-				r2 = UNSP_REG(BP) + OPIMM;
+				r2 = (uint16_t)(UNSP_REG(BP) + OPIMM);
 				if (OP0 != 0x0d)
 					r1 = read16(r2);
 				break;
@@ -667,19 +688,19 @@ void unsp_device::execute_run()
 							if (OP0 != 0x0d)
 								r1 = read16(r2);
 							break;
-						case 1: // r, [<ds:>r--]
+						case 1: // r, [r--]
 							r2 = UNSP_REG_I(opb);
 							if (OP0 != 0x0d)
 								r1 = read16(r2);
 							UNSP_REG_I(opb)--;
 							break;
-						case 2: // r, [<ds:>r++]
+						case 2: // r, [r++]
 							r2 = UNSP_REG_I(opb);
 							if (OP0 != 0x0d)
 								r1 = read16(r2);
 							UNSP_REG_I(opb)++;
 							break;
-						case 3: // r, [<ds:>++r]
+						case 3: // r, [++r]
 							UNSP_REG_I(opb)++;
 							r2 = UNSP_REG_I(opb);
 							if (OP0 != 0x0d)
@@ -851,10 +872,10 @@ void unsp_device::execute_run()
 				continue;
 		}
 
-		if (OP0 != 0x0d && OPA != 0x07) // If not a store opcode and not updating the PC, update negative/zero flags.
+		if (OP0 != 0x0d && OPA != 7) // If not a store opcode and not updating the PC, update negative/zero flags.
 			update_nz(lres);
 
-		if (OP0 < 0x05 && OPA != 0x07) // If Add, Add w/ Carry, Subtract, Subtract w/ Carry, Compare, and not updating the PC, update sign/carry flags.
+		if (OP0 < 0x05 && OPA != 7) // If Add, Add w/ Carry, Subtract, Subtract w/ Carry, Compare, and not updating the PC, update sign/carry flags.
 			update_sc(lres, r0, r1);
 
 		if (OP0 == 0x04 || OP0 == 0x0c) // Compare and Test don't write back results.

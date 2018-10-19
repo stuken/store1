@@ -28,6 +28,8 @@ class spg2xx_device : public device_t, public device_sound_interface
 public:
 	spg2xx_device(const machine_config &mconfig, device_type type, const char *tag, device_t *owner, uint32_t clock);
 
+	void set_pal(bool pal) { m_pal_flag = pal ? 1 : 0; }
+
 	void map(address_map &map);
 
 	auto porta_out() { return m_porta_out.bind(); }
@@ -41,7 +43,10 @@ public:
 	auto eeprom_r() { return m_eeprom_r.bind(); }
 
 	auto uart_tx() { return m_uart_tx.bind(); }
-	auto uart_rx() { return m_uart_rx.bind(); }
+
+	auto chip_select() { return m_chip_sel.bind(); }
+
+	void uart_rx(uint8_t data);
 
 	uint32_t screen_update(screen_device &screen, bitmap_rgb32 &bitmap, const rectangle &cliprect);
 #if SPG2XX_VISUAL_AUDIO_DEBUG
@@ -63,7 +68,7 @@ protected:
 	enum
 	{
 		PAGE_ENABLE_MASK        = 0x0008,
-		PAGE_BLANK_MASK			= 0x0004,
+		PAGE_WALLPAPER_MASK		= 0x0004,
 
 		SPRITE_ENABLE_MASK		= 0x0001,
 		SPRITE_COORD_TL_MASK	= 0x0002,
@@ -81,7 +86,7 @@ protected:
 	void audio_frame_tick();
 	void audio_beat_tick();
 	void audio_rampdown_tick(const uint32_t channel);
-	void audio_envelope_tick(address_space &space, const uint32_t channel);
+	bool audio_envelope_tick(address_space &space, const uint32_t channel);
 	inline uint32_t get_rampdown_frame_count(const uint32_t channel);
 	inline uint32_t get_envclk_frame_count(const uint32_t channel);
 
@@ -245,16 +250,16 @@ protected:
 		AUDIO_CHAN_OFFSET_MASK		= 0xf0f,
 
 		AUDIO_CHANNEL_ENABLE			= 0x400,
-		AUDIO_CHANNEL_ENABLE_MASK		= 0x003f,
+		AUDIO_CHANNEL_ENABLE_MASK		= 0xffff,
 
 		AUDIO_MAIN_VOLUME				= 0x401,
 		AUDIO_MAIN_VOLUME_MASK			= 0x007f,
 
 		AUDIO_CHANNEL_FIQ_ENABLE		= 0x402,
-		AUDIO_CHANNEL_FIQ_ENABLE_MASK	= 0x003f,
+		AUDIO_CHANNEL_FIQ_ENABLE_MASK	= 0xffff,
 
 		AUDIO_CHANNEL_FIQ_STATUS		= 0x403,
-		AUDIO_CHANNEL_FIQ_STATUS_MASK	= 0x003f,
+		AUDIO_CHANNEL_FIQ_STATUS_MASK	= 0xffff,
 
 		AUDIO_BEAT_BASE_COUNT			= 0x404,
 		AUDIO_BEAT_BASE_COUNT_MASK		= 0x07ff,
@@ -264,19 +269,24 @@ protected:
 		AUDIO_BIS_MASK					= 0x4000,
 		AUDIO_BIE_MASK					= 0x8000,
 
-		AUDIO_ENVCLK					= 0x406,
+		AUDIO_ENVCLK0					= 0x406,
 
-		AUDIO_ENVCLK_HIGH				= 0x407,
-		AUDIO_ENVCLK_HIGH_MASK			= 0x00ff,
+		AUDIO_ENVCLK0_HIGH				= 0x407,
+		AUDIO_ENVCLK0_HIGH_MASK			= 0xffff,
+
+		AUDIO_ENVCLK1					= 0x408,
+
+		AUDIO_ENVCLK1_HIGH				= 0x409,
+		AUDIO_ENVCLK1_HIGH_MASK			= 0xffff,
 
 		AUDIO_ENV_RAMP_DOWN				= 0x40a,
-		AUDIO_ENV_RAMP_DOWN_MASK		= 0x003f,
+		AUDIO_ENV_RAMP_DOWN_MASK		= 0xffff,
 
 		AUDIO_CHANNEL_STOP				= 0x40b,
-		AUDIO_CHANNEL_STOP_MASK			= 0x003f,
+		AUDIO_CHANNEL_STOP_MASK			= 0xffff,
 
 		AUDIO_CHANNEL_ZERO_CROSS		= 0x40c,
-		AUDIO_CHANNEL_ZERO_CROSS_MASK	= 0x003f,
+		AUDIO_CHANNEL_ZERO_CROSS_MASK	= 0xffff,
 
 		AUDIO_CONTROL					= 0x40d,
 		AUDIO_CONTROL_MASK				= 0x9fe8,
@@ -303,7 +313,7 @@ protected:
 		AUDIO_COMPRESS_CTRL_RATIO_MASK		= 0x0007,
 
 		AUDIO_CHANNEL_STATUS			= 0x40f,
-		AUDIO_CHANNEL_STATUS_MASK		= 0x003f,
+		AUDIO_CHANNEL_STATUS_MASK		= 0xffff,
 
 		AUDIO_WAVE_IN_L					= 0x410,
 
@@ -318,19 +328,19 @@ protected:
 		AUDIO_WAVE_OUT_R				= 0x413,
 
 		AUDIO_CHANNEL_REPEAT			= 0x414,
-		AUDIO_CHANNEL_REPEAT_MASK		= 0x003f,
+		AUDIO_CHANNEL_REPEAT_MASK		= 0xffff,
 
 		AUDIO_CHANNEL_ENV_MODE			= 0x415,
-		AUDIO_CHANNEL_ENV_MODE_MASK		= 0x003f,
+		AUDIO_CHANNEL_ENV_MODE_MASK		= 0xffff,
 
 		AUDIO_CHANNEL_TONE_RELEASE		= 0x416,
-		AUDIO_CHANNEL_TONE_RELEASE_MASK	= 0x003f,
+		AUDIO_CHANNEL_TONE_RELEASE_MASK	= 0xffff,
 
 		AUDIO_CHANNEL_ENV_IRQ			= 0x417,
-		AUDIO_CHANNEL_ENV_IRQ_MASK		= 0x003f,
+		AUDIO_CHANNEL_ENV_IRQ_MASK		= 0xffff,
 
 		AUDIO_CHANNEL_PITCH_BEND		= 0x418,
-		AUDIO_CHANNEL_PITCH_BEND_MASK	= 0x003f,
+		AUDIO_CHANNEL_PITCH_BEND_MASK	= 0xffff,
 
 		AUDIO_SOFT_PHASE				= 0x419,
 
@@ -373,15 +383,22 @@ protected:
 	virtual void device_reset() override;
 	virtual void device_timer(emu_timer &timer, device_timer_id id, int param, void *ptr) override;
 
+	void update_porta_special_modes();
+	void update_portb_special_modes();
 	void do_gpio(uint32_t offset);
+
 	void do_i2c();
-	void do_video_dma(uint32_t len);
 	void do_cpu_dma(uint32_t len);
 
-	void blit(bitmap_rgb32 &bitmap, const rectangle &cliprect, uint32_t xoff, uint32_t yoff, uint32_t attr, uint32_t ctrl, uint32_t bitmap_addr, uint16_t tile);
-	void blit_page(bitmap_rgb32 &bitmap, const rectangle &cliprect, int depth, uint32_t bitmap_addr, uint16_t *regs);
-	void blit_sprite(bitmap_rgb32 &bitmap, const rectangle &cliprect, int depth, uint32_t base_addr);
-	void blit_sprites(bitmap_rgb32 &bitmap, const rectangle &cliprect, int depth);
+	void do_sprite_dma(uint32_t len);
+
+	void apply_saturation(const rectangle &cliprect);
+	void apply_fade(const rectangle &cliprect);
+	void blit(const rectangle &cliprect, uint32_t xoff, uint32_t yoff, uint32_t attr, uint32_t ctrl, uint32_t bitmap_addr, uint16_t tile);
+	void blit_page(const rectangle &cliprect, int depth, uint32_t bitmap_addr, uint16_t *regs);
+	void blit_sprite(const rectangle &cliprect, int depth, uint32_t base_addr);
+	void blit_sprites(const rectangle &cliprect, int depth);
+
 	inline uint8_t expand_rgb5_to_rgb8(uint8_t val);
 	inline uint8_t mix_channel(uint8_t a, uint8_t b);
 	void mix_pixel(uint32_t offset, uint16_t rgb);
@@ -392,13 +409,12 @@ protected:
 	bool fetch_sample(address_space &space, const uint32_t channel);
 	inline void loop_channel(const uint32_t channel);
 
-	inline void verboselog(int n_level, const char *s_fmt, ...) ATTR_PRINTF(3, 4);
-
-	struct
+	struct rgbtriad_t
 	{
 		uint8_t r, g, b;
-	}
-	m_screenbuf[320 * 240];
+	};
+
+	rgbtriad_t m_screenbuf[320 * 240];
 
 	bool m_hide_page0;
 	bool m_hide_page1;
@@ -411,19 +427,24 @@ protected:
 	bool m_debug_rates;
 
 	uint16_t m_audio_regs[0x800];
-	uint8_t m_sample_shift[6];
-	uint32_t m_sample_count[6];
-	uint32_t m_sample_addr[6];
-	double m_channel_rate[6];
-	double m_channel_rate_accum[6];
-	uint32_t m_rampdown_frame[6];
-	uint32_t m_envclk_frame[6];
-	uint32_t m_envelope_addr[6];
+	uint8_t m_sample_shift[16];
+	uint32_t m_sample_count[16];
+	uint32_t m_sample_addr[16];
+	double m_channel_rate[16];
+	double m_channel_rate_accum[16];
+	uint32_t m_rampdown_frame[16];
+	uint32_t m_envclk_frame[16];
+	uint32_t m_envelope_addr[16];
+	int m_channel_debug;
 	uint16_t m_audio_curr_beat_base_count;
 
-	uint16_t m_video_regs[0x100];
 	uint16_t m_io_regs[0x200];
+	uint8_t m_uart_rx_fifo[8];
+	uint8_t m_uart_rx_index;
+
+	uint16_t m_video_regs[0x100];
 	size_t m_sprite_limit;
+	uint16_t m_pal_flag;
 
 	devcb_write16 m_porta_out;
 	devcb_write16 m_portb_out;
@@ -436,7 +457,8 @@ protected:
 	devcb_read8 m_eeprom_r;
 
 	devcb_write8 m_uart_tx;
-	devcb_read8 m_uart_rx;
+
+	devcb_write8 m_chip_sel;
 
 	emu_timer *m_tmb1;
 	emu_timer *m_tmb2;
@@ -444,7 +466,7 @@ protected:
 	emu_timer *m_audio_beat;
 
 	sound_stream *m_stream;
-	oki_adpcm_state m_adpcm[6];
+	oki_adpcm_state m_adpcm[16];
 
 	required_device<cpu_device> m_cpu;
 	required_device<screen_device> m_screen;
