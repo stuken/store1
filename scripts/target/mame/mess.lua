@@ -57,8 +57,8 @@ CPUS["ARM7"] = true
 CPUS["JAGUAR"] = true
 CPUS["CUBEQCPU"] = true
 CPUS["ESRIP"] = true
-CPUS["MIPS"] = true
-CPUS["R3000"] = true
+CPUS["MIPS1"] = true
+CPUS["MIPS3"] = true
 CPUS["PSX"] = true
 CPUS["SH"] = true
 CPUS["DSP16"] = true
@@ -278,6 +278,7 @@ SOUNDS["DAVE"] = true
 --SOUNDS["LC7535"] = true
 SOUNDS["UPD934G"] = true
 SOUNDS["IOPSPU"] = true
+SOUNDS["SWP30"] = true
 
 --------------------------------------------------
 -- specify available video cores
@@ -423,6 +424,7 @@ MACHINES["CS8221"] = true
 MACHINES["CXD1095"] = true
 MACHINES["DP8390"] = true
 MACHINES["DP83932C"] = true
+MACHINES["DP8573"] = true
 --MACHINES["DS1204"] = true
 MACHINES["DS1302"] = true
 MACHINES["DS1315"] = true
@@ -673,6 +675,7 @@ MACHINES["IOPINTC"] = true
 MACHINES["IOPSIO2"] = true
 MACHINES["IOPTIMER"] = true
 MACHINES["Z8038"] = true
+MACHINES["AIC6250"] = true
 
 --------------------------------------------------
 -- specify available bus cores
@@ -784,6 +787,7 @@ BUSES["SCSI"] = true
 BUSES["SCV"] = true
 BUSES["SEGA8"] = true
 BUSES["SG1000_EXP"] = true
+BUSES["SGIKBD"] = true
 BUSES["SMS_CTRL"] = true
 BUSES["SMS_EXP"] = true
 BUSES["SNES"] = true
@@ -1103,6 +1107,7 @@ function linkProjects_mame_mess(_target, _subtarget)
 		"multitch",
 		"nakajima",
 		"nascom",
+		"ncd",
 		"ne",
 		"nec",
 		"netronic",
@@ -2565,6 +2570,11 @@ files {
 	MAME_DIR .. "src/mame/drivers/nascom1.cpp",
 }
 
+createMESSProjects(_target, _subtarget, "ncd")
+files {
+	MAME_DIR .. "src/mame/drivers/ncd17c.cpp",
+}
+
 createMESSProjects(_target, _subtarget, "ne")
 files {
 	MAME_DIR .. "src/mame/drivers/z80ne.cpp",
@@ -3001,6 +3011,10 @@ files {
 
 createMESSProjects(_target, _subtarget, "sgi")
 files {
+	MAME_DIR .. "src/mame/drivers/4d20.cpp",
+	MAME_DIR .. "src/mame/drivers/crimson.cpp",
+	MAME_DIR .. "src/mame/drivers/o2.cpp",
+	MAME_DIR .. "src/mame/drivers/octane.cpp",
 	MAME_DIR .. "src/mame/machine/sgi.cpp",
 	MAME_DIR .. "src/mame/machine/sgi.h",
 	MAME_DIR .. "src/mame/machine/hal2.cpp",
@@ -3317,6 +3331,7 @@ files {
 	MAME_DIR .. "src/mame/video/ti85.cpp",
 	MAME_DIR .. "src/mame/drivers/ti89.cpp",
 	MAME_DIR .. "src/mame/includes/ti89.h",
+	MAME_DIR .. "src/mame/drivers/ti931.cpp",
 	MAME_DIR .. "src/mame/drivers/ti99_2.cpp",
 	MAME_DIR .. "src/mame/drivers/ti99_4x.cpp",
 	MAME_DIR .. "src/mame/drivers/ti99_4p.cpp",
@@ -3444,6 +3459,10 @@ files {
 	MAME_DIR .. "src/mame/machine/xavix.cpp",
 	MAME_DIR .. "src/mame/audio/xavix.cpp",
 	MAME_DIR .. "src/mame/includes/xavix.h",
+	MAME_DIR .. "src/mame/machine/xavix_mtrk_wheel.cpp",
+	MAME_DIR .. "src/mame/machine/xavix_mtrk_wheel.h",
+	MAME_DIR .. "src/mame/machine/xavix_madfb_ball.cpp",
+	MAME_DIR .. "src/mame/machine/xavix_madfb_ball.h",
 }
 
 createMESSProjects(_target, _subtarget, "ultimachine")
@@ -3641,6 +3660,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/acd.cpp",
 	MAME_DIR .. "src/mame/drivers/aceex.cpp",
 	MAME_DIR .. "src/mame/drivers/akaiax80.cpp",
+	MAME_DIR .. "src/mame/drivers/alcat7100.cpp",
 	MAME_DIR .. "src/mame/drivers/alesis_qs.cpp",
 	MAME_DIR .. "src/mame/drivers/alphasma.cpp",
 	MAME_DIR .. "src/mame/drivers/ampex.cpp",
@@ -3744,6 +3764,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/jade.cpp",
 	MAME_DIR .. "src/mame/drivers/jonos.cpp",
 	MAME_DIR .. "src/mame/drivers/kron.cpp",
+	MAME_DIR .. "src/mame/drivers/lb4.cpp",
 	MAME_DIR .. "src/mame/drivers/leapster.cpp",
 	MAME_DIR .. "src/mame/drivers/lee1214.cpp",
 	MAME_DIR .. "src/mame/drivers/learnwin.cpp",
@@ -3844,12 +3865,13 @@ files {
 	MAME_DIR .. "src/mame/drivers/vector4.cpp",
 	MAME_DIR .. "src/mame/drivers/vectrix.cpp",
 	MAME_DIR .. "src/mame/drivers/vp60.cpp",
-	MAME_DIR .. "src/mame/drivers/vp122.cpp",
 	MAME_DIR .. "src/mame/includes/vp415.h",
 	MAME_DIR .. "src/mame/drivers/vp415.cpp",
 	MAME_DIR .. "src/mame/drivers/vsmilepro.cpp",
 	MAME_DIR .. "src/mame/drivers/wicat.cpp",
 	MAME_DIR .. "src/mame/drivers/wy100.cpp",
+	MAME_DIR .. "src/mame/drivers/wy50.cpp",
+	MAME_DIR .. "src/mame/drivers/wy85.cpp",
 	MAME_DIR .. "src/mame/drivers/wyse.cpp",
 	MAME_DIR .. "src/mame/drivers/xor100.cpp",
 	MAME_DIR .. "src/mame/includes/xor100.h",
