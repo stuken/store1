@@ -89,8 +89,8 @@ casanova                        //
 fieldday                        // A23 (c) 1984 Taito
 undoukai                        // A17 (c) 1984 Taito
 
-@source:4d20.cpp
-4d20                            // (c) SGI 1991
+@source:iris_power.cpp
+4d410                           // (c) SGI 1991
 
 @source:4dpi.cpp
 sgi_ip6                         // IP6: 4D/PI, R2000, 20MHz
@@ -12673,7 +12673,11 @@ royalpk2                        //
 facit4440                       // 1984
 
 @source:falco5220.cpp
-falco5220                       // 1987
+falco5220e                      // 1987
+falco5220s                      // 1989
+
+@source:falcots.cpp
+ts2624                          // 1982
 
 @source:famibox.cpp
 famibox                         // 1986
@@ -17647,6 +17651,7 @@ kissp2                          //
 klax                            // 136075           (c) 1989
 klax2                           // 136075           (c) 1989
 klax2bl                         // bootleg
+klax2bl2                        // bootleg
 klax3                           // 136075           (c) 1989
 klaxd                           // 136075           (c) 1989 (Germany)
 klaxj                           // 136075           (c) 1989 (Japan)
@@ -18027,9 +18032,6 @@ medlanes                        // [1977?]
 
 @source:lb186.cpp
 lb186                           // Ampro Little Board/186
-
-@source:lb4.cpp
-lb4                             // Liberty Electronics LB-4
 
 @source:lbeach.cpp
 lbeach                          // (c) 1979 Olympia / Seletron
@@ -20848,6 +20850,7 @@ sonic2mb                        // MegaDrive-based hack
 srmdb                           // MegaDrive-based hack
 ssf2mdb                         // MegaDrive-based hack
 topshoot                        // (c) 1995 Sun Mixing
+barek3mb                        // MegaDrive-based hack
 
 @source:megadriv_rad.cpp
 rad_sf                          // (c)2004 Radica
@@ -21467,6 +21470,8 @@ minivadr                        // D26 cabinet test board
 @source:mips.cpp
 rc2030                          // MIPS RC2030
 rs2030                          // MIPS RS2030
+rc3230                          // MIPS RC3230
+rs3230                          // MIPS RS3230
 
 @source:mirage.cpp
 mirage                          // (c) 1994 Mitchell
@@ -21683,6 +21688,7 @@ daytona2                        // 1998.06 Daytona USA 2
 dirtdvls                        // 1998.10 Dirt Devils
 dirtdvlsa                       //
 dirtdvlsj                       //
+dirtdvlsg                       //
 eca                             // 1999.10 Kyukyuusya Emergency Call Ambulance
 ecap                            // 1999.12 Emergency Call Ambulance - US proto or location test
 ecaj                            //
@@ -21695,6 +21701,7 @@ harleya                         // 1997.12 Harley Davidson & L.A.Riders (rev A)
 lamachin                        // 1998.12 L.A. Machine Guns
 lemans24                        // 1997.09 Le Mans 24
 lostwsga                        // 1997.07 Lost World Jurassic Park
+lostwsgo                        // 1997.06 Lost World Jurassic Park (older)
 magtruck                        // 1999.03 Magical Truck Adventure (US)
 oceanhun                        // 1998.09 Ocean Hunter
 scud                            // 1996.12 Scud Race
@@ -21706,6 +21713,8 @@ skichamp                        // 1998.01 Ski Champ
 spikeofe                        // 1999.01 Spikeout Final Edition
 spikeout                        // 1998.09 Spikeout
 srally2                         // 1998.02 Sega Rally 2 Championship
+srally2p                        // 1997.12 Sega Rally 2 (prototype, 29 Dec 1997)
+srally2pa                       // 1997.12 Sega Rally 2 (prototype, 8 Dec 1997)
 srally2x                        //
 swtrilgy                        // 1998.12 Star Wars Trilogy Arcade (rev A)
 swtrilgya                       // 1998.11 Star Wars Trilogy Arcade
@@ -29837,6 +29846,9 @@ nc200                           // 1993 NC200
 ncd17c                          // 1990 Network Computing Devices
 ncd19                           // 1990 Network Computing Devices
 
+@source:ncdmips.cpp
+hmxpro                          // 1994 Network Computing Devices
+
 @source:nds.cpp
 nds                             // 2004 Nintendo
 
@@ -32913,6 +32925,9 @@ quizshow                        // 005464           1976/04 [2650]
 @source:qvt70.cpp
 qvt70                           //
 
+@source:qvt102.cpp
+qvt102                          // (c) 1983 Qume Corp.
+
 @source:qvt103.cpp
 qvt103                          // (c) 1983 Qume Corp.
 
@@ -32920,7 +32935,6 @@ qvt103                          // (c) 1983 Qume Corp.
 qvt201                          // (c) 1986 Qume Corp.
 
 @source:qvt6800.cpp
-qvt102                          //
 qvt190                          //
 
 @source:qx10.cpp
@@ -33791,6 +33805,7 @@ pzlestar                        // (c) 199? Sang Ho Soft
 sexyboom                        // (c) 1992 Sang Ho Soft
 
 @source:sanremmg.cpp
+elsygame                        // Elsy
 elsypokr                        // Elsy
 sanremmg                        // San Remo / Elsy
 
@@ -34317,6 +34332,7 @@ shinobi2d                       //
 shinobi3                        // (c) 1987 (MC-8123B)
 shinobi4                        // (c) 1987 (MC-8123B)
 shinobi5                        // (c) 1987 (Unprotected)
+shinobi6                        // (c) 1987 (Unprotected)
 sjryuko                         // (c) 1988 White Board (FD1094)
 snapper                         // (c) 1990 Philko - korean clone board
 sonicbom                        // (c) 1987 (FD1094)
@@ -39553,6 +39569,7 @@ taitons2                        //
 namcons1                        //
 namcons2                        //
 rad_ping                        //
+rad_pingp                       //
 rad_mtrk                        //
 rad_mtrkp                       //
 rad_bb2                         //
