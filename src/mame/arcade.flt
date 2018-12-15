@@ -389,6 +389,7 @@ firetrap.cpp
 firetrk.cpp
 fitfight.cpp
 //flicker.cpp      // pinball
+//flashbeats.cpp     // not working
 flipjack.cpp
 flkatck.cpp
 flower.cpp
@@ -996,6 +997,7 @@ route16.cpp
 //rowamet.cpp      // pinball
 royalmah.cpp
 rpunch.cpp
+rulechan.cpp
 runaway.cpp
 rungun.cpp
 //s11.cpp          // pinball

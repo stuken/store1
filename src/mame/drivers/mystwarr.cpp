@@ -973,17 +973,17 @@ MACHINE_CONFIG_START(mystwarr_state::mystwarr)
 	MCFG_PALETTE_ENABLE_SHADOWS()
 	MCFG_PALETTE_ENABLE_HILIGHTS()
 
-	MCFG_DEVICE_ADD("k056832", K056832, 0)
-	MCFG_K056832_CB(mystwarr_state, mystwarr_tile_callback)
-	MCFG_K056832_CONFIG("gfx1", K056832_BPP_5, 0, 0)
-	MCFG_K056832_PALETTE("palette")
+	K056832(config, m_k056832, 0);
+	m_k056832->set_tile_callback(FUNC(mystwarr_state::mystwarr_tile_callback), this);
+	m_k056832->set_config("gfx1", K056832_BPP_5, 0, 0);
+	m_k056832->set_palette(m_palette);
 
-	MCFG_K055555_ADD("k055555")
+	K055555(config, m_k055555, 0);
 
-	MCFG_DEVICE_ADD("k055673", K055673, 0)
-	MCFG_K055673_CB(mystwarr_state, mystwarr_sprite_callback)
-	MCFG_K055673_CONFIG("gfx2", K055673_LAYOUT_GX, -48, -24)
-	MCFG_K055673_PALETTE("palette")
+	K055673(config, m_k055673, 0);
+	m_k055673->set_sprite_callback(FUNC(mystwarr_state::mystwarr_sprite_callback), this);
+	m_k055673->set_config("gfx2", K055673_LAYOUT_GX, -48, -24);
+	m_k055673->set_palette(m_palette);
 
 	K054338(config, m_k054338, 0, m_k055555);
 	m_k054338->set_alpha_invert(1);
@@ -1033,12 +1033,10 @@ MACHINE_CONFIG_START(mystwarr_state::viostorm)
 	MCFG_SCREEN_SIZE(64*8, 32*8)
 	MCFG_SCREEN_VISIBLE_AREA(40, 40+384-1, 16, 16+224-1)
 
-	MCFG_DEVICE_MODIFY("k056832")
-	MCFG_K056832_CB(mystwarr_state, game4bpp_tile_callback)
+	m_k056832->set_tile_callback(FUNC(mystwarr_state::game4bpp_tile_callback), this);
 
-	MCFG_DEVICE_MODIFY("k055673")
-	MCFG_K055673_CB(mystwarr_state, metamrph_sprite_callback)
-	MCFG_K055673_CONFIG("gfx2", K055673_LAYOUT_RNG, -62, -23)
+	m_k055673->set_sprite_callback(FUNC(mystwarr_state::metamrph_sprite_callback), this);
+	m_k055673->set_config("gfx2", K055673_LAYOUT_RNG, -62, -23);
 MACHINE_CONFIG_END
 
 MACHINE_CONFIG_START(mystwarr_state::metamrph)
@@ -1054,7 +1052,7 @@ MACHINE_CONFIG_START(mystwarr_state::metamrph)
 
 	m_k053252->set_offsets(24, 16+1);  // MAMEFX
 
-	MCFG_K053250_ADD("k053250_1", "palette", "screen", -7, 0)
+	K053250(config, m_k053250_1, 0, m_palette, m_screen, -7, 0);
 
 	/* video hardware */
 	MCFG_VIDEO_START_OVERRIDE(mystwarr_state, metamrph)
@@ -1066,12 +1064,10 @@ MACHINE_CONFIG_START(mystwarr_state::metamrph)
 	MCFG_SCREEN_SIZE(64*8, 32*8)
 	MCFG_SCREEN_VISIBLE_AREA(24, 24+288-1, 17, 17+224-1)
 
-	MCFG_DEVICE_MODIFY("k056832")
-	MCFG_K056832_CB(mystwarr_state, game4bpp_tile_callback)
+	m_k056832->set_tile_callback(FUNC(mystwarr_state::game4bpp_tile_callback), this);
 
-	MCFG_DEVICE_MODIFY("k055673")
-	MCFG_K055673_CB(mystwarr_state, metamrph_sprite_callback)
-	MCFG_K055673_CONFIG("gfx2", K055673_LAYOUT_RNG, -51, -22)
+	m_k055673->set_sprite_callback(FUNC(mystwarr_state::metamrph_sprite_callback), this);
+	m_k055673->set_config("gfx2", K055673_LAYOUT_RNG, -51, -22);    // MAMEFX
 MACHINE_CONFIG_END
 
 MACHINE_CONFIG_START(mystwarr_state::dadandrn)
@@ -1083,7 +1079,7 @@ MACHINE_CONFIG_START(mystwarr_state::dadandrn)
 	MCFG_DEVICE_MODIFY("maincpu")
 	MCFG_DEVICE_PROGRAM_MAP(dadandrn_map)
 	MCFG_DEVICE_VBLANK_INT_DRIVER("screen", mystwarr_state,  ddd_interrupt)
-	MCFG_DEVICE_REMOVE("scantimer")
+	config.device_remove("scantimer");
 
 	m_k053252->set_offsets(24, 16+1);
 
@@ -1099,12 +1095,10 @@ MACHINE_CONFIG_START(mystwarr_state::dadandrn)
 	MCFG_SCREEN_SIZE(64*8, 32*8)
 	MCFG_SCREEN_VISIBLE_AREA(24, 24+288-1, 17, 17+224-1)
 
-	MCFG_DEVICE_MODIFY("k056832")
-	MCFG_K056832_CB(mystwarr_state, game5bpp_tile_callback)
+	m_k056832->set_tile_callback(FUNC(mystwarr_state::game5bpp_tile_callback), this);
 
-	MCFG_DEVICE_MODIFY("k055673")
-	MCFG_K055673_CB(mystwarr_state, gaiapols_sprite_callback)
-	MCFG_K055673_CONFIG("gfx2", K055673_LAYOUT_GX, -42, -22)
+	m_k055673->set_sprite_callback(FUNC(mystwarr_state::gaiapols_sprite_callback), this);
+	m_k055673->set_config("gfx2", K055673_LAYOUT_GX, -42, -22);
 MACHINE_CONFIG_END
 
 MACHINE_CONFIG_START(mystwarr_state::gaiapols)
@@ -1116,13 +1110,13 @@ MACHINE_CONFIG_START(mystwarr_state::gaiapols)
 	MCFG_DEVICE_MODIFY("maincpu")
 	MCFG_DEVICE_PROGRAM_MAP(gaiapols_map)
 	MCFG_DEVICE_VBLANK_INT_DRIVER("screen", mystwarr_state,  ddd_interrupt)
-	MCFG_DEVICE_REMOVE("scantimer")
+	config.device_remove("scantimer");
 
 	MCFG_DEVICE_REMOVE("k053252")
 	K053252(config, m_k053252, 16000000/2); // MAMEFX
 	m_k053252->set_offsets(40, 16);
 
-	MCFG_K054000_ADD("k054000")
+	K054000(config, "k054000", 0);
 
 	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_gaiapols)
 
@@ -1137,12 +1131,10 @@ MACHINE_CONFIG_START(mystwarr_state::gaiapols)
 	MCFG_SCREEN_SIZE(64*8, 32*8)
 	MCFG_SCREEN_VISIBLE_AREA(40, 40+376-1, 16, 16+224-1)
 
-	MCFG_DEVICE_MODIFY("k056832")
-	MCFG_K056832_CB(mystwarr_state, game4bpp_tile_callback)
+	m_k056832->set_tile_callback(FUNC(mystwarr_state::game4bpp_tile_callback), this);
 
-	MCFG_DEVICE_MODIFY("k055673")
-	MCFG_K055673_CB(mystwarr_state, gaiapols_sprite_callback)
-	MCFG_K055673_CONFIG("gfx2", K055673_LAYOUT_RNG, -61, -22) // stage2 brick walls
+	m_k055673->set_sprite_callback(FUNC(mystwarr_state::gaiapols_sprite_callback), this);
+	m_k055673->set_config("gfx2", K055673_LAYOUT_RNG, -61, -22); // stage2 brick walls
 MACHINE_CONFIG_END
 
 MACHINE_CONFIG_START(mystwarr_state::martchmp)
@@ -1176,15 +1168,13 @@ MACHINE_CONFIG_START(mystwarr_state::martchmp)
 	MCFG_SCREEN_SIZE(64*8, 32*8)
 	MCFG_SCREEN_VISIBLE_AREA(32, 32+384-1, 16, 16+224-1)
 
-	MCFG_DEVICE_MODIFY("k056832")
-	MCFG_K056832_CB(mystwarr_state, game5bpp_tile_callback)
+	m_k056832->set_tile_callback(FUNC(mystwarr_state::game5bpp_tile_callback), this);
 
-	MCFG_DEVICE_MODIFY("k055673")
-	MCFG_K055673_CB(mystwarr_state, martchmp_sprite_callback)
-	MCFG_K055673_CONFIG("gfx2", K055673_LAYOUT_GX, -58, -23)
+	m_k055673->set_sprite_callback(FUNC(mystwarr_state::martchmp_sprite_callback), this);
+	m_k055673->set_config("gfx2", K055673_LAYOUT_GX, -58, -23);
 
-	MCFG_DEVICE_REMOVE("k054539_1")
-	MCFG_DEVICE_REMOVE("k054539_2")
+	config.device_remove("k054539_1");
+	config.device_remove("k054539_2");
 
 	MCFG_DEVICE_ADD("k054539", K054539, XTAL(18'432'000))
 	MCFG_K054539_TIMER_HANDLER(WRITELINE(*this, mystwarr_state, k054539_nmi_gen))
