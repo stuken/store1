@@ -354,7 +354,7 @@ protected:
 
 	// internal registers
 	void internal_map(address_map &map);
-public:    // MAMEFX 2018-08-12
+
 	DECLARE_READ8_MEMBER( irq_status_r );
 	DECLARE_WRITE8_MEMBER( irq_status_w );
 
