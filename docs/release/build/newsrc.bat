@@ -10,7 +10,7 @@ md %to%\src\devices\sound
 copy /Y %from%\src\devices\sound\qs1000.cpp         %to%\src\devices\sound
 
 md %to%\src\devices\cpu\h6280
-copy /Y %from%\src\devices\cpu\h6280\h6280.h        %to%\src\devices\cpu\h6280
+copy /Y %from%\src\devices\cpu\h6280\h6280.cpp      %to%\src\devices\cpu\h6280
 
 md %to%\src\devices\cpu\psx
 copy /Y %from%\src\devices\cpu\psx\irq.cpp          %to%\src\devices\cpu\psx
@@ -44,7 +44,6 @@ copy /Y %from%\src\mame\drivers\cave.cpp            %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\citycon.cpp         %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\cps1.cpp            %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\crimfght.cpp        %to%\src\mame\drivers
-copy /Y %from%\src\mame\drivers\darkseal.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\deniam.cpp          %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\gberet.cpp          %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\gng.cpp             %to%\src\mame\drivers
@@ -61,7 +60,6 @@ copy /Y %from%\src\mame\drivers\scregg.cpp          %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\simpsons.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\ssv.cpp             %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\thunderx.cpp        %to%\src\mame\drivers
-copy /Y %from%\src\mame\drivers\vaportra.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\vegas.cpp           %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\vendetta.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\xmen.cpp            %to%\src\mame\drivers
