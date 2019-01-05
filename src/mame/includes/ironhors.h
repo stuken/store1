@@ -49,7 +49,7 @@ public:
 	TIMER_DEVICE_CALLBACK_MEMBER(irq);
 	TIMER_DEVICE_CALLBACK_MEMBER(farwest_irq);
 
-	DECLARE_PALETTE_INIT(ironhors);
+	void ironhors_palette(palette_device &palette) const;
 	DECLARE_VIDEO_START(farwest);
 
 	void farwest(machine_config &config);

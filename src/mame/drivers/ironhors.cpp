@@ -398,12 +398,10 @@ MACHINE_CONFIG_START(ironhors_state::ironhors)
 	MCFG_SCREEN_SIZE(32*8, 32*8)
 	MCFG_SCREEN_VISIBLE_AREA(1*8, 31*8-1, 2*8, 30*8-1)
 	MCFG_SCREEN_UPDATE_DRIVER(ironhors_state, screen_update)
-	MCFG_SCREEN_PALETTE("palette")
+	MCFG_SCREEN_PALETTE(m_palette)
 
-	MCFG_DEVICE_ADD("gfxdecode", GFXDECODE, "palette", gfx_ironhors)
-	MCFG_PALETTE_ADD("palette", 16*8*16+16*8*16)
-	MCFG_PALETTE_INDIRECT_ENTRIES(256)
-	MCFG_PALETTE_INIT_OWNER(ironhors_state, ironhors)
+	GFXDECODE(config, m_gfxdecode, m_palette, gfx_ironhors);
+	PALETTE(config, m_palette, FUNC(ironhors_state::ironhors_palette), 16*8*16+16*8*16, 256);
 
 	/* sound hardware */
 	SPEAKER(config, "mono").front_center();
