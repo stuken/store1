@@ -1499,16 +1499,14 @@ void nemesis_state::nemesis(machine_config &config)
 	GENERIC_LATCH_8(config, "soundlatch");
 
 	ay8910_device &ay1(AY8910(config, "ay1", 14318180/8));
-	ay1.set_flags(AY8910_LEGACY_OUTPUT | AY8910_SINGLE_OUTPUT);
+	ay1.set_flags(AY8910_LEGACY_OUTPUT);      // MAMEFX
 	ay1.port_a_read_callback().set(FUNC(nemesis_state::nemesis_portA_r));
-	ay1.add_route(ALL_OUTPUTS, "filter1", 0.20);
+	ay1.add_route(ALL_OUTPUTS, "mono", 0.20);      // MAMEFX
 
 	ay8910_device &ay2(AY8910(config, "ay2", 14318180/8));
 	ay2.port_a_write_callback().set(m_k005289, FUNC(k005289_device::k005289_control_A_w));
 	ay2.port_b_write_callback().set(m_k005289, FUNC(k005289_device::k005289_control_B_w));
-	ay2.add_route(0, "filter2", 1.00);
-	ay2.add_route(1, "filter3", 1.00);
-	ay2.add_route(2, "filter4", 1.00);
+	ay2.add_route(ALL_OUTPUTS, "mono", 1.00);      // MAMEFX
 
 	FILTER_RC(config, m_filter1);
 	m_filter1->add_route(ALL_OUTPUTS, "mono", 1.0);
@@ -1566,16 +1564,14 @@ void nemesis_state::gx400(machine_config &config)
 	GENERIC_LATCH_8(config, "soundlatch");
 
 	ay8910_device &ay1(AY8910(config, "ay1", 14318180/8));
-	ay1.set_flags(AY8910_LEGACY_OUTPUT | AY8910_SINGLE_OUTPUT);
+	ay1.set_flags(AY8910_LEGACY_OUTPUT);      // MAMEFX
 	ay1.port_a_read_callback().set(FUNC(nemesis_state::nemesis_portA_r));
-	ay1.add_route(ALL_OUTPUTS, "filter1", 0.20);
+	ay1.add_route(ALL_OUTPUTS, "mono", 0.20);      // MAMEFX
 
 	ay8910_device &ay2(AY8910(config, "ay2", 14318180/8));
 	ay2.port_a_write_callback().set(m_k005289, FUNC(k005289_device::k005289_control_A_w));
 	ay2.port_b_write_callback().set(m_k005289, FUNC(k005289_device::k005289_control_B_w));
-	ay2.add_route(0, "filter2", 1.00);
-	ay2.add_route(1, "filter3", 1.00);
-	ay2.add_route(2, "filter4", 1.00);
+	ay2.add_route(ALL_OUTPUTS, "mono", 1.00);      // MAMEFX
 
 	FILTER_RC(config, m_filter1);
 	m_filter1->add_route(ALL_OUTPUTS, "mono", 1.0);
@@ -1587,11 +1583,11 @@ void nemesis_state::gx400(machine_config &config)
 	m_filter4->add_route(ALL_OUTPUTS, "mono", 1.0);
 
 	K005289(config, m_k005289, 3579545);
-	m_k005289->add_route(ALL_OUTPUTS, "mono", 0.45);    // MAMEFX
+	m_k005289->add_route(ALL_OUTPUTS, "mono", 0.35);
 
 	VLM5030(config, m_vlm, 3579545);
 	m_vlm->set_addrmap(0, &nemesis_state::gx400_vlm_map);
-	m_vlm->add_route(ALL_OUTPUTS, "mono", 1.40);        // MAMEFX
+	m_vlm->add_route(ALL_OUTPUTS, "mono", 0.70);
 }
 
 void nemesis_state::konamigt(machine_config &config)
