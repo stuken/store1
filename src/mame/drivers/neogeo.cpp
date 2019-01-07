@@ -6757,7 +6757,7 @@ ROM_END
     The following ID's are used by Korean releases:
 
     ID-0122 - Pae Wang Jeon Seol / Legend of a Warrior (Korean censored Samurai Shodown IV)
-    ID-0123 - Quiz Daisousa Sen - The Last Count Down (Korean release)
+    ID-0123 - Quiz Salibtamjeong - The Last Count Down (Korean localized Quiz Daisousa Sen)
     ID-0124 - Real Bout Fatal Fury Special / Real Bout Garou Densetsu Special (Korean release)
     ID-0134 - The Last Soldier (Korean release of The Last Blade)
     ID-0140 - Real Bout Fatal Fury 2 - The Newcomers (Korean release)
@@ -11767,7 +11767,7 @@ GAME( 1991, gpilotsh,   gpilots,  neo304h,   neogeo,    mvs_led_state, empty_ini
 GAME( 1991, gpilotsp,   gpilots,  neo304h,   neogeo,    mvs_led_state, empty_init, ROT0, "SNK", "Ghost Pilots (prototype)", MACHINE_SUPPORTS_SAVE )
 GAME( 1990, joyjoy,     neogeo,   neo304h,   neogeo,    mvs_led_state, empty_init, ROT0, "SNK", "Puzzled / Joy Joy Kid (NGM-021 ~ NGH-021)", MACHINE_SUPPORTS_SAVE )
 GAME( 1991, quizdais,   neogeo,   neo304h,   neogeo,    mvs_led_state, empty_init, ROT0, "SNK", "Quiz Daisousa Sen - The Last Count Down (NGM-023 ~ NGH-023)", MACHINE_SUPPORTS_SAVE )
-GAME( 1991, quizdaisk,  quizdais, neo304h,   neogeo,    mvs_led_state, empty_init, ROT0, "SNK", "Quiz Daisousa Sen - The Last Count Down (Korean release)", MACHINE_SUPPORTS_SAVE )
+GAME( 1995, quizdaisk,  quizdais, neo304h,   neogeo,    mvs_led_state, empty_init, ROT0, "SNK", "Quiz Daisousa Sen - The Last Count Down (Korean release)", MACHINE_SUPPORTS_SAVE )
 GAME( 1992, lresort,    neogeo,   neo304h,   neogeo,    mvs_led_state, empty_init, ROT0, "SNK", "Last Resort", MACHINE_SUPPORTS_SAVE )
 GAME( 1992, lresortp,   lresort,  neo304h,   neogeo,    mvs_led_state, empty_init, ROT0, "SNK", "Last Resort (prototype)", MACHINE_SUPPORTS_SAVE )
 GAME( 1991, eightman,   neogeo,   neobase,   neogeo,    mvs_led_state, empty_init, ROT0, "SNK / Pallas", "Eight Man (NGM-025 ~ NGH-025)", MACHINE_SUPPORTS_SAVE )
@@ -11888,7 +11888,7 @@ GAME( 2004, kof2k4se,   kof2002,  kof2k4se,  neogeo,    mvs_led_state, empty_ini
 GAME( 2003, mslug5,     neogeo,   mslug5,    neogeo,    mvs_led_state, empty_init, ROT0, "SNK Playmore", "Metal Slug 5 (NGM-2680)", MACHINE_SUPPORTS_SAVE )
 GAME( 2003, mslug5h,    mslug5,   mslug5,    neogeo,    mvs_led_state, empty_init, ROT0, "SNK Playmore", "Metal Slug 5 (NGH-2680)", MACHINE_SUPPORTS_SAVE ) /* Also found in later MVS carts */
 GAME( 2003, ms5plus,    mslug5,   ms5plus,   neogeo,    mvs_led_state, empty_init, ROT0, "bootleg", "Metal Slug 5 Plus (bootleg)", MACHINE_SUPPORTS_SAVE )
-GAME( 2003, svc,        neogeo,   svc,       neogeo,    mvs_led_state, empty_init, ROT0, "SNK Playmore", "SNK vs. Capcom - SVC Chaos (NGM-2690 ~ NGH-2690)", MACHINE_SUPPORTS_SAVE )
+GAME( 2003, svc,        neogeo,   svc,       neogeo,    mvs_led_state, empty_init, ROT0, "Playmore / Capcom", "SNK vs. Capcom - SVC Chaos (NGM-2690 ~ NGH-2690)", MACHINE_SUPPORTS_SAVE )
 GAME( 2003, svcboot,    svc,      svcboot,   neogeo,    mvs_led_state, empty_init, ROT0, "bootleg", "SNK vs. Capcom - SVC Chaos (bootleg)", MACHINE_SUPPORTS_SAVE )
 GAME( 2003, svcplus,    svc,      svcplus,   neogeo,    mvs_led_state, empty_init, ROT0, "bootleg", "SNK vs. Capcom - SVC Chaos Plus (bootleg set 1)", MACHINE_SUPPORTS_SAVE )
 GAME( 2003, svcplusa,   svc,      svcplusa,  neogeo,    mvs_led_state, empty_init, ROT0, "bootleg", "SNK vs. Capcom - SVC Chaos Plus (bootleg set 2)", MACHINE_SUPPORTS_SAVE )
@@ -11938,7 +11938,7 @@ GAME( 1992, viewpoin,   neogeo,   neo304h,   neogeo,    mvs_led_state, empty_ini
 GAME( 1994, janshin,    neogeo,   neogeo_mj, neogeo_mj, mvs_led_state, empty_init, ROT0, "Aicom", "Janshin Densetsu - Quest of Jongmaster", MACHINE_SUPPORTS_SAVE )
 GAME( 1995, pulstar,    neogeo,   neo304h,   neogeo,    mvs_led_state, empty_init, ROT0, "Aicom", "Pulstar", MACHINE_SUPPORTS_SAVE )
 GAME( 1998, blazstar,   neogeo,   neo304h,   neogeo,    mvs_led_state, empty_init, ROT0, "Yumekobo", "Blazing Star", MACHINE_SUPPORTS_SAVE )
-GAME( 1999, preisle2,   neogeo,   preisle2,  neogeo,    mvs_led_state, empty_init, ROT0, "Yumekobo", "Prehistoric Isle 2" , MACHINE_SUPPORTS_SAVE ) /* Encrypted GFX */
+GAME( 1999, preisle2,   neogeo,   preisle2,  neogeo,    mvs_led_state, empty_init, ROT0, "Yumekobo / Saurus", "Prehistoric Isle 2" , MACHINE_SUPPORTS_SAVE ) /* Encrypted GFX */
 
 /* Data East Corporation */
 GAME( 1993, spinmast,   neogeo,   neo304h,   neogeo,    mvs_led_state, empty_init, ROT0, "Data East Corporation", "Spin Master / Miracle Adventure", MACHINE_SUPPORTS_SAVE )
@@ -12079,7 +12079,7 @@ GAME( 2005, lasthope,   neogeo,   neo304h,   neogeo,    mvs_led_state, empty_ini
 // Fast Striker 1.5 (c)2010 - MVS/AES
 // GunLord (c)2012 - MVS/AES
 // Neo XYX (c)2013 - MVS/AES
-// Razion (c)2014 - MVS/AES?
+// Razion (c)2014 - MVS/AES
 // Kraut Buster (c)2016 - MVS/AES
 
 // N.C.I - LE CORTEX
