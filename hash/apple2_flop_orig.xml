@@ -8,6 +8,8 @@
     <year>1984</year>
     <publisher>Scholastic</publisher>
     <info name="release" value="2018-11-15"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II model with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="80443">
@@ -21,6 +23,8 @@
     <year>1986</year>
     <publisher>Broderbund Software</publisher>
     <info name="release" value="2018-10-12"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="240141">
@@ -34,6 +38,8 @@
     <year>1981</year>
     <publisher>Micro Distributors</publisher>
     <info name="release" value="2018-09-17"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!--  It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233482">
@@ -47,6 +53,8 @@
     <year>1983</year>
     <publisher>Datamost</publisher>
     <info name="release" value="2018-08-28"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233471">
@@ -60,6 +68,8 @@
     <year>1983</year>
     <publisher>Sierra On-Line</publisher>
     <info name="release" value="2018-09-01"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233532">
@@ -73,6 +83,8 @@
     <year>1980</year>
     <publisher>Broderbund Software</publisher>
     <info name="release" value="2018-10-10"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="106991">
@@ -86,6 +98,8 @@
     <year>1983</year>
     <publisher>Sierra On-Line</publisher>
     <info name="release" value="2018-07-29"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="246792">
@@ -99,6 +113,8 @@
     <year>1984</year>
     <publisher>Electronic Arts</publisher>
     <info name="release" value="2018-09-03"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires an 64K Apple ][+, //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="226901">
@@ -112,6 +128,8 @@
     <year>1983</year>
     <publisher>Datamost</publisher>
     <info name="release" value="2018-09-23"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 48K Apple ][+ or later. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233476">
@@ -125,6 +143,8 @@
     <year>1981</year>
     <publisher>Sirius Software</publisher>
     <info name="release" value="2018-10-05"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="53760">
@@ -138,6 +158,8 @@
     <year>1982</year>
     <publisher>Electronic Arts</publisher>
     <info name="release" value="2018-08-10"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="226823">
@@ -151,6 +173,8 @@
     <year>1982</year>
     <publisher>Datamost</publisher>
     <info name="release" value="2019-01-03"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233469">
@@ -164,13 +188,18 @@
     <year>1988</year>
     <publisher>Data East USA</publisher>
     <info name="release" value="2019-01-03"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It uses double hi-res graphics and thus requires a
+    128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
       <dataarea name="flop" size="233460">
         <rom name="bad dudes side a.woz" size="233460" crc="e37063ea" sha1="870aeb56c9b7002c54500ce7f6da2bf291ef6b0e" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
       <dataarea name="flop" size="233460">
         <rom name="bad dudes side b.woz" size="233460" crc="2febca6b" sha1="84392cbbf7ffeaa8280d7bf354f6b507acd6afca" offset="0x0000" />
       </dataarea>
@@ -182,6 +211,8 @@
     <year>1985</year>
     <publisher>Epyx</publisher>
     <info name="release" value="2018-08-11"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="240138">
@@ -195,13 +226,17 @@
     <year>1985</year>
     <publisher>Data East USA</publisher>
     <info name="release" value="2018-08-11"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
       <dataarea name="flop" size="233469">
         <rom name="batman side a.woz" size="233469" crc="5b55225f" sha1="6ff40d0a5347af16b656d8aa490c99dbd0acc225" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
       <dataarea name="flop" size="233469">
         <rom name="batman side b.woz" size="233469" crc="2b6a6d08" sha1="1d1603bf50527d15a2a4c76391de2fded2cd859f" offset="0x0000" />
       </dataarea>
@@ -213,6 +248,8 @@
     <year>1983</year>
     <publisher>Sierra On-Line</publisher>
     <info name="release" value="2018-08-11"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="253454">
@@ -226,6 +263,8 @@
     <year>1982</year>
     <publisher>Hayden Book Company</publisher>
     <info name="release" value="2018-07-31"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="240180">
@@ -239,13 +278,17 @@
     <year>1984</year>
     <publisher>Hayden Book Company</publisher>
     <info name="release" value="2018-07-31"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 48K Apple ][+ or later. -->
 
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
       <dataarea name="flop" size="233490">
         <rom name="below the root side a.woz" size="233490" crc="9129bb1c" sha1="a51a653e2886a00f636a7bc3a192745dcb06327b" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
       <dataarea name="flop" size="233515">
         <rom name="below the root side b.woz" size="233515" crc="f3f181f8" sha1="2451c2c2f441c9b17ea82619e57e22e865c926d1" offset="0x0000" />
       </dataarea>
@@ -257,6 +300,8 @@
     <year>1983</year>
     <publisher>Datamost</publisher>
     <info name="release" value="2018-09-24"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233458">
@@ -270,6 +315,8 @@
     <year>1982</year>
     <publisher>United Software of America</publisher>
     <info name="release" value="2018-09-05"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="67088">
@@ -283,6 +330,8 @@
     <year>1982</year>
     <publisher>On-Line Systems</publisher>
     <info name="release" value="2018-12-26"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233483">
@@ -296,6 +345,8 @@
     <year>1983</year>
     <publisher>Origin Systems</publisher>
     <info name="release" value="2018-10-23"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="220149">
@@ -309,6 +360,8 @@
     <year>1981</year>
     <publisher>Turnkey Software</publisher>
     <info name="release" value="2018-09-18"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="120335">
@@ -322,6 +375,8 @@
     <year>1983</year>
     <publisher>Atarisoft</publisher>
     <info name="release" value="2019-01-14"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233448">
@@ -335,6 +390,8 @@
     <year>1987</year>
     <publisher>Data East USA</publisher>
     <info name="release" value="2018-08-02"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on an Apple //e with 128K, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233478">
@@ -348,6 +405,8 @@
     <year>1987</year>
     <publisher>SEGA Enterprises</publisher>
     <info name="release" value="2018-08-02"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="220129">
@@ -361,6 +420,8 @@
     <year>1983</year>
     <publisher>Datamost</publisher>
     <info name="release" value="2019-01-06"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="220176">
@@ -374,6 +435,8 @@
     <year>1981</year>
     <publisher>Sirius Software</publisher>
     <info name="release" value="2018-09-20"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="107016">
@@ -387,6 +450,8 @@
     <year>1981</year>
     <publisher>Datamost</publisher>
     <info name="release" value="2018-12-31"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="126960">
@@ -400,6 +465,8 @@
     <year>1982</year>
     <publisher>Datamost</publisher>
     <info name="release" value="2019-01-05"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233475">
@@ -413,6 +480,8 @@
     <year>1982</year>
     <publisher>Micro Fun</publisher>
     <info name="release" value="2018-09-06"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233483">
@@ -426,6 +495,8 @@
     <year>1981</year>
     <publisher>On-Line Systems</publisher>
     <info name="release" value="2019-01-12"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233477">
@@ -439,6 +510,8 @@
     <year>1983</year>
     <publisher>Micromax</publisher>
     <info name="release" value="2018-08-22"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 48K Apple ][+, //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233465">
@@ -452,6 +525,8 @@
     <year>1980</year>
     <publisher>Sirius Software</publisher>
     <info name="release" value="2018-11-18"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II model with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="140265">
@@ -465,6 +540,8 @@
     <year>1985</year>
     <publisher>Accolade</publisher>
     <info name="release" value="2018-12-29"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 64K Apple ][+, //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233497">
@@ -478,6 +555,8 @@
     <year>1987</year>
     <publisher>Epyx</publisher>
     <info name="release" value="2018-11-30"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233486">
@@ -491,6 +570,8 @@
     <year>1986</year>
     <publisher>Epyx</publisher>
     <info name="release" value="2018-12-07"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233484">
@@ -504,6 +585,8 @@
     <year>1983</year>
     <publisher>Micro Fun</publisher>
     <info name="release" value="2018-08-07"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233477">
@@ -517,6 +600,8 @@
     <year>1988</year>
     <publisher>Epyx</publisher>
     <info name="release" value="2018-12-08"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 64K Apple ][+, //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233475">
@@ -530,6 +615,8 @@
     <year>1983</year>
     <publisher>Atarisoft</publisher>
     <info name="release" value="2019-01-08"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233450">
@@ -543,6 +630,8 @@
     <year>1983</year>
     <publisher>Broderbund Software</publisher>
     <info name="release" value="2018-10-13"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233473">
@@ -556,6 +645,8 @@
     <year>1982</year>
     <publisher>Datasoft</publisher>
     <info name="release" value="2018-10-14"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233450">
@@ -569,6 +660,8 @@
     <year>1985</year>
     <publisher>Epyx</publisher>
     <info name="release" value="2018-12-05"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 64K Apple ][+, //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233469">
@@ -582,6 +675,8 @@
     <year>1981</year>
     <publisher>Sirius Software</publisher>
     <info name="release" value="2018-10-07"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="107009">
@@ -595,6 +690,8 @@
     <year>1981</year>
     <publisher>Piccadilly Software</publisher>
     <info name="release" value="2018-09-19"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="146916">
@@ -609,6 +706,8 @@
     <year>1985</year>
     <publisher>Accolade</publisher>
     <info name="release" value="2018-09-04"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 64K Apple ][+, //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233490">
@@ -621,8 +720,10 @@
     <description>Flight Simulator II (v2.0)</description>
     <year>1985</year>
     <publisher>Accolade</publisher>
-
     <info name="release" value="2018-09-04"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
+
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233510">
         <rom name="flight simulator ii v2.0.woz" size="233510" crc="e73d8996" sha1="88359b00974e857e14d0a104fae7b191d1f52662" offset="0x0000" />
@@ -635,6 +736,8 @@
     <year>1982</year>
     <publisher>Sirius Software</publisher>
     <info name="release" value="2018-10-08"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!--  It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="240132">
@@ -647,8 +750,10 @@
     <description>Force 7</description>
     <year>1987</year>
     <publisher>Datasoft</publisher>
-
     <info name="release" value="2018-12-20"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
+
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="193522">
         <rom name="force 7.woz" size="193522" crc="01d48369" sha1="c248796aa3ef777c00447a4e3049dbd074a16a18" offset="0x0000" />
@@ -661,6 +766,8 @@
     <year>1983</year>
     <publisher>Gentry Software</publisher>
     <info name="release" value="2018-12-22"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="87054">
@@ -674,6 +781,8 @@
     <year>1982</year>
     <publisher>Sirius Software</publisher>
     <info name="release" value="2018-11-16"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple ][ model with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233488">
@@ -687,6 +796,10 @@
     <year>1981</year>
     <publisher>Sierra On-Line</publisher>
     <info name="release" value="2018-09-13"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- The first release refused to boot on anything but an original
+    Apple II or II Plus (i.e. not //e or later).
+    This updated version runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="260154">
@@ -700,6 +813,8 @@
     <year>1984</year>
     <publisher>SEGA Enterprises</publisher>
     <info name="release" value="2018-12-21"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233464">
@@ -713,13 +828,17 @@
     <year>1985</year>
     <publisher>Epyx</publisher>
     <info name="release" value="2018-09-13"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 64K Apple ][+, //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
       <dataarea name="flop" size="233527">
         <rom name="g. i. joe side a.woz" size="233527" crc="a7feb3c1" sha1="74ffc0d32ff1d294b91b7ffb24216b64a3eef6e8" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
       <dataarea name="flop" size="233527">
         <rom name="g. i. joe side b.woz" size="233527" crc="7e547fa1" sha1="12f251af41708fa349c1d022c4007fac54dd610a" offset="0x0000" />
       </dataarea>
@@ -731,25 +850,31 @@
     <year>1988</year>
     <publisher>Epyx</publisher>
     <info name="release" value="2018-12-05"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
 
     <!-- Disk A -->
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Disk 1 Side A"/>
       <dataarea name="flop" size="233937">
         <rom name="the games - summer edition - disk 1, side a.woz" size="233937" crc="0dc7efa5" sha1="954e0259c9cd8f9318cc84a03038070fe5a1a8af" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Disk 1 Side B"/>
       <dataarea name="flop" size="233937">
         <rom name="the games - summer edition - disk 1, side b.woz" size="233937" crc="a972a6ae" sha1="b6db0be1652fb79717cd6103051f3af685edf658" offset="0x0000" />
       </dataarea>
     </part>
     <!-- Disk B -->
     <part name="flop3" interface="floppy_5_25">
+      <feature name="part_id" value="Disk 2 Side A"/>
       <dataarea name="flop" size="233937">
         <rom name="the games - summer edition - disk 2, side a.woz" size="233937" crc="8d53f85e" sha1="52c04578fb5bb2c2a65ce9f9fcc344fa46192e6a" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop4" interface="floppy_5_25">
+      <feature name="part_id" value="Disk 2 Side B"/>
       <dataarea name="flop" size="233937">
         <rom name="the games - summer edition - disk 2, side b.woz" size="233937" crc="ccc6e8bd" sha1="6bf9d6d245f7de1991ded76e5b0f4cbf212d192d" offset="0x0000" />
       </dataarea>
@@ -761,6 +886,8 @@
     <year>1985</year>
     <publisher>Spectrum Holobyte</publisher>
     <info name="release" value="2018-08-14"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233524">
@@ -774,6 +901,10 @@
     <year>1981</year>
     <publisher>Broderbund Software</publisher>
     <info name="release" value="2018-10-27"/>
+    <sharedfeat name="compatibility" value="A2,A2P" />
+    <!-- It requires a 48K Apple ][ or ][+.
+    Due to compatibility issues caused by the copy protection,
+    it will not run on any later models. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="120320">
@@ -787,6 +918,8 @@
     <year>1981</year>
     <publisher>On-Line Systems</publisher>
     <info name="release" value="2018-12-25"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="253442">
@@ -800,6 +933,8 @@
     <year>1985</year>
     <publisher>Datasoft</publisher>
     <info name="release" value="2018-08-04"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="226840">
@@ -813,6 +948,8 @@
     <year>1983</year>
     <publisher>Broderbund Software</publisher>
     <info name="release" value="2018-10-11"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233497">
@@ -826,6 +963,8 @@
     <year>1983</year>
     <publisher>Micro Fun</publisher>
     <info name="release" value="2018-12-28"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233483">
@@ -839,6 +978,8 @@
     <year>1983</year>
     <publisher>Activision</publisher>
     <info name="release" value="2018-10-11"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233525">
@@ -852,6 +993,8 @@
     <year>1981</year>
     <publisher>Sirius Software</publisher>
     <info name="release" value="2018-11-20"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="133638">
@@ -865,6 +1008,7 @@
     <year>1983</year>
     <publisher>Electronic Arts</publisher>
     <info name="release" value="2018-07-25"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="226887">
@@ -878,6 +1022,8 @@
     <year>1985</year>
     <publisher>Accolade</publisher>
     <info name="release" value="2019-01-11"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 64K Apple ][+, //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="226850">
@@ -891,6 +1037,8 @@
     <year>1980</year>
     <publisher>California Pacific Computers</publisher>
     <info name="release" value="2018-08-09"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 32K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="40463">
@@ -904,6 +1052,8 @@
     <year>1983</year>
     <publisher>Micro Fun</publisher>
     <info name="release" value="2018-09-29"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="133632">
@@ -917,13 +1067,17 @@
     <year>1983</year>
     <publisher>Data East USA</publisher>
     <info name="release" value="2018-09-29"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
       <dataarea name="flop" size="233486">
         <rom name="ikari warriors side a.woz" size="233486" crc="e8b44cd5" sha1="05836f6f7dca26005f7759a972d1979f965cdde0" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
       <dataarea name="flop" size="233486">
         <rom name="ikari warriors side b.woz" size="233486" crc="ff41f744" sha1="0754b5c86d12f3f8d58d58f3c4e89ad1a0f37cf4" offset="0x0000" />
       </dataarea>
@@ -935,13 +1089,17 @@
     <year>1981</year>
     <publisher>Sirius Software</publisher>
     <info name="release" value="2018-10-03"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
       <dataarea name="flop" size="233484">
         <rom name="victory road side a.woz" size="233484" crc="36274d74" sha1="cf4e23edc79b6503dca49df24d3ad65c5f5de99b" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
       <dataarea name="flop" size="233484">
         <rom name="victory road side b.woz" size="233484" crc="db97aafa" sha1="4aa7360b3e99822e9021503c08e2b224ea5396c4" offset="0x0000" />
       </dataarea>
@@ -953,6 +1111,8 @@
     <year>1982</year>
     <publisher>MUSE Software</publisher>
     <info name="release" value="2018-09-21"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="140311">
@@ -966,6 +1126,8 @@
     <year>1981</year>
     <publisher>On-Line Systems</publisher>
     <info name="release" value="2018-09-25"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="240117">
@@ -979,7 +1141,8 @@
     <year>1982</year>
     <publisher>Sierra On-Line</publisher>
     <info name="release" value="2018-09-21"/>
-    <!-- It requires a 48K Apple ][ or ][+.
+    <sharedfeat name="compatibility" value="A2,A2P" />
+    <!-- It requires a 48K Apple II or ][+.
     Due to compatibility issues caused by the copy protection, it will not run
     on any later models. -->
 
@@ -995,6 +1158,8 @@
     <year>1986</year>
     <publisher>subLOGIC</publisher>
     <info name="release" value="2018-10-24"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 64K Apple II+, //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="140293">
@@ -1008,6 +1173,8 @@
     <year>1983</year>
     <publisher>Atarisoft</publisher>
     <info name="release" value="2018-10-28"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It run on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233444">
@@ -1021,6 +1188,8 @@
     <year>1983</year>
     <publisher>Electronic Arts</publisher>
     <info name="release" value="2018-08-24"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="226826">
@@ -1034,6 +1203,8 @@
     <year>1984</year>
     <publisher>Atarisoft</publisher>
     <info name="release" value="2018-08-12"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It run on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233456">
@@ -1047,6 +1218,8 @@
     <year>1985</year>
     <publisher>Data East</publisher>
     <info name="release" value="2018-08-31"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233486">
@@ -1060,13 +1233,19 @@
     <year>1984</year>
     <publisher>Broderbund Software</publisher>
     <info name="release" value="2018-10-19"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K.
+    Side B of the original floppy disk had another copy of the game,
+    but all the graphics were upside down. -->
 
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
       <dataarea name="flop" size="233451">
         <rom name="karateka.woz" size="233451" crc="579992fd" sha1="426b10497d927ad8704f252b1f948aa259d1f608" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B (Reverse)"/>
       <dataarea name="flop" size="233451">
         <rom name="karateka side b.woz" size="233451" crc="6be5c7db" sha1="58c3cf8c66c48eac9d0602a3a5437b03577edbe9" offset="0x0000" />
       </dataarea>
@@ -1078,12 +1257,17 @@
     <year>1987</year>
     <publisher>Data East</publisher>
     <info name="release" value="2018-10-19"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 64K Apple ][+, //e, //c, or IIgs. -->
+
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
       <dataarea name="flop" size="233499">
         <rom name="kid niki side a.woz" size="233499" crc="c2fcb172" sha1="2001d447a04a03c6c51b698091ef32e1fc149b83" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
       <dataarea name="flop" size="233499">
         <rom name="kid niki side b.woz" size="233499" crc="8ca573fb" sha1="892f4e3daf765cc33fb7230f97cabed8f52763a5" offset="0x0000" />
       </dataarea>
@@ -1095,6 +1279,8 @@
     <year>1985</year>
     <publisher>Data East</publisher>
     <info name="release" value="2018-08-20"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233482">
@@ -1108,13 +1294,17 @@
     <year>1988</year>
     <publisher>Epyx</publisher>
     <info name="release" value="2018-08-20"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
       <dataarea name="flop" size="233484">
         <rom name="l. a. crackdown side a.woz" size="233484" crc="2470ff12" sha1="9e095637f0e4f3bf6f18318f68c3a8946a333394" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
       <dataarea name="flop" size="233484">
         <rom name="l. a. crackdown side b.woz" size="233484" crc="f90f1341" sha1="ab3bf18944f6482f574a054c916c84d2fbc4f49b" offset="0x0000" />
       </dataarea>
@@ -1126,6 +1316,8 @@
     <year>1984</year>
     <publisher>Datasoft</publisher>
     <info name="release" value="2018-09-22"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="206813">
@@ -1139,6 +1331,8 @@
     <year>1982</year>
     <publisher>On-Line Systems</publisher>
     <info name="release" value="2018-10-21"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233470">
@@ -1152,13 +1346,17 @@
     <year>1986</year>
     <publisher>Electronic Arts</publisher>
     <info name="release" value="2018-10-21"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
       <dataarea name="flop" size="226821">
         <rom name="marble madness side a.woz" size="226821" crc="d4c96731" sha1="3e3fd0be2b4de291e0c137a3a2cfac0fdd56fdd0" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
       <dataarea name="flop" size="233477">
         <rom name="marble madness side b.woz" size="233477" crc="29a0ea5d" sha1="b3c12458557e931b718f168013cffaec6f16a862" offset="0x0000" />
       </dataarea>
@@ -1170,6 +1368,8 @@
     <year>1982</year>
     <publisher>Datamost</publisher>
     <info name="release" value="2019-01-01"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 48K Apple ][+, //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233471">
@@ -1183,6 +1383,8 @@
     <year>1982</year>
     <publisher>Datamost</publisher>
     <info name="release" value="2018-08-13"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="140285">
@@ -1196,6 +1398,8 @@
     <year>1986</year>
     <publisher>Neosoft</publisher>
     <info name="release" value="2018-09-08"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 48K Apple ][+, //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="220133">
@@ -1209,23 +1413,29 @@
     <year>1986</year>
     <publisher>New World Computing</publisher>
     <info name="release" value="2018-09-08"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Disk A"/>
       <dataarea name="flop" size="233539">
         <rom name="might and magic - disk a.woz" size="233539" crc="1d32a568" sha1="11c13cee62c44c80d77c0f04905dd6f7e34cb69d" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Disk B"/>
       <dataarea name="flop" size="233539">
         <rom name="might and magic - disk b.woz" size="233539" crc="25174e82" sha1="5da6b88c342dbe8f5716266433958728fea13f72" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop3" interface="floppy_5_25">
+      <feature name="part_id" value="Disk C"/>
       <dataarea name="flop" size="233539">
         <rom name="might and magic - disk c.woz" size="233539" crc="ad3dd0e3" sha1="ac89cf4281680194c8984621f00f8642610d6286" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop4" interface="floppy_5_25">
+      <feature name="part_id" value="Disk D"/>
       <dataarea name="flop" size="233539">
         <rom name="might and magic - disk d.woz" size="233539" crc="771cb886" sha1="c718cdde8298e38f7a25eb91fdf348b5e2131b51" offset="0x0000" />
       </dataarea>
@@ -1237,6 +1447,8 @@
     <year>1982</year>
     <publisher>Micro Fun</publisher>
     <info name="release" value="2018-08-19"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233469">
@@ -1250,6 +1462,8 @@
     <year>1983</year>
     <publisher>Penguin Software</publisher>
     <info name="release" value="2018-12-27"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 48K Apple ][+, //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233479">
@@ -1258,20 +1472,24 @@
     </part>
   </software>
 
-  <software name="mimp2woz">
-    <description>Mission Impossible II</description>
+  <software name="impm2woz">
+    <description>Impossible Mission II</description>
     <year>1988</year>
     <publisher>Epyx</publisher>
     <info name="release" value="2018-12-27"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
       <dataarea name="flop" size="233525">
-        <rom name="mission impossible ii side a.woz" size="233525" crc="fb26d565" sha1="20303f1f17ce5975df6c5c32d98fb5afdfb18f36" offset="0x0000" />
+        <rom name="impossible mission ii side a.woz" size="233525" crc="fb26d565" sha1="20303f1f17ce5975df6c5c32d98fb5afdfb18f36" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
       <dataarea name="flop" size="233525">
-        <rom name="mission impossible ii side b.woz" size="233525" crc="0797da53" sha1="f9512f2f6cc7cc54081433bb97a21fceb159942f" offset="0x0000" />
+        <rom name="impossible mission ii side b.woz" size="233525" crc="0797da53" sha1="f9512f2f6cc7cc54081433bb97a21fceb159942f" offset="0x0000" />
       </dataarea>
     </part>
   </software>
@@ -1281,6 +1499,9 @@
     <year>1982</year>
     <publisher>Datamost</publisher>
     <info name="release" value="2019-01-02"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
+
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233478">
         <rom name="money munchers.woz" size="233478" crc="5f157c32" sha1="3dddc118174558495a7bc44591d769c747dc25ba" offset="0x0000" />
@@ -1293,6 +1514,9 @@
     <year>1983</year>
     <publisher>Datamost</publisher>
     <info name="release" value="2019-01-04"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 48K Apple ][+, //e, //c, or IIgs. -->
+
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233476">
         <rom name="monster smash.woz" size="233476" crc="a2a01373" sha1="a0aeea2f9b66a1ff725fa5e49a3c5398a3be1273" offset="0x0000" />
@@ -1305,6 +1529,8 @@
     <year>1984</year>
     <publisher>Parker Brothers</publisher>
     <info name="release" value="2019-01-04"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 48K Apple ][+, //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233489">
@@ -1313,12 +1539,13 @@
     </part>
   </software>
 
-
   <software name="mpatrwoz">
     <description>Moon Patrol</description>
     <year>1983</year>
     <publisher>Atarisoft</publisher>
     <info name="release" value="2018-08-26"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="346602">
@@ -1332,12 +1559,17 @@
     <year>1986</year>
     <publisher>Epyx</publisher>
     <info name="release" value="2018-10-24"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 64K Apple //e, //c, or IIgs. -->
+
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
       <dataarea name="flop" size="233451">
         <rom name="the movie monster game side a.woz" size="233451" crc="7318e456" sha1="0bf74c85da08fd5c4bebb587c38769eb8aefb953" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
       <dataarea name="flop" size="233451">
         <rom name="the movie monster game side b.woz" size="233451" crc="338a8ad1" sha1="b1a996b703cf00c509e15639c53019ce812341c8" offset="0x0000" />
       </dataarea>
@@ -1349,6 +1581,8 @@
     <year>1984</year>
     <publisher>Datamost</publisher>
     <info name="release" value="2018-07-30"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 64K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233512">
@@ -1362,6 +1596,8 @@
     <year>1983</year>
     <publisher>Atarisoft</publisher>
     <info name="release" value="2018-07-30"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="53744">
@@ -1375,6 +1611,8 @@
     <year>1982</year>
     <publisher>subLOGIC</publisher>
     <info name="release" value="2018-09-12"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="146969">
@@ -1388,6 +1626,8 @@
     <year>1982</year>
     <publisher>Mattel Electronics</publisher>
     <info name="release" value="2018-08-06"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233461">
@@ -1401,6 +1641,9 @@
     <year>1981</year>
     <publisher>Sirius Software</publisher>
     <info name="release" value="2018-10-29"/>
+    <sharedfeat name="compatibility" value="A2,A2P" />
+    <!-- It requires a 48K Apple ][ or ][+. Due to compatibility issues
+    caused by the copy protection, it will not run on later models. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="106991">
@@ -1414,6 +1657,8 @@
     <year>1981</year>
     <publisher>Datasoft</publisher>
     <info name="release" value="2018-10-29"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="87031">
@@ -1427,6 +1672,8 @@
     <year>1981</year>
     <publisher>Sirius Software</publisher>
     <info name="release" value="2018-09-16"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="73733">
@@ -1440,6 +1687,8 @@
     <year>1988</year>
     <publisher>Mindscape</publisher>
     <info name="release" value="2018-07-26"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233449">
@@ -1453,6 +1702,9 @@
     <year>1982</year>
     <publisher>Sierra On-Line</publisher>
     <info name="release" value="2018-10-25"/>
+    <sharedfeat name="compatibility" value="A2,A2P" />
+    <!-- It requires a 48K Apple ][ or ][+. Due to compatibility issues caused
+    by the copy protection, it will not run on any later models. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="253404">
@@ -1466,10 +1718,27 @@
     <year>1980</year>
     <publisher>Sirius Software</publisher>
     <info name="release" value="2018-10-20"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="186874">
         <rom name="phantoms five.woz" size="186874" crc="98d7b97f" sha1="c7d2d80bd05298cd6d2722eb513138183f302b67" offset="0x0000" />
+      </dataarea>
+    </part>
+  </software>
+
+  <software name="pparawoz">
+    <description>Picnic Paranoia</description>
+    <year>1982</year>
+    <publisher>Synapse Software</publisher>
+    <info name="release" value="2019-01-20"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
+
+    <part name="flop1" interface="floppy_5_25">
+      <dataarea name="flop" size="240120">
+        <rom name="picnic paranoia.woz" size="240120" crc="7ae4e3a7" sha1="3a31084b745f5254c1fab72fbd9ba437ef0609e2" offset="0x0000" />
       </dataarea>
     </part>
   </software>
@@ -1479,6 +1748,8 @@
     <year>1984</year>
     <publisher>Activision</publisher>
     <info name="release" value="2018-09-07"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233494">
@@ -1492,10 +1763,35 @@
     <year>1984</year>
     <publisher>Epyx</publisher>
     <info name="release" value="2018-10-18"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233488">
         <rom name="pitstop ii.woz" size="233488" crc="618d562d" sha1="646555ea1e06e14cc784330654e4db3c0a53d193" offset="0x0000" />
+      </dataarea>
+    </part>
+  </software>
+
+  <software name="plnr10wz">
+    <description>Planetfall (r10)</description>
+    <year>1988</year>
+    <publisher>Infocom</publisher>
+    <info name="release" value="2019-01-19"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- This is Release 10 / 880531 / Interpreter 2 Version H, the
+    "Solid Gold" edition. It requires a 128K Apple //e, //c, or IIgs. -->
+
+    <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
+      <dataarea name="flop" size="233542">
+        <rom name="Planetfall r10 side A.woz" size="233542" crc="e2a761e7" sha1="a349b573c66569b4a16381acdaa9d1d61a3badbe" offset="0x0000" />
+      </dataarea>
+    </part>
+    <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
+      <dataarea name="flop" size="233542">
+        <rom name="Planetfall r10 side B.woz" size="233542" crc="6a591dfe" sha1="68d6de1e3ed30d4a129382766a8dee612fc2edb2" offset="0x0000" />
       </dataarea>
     </part>
   </software>
@@ -1505,6 +1801,8 @@
     <year>1983</year>
     <publisher>Sirius Software</publisher>
     <info name="release" value="2018-10-02"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="226819">
@@ -1518,25 +1816,30 @@
     <year>1988</year>
     <publisher>Data East USA</publisher>
     <info name="release" value="2018-10-02"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
+
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
       <dataarea name="flop" size="240170">
         <rom name="platoon - disk 1, side a.woz" size="240170" crc="ed6e658b" sha1="9b0e4cf8e69d96f1ff7c20a77f0b77b6b3df61a6" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
       <dataarea name="flop" size="240170">
         <rom name="platoon - disk 1, side b.woz" size="240170" crc="1e667010" sha1="f6c20194f757446f45e850f2e985c9d08e9686b8" offset="0x0000" />
       </dataarea>
     </part>
   </software>
 
-
-
   <software name="pool15wz">
     <description>Pool 1.5</description>
     <year>1981</year>
     <publisher>Innovative Design Software, Inc.</publisher>
     <info name="release" value="2018-07-28"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="173574">
@@ -1550,6 +1853,8 @@
     <year>1984</year>
     <publisher>Datasoft</publisher>
     <info name="release" value="2018-09-14"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="107006">
@@ -1563,13 +1868,17 @@
     <year>1989</year>
     <publisher>Broderbund</publisher>
     <info name="release" value="2018-09-14"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
       <dataarea name="flop" size="233481">
         <rom name="prince of persia side a.woz" size="233481" crc="a3820127" sha1="bf7c7c03fcc93b989a8a7e566ec711888553a9de" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
       <dataarea name="flop" size="233481">
         <rom name="prince of persia side b.woz" size="233481" crc="6de94d52" sha1="931e264563390d1e76cef9a7db31492643f45b49" offset="0x0000" />
       </dataarea>
@@ -1581,6 +1890,8 @@
     <year>1989</year>
     <publisher>Taito America</publisher>
     <info name="release" value="2018-08-05"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233475">
@@ -1594,6 +1905,8 @@
     <year>1987</year>
     <publisher>Epyx</publisher>
     <info name="release" value="2018-08-27"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233497">
@@ -1607,6 +1920,8 @@
     <year>1988</year>
     <publisher>Activision</publisher>
     <info name="release" value="2018-08-02"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on an Apple //e with 128K, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="240127">
@@ -1620,6 +1935,10 @@
     <year>1981</year>
     <publisher>BudgeCo</publisher>
     <info name="release" value="2018-10-26"/>
+    <sharedfeat name="compatibility" value="A2,A2P" />
+    <!-- It requires a 48K Apple II or II+.
+    Due to compatibility issues caused by the copy protection,
+    it does not run on later models. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="93685">
@@ -1633,6 +1952,10 @@
     <year>1981</year>
     <publisher>Broderbund</publisher>
     <info name="release" value="2018-11-19"/>
+    <sharedfeat name="compatibility" value="A2,A2P" />
+    <!-- It requires a 48K Apple ][ or ][+.
+    Due to compatibility problems caused by the copy protection,
+    it will not run on later models. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="153595">
@@ -1646,6 +1969,8 @@
     <year>1982</year>
     <publisher>Sirius Software</publisher>
     <info name="release" value="2018-10-06"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="240149">
@@ -1659,6 +1984,8 @@
     <year>1984</year>
     <publisher>Sir-Tech</publisher>
     <info name="release" value="2018-08-16"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 64K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233518">
@@ -1672,12 +1999,17 @@
     <year>1988</year>
     <publisher>Data East USA</publisher>
     <info name="release" value="2018-08-16"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
+
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
       <dataarea name="flop" size="233512">
         <rom name="robocop side a.woz" size="233512" crc="326415af" sha1="f89422e2570e2d9acf68f0caef30bf896fc57787" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
       <dataarea name="flop" size="233512">
         <rom name="robocop side b.woz" size="233512" crc="627ea856" sha1="2076248fbf26883400c3843791f9aeee0489178c" offset="0x0000" />
       </dataarea>
@@ -1689,6 +2021,8 @@
     <year>1983</year>
     <publisher>Atarisoft</publisher>
     <info name="release" value="2019-01-15"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233452">
@@ -1702,6 +2036,8 @@
     <year>1983</year>
     <publisher>Datamost</publisher>
     <info name="release" value="2018-12-30"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233457">
@@ -1714,8 +2050,10 @@
     <description>Sabotage</description>
     <year>1981</year>
     <publisher>On-Line Systems</publisher>
-
     <info name="release" value="2018-08-08"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
+
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="240141">
         <rom name="sabotage.woz" size="240141" crc="091eb06f" sha1="72b24f54916e16ae73c495a5a382517bfffe1f6a" offset="0x0000" />
@@ -1727,8 +2065,10 @@
     <description>Sammy Lightfoot</description>
     <year>1983</year>
     <publisher>Sierra On-Line</publisher>
-
     <info name="release" value="2018-11-07"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
+
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="240148">
         <rom name="sammy lightfoot.woz" size="240148" crc="c551624a" sha1="e511b9fa31ed9deb0d18fea7001caac96b0e0832" offset="0x0000" />
@@ -1741,6 +2081,8 @@
     <year>1983</year>
     <publisher>Hayden Book Company</publisher>
     <info name="release" value="2018-08-17"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any 48K Apple ][+, //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233540">
@@ -1754,6 +2096,8 @@
     <year>1982</year>
     <publisher>Adventure International</publisher>
     <info name="release" value="2018-08-01"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233487">
@@ -1767,6 +2111,8 @@
     <year>1981</year>
     <publisher>IDSI</publisher>
     <info name="release" value="2018-10-16"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="200145">
@@ -1780,6 +2126,8 @@
     <year>1984</year>
     <publisher>Electronic Arts</publisher>
     <info name="release" value="2018-11-11"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 64K Apple ][+ or later. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233473">
@@ -1793,6 +2141,8 @@
     <year>1981</year>
     <publisher>Datamost</publisher>
     <info name="release" value="2018-07-26"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="126977">
@@ -1806,8 +2156,8 @@
     <year>1981</year>
     <publisher>Sirius Software</publisher>
     <info name="release" value="2018-10-04"/>
-    <!-- It requires a 48K Apple ][ or ][+. Due to compatibility issues caused
-    by the copy protection, it will not run on any later models. -->
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!--  It runs on any Apple II with 48K -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="73739">
@@ -1821,6 +2171,8 @@
     <year>1981</year>
     <publisher>Sirius Software</publisher>
     <info name="release" value="2018-09-11"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="93700">
@@ -1835,6 +2187,10 @@
     <year>1981</year>
     <publisher>Sirius Software</publisher>
     <info name="release" value="2018-10-31"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E" />
+    <!-- It requires a 48K Apple ][ or ][+, or an unenhanced Apple //e.
+    Due to compatibility issues caused by the copy protection,
+    it will not run on any later models. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="87036">
@@ -1848,6 +2204,10 @@
     <year>1981</year>
     <publisher>Broderbund Software</publisher>
     <info name="release" value="2018-10-30"/>
+    <sharedfeat name="compatibility" value="A2,A2P" />
+    <!-- It requires a 48K Apple ][ or ][+.
+    Due to compatibility issues caused by the copy protection,
+    it will not run on any later models. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="133617">
@@ -1861,6 +2221,8 @@
     <year>1983</year>
     <publisher>Broderbund Software</publisher>
     <info name="release" value="2018-11-08"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="346703">
@@ -1874,6 +2236,8 @@
     <year>1988</year>
     <publisher>Epyx</publisher>
     <info name="release" value="2018-12-02"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233502">
@@ -1886,8 +2250,10 @@
     <description>Spindizzy</description>
     <year>1986</year>
     <publisher>Activision</publisher>
-
     <info name="release" value="2018-09-10"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 64K Apple ][+, //e, //c, or IIgs. -->
+
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233475">
         <rom name="spindizzy.woz" size="233475" crc="9e38c7cd" sha1="a2432c3d14734b23c45c47e4087b58a6a27f7686" offset="0x0000" />
@@ -1900,6 +2266,8 @@
     <year>1983</year>
     <publisher>Bally Midway</publisher>
     <info name="release" value="2018-08-20"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="240108">
@@ -1913,6 +2281,8 @@
     <year>1983</year>
     <publisher>Penguin Software</publisher>
     <info name="release" value="2018-12-19"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="120385">
@@ -1925,8 +2295,10 @@
     <description>Spy vs Spy III: Arctic Antics</description>
     <year>1983</year>
     <publisher>Bally Midway</publisher>
-
     <info name="release" value="2018-08-20"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
+
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233468">
         <rom name="spy vs. spy iii.woz" size="233468" crc="c19123d1" sha1="2585f7cd612f5f549dacfa2ce9994ede66ab35c6" offset="0x0000" />
@@ -1938,8 +2310,10 @@
     <description>Spy's Demise</description>
     <year>1982</year>
     <publisher>Penguin</publisher>
-
     <info name="release" value="2018-08-20"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
+
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="120328">
         <rom name="spy's demise.woz" size="120328" crc="0586db9f" sha1="a7520b7c9d7caddb4db74d1931051212df6c996d" offset="0x0000" />
@@ -1951,8 +2325,10 @@
     <description>Star Cruiser</description>
     <year>1980</year>
     <publisher>Sirius Software</publisher>
-
     <info name="release" value="2018-11-03"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
+
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="126969">
         <rom name="star cruiser.woz" size="126969" crc="43c1745b" sha1="975002c233af55ee9f11eaaa97faddbfa1be8f48" offset="0x0000" />
@@ -1965,6 +2341,8 @@
     <year>1981</year>
     <publisher>Cavalier Computer</publisher>
     <info name="release" value="2018-11-12"/>
+    <sharedfeat name="compatibility" value="A2,A2P" />
+    <!-- It requires a 48K Apple ][ or ][+. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="140293">
@@ -1978,6 +2356,8 @@
     <year>1983</year>
     <publisher>Atarisoft</publisher>
     <info name="release" value="2019-01-13"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233447">
@@ -1991,6 +2371,8 @@
     <year>1984</year>
     <publisher>Penguin Software</publisher>
     <info name="release" value="2018-11-17"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple ][ model with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233471">
@@ -2004,6 +2386,8 @@
     <year>1987</year>
     <publisher>Epyx</publisher>
     <info name="release" value="2018-11-26"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233452">
@@ -2017,13 +2401,17 @@
     <year>1987</year>
     <publisher>Epyx</publisher>
     <info name="release" value="2018-11-26"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
       <dataarea name="flop" size="233454">
         <rom name="street sports basketball side a.woz" size="233454" crc="545abde9" sha1="3e2c0b7c2d9ef988610e8c6e97a31884f221b5ad" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
       <dataarea name="flop" size="233454">
         <rom name="street sports basketball side b.woz" size="233454" crc="76728c7c" sha1="ed7157d4c8f6acf3925098c51afa647347c32453" offset="0x0000" />
       </dataarea>
@@ -2035,13 +2423,17 @@
     <year>1988</year>
     <publisher>Epyx</publisher>
     <info name="release" value="2018-11-26"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
       <dataarea name="flop" size="233487">
         <rom name="street sports football side a.woz" size="233487" crc="2590c882" sha1="6968accc3ad7f9468b703da0d5ac8ffd2372f334" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
       <dataarea name="flop" size="233487">
         <rom name="street sports football side b.woz" size="233487" crc="86ef614b" sha1="7933f5410c3b26106ce59d307905a506105bf15f" offset="0x0000" />
       </dataarea>
@@ -2053,6 +2445,8 @@
     <year>1988</year>
     <publisher>Epyx</publisher>
     <info name="release" value="2018-11-28"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233473">
@@ -2066,13 +2460,17 @@
     <year>1986</year>
     <publisher>Epyx</publisher>
     <info name="release" value="2018-11-28"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 64K Apple ][+, //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
       <dataarea name="flop" size="233456">
         <rom name="sub battle simulator side a.woz" size="233456" crc="965de0dd" sha1="365a37e90b7ff8fdd1a00100eadac87b129ec803" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
       <dataarea name="flop" size="233456">
         <rom name="sub battle simulator side b.woz" size="233456" crc="fdb27602" sha1="c3a26c99012c8c223d461058d5b1177b477219a3" offset="0x0000" />
       </dataarea>
@@ -2084,6 +2482,8 @@
     <year>1981</year>
     <publisher>Piccadilly Software</publisher>
     <info name="release" value="2018-10-17"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="80375">
@@ -2092,19 +2492,22 @@
     </part>
   </software>
 
-
   <software name="smgmewoz">
     <description>Summer Games</description>
     <year>1984</year>
     <publisher>Epyx</publisher>
-
     <info name="release" value="2018-10-17"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 64K Apple ][+, //e, //c, or IIgs. -->
+
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
       <dataarea name="flop" size="233577">
         <rom name="summer games side a.woz" size="233577" crc="6b4b20cb" sha1="2d57b25187d3eac6099dea3b1456b406a308f4a2" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
       <dataarea name="flop" size="233577">
         <rom name="summer games side b.woz" size="233577" crc="95f1a4a3" sha1="e7a4c18a0e59b9ea512c56b727f08c417d654164" offset="0x0000" />
       </dataarea>
@@ -2116,6 +2519,8 @@
     <year>1984</year>
     <publisher>Windham Classics</publisher>
     <info name="release" value="2018-09-02"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="253471">
@@ -2129,6 +2534,8 @@
     <year>1986</year>
     <publisher>Data East USA</publisher>
     <info name="release" value="2018-10-22"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 64K Apple II+, //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233465">
@@ -2142,6 +2549,9 @@
     <year>1985</year>
     <publisher>Epyx</publisher>
     <info name="release" value="2018-12-13"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 64K Apple ][+, //e, //c, or IIgs.
+    Double hi-res mode requires a 128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233494">
@@ -2154,14 +2564,18 @@
     <description>Test Drive</description>
     <year>1985</year>
     <publisher>Accolade</publisher>
-
     <info name="release" value="2018-12-13"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
+
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
       <dataarea name="flop" size="226947">
         <rom name="test drive side a.woz" size="226947" crc="5ddb18ec" sha1="b56dbaef11497993e0f139ed16a3d8f6d3bba3ba" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
       <dataarea name="flop" size="233603">
         <rom name="test drive side b.woz" size="233603" crc="2a565fde" sha1="4938f541bda0ef8fe1b5dc154d01710b087b27df" offset="0x0000" />
       </dataarea>
@@ -2173,6 +2587,9 @@
     <year>1987</year>
     <publisher>Spectrum HoloByte</publisher>
     <info name="release" value="2018-12-13"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- This version, using double hi-res graphics,
+    requires a 128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233512">
@@ -2186,6 +2603,8 @@
     <year>1982</year>
     <publisher>Datamost</publisher>
     <info name="release" value="2018-12-23"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233485">
@@ -2199,6 +2618,8 @@
     <year>1982</year>
     <publisher>Penguin Software</publisher>
     <info name="release" value="2018-08-30"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="120334">
@@ -2212,6 +2633,8 @@
     <year>1987</year>
     <publisher>ActionSoft</publisher>
     <info name="release" value="2018-11-04"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 64K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="206848">
@@ -2225,6 +2648,8 @@
     <year>1987</year>
     <publisher>Datasoft</publisher>
     <info name="release" value="2018-08-23"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 64K Apple ][+, //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233475">
@@ -2238,12 +2663,17 @@
     <year>1981</year>
     <publisher>IDSI</publisher>
     <info name="release" value="2018-08-23"/>
+    <sharedfeat name="compatibility" value="A2,A2P" />
+    <!-- It requires a 48K Apple ][ or ][+. It will not run on later models. -->
+
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Game Disk"/>
       <dataarea name="flop" size="200176">
         <rom name="trick shot disk 1 (game).woz" size="200176" crc="e84e4d9a" sha1="b0f52dd9391aacc189caae5bac460e8b38c90e2b" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Sample Shots Disk"/>
       <dataarea name="flop" size="140273">
         <rom name="trick shot disk 2 (sample shots).woz" size="140273" crc="e053b0ed" sha1="3fa54660d25e39e6797fe038bbadb4a7c3a3d976" offset="0x0000" />
       </dataarea>
@@ -2255,6 +2685,8 @@
     <year>1982</year>
     <publisher>Datamost</publisher>
     <info name="release" value="2018-12-18"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233485">
@@ -2268,10 +2700,104 @@
     <year>1981</year>
     <publisher>Sirius Software</publisher>
     <info name="release" value="2018-10-03"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="426493">
         <rom name="twerps.woz" size="426493" crc="6da22395" sha1="9eed0ac2a13e4ae2003778bf45591f52c5b5b722" offset="0x0000" />
+      </dataarea>
+    </part>
+  </software>
+
+  <software name="ult4woz">
+    <description>Ultima IV: Quest of the Avatar</description>
+    <year>1985</year>
+    <publisher>Origin Systems</publisher>
+    <info name="release" value="2019-01-17"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 64K Apple ][+, //e, //c, or IIgs -->
+
+    <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Program Disk"/>
+      <dataarea name="flop" size="240170">
+        <rom name="Ultima IV - Side A - Program.woz" size="240170" crc="9e1d5595" sha1="a2de1815ffe51b4bdaad8b6abe8ec935911ec394" offset="0x0000" />
+      </dataarea>
+    </part>
+    <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Towne Disk"/>
+      <dataarea name="flop" size="233516">
+        <rom name="Ultima IV - Side B - Towne.woz" size="233516" crc="8ba7e933" sha1="f100cec0ae9d04a25f687fc3c1d76b139266826e" offset="0x0000" />
+      </dataarea>
+    </part>
+    <part name="flop3" interface="floppy_5_25">
+      <feature name="part_id" value="Britannia Disk"/>
+      <dataarea name="flop" size="233520">
+        <rom name="Ultima IV - Side C - Britannia.woz" size="233520" crc="AC61D6C4" sha1="846BFCEBF3DAFA9642D290EA8D1619E580573E1A" offset="0x0000" />
+      </dataarea>
+    </part>
+    <part name="flop4" interface="floppy_5_25">
+      <feature name="part_id" value="Underworld Disk"/>
+      <dataarea name="flop" size="233521">
+        <rom name="Ultima IV - Side D - Underworld.woz" size="233521" crc="7DAAB34F" sha1="D365CB92DD1C737A3C8773F432FE4C880019F324" offset="0x0000" />
+      </dataarea>
+    </part>
+  </software>
+
+  <software name="ult5woz">
+    <description>Ultima V: Warriors of Destiny</description>
+    <year>1988</year>
+    <publisher>Origin Systems</publisher>
+    <info name="release" value="2019-01-16"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 64K Apple ][+, //e, //c, or IIgs -->
+
+    <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Program Disk"/>
+      <dataarea name="flop" size="233616">
+        <rom name="Ultima V - Program.woz" size="233616" crc="77708654" sha1="3623aadefb9b2635cd56635ddb21b6d3f4b6dc63" offset="0x0000" />
+      </dataarea>
+    </part>
+    <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Britannia Disk"/>
+      <dataarea name="flop" size="233622">
+        <rom name="Ultima V - Britannia.woz" size="233622" crc="8141d042" sha1="ddb85c2ee8bbbb4a66f5e87821df82744b3e3b8f" offset="0x0000" />
+      </dataarea>
+    </part>
+    <part name="flop3" interface="floppy_5_25">
+      <feature name="part_id" value="Towne Disk"/>
+      <dataarea name="flop" size="233618">
+        <rom name="Ultima V - Towne.woz" size="233618" crc="578b66cf" sha1="d13d98470df0f58e9ef2b8ab68aae979831f8d3e" offset="0x0000" />
+      </dataarea>
+    </part>
+    <part name="flop4" interface="floppy_5_25">
+      <feature name="part_id" value="Dwelling Disk"/>
+      <dataarea name="flop" size="233621">
+        <rom name="Ultima V - Dwelling.woz" size="233621" crc="fa6127b1" sha1="40e4c9054cee15edacdd378e6734052bc3237ee5" offset="0x0000" />
+      </dataarea>
+    </part>
+    <part name="flop5" interface="floppy_5_25">
+      <feature name="part_id" value="Castle Disk"/>
+      <dataarea name="flop" size="233619">
+        <rom name="Ultima V - Castle.woz" size="233619" crc="48d5bad1" sha1="02c1f89411e86096f88e28eb3f6199553efccc90" offset="0x0000" />
+      </dataarea>
+    </part>
+    <part name="flop6" interface="floppy_5_25">
+      <feature name="part_id" value="Keep Disk"/>
+      <dataarea name="flop" size="233617">
+        <rom name="Ultima V - Keep.woz" size="233617" crc="51638f02" sha1="d1bb7658d0056a9a769ecb15e1c69b41780f9e67" offset="0x0000" />
+      </dataarea>
+    </part>
+    <part name="flop7" interface="floppy_5_25">
+      <feature name="part_id" value="Dungeon Disk"/>
+      <dataarea name="flop" size="233620">
+        <rom name="Ultima V - Dungeon.woz" size="233620" crc="7f981d04" sha1="d97fbd4d7eba2b65fc28e6d9bb19c9e1c4f18d58" offset="0x0000" />
+      </dataarea>
+    </part>
+    <part name="flop8" interface="floppy_5_25">
+      <feature name="part_id" value="Underworld Disk"/>
+      <dataarea name="flop" size="233623">
+        <rom name="Ultima V - Underworld.woz" size="233623" crc="60a5113b" sha1="0f6ee9ea94e917042a074934b41a318486099fff" offset="0x0000" />
       </dataarea>
     </part>
   </software>
@@ -2281,6 +2807,8 @@
     <year>1981</year>
     <publisher>Bally Midway</publisher>
     <info name="release" value="2018-10-03"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233467">
@@ -2294,6 +2822,8 @@
     <year>1983</year>
     <publisher>H.A.L. Labs</publisher>
     <info name="release" value="2018-10-15"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="67083">
@@ -2307,6 +2837,8 @@
     <year>1982</year>
     <publisher>Sirius Software</publisher>
     <info name="release" value="2018-09-30"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="240135">
@@ -2320,6 +2852,8 @@
     <year>1982</year>
     <publisher>Sirius Software</publisher>
     <info name="release" value="2018-10-01"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 48K. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233476">
@@ -2333,13 +2867,17 @@
     <year>1986</year>
     <publisher>Broderbund</publisher>
     <info name="release" value="2018-10-01"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It runs on any Apple II with 64K. -->
 
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
       <dataarea name="flop" size="240205">
         <rom name="where in the usa is carmen sandiego side a.woz" size="240205" crc="a1cfee60" sha1="fcc406c480127a71e4d186939e9671c0c0bf7c14" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
       <dataarea name="flop" size="233549">
         <rom name="where in the usa is carmen sandiego side b.woz" size="233549" crc="1ac6f62d" sha1="7940fad2b4b52615180cf51ce2348efe10e8e780" offset="0x0000" />
       </dataarea>
@@ -2351,15 +2889,42 @@
     <year>1987</year>
     <publisher>Broderbund</publisher>
     <info name="release" value="2018-10-01"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
       <dataarea name="flop" size="233481">
         <rom name="wings of fury side a.woz" size="233481" crc="61f6896e" sha1="44c5f01954d367915315e9e36aa8bb23b0038cac" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
       <dataarea name="flop" size="233304">
         <rom name="wings of fury side b.woz" size="233304" crc="e88181a9" sha1="0913de8ee03c5295d2015b481809090695c2c0ea" offset="0x0000" />
+      </dataarea>
+    </part>
+  </software>
+
+  <software name="wshr23wz">
+    <description>Wishbringer (r23)</description>
+    <year>1988</year>
+    <publisher>Infocom</publisher>
+    <info name="release" value="2019-01-18"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- This is Release 23 / 880706 / Interpreter 2 Version H, the
+    "Solid Gold" edition. It requires a 128K Apple //e, //c, or IIgs. -->
+
+    <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
+      <dataarea name="flop" size="233579">
+        <rom name="Wishbringer r23 side A.woz" size="233579" crc="37df44cd" sha1="e85948bf33fefe7c7f5276d01cab4bc7da1d9615" offset="0x0000" />
+      </dataarea>
+    </part>
+    <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
+      <dataarea name="flop" size="233579">
+        <rom name="Wishbringer r23 side B.woz" size="233579" crc="2f87fabd" sha1="aa6d3cbad29ea33b9663305f72a30a513ee9e3d3" offset="0x0000" />
       </dataarea>
     </part>
   </software>
@@ -2369,6 +2934,8 @@
     <year>1986</year>
     <publisher>Epyx</publisher>
     <info name="release" value="2018-12-04"/>
+    <sharedfeat name="compatibility" value="A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 128K Apple //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233482">
@@ -2382,6 +2949,8 @@
     <year>1984</year>
     <publisher>Epyx</publisher>
     <info name="release" value="2018-12-19"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 64K Apple ][+, //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233488">
@@ -2395,13 +2964,17 @@
     <year>1985</year>
     <publisher>Epyx</publisher>
     <info name="release" value="2018-12-19"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 64K Apple ][+, //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
+      <feature name="part_id" value="Side A"/>
       <dataarea name="flop" size="233507">
         <rom name="the world's greatest football game side a.woz" size="233507" crc="fdbacf7f" sha1="301bf537734de76711c51431658fccca2a64bdca" offset="0x0000" />
       </dataarea>
     </part>
     <part name="flop2" interface="floppy_5_25">
+      <feature name="part_id" value="Side B"/>
       <dataarea name="flop" size="233507">
         <rom name="the world's greatest football game side b.woz" size="233507" crc="4c9a39de" sha1="d5b145e52cd9d7438a66a976bbc6cb7baef10c11" offset="0x0000" />
       </dataarea>
@@ -2413,6 +2986,8 @@
     <year>1984</year>
     <publisher>Mindscape</publisher>
     <info name="release" value="2018-08-25"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 64K Apple ][+, //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="233465">
@@ -2426,6 +3001,8 @@
     <year>1982</year>
     <publisher>subLOGIC</publisher>
     <info name="release" value="2018-11-10"/>
+    <sharedfeat name="compatibility" value="A2,A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 48K Apple ][+ or later. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="73745">
@@ -2439,6 +3016,8 @@
     <year>1985</year>
     <publisher>Datasoft</publisher>
     <info name="release" value="2019-01-10"/>
+    <sharedfeat name="compatibility" value="A2P,A2E,A2EE,A2C,A2GS" />
+    <!-- It requires a 64K Apple ][+, //e, //c, or IIgs. -->
 
     <part name="flop1" interface="floppy_5_25">
       <dataarea name="flop" size="133656">

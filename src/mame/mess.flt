@@ -91,6 +91,7 @@ bbcbc.cpp
 bcs3.cpp
 bebox.cpp
 beehive.cpp
+bert.cpp
 besta.cpp
 beta.cpp
 bigbord2.cpp
@@ -832,6 +833,7 @@ votrtnt.cpp
 vp415.cpp
 vp60.cpp
 vsmile.cpp
+vsmileb.cpp
 vsmilepro.cpp
 vt100.cpp
 vt220.cpp
