@@ -2598,7 +2598,7 @@ void ssv_state::ssv(machine_config &config)
 	//m_screen->set_video_attributes(VIDEO_UPDATE_SCANLINE);
 
 	GFXDECODE(config, m_gfxdecode, m_palette, gfx_ssv);
-	PALETTE(config, m_palette, 0x8000).set_format(PALETTE_FORMAT_XRGB);
+	PALETTE(config, m_palette).set_format(palette_device::xRGB_888, 0x8000);
 
 	/* sound hardware */
 	SPEAKER(config, "lspeaker").front_left();
@@ -2825,7 +2825,8 @@ void ssv_state::dynagear(machine_config &config)
 	survarts(config);
 
 	/* video hardware */
-	m_screen->set_visarea(0, (0xd4-0x2c)*2-1, 0, (0x102 - 0x12)-1);
+	//m_screen->set_visarea(0, (0xd4-0x2c)*2-1, 0, (0x102 - 0x12)-1);    // MAMEFX
+	m_screen->set_visarea(8, 327, 0, 239);            // MAMEFX
 }
 
 void ssv_state::eaglshot(machine_config &config)
@@ -2894,7 +2895,8 @@ void ssv_state::cairblad(machine_config &config)
 	WATCHDOG_TIMER(config, "watchdog");
 
 	/* video hardware */
-	m_screen->set_visarea(0, (0xcb - 0x22)*2-1, 0, (0xfe - 0x0e)-1);
+	//m_screen->set_visarea(0, (0xcb - 0x22)*2-1, 0, (0xfe - 0x0e)-1);     // MAMEFX
+	m_screen->set_visarea(0, 335, 0, 239);        // MAMEFX
 }
 
 void ssv_state::twineag2(machine_config &config)

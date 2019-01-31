@@ -252,12 +252,12 @@ void menu_main::handle()
 			break;
 
 		case ADD_FAVORITE:
-			mame_machine_manager::instance()->favorite().add_favorite_game();
+			mame_machine_manager::instance()->favorite().add_favorite(machine());
 			reset(reset_options::REMEMBER_POSITION);
 			break;
 
 		case REMOVE_FAVORITE:
-			mame_machine_manager::instance()->favorite().remove_favorite_game();
+			mame_machine_manager::instance()->favorite().remove_favorite(machine());
 			reset(reset_options::REMEMBER_POSITION);
 			break;
 
