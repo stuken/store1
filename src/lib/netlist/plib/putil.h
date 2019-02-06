@@ -14,6 +14,10 @@
 #include <algorithm>
 #include <vector> // <<= needed by windows build
 
+#define PSTRINGIFY_HELP(y) # y
+#define PSTRINGIFY(x) PSTRINGIFY_HELP(x)
+
+
 namespace plib
 {
 
@@ -25,8 +29,8 @@ namespace plib
 
 	namespace container
 	{
-		template <class C>
-		bool contains(C &con, const typename C::value_type &elem)
+		template <class C, class T>
+		bool contains(C &con, const T &elem)
 		{
 			return std::find(con.begin(), con.end(), elem) != con.end();
 		}

@@ -1458,8 +1458,8 @@ MACHINE_CONFIG_START(gba_state::gbadv)
 	MCFG_SOUND_ROUTE(0, "ldacb", 1.0, DAC_VREF_POS_INPUT) MCFG_SOUND_ROUTE(0, "ldacb", -1.0, DAC_VREF_NEG_INPUT)
 	MCFG_SOUND_ROUTE(0, "rdacb", 1.0, DAC_VREF_POS_INPUT) MCFG_SOUND_ROUTE(0, "rdacb", -1.0, DAC_VREF_NEG_INPUT)
 
-	MCFG_GBA_CARTRIDGE_ADD("cartslot", gba_cart, nullptr)
-	MCFG_SOFTWARE_LIST_ADD("cart_list","gba")
+	GBA_CART_SLOT(config, m_cart, gba_cart, nullptr);
+	SOFTWARE_LIST(config, "cart_list").set_original("gba");
 MACHINE_CONFIG_END
 
 

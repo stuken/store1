@@ -422,7 +422,7 @@ void mtech_state::set_genz80_as_md()
 
 	prg.install_ram(0x0000, 0x1fff, m_genz80.z80_prgram.get());
 
-	prg.install_readwrite_handler(0x4000, 0x4003, read8_delegate(FUNC(ym2612_device::read), (ym2612_device *)m_ymsnd), write8_delegate(FUNC(ym2612_device::write), (ym2612_device *)m_ymsnd));
+	prg.install_readwrite_handler(0x4000, 0x4003, read8sm_delegate(FUNC(ym2612_device::read), (ym2612_device *)m_ymsnd), write8sm_delegate(FUNC(ym2612_device::write), (ym2612_device *)m_ymsnd));
 	prg.install_write_handler    (0x6000, 0x6000, write8_delegate(FUNC(mtech_state::megadriv_z80_z80_bank_w),this));
 	prg.install_write_handler    (0x6001, 0x6001, write8_delegate(FUNC(mtech_state::megadriv_z80_z80_bank_w),this));
 	prg.install_read_handler     (0x6100, 0x7eff, read8_delegate(FUNC(mtech_state::megadriv_z80_unmapped_read),this));
@@ -796,7 +796,7 @@ MACHINE_CONFIG_START(mtech_state::megatech_multislot)
 	MCFG_MEGATECH_CARTSLOT_ADD("mt_slot7", mt_cart7)
 	MCFG_MEGATECH_CARTSLOT_ADD("mt_slot8", mt_cart8)
 
-	MCFG_SOFTWARE_LIST_ADD("cart_list","megatech")
+	SOFTWARE_LIST(config, "cart_list").set_original("megatech");
 MACHINE_CONFIG_END
 
 
