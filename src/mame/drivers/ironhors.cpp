@@ -15,7 +15,6 @@
 #include "cpu/m6809/m6809.h"
 #include "cpu/z80/z80.h"
 #include "sound/2203intf.h"
-#include "screen.h"
 #include "speaker.h"
 
 
@@ -25,11 +24,11 @@
  *
  *************************************/
 
-TIMER_DEVICE_CALLBACK_MEMBER(ironhors_state::irq)
+TIMER_DEVICE_CALLBACK_MEMBER(ironhors_state::ironhors_scanline_tick)
 {
 	int scanline = param;
 
-	if (scanline == 240)
+	if (scanline == 240 && (m_screen->frame_number() & 1) == 0)
 	{
 		if (*m_interrupt_enable & 4)
 			m_maincpu->set_input_line(M6809_FIRQ_LINE, HOLD_LINE);
@@ -384,7 +383,7 @@ void ironhors_state::ironhors(machine_config &config)
 	/* basic machine hardware */
 	MC6809E(config, m_maincpu, 18432000/6);        /* 3.072 MHz??? mod by Shingo Suzuki 1999/10/15 */
 	m_maincpu->set_addrmap(AS_PROGRAM, &ironhors_state::master_map);
-	TIMER(config, "scantimer").configure_scanline(FUNC(ironhors_state::irq), "screen", 0, 1);   // MAMEFX
+	TIMER(config, "scantimer").configure_scanline(FUNC(ironhors_state::ironhors_scanline_tick), "screen", 0, 1);
 
 	Z80(config, m_soundcpu, 18432000/6);      /* 3.072 MHz */
 	m_soundcpu->set_addrmap(AS_PROGRAM, &ironhors_state::slave_map);
@@ -419,7 +418,7 @@ void ironhors_state::ironhors(machine_config &config)
 	DISCRETE(config, m_disc_ih, ironhors_discrete).add_route(ALL_OUTPUTS, "mono", 1.0);
 }
 
-TIMER_DEVICE_CALLBACK_MEMBER(ironhors_state::farwest_irq)
+TIMER_DEVICE_CALLBACK_MEMBER(ironhors_state::farwest_scanline_tick)
 {
 	int scanline = param;
 
@@ -445,7 +444,7 @@ void ironhors_state::farwest(machine_config &config)
 	ironhors(config);
 
 	m_maincpu->set_addrmap(AS_PROGRAM, &ironhors_state::farwest_master_map);
-	subdevice<timer_device>("scantimer")->set_callback(FUNC(ironhors_state::farwest_irq));   // MAMEFX
+	subdevice<timer_device>("scantimer")->set_callback(FUNC(ironhors_state::farwest_scanline_tick));
 
 	Z80(config.replace(), m_soundcpu, 18432000/6);      /* 3.072 MHz */
 	m_soundcpu->set_addrmap(AS_PROGRAM, &ironhors_state::farwest_slave_map);
