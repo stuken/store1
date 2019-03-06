@@ -1,6 +1,6 @@
 // license:BSD-3-Clause
 // copyright-holders:hap
-// thanks-to:Berger,yoyo_chessboard
+// thanks-to:Berger, yoyo_chessboard
 /******************************************************************************
 *
 * fidel_vsc.cpp, subdriver of machine/fidelbase.cpp, machine/chessbase.cpp
@@ -388,7 +388,7 @@ void excel_state::granits(machine_config &config)
 	fexcelp(config);
 
 	/* basic machine hardware */
-	m_maincpu->set_clock(8_MHz_XTAL); // overclocked
+	m_maincpu->set_clock(8_MHz_XTAL/2);
 }
 
 void excel_state::fdes2100(machine_config &config)

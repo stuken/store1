@@ -138,6 +138,7 @@ CPUS["CLIPPER"] = true
 CPUS["CAPRICORN"] = true
 CPUS["ALPHA"] = true
 --CPUS["DSPP"] = true
+--CPUS["HPC"] = true
 
 --------------------------------------------------
 -- specify available sound cores; some of these are
@@ -3033,6 +3034,7 @@ files {
 
 createMESSProjects(_target, _subtarget, "segacons")
 files {
+	MAME_DIR .. "src/mame/drivers/apbeena.cpp",
 	MAME_DIR .. "src/mame/drivers/dccons.cpp",
 	MAME_DIR .. "src/mame/includes/dccons.h",
 	MAME_DIR .. "src/mame/machine/dccons.cpp",

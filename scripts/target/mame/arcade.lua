@@ -133,6 +133,7 @@ CPUS["HMCS40"] = true
 --CPUS["SM510"] = true
 CPUS["ST62XX"] = true
 CPUS["DSPP"] = true
+CPUS["HPC"] = true
 
 --------------------------------------------------
 -- specify available sound cores
@@ -4583,7 +4584,8 @@ files {
 	MAME_DIR .. "src/mame/drivers/coinmstr.cpp",
 --	MAME_DIR .. "src/mame/drivers/coinmvga.cpp",
 	MAME_DIR .. "src/mame/drivers/comebaby.cpp",
---	MAME_DIR .. "src/mame/drivers/cupidon.cpp",
+---	MAME_DIR .. "src/mame/drivers/cromptons.cpp",
+---	MAME_DIR .. "src/mame/drivers/cupidon.cpp",
 	MAME_DIR .. "src/mame/drivers/bntyhunt.cpp",
 	MAME_DIR .. "src/mame/drivers/coolpool.cpp",
 	MAME_DIR .. "src/mame/includes/coolpool.h",

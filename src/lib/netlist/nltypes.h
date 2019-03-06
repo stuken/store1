@@ -14,12 +14,12 @@
 #define NLTYPES_H_
 
 #include "nl_config.h"
-#include "plib/ptime.h"
 #include "plib/pchrono.h"
 #include "plib/pfmtlog.h"
 #include "plib/pmempool.h"
-#include "plib/pstring.h"
 #include "plib/pstate.h"
+#include "plib/pstring.h"
+#include "plib/ptime.h"
 
 #include <cstdint>
 #include <unordered_map>
@@ -84,18 +84,18 @@ namespace netlist
 #if (USE_MEMPOOL)
 	using nlmempool = plib::mempool;
 #else
-	using nlmempool = plib::mempool_default;
+	using nlmempool = plib::aligned_arena;
 #endif
 
 	/*! Owned pointer type for pooled allocations.
 	 *
 	 */
 	template <typename T>
-	using poolptr = nlmempool::poolptr<T>;
+	using pool_owned_ptr = nlmempool::owned_pool_ptr<T>;
 
 	inline nlmempool &pool()
 	{
-		static nlmempool static_pool(655360, 16);
+		static nlmempool static_pool;
 		return static_pool;
 	}
 
@@ -126,9 +126,9 @@ namespace netlist
 	//  MACROS
 	//============================================================
 
-	template <typename T> inline constexpr netlist_time NLTIME_FROM_NS(T &&t) noexcept { return netlist_time::from_nsec(t); }
-	template <typename T> inline constexpr netlist_time NLTIME_FROM_US(T &&t) noexcept { return netlist_time::from_usec(t); }
-	template <typename T> inline constexpr netlist_time NLTIME_FROM_MS(T &&t) noexcept { return netlist_time::from_msec(t); }
+	template <typename T> inline constexpr const netlist_time NLTIME_FROM_NS(T &&t) noexcept { return netlist_time::from_nsec(t); }
+	template <typename T> inline constexpr const netlist_time NLTIME_FROM_US(T &&t) noexcept { return netlist_time::from_usec(t); }
+	template <typename T> inline constexpr const netlist_time NLTIME_FROM_MS(T &&t) noexcept { return netlist_time::from_msec(t); }
 
 } // namespace netlist
 
