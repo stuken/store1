@@ -866,6 +866,7 @@ FORMATS["APPLIX_DSK"] = true
 FORMATS["APRIDISK"] = true
 FORMATS["AP_DSK35"] = true
 FORMATS["ASST128_DSK"] = true
+FORMATS["ASTROCADE_WAV"] = true
 FORMATS["ATARI_DSK"] = true
 FORMATS["ATOM_DSK"] = true
 FORMATS["ATOM_TAP"] = true
@@ -3543,6 +3544,8 @@ files {
 	MAME_DIR .. "src/mame/machine/xavix_madfb_ball.h",
 	MAME_DIR .. "src/mame/machine/xavix_io.cpp",
 	MAME_DIR .. "src/mame/machine/xavix_io.h",
+	MAME_DIR .. "src/mame/machine/xavix_adc.cpp",
+	MAME_DIR .. "src/mame/machine/xavix_adc.h",
 	MAME_DIR .. "src/mame/machine/xavix2002_io.cpp",
 	MAME_DIR .. "src/mame/machine/xavix2002_io.h",
 	MAME_DIR .. "src/mame/drivers/xavix2.cpp",
@@ -3893,6 +3896,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/mice.cpp",
 	MAME_DIR .. "src/mame/drivers/micral.cpp",
 	MAME_DIR .. "src/mame/drivers/micro20.cpp",
+	MAME_DIR .. "src/mame/drivers/micromon.cpp",
 	MAME_DIR .. "src/mame/drivers/micronic.cpp",
 	MAME_DIR .. "src/mame/includes/micronic.h",
 	MAME_DIR .. "src/mame/drivers/microterm.cpp",
