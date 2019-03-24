@@ -1307,6 +1307,7 @@ undrfire.cpp
 unico.cpp
 //unkfr.cpp
 unkhorse.cpp
+//unkpoker.cpp     // not working poker
 upscope.cpp
 //usbilliards.cpp  // ttl
 usgames.cpp
