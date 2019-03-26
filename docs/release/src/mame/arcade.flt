@@ -256,6 +256,7 @@ cpzodiac.cpp
 crbaloon.cpp
 crgolf.cpp
 crimfght.cpp
+//cromptons.cpp    // mechanical
 crospang.cpp
 crshrace.cpp
 crystal.cpp
@@ -1306,6 +1307,7 @@ undrfire.cpp
 unico.cpp
 //unkfr.cpp
 unkhorse.cpp
+//unkpoker.cpp     // not working poker
 upscope.cpp
 //usbilliards.cpp  // ttl
 usgames.cpp
