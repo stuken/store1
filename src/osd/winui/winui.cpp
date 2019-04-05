@@ -3274,12 +3274,12 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 			return true;
 
 		case ID_MAME_HOMEPAGE:
-			ShellExecuteCommon(hMain, "http://www.mamedev.org");
+			ShellExecuteCommon(hMain, "https://www.mamedev.org");
 			SetFocus(hWndList);
 			return true;
 
 		case ID_MAME_FAQ:
-			ShellExecuteCommon(hMain, "http://mamedev.org/devwiki/index.php?title=Frequently_Asked_Questions"); 
+			ShellExecuteCommon(hMain, "https://mamedev.org/devwiki/index.php?title=Frequently_Asked_Questions"); 
 			SetFocus(hWndList);
 			return true;
 
@@ -3550,7 +3550,7 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 			break;
 
 		case ID_HELP_CONTENTS :
-			ShellExecuteCommon(hMain, "http://docs.mamedev.org/");
+			ShellExecuteCommon(hMain, "https://docs.mamedev.org/");
 			SetFocus(hWndList);
 			return true;
 
