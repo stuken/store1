@@ -2,6 +2,8 @@
 // copyright-holders:Chris Kirmse, Mike Haaland, René Single, Mamesick
 
 #include "winui.h"
+#include <setjmp.h>
+#include "libjpeg/jpeglib.h"
 
 /***************************************************************************
     function prototypes
@@ -16,6 +18,7 @@ typedef struct _mybitmapinfo
 
 static bool AllocatePNG(png_info *p, HGLOBAL *phDIB, HPALETTE* pPal);
 static bool png_read_bitmap_gui(util::core_file &mfile, HGLOBAL *phDIB, HPALETTE *pPAL);
+static bool jpeg_read_bitmap_gui(util::core_file &mfile, HGLOBAL *phDIB, HPALETTE *pPAL);
 static bool LoadDIB(const char *filename, HGLOBAL *phDIB, HPALETTE *pPal, int pic_type);
 static HBITMAP DIBToDDB(HDC hDC, HANDLE hDIB, LPMYBITMAPINFO desc);
 
@@ -91,12 +94,12 @@ HANDLE GetScreenShotHandle()
 
 int GetScreenShotWidth(void)
 {
-	return ((LPBITMAPINFO)m_hDIB)->bmiHeader.biWidth;
+	return abs( ((LPBITMAPINFO)m_hDIB)->bmiHeader.biWidth);
 }
 
 int GetScreenShotHeight(void)
 {
-	return ((LPBITMAPINFO)m_hDIB)->bmiHeader.biHeight;
+	return abs( ((LPBITMAPINFO)m_hDIB)->bmiHeader.biHeight);
 }
 
 /* Delete the HPALETTE and Free the HDIB memory */
@@ -279,13 +282,13 @@ static bool LoadDIB(const char *filename, HGLOBAL *phDIB, HPALETTE *pPal, int pi
 			break;
 
 		default :
-			// in case a non-image tab gets here, which can happen
+			// shouldn't get here
 			return false;
 	}
 
+	string ext;
 	char *system_name = 0;
 	char *file_name = 0;
-	char* dir_name1 = 0;
 	int i,j;
 	bool ok = FALSE; // TRUE indicates split success
 
@@ -323,73 +326,81 @@ static bool LoadDIB(const char *filename, HGLOBAL *phDIB, HPALETTE *pPal, int pi
 		file_name[i] = '\0';
 	}
 
-	dir_name1 = (char*)malloc(strlen(dir_name) + 2);
-	for (i = 0; dir_name[i]; i++)
-		dir_name1[i] = dir_name[i];
-	dir_name1[i++] = ';';
-	dir_name1[i] = '\0';
-
-	// Support multiple paths
-	char* dir_one = strtok(dir_name1, ";");
-
-	//Add handling for the displaying of all the different supported snapshot patterntypes
-	while (dir_one && filerr != osd_file::error::NONE)
+	for (u8 extnum = 0; extnum < 3; extnum++)
 	{
-		// Try dir/system.png
-		if (filerr != osd_file::error::NONE)
+		switch (extnum)
 		{
-			fname = std::string(system_name).append(".png");
-			filerr = OpenDIBFile(dir_one, zip_name, fname, file, &buffer);
+			case 1:
+				ext = ".jpg";
+				break;
+			case 2:
+				ext = ".jpeg";
+				break;
+			default:
+				ext = ".png";
 		}
 
-		if (filerr != osd_file::error::NONE) 
-		{
-			//%g/%g
-			fname = std::string(file_name).append(PATH_SEPARATOR).append(file_name).append(".png");
-			filerr = OpenDIBFile(dir_one, zip_name, fname, file, &buffer);
-		}
+		char* dir_name1 = 0;
+		dir_name1 = (char*)malloc(strlen(dir_name) + 2);
+		for (i = 0; dir_name[i]; i++)
+			dir_name1[i] = dir_name[i];
+		dir_name1[i++] = ';';
+		dir_name1[i] = '\0';
 
-		// For SNAPS only, try filenames with 0000.
-		if (pic_type == TAB_SCREENSHOT)
-		{
-			if (filerr != osd_file::error::NONE) 
-			{
-				//%g/%i
-				fname = std::string(system_name).append(PATH_SEPARATOR).append("0000.png");
-				filerr = OpenDIBFile(dir_one, zip_name, fname, file, &buffer);
-			}
+		// Support multiple paths
+		char* dir_one = strtok(dir_name1, ";");
 
+		//Add handling for the displaying of all the different supported snapshot patterntypes
+		while (dir_one && filerr != osd_file::error::NONE)
+		{
+			// Try dir/system.png
 			if (filerr != osd_file::error::NONE)
 			{
-				//%g%i
-				fname = std::string(system_name).append("0000.png");
+				fname = std::string(system_name).append(ext);
 				filerr = OpenDIBFile(dir_one, zip_name, fname, file, &buffer);
 			}
 
 			if (filerr != osd_file::error::NONE) 
 			{
-				//%g/%g%i
-				fname = std::string(system_name).append(PATH_SEPARATOR).append(system_name).append("0000.png");
+				//%g/%g
+				fname = std::string(file_name).append(PATH_SEPARATOR).append(file_name).append(ext);
 				filerr = OpenDIBFile(dir_one, zip_name, fname, file, &buffer);
 			}
+
+			// For SNAPS only, try filenames with 0000.
+			if ((pic_type == TAB_SCREENSHOT) && (extnum == 0))
+			{
+				if (filerr != osd_file::error::NONE) 
+				{
+					//%g/%i
+					fname = std::string(system_name).append(PATH_SEPARATOR).append("0000.png");
+					filerr = OpenDIBFile(dir_one, zip_name, fname, file, &buffer);
+				}
+			}
+
+			dir_one = strtok(NULL, ";");
 		}
 
-		dir_one = strtok(NULL, ";");
-	}
+		free(dir_name1);
 
-	if (filerr == osd_file::error::NONE) 
-	{
-		success = png_read_bitmap_gui(*file, phDIB, pPal);
-		file.reset();
+		if (filerr == osd_file::error::NONE) 
+		{
+			if (extnum)
+				success = jpeg_read_bitmap_gui(*file, phDIB, pPal);
+			else
+				success = png_read_bitmap_gui(*file, phDIB, pPal);
+			file.reset();
+		}
+		if (success)
+			break;
 	}
 
 	// free the buffer if we have to
-	if (buffer != NULL) 
+	if (buffer) 
 		free(buffer);
 
 	free(system_name);
 	free(file_name);
-	free(dir_name1);
 
 	return success;
 }
@@ -567,3 +578,114 @@ static bool png_read_bitmap_gui(util::core_file &mfile, HGLOBAL *phDIB, HPALETTE
 
 	return true;
 }
+
+
+/***************************************************************************
+    JPEG graphics handling functions
+***************************************************************************/
+
+struct mameui_jpeg_error_mgr
+{
+	struct jpeg_error_mgr pub; /* "public" fields */
+	jmp_buf setjmp_buffer; /* for return to caller */
+};
+
+METHODDEF(void) mameui_jpeg_error_exit(j_common_ptr cinfo)
+{
+	mameui_jpeg_error_mgr* myerr = (mameui_jpeg_error_mgr*)cinfo->err;
+	(*cinfo->err->output_message) (cinfo);
+	longjmp(myerr->setjmp_buffer, 1);
+}
+
+static bool jpeg_read_bitmap_gui(util::core_file &mfile, HGLOBAL *phDIB, HPALETTE *pPAL)
+{
+	uint64_t bytes = mfile.size();
+	unsigned char* content = (unsigned char*)::malloc(bytes * sizeof(unsigned char));
+	::memcpy(content, mfile.buffer(), bytes);
+
+	*pPAL = NULL;
+	HGLOBAL hDIB = NULL;
+	jpeg_decompress_struct info;
+	mameui_jpeg_error_mgr  err;
+	info.err = jpeg_std_error(&err.pub);
+	err.pub.error_exit = mameui_jpeg_error_exit;
+
+	if (setjmp(err.setjmp_buffer))
+	{
+		jpeg_destroy_decompress(&info);
+		::free(content);
+		copy_size = 0;
+		pixel_ptr = NULL;
+		effWidth = 0;
+		row = 0;
+		if (hDIB)
+			::GlobalFree(hDIB);
+		return false;
+	}
+
+	jpeg_create_decompress(&info);
+	jpeg_mem_src(&info, content, bytes);
+	jpeg_read_header(&info, TRUE);
+	if (info.num_components != 3 || info.out_color_space != JCS_RGB)
+	{
+		jpeg_destroy_decompress(&info);
+		::free(content);
+		return false;
+	}
+
+	BITMAPINFOHEADER bi;
+	LPBITMAPINFOHEADER lpbi;
+	LPVOID lpDIBBits = 0;
+	int lineWidth = 0;
+	LPSTR pRgb;
+	copy_size = 0;
+	pixel_ptr = NULL;
+	row = info.image_height;
+	lineWidth = info.image_width;
+
+	bi.biSize = sizeof(BITMAPINFOHEADER);
+	bi.biWidth = info.image_width;
+	bi.biHeight = -info.image_height; //top down bitmap
+	bi.biPlanes = 1;
+	bi.biBitCount = 24;
+	bi.biCompression = BI_RGB;
+	bi.biSizeImage = 0;
+	bi.biXPelsPerMeter = 2835;
+	bi.biYPelsPerMeter = 2835;
+	bi.biClrUsed = 0;
+	bi.biClrImportant = 0;
+
+	effWidth = (long)(((long)lineWidth*bi.biBitCount + 31) / 32) * 4;
+	int dibSize = (effWidth * info.image_height);
+	hDIB = ::GlobalAlloc(GMEM_FIXED, bi.biSize + dibSize);
+
+	if (!hDIB)
+	{
+		::free(content);
+		return false;
+	}
+
+	jpeg_start_decompress(&info);
+
+	lpbi = (LPBITMAPINFOHEADER)hDIB;
+	::memcpy(lpbi, &bi, sizeof(BITMAPINFOHEADER));
+	pRgb = (LPSTR)lpbi + bi.biSize;
+	lpDIBBits = (LPVOID)((LPSTR)lpbi + bi.biSize);
+
+	while (info.output_scanline < info.output_height) // loop
+	{
+		unsigned char* cacheRow[1] = { (unsigned char*)pRgb };
+		jpeg_read_scanlines(&info, cacheRow, 1);
+		//rgb to win32 bgr
+		for (JDIMENSION i = 0; i < info.output_width; ++i)
+			std::swap(cacheRow[0][i * 3 + 0], cacheRow[0][i * 3 + 2]);
+		pRgb += effWidth;
+	}
+	jpeg_finish_decompress(&info);
+	jpeg_destroy_decompress(&info);
+	copy_size = dibSize;
+	pixel_ptr = (char*)lpDIBBits;
+	*phDIB = hDIB;
+	return true;
+}
+
