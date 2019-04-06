@@ -449,10 +449,9 @@ int m72_state::find_sample(int num)
 
 INTERRUPT_GEN_MEMBER(m72_state::fake_nmi)
 {
-	address_space &space = generic_space();
-	int sample = m_audio->sample_r(space,0);
+	int sample = m_audio->sample_r();
 	if (sample)
-		m_audio->sample_w(space,0,sample);
+		m_audio->sample_w(sample);
 }
 
 
@@ -1819,7 +1818,9 @@ void m72_state::m72_audio_chips(machine_config &config)
 
 	m_soundcpu->set_irq_acknowledge_callback("soundirq", FUNC(rst_neg_buffer_device::inta_cb));
 
-	IREM_M72_AUDIO(config, "m72");
+	IREM_M72_AUDIO(config, m_audio);
+	m_audio->set_device_rom_tag("samples");
+	m_audio->set_dac_tag("dac");
 
 	ym2151_device &ymsnd(YM2151(config, "ymsnd", SOUND_CLOCK));
 	ymsnd.irq_handler().set("soundirq", FUNC(rst_neg_buffer_device::rst28_w));
