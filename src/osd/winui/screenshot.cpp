@@ -125,17 +125,15 @@ void FreeScreenShot(void)
 
 static osd_file::error OpenDIBFile(const char *dir_name, const char *zip_name, const std::string &filename, util::core_file::ptr &file, void **buffer)
 {
-	osd_file::error filerr;
-	util::archive_file::error ziperr;
+	util::archive_file::error ziperr = util::archive_file::error::NONE;
 	util::archive_file::ptr zip;
-	std::string fname;
 
 	// clear out result
 	file = nullptr;
 
 	// look for the raw file
-	fname = std::string(dir_name).append(PATH_SEPARATOR).append(filename.c_str());
-	filerr = util::core_file::open(fname, OPEN_FLAG_READ, file);
+	string fname = string(dir_name).append(PATH_SEPARATOR).append(filename);
+	osd_file::error filerr = util::core_file::open(fname, OPEN_FLAG_READ, file);
 
 	// did the raw file not exist?
 	if (filerr != osd_file::error::NONE)
@@ -143,7 +141,7 @@ static osd_file::error OpenDIBFile(const char *dir_name, const char *zip_name, c
 		// look into zip file
 		fname = std::string(dir_name).append(PATH_SEPARATOR).append(zip_name).append(".zip");
 		ziperr = util::archive_file::open_zip(fname, zip);
-		
+
 		if (ziperr == util::archive_file::error::NONE)
 		{
 			int found = zip->search(filename, false);
@@ -159,27 +157,28 @@ static osd_file::error OpenDIBFile(const char *dir_name, const char *zip_name, c
 
 			zip.reset();
 		}
-		else
+	}
+
+	if ((filerr != osd_file::error::NONE) || (ziperr != util::archive_file::error::NONE))
+	{
+		// look into 7z file
+		fname = std::string(dir_name).append(PATH_SEPARATOR).append(zip_name).append(".7z");
+		ziperr = util::archive_file::open_7z(fname, zip);
+
+		if (ziperr == util::archive_file::error::NONE)
 		{
-			// look into 7z file
-			fname = std::string(dir_name).append(PATH_SEPARATOR).append(zip_name).append(".7z");
-			ziperr = util::archive_file::open_7z(fname, zip);
+			int found = zip->search(filename, false);
 
-			if (ziperr == util::archive_file::error::NONE)
+			if (found >= 0)
 			{
-				int found = zip->search(filename, false);
+				*buffer = malloc(zip->current_uncompressed_length());
+				ziperr = zip->decompress(*buffer, zip->current_uncompressed_length());
 
-				if (found >= 0)
-				{
-					*buffer = malloc(zip->current_uncompressed_length());
-					ziperr = zip->decompress(*buffer, zip->current_uncompressed_length());
-
-					if (ziperr == util::archive_file::error::NONE)
-						filerr = util::core_file::open_ram(*buffer, zip->current_uncompressed_length(), OPEN_FLAG_READ, file);
-				}
-
-				zip.reset();
+				if (ziperr == util::archive_file::error::NONE)
+					filerr = util::core_file::open_ram(*buffer, zip->current_uncompressed_length(), OPEN_FLAG_READ, file);
 			}
+
+			zip.reset();
 		}
 	}
 
