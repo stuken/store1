@@ -43,10 +43,10 @@ class NETLIB_NAME(name) : public NETLIB_NAME(pclass)
  *  Used to start defining a netlist device class.
  *  The simplest device without inputs or outputs would look like this:
  *
- *      NETLIB_OBJECT(base_dummy)
+ *      NETLIB_OBJECT(some_object)
  *      {
  *      public:
- *          NETLIB_CONSTRUCTOR(base_dummy) { }
+ *          NETLIB_CONSTRUCTOR(some_object) { }
  *      };
  *
  *  Also refer to #NETLIB_CONSTRUCTOR.
@@ -551,9 +551,9 @@ namespace netlist
 
 			using list_t = std::vector<core_terminal_t *>;
 
-			static constexpr const auto INP_HL_SHIFT = 0;
-			static constexpr const auto INP_LH_SHIFT = 1;
-			static constexpr const auto INP_ACTIVE_SHIFT = 2;
+			static constexpr const unsigned int INP_HL_SHIFT = 0;
+			static constexpr const unsigned int INP_LH_SHIFT = 1;
+			static constexpr const unsigned int INP_ACTIVE_SHIFT = 2;
 
 			enum state_e {
 				STATE_INP_PASSIVE = 0,
@@ -755,7 +755,8 @@ namespace netlist
 	{
 	public:
 
-		analog_t(core_device_t &dev, const pstring &aname, const state_e state);
+		analog_t(core_device_t &dev, const pstring &aname, const state_e state,
+			nldelegate delegate = nldelegate());
 
 		const analog_net_t & net() const NL_NOEXCEPT;
 		analog_net_t & net() NL_NOEXCEPT;
@@ -869,8 +870,9 @@ namespace netlist
 	{
 	public:
 		/*! Constructor */
-		analog_input_t(core_device_t &dev, /*!< owning device */
-				const pstring &aname       /*!< name of terminal */
+		analog_input_t(core_device_t &dev,  /*!< owning device */
+				const pstring &aname,       /*!< name of terminal */
+				nldelegate delegate = nldelegate() /*!< delegate */
 		);
 
 		/*! returns voltage at terminal.
@@ -1278,17 +1280,6 @@ namespace netlist
 	};
 
 	// -----------------------------------------------------------------------------
-	// nld_base_dummy : basis for dummy devices
-	// FIXME: this is not the right place to define this
-	// -----------------------------------------------------------------------------
-
-	NETLIB_OBJECT(base_dummy)
-	{
-	public:
-		NETLIB_CONSTRUCTOR(base_dummy) { }
-	};
-
-	// -----------------------------------------------------------------------------
 	// queue_t
 	// -----------------------------------------------------------------------------
 
@@ -1689,17 +1680,21 @@ namespace netlist
 		if ((num_cons() != 0))
 		{
 			auto &lexec(exec());
-			//auto &q(lexec.queue());
-			auto nst(lexec.time() + delay);
+			const auto nst(lexec.time() + delay);
 
 			if (is_queued())
 				lexec.qremove(this);
-			m_in_queue = (!m_list_active.empty()) ?
-				queue_status::QUEUED : queue_status::DELAYED_DUE_TO_INACTIVE;    /* queued ? */
-			if (m_in_queue == queue_status::QUEUED)
+
+			if (!m_list_active.empty())
+			{
+				m_in_queue = queue_status::QUEUED;
 				lexec.qpush(queue_t::entry_t(nst, this));
+			}
 			else
+			{
+				m_in_queue = queue_status::DELAYED_DUE_TO_INACTIVE;
 				update_inputs();
+			}
 			m_next_scheduled_time = nst;
 		}
 	}

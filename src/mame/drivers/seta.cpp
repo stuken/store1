@@ -2049,7 +2049,7 @@ void seta_state::wrofaero_map(address_map &map)
 	map(0x000000, 0x1fffff).rom();                             // ROM (up to 2MB)
 	map(0x200000, 0x20ffff).ram();                             // RAM
 	map(0x210000, 0x21ffff).ram();                             // RAM (gundhara)
-	map(0x300000, 0x30ffff).ram();                             // RAM (wrofaero only?)
+	map(0x300000, 0x30ffff).ram().share("nvram");              // actually 8K x8 SRAM in zombraid
 	map(0x400000, 0x400001).portr("P1");                 // P1
 	map(0x400002, 0x400003).portr("P2");                 // P2
 	map(0x400004, 0x400005).portr("COINS");              // Coins
@@ -2086,7 +2086,6 @@ void seta_state::wrofaero_map(address_map &map)
 void zombraid_state::zombraid_map(address_map &map)
 {
 	wrofaero_map(map);
-	map(0x300000, 0x30ffff).ram().share("nvram");           // actually 8K x8 SRAM
 	map(0xf00000, 0xf00001).w(FUNC(zombraid_state::gun_w));
 	map(0xf00002, 0xf00003).r(FUNC(zombraid_state::gun_r));
 }
@@ -2941,7 +2940,7 @@ uint16_t kiwame_state::input_r(offs_t offset)
 	switch( offset )
 	{
 		case 0x00/2:    return m_key[i]->read();
-		case 0x02/2:    return 0xffff;
+		case 0x02/2:    return m_key[i + 5]->read();
 		case 0x04/2:    return m_coins->read();
 //      case 0x06/2:
 		case 0x08/2:    return 0xffff;
@@ -5652,6 +5651,46 @@ bit 0       a   b   c   d   lc
 	PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_MAHJONG_H )
 	PORT_BIT( 0x0004, IP_ACTIVE_LOW, IPT_MAHJONG_L )
 	PORT_BIT( 0x0008, IP_ACTIVE_LOW, IPT_MAHJONG_PON )
+	PORT_BIT( 0xfff0, IP_ACTIVE_LOW, IPT_UNKNOWN )
+
+	PORT_START("KEY5")
+	PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_MAHJONG_LAST_CHANCE ) PORT_PLAYER(2)
+	PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_UNKNOWN )
+	PORT_BIT( 0x0004, IP_ACTIVE_LOW, IPT_UNKNOWN )
+	PORT_BIT( 0x0008, IP_ACTIVE_LOW, IPT_MAHJONG_FLIP_FLOP ) PORT_PLAYER(2)
+	PORT_BIT( 0xfff0, IP_ACTIVE_LOW, IPT_UNKNOWN )
+
+	PORT_START("KEY6")
+	PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_MAHJONG_B ) PORT_PLAYER(2)
+	PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_MAHJONG_F ) PORT_PLAYER(2)
+	PORT_BIT( 0x0004, IP_ACTIVE_LOW, IPT_MAHJONG_J ) PORT_PLAYER(2)
+	PORT_BIT( 0x0008, IP_ACTIVE_LOW, IPT_MAHJONG_N ) PORT_PLAYER(2)
+	PORT_BIT( 0x0010, IP_ACTIVE_LOW, IPT_MAHJONG_REACH ) PORT_PLAYER(2)
+	PORT_BIT( 0x0020, IP_ACTIVE_LOW, IPT_MAHJONG_BET ) PORT_PLAYER(2)
+	PORT_BIT( 0xffc0, IP_ACTIVE_LOW, IPT_UNKNOWN )
+
+	PORT_START("KEY7")
+	PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_MAHJONG_A ) PORT_PLAYER(2)
+	PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_MAHJONG_E ) PORT_PLAYER(2)
+	PORT_BIT( 0x0004, IP_ACTIVE_LOW, IPT_MAHJONG_I ) PORT_PLAYER(2)
+	PORT_BIT( 0x0008, IP_ACTIVE_LOW, IPT_MAHJONG_M ) PORT_PLAYER(2)
+	PORT_BIT( 0x0010, IP_ACTIVE_LOW, IPT_MAHJONG_KAN ) PORT_PLAYER(2)
+	PORT_BIT( 0x0020, IP_ACTIVE_LOW, IPT_START2  )
+	PORT_BIT( 0xffc0, IP_ACTIVE_LOW, IPT_UNKNOWN )
+
+	PORT_START("KEY8")
+	PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_MAHJONG_C ) PORT_PLAYER(2)
+	PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_MAHJONG_G ) PORT_PLAYER(2)
+	PORT_BIT( 0x0004, IP_ACTIVE_LOW, IPT_MAHJONG_K ) PORT_PLAYER(2)
+	PORT_BIT( 0x0008, IP_ACTIVE_LOW, IPT_MAHJONG_CHI ) PORT_PLAYER(2)
+	PORT_BIT( 0x0010, IP_ACTIVE_LOW, IPT_MAHJONG_RON ) PORT_PLAYER(2)
+	PORT_BIT( 0xffe0, IP_ACTIVE_LOW, IPT_UNKNOWN )
+
+	PORT_START("KEY9")
+	PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_MAHJONG_D ) PORT_PLAYER(2)
+	PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_MAHJONG_H ) PORT_PLAYER(2)
+	PORT_BIT( 0x0004, IP_ACTIVE_LOW, IPT_MAHJONG_L ) PORT_PLAYER(2)
+	PORT_BIT( 0x0008, IP_ACTIVE_LOW, IPT_MAHJONG_PON ) PORT_PLAYER(2)
 	PORT_BIT( 0xfff0, IP_ACTIVE_LOW, IPT_UNKNOWN )
 INPUT_PORTS_END
 

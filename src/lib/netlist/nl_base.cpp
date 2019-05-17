@@ -477,8 +477,8 @@ void netlist_t::print_stats() const
 		log().verbose("Total time     {1:15}", total_time);
 
 		// FIXME: clang complains about unreachable code without
-		const auto dummy = USE_QUEUE_STATS;
-		if (dummy)
+		const auto clang_workaround_unreachable_code = USE_QUEUE_STATS;
+		if (clang_workaround_unreachable_code)
 		{
 			/* Only one serialization should be counted in total time */
 			/* But two are contained in m_stat_mainloop */
@@ -728,9 +728,9 @@ void detail::net_t::update_devs() NL_NOEXCEPT
 {
 	nl_assert(this->isRailNet());
 
-	const auto new_Q(m_new_Q);
+	const unsigned int new_Q(m_new_Q);
 
-	const auto mask((new_Q << core_terminal_t::INP_LH_SHIFT)
+	const unsigned int mask((new_Q << core_terminal_t::INP_LH_SHIFT)
 			| (m_cur_Q << core_terminal_t::INP_HL_SHIFT));
 
 	m_in_queue = queue_status::DELIVERED; /* mark as taken ... */
@@ -837,8 +837,9 @@ detail::core_terminal_t::core_terminal_t(core_device_t &dev, const pstring &anam
 {
 }
 
-analog_t::analog_t(core_device_t &dev, const pstring &aname, const state_e state)
-: core_terminal_t(dev, aname, state)
+analog_t::analog_t(core_device_t &dev, const pstring &aname, const state_e state,
+	nldelegate delegate)
+: core_terminal_t(dev, aname, state, delegate)
 {
 }
 
@@ -912,8 +913,9 @@ void logic_output_t::initial(const netlist_sig_t val)
 // analog_input_t
 // ----------------------------------------------------------------------------------------
 
-analog_input_t::analog_input_t(core_device_t &dev, const pstring &aname)
-: analog_t(dev, aname, STATE_INP_ACTIVE)
+analog_input_t::analog_input_t(core_device_t &dev, const pstring &aname,
+	nldelegate delegate)
+: analog_t(dev, aname, STATE_INP_ACTIVE, delegate)
 {
 	state().setup().register_term(*this);
 }

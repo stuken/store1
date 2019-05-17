@@ -341,6 +341,7 @@ VIDEOS["SCN2674"] = true
 --VIDEOS["SED1520"] = true
 VIDEOS["SNES_PPU"] = true
 VIDEOS["STVVDP"] = true
+--VIDEOS["T6963C"] = true
 --VIDEOS["T6A04"] = true
 VIDEOS["TLC34076"] = true
 VIDEOS["TMS34061"] = true
@@ -437,6 +438,7 @@ MACHINES["DS1205"] = true
 MACHINES["DS1302"] = true
 --MACHINES["DS1315"] = true
 --MACHINES["DS1386"] = true
+MACHINES["DS1994"] = true
 MACHINES["DS2401"] = true
 MACHINES["DS2404"] = true
 MACHINES["DS75160A"] = true
@@ -660,6 +662,7 @@ MACHINES["PS2INTC"] = true
 --MACHINES["IOPINTC"] = true
 --MACHINES["IOPSIO2"] = true
 --MACHINES["IOPTIMER"] = true
+MACHINES["AIC565"] = true
 MACHINES["AIC6250"] = true
 
 --------------------------------------------------
@@ -2372,6 +2375,8 @@ files {
 	MAME_DIR .. "src/mame/machine/k573cass.h",
 	MAME_DIR .. "src/mame/machine/k573dio.cpp",
 	MAME_DIR .. "src/mame/machine/k573dio.h",
+	MAME_DIR .. "src/mame/machine/k573fpga.cpp",
+	MAME_DIR .. "src/mame/machine/k573fpga.h",
 	MAME_DIR .. "src/mame/machine/k573mcr.cpp",
 	MAME_DIR .. "src/mame/machine/k573mcr.h",
 	MAME_DIR .. "src/mame/machine/k573msu.cpp",
