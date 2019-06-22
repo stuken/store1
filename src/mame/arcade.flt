@@ -126,6 +126,7 @@ bfcobra.cpp
 //bgt.cpp          // check
 big10.cpp
 bigevglf.cpp
+bigkarnk_ms.cpp
 bigstrkb.cpp
 //bingo.cpp        // check
 //bingoc.cpp       // check
@@ -435,6 +436,7 @@ galivan.cpp
 galpani2.cpp
 galpani3.cpp
 galpanic.cpp
+galpanic_ms.cpp
 galspnbl.cpp
 //gambl186.cpp     // check
 //gamecstl.cpp     // chd
@@ -463,7 +465,9 @@ gng.cpp
 go2000.cpp
 goal92.cpp
 goindol.cpp
+<<<<<<< HEAD
 //gokidetor.cpp     // check
+//goldart.cpp       // mechanical
 //goldngam.cpp      // poker
 //goldnpkr.cpp      // poker
 //goldstar.cpp      // fruit
@@ -1269,6 +1273,7 @@ tnzs.cpp
 toaplan1.cpp
 toaplan2.cpp
 toki.cpp
+toki_ms.cpp
 tomcat.cpp
 tonton.cpp
 toobin.cpp
