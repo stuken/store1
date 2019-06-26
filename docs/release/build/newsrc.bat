@@ -70,7 +70,6 @@ copy /Y %from%\src\mame\video\namconb1.cpp          %to%\src\mame\video
 copy /Y %from%\src\mame\video\nemesis.cpp           %to%\src\mame\video
 copy /Y %from%\src\mame\video\neogeo.cpp            %to%\src\mame\video
 copy /Y %from%\src\mame\video\neogeo_spr.h          %to%\src\mame\video
-copy /Y %from%\src\mame\video\taito_f3.cpp          %to%\src\mame\video
 copy /Y %from%\src\mame\video\tc0100scn.cpp         %to%\src\mame\video
 
 
