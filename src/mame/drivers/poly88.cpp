@@ -47,7 +47,6 @@ at least some models of the Poly-88 are known to have used.)
 #include "cpu/i8085/i8085.h"
 //#include "bus/s100/s100.h"
 #include "imagedev/cassette.h"
-#include "sound/wave.h"
 #include "emupal.h"
 #include "screen.h"
 #include "speaker.h"
@@ -199,7 +198,8 @@ static GFXDECODE_START( gfx_poly88 )
 	GFXDECODE_ENTRY( "chargen", 0x0000, poly88_charlayout, 0, 1 )
 GFXDECODE_END
 
-MACHINE_CONFIG_START(poly88_state::poly88)
+void poly88_state::poly88(machine_config &config)
+{
 	/* basic machine hardware */
 	I8080A(config, m_maincpu, 16.5888_MHz_XTAL / 9); // uses 8224 clock generator
 	m_maincpu->set_addrmap(AS_PROGRAM, &poly88_state::poly88_mem);
@@ -222,12 +222,12 @@ MACHINE_CONFIG_START(poly88_state::poly88)
 
 	/* audio hardware */
 	SPEAKER(config, "mono").front_center();
-	WAVE(config, "wave", m_cassette).add_route(ALL_OUTPUTS, "mono", 0.25);
 
 	/* cassette */
 	CASSETTE(config, m_cassette);
 	m_cassette->set_create_opts(&poly88_cassette_options);
 	m_cassette->set_default_state(CASSETTE_STOPPED | CASSETTE_SPEAKER_ENABLED);
+	m_cassette->add_route(ALL_OUTPUTS, "mono", 0.05);
 
 	/* uart */
 	I8251(config, m_usart, 16.5888_MHz_XTAL / 9);
@@ -238,8 +238,8 @@ MACHINE_CONFIG_START(poly88_state::poly88)
 	m_brg->output_cb().set(FUNC(poly88_state::cassette_txc_rxc_w));
 
 	/* snapshot */
-	MCFG_SNAPSHOT_ADD("snapshot", poly88_state, poly88, "img", attotime::from_seconds(2))
-MACHINE_CONFIG_END
+	SNAPSHOT(config, "snapshot", "img", attotime::from_seconds(2)).set_load_callback(FUNC(poly88_state::snapshot_cb), this);
+}
 
 void poly88_state::poly8813(machine_config &config)
 {

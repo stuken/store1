@@ -277,7 +277,7 @@ std::string load_sourceinfo(const game_driver *drv, const char* datsdir, int fil
 // General hardware information
 std::string load_driver_geninfo(const game_driver *drv, int drvindex)
 {
-	ui::machine_static_info const info(machine_config(*drv, MameUIGlobal()));
+	ui::machine_static_info const info(machine_config(*drv));
 	machine_config config(*drv, MameUIGlobal());
 	const game_driver *parent = NULL;
 	char name[512];

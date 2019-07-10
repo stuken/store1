@@ -38,6 +38,7 @@ using util::BIT;
 #include "cpu/cop400/cop444ds.h"
 #include "cpu/cosmac/cosdasm.h"
 #include "cpu/cp1610/1610dasm.h"
+#include "cpu/cr16b/cr16bdasm.h"
 #include "cpu/cubeqcpu/cubedasm.h"
 #include "cpu/dsp16/dsp16dis.h"
 #include "cpu/dsp32/dsp32dis.h"
@@ -46,6 +47,7 @@ using util::BIT;
 #include "cpu/e132xs/32xsdasm.h"
 #include "cpu/es5510/es5510d.h"
 #include "cpu/esrip/esripdsm.h"
+#include "cpu/f2mc16/f2mc16dasm.h"
 #include "cpu/f8/f8dasm.h"
 #include "cpu/g65816/g65816ds.h"
 #include "cpu/h6280/6280dasm.h"
@@ -337,6 +339,8 @@ static const dasm_table_entry dasm_table[] =
 	{ "cop444",          le,  0, []() -> util::disasm_interface * { return new cop444_disassembler; } },
 	{ "cop424",          le,  0, []() -> util::disasm_interface * { return new cop424_disassembler; } },
 	{ "cp1610",          be, -1, []() -> util::disasm_interface * { return new cp1610_disassembler; } },
+	{ "cr16a",           le,  0, []() -> util::disasm_interface * { return new cr16a_disassembler; } },
+	{ "cr16b",           le,  0, []() -> util::disasm_interface * { return new cr16b_disassembler; } },
 	{ "cquestlin",       be, -3, []() -> util::disasm_interface * { return new cquestlin_disassembler; } },
 	{ "cquestrot",       be, -3, []() -> util::disasm_interface * { return new cquestrot_disassembler; } },
 	{ "cquestsnd",       be, -3, []() -> util::disasm_interface * { return new cquestsnd_disassembler; } },
@@ -348,6 +352,7 @@ static const dasm_table_entry dasm_table[] =
 	{ "e0c6200",         be, -1, []() -> util::disasm_interface * { return new e0c6200_disassembler; } },
 //  { "es5510",          be,  0, []() -> util::disasm_interface * { return new es5510_disassembler; } }, // Currently does nothing
 	{ "esrip",           be,  0, []() -> util::disasm_interface * { return new esrip_disassembler; } },
+	{ "f2mc16",          le,  0, []() -> util::disasm_interface * { return new f2mc16_disassembler; } },
 	{ "f8",              be,  0, []() -> util::disasm_interface * { return new f8_disassembler; } },
 	{ "g65816",          le,  0, []() -> util::disasm_interface * { return new g65816_disassembler(&g65816_unidasm); } },
 	{ "h6280",           le,  0, []() -> util::disasm_interface * { return new h6280_disassembler; } },

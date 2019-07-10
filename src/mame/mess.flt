@@ -140,6 +140,7 @@ cgc7900.cpp
 cgenie.cpp
 channelf.cpp
 chaos.cpp
+chessmate.cpp
 chessmst.cpp
 cit101.cpp
 cit220.cpp
@@ -155,6 +156,7 @@ codata.cpp
 coleco.cpp
 compc.cpp
 compis.cpp
+compuchess.cpp
 compucolor.cpp
 comquest.cpp
 comx35.cpp
@@ -289,10 +291,12 @@ gb.cpp
 gba.cpp
 geneve.cpp
 geniusiq.cpp
+geniusjr.cpp
 genpc.cpp
 gimix.cpp
 gizmondo.cpp
 glasgow.cpp
+glcx.cpp
 gmaster.cpp
 goupil.cpp
 gp2x.cpp
@@ -539,11 +543,9 @@ ngp.cpp
 nokia_3310.cpp
 notetaker.cpp
 novag_cforte.cpp
-novag_delta1.cpp
 novag_diablo.cpp
-novag_mk1.cpp
-novag_mk2.cpp
 novag_presto.cpp
+novag_savant.cpp
 novag_scon.cpp
 novag_sexpert.cpp
 o2.cpp
@@ -677,7 +679,6 @@ rd100.cpp
 rd110.cpp
 replicator.cpp
 rex6000.cpp
-risc2500.cpp
 riscpc.cpp
 rm380z.cpp
 rmnimbus.cpp
@@ -690,6 +691,11 @@ rz1.cpp
 rzone.cpp
 sacstate.cpp
 sage2.cpp
+saitek_chesstrv.cpp
+saitek_cp2000.cpp
+saitek_delta1.cpp
+saitek_risc2500.cpp
+saitek_stratos.cpp
 samcoupe.cpp
 sansa_fuze.cpp
 sapi1.cpp
@@ -699,8 +705,6 @@ savia84.cpp
 sbc6510.cpp
 sbrain.cpp
 sc2.cpp
-scisys_chesstrv.cpp
-scisys_cp2000.cpp
 scopus.cpp
 scorpion.cpp
 scv.cpp
@@ -720,6 +724,7 @@ shine.cpp
 si5500.cpp
 sitcom.cpp
 sk1.cpp
+sk101bl.cpp
 slc1.cpp
 slc1a.cpp
 slicer.cpp
@@ -744,7 +749,6 @@ ssem.cpp
 ssystem3.cpp
 st17xx.cpp
 storio.cpp
-stratos.cpp
 studio2.cpp
 sun1.cpp
 sun2.cpp
@@ -898,8 +902,6 @@ vta2000.cpp
 vtech1.cpp
 vtech2.cpp
 vtech_eu3a12.cpp
-vtech_unk1.cpp
-vtech_unk2.cpp
 wangpc.cpp
 wicat.cpp
 wswan.cpp
