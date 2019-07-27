@@ -1830,8 +1830,10 @@ void taito_f3_state::get_line_ram_info(tilemap_t *tmap, int sx, int sy, int pos,
 		_y_zoom[y] = (line_zoom & 0xff) << 9;
 
 		/* Evaluate clipping */
-		if (pri & 0x0800)
+		if (pri & 0x0800 && m_game != LANDMAKR) // MAMEFX these 4 lines
+		{
 			line_enable = 0;
+		}
 		else if (pri & 0x0330)
 		{
 			//fast path todo - remove line enable
@@ -1973,6 +1975,9 @@ void taito_f3_state::get_vram_info(tilemap_t *vram_tilemap, tilemap_t *pixel_til
 			line_enable = 3;
 		else
 			line_enable = 1;
+
+		if (m_game == ARABIANM && line_enable) // MAMEFX these 2
+			line_enable = 1;	// kludge: arabianm missing cutscene text april.21.2017_dink
 
 		line_t->pri[y] = pri;
 
@@ -2234,11 +2239,17 @@ void taito_f3_state::scanline_draw(bitmap_rgb32 &bitmap, const rectangle &clipre
 				if (alpha_mode[i] == 2)
 				{
 					if (alpha_type == 1)
-					{
-						/* if (m_alpha_level_2as == 0   && m_alpha_level_2ad == 255)
-						 *     alpha_mode[i]=3; alpha_mode_flag[i] |= 0x80; }
-						 * will display continue screen in gseeker (mt 00026) */
-						if      (m_alpha_level_2as == 0   && m_alpha_level_2ad == 255) alpha_mode[i] = 0;
+					{  // MAMEFX these 10
+						if (m_alpha_level_2as == 0 && m_alpha_level_2ad == 255)
+						{
+							if (m_game == GSEEKER)  /* will display continue screen in gseeker (mt 00026) */
+							{
+								alpha_mode[i]=3; 
+								alpha_mode_flag[i] |= 0x80;
+							}
+							else 
+								alpha_mode[i]=0;
+						}
 						else if (m_alpha_level_2as == 255 && m_alpha_level_2ad ==   0) alpha_mode[i] = 1;
 					}
 					else if (alpha_type == 2)

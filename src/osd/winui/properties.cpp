@@ -2142,7 +2142,6 @@ static bool ViewPopulateControl(datamap *map, HWND dialog, HWND control, windows
 
 static bool DefaultInputReadControl(datamap *map, HWND dialog, HWND control, windows_options &opts, const char *option_name)
 {
-
 	int input_option_index = ComboBox_GetCurSel(control);
 	const char *input_option_value = (const char*)ComboBox_GetItemData(control, input_option_index);
 	opts.set_value(OPTION_CTRLR, input_option_index ? input_option_value : "", OPTION_PRIORITY_CMDLINE);
