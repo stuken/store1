@@ -1768,7 +1768,7 @@ static void LoadPluginsFile(plugin_options &opts, const std::string &filename)
 	{
 		try
 		{
-			opts.parse_ini_file((util::core_file&)file, OPTION_PRIORITY_MAME_INI, OPTION_PRIORITY_MAME_INI < OPTION_PRIORITY_DRIVER_INI, false);
+			opts.parse_ini_file((util::core_file&)file);
 		}
 		catch (options_exception &)
 		{
@@ -1848,7 +1848,7 @@ static void SavePluginsFile(plugin_options &opts, const std::string &filename)
 
 	while (iter.next(pluginpath))
 	{
-		opts.parse_json(pluginpath);
+		opts.scan_directory(pluginpath,false);
 	}
 
 	osd_file::error filerr;
@@ -2155,7 +2155,7 @@ void ResetGameDefaults(void)
 	windows_options core_opts_temp;			// this should contain default values
 	core_opts.copy_from(core_opts_temp);	// copy default to current
 	plugin_options plugin_opts_temp;			// this should contain default values
-	plugin_opts.copy_from(plugin_opts_temp);	// copy default to current
+	plugin_opts = plugin_opts_temp;	// copy default to current
 	SaveOptions(OPTIONS_GLOBAL, core_opts, GLOBAL_OPTIONS);
 	SavePlugins();
 }
