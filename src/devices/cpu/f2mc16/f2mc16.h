@@ -14,6 +14,8 @@
 class f2mc16_device : public cpu_device
 {
 public:
+	friend class mb9061x_device;
+
 	enum
 	{
 		F2MC16_PC, F2MC16_PS, F2MC16_USP, F2MC16_SSP, F2MC16_ACC,
@@ -98,10 +100,12 @@ private:
 	}
 	inline void write_8(u32 addr, u8 data)
 	{
+//      printf("write %02x to %08x\n", data, addr);
 		m_program->write_byte(addr, data);
 	}
 	inline void write_16(u32 addr, u16 data)
 	{
+//      printf("write %04x to %08x\n", data, addr);
 		if (addr & 1)
 		{
 			m_program->write_byte(addr, data & 0xff);
@@ -114,6 +118,7 @@ private:
 	}
 	inline void write_32(u32 addr, u32 data)
 	{
+		//printf("write %08x to %08x\n", data, addr);
 		if (addr & 3)
 		{
 			m_program->write_byte(addr, data & 0xff);
@@ -220,6 +225,12 @@ private:
 		}
 	}
 
+	inline void push_16_ssp(u16 val)
+	{
+		m_ssp-=2;
+		write_16((m_ssb << 16) | m_ssp, val);
+	}
+
 	inline void push_32(u32 val)
 	{
 		if (m_ps & F_S)
@@ -268,6 +279,14 @@ private:
 		return rv;
 	}
 
+	inline u16 pull_16_ssp()
+	{
+		u16 rv = read_16((m_ssb << 16) | m_ssp);
+		m_ssp += 2;
+
+		return rv;
+	}
+
 	inline u32 pull_32()
 	{
 		u32 rv = 0;
@@ -309,6 +328,20 @@ private:
 			m_ps |= F_C;
 		}
 		if ((lhs ^ rhs) & (lhs ^ (m_tmp32 & 0xffff)) & 0x8000)
+		{
+			m_ps |= F_V;
+		}
+	}
+	inline void doCMP_32(u32 lhs, u32 rhs)
+	{
+		m_tmp64 = lhs - rhs;
+		setNZ_32(m_tmp64 & 0xffffffff);
+		m_ps &= ~(F_C|F_V);
+		if (m_tmp64 & 0x100000000)
+		{
+			m_ps |= F_C;
+		}
+		if ((lhs ^ rhs) & (lhs ^ (m_tmp64 & 0xffffffff)) & 0x80000000)
 		{
 			m_ps |= F_V;
 		}
@@ -365,7 +398,7 @@ private:
 	inline u16 doADD_16(u16 lhs, u16 rhs)
 	{
 		m_tmp32 = lhs + rhs;
-		m_ps &= ~F_V|F_C;
+		m_ps &= ~(F_C|F_V);
 		if ((m_tmp32 ^ lhs) & (m_tmp32 ^ rhs) & 0x8000)
 		{
 			m_ps |= F_V;
@@ -378,6 +411,22 @@ private:
 
 		return m_tmp32 & 0xffff;
 	}
+	inline u32 doADD_32(u32 lhs, u32 rhs)
+	{
+		m_tmp64 = lhs + rhs;
+		m_ps &= ~(F_C|F_V);
+		if ((m_tmp64 ^ lhs) & (m_tmp64 ^ rhs) & 0x80000000)
+		{
+			m_ps |= F_V;
+		}
+		if (m_tmp64 > 0xffffffff)
+		{
+			m_ps |= F_C;
+		}
+		setNZ_32(m_tmp64 & 0xffffffff);
+
+		return m_tmp64 & 0xffffffff;
+	}
 
 	inline void take_branch()
 	{
@@ -386,6 +435,7 @@ private:
 		m_icount -= 4;
 	}
 
+	void opcodes_bo6c(u8 operand);
 	void opcodes_str6e(u8 operand);
 	void opcodes_2b6f(u8 operand);
 	void opcodes_ea70(u8 operand);
@@ -393,6 +443,17 @@ private:
 	void opcodes_ea72(u8 operand);
 	void opcodes_ea73(u8 operand);
 	void opcodes_ea74(u8 operand);
+	void opcodes_ea75(u8 operand);
+	void opcodes_ea76(u8 operand);
+	void opcodes_ea77(u8 operand);
+	void opcodes_ea78(u8 operand);
+
+	void set_irq(int vector, int level);
+	void clear_irq(int vector);
+	void take_irq(int vector, int level);
+
+	int m_vector_level[256];
+	int m_outstanding_irqs;
 };
 
 DECLARE_DEVICE_TYPE(F2MC16, f2mc16_device)

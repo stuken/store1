@@ -808,6 +808,7 @@ BUSES["NEOGEO_CTRL"] = true
 BUSES["NES"] = true
 BUSES["NES_CTRL"] = true
 BUSES["NEWBRAIN"] = true
+BUSES["NSCSI"] = true
 BUSES["NUBUS"] = true
 BUSES["O2"] = true
 BUSES["ORICEXT"] = true
@@ -843,6 +844,7 @@ BUSES["SUNKBD"] = true
 BUSES["SUNMOUSE"] = true
 BUSES["SVI_EXPANDER"] = true
 BUSES["SVI_SLOT"] = true
+BUSES["TANBUS"] = true
 BUSES["TATUNG_PIPE"] = true
 BUSES["TMC600"] = true
 BUSES["TI8X"] = true
@@ -1177,6 +1179,7 @@ function linkProjects_mame_mess(_target, _subtarget)
 		"olivetti",
 		"olympia",
 		"omnibyte",
+		"openuni",
 		"orion",
 		"osborne",
 		"osi",
@@ -1188,7 +1191,6 @@ function linkProjects_mame_mess(_target, _subtarget)
 		"pitronic",
 		"poly",
 		"poly88",
-		"prodigy",
 		"psion",
 		"qume",
 		"radio",
@@ -1472,6 +1474,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/aci_boris.cpp",
 	MAME_DIR .. "src/mame/drivers/aci_borisdpl.cpp",
 	MAME_DIR .. "src/mame/drivers/aci_ggm.cpp",
+	MAME_DIR .. "src/mame/drivers/aci_prodigy.cpp",
 }
 
 createMESSProjects(_target, _subtarget, "acorn")
@@ -1849,6 +1852,7 @@ createMESSProjects(_target, _subtarget, "cccp")
 files {
 	MAME_DIR .. "src/mame/drivers/argo.cpp",
 	MAME_DIR .. "src/mame/drivers/cm1800.cpp",
+	MAME_DIR .. "src/mame/drivers/debut.cpp",
 	MAME_DIR .. "src/mame/drivers/intellect02.cpp",
 	MAME_DIR .. "src/mame/drivers/lviv.cpp",
 	MAME_DIR .. "src/mame/includes/lviv.h",
@@ -1918,6 +1922,7 @@ files {
 	MAME_DIR .. "src/mame/includes/coleco.h",
 	MAME_DIR .. "src/mame/machine/coleco.cpp",
 	MAME_DIR .. "src/mame/machine/coleco.h",
+	MAME_DIR .. "src/mame/drivers/wrinkles.cpp",
 }
 
 createMESSProjects(_target, _subtarget, "compugraphic")
@@ -2295,12 +2300,12 @@ files {
 
 createMESSProjects(_target, _subtarget, "hegener")
 files {
-	MAME_DIR .. "src/mame/drivers/glasgow.cpp",
-	MAME_DIR .. "src/mame/drivers/mephisto.cpp",
+	MAME_DIR .. "src/mame/drivers/mephisto_glasgow.cpp",
+	MAME_DIR .. "src/mame/drivers/mephisto_mm2.cpp",
+	MAME_DIR .. "src/mame/drivers/mephisto_modena.cpp",
+	MAME_DIR .. "src/mame/drivers/mephisto_modular.cpp",
 	MAME_DIR .. "src/mame/drivers/mephisto_montec.cpp",
-	MAME_DIR .. "src/mame/drivers/mmodular.cpp",
-	MAME_DIR .. "src/mame/drivers/modena.cpp",
-	MAME_DIR .. "src/mame/drivers/polgar.cpp",
+	MAME_DIR .. "src/mame/drivers/mephisto_polgar.cpp",
 	MAME_DIR .. "src/mame/machine/mmboard.cpp",
 	MAME_DIR .. "src/mame/machine/mmboard.h",
 }
@@ -2816,10 +2821,11 @@ files {
 createMESSProjects(_target, _subtarget, "novag")
 files {
 	MAME_DIR .. "src/mame/drivers/novag_cforte.cpp",
+	MAME_DIR .. "src/mame/drivers/novag_const.cpp",
 	MAME_DIR .. "src/mame/drivers/novag_diablo.cpp",
 	MAME_DIR .. "src/mame/drivers/novag_presto.cpp",
 	MAME_DIR .. "src/mame/drivers/novag_savant.cpp",
-	MAME_DIR .. "src/mame/drivers/novag_scon.cpp",
+	MAME_DIR .. "src/mame/drivers/novag_sconst.cpp",
 	MAME_DIR .. "src/mame/drivers/novag_sexpert.cpp",
 }
 
@@ -2850,6 +2856,11 @@ files {
 	MAME_DIR .. "src/mame/includes/msbc1.h",
 	MAME_DIR .. "src/mame/drivers/ob68k1a.cpp",
 	MAME_DIR .. "src/mame/includes/ob68k1a.h",
+}
+
+createMESSProjects(_target, _subtarget, "openuni")
+files {
+	MAME_DIR .. "src/mame/drivers/hektor.cpp",
 }
 
 createMESSProjects(_target, _subtarget, "orion")
@@ -2948,17 +2959,6 @@ files {
 	MAME_DIR .. "src/mame/drivers/poly88.cpp",
 	MAME_DIR .. "src/mame/includes/poly88.h",
 	MAME_DIR .. "src/mame/machine/poly88.cpp",
-	MAME_DIR .. "src/mame/video/poly88.cpp",
-}
-
-createMESSProjects(_target, _subtarget, "prodigy")
-files {
-	MAME_DIR .. "src/mame/drivers/prodigy.cpp",
-	MAME_DIR .. "src/mame/machine/nl_prodigy.cpp",
-	MAME_DIR .. "src/mame/machine/nl_prodigy.h",
-}
-includedirs {
-	ext_includedir("rapidjson"),
 }
 
 createMESSProjects(_target, _subtarget, "psion")
@@ -3069,7 +3069,9 @@ files {
 	MAME_DIR .. "src/mame/drivers/saitek_cp2000.cpp",
 	MAME_DIR .. "src/mame/drivers/saitek_delta1.cpp",
 	MAME_DIR .. "src/mame/drivers/saitek_risc2500.cpp",
+	MAME_DIR .. "src/mame/includes/saitek_stratos.h",
 	MAME_DIR .. "src/mame/drivers/saitek_stratos.cpp",
+	MAME_DIR .. "src/mame/drivers/saitek_corona.cpp", -- subdriver of saitek_stratos
 }
 
 createMESSProjects(_target, _subtarget, "samcoupe")
@@ -3365,6 +3367,7 @@ files {
 	MAME_DIR .. "src/mame/includes/microtan.h",
 	MAME_DIR .. "src/mame/machine/microtan.cpp",
 	MAME_DIR .. "src/mame/video/microtan.cpp",
+	MAME_DIR .. "src/mame/drivers/hhtiger.cpp",
 	MAME_DIR .. "src/mame/drivers/oric.cpp",
 }
 
@@ -3737,7 +3740,6 @@ files {
 	MAME_DIR .. "src/mame/includes/pc4.h",
 	MAME_DIR .. "src/mame/video/pc4.cpp",
 	MAME_DIR .. "src/mame/drivers/pc2000.cpp",
-	MAME_DIR .. "src/mame/drivers/pitagjr.cpp",
 	MAME_DIR .. "src/mame/drivers/prestige.cpp",
 	MAME_DIR .. "src/mame/drivers/vtech1.cpp",
 	MAME_DIR .. "src/mame/drivers/vtech2.cpp",
@@ -3900,6 +3902,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/d6800.cpp",
 	MAME_DIR .. "src/mame/drivers/d6809.cpp",
 	MAME_DIR .. "src/mame/drivers/daruma.cpp",
+	MAME_DIR .. "src/mame/drivers/dg680.cpp",
 	MAME_DIR .. "src/mame/drivers/diablo1300.cpp",
 	MAME_DIR .. "src/mame/drivers/didact.cpp",
 	MAME_DIR .. "src/mame/drivers/digel804.cpp",
@@ -4044,6 +4047,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/rvoice.cpp",
 	MAME_DIR .. "src/mame/drivers/sacstate.cpp",
 	MAME_DIR .. "src/mame/drivers/sartorius.cpp",
+	MAME_DIR .. "src/mame/drivers/sb8085.cpp",
 	MAME_DIR .. "src/mame/drivers/sbrain.cpp",
 	MAME_DIR .. "src/mame/drivers/seattlecmp.cpp",
 	MAME_DIR .. "src/mame/drivers/sh4robot.cpp",

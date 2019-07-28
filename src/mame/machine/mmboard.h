@@ -13,8 +13,8 @@
 
 
 #include "machine/sensorboard.h"
-#include "sound/beep.h"
 #include "video/hd44780.h"
+#include "sound/dac.h"
 #include "emupal.h"
 #include "screen.h"
 #include "speaker.h"
@@ -67,7 +67,7 @@ class mephisto_sensors_board_device : public mephisto_board_device
 {
 public:
 	// construction/destruction
-	mephisto_sensors_board_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock);
+	mephisto_sensors_board_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock = 0);
 
 protected:
 
@@ -82,7 +82,7 @@ class mephisto_buttons_board_device : public mephisto_board_device
 {
 public:
 	// construction/destruction
-	mephisto_buttons_board_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock);
+	mephisto_buttons_board_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock = 0);
 
 protected:
 
@@ -97,7 +97,7 @@ class mephisto_display_modul_device : public device_t
 {
 public:
 	// construction/destruction
-	mephisto_display_modul_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock);
+	mephisto_display_modul_device(const machine_config &mconfig, const char *tag, device_t *owner, uint32_t clock = 0);
 
 	DECLARE_WRITE8_MEMBER(latch_w);
 	DECLARE_WRITE8_MEMBER(io_w);
@@ -112,7 +112,7 @@ protected:
 
 private:
 	optional_device<hd44780_device> m_lcdc;
-	required_device<beep_device> m_beeper;
+	required_device<dac_byte_interface> m_dac;
 	uint8_t m_latch;
 	uint8_t m_ctrl;
 };
