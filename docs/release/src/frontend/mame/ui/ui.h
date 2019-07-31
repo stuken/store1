@@ -33,39 +33,15 @@ class machine_info;
     CONSTANTS
 ***************************************************************************/
 
-/* preferred font height; use ui_get_line_height() to get actual height */
-#define UI_TARGET_FONT_ROWS     get_font_rows()
-
-#define UI_TARGET_FONT_HEIGHT   (1.0f / (float)UI_TARGET_FONT_ROWS)
 #define UI_MAX_FONT_HEIGHT      (1.0f / 15.0f)
 
 /* width of lines drawn in the UI */
 #define UI_LINE_WIDTH           (1.0f / 500.0f)
 
-/* border between outlines and inner text on left/right and top/bottom sides */
-#define UI_BOX_LR_BORDER        (UI_TARGET_FONT_HEIGHT * 0.25f)
-#define UI_BOX_TB_BORDER        (UI_TARGET_FONT_HEIGHT * 0.25f)
-
 /* handy colors */
 #define UI_GREEN_COLOR          rgb_t(239,34,177,76)
 #define UI_YELLOW_COLOR         rgb_t(239,198,188,0)
 #define UI_RED_COLOR            rgb_t(239,237,28,36)
-#define UI_BORDER_COLOR         rgb_t(255,0,0,0)
-#define UI_BACKGROUND_COLOR     rgb_t(239,239,239,239)
-#define UI_GFXVIEWER_BG_COLOR   rgb_t(255,0,0,0)
-#define UI_UNAVAILABLE_COLOR    rgb_t(255,127,127,127)
-#define UI_TEXT_COLOR           rgb_t(255,0,0,0)
-#define UI_TEXT_BG_COLOR        rgb_t(239,239,239,239)
-#define UI_SUBITEM_COLOR        rgb_t(255,63,72,204)
-#define UI_CLONE_COLOR          rgb_t(255,127,127,127)
-#define UI_SELECTED_COLOR       rgb_t(255,255,242,0)
-#define UI_SELECTED_BG_COLOR    rgb_t(239,63,72,204)
-#define UI_MOUSEOVER_COLOR      rgb_t(255,255,242,0)
-#define UI_MOUSEOVER_BG_COLOR   rgb_t(239,0,162,232)
-#define UI_MOUSEDOWN_COLOR      rgb_t(255,255,242,0)
-#define UI_MOUSEDOWN_BG_COLOR   rgb_t(239,0,162,232)
-#define UI_DIPSW_COLOR          rgb_t(255,127,127,127)
-#define UI_SLIDER_COLOR         rgb_t(239,34,177,76)
 
 /* cancel return value for a UI handler */
 #define UI_HANDLER_CANCEL       ((uint32_t)~0)
@@ -139,6 +115,49 @@ enum class ui_callback_type
 	VIEWER
 };
 
+// ======================> ui_colors
+
+class ui_colors
+{
+public:
+	rgb_t border_color() const { return m_border_color; }
+	rgb_t background_color() const { return m_background_color; }
+	rgb_t gfxviewer_bg_color() const { return m_gfxviewer_bg_color; }
+	rgb_t unavailable_color() const { return m_unavailable_color; }
+	rgb_t text_color() const { return m_text_color; }
+	rgb_t text_bg_color() const { return m_text_bg_color; }
+	rgb_t subitem_color() const { return m_subitem_color; }
+	rgb_t clone_color() const { return m_clone_color; }
+	rgb_t selected_color() const { return m_selected_color; }
+	rgb_t selected_bg_color() const { return m_selected_bg_color; }
+	rgb_t mouseover_color() const { return m_mouseover_color; }
+	rgb_t mouseover_bg_color() const { return m_mouseover_bg_color; }
+	rgb_t mousedown_color() const { return m_mousedown_color; }
+	rgb_t mousedown_bg_color() const { return m_mousedown_bg_color; }
+	rgb_t dipsw_color() const { return m_dipsw_color; }
+	rgb_t slider_color() const { return m_slider_color; }
+
+	void refresh(const ui_options &options);
+
+private:
+	rgb_t m_border_color;
+	rgb_t m_background_color;
+	rgb_t m_gfxviewer_bg_color;
+	rgb_t m_unavailable_color;
+	rgb_t m_text_color;
+	rgb_t m_text_bg_color;
+	rgb_t m_subitem_color;
+	rgb_t m_clone_color;
+	rgb_t m_selected_color;
+	rgb_t m_selected_bg_color;
+	rgb_t m_mouseover_color;
+	rgb_t m_mouseover_bg_color;
+	rgb_t m_mousedown_color;
+	rgb_t m_mousedown_bg_color;
+	rgb_t m_dipsw_color;
+	rgb_t m_slider_color;
+};
+
 // ======================> mame_ui_manager
 
 class mame_ui_manager : public ui_manager, public slider_changed_notifier
@@ -161,6 +180,7 @@ public:
 	running_machine &machine() const { return m_machine; }
 	bool single_step() const { return m_single_step; }
 	ui_options &options() { return m_ui_options; }
+	ui_colors &colors() { return m_ui_colors; }
 	ui::machine_info &machine_info() const { assert(m_machine_info); return *m_machine_info; }
 
 	// setters
@@ -205,7 +225,6 @@ public:
 	void show_mouse(bool status);
 	virtual bool is_menu_active() override;
 	bool can_paste();
-	void paste();
 	void image_handler_ingame();
 	void increase_frameskip();
 	void decrease_frameskip();
@@ -217,13 +236,14 @@ public:
 	void start_save_state();
 	void start_load_state();
 
-	// config callbacks
-	void config_load(config_type cfg_type, util::xml::data_node const *parentnode);
-	void config_save(config_type cfg_type, util::xml::data_node *parentnode);
-	void config_apply(void);
-
 	// slider controls
 	std::vector<ui::menu_item>&  get_slider_list(void);
+
+	// metrics
+	float target_font_height() const { return m_target_font_height; }
+	float box_lr_border() const { return target_font_height() * 0.25f; }
+	float box_tb_border() const { return target_font_height() * 0.25f; }
+	void update_target_font_height();
 
 	// other
 	void process_natural_keyboard();
@@ -255,6 +275,8 @@ private:
 	bool                    m_mouse_show;
 	bool                    m_show_time; // MAMEFX
 	ui_options              m_ui_options;
+	ui_colors               m_ui_colors;
+	float                   m_target_font_height;
 
 	std::unique_ptr<ui::machine_info> m_machine_info;
 
@@ -307,15 +329,12 @@ private:
 	#endif
 
 	std::vector<std::unique_ptr<slider_state>> m_sliders;
-	std::vector<std::unique_ptr<slider_state>> m_sliders_saved;
 };
 
 
 /***************************************************************************
     FUNCTION PROTOTYPES
 ***************************************************************************/
-rgb_t decode_ui_color(int id, running_machine *machine = nullptr);
-int get_font_rows(running_machine *machine = nullptr);
 
 template <typename Format, typename... Params>
 inline void mame_ui_manager::popup_time(int seconds, Format &&fmt, Params &&... args)

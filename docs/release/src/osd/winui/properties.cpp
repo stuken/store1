@@ -2142,7 +2142,6 @@ static bool ViewPopulateControl(datamap *map, HWND dialog, HWND control, windows
 
 static bool DefaultInputReadControl(datamap *map, HWND dialog, HWND control, windows_options &opts, const char *option_name)
 {
-
 	int input_option_index = ComboBox_GetCurSel(control);
 	const char *input_option_value = (const char*)ComboBox_GetItemData(control, input_option_index);
 	opts.set_value(OPTION_CTRLR, input_option_index ? input_option_value : "", OPTION_PRIORITY_CMDLINE);
@@ -2379,11 +2378,6 @@ static void BuildDataMap(void)
 	datamap_add(properties_datamap, IDC_FLIPY,					DM_BOOL,	OPTION_FLIPY);
 	// core artwork options
 	datamap_add(properties_datamap, IDC_ARTWORK_CROP,			DM_BOOL,	OPTION_ARTWORK_CROP);
-	datamap_add(properties_datamap, IDC_BACKDROPS,				DM_BOOL,	OPTION_USE_BACKDROPS);
-	datamap_add(properties_datamap, IDC_OVERLAYS,				DM_BOOL,	OPTION_USE_OVERLAYS);
-	datamap_add(properties_datamap, IDC_BEZELS,					DM_BOOL,	OPTION_USE_BEZELS);
-	datamap_add(properties_datamap, IDC_CPANELS,				DM_BOOL,	OPTION_USE_CPANELS);
-	datamap_add(properties_datamap, IDC_MARQUEES,				DM_BOOL,	OPTION_USE_MARQUEES);
 	// core screen options
 	datamap_add(properties_datamap, IDC_BRIGHTCORRECT,			DM_FLOAT,	OPTION_BRIGHTNESS);
 	datamap_add(properties_datamap, IDC_BRIGHTCORRECTDISP,		DM_FLOAT,	OPTION_BRIGHTNESS);
@@ -3560,11 +3554,6 @@ static void DisableVisualStyles(HWND hDlg)
 	SetWindowTheme(GetDlgItem(hDlg, IDC_CONFIRM_QUIT), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_ENABLE_MOUSE_UI), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_BIOS), L" ", L" ");
-	SetWindowTheme(GetDlgItem(hDlg, IDC_BACKDROPS), L" ", L" ");
-	SetWindowTheme(GetDlgItem(hDlg, IDC_BEZELS), L" ", L" ");
-	SetWindowTheme(GetDlgItem(hDlg, IDC_OVERLAYS), L" ", L" ");
-	SetWindowTheme(GetDlgItem(hDlg, IDC_CPANELS), L" ", L" ");
-	SetWindowTheme(GetDlgItem(hDlg, IDC_MARQUEES), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_ARTWORK_CROP), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_CHEATFILE), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_LANGUAGE), L" ", L" ");

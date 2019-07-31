@@ -140,6 +140,7 @@ blackt96.cpp
 bladestl.cpp
 //blitz68k.cpp     // fruit&poker
 blktiger.cpp
+blktiger_ms.cpp
 blmbycar.cpp
 blockade.cpp
 blockhl.cpp
@@ -211,6 +212,7 @@ champbwl.cpp
 chanbara.cpp
 chance32.cpp
 changela.cpp
+//changyu.cpp      // skeleton gambling
 cheekyms.cpp
 //chexx.cpp        // mechanical
 //chicago.cpp      // ttl
@@ -659,6 +661,7 @@ lsasquad.cpp
 //ltcasino.cpp     // gambling
 //ltd.cpp          // pinball
 //luckgrln.cpp     // gambling
+//lucky37.cpp      // poker
 //lucky74.cpp      // poker
 //luckybal.cpp     // gambling
 //lvcards.cpp      // poker
@@ -1300,7 +1303,8 @@ tunhunt.cpp
 turbo.cpp
 turrett.cpp
 tutankhm.cpp
-//tvcapcom.cpp
+//tvcapcom.cpp     // skeleton
+tvg01.cpp
 twin16.cpp
 twincobr.cpp
 twinkle.cpp
