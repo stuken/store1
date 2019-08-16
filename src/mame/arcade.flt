@@ -741,6 +741,7 @@ mexico86.cpp
 mgolf.cpp
 mhavoc.cpp
 micro3d.cpp
+//microdar.cpp     // mechanical
 //micropin.cpp     // pinball
 midas.cpp
 midqslvr.cpp
@@ -936,6 +937,7 @@ playmark.cpp
 pntnpuzl.cpp
 pokechmp.cpp
 //poker72.cpp      // poker
+pokerout.cpp
 polepos.cpp
 policetr.cpp
 polyplay.cpp

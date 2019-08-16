@@ -4,7 +4,7 @@
  Mephisto 4 + 5 Chess Computer
  2007 Dirk V.
 
-CPU 65C02 P4
+CPU 65C02 P4 (also seen: R65C02P3, G65SC02P-4)
 Clock 4.9152 MHz
 NMI CLK 600 Hz
 IRQ Line is set to VSS
@@ -91,6 +91,8 @@ public:
 		, m_digits(*this, "digit%u", 0U)
 	{ }
 
+	DECLARE_INPUT_CHANGED_MEMBER(reset_button);
+
 	void rebel5(machine_config &config);
 	void mm4tk(machine_config &config);
 	void mm2(machine_config &config);
@@ -116,7 +118,6 @@ private:
 	virtual void machine_reset() override;
 	TIMER_DEVICE_CALLBACK_MEMBER(update_nmi);
 	TIMER_DEVICE_CALLBACK_MEMBER(update_nmi_r5);
-	TIMER_DEVICE_CALLBACK_MEMBER(update_irq);
 
 	void mephisto_mem(address_map &map);
 	void mm2_mem(address_map &map);
@@ -126,11 +127,13 @@ private:
 
 WRITE8_MEMBER(mephisto_state::write_lcd)
 {
-	if (m_led7 == 0) m_digits[m_lcd_shift_counter] = data;  // 0x109 MM IV // 0x040 MM V
+	if (m_led7 == 0)
+		m_digits[m_lcd_shift_counter] = data; // 0x109 MM IV // 0x040 MM V
 
-	//m_digits[m_lcd_shift_counter] = data ^ m_p_ram[0x165];    // 0x109 MM IV // 0x040 MM V
 	m_lcd_shift_counter--;
 	m_lcd_shift_counter &= 3;
+
+	m_maincpu->set_input_line(0, CLEAR_LINE);
 }
 
 WRITE8_MEMBER(mephisto_state::mephisto_NMI)
@@ -151,7 +154,6 @@ READ8_MEMBER(mephisto_state::read_keys)
 		data = m_key2[offset]->read();
 	}
 
-	//logerror("Keyboard Port = %d-%d Data = %d\n  ", !m_outlatch->q7_r() ? 0 : 1, offset, data);
 	return data | 0x7f;
 }
 
@@ -162,7 +164,7 @@ WRITE_LINE_MEMBER(mephisto_state::write_led7)
 
 void mephisto_state::rebel5_mem(address_map &map)
 {
-	map(0x0000, 0x1fff).ram();                        // AM_BASE(m_p_ram)
+	map(0x0000, 0x1fff).ram();
 	map(0x2000, 0x2007).w("outlatch", FUNC(hc259_device::write_d7));           // Status LEDs+ buzzer
 	map(0x3000, 0x4000).r("board", FUNC(mephisto_board_device::input_r));
 	map(0x3000, 0x3007).r(FUNC(mephisto_state::read_keys));            // Rebel 5.0
@@ -175,7 +177,7 @@ void mephisto_state::rebel5_mem(address_map &map)
 
 void mephisto_state::mephisto_mem(address_map &map)
 {
-	map(0x0000, 0x1fff).ram(); //AM_BASE(m_p_ram)
+	map(0x0000, 0x1fff).ram();
 	map(0x2000, 0x2000).w(FUNC(mephisto_state::write_lcd));
 	map(0x2400, 0x2407).w("board", FUNC(mephisto_board_device::led_w));
 	map(0x2800, 0x2800).w("board", FUNC(mephisto_board_device::mux_w));
@@ -189,7 +191,7 @@ void mephisto_state::mephisto_mem(address_map &map)
 
 void mephisto_state::mm2_mem(address_map &map)
 {
-	map(0x0000, 0x0fff).ram(); //AM_BASE(m_p_ram)
+	map(0x0000, 0x0fff).ram();
 	map(0x1000, 0x1007).w("outlatch", FUNC(hc259_device::write_d7));       //Status LEDs
 	map(0x1800, 0x1807).r(FUNC(mephisto_state::read_keys));
 	map(0x2000, 0x2000).r("board", FUNC(mephisto_board_device::input_r));
@@ -203,7 +205,7 @@ void mephisto_state::mm2_mem(address_map &map)
 
 static INPUT_PORTS_START( mephisto )
 	PORT_START("KEY1_0") //Port $2c00
-	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("CLEAR") PORT_CODE(KEYCODE_DEL) PORT_CODE(KEYCODE_BACKSPACE)
+	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("CL") PORT_CODE(KEYCODE_DEL) PORT_CODE(KEYCODE_BACKSPACE)
 	PORT_START("KEY1_1") //Port $2c01
 	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("POS") PORT_CODE(KEYCODE_O)
 	PORT_START("KEY1_2") //Port $2c02
@@ -215,45 +217,49 @@ static INPUT_PORTS_START( mephisto )
 	PORT_START("KEY1_5") //Port $2c05
 	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("ENT") PORT_CODE(KEYCODE_ENTER) PORT_CODE(KEYCODE_ENTER_PAD)
 	PORT_START("KEY1_6") //Port $2c06
-	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("0") PORT_CODE(KEYCODE_0) PORT_CODE(KEYCODE_0_PAD)
+	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("Right / White / 0") PORT_CODE(KEYCODE_0) PORT_CODE(KEYCODE_0_PAD) PORT_CODE(KEYCODE_RIGHT)
 	PORT_START("KEY1_7") //Port $2c07
-	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("9") PORT_CODE(KEYCODE_9) PORT_CODE(KEYCODE_9_PAD)
+	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("Left / Black / 9") PORT_CODE(KEYCODE_9) PORT_CODE(KEYCODE_9_PAD) PORT_CODE(KEYCODE_LEFT)
 
 	PORT_START("KEY2_0") //Port $2c08
-	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("E 5") PORT_CODE(KEYCODE_E) PORT_CODE(KEYCODE_5) PORT_CODE(KEYCODE_5_PAD)
+	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("E / 5 / Queen") PORT_CODE(KEYCODE_E) PORT_CODE(KEYCODE_5) PORT_CODE(KEYCODE_5_PAD)
 	PORT_START("KEY2_1") //Port $2c09
-	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("F 6") PORT_CODE(KEYCODE_F) PORT_CODE(KEYCODE_6) PORT_CODE(KEYCODE_6_PAD)
+	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("F / 6 / King") PORT_CODE(KEYCODE_F) PORT_CODE(KEYCODE_6) PORT_CODE(KEYCODE_6_PAD)
 	PORT_START("KEY2_2") //Port $2c0a
-	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("G 7") PORT_CODE(KEYCODE_G) PORT_CODE(KEYCODE_7) PORT_CODE(KEYCODE_7_PAD)
+	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("G / 7") PORT_CODE(KEYCODE_G) PORT_CODE(KEYCODE_7) PORT_CODE(KEYCODE_7_PAD)
 	PORT_START("KEY2_3") //Port $2c0b
-	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("A 1") PORT_CODE(KEYCODE_A) PORT_CODE(KEYCODE_1) PORT_CODE(KEYCODE_1_PAD)
+	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("A / 1 / Pawn") PORT_CODE(KEYCODE_A) PORT_CODE(KEYCODE_1) PORT_CODE(KEYCODE_1_PAD)
 	PORT_START("KEY2_4") //Port $2c0c
-	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("H 8") PORT_CODE(KEYCODE_H) PORT_CODE(KEYCODE_8) PORT_CODE(KEYCODE_8_PAD)
+	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("H / 8") PORT_CODE(KEYCODE_H) PORT_CODE(KEYCODE_8) PORT_CODE(KEYCODE_8_PAD)
 	PORT_START("KEY2_5") //Port $2c0d
-	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("B 2") PORT_CODE(KEYCODE_B) PORT_CODE(KEYCODE_2) PORT_CODE(KEYCODE_2_PAD)
+	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("B / 2 / Knight") PORT_CODE(KEYCODE_B) PORT_CODE(KEYCODE_2) PORT_CODE(KEYCODE_2_PAD)
 	PORT_START("KEY2_6") //Port $2c0e
-	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("C 3") PORT_CODE(KEYCODE_C) PORT_CODE(KEYCODE_3) PORT_CODE(KEYCODE_3_PAD)
+	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("C / 3 / Bishop") PORT_CODE(KEYCODE_C) PORT_CODE(KEYCODE_3) PORT_CODE(KEYCODE_3_PAD)
 	PORT_START("KEY2_7") //Port $2c0f
-	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("D 4") PORT_CODE(KEYCODE_D) PORT_CODE(KEYCODE_4) PORT_CODE(KEYCODE_4_PAD)
+	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("D / 4 / Rook") PORT_CODE(KEYCODE_D) PORT_CODE(KEYCODE_4) PORT_CODE(KEYCODE_4_PAD)
+
+	PORT_START("RESET")
+	PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_KEYPAD) PORT_NAME("RES 1") PORT_CODE(KEYCODE_Z) PORT_CODE(KEYCODE_F1) PORT_CHANGED_MEMBER(DEVICE_SELF, mephisto_state, reset_button, 0)
+	PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_KEYPAD) PORT_NAME("RES 2") PORT_CODE(KEYCODE_X) PORT_CODE(KEYCODE_F1) PORT_CHANGED_MEMBER(DEVICE_SELF, mephisto_state, reset_button, 0)
 INPUT_PORTS_END
 
 static INPUT_PORTS_START( bup )
 	PORT_START("KEY1_0")
-	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("1") PORT_CODE(KEYCODE_1) PORT_CODE(KEYCODE_1_PAD)
+	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("1 / Pawn") PORT_CODE(KEYCODE_1) PORT_CODE(KEYCODE_1_PAD)
 	PORT_START("KEY1_1")
-	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("2") PORT_CODE(KEYCODE_2) PORT_CODE(KEYCODE_2_PAD)
+	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("2 / Knight") PORT_CODE(KEYCODE_2) PORT_CODE(KEYCODE_2_PAD)
 	PORT_START("KEY1_2")
-	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("3") PORT_CODE(KEYCODE_3) PORT_CODE(KEYCODE_3_PAD)
+	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("3 / Bishop") PORT_CODE(KEYCODE_3) PORT_CODE(KEYCODE_3_PAD)
 	PORT_START("KEY1_3")
-	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("4") PORT_CODE(KEYCODE_4) PORT_CODE(KEYCODE_4_PAD)
+	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("4 / Rook") PORT_CODE(KEYCODE_4) PORT_CODE(KEYCODE_4_PAD)
 	PORT_START("KEY1_4")
-	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("5") PORT_CODE(KEYCODE_5) PORT_CODE(KEYCODE_5_PAD)
+	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("5 / Queen") PORT_CODE(KEYCODE_5) PORT_CODE(KEYCODE_5_PAD)
 	PORT_START("KEY1_5")
-	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("6") PORT_CODE(KEYCODE_6) PORT_CODE(KEYCODE_6_PAD)
+	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("6 / King") PORT_CODE(KEYCODE_6) PORT_CODE(KEYCODE_6_PAD)
 	PORT_START("KEY1_6")
-	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("WHITE") PORT_CODE(KEYCODE_W)
+	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("White") PORT_CODE(KEYCODE_W)
 	PORT_START("KEY1_7")
-	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("BLACK") PORT_CODE(KEYCODE_B)
+	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("Black") PORT_CODE(KEYCODE_B)
 
 	PORT_START("KEY2_0")
 	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("CL") PORT_CODE(KEYCODE_DEL) PORT_CODE(KEYCODE_BACKSPACE)
@@ -271,6 +277,10 @@ static INPUT_PORTS_START( bup )
 	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("LEV") PORT_CODE(KEYCODE_L)
 	PORT_START("KEY2_7")
 	PORT_BIT(0x080, IP_ACTIVE_LOW, IPT_KEYPAD) PORT_NAME("MEM") PORT_CODE(KEYCODE_M)
+
+	PORT_START("RESET")
+	PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_KEYPAD) PORT_NAME("RES 1") PORT_CODE(KEYCODE_Z) PORT_CODE(KEYCODE_F1) PORT_CHANGED_MEMBER(DEVICE_SELF, mephisto_state, reset_button, 0)
+	PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_KEYPAD) PORT_NAME("RES 2") PORT_CODE(KEYCODE_X) PORT_CODE(KEYCODE_F1) PORT_CHANGED_MEMBER(DEVICE_SELF, mephisto_state, reset_button, 0)
 INPUT_PORTS_END
 
 
@@ -288,11 +298,6 @@ TIMER_DEVICE_CALLBACK_MEMBER(mephisto_state::update_nmi_r5)
 	m_maincpu->pulse_input_line(INPUT_LINE_NMI, attotime::zero);
 }
 
-TIMER_DEVICE_CALLBACK_MEMBER(mephisto_state::update_irq)//only mm2
-{
-	m_maincpu->set_input_line(M65C02_IRQ_LINE, HOLD_LINE);
-}
-
 void mephisto_state::machine_start()
 {
 	m_digits.resolve();
@@ -300,16 +305,23 @@ void mephisto_state::machine_start()
 	save_item(NAME(m_lcd_shift_counter));
 	save_item(NAME(m_led7));
 	save_item(NAME(m_allowNMI));
-
-	m_lcd_shift_counter = 3;
-	m_allowNMI = 1;
-	m_led7 = 0xff;
 }
 
 void mephisto_state::machine_reset()
 {
 	m_lcd_shift_counter = 3;
 	m_allowNMI = 1;
+	m_led7 = 0xff;
+}
+
+INPUT_CHANGED_MEMBER(mephisto_state::reset_button)
+{
+	// RES buttons in serial tied to CPU RESET
+	if (ioport("RESET")->read() == 3)
+	{
+		m_maincpu->pulse_input_line(INPUT_LINE_RESET, attotime::zero);
+		machine_reset();
+	}
 }
 
 
@@ -365,7 +377,8 @@ void mephisto_state::mm2(machine_config &config)
 	m_maincpu->set_addrmap(AS_PROGRAM, &mephisto_state::mm2_mem);
 
 	config.device_remove("nmi_timer");
-	TIMER(config, "irq_timer").configure_periodic(FUNC(mephisto_state::update_irq), attotime::from_hz(450));
+	const attotime irq_period = attotime::from_hz(7.3728_MHz_XTAL / 2 / 0x2000); // 450Hz from 4020 Q13
+	m_maincpu->set_periodic_int(FUNC(mephisto_state::irq0_line_assert), irq_period);
 
 	m_outlatch->q_out_cb<7>().set(FUNC(mephisto_state::write_led7)).invert();
 }
@@ -395,16 +408,20 @@ ROM_END
 
 ROM_START(mm2)
 	ROM_REGION(0x10000,"maincpu",0)
-	ROM_DEFAULT_BIOS("v2a")
-	ROM_SYSTEM_BIOS( 0, "v1", "V1" )
+	ROM_DEFAULT_BIOS("v42") // no official versioning, chronological order is assumed here from hex compare
+	ROM_SYSTEM_BIOS( 0, "v1", "V1 (2 EPROMs)" )
 	ROMX_LOAD("mm2_v1_1.bin", 0x8000, 0x4000, CRC(b91dab77) SHA1(67762304afe51fb8f1eb91259567b2451bf9bbfd), ROM_BIOS(0))
 	ROMX_LOAD("mm2_v1_2.bin", 0xc000, 0x4000, CRC(01143cc1) SHA1(f78474b410dbecb209aa23ef81e9f894e8b54942), ROM_BIOS(0))
-	ROM_SYSTEM_BIOS( 1, "v2", "V2" )
+	ROM_SYSTEM_BIOS( 1, "v2", "V2 (2 EPROMs)" )
 	ROMX_LOAD("mm2_v2_1.bin", 0x8000, 0x4000, CRC(e2daac82) SHA1(c9fa59ca92362f8ee770733073bfa2ab8c7904ad), ROM_BIOS(1))
 	ROMX_LOAD("mm2_v2_2.bin", 0xc000, 0x4000, CRC(5e296939) SHA1(badd2a377259cf738cd076d8fb245c3dc284c24d), ROM_BIOS(1))
-	ROM_SYSTEM_BIOS( 2, "v2a", "V2a" )
-	ROMX_LOAD("mm2_1_v2a.bin", 0x8000, 0x4000, CRC(e9adcb8f) SHA1(498f48f96678f7bf429fd43e4f392ec6dd649fc6), ROM_BIOS(2))
-	ROMX_LOAD("mm2_2_v2a.bin", 0xc000, 0x4000, CRC(d40cbfc2) SHA1(4e9b19b1a0ad97868b31d7a55143a1778110cc96), ROM_BIOS(2))
+	ROM_SYSTEM_BIOS( 2, "v3", "V3 (1 EPROM)" )
+	ROMX_LOAD("300",          0x8000, 0x8000, CRC(60c777d4) SHA1(a77d678be60094073275558b4e8f0d34b43dd9ae), ROM_BIOS(2)) // D27C256D-20
+	ROM_SYSTEM_BIOS( 3, "v41", "V4 (1 EPROM)" ) // v41 and v42 are binary identical
+	ROMX_LOAD("400",          0x8000, 0x8000, CRC(e8c1f431) SHA1(c32dfa66eefbf3e539438d2fe6e6916f78a128be), ROM_BIOS(3)) // HN27C256G-20
+	ROM_SYSTEM_BIOS( 4, "v42", "V4 (2 EPROMs)" )
+	ROMX_LOAD("mm2_v4_1.bin", 0x8000, 0x4000, CRC(e9adcb8f) SHA1(498f48f96678f7bf429fd43e4f392ec6dd649fc6), ROM_BIOS(4))
+	ROMX_LOAD("mm2_v4_2.bin", 0xc000, 0x4000, CRC(d40cbfc2) SHA1(4e9b19b1a0ad97868b31d7a55143a1778110cc96), ROM_BIOS(4))
 ROM_END
 
 ROM_START(bup)
@@ -445,9 +462,9 @@ ROM_END
 ***************************************************************************/
 
 /*    YEAR  NAME    PARENT  COMPAT  MACHINE   INPUT     CLASS           INIT        COMPANY, FULLNAME, FLAGS */
-CONS( 1984, mm2,    mm4,    0,      mm2,      mephisto, mephisto_state, empty_init, "Hegener & Glaser", "Mephisto MM II", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )
-CONS( 1985, bup,    mm4,    0,      bup,      bup,      mephisto_state, empty_init, "Hegener & Glaser", "Mephisto B&P",  MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )
-CONS( 1986, rebel5, mm4,    0,      rebel5,   mephisto, mephisto_state, empty_init, "Hegener & Glaser", "Mephisto Rebell 5.0", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )
-CONS( 1987, mm4,    0,      0,      mephisto, mephisto, mephisto_state, empty_init, "Hegener & Glaser", "Mephisto MM IV", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )
+CONS( 1984, mm2,    0,      0,      mm2,      mephisto, mephisto_state, empty_init, "Hegener + Glaser", "Mephisto MM II", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )
+CONS( 1985, bup,    0,      0,      bup,      bup,      mephisto_state, empty_init, "Hegener + Glaser", "Mephisto Blitz- und Problemloesungs-Modul", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )
+CONS( 1986, rebel5, 0,      0,      rebel5,   mephisto, mephisto_state, empty_init, "Hegener + Glaser", "Mephisto Rebell 5,0", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )
+CONS( 1987, mm4,    0,      0,      mephisto, mephisto, mephisto_state, empty_init, "Hegener + Glaser", "Mephisto MM IV", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )
 CONS( 1987, mm4tk,  mm4,    0,      mm4tk,    mephisto, mephisto_state, empty_init, "hack",             "Mephisto MM IV (TurboKit)", MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )
-CONS( 1990, mm5,    mm4,    0,      mephisto, mephisto, mephisto_state, empty_init, "Hegener & Glaser", "Mephisto MM V",  MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )
+CONS( 1990, mm5,    0,      0,      mephisto, mephisto, mephisto_state, empty_init, "Hegener + Glaser", "Mephisto MM V",  MACHINE_SUPPORTS_SAVE | MACHINE_CLICKABLE_ARTWORK )

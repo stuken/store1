@@ -16,7 +16,6 @@ one jukebox shape, and one brick shape. The one in MAME came from the jukebox, b
 models have the same ROMs.
 
 TODO:
-- XTAL is unknown, result frequency of 1MHz is correct
 - is there an older version of chmate? chips on pcb photos are dated 1979, but
   the game is known to be released in 1978
 
@@ -222,7 +221,7 @@ static INPUT_PORTS_START( chmate )
 	PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_KEYPAD) PORT_CODE(KEYCODE_7) PORT_CODE(KEYCODE_7_PAD) PORT_NAME("7")
 
 	PORT_START("RESET")
-	PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_KEYPAD) PORT_CODE(KEYCODE_N) PORT_CHANGED_MEMBER(DEVICE_SELF, chmate_state, reset_button, nullptr) PORT_NAME("New Game")
+	PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_KEYPAD) PORT_CODE(KEYCODE_N) PORT_CHANGED_MEMBER(DEVICE_SELF, chmate_state, reset_button, 0) PORT_NAME("New Game")
 INPUT_PORTS_END
 
 static INPUT_PORTS_START( mk2 ) // meaning of black/white reversed
@@ -255,7 +254,7 @@ static INPUT_PORTS_START( mk2a )
 	PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_OTHER) PORT_CODE(KEYCODE_S) PORT_TOGGLE PORT_NAME("Sound Switch")
 
 	PORT_START("RESET")
-	PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_KEYPAD) PORT_CODE(KEYCODE_N) PORT_CHANGED_MEMBER(DEVICE_SELF, chmate_state, reset_button, nullptr) PORT_NAME("New Game")
+	PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_KEYPAD) PORT_CODE(KEYCODE_N) PORT_CHANGED_MEMBER(DEVICE_SELF, chmate_state, reset_button, 0) PORT_NAME("New Game")
 INPUT_PORTS_END
 
 
@@ -267,10 +266,10 @@ INPUT_PORTS_END
 void chmate_state::chmate(machine_config &config)
 {
 	/* basic machine hardware */
-	M6504(config, m_maincpu, 1000000);
+	M6504(config, m_maincpu, 8_MHz_XTAL/8);
 	m_maincpu->set_addrmap(AS_PROGRAM, &chmate_state::main_map);
 
-	MOS6530(config, m_miot, 1000000);
+	MOS6530(config, m_miot, 8_MHz_XTAL/8);
 	m_miot->in_pa_callback().set(FUNC(chmate_state::input_r));
 	m_miot->out_pa_callback().set(FUNC(chmate_state::digit_w));
 	m_miot->out_pb_callback().set(FUNC(chmate_state::control_w));
