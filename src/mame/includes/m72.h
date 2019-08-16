@@ -90,6 +90,7 @@ public:
 	void init_airduelm72();
 	void init_nspirit();
 	void init_loht();
+	void init_lohtb();     // MAMEFX
 	void init_imgfight();
 
 private:
