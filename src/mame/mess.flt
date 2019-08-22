@@ -148,6 +148,7 @@ cit220.cpp
 cking_master.cpp
 clcd.cpp
 clickstart.cpp
+clxvme186.cpp
 cm1800.cpp
 cmi.cpp
 cms.cpp
@@ -501,6 +502,7 @@ mk90.cpp
 mkit09.cpp
 ml20.cpp
 mmd1.cpp
+mmd2.cpp
 mod8.cpp
 modellot.cpp
 molecular.cpp
@@ -705,6 +707,7 @@ saitek_corona.cpp
 saitek_cp2000.cpp
 saitek_delta1.cpp
 saitek_risc2500.cpp
+saitek_ssystem3.cpp
 saitek_stratos.cpp
 saitek_superstar.cpp
 samcoupe.cpp
@@ -758,7 +761,6 @@ spectrum.cpp
 spg110.cpp
 squale.cpp
 ssem.cpp
-ssystem3.cpp
 st17xx.cpp
 storio.cpp
 studio2.cpp

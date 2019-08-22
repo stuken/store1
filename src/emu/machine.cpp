@@ -83,6 +83,7 @@
 #include "image.h"
 #include "network.h"
 #include "romload.h"
+#include "tilemap.h"
 #include "ui/uimain.h"
 #include <time.h>
 #include <rapidjson/writer.h>
@@ -308,6 +309,7 @@ int running_machine::run(bool quiet)
 		start();
 
 		// load the configuration settings
+		manager().before_load_settings(*this);
 		m_configuration->load_settings();
 
 		// disallow save state registrations starting here.
