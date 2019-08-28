@@ -43,7 +43,6 @@ void neosprite_base_device::device_start()
 	m_auto_animation_disabled = 0;
 	m_auto_animation_counter = 0;
 	m_auto_animation_frame_counter = 0;
-	m_neogeo_raster_hack = 0;
 
 	/* register for state saving */
 	save_pointer(NAME(m_videoram), 0x8000 + 0x800);
@@ -522,13 +521,10 @@ TIMER_CALLBACK_MEMBER(neosprite_base_device::sprite_line_timer_callback)
 	int scanline = param;
 
 	/* we are at the beginning of a scanline */
-	if (m_neogeo_raster_hack & 0x10)	/* raster interrupt enabled */
-	{
-		if (strcmp(machine().system().name, "sengoku2") == 0)
-			screen().update_partial(scanline - 1);
-		else
-			screen().update_partial(scanline + 1);
-	}
+	if (scanline)
+		screen().update_partial(scanline - 1);
+
+	parse_sprites(scanline);
 
 	/* let's come back at the beginning of the next line */
 	scanline = (scanline + 1) % NEOGEO_VTOTAL;
