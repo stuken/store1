@@ -767,7 +767,6 @@ void neogeo_base_state::adjust_display_position_interrupt_timer()
 void neogeo_base_state::set_display_position_interrupt_control(uint16_t data)
 {
 	m_display_position_interrupt_control = data;
-	m_sprgen->m_neogeo_raster_hack = m_display_position_interrupt_control;
 }
 
 

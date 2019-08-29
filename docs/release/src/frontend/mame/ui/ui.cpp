@@ -32,6 +32,7 @@
 #include "imagedev/cassette.h"
 #include <time.h>
 #include "../osd/modules/lib/osdobj_common.h"
+#include "config.h"
 
 
 /***************************************************************************
@@ -195,6 +196,9 @@ void mame_ui_manager::init()
 	// request a callback upon exiting
 	machine().add_notifier(MACHINE_NOTIFY_EXIT, machine_notify_delegate(&mame_ui_manager::exit, this));
 
+	// register callbacks
+	machine().configuration().config_register("sliders", config_load_delegate(&mame_ui_manager::config_load, this), config_save_delegate(&mame_ui_manager::config_save, this));
+
 	// create mouse bitmap
 	uint32_t *dst = &m_mouse_bitmap.pix32(0);
 	memcpy(dst,mouse_bitmap,32*32*sizeof(uint32_t));
@@ -276,6 +280,26 @@ void mame_ui_manager::set_handler(ui_callback_type callback_type, const std::fun
 
 
 //-------------------------------------------------
+//  output_joined_collection
+//-------------------------------------------------
+
+template<typename TColl, typename TEmitMemberFunc, typename TEmitDelimFunc>
+static void output_joined_collection(const TColl &collection, TEmitMemberFunc emit_member, TEmitDelimFunc emit_delim)
+{
+	bool is_first = true;
+
+	for (const auto &member : collection)
+	{
+		if (is_first)
+			is_first = false;
+		else
+			emit_delim();
+		emit_member(member);
+	}
+}
+
+
+//-------------------------------------------------
 //  display_startup_screens - display the
 //  various startup screens
 //-------------------------------------------------
@@ -285,15 +309,15 @@ void mame_ui_manager::display_startup_screens(bool first_time)
 	const int maxstate = 3;
 	int str = machine().options().seconds_to_run();
 	bool show_gameinfo = !machine().options().skip_gameinfo();
-	bool show_warnings = true, show_mandatory_fileman = !machine().options().skip_mandatory_fileman();
-	bool video_none = strcmp(downcast<osd_options &>(machine().options()).video(), "none") == 0;
+	bool show_warnings = true, show_mandatory_fileman = true;
+	bool video_none = strcmp(downcast<osd_options &>(machine().options()).video(), OSDOPTVAL_NONE) == 0;
 
 	// disable everything if we are using -str for 300 or fewer seconds, or if we're the empty driver,
 	// or if we are debugging, or if there's no mame window to send inputs to
 	if (!first_time || (str > 0 && str < 60*5) || &machine().system() == &GAME_NAME(___empty) || (machine().debug_flags & DEBUG_FLAG_ENABLED) != 0 || video_none)
 		show_gameinfo = show_warnings = show_mandatory_fileman = false;
 
-#if defined(EMSCRIPTEN)
+#if defined(__EMSCRIPTEN__)
 	// also disable for the JavaScript port since the startup screens do not run asynchronously
 	show_gameinfo = show_warnings = false;
 #endif
@@ -328,12 +352,17 @@ void mame_ui_manager::display_startup_screens(bool first_time)
 			break;
 
 		case 2:
-			if (show_mandatory_fileman)
-				messagebox_text = machine_info().mandatory_images();
-			if (!messagebox_text.empty())
+			std::vector<std::reference_wrapper<const std::string>> mandatory_images = mame_machine_manager::instance()->missing_mandatory_images();
+			if (!mandatory_images.empty() && show_mandatory_fileman)
 			{
-				std::string warning = std::string(_("This driver requires images to be loaded in the following device(s): ")) + messagebox_text;
-				ui::menu_file_manager::force_file_manager(*this, machine().render().ui_container(), warning.c_str());
+				std::ostringstream warning;
+				warning << _("This driver requires images to be loaded in the following device(s): ");
+
+				output_joined_collection(mandatory_images,
+					[&warning](const std::reference_wrapper<const std::string> &img)    { warning << "\"" << img.get() << "\""; },
+					[&warning]()                                                        { warning << ","; });
+
+				ui::menu_file_manager::force_file_manager(*this, machine().render().ui_container(), warning.str().c_str());
 			}
 			break;
 		}
@@ -1515,6 +1544,8 @@ std::vector<ui::menu_item> mame_ui_manager::slider_init(running_machine &machine
 	}
 #endif
 
+	config_apply();
+
 	std::vector<ui::menu_item> items;
 	for (auto &slider : m_sliders)
 	{
@@ -2218,3 +2249,86 @@ void ui_colors::refresh(const ui_options &options)
 	m_dipsw_color = options.dipsw_color();
 	m_slider_color = options.slider_color();
 }
+
+
+
+//-------------------------------------------------
+//  config_load - read data from the
+//  configuration file
+//-------------------------------------------------
+
+void mame_ui_manager::config_load(config_type cfg_type, util::xml::data_node const *parentnode)
+{
+	// we only care about game files
+	if (cfg_type != config_type::GAME)
+		return;
+
+	// might not have any data
+	if (parentnode == nullptr)
+		return;
+
+	// iterate over slider nodes
+	for (util::xml::data_node const *slider_node = parentnode->get_child("slider"); slider_node; slider_node = slider_node->get_next_sibling("slider"))
+	{
+		const char *desc = slider_node->get_attribute_string("desc", "");
+		int32_t saved_val = slider_node->get_attribute_int("value", 0);
+
+		// create a dummy slider to store the saved value
+		m_sliders_saved.push_back(slider_alloc(0, desc, 0, saved_val, 0, 0, 0));
+	}
+}
+
+
+//-------------------------------------------------
+//  config_appy - apply data from the conf. file
+//  This currently needs to be done on a separate
+//  step because sliders are not created yet when
+//  configuration file is loaded
+//-------------------------------------------------
+
+void mame_ui_manager::config_apply(void)
+{
+	// iterate over sliders and restore saved values
+	for (auto &slider : m_sliders)
+	{
+		for (auto &slider_saved : m_sliders_saved)
+		{
+			if (!strcmp(slider->description.c_str(), slider_saved->description.c_str()))
+			{
+				std::string tempstring;
+				slider->update(machine(), slider->arg, slider->id, &tempstring, slider_saved->defval);
+				break;
+
+			}
+		}
+	}
+}
+
+
+//-------------------------------------------------
+//  config_save - save data to the configuration
+//  file
+//-------------------------------------------------
+
+void mame_ui_manager::config_save(config_type cfg_type, util::xml::data_node *parentnode)
+{
+	// we only care about game files
+	if (cfg_type != config_type::GAME)
+		return;
+
+	std::string tempstring;
+	util::xml::data_node *slider_node;
+
+	// save UI sliders
+	for (auto &slider : m_sliders)
+	{
+		int32_t curval = slider->update(machine(), slider->arg, slider->id, &tempstring, SLIDER_NOCHANGE);
+		if (curval != slider->defval)
+		{
+			slider_node = parentnode->add_child("slider", nullptr);
+			slider_node->set_attribute("desc", slider->description.c_str());
+			slider_node->set_attribute_int("value", curval);
+		}
+	}
+}
+

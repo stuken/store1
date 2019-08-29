@@ -8,7 +8,6 @@ echo.|time
 echo.|time
 set Path=%oldpath%
 set oldpath=
-ren arcade6464.* arcade64.*
 if exist arcade64.exe %minpath%\strip -s arcade64.exe
 set minpath=
 

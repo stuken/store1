@@ -262,6 +262,7 @@ crgolf.cpp
 crimfght.cpp
 //cromptons.cpp    // mechanical
 crospang.cpp
+crospuzl.cpp
 crshrace.cpp
 crystal.cpp
 //csplayh5.cpp     // chd
@@ -298,6 +299,7 @@ ddenlovr.cpp
 ddragon.cpp
 ddragon3.cpp
 ddribble.cpp
+//ddz.cpp          // skeleton
 //de_2.cpp         // pinball
 //de_3.cpp         // pinball
 //de_3b.cpp        // pinball
@@ -724,6 +726,7 @@ megasys1.cpp
 megatech.cpp
 megazone.cpp
 meijinsn.cpp
+//menghong.cpp     // gambling
 //mephistp.cpp     // pinball
 merit.cpp
 merit3xx.cpp
@@ -741,6 +744,7 @@ mexico86.cpp
 mgolf.cpp
 mhavoc.cpp
 micro3d.cpp
+//microdar.cpp     // mechanical
 //micropin.cpp     // pinball
 midas.cpp
 midqslvr.cpp
@@ -936,6 +940,7 @@ playmark.cpp
 pntnpuzl.cpp
 pokechmp.cpp
 //poker72.cpp      // poker
+pokerout.cpp
 polepos.cpp
 policetr.cpp
 polyplay.cpp
@@ -953,6 +958,7 @@ ppmast93.cpp
 prehisle.cpp
 //proconn.cpp      // fruit
 progolf.cpp
+//psattack.cpp     // skeleton
 //pse.cpp          // ttl
 psikyo.cpp
 psikyo4.cpp
@@ -1121,6 +1127,7 @@ sliver.cpp
 smsmcorp.cpp
 sms_bootleg.cpp
 snesb.cpp
+snesb51.cpp
 snk.cpp
 snk6502.cpp
 snk68.cpp
@@ -1289,6 +1296,7 @@ trackfld.cpp
 travrusa.cpp
 triforce.cpp
 triplhnt.cpp
+trivrus.cpp
 truco.cpp
 trucocl.cpp
 trvmadns.cpp

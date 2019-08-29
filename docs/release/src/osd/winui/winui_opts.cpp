@@ -1848,7 +1848,8 @@ static void SavePluginsFile(plugin_options &opts, const std::string &filename)
 
 	while (iter.next(pluginpath))
 	{
-		opts.scan_directory(pluginpath,false);
+		osd_subst_env(pluginpath,pluginpath);
+		opts.scan_directory(pluginpath,true);
 	}
 
 	osd_file::error filerr;
