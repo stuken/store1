@@ -4867,9 +4867,11 @@ void ToggleShowFolder(int folder)
 	int current_id = GetCurrentFolderID();
 
 	SetWindowRedraw(hWndList, false);
+	SetWindowRedraw(hTreeView, false);
 	SetShowFolder(folder, !GetShowFolder(folder));
 	ResetTreeViewFolders();
 	SelectTreeViewFolder(current_id);
+	SetWindowRedraw(hTreeView, true);
 	SetWindowRedraw(hWndList, true);
 }
 
