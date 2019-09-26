@@ -3555,7 +3555,7 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 			return true;
 
 		case ID_HELP_TROUBLE:
-			ShellExecuteCommon(hMain, "http://www.1emulation.com/forums/forum/127-arcade/");
+			ShellExecuteCommon(hMain, "https://www.1emulation.com/forums/forum/127-arcade/");
 			SetFocus(hWndList);
 			return true;
 
@@ -3565,9 +3565,9 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 			return true;
 
 		default:
-			if (id >= ID_SHOW_FOLDER_START1 && id <= ID_SHOW_FOLDER_START28)
+			if (id >= ID_SHOW_FOLDER_START && id <= ID_SHOW_FOLDER_END)
 			{
-				ToggleShowFolder((id - ID_SHOW_FOLDER_START1) + 1);
+				ToggleShowFolder(id - ID_SHOW_FOLDER_START);
 				break;
 			}
 			else if (id >= ID_CONTEXT_SHOW_FOLDER_START && id < ID_CONTEXT_SHOW_FOLDER_END)
@@ -4640,12 +4640,12 @@ static void UpdateMenu(HMENU hMenu)
 		if (GetShowFolder(i))
 		{
 			CheckMenuItem(hMenu, ID_CONTEXT_SHOW_FOLDER_START + i, MF_BYCOMMAND | MF_CHECKED);
-			CheckMenuItem(hMenu, (ID_SHOW_FOLDER_START1 + i) - 1, MF_BYCOMMAND | MF_CHECKED);
+			CheckMenuItem(hMenu, ID_SHOW_FOLDER_START + i, MF_BYCOMMAND | MF_CHECKED);
 		}
 		else
 		{
 			CheckMenuItem(hMenu, ID_CONTEXT_SHOW_FOLDER_START + i, MF_BYCOMMAND | MF_UNCHECKED);
-			CheckMenuItem(hMenu, (ID_SHOW_FOLDER_START1 + i) - 1, MF_BYCOMMAND | MF_UNCHECKED);
+			CheckMenuItem(hMenu, ID_SHOW_FOLDER_START + i, MF_BYCOMMAND | MF_UNCHECKED);
 		}
 	}
 }
@@ -4695,9 +4695,13 @@ void InitMainMenu(HMENU hMainMenu)
 		mif.fType = MFT_STRING;
 		mif.dwTypeData = t_title;
 		mif.cch = _tcslen(mif.dwTypeData);
-		mif.wID = ID_SHOW_FOLDER_START1 + i;
+		mif.wID = ID_SHOW_FOLDER_START + g_folderData[i].m_nFolderId;
 
-		SetMenuItemInfo(hMainMenu, ID_SHOW_FOLDER_START1 + i, false, &mif);
+		if (i == 0)
+			SetMenuItemInfo(hSubFold, i, true, &mif);
+		else
+			InsertMenuItem(hSubFold, i, true, &mif);
+
 		free(t_title);
 	}
 
@@ -4800,9 +4804,9 @@ void InitTreeContextMenu(HMENU hTreeMenu)
 		// menu in resources has one empty item (needed for the submenu to setup properly)
 		// so overwrite this one, append after
 		if (i == 0)
-			SetMenuItemInfo(hMenuTree, ID_CONTEXT_SHOW_FOLDER_START, false, &mii);
+			SetMenuItemInfo(hMenuTree, 0, true, &mii);
 		else
-			InsertMenuItem(hMenuTree, i, false, &mii);
+			InsertMenuItem(hMenuTree, i, true, &mii);
 
 		free(t_title);
 	}
@@ -4863,9 +4867,11 @@ void ToggleShowFolder(int folder)
 	int current_id = GetCurrentFolderID();
 
 	SetWindowRedraw(hWndList, false);
+	SetWindowRedraw(hTreeView, false);
 	SetShowFolder(folder, !GetShowFolder(folder));
 	ResetTreeViewFolders();
 	SelectTreeViewFolder(current_id);
+	SetWindowRedraw(hTreeView, true);
 	SetWindowRedraw(hWndList, true);
 }
 

@@ -9,9 +9,6 @@ copy /Y %from%\src\devices\machine\idehd.cpp        %to%\src\devices\machine
 md %to%\src\devices\sound
 copy /Y %from%\src\devices\sound\qs1000.cpp         %to%\src\devices\sound
 
-md %to%\src\devices\cpu\h6280
-copy /Y %from%\src\devices\cpu\h6280\h6280.cpp      %to%\src\devices\cpu\h6280
-
 md %to%\src\devices\cpu\psx
 copy /Y %from%\src\devices\cpu\psx\irq.cpp          %to%\src\devices\cpu\psx
 
@@ -48,6 +45,7 @@ copy /Y %from%\src\mame\drivers\deniam.cpp          %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\gberet.cpp          %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\gng.cpp             %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\jailbrek.cpp        %to%\src\mame\drivers
+copy /Y %from%\src\mame\drivers\m72.cpp             %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\megasys1.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\midas.cpp           %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\mystwarr.cpp        %to%\src\mame\drivers
@@ -55,6 +53,7 @@ copy /Y %from%\src\mame\drivers\namconb1.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\nemesis.cpp         %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\neodriv.hxx         %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\neogeo.cpp          %to%\src\mame\drivers
+copy /Y %from%\src\mame\drivers\pgm.cpp             %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\polepos.cpp         %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\scregg.cpp          %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\simpsons.cpp        %to%\src\mame\drivers

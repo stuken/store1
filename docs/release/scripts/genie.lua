@@ -89,10 +89,17 @@ end
 
 function addprojectflags()
 	local version = str_to_version(_OPTIONS["gcc_version"])
-	if _OPTIONS["gcc"]~=nil and string.find(_OPTIONS["gcc"], "gcc") and (version >= 50100) then
-		buildoptions_cpp {
-			"-Wsuggest-override",
-		}
+	if _OPTIONS["gcc"]~=nil and string.find(_OPTIONS["gcc"], "gcc") then
+		if version >= 50100 then
+			buildoptions_cpp {
+				"-Wsuggest-override",
+			}
+		end
+		if version >= 60000 then
+			buildoptions_cpp {
+				"-flifetime-dse=1",
+			}
+		end
 	end
 end
 
@@ -1176,7 +1183,6 @@ configuration { "asmjs" }
 	}
 	linkoptions {
 		"-Wl,--start-group",
-		"-s ERROR_ON_MISSING_LIBRARIES=0"
 	}
 	archivesplit_size "20"
 

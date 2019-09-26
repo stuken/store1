@@ -56,34 +56,7 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "Show folders"
         BEGIN
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START1
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START2
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START3
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START4
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START5
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START6
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START7
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START8
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START9
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START10
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START11
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START12
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START13
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START14
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START15
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START16
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START17
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START18
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START19
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START20
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START21
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START22
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START23
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START24
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START25
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START26
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START27
-            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START28
+            MENUITEM "overridden by code",                ID_SHOW_FOLDER_START
         END
         MENUITEM SEPARATOR
         POPUP "Show pictures"
