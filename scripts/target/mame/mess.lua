@@ -1119,6 +1119,7 @@ function linkProjects_mame_mess(_target, _subtarget)
 		"entex",
 		"epoch",
 		"epson",
+		"ericsson",
 		"exidy",
 		"fairch",
 		"fairlight",
@@ -2182,6 +2183,13 @@ files {
 	MAME_DIR .. "src/mame/machine/qx10kbd.h",
 }
 
+createMESSProjects(_target, _subtarget, "ericsson")
+files {
+	MAME_DIR .. "src/mame/drivers/eispc.cpp",
+	MAME_DIR .. "src/mame/machine/eispc_kb.cpp",
+	MAME_DIR .. "src/mame/machine/eispc_kb.h",
+}
+
 createMESSProjects(_target, _subtarget, "exidy")
 files {
 	MAME_DIR .. "src/mame/machine/sorcerer.cpp",
@@ -2700,12 +2708,14 @@ createMESSProjects(_target, _subtarget, "motorola")
 files {
 	MAME_DIR .. "src/mame/drivers/m6805evs.cpp",
 	MAME_DIR .. "src/mame/drivers/m68705prg.cpp",
+	MAME_DIR .. "src/mame/drivers/mekd1.cpp",
 	MAME_DIR .. "src/mame/drivers/mekd2.cpp",
 	MAME_DIR .. "src/mame/drivers/mekd3.cpp",
 	MAME_DIR .. "src/mame/drivers/mekd4.cpp",
 	MAME_DIR .. "src/mame/drivers/mekd5.cpp",
 	MAME_DIR .. "src/mame/drivers/mvme147.cpp",
 	MAME_DIR .. "src/mame/drivers/mvme162.cpp",
+	MAME_DIR .. "src/mame/drivers/uchroma68.cpp",
 }
 
 createMESSProjects(_target, _subtarget, "multitch")
@@ -3388,6 +3398,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/swtpc09.cpp",
 	MAME_DIR .. "src/mame/includes/swtpc09.h",
 	MAME_DIR .. "src/mame/machine/swtpc09.cpp",
+	MAME_DIR .. "src/mame/drivers/swtpc8212.cpp",
 }
 
 createMESSProjects(_target, _subtarget, "synertek")
@@ -4081,7 +4092,6 @@ files {
 	MAME_DIR .. "src/mame/drivers/pencil2.cpp",
 	MAME_DIR .. "src/mame/drivers/perq.cpp",
 	MAME_DIR .. "src/mame/drivers/pes.cpp",
-	MAME_DIR .. "src/mame/includes/pes.h",
 	MAME_DIR .. "src/mame/drivers/picno.cpp",
 	MAME_DIR .. "src/mame/drivers/pipbug.cpp",
 	MAME_DIR .. "src/mame/drivers/plan80.cpp",

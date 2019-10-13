@@ -206,7 +206,7 @@ namespace netlist
 		return false;
 	}
 
-	bool nlparse_t::parse_stream(plib::unique_ptr<plib::pistream> &&istrm, const pstring &name)
+	bool nlparse_t::parse_stream(plib::unique_ptr<std::istream> &&istrm, const pstring &name)
 	{
 		plib::ppreprocessor y(&m_defines);
 		plib::ppreprocessor &x(y.process(std::move(istrm)));
@@ -252,14 +252,14 @@ pstring setup_t::termtype_as_str(detail::core_terminal_t &in) const
 	switch (in.type())
 	{
 		case detail::terminal_type::TERMINAL:
-			return pstring("TERMINAL");
+			return "TERMINAL";
 		case detail::terminal_type::INPUT:
-			return pstring("INPUT");
+			return "INPUT";
 		case detail::terminal_type::OUTPUT:
-			return pstring("OUTPUT");
+			return "OUTPUT";
 	}
 	log().fatal(MF_UNKNOWN_OBJECT_TYPE_1(static_cast<unsigned>(in.type())));
-	return pstring("Error");
+	return "Error";
 }
 
 pstring setup_t::get_initial_param_val(const pstring &name, const pstring &def) const
@@ -577,7 +577,7 @@ void setup_t::connect_terminal_input(terminal_t &term, detail::core_terminal_t &
 	else if (inp.is_logic())
 	{
 		log().verbose("connect terminal {1} (in, {2}) to {3}\n", inp.name(),
-				inp.is_analog() ? pstring("analog") : inp.is_logic() ? pstring("logic") : pstring("?"), term.name());
+				inp.is_analog() ? "analog" : inp.is_logic() ? "logic" : "?", term.name());
 		auto proxy = get_a_d_proxy(inp);
 
 		//out.net().register_con(proxy->proxy_term());
@@ -891,7 +891,7 @@ void models_t::model_parse(const pstring &model_in, model_map_t &map)
 	remainder = plib::left(remainder, remainder.size() - 1);
 
 	std::vector<pstring> pairs(plib::psplit(remainder," ", true));
-	for (pstring &pe : pairs)
+	for (const pstring &pe : pairs)
 	{
 		auto pose = pe.find('=');
 		if (pose == pstring::npos)
@@ -900,9 +900,10 @@ void models_t::model_parse(const pstring &model_in, model_map_t &map)
 	}
 }
 
-pstring models_t::model_string(model_map_t &map)
+pstring models_t::model_string(const model_map_t &map) const
 {
-	pstring ret = map["COREMODEL"] + "(";
+	// operator [] has no const implementation
+	pstring ret = map.at("COREMODEL") + "(";
 	for (auto & i : map)
 		ret += (i.first + '=' + i.second + ' ');
 
@@ -942,7 +943,7 @@ nl_double models_t::value(const pstring &model, const pstring &entity)
 	switch (*p)
 	{
 		case 'M': factor = 1e6; break;
-		case 'k': factor = 1e3; break;
+		case 'k':
 		case 'K': factor = 1e3; break;
 		case 'm': factor = 1e-3; break;
 		case 'u': factor = 1e-6; break;
@@ -1018,7 +1019,7 @@ const logic_family_desc_t *setup_t::family_from_model(const pstring &model)
 // Sources
 // ----------------------------------------------------------------------------------------
 
-plib::unique_ptr<plib::pistream> setup_t::get_data_stream(const pstring &name)
+plib::unique_ptr<std::istream> setup_t::get_data_stream(const pstring &name)
 {
 	for (auto &source : m_sources)
 	{
@@ -1030,7 +1031,7 @@ plib::unique_ptr<plib::pistream> setup_t::get_data_stream(const pstring &name)
 		}
 	}
 	log().warning(MW_DATA_1_NOT_FOUND(name));
-	return plib::unique_ptr<plib::pistream>(nullptr);
+	return plib::unique_ptr<std::istream>(nullptr);
 }
 
 
@@ -1199,22 +1200,27 @@ bool source_t::parse(nlparse_t &setup, const pstring &name)
 	}
 }
 
-plib::unique_ptr<plib::pistream> source_string_t::stream(const pstring &name)
+plib::unique_ptr<std::istream> source_string_t::stream(const pstring &name)
 {
 	plib::unused_var(name);
-	return plib::make_unique<plib::pistringstream>(m_str);
+	auto ret(plib::make_unique<std::istringstream>(m_str));
+	ret->imbue(std::locale::classic());
+	return std::move(ret);
 }
 
-plib::unique_ptr<plib::pistream> source_mem_t::stream(const pstring &name)
+plib::unique_ptr<std::istream> source_mem_t::stream(const pstring &name)
 {
 	plib::unused_var(name);
-	return plib::make_unique<plib::pistringstream>(m_str);
+	auto ret(plib::make_unique<std::istringstream>(m_str, std::ios_base::binary));
+	ret->imbue(std::locale::classic());
+	return std::move(ret);
 }
 
-plib::unique_ptr<plib::pistream> source_file_t::stream(const pstring &name)
+plib::unique_ptr<std::istream> source_file_t::stream(const pstring &name)
 {
 	plib::unused_var(name);
-	return plib::make_unique<plib::pifilestream>(m_filename);
+	auto ret(plib::make_unique<std::ifstream>(plib::filesystem::u8path(m_filename)));
+	return std::move(ret);
 }
 
 bool source_proc_t::parse(nlparse_t &setup, const pstring &name)
@@ -1228,10 +1234,10 @@ bool source_proc_t::parse(nlparse_t &setup, const pstring &name)
 		return false;
 }
 
-plib::unique_ptr<plib::pistream> source_proc_t::stream(const pstring &name)
+plib::unique_ptr<std::istream> source_proc_t::stream(const pstring &name)
 {
 	plib::unused_var(name);
-	plib::unique_ptr<plib::pistream> p(nullptr);
+	plib::unique_ptr<std::istream> p(nullptr);
 	return p;
 }
 
