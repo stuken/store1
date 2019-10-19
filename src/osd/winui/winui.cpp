@@ -476,21 +476,23 @@ extern const wchar_t* const column_names[COLUMN_MAX] =
 class mameui_output_error : public osd_output
 {
 public:
-	virtual void output_callback(osd_output_channel channel, const char *msg, va_list args)
+	virtual void output_callback(osd_output_channel channel, const util::format_argument_pack<std::ostream> &args) override
 	{
+		std::ostringstream sbuffer;
+		util::stream_format(sbuffer, args);
+		string s = sbuffer.str();
+		const char* buffer = s.c_str();
 		if (channel == OSD_OUTPUT_CHANNEL_VERBOSE)
 		{
 			FILE *pFile;
 			pFile = fopen("verbose.log", "a");
-			vfprintf(pFile, msg, args);fflush(pFile);
+			fputs(buffer, pFile);
+			fflush(pFile);
 			fclose (pFile);
 			return;
 		}
 
 		int s_action = 0;
-		bool s_switched = false;
-		char buffer[4096];
-		vsnprintf(buffer, ARRAY_LENGTH(buffer), msg, args);
 
 		if (channel == OSD_OUTPUT_CHANNEL_ERROR)
 		{
@@ -509,17 +511,11 @@ public:
 		{
 			// if we are in fullscreen mode, go to windowed mode
 			if ((video_config.windowed == 0) && !osd_common_t::s_window_list.empty())
-			{
 				winwindow_toggle_full_screen();
-				s_switched = true;
-			}
 
 			winui_message_box_utf8(!osd_common_t::s_window_list.empty() ?
 				std::static_pointer_cast<win_window_info>(osd_common_t::s_window_list.front())->platform_window() :
 					hMain, buffer, MAMEUINAME, (BIT(s_action, 0) ? MB_ICONINFORMATION : MB_ICONERROR) | MB_OK);
-
-			if (s_switched)
-				winwindow_toggle_full_screen();
 		}
 
 //		else
@@ -527,7 +523,8 @@ public:
 		// LOG all messages
 		FILE *pFile;
 		pFile = fopen("winui.log", "a");
-		vfprintf(pFile, msg, args);
+		fputs(buffer, pFile);
+		fflush(pFile);
 		fclose (pFile);
 	}
 };
