@@ -1,7 +1,7 @@
 // license:GPL-2.0+
 // copyright-holders:Couriersud
 /*
- * nl_string.c
+ * pfm_log.cpp
  *
  */
 
@@ -112,10 +112,10 @@ pfmt::rtype pfmt::setfmt(std::stringstream &strm, char32_t cfmt_spec)
 		else if (pdot != pstring::npos)
 		{
 			strm << std::setprecision(pstonum<int>(fmt.substr(pdot + 1)));
-			r.width = pstonum<pstring::size_type>(left(fmt,pdot));
+			r.width = pstonum<int>(left(fmt,pdot));
 		}
 		else if (fmt != "")
-			r.width = pstonum<pstring::size_type>(fmt);
+			r.width = pstonum<int>(fmt);
 
 		switch (r.pend)
 		{

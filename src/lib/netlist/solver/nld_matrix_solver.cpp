@@ -114,9 +114,9 @@ namespace devices
 							{
 								pstring nname(this->name() + "." + pstring(plib::pfmt("m{1}")(m_inps.size())));
 								nl_assert(p->net().is_analog());
-								auto net_proxy_output_u = pool().make_poolptr<proxied_analog_output_t>(*this, nname, static_cast<analog_net_t *>(&p->net()));
+								auto net_proxy_output_u = pool().make_unique<proxied_analog_output_t>(*this, nname, static_cast<analog_net_t *>(&p->net()));
 								net_proxy_output = net_proxy_output_u.get();
-								m_inps.push_back(std::move(net_proxy_output_u));
+								m_inps.emplace_back(std::move(net_proxy_output_u));
 							}
 							net_proxy_output->net().add_terminal(*p);
 							// FIXME: repeated calling - kind of brute force
@@ -559,14 +559,8 @@ namespace devices
 
 		if (m_params.m_dynamic_ts)
 		{
-#if 0
-			for (std::size_t k = 0, iN=m_terms.size(); k < iN; k++)
-			{
-				terms_for_net_t *t = m_terms[k].get();
-#else
 			for (auto &t : m_terms)
 			{
-#endif
 				//const nl_double DD_n = (n->Q_Analog() - t->m_last_V);
 				// avoid floating point exceptions
 				const nl_double DD_n = std::max(-1e100, std::min(1e100,(t->getV() - t->m_last_V)));
