@@ -137,6 +137,7 @@ CPUS["HPC"] = true
 --CPUS["RII"] = true
 --CPUS["BCP"] = true
 --CPUS["CR16B"] = true
+CPUS["FR"] = true
 
 --------------------------------------------------
 -- specify available sound cores
@@ -480,7 +481,7 @@ MACHINES["I8255"] = true
 --MACHINES["I8271"] = true
 MACHINES["I8279"] = true
 MACHINES["I8355"] = true
-MACHINES["IDE"] = true
+MACHINES["IDECTRL"] = true
 MACHINES["IE15"] = true
 MACHINES["IM6402"] = true
 MACHINES["INS8154"] = true
@@ -684,6 +685,7 @@ MACHINES["PS2INTC"] = true
 --MACHINES["IOPSIO2"] = true
 --MACHINES["IOPTIMER"] = true
 MACHINES["AIC565"] = true
+MACHINES["AIC580"] = true
 MACHINES["AIC6250"] = true
 MACHINES["VRENDER0"] = true
 
@@ -703,6 +705,7 @@ MACHINES["VRENDER0"] = true
 BUSES["AMIGA_KEYBOARD"] = true
 --BUSES["ARCADIA"] = true
 --BUSES["ASTROCADE"] = true
+BUSES["ATA"] = true
 --BUSES["BML3"] = true
 --BUSES["BW2"] = true
 --BUSES["C64"] = true
@@ -3490,6 +3493,8 @@ files {
 	MAME_DIR .. "src/mame/includes/zaxxon.h",
 	MAME_DIR .. "src/mame/audio/zaxxon.cpp",
 	MAME_DIR .. "src/mame/video/zaxxon.cpp",
+	MAME_DIR .. "src/mame/machine/315_5195.cpp",
+	MAME_DIR .. "src/mame/machine/315_5195.h",
 	MAME_DIR .. "src/mame/machine/315_5296.cpp",
 	MAME_DIR .. "src/mame/machine/315_5296.h",
 	MAME_DIR .. "src/mame/machine/315_5338a.cpp",
