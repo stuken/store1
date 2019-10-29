@@ -463,9 +463,10 @@ static void Directories_OnInsert(HWND hDlg)
 {
 	HWND hList = GetDlgItem(hDlg, IDC_DIR_LIST);
 	int nItem = ListView_GetNextItem(hList, -1, LVNI_SELECTED);
-	wchar_t buf[MAX_PATH];
+	wchar_t inbuf[MAX_PATH], outbuf[MAX_PATH];
+	ListView_GetItemText(hList, nItem, 0, inbuf, MAX_PATH);
 
-	if (BrowseForDirectory(hDlg, NULL, buf) == true)
+	if (BrowseForDirectory(hDlg, inbuf, outbuf) == true)
 	{
 		/* list was empty */
 		if (nItem == -1)
@@ -481,7 +482,7 @@ static void Directories_OnInsert(HWND hDlg)
 			for (int i = DirInfo_NumDir(g_pDirInfo, nType); nItem < i; i--)
 				_tcscpy(DirInfo_Path(g_pDirInfo, nType, i), DirInfo_Path(g_pDirInfo, nType, i - 1));
 
-			_tcscpy(DirInfo_Path(g_pDirInfo, nType, nItem), buf);
+			_tcscpy(DirInfo_Path(g_pDirInfo, nType, nItem), outbuf);
 			DirInfo_NumDir(g_pDirInfo, nType)++;
 			DirInfo_SetModified(g_pDirInfo, nType, true);
 		}
