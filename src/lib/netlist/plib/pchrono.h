@@ -12,7 +12,6 @@
 #include "ptypes.h"
 
 #include <chrono>
-//#include <cstdint>
 
 namespace plib {
 	namespace chrono {
@@ -35,7 +34,7 @@ namespace plib {
 		struct base_ticks
 		{
 			using ret_type = R;
-			static ret_type per_second()
+			static ret_type per_second() noexcept
 			{
 				static ret_type persec = 0;
 				if (persec == 0)
@@ -179,9 +178,9 @@ namespace plib {
 		struct counter<false>
 		{
 			using type = uint_least64_t;
-			constexpr type operator()() const { return 0; }
-			void inc() const { }
-			void reset() const { }
+			constexpr type operator()() const noexcept { return 0; }
+			void inc() const noexcept { }
+			void reset() const noexcept { }
 			constexpr static bool enabled = false;
 		};
 
@@ -196,7 +195,7 @@ namespace plib {
 			struct guard_t
 			{
 				guard_t() = delete;
-				guard_t(timer &m) noexcept : m_m(m) { m_m.m_time -= T::start(); }
+				explicit guard_t(timer &m) noexcept : m_m(m) { m_m.m_time -= T::start(); }
 				~guard_t() { m_m.m_time += T::stop(); ++m_m.m_count; }
 
 				COPYASSIGNMOVE(guard_t, default)
@@ -212,14 +211,15 @@ namespace plib {
 			type operator()() const { return m_time; }
 
 			void reset() { m_time = 0; m_count = 0; }
-			type average() const { return (m_count == 0) ? 0 : m_time / m_count; }
-			type total() const { return m_time; }
-			ctype count() const { return m_count; }
+			type average() const noexcept { return (m_count == 0) ? 0 : m_time / m_count; }
+			type total() const noexcept { return m_time; }
+			ctype count() const noexcept { return m_count; }
 
-			double as_seconds() const { return static_cast<double>(total())
-					/ static_cast<double>(T::per_second()); }
+			template <typename S>
+			S as_seconds() const noexcept { return static_cast<S>(total())
+					/ static_cast<S>(T::per_second()); }
 
-			guard_t guard() { return guard_t(*this); }
+			guard_t guard() noexcept { return guard_t(*this); }
 		private:
 			type m_time;
 			ctype m_count;
@@ -242,12 +242,13 @@ namespace plib {
 				~guard_t() { }
 			};
 
-			constexpr type operator()() const { return 0; }
-			void reset() const { }
-			constexpr type average() const { return 0; }
-			constexpr type total() const { return 0; }
-			constexpr ctype count() const { return 0; }
-			constexpr double as_seconds() const { return 0.0; }
+			constexpr type operator()() const noexcept { return 0; }
+			void reset() const noexcept { }
+			constexpr type average() const noexcept { return 0; }
+			constexpr type total() const noexcept { return 0; }
+			constexpr ctype count() const noexcept { return 0; }
+			template <typename S>
+			S as_seconds() const noexcept { return static_cast<S>(0.0); }
 			constexpr static bool enabled = false;
 			guard_t guard() { return guard_t(); }
 		};

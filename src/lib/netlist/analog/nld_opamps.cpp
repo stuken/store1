@@ -11,8 +11,6 @@
 #include "nlid_fourterm.h"
 #include "nlid_twoterm.h"
 
-#include <cmath>
-
 namespace netlist
 {
 	namespace analog
@@ -116,7 +114,10 @@ namespace netlist
 		{
 			m_type = static_cast<int>(m_model.m_TYPE);
 			if (m_type < 1 || m_type > 3)
+			{
 				log().fatal(MF_OPAMP_UNKNOWN_TYPE(m_type));
+				plib::pthrow<nl_exception>(MF_OPAMP_UNKNOWN_TYPE(m_type));
+			}
 
 			if (m_type == 1)
 			{
@@ -197,13 +198,13 @@ namespace netlist
 
 	NETLIB_UPDATE(opamp)
 	{
-		const double cVt = 0.0258 * 1.0; // * m_n;
-		const double cId = m_model.m_DAB; // 3 mA
-		const double cVd = cVt * std::log(cId / 1e-15 + 1.0);
+		const nl_fptype cVt = nlconst::magic(0.0258 * 1.0); // * m_n;
+		const nl_fptype cId = m_model.m_DAB; // 3 mA
+		const nl_fptype cVd = cVt * plib::log(cId / nlconst::magic(1e-15) + nlconst::one());
 
 		m_VH.push(m_VCC() - m_model.m_VLH - cVd);
 		m_VL.push(m_GND() + m_model.m_VLL + cVd);
-		m_VREF.push((m_VCC() + m_GND()) / 2.0);
+		m_VREF.push((m_VCC() + m_GND()) / nlconst::two());
 	}
 
 	NETLIB_UPDATE_PARAM(opamp)
@@ -212,19 +213,19 @@ namespace netlist
 
 		if (m_type == 1)
 		{
-			double RO = m_model.m_RO;
-			double G = m_model.m_UGF / m_model.m_FPF / RO;
+			nl_fptype RO = m_model.m_RO;
+			nl_fptype G = m_model.m_UGF / m_model.m_FPF / RO;
 			m_RP.set_R(RO);
 			m_G1.m_G.setTo(G);
 		}
 		if (m_type == 3 || m_type == 2)
 		{
-			double CP = m_model.m_DAB / m_model.m_SLEW;
-			double RP = 0.5 / constants::pi() / CP / m_model.m_FPF;
-			double G = m_model.m_UGF / m_model.m_FPF / RP;
+			nl_fptype CP = m_model.m_DAB / m_model.m_SLEW;
+			nl_fptype RP = nlconst::half() / nlconst::pi() / CP / m_model.m_FPF;
+			nl_fptype G = m_model.m_UGF / m_model.m_FPF / RP;
 
 			//printf("OPAMP %s: %g %g %g\n", name().c_str(), CP, RP, G);
-			if (m_model.m_SLEW / (4.0 * constants::pi() * 0.0258) < m_model.m_UGF)
+			if (m_model.m_SLEW / (nlconst::four() * nlconst::pi() * nlconst::magic(0.0258)) < m_model.m_UGF)
 				log().warning(MW_OPAMP_FAIL_CONVERGENCE(this->name()));
 
 			m_CP->m_C.setTo(CP);
@@ -234,12 +235,12 @@ namespace netlist
 		}
 		if (m_type == 2)
 		{
-			m_EBUF->m_G.setTo(1.0);
+			m_EBUF->m_G.setTo(nlconst::one());
 			m_EBUF->m_RO.setTo(m_model.m_RO);
 		}
 		if (m_type == 3)
 		{
-			m_EBUF->m_G.setTo(1.0);
+			m_EBUF->m_G.setTo(nlconst::one());
 			m_EBUF->m_RO.setTo(m_model.m_RO);
 		}
 	}

@@ -8,7 +8,7 @@
 #ifndef NLSETUP_H_
 #define NLSETUP_H_
 
-#include "plib/pparser.h"
+#include "plib/ppreprocessor.h"
 #include "plib/pstream.h"
 #include "plib/pstring.h"
 #include "plib/putil.h"
@@ -181,7 +181,7 @@ namespace netlist
 		{}
 
 		COPYASSIGNMOVE(source_netlist_t, delete)
-		virtual ~source_netlist_t() noexcept = default;
+		~source_netlist_t() noexcept override = default;
 
 		virtual bool parse(nlparse_t &setup, const pstring &name);
 	};
@@ -197,7 +197,7 @@ namespace netlist
 		{}
 
 		COPYASSIGNMOVE(source_data_t, delete)
-		virtual ~source_data_t() noexcept = default;
+		~source_data_t() noexcept override = default;
 	};
 
 	// ----------------------------------------------------------------------------------------
@@ -212,7 +212,7 @@ namespace netlist
 
 		pstring value_str(const pstring &model, const pstring &entity);
 
-		nl_double value(const pstring &model, const pstring &entity);
+		nl_fptype value(const pstring &model, const pstring &entity);
 
 		pstring type(const pstring &model) { return value_str(model, "COREMODEL"); }
 
@@ -244,9 +244,26 @@ namespace netlist
 		void register_link(const pstring &sin, const pstring &sout);
 		void register_link_arr(const pstring &terms);
 		void register_param(const pstring &param, const pstring &value);
-		void register_param(const pstring &param, const double value);
+
+		// FIXME: quick hack
+		void register_param_x(const pstring &param, const nl_fptype value);
+
+		template <typename T>
+		typename std::enable_if<std::is_floating_point<T>::value || std::is_integral<T>::value>::type
+		register_param(const pstring &param, T value)
+		{
+			register_param_x(param, static_cast<nl_fptype>(value));
+		}
+
+#if PUSE_FLOAT128
+		void register_param(const pstring &param, __float128 value)
+		{
+			register_param_x(param, static_cast<nl_fptype>(value));
+		}
+#endif
+
 		void register_lib_entry(const pstring &name, const pstring &sourcefile);
-		void register_frontier(const pstring &attach, const double r_IN, const double r_OUT);
+		void register_frontier(const pstring &attach, const nl_fptype r_IN, const nl_fptype r_OUT);
 
 		/* register a source */
 		void register_source(plib::unique_ptr<plib::psource_t> &&src)
@@ -341,7 +358,7 @@ namespace netlist
 	public:
 
 		explicit setup_t(netlist_state_t &nlstate);
-		~setup_t() noexcept;
+		~setup_t() noexcept = default;
 
 		COPYASSIGNMOVE(setup_t, delete)
 
@@ -352,9 +369,9 @@ namespace netlist
 
 		pstring get_initial_param_val(const pstring &name, const pstring &def) const;
 
-		void register_term(detail::core_terminal_t &obj);
+		void register_term(detail::core_terminal_t &term);
 
-		void remove_connections(const pstring &attach);
+		void remove_connections(const pstring &pin);
 
 		bool connect(detail::core_terminal_t &t1, detail::core_terminal_t &t2);
 
@@ -383,7 +400,7 @@ namespace netlist
 
 		/* needed by proxy */
 		detail::core_terminal_t *find_terminal(const pstring &outname_in, const detail::terminal_type atype, bool required = true) const;
-		detail::core_terminal_t *find_terminal(const pstring &outname_in, bool required = true) const;
+		detail::core_terminal_t *find_terminal(const pstring &terminal_in, bool required = true) const;
 
 		/* core net handling */
 
@@ -408,7 +425,7 @@ namespace netlist
 
 		void merge_nets(detail::net_t &thisnet, detail::net_t &othernet);
 
-		void connect_terminals(detail::core_terminal_t &in, detail::core_terminal_t &out);
+		void connect_terminals(detail::core_terminal_t &t1, detail::core_terminal_t &t2);
 		void connect_input_output(detail::core_terminal_t &in, detail::core_terminal_t &out);
 		void connect_terminal_output(terminal_t &in, detail::core_terminal_t &out);
 		void connect_terminal_input(terminal_t &term, detail::core_terminal_t &inp);
@@ -438,7 +455,7 @@ namespace netlist
 	{
 	public:
 
-		source_string_t(const pstring &source)
+		explicit source_string_t(const pstring &source)
 		: source_netlist_t(), m_str(source)
 		{
 		}
@@ -454,7 +471,7 @@ namespace netlist
 	{
 	public:
 
-		source_file_t(const pstring &filename)
+		explicit source_file_t(const pstring &filename)
 		: source_netlist_t(), m_filename(filename)
 		{
 		}
@@ -469,7 +486,7 @@ namespace netlist
 	class source_mem_t : public source_netlist_t
 	{
 	public:
-		source_mem_t(const char *mem)
+		explicit source_mem_t(const char *mem)
 		: source_netlist_t(), m_str(mem)
 		{
 		}

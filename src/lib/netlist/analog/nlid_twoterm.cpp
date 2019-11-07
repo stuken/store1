@@ -10,8 +10,6 @@
 #include "netlist/nl_factory.h"
 #include "nlid_twoterm.h"
 
-#include <cmath>
-
 namespace netlist
 {
 	namespace analog
@@ -53,7 +51,7 @@ NETLIB_UPDATE(twoterm)
 NETLIB_RESET(R_base)
 {
 	NETLIB_NAME(twoterm)::reset();
-	set_R(1.0 / exec().gmin());
+	set_R(plib::reciprocal(exec().gmin()));
 }
 
 // ----------------------------------------------------------------------------------------
@@ -62,12 +60,12 @@ NETLIB_RESET(R_base)
 
 NETLIB_RESET(POT)
 {
-	nl_double v = m_Dial();
+	nl_fptype v = m_Dial();
 	if (m_DialIsLog())
-		v = (std::exp(v) - 1.0) / (std::exp(1.0) - 1.0);
+		v = (plib::exp(v) - nlconst::one()) / (plib::exp(nlconst::one()) - nlconst::one());
 
 	m_R1.set_R(std::max(m_R() * v, exec().gmin()));
-	m_R2.set_R(std::max(m_R() * (plib::constants<nl_double>::one() - v), exec().gmin()));
+	m_R2.set_R(std::max(m_R() * (nlconst::one() - v), exec().gmin()));
 }
 
 NETLIB_UPDATE_PARAM(POT)
@@ -75,13 +73,13 @@ NETLIB_UPDATE_PARAM(POT)
 	m_R1.solve_now();
 	m_R2.solve_now();
 
-	nl_double v = m_Dial();
+	nl_fptype v = m_Dial();
 	if (m_DialIsLog())
-		v = (std::exp(v) - 1.0) / (std::exp(1.0) - 1.0);
+		v = (plib::exp(v) - nlconst::one()) / (plib::exp(nlconst::one()) - nlconst::one());
 	if (m_Reverse())
-		v = 1.0 - v;
+		v = nlconst::one() - v;
 	m_R1.set_R(std::max(m_R() * v, exec().gmin()));
-	m_R2.set_R(std::max(m_R() * (plib::constants<nl_double>::one() - v), exec().gmin()));
+	m_R2.set_R(std::max(m_R() * (nlconst::one() - v), exec().gmin()));
 
 }
 
@@ -91,12 +89,12 @@ NETLIB_UPDATE_PARAM(POT)
 
 NETLIB_RESET(POT2)
 {
-	nl_double v = m_Dial();
+	nl_fptype v = m_Dial();
 
 	if (m_DialIsLog())
-		v = (std::exp(v) - 1.0) / (std::exp(1.0) - 1.0);
+		v = (plib::exp(v) - nlconst::one()) / (plib::exp(nlconst::one()) - nlconst::one());
 	if (m_Reverse())
-		v = 1.0 - v;
+		v = nlconst::one() - v;
 	m_R1.set_R(std::max(m_R() * v, exec().gmin()));
 }
 
@@ -105,12 +103,12 @@ NETLIB_UPDATE_PARAM(POT2)
 {
 	m_R1.solve_now();
 
-	nl_double v = m_Dial();
+	nl_fptype v = m_Dial();
 
 	if (m_DialIsLog())
-		v = (std::exp(v) - 1.0) / (std::exp(1.0) - 1.0);
+		v = (plib::exp(v) - nlconst::one()) / (plib::exp(nlconst::one()) - nlconst::one());
 	if (m_Reverse())
-		v = 1.0 - v;
+		v = nlconst::one() - v;
 	m_R1.set_R(std::max(m_R() * v, exec().gmin()));
 }
 
@@ -121,7 +119,7 @@ NETLIB_UPDATE_PARAM(POT2)
 NETLIB_RESET(L)
 {
 	m_gmin = exec().gmin();
-	m_I = 0.0;
+	m_I = nlconst::zero();
 	m_G = m_gmin;
 	set_mat( m_G, -m_G, -m_I,
 			-m_G,  m_G,  m_I);
@@ -148,26 +146,26 @@ NETLIB_TIMESTEP(L)
 
 NETLIB_RESET(D)
 {
-	nl_double Is = m_model.m_IS;
-	nl_double n = m_model.m_N;
+	nl_fptype Is = m_model.m_IS;
+	nl_fptype n = m_model.m_N;
 
-	m_D.set_param(Is, n, exec().gmin(), constants::T0());
-	set_G_V_I(m_D.G(), 0.0, m_D.Ieq());
+	m_D.set_param(Is, n, exec().gmin(), nlconst::T0());
+	set_G_V_I(m_D.G(), nlconst::zero(), m_D.Ieq());
 }
 
 NETLIB_UPDATE_PARAM(D)
 {
-	nl_double Is = m_model.m_IS;
-	nl_double n = m_model.m_N;
+	nl_fptype Is = m_model.m_IS;
+	nl_fptype n = m_model.m_N;
 
-	m_D.set_param(Is, n, exec().gmin(), constants::T0());
+	m_D.set_param(Is, n, exec().gmin(), nlconst::T0());
 }
 
 NETLIB_UPDATE_TERMINALS(D)
 {
 	m_D.update_diode(deltaV());
-	const nl_double G = m_D.G();
-	const nl_double I = m_D.Ieq();
+	const nl_fptype G = m_D.G();
+	const nl_fptype I = m_D.Ieq();
 	set_mat( G, -G, -I,
 			-G,  G,  I);
 	//set(m_D.G(), 0.0, m_D.Ieq());

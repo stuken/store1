@@ -621,6 +621,7 @@ MACHINES["SMPC"] = true
 MACHINES["SPG2XX"] = true
 MACHINES["STVCD"] = true
 MACHINES["SUN4C_MMU"] = true
+MACHINES["SWTPC8212"] = true
 MACHINES["TC0091LVC"] = true
 MACHINES["TDC1008"] = true
 --MACHINES["TE7750"] = true
@@ -751,7 +752,9 @@ BUSES["ASTROCADE"] = true
 BUSES["ATA"] = true
 BUSES["BBC_FDC"] = true
 BUSES["BBC_ANALOGUE"] = true
+BUSES["BBC_CART"] = true
 BUSES["BBC_EXP"] = true
+BUSES["BBC_INTERNAL"] = true
 BUSES["BBC_JOYPORT"] = true
 BUSES["BBC_1MHZBUS"] = true
 BUSES["BBC_TUBE"] = true
@@ -2370,6 +2373,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/4004clk.cpp",
 	MAME_DIR .. "src/mame/drivers/68ksbc.cpp",
 	MAME_DIR .. "src/mame/drivers/craft.cpp",
+	MAME_DIR .. "src/mame/drivers/dcebridge.cpp",
 	MAME_DIR .. "src/mame/drivers/homez80.cpp",
 	MAME_DIR .. "src/mame/drivers/p112.cpp",
 	MAME_DIR .. "src/mame/drivers/phunsy.cpp",
@@ -3693,6 +3697,16 @@ files {
 	MAME_DIR .. "src/mame/audio/elan_eu3a05.h",
 	MAME_DIR .. "src/mame/machine/elan_eu3a05gpio.cpp",
 	MAME_DIR .. "src/mame/machine/elan_eu3a05gpio.h",
+	MAME_DIR .. "src/mame/machine/elan_eu3a05commonsys.cpp",
+	MAME_DIR .. "src/mame/machine/elan_eu3a05commonsys.h",
+	MAME_DIR .. "src/mame/machine/elan_eu3a05sys.cpp",
+	MAME_DIR .. "src/mame/machine/elan_eu3a05sys.h",
+	MAME_DIR .. "src/mame/machine/elan_eu3a14sys.cpp",
+	MAME_DIR .. "src/mame/machine/elan_eu3a14sys.h",
+	MAME_DIR .. "src/mame/video/elan_eu3a05commonvid.cpp",
+	MAME_DIR .. "src/mame/video/elan_eu3a05commonvid.h",
+	MAME_DIR .. "src/mame/video/elan_eu3a05vid.cpp",
+	MAME_DIR .. "src/mame/video/elan_eu3a05vid.h",
 	MAME_DIR .. "src/mame/drivers/trkfldch.cpp",
 	MAME_DIR .. "src/mame/drivers/tvgame.cpp",
 	MAME_DIR .. "src/mame/drivers/spg110.cpp",

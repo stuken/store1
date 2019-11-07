@@ -8,8 +8,10 @@
 #ifndef PFUNCTION_H_
 #define PFUNCTION_H_
 
+#include "pmath.h"
 #include "pstate.h"
 #include "pstring.h"
+#include "putil.h"
 
 #include <vector>
 
@@ -21,7 +23,9 @@ namespace plib {
 
 	/*! Class providing support for evaluating expressions
 	 *
+	 *  @tparam NT Number type, should be float or double
 	 */
+	template <typename NT>
 	class pfunction
 	{
 		enum rpn_cmd
@@ -40,9 +44,9 @@ namespace plib {
 		};
 		struct rpn_inst
 		{
-			rpn_inst() : m_cmd(ADD), m_param(0.0) { }
+			rpn_inst() : m_cmd(ADD), m_param(plib::constants<NT>::zero()) { }
 			rpn_cmd m_cmd;
-			double m_param;
+			NT m_param;
 		};
 	public:
 		/*! Constructor with state saving support
@@ -91,20 +95,20 @@ namespace plib {
 		 * @param values for input variables, e.g. {1.1, 2.2}
 		 * @return value of expression
 		 */
-		double evaluate(const std::vector<double> &values);
+		NT evaluate(const std::vector<NT> &values) noexcept;
 
 	private:
 
 		void compile_postfix(const std::vector<pstring> &inputs,
 				const std::vector<pstring> &cmds, const pstring &expr);
 
-		double lfsr_random()
+		NT lfsr_random() noexcept
 		{
 			std::uint16_t lsb = m_lfsr & 1;
 			m_lfsr >>= 1;
 			if (lsb)
 				m_lfsr ^= 0xB400u; // taps 15, 13, 12, 10
-			return static_cast<double>(m_lfsr) / static_cast<double>(0xffffu);
+			return static_cast<NT>(m_lfsr) / static_cast<NT>(0xffffu);
 		}
 
 		std::vector<rpn_inst> m_precompiled; //!< precompiled expression
@@ -112,7 +116,12 @@ namespace plib {
 		std::uint16_t m_lfsr; //!< lfsr used for generating random numbers
 	};
 
-
+	extern template class pfunction<float>;
+	extern template class pfunction<double>;
+	extern template class pfunction<long double>;
+#if (PUSE_FLOAT128)
+	extern template class pfunction<__float128>;
+#endif
 } // namespace plib
 
 #endif /* PEXCEPTION_H_ */

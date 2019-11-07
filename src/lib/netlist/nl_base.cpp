@@ -19,8 +19,6 @@
 
 #include "nl_errstr.h"
 
-#include <cmath>
-//#include <cstring>
 #include <limits>
 
 namespace netlist
@@ -40,14 +38,14 @@ namespace netlist
 	public:
 		logic_family_ttl_t() : logic_family_desc_t()
 		{
-			m_fixed_V = 5.0;
-			m_low_thresh_PCNT = 0.8 / 5.0;
-			m_high_thresh_PCNT = 2.0 / 5.0;
+			m_fixed_V = nlconst::magic(5.0);
+			m_low_thresh_PCNT = nlconst::magic(0.8 / 5.0);
+			m_high_thresh_PCNT = nlconst::magic(2.0 / 5.0);
 			// m_low_V  - these depend on sinked/sourced current. Values should be suitable for typical applications.
-			m_low_VO = 0.1;
-			m_high_VO = 1.0; // 4.0
-			m_R_low = 1.0;
-			m_R_high = 130.0;
+			m_low_VO = nlconst::magic(0.1);
+			m_high_VO = nlconst::magic(1.0); // 4.0
+			m_R_low = nlconst::magic(1.0);
+			m_R_high = nlconst::magic(130.0);
 		}
 		unique_pool_ptr<devices::nld_base_d_to_a_proxy> create_d_a_proxy(netlist_state_t &anetlist, const pstring &name, logic_output_t *proxied) const override;
 		unique_pool_ptr<devices::nld_base_a_to_d_proxy> create_a_d_proxy(netlist_state_t &anetlist, const pstring &name, logic_input_t *proxied) const override;
@@ -67,14 +65,14 @@ namespace netlist
 	public:
 		logic_family_cd4xxx_t() : logic_family_desc_t()
 		{
-			m_fixed_V = 0.0;
-			m_low_thresh_PCNT = 1.5 / 5.0;
-			m_high_thresh_PCNT = 3.5 / 5.0;
+			m_fixed_V = nlconst::magic(0.0);
+			m_low_thresh_PCNT = nlconst::magic(1.5 / 5.0);
+			m_high_thresh_PCNT = nlconst::magic(3.5 / 5.0);
 			// m_low_V  - these depend on sinked/sourced current. Values should be suitable for typical applications.
-			m_low_VO = 0.05;
-			m_high_VO = 0.05; // 4.95
-			m_R_low = 10.0;
-			m_R_high = 10.0;
+			m_low_VO = nlconst::magic(0.05);
+			m_high_VO = nlconst::magic(0.05); // 4.95
+			m_R_low = nlconst::magic(10.0);
+			m_R_high = nlconst::magic(10.0);
 		}
 		unique_pool_ptr<devices::nld_base_d_to_a_proxy> create_d_a_proxy(netlist_state_t &anetlist, const pstring &name, logic_output_t *proxied) const override;
 		unique_pool_ptr<devices::nld_base_a_to_d_proxy> create_a_d_proxy(netlist_state_t &anetlist, const pstring &name, logic_input_t *proxied) const override;
@@ -129,8 +127,8 @@ namespace netlist
 		m_qsize = this->size();
 		for (std::size_t i = 0; i < m_qsize; i++ )
 		{
-			m_times[i] =  this->listptr()[i].m_exec_time.as_raw();
-			m_net_ids[i] = state().find_net_id(this->listptr()[i].m_object);
+			m_times[i] =  this->listptr()[i].exec_time().as_raw();
+			m_net_ids[i] = state().find_net_id(this->listptr()[i].object());
 		}
 	}
 
@@ -163,7 +161,7 @@ namespace netlist
 	{
 	}
 
-	detail::terminal_type detail::core_terminal_t::type() const
+	detail::terminal_type detail::core_terminal_t::type() const noexcept(false)
 	{
 		if (dynamic_cast<const terminal_t *>(this) != nullptr)
 			return terminal_type::TERMINAL;
@@ -176,7 +174,8 @@ namespace netlist
 		else
 		{
 			state().log().fatal(MF_UNKNOWN_TYPE_FOR_OBJECT(name()));
-			return terminal_type::TERMINAL; // please compiler
+			plib::pthrow<nl_exception>(MF_UNKNOWN_TYPE_FOR_OBJECT(name()));
+			//return terminal_type::TERMINAL; // please compiler
 		}
 	}
 
@@ -408,7 +407,7 @@ namespace netlist
 	}
 
 
-	void netlist_t::print_stats() const NL_NOEXCEPT
+	void netlist_t::print_stats() const
 	{
 		if (m_use_stats)
 		{
@@ -482,7 +481,7 @@ namespace netlist
 				if (stats->m_stat_inc_active() > 3 * stats->m_stat_total_time.count()
 					&& stats->m_stat_inc_active() > trigger)
 					log().verbose("HINT({}, NO_DEACTIVATE) // {} {} {}", ep->name(),
-						static_cast<double>(stats->m_stat_inc_active()) / static_cast<double>(stats->m_stat_total_time.count()),
+						static_cast<nl_fptype>(stats->m_stat_inc_active()) / static_cast<nl_fptype>(stats->m_stat_total_time.count()),
 						stats->m_stat_inc_active(), stats->m_stat_total_time.count());
 			}
 		}
@@ -496,7 +495,10 @@ namespace netlist
 			if (cc(d.second.get()))
 			{
 				if (ret != nullptr)
+				{
 					m_log.fatal(MF_MORE_THAN_ONE_1_DEVICE_FOUND(classname));
+					plib::pthrow<nl_exception>(MF_MORE_THAN_ONE_1_DEVICE_FOUND(classname));
+				}
 				else
 					ret = d.second.get();
 			}
@@ -561,7 +563,7 @@ namespace netlist
 	: core_device_t(owner, name)
 	{
 	}
-
+#if 0
 	setup_t &device_t::setup() noexcept
 	{
 		return state().setup();
@@ -571,13 +573,14 @@ namespace netlist
 	{
 		return state().setup();
 	}
+#endif
 
 	void device_t::register_subalias(const pstring &name, detail::core_terminal_t &term)
 	{
 		pstring alias = this->name() + "." + name;
 
 		// everything already fully qualified
-		setup().register_alias_nofqn(alias, term.name());
+		state().setup().register_alias_nofqn(alias, term.name());
 	}
 
 	void device_t::register_subalias(const pstring &name, const pstring &aliased)
@@ -586,17 +589,17 @@ namespace netlist
 		pstring aliased_fqn = this->name() + "." + aliased;
 
 		// everything already fully qualified
-		setup().register_alias_nofqn(alias, aliased_fqn);
+		state().setup().register_alias_nofqn(alias, aliased_fqn);
 	}
 
 	void device_t::connect(detail::core_terminal_t &t1, detail::core_terminal_t &t2)
 	{
-		setup().register_link_fqn(t1.name(), t2.name());
+		state().setup().register_link_fqn(t1.name(), t2.name());
 	}
 
 	void device_t::connect(const pstring &t1, const pstring &t2)
 	{
-		setup().register_link_fqn(name() + "." + t1, name() + "." + t2);
+		state().setup().register_link_fqn(name() + "." + t1, name() + "." + t2);
 	}
 
 	/* FIXME: this is only used by solver code since matrix solvers are started in
@@ -604,8 +607,11 @@ namespace netlist
 	 */
 	void device_t::connect_post_start(detail::core_terminal_t &t1, detail::core_terminal_t &t2)
 	{
-		if (!setup().connect(t1, t2))
+		if (!state().setup().connect(t1, t2))
+		{
 			log().fatal(MF_ERROR_CONNECTING_1_TO_2(t1.name(), t2.name()));
+			plib::pthrow<nl_exception>(MF_ERROR_CONNECTING_1_TO_2(t1.name(), t2.name()));
+		}
 	}
 
 
@@ -620,7 +626,7 @@ namespace netlist
 
 	detail::family_setter_t::family_setter_t(core_device_t &dev, const pstring &desc)
 	{
-		dev.set_logic_family(dev.setup().family_from_model(desc));
+		dev.set_logic_family(dev.state().setup().family_from_model(desc));
 	}
 
 	detail::family_setter_t::family_setter_t(core_device_t &dev, const logic_family_desc_t *desc)
@@ -657,7 +663,7 @@ namespace netlist
 	}
 
 
-	void detail::net_t::reset()
+	void detail::net_t::reset() noexcept
 	{
 		m_next_scheduled_time = netlist_time::zero();
 		m_in_queue = queue_status::DELIVERED;
@@ -668,7 +674,7 @@ namespace netlist
 		auto *p = dynamic_cast<analog_net_t *>(this);
 
 		if (p != nullptr)
-			p->m_cur_Analog = 0.0;
+			p->m_cur_Analog = nlconst::zero();
 
 		/* rebuild m_list and reset terminals to active or analog out state */
 
@@ -682,18 +688,21 @@ namespace netlist
 		}
 	}
 
-	void detail::net_t::add_terminal(detail::core_terminal_t &terminal) NL_NOEXCEPT
+	void detail::net_t::add_terminal(detail::core_terminal_t &terminal) noexcept(false)
 	{
 		for (auto &t : m_core_terms)
 			if (t == &terminal)
+			{
 				state().log().fatal(MF_NET_1_DUPLICATE_TERMINAL_2(name(), t->name()));
+				plib::pthrow<nl_exception>(MF_NET_1_DUPLICATE_TERMINAL_2(name(), t->name()));
+			}
 
 		terminal.set_net(this);
 
 		m_core_terms.push_back(&terminal);
 	}
 
-	void detail::net_t::remove_terminal(detail::core_terminal_t &terminal) NL_NOEXCEPT
+	void detail::net_t::remove_terminal(detail::core_terminal_t &terminal) noexcept(false)
 	{
 		if (plib::container::contains(m_core_terms, &terminal))
 		{
@@ -701,7 +710,10 @@ namespace netlist
 			plib::container::remove(m_core_terms, &terminal);
 		}
 		else
+		{
 			state().log().fatal(MF_REMOVE_TERMINAL_1_FROM_NET_2(terminal.name(), this->name()));
+			plib::pthrow<nl_exception>(MF_REMOVE_TERMINAL_1_FROM_NET_2(terminal.name(), this->name()));
+		}
 	}
 
 	void detail::net_t::move_connections(detail::net_t &dest_net)
@@ -726,7 +738,7 @@ namespace netlist
 
 	analog_net_t::analog_net_t(netlist_state_t &nl, const pstring &aname, detail::core_terminal_t *mr)
 		: net_t(nl, aname, mr)
-		, m_cur_Analog(*this, "m_cur_Analog", 0.0)
+		, m_cur_Analog(*this, "m_cur_Analog", nlconst::zero())
 		, m_solver(nullptr)
 	{
 	}
@@ -784,7 +796,7 @@ namespace netlist
 				net().solver()->update_forced();
 	}
 
-	void terminal_t::schedule_solve_after(const netlist_time after)
+	void terminal_t::schedule_solve_after(netlist_time after)
 	{
 		// Nets may belong to railnets which do not have a solver attached
 		if (this->has_net())
@@ -814,7 +826,7 @@ namespace netlist
 		state().setup().register_term(*this);
 	}
 
-	void logic_output_t::initial(const netlist_sig_t val)
+	void logic_output_t::initial(const netlist_sig_t val) noexcept
 	{
 		if (has_net())
 			net().initial(val);
@@ -846,7 +858,7 @@ namespace netlist
 		state().setup().register_term(*this);
 	}
 
-	void analog_output_t::initial(const nl_double val)
+	void analog_output_t::initial(const nl_fptype val) noexcept
 	{
 		net().set_Q_Analog(val);
 	}
@@ -870,14 +882,14 @@ namespace netlist
 	param_t::param_t(device_t &device, const pstring &name)
 		: device_object_t(device, device.name() + "." + name)
 	{
-		device.setup().register_param_t(this->name(), *this);
+		device.state().setup().register_param_t(this->name(), *this);
 	}
 
-	param_t::param_type_t param_t::param_type() const
+	param_t::param_type_t param_t::param_type() const noexcept(false)
 	{
 		if (dynamic_cast<const param_str_t *>(this) != nullptr)
 			return STRING;
-		else if (dynamic_cast<const param_double_t *>(this) != nullptr)
+		else if (dynamic_cast<const param_fp_t *>(this) != nullptr)
 			return DOUBLE;
 		else if (dynamic_cast<const param_int_t *>(this) != nullptr)
 			return INTEGER;
@@ -888,19 +900,19 @@ namespace netlist
 		else
 		{
 			state().log().fatal(MF_UNKNOWN_PARAM_TYPE(name()));
-			return POINTER; /* Please compiler */
+			plib::pthrow<nl_exception>(MF_UNKNOWN_PARAM_TYPE(name()));
 		}
 	}
 
 
-	void param_t::update_param() NL_NOEXCEPT
+	void param_t::update_param() noexcept
 	{
 		device().update_param();
 	}
 
 	pstring param_t::get_initial(const device_t &dev, bool *found)
 	{
-		pstring res = dev.setup().get_initial_param_val(this->name(), "");
+		pstring res = dev.state().setup().get_initial_param_val(this->name(), "");
 		*found = (res != "");
 		return res;
 	}
@@ -913,10 +925,10 @@ namespace netlist
 	param_str_t::param_str_t(device_t &device, const pstring &name, const pstring &val)
 	: param_t(device, name)
 	{
-		m_param = device.setup().get_initial_param_val(this->name(),val);
+		m_param = device.state().setup().get_initial_param_val(this->name(),val);
 	}
 
-	void param_str_t::changed()
+	void param_str_t::changed() noexcept
 	{
 	}
 
@@ -927,9 +939,8 @@ namespace netlist
 		//netlist().save(*this, m_param, "m_param");
 	}
 
-	void param_model_t::changed()
+	void param_model_t::changed() noexcept
 	{
-		state().log().fatal(MF_MODEL_1_CAN_NOT_BE_CHANGED_AT_RUNTIME(name()));
 	}
 
 	const pstring param_model_t::value_str(const pstring &entity)
@@ -937,7 +948,7 @@ namespace netlist
 		return state().setup().models().value_str(str(), entity);
 	}
 
-	nl_double param_model_t::value(const pstring &entity)
+	nl_fptype param_model_t::value(const pstring &entity)
 	{
 		return state().setup().models().value(str(), entity);
 	}
@@ -945,51 +956,51 @@ namespace netlist
 
 	plib::unique_ptr<std::istream> param_data_t::stream()
 	{
-		return device().setup().get_data_stream(str());
+		return device().state().setup().get_data_stream(str());
 	}
 
-	bool detail::core_terminal_t::is_logic() const NL_NOEXCEPT
+	bool detail::core_terminal_t::is_logic() const noexcept
 	{
 		return dynamic_cast<const logic_t *>(this) != nullptr;
 	}
 
-	bool detail::core_terminal_t::is_logic_input() const NL_NOEXCEPT
+	bool detail::core_terminal_t::is_logic_input() const noexcept
 	{
 		return dynamic_cast<const logic_input_t *>(this) != nullptr;
 	}
 
-	bool detail::core_terminal_t::is_logic_output() const NL_NOEXCEPT
+	bool detail::core_terminal_t::is_logic_output() const noexcept
 	{
 		return dynamic_cast<const logic_output_t *>(this) != nullptr;
 	}
 
-	bool detail::core_terminal_t::is_analog() const NL_NOEXCEPT
+	bool detail::core_terminal_t::is_analog() const noexcept
 	{
 		return dynamic_cast<const analog_t *>(this) != nullptr;
 	}
 
-	bool detail::core_terminal_t::is_analog_input() const NL_NOEXCEPT
+	bool detail::core_terminal_t::is_analog_input() const noexcept
 	{
 		return dynamic_cast<const analog_input_t *>(this) != nullptr;
 	}
 
-	bool detail::core_terminal_t::is_analog_output() const NL_NOEXCEPT
+	bool detail::core_terminal_t::is_analog_output() const noexcept
 	{
 		return dynamic_cast<const analog_output_t *>(this) != nullptr;
 	}
 
 
-	bool detail::net_t::is_logic() const NL_NOEXCEPT
+	bool detail::net_t::is_logic() const noexcept
 	{
 		return dynamic_cast<const logic_net_t *>(this) != nullptr;
 	}
 
-	bool detail::net_t::is_analog() const NL_NOEXCEPT
+	bool detail::net_t::is_analog() const noexcept
 	{
 		return dynamic_cast<const analog_net_t *>(this) != nullptr;
 	}
 
-	void netlist_t::process_queue(const netlist_time delta) NL_NOEXCEPT
+	void netlist_t::process_queue(const netlist_time delta) noexcept
 	{
 		if (!m_use_stats)
 			process_queue_stats<false>(delta, m_mainclock);

@@ -175,7 +175,7 @@ bzone.cpp
 //by35.cpp         // pinball
 //by6803.cpp       // pinball
 //by68701.cpp      // pinball
-byvid.cpp          // pinball-video
+//byvid.cpp          // pinball-video
 cabal.cpp
 //cabaret.cpp      // poker
 calchase.cpp
@@ -645,7 +645,7 @@ lastfght.cpp
 //laz_ribrac.cpp   // mechanical
 lazercmd.cpp
 lbeach.cpp
-lckydraw.cpp
+//lckydraw.cpp     // pinball
 legionna.cpp
 leland.cpp
 lemmings.cpp

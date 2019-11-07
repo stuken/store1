@@ -103,10 +103,10 @@ namespace netlist
 		state_var<bool> m_ff;
 		state_var<bool> m_last_reset;
 
-		nl_double clamp(const nl_double v, const nl_double a, const nl_double b)
+		nl_fptype clamp(const nl_fptype v, const nl_fptype a, const nl_fptype b)
 		{
-			nl_double ret = v;
-			nl_double vcc = m_R1.m_P();
+			nl_fptype ret = v;
+			nl_fptype vcc = m_R1.m_P();
 
 			if (ret >  vcc - a)
 				ret = vcc - a;
@@ -140,11 +140,11 @@ namespace netlist
 		m_RDIS.reset();
 
 		/* FIXME make resistances a parameter, properly model other variants */
-		m_R1.set_R(5000);
-		m_R2.set_R(5000);
-		m_R3.set_R(5000);
-		m_ROUT.set_R(20);
-		m_RDIS.set_R(R_OFF);
+		m_R1.set_R(nlconst::magic(5000));
+		m_R2.set_R(nlconst::magic(5000));
+		m_R3.set_R(nlconst::magic(5000));
+		m_ROUT.set_R(nlconst::magic(20));
+		m_RDIS.set_R(nlconst::magic(R_OFF));
 
 		m_last_out = true;
 	}
@@ -161,9 +161,9 @@ namespace netlist
 		}
 		else
 		{
-			const nl_double vt = clamp(m_R2.m_P(), 0.7, 1.4);
+			const nl_fptype vt = clamp(m_R2.m_P(), nlconst::magic(0.7), nlconst::magic(1.4));
 			const bool bthresh = (m_THRES() > vt);
-			const bool btrig = (m_TRIG() > clamp(m_R2.m_N(), 0.7, 1.4));
+			const bool btrig = (m_TRIG() > clamp(m_R2.m_N(), nlconst::magic(0.7), nlconst::magic(1.4)));
 
 			if (!btrig)
 				m_ff = true;
@@ -177,14 +177,14 @@ namespace netlist
 		{
 			m_RDIS.update();
 			m_OUT.push(m_R3.m_N());
-			m_RDIS.set_R(R_ON);
+			m_RDIS.set_R(nlconst::magic(R_ON));
 		}
 		else if (!m_last_out && out)
 		{
 			m_RDIS.update();
 			// FIXME: Should be delayed by 100ns
 			m_OUT.push(m_R1.m_P());
-			m_RDIS.set_R(R_OFF);
+			m_RDIS.set_R(nlconst::magic(R_OFF));
 		}
 		m_last_reset = reset;
 		m_last_out = out;

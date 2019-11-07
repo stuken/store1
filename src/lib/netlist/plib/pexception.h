@@ -15,15 +15,25 @@
 
 namespace plib {
 
-	//============================================================
-	// terminate
-	//============================================================
-
-	/*! Terminate the program
+	/*! Terminate the program.
 	 *
 	 * \note could be enhanced by setting a termination handler
 	 */
 	[[noreturn]] void terminate(const pstring &msg) noexcept;
+
+
+	///! throw an exception.
+	///
+	/// throws an exception E. The purpose is to clearly identify exception
+	/// throwing in the code
+	///
+	/// @tparam E Type of exception to be thrown
+	///
+	template<typename E, typename... Args>
+	[[noreturn]] static inline void pthrow(Args&&... args) noexcept(false)
+	{
+		throw E(std::forward<Args>(args)...);
+	}
 
 	//============================================================
 	//  exception base
@@ -34,7 +44,7 @@ namespace plib {
 	public:
 		explicit pexception(const pstring &text);
 
-		const pstring &text() { return m_text; }
+		const pstring &text() const noexcept { return m_text; }
 		const char* what() const noexcept override { return m_text.c_str(); }
 
 	private:

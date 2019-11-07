@@ -22,17 +22,16 @@
 #include "plib/ptime.h"
 #include "plib/putil.h"
 
-//#include <cstdint>
 #include <unordered_map>
 
 namespace netlist
 {
-	/*! @brief plib::constants struct specialized for nl_double
+	/*! @brief plib::constants struct specialized for nl_fptype
 	 *
-	 *  This may be any of bool, uint8_t, uint16_t, uin32_t and uint64_t.
-	 *  The choice has little to no impact on performance.
 	 */
-	using constants = plib::constants<nl_double>;
+	struct nlconst : public plib::constants<nl_fptype>
+	{
+	};
 
 	/*! @brief netlist_sig_t is the type used for logic signals.
 	 *
@@ -62,7 +61,7 @@ namespace netlist
 		COPYASSIGNMOVE(callbacks_t, default)
 
 		/* logging callback */
-		virtual void vlog(const plib::plog_level &l, const pstring &ls) const = 0;
+		virtual void vlog(const plib::plog_level &l, const pstring &ls) const noexcept = 0;
 
 	};
 
@@ -105,7 +104,7 @@ namespace netlist
 	namespace detail {
 
 		/*! Enum specifying the type of object */
-		enum terminal_type {
+		enum class terminal_type {
 			TERMINAL = 0, /*!< object is an analog terminal */
 			INPUT    = 1, /*!< object is an input */
 			OUTPUT   = 2, /*!< object is an output */

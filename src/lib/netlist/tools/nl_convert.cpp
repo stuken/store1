@@ -1,16 +1,17 @@
 // license:GPL-2.0+
 // copyright-holders:Couriersud
 /*
- * nl_convert.c
+ * nl_convert.cpp
  *
  */
 
 #include "plib/palloc.h"
-#include "nl_convert.h"
+#include "plib/pstonum.h"
 #include "plib/putil.h"
 
+#include "nl_convert.h"
+
 #include <algorithm>
-#include <cmath>
 #include <unordered_map>
 
 /* FIXME: temporarily defined here - should be in a file */
@@ -206,7 +207,7 @@ const pstring nl_convert_base_t::get_nl_val(const double val)
 {
 	for (auto &e : m_units)
 	{
-		if (e.m_mult <= std::abs(val))
+		if (e.m_mult <= plib::abs(val))
 			return plib::pfmt(e.m_func)(val / e.m_mult);
 	}
 	return plib::pfmt("{1}")(val);
@@ -338,7 +339,7 @@ void nl_convert_spice_t::process_line(const pstring &line)
 				pstring model;
 				pstring pins ="CBE";
 				bool err(false);
-				auto nval = plib::pstonum_ne<long, true>(tt[4], err);
+				auto nval = plib::pstonum_ne<long>(tt[4], err);
 				plib::unused_var(nval);
 
 				if ((!err || plib::startsWith(tt[4], "N")) && tt.size() > 5)
@@ -477,9 +478,9 @@ nl_convert_eagle_t::tokenizer::tokenizer(nl_convert_eagle_t &convert, plib::putf
 	register_token("(");
 }
 
-void nl_convert_eagle_t::tokenizer::verror(const pstring &msg, int line_num, const pstring &line)
+void nl_convert_eagle_t::tokenizer::verror(const pstring &msg)
 {
-	m_convert.out("{} (line {}): {}\n", msg.c_str(), line_num, line.c_str());
+	m_convert.out("{}\n", msg);
 }
 
 //FIXME: should accept a stream as well
@@ -616,9 +617,9 @@ nl_convert_rinf_t::tokenizer::tokenizer(nl_convert_rinf_t &convert, plib::putf8_
 	m_tok_END = register_token(".END");
 }
 
-void nl_convert_rinf_t::tokenizer::verror(const pstring &msg, int line_num, const pstring &line)
+void nl_convert_rinf_t::tokenizer::verror(const pstring &msg)
 {
-	m_convert.out("{} (line {}): {}\n", msg.c_str(), line_num, line.c_str());
+	m_convert.out("{}\n", msg);
 }
 
 /*      token_id_t m_tok_HFA;

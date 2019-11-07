@@ -5,12 +5,11 @@
  *
  */
 
-#pragma once
-
 #ifndef POPTIONS_H_
 #define POPTIONS_H_
 
 #include "plists.h"
+#include "pstonum.h"
 #include "pstring.h"
 #include "putil.h"
 
@@ -64,10 +63,10 @@ public:
 
 	/* no_argument options will be called with "" argument */
 
-	pstring short_opt() { return m_short; }
-	pstring long_opt() { return m_long; }
-	bool has_argument() { return m_has_argument ; }
-	bool was_specified() { return m_specified; }
+	pstring short_opt() const { return m_short; }
+	pstring long_opt() const { return m_long; }
+	bool has_argument() const { return m_has_argument ; }
+	bool was_specified() const { return m_specified; }
 
 	int do_parse(const pstring &argument)
 	{
@@ -185,7 +184,7 @@ protected:
 	int parse(const pstring &argument) override
 	{
 		bool err(false);
-		m_val = pstonum_ne<T, true>(argument, err);
+		m_val = pstonum_ne<T>(argument, err);
 		return (err ? 1 : (m_val < m_min || m_val > m_max));
 	}
 

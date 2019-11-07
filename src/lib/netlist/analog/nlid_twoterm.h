@@ -39,8 +39,6 @@
 #include "nld_generic_models.h"
 #include "plib/pfunction.h"
 
-#include <cmath>
-
 // -----------------------------------------------------------------------------
 // Implementation
 // -----------------------------------------------------------------------------
@@ -65,7 +63,7 @@ namespace analog
 	{
 		plib::unused_var(d1);
 		if (b)
-			throw nl_exception("bselect with netlist and b==true");
+			plib::pthrow<nl_exception>("bselect with netlist and b==true");
 		return d2;
 	}
 
@@ -91,20 +89,20 @@ namespace analog
 
 		void solve_later(netlist_time delay = netlist_time::quantum());
 
-		void set_G_V_I(const nl_double G, const nl_double V, const nl_double I)
+		void set_G_V_I(nl_fptype G, nl_fptype V, nl_fptype I) const noexcept
 		{
 			/*      GO, GT, I                */
 			m_P.set_go_gt_I( -G,  G, (  V) * G - I);
 			m_N.set_go_gt_I( -G,  G, ( -V) * G + I);
 		}
 
-		nl_double deltaV() const
+		nl_fptype deltaV() const noexcept
 		{
 			return m_P.net().Q_Analog() - m_N.net().Q_Analog();
 		}
 
-		void set_mat(const nl_double a11, const nl_double a12, const nl_double rhs1,
-					 const nl_double a21, const nl_double a22, const nl_double rhs2)
+		void set_mat(nl_fptype a11, nl_fptype a12, nl_fptype rhs1,
+					 nl_fptype a21, nl_fptype a22, nl_fptype rhs2) const noexcept
 		{
 			/*      GO, GT, I                */
 			m_P.set_go_gt_I(a12, a11, rhs1);
@@ -125,11 +123,11 @@ namespace analog
 		{
 		}
 
-		void set_R(const nl_double R)
+		void set_R(const nl_fptype R)
 		{
-			const nl_double G = plib::constants<nl_double>::one() / R;
-			set_mat( G, -G, 0.0,
-					-G,  G, 0.0);
+			const nl_fptype G = nlconst::one() / R;
+			set_mat( G, -G, nlconst::zero(),
+					-G,  G, nlconst::zero());
 		}
 
 		NETLIB_RESETI();
@@ -142,7 +140,7 @@ namespace analog
 	NETLIB_OBJECT_DERIVED(R, R_base)
 	{
 		NETLIB_CONSTRUCTOR_DERIVED(R, R_base)
-		, m_R(*this, "R", 1e9)
+		, m_R(*this, "R", nlconst::magic(1e9))
 		{
 		}
 
@@ -163,7 +161,7 @@ namespace analog
 		}
 
 	private:
-		param_double_t m_R;
+		param_fp_t m_R;
 		/* protect set_R ... it's a recipe to desaster when used to bypass the parameter */
 		using NETLIB_NAME(R_base)::set_R;
 	};
@@ -178,7 +176,7 @@ namespace analog
 		, m_R1(*this, "_R1")
 		, m_R2(*this, "_R2")
 		, m_R(*this, "R", 10000)
-		, m_Dial(*this, "DIAL", 0.5)
+		, m_Dial(*this, "DIAL", nlconst::half())
 		, m_DialIsLog(*this, "DIALLOG", false)
 		, m_Reverse(*this, "REVERSE", false)
 		{
@@ -198,8 +196,8 @@ namespace analog
 		NETLIB_SUB(R_base) m_R1;
 		NETLIB_SUB(R_base) m_R2;
 
-		param_double_t m_R;
-		param_double_t m_Dial;
+		param_fp_t m_R;
+		param_fp_t m_Dial;
 		param_logic_t m_DialIsLog;
 		param_logic_t m_Reverse;
 	};
@@ -208,8 +206,8 @@ namespace analog
 	{
 		NETLIB_CONSTRUCTOR(POT2)
 		, m_R1(*this, "_R1")
-		, m_R(*this, "R", 10000)
-		, m_Dial(*this, "DIAL", 0.5)
+		, m_R(*this, "R", nlconst::magic(10000.0))
+		, m_Dial(*this, "DIAL", nlconst::half())
 		, m_DialIsLog(*this, "DIALLOG", false)
 		, m_Reverse(*this, "REVERSE", false)
 		{
@@ -225,8 +223,8 @@ namespace analog
 	private:
 		NETLIB_SUB(R_base) m_R1;
 
-		param_double_t m_R;
-		param_double_t m_Dial;
+		param_fp_t m_R;
+		param_fp_t m_Dial;
 		param_logic_t m_DialIsLog;
 		param_logic_t m_Reverse;
 	};
@@ -239,7 +237,7 @@ namespace analog
 	{
 	public:
 		NETLIB_CONSTRUCTOR_DERIVED(C, twoterm)
-		, m_C(*this, "C", 1e-6)
+		, m_C(*this, "C", nlconst::magic(1e-6))
 		, m_cap(*this, "m_cap")
 		{
 		}
@@ -250,8 +248,8 @@ namespace analog
 			m_cap.timestep(m_C(), deltaV(), step);
 			if (m_cap.type() == capacitor_e::CONSTANT_CAPACITY)
 			{
-				const nl_double I = m_cap.Ieq(m_C(), deltaV());
-				const nl_double G = m_cap.G(m_C());
+				const nl_fptype I = m_cap.Ieq(m_C(), deltaV());
+				const nl_fptype G = m_cap.G(m_C());
 				set_mat( G, -G, -I,
 						-G,  G,  I);
 			}
@@ -260,13 +258,13 @@ namespace analog
 		NETLIB_IS_DYNAMIC(m_cap.type() == capacitor_e::VARIABLE_CAPACITY)
 		NETLIB_UPDATE_TERMINALSI()
 		{
-			const nl_double I = m_cap.Ieq(m_C(), deltaV());
-			const nl_double G = m_cap.G(m_C());
+			const nl_fptype I = m_cap.Ieq(m_C(), deltaV());
+			const nl_fptype G = m_cap.G(m_C());
 			set_mat( G, -G, -I,
 					-G,  G,  I);
 		}
 
-		param_double_t m_C;
+		param_fp_t m_C;
 		NETLIB_RESETI()
 		{
 			m_cap.setparams(exec().gmin());
@@ -289,10 +287,10 @@ namespace analog
 	{
 	public:
 		NETLIB_CONSTRUCTOR_DERIVED(L, twoterm)
-		, m_L(*this, "L", 1e-6)
-		, m_gmin(0.0)
-		, m_G(0.0)
-		, m_I(0.0)
+		, m_L(*this, "L", nlconst::magic(1e-6))
+		, m_gmin(nlconst::zero())
+		, m_G(nlconst::zero())
+		, m_I(nlconst::zero())
 		{
 			//register_term("1", m_P);
 			//register_term("2", m_N);
@@ -307,11 +305,11 @@ namespace analog
 		NETLIB_UPDATE_PARAMI();
 
 	private:
-		param_double_t m_L;
+		param_fp_t m_L;
 
-		nl_double m_gmin;
-		nl_double m_G;
-		nl_double m_I;
+		nl_fptype m_gmin;
+		nl_fptype m_G;
+		nl_fptype m_I;
 	};
 
 	/*! Class representing the diode model paramers.
@@ -392,12 +390,12 @@ namespace analog
 	{
 	public:
 		NETLIB_CONSTRUCTOR_DERIVED(VS, twoterm)
-		, m_t(*this, "m_t", 0.0)
-		, m_R(*this, "R", 0.1)
-		, m_V(*this, "V", 0.0)
+		, m_t(*this, "m_t", nlconst::zero())
+		, m_R(*this, "R", nlconst::magic(0.1))
+		, m_V(*this, "V", nlconst::zero())
 		, m_func(*this,"FUNC", "")
 		, m_compiled(this->name() + ".FUNCC", this, this->state().run_state_manager())
-		, m_funcparam({0.0})
+		, m_funcparam({nlconst::zero()})
 		{
 			register_subalias("P", m_P);
 			register_subalias("N", m_N);
@@ -411,9 +409,9 @@ namespace analog
 		{
 			m_t += step;
 			m_funcparam[0] = m_t;
-			this->set_G_V_I(1.0 / m_R(),
+			this->set_G_V_I(plib::reciprocal(m_R()),
 					m_compiled.evaluate(m_funcparam),
-					0.0);
+					nlconst::zero());
 		}
 
 	protected:
@@ -422,16 +420,16 @@ namespace analog
 		NETLIB_RESETI()
 		{
 			NETLIB_NAME(twoterm)::reset();
-			this->set_G_V_I(1.0 / m_R(), m_V(), 0.0);
+			this->set_G_V_I(plib::reciprocal(m_R()), m_V(), nlconst::zero());
 		}
 
 	private:
-		state_var<double> m_t;
-		param_double_t m_R;
-		param_double_t m_V;
+		state_var<nl_fptype> m_t;
+		param_fp_t m_R;
+		param_fp_t m_V;
 		param_str_t m_func;
-		plib::pfunction m_compiled;
-		std::vector<double> m_funcparam;
+		plib::pfunction<nl_fptype> m_compiled;
+		std::vector<nl_fptype> m_funcparam;
 	};
 
 	// -----------------------------------------------------------------------------
@@ -442,11 +440,11 @@ namespace analog
 	{
 	public:
 		NETLIB_CONSTRUCTOR_DERIVED(CS, twoterm)
-		, m_t(*this, "m_t", 0.0)
-		, m_I(*this, "I", 1.0)
+		, m_t(*this, "m_t", nlconst::zero())
+		, m_I(*this, "I", nlconst::one())
 		, m_func(*this,"FUNC", "")
 		, m_compiled(this->name() + ".FUNCC", this, this->state().run_state_manager())
-		, m_funcparam({0.0})
+		, m_funcparam({nlconst::zero()})
 		{
 			register_subalias("P", m_P);
 			register_subalias("N", m_N);
@@ -459,9 +457,10 @@ namespace analog
 		{
 			m_t += step;
 			m_funcparam[0] = m_t;
-			const double I = m_compiled.evaluate(m_funcparam);
-			set_mat(0.0, 0.0, -I,
-					0.0, 0.0,  I);
+			const nl_fptype I = m_compiled.evaluate(m_funcparam);
+			const auto zero(nlconst::zero());
+			set_mat(zero, zero, -I,
+					zero, zero,  I);
 		}
 
 	protected:
@@ -470,24 +469,26 @@ namespace analog
 		NETLIB_RESETI()
 		{
 			NETLIB_NAME(twoterm)::reset();
-			set_mat(0.0, 0.0, -m_I(),
-					0.0, 0.0,  m_I());
+			const auto zero(nlconst::zero());
+			set_mat(zero, zero, -m_I(),
+					zero, zero,  m_I());
 		}
 
 		NETLIB_UPDATE_PARAMI()
 		{
 			solve_now();
-			set_mat(0.0, 0.0, -m_I(),
-					0.0, 0.0,  m_I());
+			const auto zero(nlconst::zero());
+			set_mat(zero, zero, -m_I(),
+					zero, zero,  m_I());
 		}
 
 
 	private:
-		state_var<double> m_t;
-		param_double_t m_I;
+		state_var<nl_fptype> m_t;
+		param_fp_t m_I;
 		param_str_t m_func;
-		plib::pfunction m_compiled;
-		std::vector<double> m_funcparam;
+		plib::pfunction<nl_fptype> m_compiled;
+		std::vector<nl_fptype> m_funcparam;
 	};
 
 

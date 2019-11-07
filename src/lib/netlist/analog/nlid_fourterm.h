@@ -39,25 +39,25 @@ namespace netlist {
 	{
 	public:
 		NETLIB_CONSTRUCTOR(VCCS)
-		, m_G(*this, "G", 1.0)
-		, m_RI(*this, "RI", 1e9)
+		, m_G(*this, "G", nlconst::one())
+		, m_RI(*this, "RI", nlconst::magic(1e9))
 		, m_OP(*this, "OP", &m_IP)
 		, m_ON(*this, "ON", &m_IP)
 		, m_IP(*this, "IP", &m_IN)   // <= this should be NULL and terminal be filtered out prior to solving...
 		, m_IN(*this, "IN", &m_IP)   // <= this should be NULL and terminal be filtered out prior to solving...
 		, m_OP1(*this, "_OP1", &m_IN)
 		, m_ON1(*this, "_ON1", &m_IN)
-		, m_gfac(1.0)
+		, m_gfac(nlconst::one())
 		{
 			connect(m_OP, m_OP1);
 			connect(m_ON, m_ON1);
-			m_gfac = plib::constants<nl_double>::one();
+			m_gfac = nlconst::one();
 		}
 
 		NETLIB_RESETI();
 
-		param_double_t m_G;
-		param_double_t m_RI;
+		param_fp_t m_G;
+		param_fp_t m_RI;
 
 	protected:
 		NETLIB_UPDATEI();
@@ -76,7 +76,7 @@ namespace netlist {
 		terminal_t m_OP1;
 		terminal_t m_ON1;
 
-		nl_double m_gfac;
+		nl_fptype m_gfac;
 	};
 
 	/* Limited Current source*/
@@ -85,8 +85,8 @@ namespace netlist {
 	{
 	public:
 		NETLIB_CONSTRUCTOR_DERIVED(LVCCS, VCCS)
-		, m_cur_limit(*this, "CURLIM", 1000.0)
-		, m_vi(0.0)
+		, m_cur_limit(*this, "CURLIM", nlconst::magic(1000.0))
+		, m_vi(nlconst::zero())
 		{
 		}
 
@@ -99,8 +99,8 @@ namespace netlist {
 		NETLIB_UPDATE_TERMINALSI();
 
 	private:
-		param_double_t m_cur_limit; /* current limit */
-		nl_double m_vi;
+		param_fp_t m_cur_limit; /* current limit */
+		nl_fptype m_vi;
 	};
 
 	// ----------------------------------------------------------------------------------------
@@ -131,7 +131,7 @@ namespace netlist {
 	public:
 		NETLIB_CONSTRUCTOR_DERIVED(CCCS, VCCS)
 		{
-			m_gfac = plib::constants<nl_double>::one() / m_RI();
+			m_gfac = nlconst::one() / m_RI();
 		}
 
 		NETLIB_RESETI();
@@ -174,7 +174,7 @@ namespace netlist {
 	{
 	public:
 		NETLIB_CONSTRUCTOR_DERIVED(VCVS, VCCS)
-		, m_RO(*this, "RO", 1.0)
+		, m_RO(*this, "RO", nlconst::one())
 		, m_OP2(*this, "_OP2", &m_ON2)
 		, m_ON2(*this, "_ON2", &m_OP2)
 		{
@@ -184,7 +184,7 @@ namespace netlist {
 
 		NETLIB_RESETI();
 
-		param_double_t m_RO;
+		param_fp_t m_RO;
 
 	private:
 		//NETLIB_UPDATEI();
