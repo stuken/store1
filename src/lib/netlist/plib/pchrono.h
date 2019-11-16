@@ -1,12 +1,12 @@
 // license:GPL-2.0+
 // copyright-holders:Couriersud
-/*
- * pchrono.h
- *
- */
 
 #ifndef PCHRONO_H_
 #define PCHRONO_H_
+
+///
+/// \file pchrono.h
+///
 
 #include "pconfig.h"
 #include "ptypes.h"
@@ -65,9 +65,9 @@ namespace plib {
 						"rdtscp;"
 						"shl $32, %%rdx;"
 						"or %%rdx, %%rax;"
-						: "=a"(v)           /* outputs  */
-						:                   /* inputs   */
-						: "%rcx", "%rdx"    /* clobbers */
+						: "=a"(v)           // outputs
+						:                   // inputs
+						: "%rcx", "%rdx"    // clobbers
 				);
 				return v;
 			}
@@ -88,9 +88,9 @@ namespace plib {
 						"rdtsc;"
 						"shl $32, %%rdx;"
 						"or %%rdx, %%rax;"
-						: "=a"(v)   /* outputs  */
-						:           /* inputs   */
-						: "%rdx"    /* clobbers */
+						: "=a"(v)   // outputs
+						:           // inputs
+						: "%rdx"    // clobbers
 				);
 				return v;
 			}
@@ -103,16 +103,14 @@ namespace plib {
 		#endif
 
 
-		/* Based on "How to Benchmark Code Execution Times on Intel?? IA-32 and IA-64
-		 * Instruction Set Architectures", Intel, 2010
-		 *
-		 */
+		// Based on "How to Benchmark Code Execution Times on Intel?? IA-32 and IA-64
+		// Instruction Set Architectures", Intel, 2010
+
 		#if PUSE_ACCURATE_STATS && PHAS_RDTSCP
-		/*
-		 * kills performance completely, but is accurate
-		 * cpuid serializes, but clobbers ebx and ecx
-		 *
-		 */
+		//
+		// kills performance completely, but is accurate
+		// cpuid serializes, but clobbers ebx and ecx
+		//
 
 		struct exact_ticks : public base_ticks<exact_ticks, int64_t>
 		{
@@ -127,9 +125,9 @@ namespace plib {
 						"rdtsc;"
 						"shl $32, %%rdx;"
 						"or %%rdx, %%rax;"
-						: "=a"(v) /* outputs */
-						: "a"(0x0)                /* inputs */
-						: "%ebx", "%ecx", "%rdx"  /* clobbers*/
+						: "=a"(v) // outputs
+						: "a"(0x0)                // inputs
+						: "%ebx", "%ecx", "%rdx"  // clobbers
 				);
 				return v;
 			}
@@ -196,7 +194,7 @@ namespace plib {
 			{
 				guard_t() = delete;
 				explicit guard_t(timer &m) noexcept : m_m(m) { m_m.m_time -= T::start(); }
-				~guard_t() { m_m.m_time += T::stop(); ++m_m.m_count; }
+				~guard_t() noexcept { m_m.m_time += T::stop(); ++m_m.m_count; }
 
 				COPYASSIGNMOVE(guard_t, default)
 
@@ -210,7 +208,7 @@ namespace plib {
 
 			type operator()() const { return m_time; }
 
-			void reset() { m_time = 0; m_count = 0; }
+			void reset() noexcept { m_time = 0; m_count = 0; }
 			type average() const noexcept { return (m_count == 0) ? 0 : m_time / m_count; }
 			type total() const noexcept { return m_time; }
 			ctype count() const noexcept { return m_count; }
@@ -235,11 +233,11 @@ namespace plib {
 			{
 				guard_t() = default;
 				COPYASSIGNMOVE(guard_t, default)
-				/* using default constructor will trigger warning on
-				 * unused local variable.
-				 */
+				// using default constructor will trigger warning on
+				// unused local variable.
+
 				// NOLINTNEXTLINE(modernize-use-equals-default)
-				~guard_t() { }
+				~guard_t() noexcept { }
 			};
 
 			constexpr type operator()() const noexcept { return 0; }
@@ -265,4 +263,4 @@ namespace plib {
 	using pperfcount_t = plib::chrono::counter<enabled_>;
 } // namespace plib
 
-#endif /* PCHRONO_H_ */
+#endif // PCHRONO_H_

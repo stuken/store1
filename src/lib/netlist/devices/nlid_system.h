@@ -1,20 +1,16 @@
 // license:GPL-2.0+
 // copyright-holders:Couriersud
-/*
- * nlid_system.h
- *
- * netlist devices defined in the core
- *
- * This file contains internal headers
- */
-
 #ifndef NLID_SYSTEM_H_
 #define NLID_SYSTEM_H_
+
+///
+/// \file nlid_system.h
+///
 
 #include "netlist/analog/nlid_twoterm.h"
 #include "netlist/nl_base.h"
 #include "netlist/nl_setup.h"
-#include "plib/putil.h"
+#include "netlist/plib/putil.h"
 
 namespace netlist
 {
@@ -45,41 +41,37 @@ namespace devices
 	};
 
 	// -----------------------------------------------------------------------------
-	// mainclock
+	// power pins - not a device, but a helper
 	// -----------------------------------------------------------------------------
 
-	NETLIB_OBJECT(mainclock)
+	/// \brief Power pins class.
+	///
+	/// Power Pins are passive inputs. Delegate noop will silently ignore any
+	/// updates.
+
+	class nld_power_pins
 	{
-		NETLIB_CONSTRUCTOR(mainclock)
-		, m_Q(*this, "Q")
-		, m_freq(*this, "FREQ", nlconst::magic(7159000.0 * 5))
-		{
-			m_inc = netlist_time::from_fp(plib::reciprocal(m_freq()*nlconst::two()));
-		}
-
-		NETLIB_RESETI()
-		{
-			m_Q.net().set_next_scheduled_time(netlist_time::zero());
-		}
-
-		NETLIB_UPDATE_PARAMI()
-		{
-			m_inc = netlist_time::from_fp(plib::reciprocal(m_freq()*nlconst::two()));
-		}
-
-		NETLIB_UPDATEI()
-		{
-			logic_net_t &net = m_Q.net();
-			// this is only called during setup ...
-			net.toggle_new_Q();
-			net.set_next_scheduled_time(exec().time() + m_inc);
-		}
-
 	public:
-		logic_output_t m_Q;
-		netlist_time m_inc;
+		explicit nld_power_pins(device_t &owner, const pstring &sVCC = sPowerVCC,
+			const pstring &sGND = sPowerGND)
+		: m_VCC(owner, sVCC, NETLIB_DELEGATE(power_pins, noop))
+		, m_GND(owner, sGND, NETLIB_DELEGATE(power_pins, noop))
+		{
+		}
+
+		const analog_input_t &VCC() const noexcept
+		{
+			return m_VCC;
+		}
+		const analog_input_t &GND() const noexcept
+		{
+			return m_GND;
+		}
+
 	private:
-		param_fp_t m_freq;
+		void noop() { }
+		analog_input_t m_VCC;
+		analog_input_t m_GND;
 	};
 
 	// -----------------------------------------------------------------------------
@@ -131,7 +123,7 @@ namespace devices
 		, m_funcparam({nlconst::zero()})
 		{
 			if (m_func() != "")
-				m_compiled.compile(std::vector<pstring>({{pstring("T")}}), m_func());
+				m_compiled.compile(m_func(), std::vector<pstring>({{pstring("T")}}));
 			connect(m_feedback, m_Q);
 		}
 		//NETLIB_RESETI();
@@ -228,8 +220,9 @@ namespace devices
 		NETLIB_CONSTRUCTOR(logic_input)
 		, m_Q(*this, "Q")
 		, m_IN(*this, "IN", false)
-		/* make sure we get the family first */
+		// make sure we get the family first
 		, m_FAMILY(*this, "FAMILY", "FAMILY(TYPE=TTL)")
+		, m_supply(*this)
 		{
 			set_logic_family(state().setup().family_from_model(m_FAMILY()));
 			m_Q.set_logic_family(this->logic_family());
@@ -244,6 +237,7 @@ namespace devices
 
 		param_logic_t m_IN;
 		param_model_t m_FAMILY;
+		NETLIB_NAME(power_pins) m_supply;
 	};
 
 	NETLIB_OBJECT(analog_input)
@@ -283,19 +277,18 @@ namespace devices
 	};
 
 	// -----------------------------------------------------------------------------
-	// nld_dummy_input
+	// nld_nc_pin
 	// -----------------------------------------------------------------------------
 
-	NETLIB_OBJECT(dummy_input)
+	NETLIB_OBJECT(nc_pin)
 	{
 	public:
-		NETLIB_CONSTRUCTOR(dummy_input)
+		NETLIB_CONSTRUCTOR(nc_pin)
 		, m_I(*this, "I")
 		{
 		}
 
 	protected:
-
 		NETLIB_RESETI() { }
 		NETLIB_UPDATEI() { }
 
@@ -342,7 +335,7 @@ namespace devices
 
 	private:
 		analog::NETLIB_NAME(twoterm) m_RIN;
-		/* Fixme: only works if the device is time-stepped - need to rework */
+		// Fixme: only works if the device is time-stepped - need to rework
 		analog::NETLIB_NAME(twoterm) m_ROUT;
 		analog_input_t m_I;
 		analog_output_t m_Q;
@@ -351,11 +344,11 @@ namespace devices
 		param_fp_t m_p_ROUT;
 	};
 
-	/* -----------------------------------------------------------------------------
-	 * nld_function
-	 *
-	 * FIXME: Currently a proof of concept to get congo bongo working
-	 * ----------------------------------------------------------------------------- */
+	// -----------------------------------------------------------------------------
+	// nld_function
+	//
+	// FIXME: Currently a proof of concept to get congo bongo working
+	// ----------------------------------------------------------------------------- */
 
 	NETLIB_OBJECT(function)
 	{
@@ -369,20 +362,29 @@ namespace devices
 			for (int i=0; i < m_N(); i++)
 			{
 				pstring n = plib::pfmt("A{1}")(i);
-				m_I.push_back(pool().make_unique<analog_input_t>(*this, n));
+				m_I.push_back(state().make_object<analog_input_t>(*this, n));
 				inps.push_back(n);
 				m_vals.push_back(nlconst::zero());
 			}
-			m_compiled.compile(inps, m_func());
+			m_compiled.compile(m_func(), inps);
 		}
 
 	protected:
+		NETLIB_RESETI()
+		{
+			//m_Q.initial(0.0);
+		}
 
-		NETLIB_RESETI();
-		NETLIB_UPDATEI();
+		NETLIB_UPDATEI()
+		{
+			for (std::size_t i = 0; i < static_cast<unsigned>(m_N()); i++)
+			{
+				m_vals[i] = (*m_I[i])();
+			}
+			m_Q.push(m_compiled.evaluate(m_vals));
+		}
 
 	private:
-
 		param_int_t m_N;
 		param_str_t m_func;
 		analog_output_t m_Q;
@@ -390,6 +392,7 @@ namespace devices
 
 		std::vector<nl_fptype> m_vals;
 		plib::pfunction<nl_fptype> m_compiled;
+
 	};
 
 	// -----------------------------------------------------------------------------
@@ -410,60 +413,40 @@ namespace devices
 			register_subalias("2", m_R.m_N);
 		}
 
-		NETLIB_RESETI();
-		//NETLIB_UPDATE_PARAMI();
-		NETLIB_UPDATEI();
+		NETLIB_RESETI()
+		{
+			m_last_state = 0;
+			m_R.set_R(m_ROFF());
+		}
 
+		NETLIB_UPDATEI()
+		{
+			const netlist_sig_t state = m_I();
+			if (state != m_last_state)
+			{
+				m_last_state = state;
+				const nl_fptype R = state ? m_RON() : m_ROFF();
+
+				// FIXME: We only need to update the net first if this is a time stepping net
+				m_R.update();
+				m_R.set_R(R);
+				m_R.solve_later();
+			}
+		}
+
+		//NETLIB_UPDATE_PARAMI();
+
+		// used by 74123
 		analog::NETLIB_SUB(R_base) m_R;
 		logic_input_t m_I;
 		param_fp_t m_RON;
 		param_fp_t m_ROFF;
 
 	private:
-
 		state_var<netlist_sig_t> m_last_state;
 	};
 
-	// -----------------------------------------------------------------------------
-	// power pins - not a device, but a helper
-	// -----------------------------------------------------------------------------
-
-	/**
-	 * Power Pins are passive inputs. Delegate noop will silently ignore any
-	 * updates.
-	 */
-	class nld_power_pins
-	{
-	public:
-		explicit nld_power_pins(device_t &owner, const pstring &sVCC = "VCC",
-			const pstring &sGND = "GND", bool force_analog_input = false)
-		{
-			if (owner.state().setup().is_extended_validation() || force_analog_input)
-			{
-				m_GND = plib::make_unique<analog_input_t>(owner, sGND, NETLIB_DELEGATE(power_pins, noop));
-				m_VCC = plib::make_unique<analog_input_t>(owner, sVCC, NETLIB_DELEGATE(power_pins, noop));
-			}
-			else
-			{
-				owner.create_and_register_subdevice(sPowerDevRes, m_RVG);
-				owner.register_subalias(sVCC, "_RVG.1");
-				owner.register_subalias(sGND, "_RVG.2");
-			}
-		}
-
-		/* FIXME: this will seg-fault if force_analog_input = false */
-		nl_fptype VCC() const NL_NOEXCEPT { return m_VCC->Q_Analog(); }
-		nl_fptype GND() const NL_NOEXCEPT { return m_GND->Q_Analog(); }
-
-		NETLIB_SUBXX(analog, R) m_RVG; // dummy resistor between VCC and GND
-
-	private:
-		void noop() { }
-		plib::unique_ptr<analog_input_t> m_VCC; // only used during validation or force_analog_input
-		plib::unique_ptr<analog_input_t> m_GND; // only used during validation or force_analog_input
-	};
-
-} //namespace devices
+} // namespace devices
 } // namespace netlist
 
-#endif /* NLD_SYSTEM_H_ */
+#endif // NLD_SYSTEM_H_

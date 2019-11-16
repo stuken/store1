@@ -808,10 +808,7 @@ BUSES["IQ151"] = true
 BUSES["ISA"] = true
 BUSES["ISBX"] = true
 BUSES["JAKKS_GAMEKEY"] = true
-BUSES["HP_OPTROM"] = true
-BUSES["HP80_OPTROM"] = true
 BUSES["HP80_IO"] = true
-BUSES["HP9825_OPTROM"] = true
 BUSES["HP9845_IO"] = true
 BUSES["KC"] = true
 BUSES["LPCI"] = true
@@ -1461,6 +1458,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/cps1.cpp",
 	MAME_DIR .. "src/mame/includes/cps1.h",
 	MAME_DIR .. "src/mame/video/cps1.cpp",
+	MAME_DIR .. "src/mame/drivers/fcrash.cpp",
 	MAME_DIR .. "src/mame/video/xbox_nv2a.cpp",
 	MAME_DIR .. "src/mame/machine/xbox.cpp",
 	MAME_DIR .. "src/mame/machine/xbox_usb.cpp",
@@ -1592,7 +1590,9 @@ files {
 
 createMESSProjects(_target, _subtarget, "ampro")
 files {
+	MAME_DIR .. "src/mame/drivers/ampro.cpp",
 	MAME_DIR .. "src/mame/drivers/lb186.cpp",
+	MAME_DIR .. "src/mame/drivers/lbpc.cpp",
 }
 
 createMESSProjects(_target, _subtarget, "amstrad")
@@ -2402,8 +2402,14 @@ files {
 	MAME_DIR .. "src/mame/machine/hp48.cpp",
 	MAME_DIR .. "src/mame/machine/hp48_port.cpp",
 	MAME_DIR .. "src/mame/machine/hp48_port.h",
+	MAME_DIR .. "src/mame/machine/hp80_optrom.cpp",
+	MAME_DIR .. "src/mame/machine/hp80_optrom.h",
+	MAME_DIR .. "src/mame/machine/hp9825_optrom.cpp",
+	MAME_DIR .. "src/mame/machine/hp9825_optrom.h",
 	MAME_DIR .. "src/mame/machine/hp9825_tape.cpp",
 	MAME_DIR .. "src/mame/machine/hp9825_tape.h",
+	MAME_DIR .. "src/mame/machine/hp9845_optrom.cpp",
+	MAME_DIR .. "src/mame/machine/hp9845_optrom.h",
 	MAME_DIR .. "src/mame/machine/hp9845_printer.cpp",
 	MAME_DIR .. "src/mame/machine/hp9845_printer.h",
 	MAME_DIR .. "src/mame/machine/hp98x5_io_sys.cpp",
@@ -3119,6 +3125,7 @@ files {
 createMESSProjects(_target, _subtarget, "roland")
 files {
 	MAME_DIR .. "src/mame/drivers/rmt32.cpp",
+	MAME_DIR .. "src/mame/drivers/rcm32p.cpp",
 	MAME_DIR .. "src/mame/drivers/rd110.cpp",
 	MAME_DIR .. "src/mame/drivers/rsc55.cpp",
 	MAME_DIR .. "src/mame/drivers/tb303.cpp",
@@ -3707,6 +3714,8 @@ files {
 	MAME_DIR .. "src/mame/video/elan_eu3a05commonvid.h",
 	MAME_DIR .. "src/mame/video/elan_eu3a05vid.cpp",
 	MAME_DIR .. "src/mame/video/elan_eu3a05vid.h",
+	MAME_DIR .. "src/mame/video/elan_eu3a14vid.cpp",
+	MAME_DIR .. "src/mame/video/elan_eu3a14vid.h",
 	MAME_DIR .. "src/mame/drivers/trkfldch.cpp",
 	MAME_DIR .. "src/mame/drivers/tvgame.cpp",
 	MAME_DIR .. "src/mame/drivers/spg110.cpp",
@@ -3964,7 +3973,6 @@ files {
 	MAME_DIR .. "src/mame/drivers/am1000.cpp",
 	MAME_DIR .. "src/mame/drivers/ampex.cpp",
 	MAME_DIR .. "src/mame/drivers/ampex210.cpp",
-	MAME_DIR .. "src/mame/drivers/ampro.cpp",
 	MAME_DIR .. "src/mame/drivers/ampscarp.cpp",
 	MAME_DIR .. "src/mame/drivers/amust.cpp",
 	MAME_DIR .. "src/mame/drivers/anzterm.cpp",
@@ -3990,6 +3998,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/candela.cpp",
 	MAME_DIR .. "src/mame/drivers/cardinal.cpp",
 	MAME_DIR .. "src/mame/drivers/cbnt2039.cpp",
+	MAME_DIR .. "src/mame/drivers/cdsys5.cpp",
 	MAME_DIR .. "src/mame/drivers/chaos.cpp",
 	MAME_DIR .. "src/mame/drivers/cd2650.cpp",
 	MAME_DIR .. "src/mame/drivers/cdc721.cpp",
@@ -4030,6 +4039,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/esprit.cpp",
 	MAME_DIR .. "src/mame/drivers/eti660.cpp",
 	MAME_DIR .. "src/mame/includes/eti660.h",
+	MAME_DIR .. "src/mame/drivers/eurit.cpp",
 	MAME_DIR .. "src/mame/drivers/eurocom2.cpp",
 	MAME_DIR .. "src/mame/drivers/excali64.cpp",
 	MAME_DIR .. "src/mame/drivers/facit4440.cpp",
@@ -4105,6 +4115,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/ms9540.cpp",
 	MAME_DIR .. "src/mame/drivers/mstation.cpp",
 	MAME_DIR .. "src/mame/drivers/mt735.cpp",
+	MAME_DIR .. "src/mame/drivers/mtd1256.cpp",
 	MAME_DIR .. "src/mame/drivers/mx2178.cpp",
 	MAME_DIR .. "src/mame/drivers/mycom.cpp",
 	MAME_DIR .. "src/mame/drivers/myvision.cpp",
@@ -4148,6 +4159,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/shine.cpp",
 	MAME_DIR .. "src/mame/drivers/si5500.cpp",
 	MAME_DIR .. "src/mame/drivers/sk101bl.cpp",
+	MAME_DIR .. "src/mame/drivers/slsstars.cpp",
 	MAME_DIR .. "src/mame/drivers/softbox.cpp",
 	MAME_DIR .. "src/mame/includes/softbox.h",
 	MAME_DIR .. "src/mame/drivers/squale.cpp",

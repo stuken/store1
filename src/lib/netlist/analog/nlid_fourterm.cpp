@@ -1,9 +1,5 @@
 // license:GPL-2.0+
 // copyright-holders:Couriersud
-/*
- * nld_fourterm.c
- *
- */
 
 #include "netlist/solver/nld_solver.h"
 #include "netlist/nl_factory.h"
@@ -22,7 +18,7 @@ namespace netlist
 NETLIB_RESET(VCCS)
 {
 	const nl_fptype m_mult = m_G() * m_gfac; // 1.0 ==> 1V ==> 1A
-	const nl_fptype GI = nlconst::one() / m_RI();
+	const nl_fptype GI = plib::reciprocal(m_RI());
 
 	m_IP.set_conductivity(GI);
 	m_IN.set_conductivity(GI);
@@ -36,7 +32,7 @@ NETLIB_RESET(VCCS)
 
 NETLIB_UPDATE(VCCS)
 {
-	/* only called if connected to a rail net ==> notify the solver to recalculate */
+	// only called if connected to a rail net ==> notify the solver to recalculate
 	if (!m_IP.net().isRailNet())
 		m_IP.solve_now();
 	else if (!m_IN.net().isRailNet())
@@ -73,10 +69,10 @@ NETLIB_UPDATE_TERMINALS(LVCCS)
 		m_vi = vi;
 
 	const nl_fptype x = m_mult / m_cur_limit() * m_vi;
-	const nl_fptype X = plib::tanh(x);
+	const nl_fptype tanhx = plib::tanh(x);
 
-	const nl_fptype beta = m_mult * (nlconst::one() - X*X);
-	const nl_fptype I = m_cur_limit() * X - beta * m_vi;
+	const nl_fptype beta = m_mult * (nlconst::one() - tanhx*tanhx);
+	const nl_fptype I = m_cur_limit() * tanhx - beta * m_vi;
 
 	m_OP.set_go_gt_I(-beta, nlconst::zero(), I);
 	m_OP1.set_go_gt(beta, nlconst::zero());
@@ -105,11 +101,11 @@ NETLIB_UPDATE_PARAM(CCCS)
 
 NETLIB_RESET(VCVS)
 {
-	m_gfac = nlconst::one() / m_RO();
+	m_gfac = plib::reciprocal(m_RO());
 	NETLIB_NAME(VCCS)::reset();
 
-	m_OP2.set_conductivity(nlconst::one() / m_RO());
-	m_ON2.set_conductivity(nlconst::one() / m_RO());
+	m_OP2.set_conductivity(m_gfac);
+	m_ON2.set_conductivity(m_gfac);
 }
 
 	} //namespace analog

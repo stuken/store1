@@ -1,12 +1,12 @@
 // license:GPL-2.0+
 // copyright-holders:Couriersud
-/*
- * palloc.h
- *
- */
 
 #ifndef PALLOC_H_
 #define PALLOC_H_
+
+///
+/// \file palloc.h
+///
 
 #include "pconfig.h"
 #include "pstring.h"
@@ -59,11 +59,11 @@ namespace plib {
 			   std::enable_if<std::is_convertible< U*, T*>::value>::type>
 		arena_deleter(const arena_deleter<PU, U> &rhs) : m_a(rhs.m_a) { }
 #endif
-		void operator()(T *p) noexcept //const
+		void operator()(T *p) noexcept
 		{
-			/* call destructor */
+			// call destructor
 			p->~T();
-			getref(m_a).deallocate(p);
+			getref(m_a).deallocate(p, sizeof(T));
 		}
 	//private:
 		arena_storage_type m_a;
@@ -156,9 +156,9 @@ namespace plib {
 			m_ptr = nullptr;
 		}
 
-		/**
-		 * \brief Return @c true if the stored pointer is not null.
-		 */
+		///
+		/// \brief Return \c true if the stored pointer is not null.
+		///
 		explicit operator bool() const noexcept { return m_ptr != nullptr; }
 
 		pointer  release()
@@ -205,7 +205,7 @@ namespace plib {
 
 		//~arena_allocator() noexcept = default;
 
-		arena_allocator(arena_type & a) noexcept : m_a(a)
+		explicit arena_allocator(const arena_type & a) noexcept : m_a(a)
 		{
 		}
 
@@ -228,8 +228,7 @@ namespace plib {
 
 		void deallocate(T* p, std::size_t n) noexcept
 		{
-			unused_var(n);
-			m_a.deallocate(p);
+			m_a.deallocate(p, n);
 		}
 
 		template <class AR1, class T1, std::size_t A1, class AR2, class T2, std::size_t A2>
@@ -263,7 +262,9 @@ namespace plib {
 	struct aligned_arena
 	{
 		static constexpr const bool is_stateless = true;
-		template <class T, std::size_t ALIGN = alignof(T)>
+		using size_type = std::size_t;
+
+		template <class T, size_type ALIGN = alignof(T)>
 		using allocator_type = arena_allocator<aligned_arena, T, ALIGN>;
 
 		template <typename T>
@@ -298,8 +299,9 @@ namespace plib {
 			#endif
 		}
 
-		static inline void deallocate( void *ptr ) noexcept
+		static inline void deallocate( void *ptr, size_t size ) noexcept
 		{
+			unused_var(size);
 			#if (PUSE_ALIGNED_ALLOCATION)
 				// NOLINTNEXTLINE(cppcoreguidelines-no-malloc)
 				free(ptr);
@@ -319,7 +321,7 @@ namespace plib {
 			}
 			catch (...)
 			{
-				deallocate(mem);
+				deallocate(mem, sizeof(T));
 				throw;
 			}
 		}
@@ -335,7 +337,7 @@ namespace plib {
 			}
 			catch (...)
 			{
-				deallocate(mem);
+				deallocate(mem, sizeof(T));
 				throw;
 			}
 		}
@@ -349,7 +351,7 @@ namespace plib {
 	};
 
 	template <typename T, std::size_t ALIGN>
-	/*inline */ C14CONSTEXPR T *assume_aligned_ptr(T *p) noexcept
+	C14CONSTEXPR T *assume_aligned_ptr(T *p) noexcept
 	{
 		static_assert(ALIGN >= alignof(T), "Alignment must be greater or equal to alignof(T)");
 		static_assert(is_pow2(ALIGN), "Alignment must be a power of 2");
@@ -387,7 +389,7 @@ namespace plib {
 	inline void pdelete(T *ptr) noexcept
 	{
 		ptr->~T();
-		aligned_arena::deallocate(ptr);
+		aligned_arena::deallocate(ptr, sizeof(T));
 	}
 
 
@@ -399,15 +401,6 @@ namespace plib {
 	{
 		return plib::unique_ptr<T>(pnew<T>(std::forward<Args>(args)...));
 	}
-
-#if 0
-	template<typename T, typename... Args>
-	static owned_ptr<T> make_owned(Args&&... args)
-	{
-		return owned_ptr<T>(pnew<T>(std::forward<Args>(args)...), true);
-	}
-#endif
-
 
 	template <class T, std::size_t ALIGN = alignof(T)>
 	using aligned_allocator = aligned_arena::allocator_type<T, ALIGN>;
@@ -473,4 +466,4 @@ namespace plib {
 
 } // namespace plib
 
-#endif /* PALLOC_H_ */
+#endif // PALLOC_H_

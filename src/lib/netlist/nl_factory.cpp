@@ -1,12 +1,9 @@
 // license:GPL-2.0+
 // copyright-holders:Couriersud
-/***************************************************************************
 
-    nl_factory.c
-
-    Discrete netlist implementation.
-
-****************************************************************************/
+//
+// nl_factory.cpp
+//
 
 #include "nl_factory.h"
 #include "nl_base.h"
@@ -14,8 +11,8 @@
 #include "nl_setup.h"
 #include "plib/putil.h"
 
-namespace netlist { namespace factory
-{
+namespace netlist {
+namespace factory {
 
 	class NETLIB_NAME(wrapper) : public device_t
 	{
@@ -79,9 +76,9 @@ namespace netlist { namespace factory
 	// factory_lib_entry_t: factory class to wrap macro based chips/elements
 	// -----------------------------------------------------------------------------
 
-	unique_pool_ptr<device_t> library_element_t::Create(netlist_state_t &anetlist, const pstring &name)
+	unique_pool_ptr<device_t> library_element_t::Create(nlmempool &pool, netlist_state_t &anetlist, const pstring &name)
 	{
-		return pool().make_unique<NETLIB_NAME(wrapper)>(anetlist, name);
+		return pool.make_unique<NETLIB_NAME(wrapper)>(anetlist, name);
 	}
 
 	void library_element_t::macro_actions(nlparse_t &nparser, const pstring &name)

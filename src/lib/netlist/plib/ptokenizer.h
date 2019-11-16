@@ -1,12 +1,12 @@
 // license:GPL-2.0+
 // copyright-holders:Couriersud
-/*
- * ptokenizer.h
- *
- */
 
 #ifndef PTOKENIZER_H_
 #define PTOKENIZER_H_
+
+///
+/// \file ptokenizer.h
+///
 
 #include "plists.h"
 #include "pstream.h"
@@ -79,12 +79,14 @@ namespace plib {
 			{
 			}
 
-			bool is(const token_id_t &tok_id) const { return m_id.id() == tok_id.id(); }
-			bool is_not(const token_id_t &tok_id) const { return !is(tok_id); }
+			bool is(const token_id_t &tok_id) const noexcept { return m_id.id() == tok_id.id(); }
+			bool is_not(const token_id_t &tok_id) const noexcept { return !is(tok_id); }
 
-			bool is_type(const token_type type) const { return m_type == type; }
+			bool is_type(const token_type type) const noexcept { return m_type == type; }
 
-			pstring str() const { return m_token; }
+			token_type type() const noexcept { return m_type; }
+
+			pstring str() const noexcept { return m_token; }
 
 		private:
 			token_type m_type;
@@ -92,9 +94,9 @@ namespace plib {
 			pstring m_token;
 		};
 
-		pstring currentline_str();
+		pstring currentline_str() const;
 
-		/* tokenizer stuff follows ... */
+		// tokenizer stuff follows ...
 
 		token_t get_token();
 		pstring get_string();
@@ -147,7 +149,7 @@ namespace plib {
 		pstring::const_iterator m_px;
 		pstring::value_type m_unget;
 
-		/* tokenizer stuff follows ... */
+		// tokenizer stuff follows ...
 
 		pstring m_identifier_chars;
 		pstring m_number_chars;
@@ -160,11 +162,12 @@ namespace plib {
 		token_id_t m_tok_comment_end;
 		token_id_t m_tok_line_comment;
 
-		/* source locations, vector used as stack because we need to loop through stack */
+		// source locations, vector used as stack because we need to loop through stack
+
 		bool m_support_line_markers;
 		std::vector<plib::source_location> m_source_location;
 	};
 
 } // namespace plib
 
-#endif /* PTOKENIZER_H_ */
+#endif // PTOKENIZER_H_

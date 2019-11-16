@@ -1,10 +1,9 @@
 // license:GPL-2.0+
 // copyright-holders:Couriersud
-/*!
- *
- * \file nl_errstr.h
- *
- */
+
+///
+/// \file nl_errstr.h
+///
 
 #ifndef NL_ERRSTR_H_
 #define NL_ERRSTR_H_
@@ -20,10 +19,10 @@
 #define PERRMSGV(name, narg, str) \
 	struct name \
 	{ \
-		template<typename... Args> name(Args&&... args) \
+		template<typename... Args> explicit name(Args&&... args) \
 		: m_m(plib::pfmt(str)(std::forward<Args>(args)...)) \
 		{ static_assert(narg == sizeof...(args), "Argument count mismatch"); } \
-		operator pstring() const noexcept { return m_m; } \
+		operator pstring() const { return m_m; } \
 		pstring m_m; \
 	};
 
@@ -31,7 +30,8 @@ namespace netlist
 {
 
 	static constexpr const char sHINT_NO_DEACTIVATE[] = ".HINT_NO_DEACTIVATE";
-	static constexpr const char sPowerDevRes[] = "_RVG";
+	static constexpr const char sPowerGND[] = "GND";
+	static constexpr const char sPowerVCC[] = "VCC";
 
 	// nl_base.cpp
 
@@ -67,6 +67,8 @@ namespace netlist
 	PERRMSGV(MF_DEVICE_ALREADY_EXISTS_1,            1, "Device already exists: {1}")
 	PERRMSGV(MF_ADDING_ALI1_TO_ALIAS_LIST,          1, "Error adding alias {1} to alias list")
 	PERRMSGV(MF_DIP_PINS_MUST_BE_AN_EQUAL_NUMBER_OF_PINS_1, 1,"You must pass an equal number of pins to DIPPINS {1}")
+	PERRMSGV(MF_PARAM_COUNT_MISMATCH_2,             2, "Parameter count mismatch for {1} - only found {2}")
+	PERRMSGV(MF_PARAM_COUNT_EXCEEDED_2,             2, "Parameter count exceed for {1} - found {2}")
 	PERRMSGV(MF_UNKNOWN_OBJECT_TYPE_1,              1, "Unknown object type {1}")
 	PERRMSGV(MF_INVALID_NUMBER_CONVERSION_1_2,      2, "Invalid number conversion {1} : {2}")
 	PERRMSGV(MF_INVALID_ENUM_CONVERSION_1_2,        2, "Invalid element found {1} : {2}")
@@ -78,6 +80,7 @@ namespace netlist
 	PERRMSGV(MF_OBJECT_1_2_WRONG_TYPE,              2, "object {1}({2}) found but wrong type")
 	PERRMSGV(MF_PARAMETER_1_2_NOT_FOUND,            2, "parameter {1}({2}) not found!")
 	PERRMSGV(MF_CONNECTING_1_TO_2,                  2, "Error connecting {1} to {2}")
+	PERRMSGV(MF_DUPLICATE_PROXY_1,                  1, "Terminal {1} already has proxy")
 	PERRMSGV(MF_MERGE_RAIL_NETS_1_AND_2,            2, "Trying to merge two rail nets: {1} and {2}")
 	PERRMSGV(MF_OBJECT_INPUT_TYPE_1,                1, "Unable to determine input type of {1}")
 	PERRMSGV(MF_OBJECT_OUTPUT_TYPE_1,               1, "Unable to determine output type of {1}")
@@ -94,7 +97,7 @@ namespace netlist
 
 	PERRMSGV(MW_OVERWRITING_PARAM_1_OLD_2_NEW_3,    3, "Overwriting {1} old <{2}> new <{3}>")
 	PERRMSGV(MW_CONNECTING_1_TO_ITSELF,             1, "Connecting {1} to itself. This may be right, though")
-	PERRMSGV(MI_DUMMY_1_WITHOUT_CONNECTIONS,        1, "Found dummy terminal {1} without connections")
+	PERRMSGV(ME_NC_PIN_1_WITH_CONNECTIONS,          1, "Found NC (not connected) terminal {1} with connections")
 	PERRMSGV(MI_ANALOG_OUTPUT_1_WITHOUT_CONNECTIONS,1, "Found analog output {1} without connections")
 	PERRMSGV(MI_LOGIC_OUTPUT_1_WITHOUT_CONNECTIONS, 1, "Found logic output {1} without connections")
 	PERRMSGV(MW_LOGIC_INPUT_1_WITHOUT_CONNECTIONS,  1, "Found logic input {1} without connections")
@@ -104,7 +107,6 @@ namespace netlist
 	PERRMSGV(MF_TERMINALS_WITHOUT_NET,              0, "Found terminals without a net")
 
 	PERRMSGV(MI_REMOVE_DEVICE_1_CONNECTED_ONLY_TO_RAILS_2_3, 3, "Found device {1} connected only to railterminals {2}/{3}. Will be removed")
-	PERRMSGV(MI_POWER_TERMINALS_1_CONNECTED_ANALOG_2_3, 3, "Power terminals {1} connected to analog nets {2}/{3}.")
 
 	PERRMSGV(MW_DATA_1_NOT_FOUND,                   1, "unable to find data {1} in sources collection")
 
@@ -113,7 +115,7 @@ namespace netlist
 
 	// nlid_proxy.cpp
 
-	PERRMSGV(MI_NO_POWER_TERMINALS_ON_DEVICE_1,     1, "D/A Proxy: Found no valid combination of power terminals on device {1}")
+	PERRMSGV(MI_NO_POWER_TERMINALS_ON_DEVICE_2,     2, "D/A Proxy {1}: Found no valid combination of power terminals on device {2}")
 	PERRMSGV(MI_MULTIPLE_POWER_TERMINALS_ON_DEVICE, 5, "D/A Proxy: Found multiple power terminals on device {1}: {2} {3} {4} {5}")
 
 	// nld_matrix_solver.cpp
@@ -149,4 +151,4 @@ namespace netlist
 } // namespace netlist
 
 
-#endif /* NL_ERRSTR_H_ */
+#endif // NL_ERRSTR_H_

@@ -1,12 +1,12 @@
 // license:GPL-2.0+
 // copyright-holders:Couriersud
-/*
- * nl_generic_models.h
- *
- */
 
 #ifndef NLD_GENERIC_MODELS_H_
 #define NLD_GENERIC_MODELS_H_
+
+///
+/// \file nld_generic_models.h
+///
 
 #include "netlist/nl_base.h"
 #include "netlist/nl_setup.h"
@@ -43,7 +43,7 @@ namespace analog
 		{
 		}
 
-		static capacitor_e type() { return capacitor_e::VARIABLE_CAPACITY; }
+		static capacitor_e type() noexcept { return capacitor_e::VARIABLE_CAPACITY; }
 
 		// Circuit Simulation, page 284, 5.360
 		// q(un+1) - q(un) = int(un, un+1, C(U)) = (C0+C1)/2 * (un+1-un)
@@ -52,14 +52,14 @@ namespace analog
 		// so that G depends on un+1 only and Ieq on un only.
 		// In both cases, i = G * un+1 + Ieq
 
-		nl_fptype G(nl_fptype cap) const
+		nl_fptype G(nl_fptype cap) const noexcept
 		{
 			//return m_h * cap +  m_gmin;
 			return m_h * nlconst::half() * (cap + m_c) +  m_gmin;
 			//return m_h * cap +  m_gmin;
 		}
 
-		nl_fptype Ieq(nl_fptype cap, nl_fptype v) const
+		nl_fptype Ieq(nl_fptype cap, nl_fptype v) const noexcept
 		{
 			plib::unused_var(v);
 			//return -m_h * 0.5 * ((cap + m_c) * m_v + (cap - m_c) * v) ;
@@ -67,14 +67,14 @@ namespace analog
 			//return -m_h * cap * m_v;
 		}
 
-		void timestep(nl_fptype cap, nl_fptype v, nl_fptype step)
+		void timestep(nl_fptype cap, nl_fptype v, nl_fptype step) noexcept
 		{
 			m_h = plib::reciprocal(step);
 			m_c = cap;
 			m_v = v;
 		}
 
-		void setparams(nl_fptype gmin) { m_gmin = gmin; }
+		void setparams(nl_fptype gmin) noexcept { m_gmin = gmin; }
 
 	private:
 		state_var<nl_fptype> m_h;
@@ -95,21 +95,21 @@ namespace analog
 		{
 		}
 
-		static capacitor_e type() { return capacitor_e::CONSTANT_CAPACITY; }
-		nl_fptype G(nl_fptype cap) const { return cap * m_h +  m_gmin; }
-		nl_fptype Ieq(nl_fptype cap, nl_fptype v) const
+		static capacitor_e type() noexcept { return capacitor_e::CONSTANT_CAPACITY; }
+		nl_fptype G(nl_fptype cap) const noexcept { return cap * m_h +  m_gmin; }
+		nl_fptype Ieq(nl_fptype cap, nl_fptype v) const noexcept
 		{
 			plib::unused_var(v);
 			return - G(cap) * m_v;
 		}
 
-		void timestep(nl_fptype cap, nl_fptype v, nl_fptype step)
+		void timestep(nl_fptype cap, nl_fptype v, nl_fptype step) noexcept
 		{
 			plib::unused_var(cap);
 			m_h = plib::reciprocal(step);
 			m_v = v;
 		}
-		void setparams(nl_fptype gmin) { m_gmin = gmin; }
+		void setparams(nl_fptype gmin) noexcept { m_gmin = gmin; }
 	private:
 		state_var<nl_fptype> m_h;
 		state_var<nl_fptype> m_v;
@@ -151,7 +151,7 @@ namespace analog
 			  , nlconst::magic(300.0));
 		}
 
-		void update_diode(const nl_fptype nVd)
+		void update_diode(nl_fptype nVd) noexcept
 		{
 			nl_fptype IseVDVt(nlconst::zero());
 
@@ -188,7 +188,7 @@ namespace analog
 					m_G = m_Is * m_VtInv + m_gmin;
 					m_Id = m_G * m_Vd;
 				}
-				else /* log stepping should already be done in mosfet */
+				else // log stepping should already be done in mosfet
 				{
 					m_Vd = nVd;
 					IseVDVt = plib::exp(std::min(+fp_constants<nl_fptype>::DIODE_MAXVOLT(), m_logIs + m_Vd * m_VtInv));
@@ -198,7 +198,7 @@ namespace analog
 			}
 		}
 
-		void set_param(const nl_fptype Is, const nl_fptype n, nl_fptype gmin, nl_fptype temp)
+		void set_param(nl_fptype Is, nl_fptype n, nl_fptype gmin, nl_fptype temp) noexcept
 		{
 			m_Is = Is;
 			m_logIs = plib::log(Is);
@@ -210,7 +210,7 @@ namespace analog
 			m_Vmin = nlconst::magic(-5.0) * m_Vt;
 
 			m_Vcrit = m_Vt * plib::log(m_Vt / m_Is / nlconst::sqrt2());
-			m_VtInv = nlconst::one() / m_Vt;
+			m_VtInv = plib::reciprocal(m_Vt);
 			//printf("%g %g\n", m_Vmin, m_Vcrit);
 		}
 
@@ -220,7 +220,7 @@ namespace analog
 		nl_fptype Ieq() const noexcept  { return (m_Id - m_Vd * m_G); }
 		nl_fptype Vd() const noexcept  { return m_Vd; }
 
-		/* owning object must save those ... */
+		// owning object must save those ...
 
 	private:
 		state_var<nl_fptype> m_Vd;
@@ -244,4 +244,4 @@ namespace analog
 } // namespace analog
 } // namespace netlist
 
-#endif /* NLD_GENERIC_MODELS_H_ */
+#endif // NLD_GENERIC_MODELS_H_

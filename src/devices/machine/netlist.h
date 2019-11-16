@@ -100,18 +100,18 @@ protected:
 
 	netlist::netlist_time m_div;
 
-	plib::unique_ptr<netlist::netlist_t> base_validity_check(validity_checker &valid) const;
+	plib::unique_ptr<netlist::netlist_state_t> base_validity_check(validity_checker &valid) const;
 
 private:
 	void save_state();
 
-	void common_dev_start(netlist::netlist_t *lnetlist) const;
+	void common_dev_start(netlist::netlist_state_t *lnetlist) const;
 
 	/* timing support here - so sound can hijack it ... */
 	netlist::netlist_time        m_rem;
 	netlist::netlist_time        m_old;
 
-	netlist::unique_pool_ptr<netlist_mame_t> m_netlist;
+	std::unique_ptr<netlist_mame_t> m_netlist;
 
 	func_type m_setup_func;
 };
@@ -173,8 +173,8 @@ protected:
 	virtual void device_start() override;
 
 	// device_execute_interface overrides
-	virtual uint64_t execute_clocks_to_cycles(uint64_t clocks) const override;
-	virtual uint64_t execute_cycles_to_clocks(uint64_t cycles) const override;
+	virtual uint64_t execute_clocks_to_cycles(uint64_t clocks) const noexcept override;
+	virtual uint64_t execute_cycles_to_clocks(uint64_t cycles) const noexcept override;
 
 	ATTR_HOT virtual void execute_run() override;
 

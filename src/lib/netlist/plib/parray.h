@@ -1,12 +1,12 @@
 // license:GPL-2.0+
 // copyright-holders:Couriersud
-/*
- * parray.h
- *
- */
 
 #ifndef PARRAY_H_
 #define PARRAY_H_
+
+///
+/// \file parray.h
+///
 
 #include "palloc.h"
 #include "pconfig.h"
@@ -24,39 +24,38 @@ namespace plib {
 	template <typename FT, int SIZE>
 	struct sizeabs
 	{
-		static constexpr std::size_t ABS() { return (SIZE < 0) ? static_cast<std::size_t>(0 - SIZE) : static_cast<std::size_t>(SIZE); }
+		static constexpr std::size_t ABS() noexcept { return (SIZE < 0) ? static_cast<std::size_t>(0 - SIZE) : static_cast<std::size_t>(SIZE); }
 		using container = typename std::array<FT, ABS()> ;
 	};
 
 	template <typename FT>
 	struct sizeabs<FT, 0>
 	{
-		static constexpr std::size_t ABS() { return 0; }
+		static constexpr std::size_t ABS() noexcept { return 0; }
 		//using container = typename std::vector<FT, arena_allocator<mempool, FT, 64>>;
 		using container = typename std::vector<FT, aligned_allocator<FT, PALIGN_VECTOROPT>>;
 	};
 
-	/**
-	 * \brief Array with preallocated or dynamic allocation
-	 *
-	 * Passing SIZE > 0 has the same functionality as a std::array.
-	 * SIZE = 0 is pure dynamic allocation, the actual array size is passed to the
-	 * constructor.
-	 * SIZE < 0 reserves abs(SIZE) elements statically in place allocated. The
-	 * actual size is passed in by the constructor.
-	 * This array is purely intended for HPC application where depending on the
-	 * architecture a preference dynamic/static has to be made.
-	 *
-	 * This struct is not intended to be a full replacement to std::array.
-	 * It is a subset to enable switching between dynamic and static allocation.
-	 * I consider > 10% performance difference to be a use case.
-	 */
+	/// \brief Array with preallocated or dynamic allocation.
+	///
+	/// Passing SIZE > 0 has the same functionality as a std::array.
+	/// SIZE = 0 is pure dynamic allocation, the actual array size is passed to the
+	/// constructor.
+	/// SIZE < 0 reserves abs(SIZE) elements statically in place allocated. The
+	/// actual size is passed in by the constructor.
+	/// This array is purely intended for HPC application where depending on the
+	/// architecture a preference dynamic/static has to be made.
+	///
+	/// This struct is not intended to be a full replacement to std::array.
+	/// It is a subset to enable switching between dynamic and static allocation.
+	/// I consider > 10% performance difference to be a use case.
+	///
 
 	template <typename FT, int SIZE>
 	struct parray
 	{
 	public:
-		static constexpr std::size_t SIZEABS() { return sizeabs<FT, SIZE>::ABS(); }
+		static constexpr std::size_t SIZEABS() noexcept { return sizeabs<FT, SIZE>::ABS(); }
 
 		using base_type = typename sizeabs<FT, SIZE>::container;
 		using size_type = typename base_type::size_type;
@@ -96,7 +95,7 @@ namespace plib {
 		}
 
 
-		/* allow construction in fixed size arrays */
+		// allow construction in fixed size arrays
 		parray()
 		: m_size(SIZEABS())
 		{
@@ -176,4 +175,4 @@ namespace plib {
 
 
 
-#endif /* PARRAY_H_ */
+#endif // PARRAY_H_

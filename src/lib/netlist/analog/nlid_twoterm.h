@@ -1,43 +1,44 @@
 // license:GPL-2.0+
 // copyright-holders:Couriersud
-/*
- * nld_twoterm.h
- *
- * Devices with two terminals ...
- *
- *
- *       (k)
- *  +-----T-----+
- *  |     |     |
- *  |  +--+--+  |
- *  |  |     |  |
- *  |  R     |  |
- *  |  R     |  |
- *  |  R     I  |
- *  |  |     I  |  Device n
- *  |  V+    I  |
- *  |  V     |  |
- *  |  V-    |  |
- *  |  |     |  |
- *  |  +--+--+  |
- *  |     |     |
- *  +-----T-----+
- *       (l)
- *
- *  This is a resistance in series to a voltage source and paralleled by a
- *  current source. This is suitable to model voltage sources, current sources,
- *  resistors, capacitors, inductances and diodes.
- *
- */
 
 #ifndef NLID_TWOTERM_H_
 #define NLID_TWOTERM_H_
+
+///
+/// \file nlid_twoterm.h
+///
+/// Devices with two terminals ...
+///
+///
+///       (k)
+///  +-----T-----+
+///  |     |     |
+///  |  +--+--+  |
+///  |  |     |  |
+///  |  R     |  |
+///  |  R     |  |
+///  |  R     I  |
+///  |  |     I  |  Device n
+///  |  V+    I  |
+///  |  V     |  |
+///  |  V-    |  |
+///  |  |     |  |
+///  |  +--+--+  |
+///  |     |     |
+///  +-----T-----+
+///       (l)
+///
+///  This is a resistance in series to a voltage source and paralleled by a
+///  current source. This is suitable to model voltage sources, current sources,
+///  resistors, capacitors, inductances and diodes.
+///
+////
 
 #include "netlist/nl_base.h"
 #include "netlist/nl_setup.h"
 #include "netlist/solver/nld_solver.h"
 #include "nld_generic_models.h"
-#include "plib/pfunction.h"
+#include "netlist/plib/pfunction.h"
 
 // -----------------------------------------------------------------------------
 // Implementation
@@ -87,11 +88,11 @@ namespace analog
 
 		void solve_now();
 
-		void solve_later(netlist_time delay = netlist_time::quantum());
+		void solve_later(netlist_time delay = netlist_time::quantum()) noexcept;
 
 		void set_G_V_I(nl_fptype G, nl_fptype V, nl_fptype I) const noexcept
 		{
-			/*      GO, GT, I                */
+			//               GO, GT,        I
 			m_P.set_go_gt_I( -G,  G, (  V) * G - I);
 			m_N.set_go_gt_I( -G,  G, ( -V) * G + I);
 		}
@@ -101,10 +102,20 @@ namespace analog
 			return m_P.net().Q_Analog() - m_N.net().Q_Analog();
 		}
 
+		nl_fptype V1P() const noexcept
+		{
+			return m_P.net().Q_Analog();
+		}
+
+		nl_fptype V2N() const noexcept
+		{
+			return m_N.net().Q_Analog();
+		}
+
 		void set_mat(nl_fptype a11, nl_fptype a12, nl_fptype rhs1,
 					 nl_fptype a21, nl_fptype a22, nl_fptype rhs2) const noexcept
 		{
-			/*      GO, GT, I                */
+			//               GO,  GT,     I
 			m_P.set_go_gt_I(a12, a11, rhs1);
 			m_N.set_go_gt_I(a21, a22, rhs2);
 		}
@@ -123,9 +134,9 @@ namespace analog
 		{
 		}
 
-		void set_R(const nl_fptype R)
+		void set_R(nl_fptype R) const noexcept
 		{
-			const nl_fptype G = nlconst::one() / R;
+			const nl_fptype G = plib::reciprocal(R);
 			set_mat( G, -G, nlconst::zero(),
 					-G,  G, nlconst::zero());
 		}
@@ -162,7 +173,7 @@ namespace analog
 
 	private:
 		param_fp_t m_R;
-		/* protect set_R ... it's a recipe to desaster when used to bypass the parameter */
+		// protect set_R ... it's a recipe to desaster when used to bypass the parameter
 		using NETLIB_NAME(R_base)::set_R;
 	};
 
@@ -312,31 +323,30 @@ namespace analog
 		nl_fptype m_I;
 	};
 
-	/*! Class representing the diode model paramers.
-	 *  This is the model representation of the diode model. Typically, SPICE uses
-	 *  the following parameters. A "Y" in the first column indicates that the
-	 *  parameter is actually used in netlist.
-	 *
-	 *   |NL? |name  |parameter                        |units|default| example|area  |
-	 *   |:--:|:-----|:--------------------------------|:----|------:|-------:|:----:|
-	 *   | Y  |IS    |saturation current               |A    |1.0e-14| 1.0e-14|   *  |
-	 *   |    |RS    |ohmic resistance                 |Ohm  |      0|      10|   *  |
-	 *   | Y  |N     |emission coefficient             |-    |      1|       1|      |
-	 *   |    |TT    |transit-time                     |sec  |      0|   0.1ns|      |
-	 *   |    |CJO   |zero-bias junction capacitance   |F    |      0|     2pF|   *  |
-	 *   |    |VJ    |junction potential               |V    |      1|     0.6|      |
-	 *   |    |M     |grading coefficient              |-    |    0.5|     0.5|      |
-	 *   |    |EG    |band-gap energy                  |eV   |   1.11| 1.11 Si|      |
-	 *   |    |XTI   |saturation-current temp.exp      |-    |      3|3.0 pn. 2.0 Schottky| |
-	 *   |    |KF    |flicker noise coefficient        |-    |      0|        |      |
-	 *   |    |AF    |flicker noise exponent           |-    |      1|        |      |
-	 *   |    |FC    |coefficient for forward-bias depletion capacitance formula|-|0.5|| |
-	 *   |    |BV    |reverse breakdown voltage        |V    |infinite|     40|      |
-	 *   |    |IBV   |current at breakdown voltage     |V    |  0.001|        |      |
-	 *   |    |TNOM  |parameter measurement temperature|deg C|     27|      50|      |
-	 *
-	 */
-
+	/// \brief Class representing the diode model paramers.
+	///
+	///  This is the model representation of the diode model. Typically, SPICE uses
+	///  the following parameters. A "Y" in the first column indicates that the
+	///  parameter is actually used in netlist.
+	///
+	///   |NL? |name  |parameter                        |units|default| example|area  |
+	///   |:--:|:-----|:--------------------------------|:----|------:|-------:|:----:|
+	///   | Y  |IS    |saturation current               |A    |1.0e-14| 1.0e-14|   *  |
+	///   |    |RS    |ohmic resistance                 |Ohm  |      0|      10|   *  |
+	///   | Y  |N     |emission coefficient             |-    |      1|       1|      |
+	///   |    |TT    |transit-time                     |sec  |      0|   0.1ns|      |
+	///   |    |CJO   |zero-bias junction capacitance   |F    |      0|     2pF|   *  |
+	///   |    |VJ    |junction potential               |V    |      1|     0.6|      |
+	///   |    |M     |grading coefficient              |-    |    0.5|     0.5|      |
+	///   |    |EG    |band-gap energy                  |eV   |   1.11| 1.11 Si|      |
+	///   |    |XTI   |saturation-current temp.exp      |-    |      3|3.0 pn. 2.0 Schottky| |
+	///   |    |KF    |flicker noise coefficient        |-    |      0|        |      |
+	///   |    |AF    |flicker noise exponent           |-    |      1|        |      |
+	///   |    |FC    |coefficient for forward-bias depletion capacitance formula|-|0.5|| |
+	///   |    |BV    |reverse breakdown voltage        |V    |infinite|     40|      |
+	///   |    |IBV   |current at breakdown voltage     |V    |  0.001|        |      |
+	///   |    |TNOM  |parameter measurement temperature|deg C|     27|      50|      |
+	///
 	class diode_model_t : public param_model_t
 	{
 	public:
@@ -349,7 +359,6 @@ namespace analog
 		value_t m_IS;    //!< saturation current.
 		value_t m_N;     //!< emission coefficient.
 	};
-
 
 	// -----------------------------------------------------------------------------
 	// nld_D
@@ -379,7 +388,6 @@ namespace analog
 		generic_diode<diode_e::BIPOLAR> m_D;
 	};
 
-
 	// -----------------------------------------------------------------------------
 	// nld_VS - Voltage source
 	//
@@ -400,7 +408,7 @@ namespace analog
 			register_subalias("P", m_P);
 			register_subalias("N", m_N);
 			if (m_func() != "")
-				m_compiled.compile(std::vector<pstring>({{pstring("T")}}), m_func());
+				m_compiled.compile(m_func(), std::vector<pstring>({{pstring("T")}}));
 		}
 
 		NETLIB_IS_TIMESTEP(m_func() != "")
@@ -449,7 +457,7 @@ namespace analog
 			register_subalias("P", m_P);
 			register_subalias("N", m_N);
 			if (m_func() != "")
-				m_compiled.compile(std::vector<pstring>({{pstring("T")}}), m_func());
+				m_compiled.compile(m_func(), std::vector<pstring>({{pstring("T")}}));
 		}
 
 		NETLIB_IS_TIMESTEP(m_func() != "")
@@ -491,8 +499,7 @@ namespace analog
 		std::vector<nl_fptype> m_funcparam;
 	};
 
-
 } // namespace analog
 } // namespace netlist
 
-#endif /* NLD_TWOTERM_H_ */
+#endif // NLD_TWOTERM_H_

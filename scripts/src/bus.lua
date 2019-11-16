@@ -433,6 +433,8 @@ if (BUSES["BBC_EXP"]~=null) then
 	files {
 		MAME_DIR .. "src/devices/bus/bbc/exp/exp.cpp",
 		MAME_DIR .. "src/devices/bus/bbc/exp/exp.h",
+		MAME_DIR .. "src/devices/bus/bbc/exp/autocue.cpp",
+		MAME_DIR .. "src/devices/bus/bbc/exp/autocue.h",
 		MAME_DIR .. "src/devices/bus/bbc/exp/mertec.cpp",
 		MAME_DIR .. "src/devices/bus/bbc/exp/mertec.h",
 	}
@@ -475,6 +477,10 @@ if (BUSES["BBC_1MHZBUS"]~=null) then
 		MAME_DIR .. "src/devices/bus/bbc/1mhzbus/m2000.h",
 		MAME_DIR .. "src/devices/bus/bbc/1mhzbus/opus3.cpp",
 		MAME_DIR .. "src/devices/bus/bbc/1mhzbus/opus3.h",
+		MAME_DIR .. "src/devices/bus/bbc/1mhzbus/pms64k.cpp",
+		MAME_DIR .. "src/devices/bus/bbc/1mhzbus/pms64k.h",
+		MAME_DIR .. "src/devices/bus/bbc/1mhzbus/ramdisc.cpp",
+		MAME_DIR .. "src/devices/bus/bbc/1mhzbus/ramdisc.h",
 		MAME_DIR .. "src/devices/bus/bbc/1mhzbus/sprite.cpp",
 		MAME_DIR .. "src/devices/bus/bbc/1mhzbus/sprite.h",
 		MAME_DIR .. "src/devices/bus/bbc/1mhzbus/cfa3000opt.cpp",
@@ -556,6 +562,8 @@ if (BUSES["BBC_USERPORT"]~=null) then
 		MAME_DIR .. "src/devices/bus/bbc/userport/pointer.h",
 		MAME_DIR .. "src/devices/bus/bbc/userport/usersplit.cpp",
 		MAME_DIR .. "src/devices/bus/bbc/userport/usersplit.h",
+		MAME_DIR .. "src/devices/bus/bbc/userport/voicebox.cpp",
+		MAME_DIR .. "src/devices/bus/bbc/userport/voicebox.h",
 		MAME_DIR .. "src/devices/bus/bbc/userport/cfa3000kbd.cpp",
 		MAME_DIR .. "src/devices/bus/bbc/userport/cfa3000kbd.h",
 	}
@@ -2300,6 +2308,8 @@ if (BUSES["NSCSI"]~=null) then
 		MAME_DIR .. "src/devices/bus/nscsi/hd.h",
 		MAME_DIR .. "src/devices/bus/nscsi/s1410.cpp",
 		MAME_DIR .. "src/devices/bus/nscsi/s1410.h",
+		MAME_DIR .. "src/devices/bus/nscsi/smoc501.cpp",
+		MAME_DIR .. "src/devices/bus/nscsi/smoc501.h",
 	}
 end
 
@@ -3874,30 +3884,6 @@ end
 
 ---------------------------------------------------
 --
---@src/devices/bus/hp_optroms/hp_optrom.h,BUSES["HP_OPTROM"] = true
----------------------------------------------------
-
-if (BUSES["HP_OPTROM"]~=null) then
-	files {
-		MAME_DIR .. "src/devices/bus/hp_optroms/hp_optrom.cpp",
-		MAME_DIR .. "src/devices/bus/hp_optroms/hp_optrom.h",
-	}
-end
-
----------------------------------------------------
---
---@src/devices/bus/hp80_optroms/hp80_optrom.h,BUSES["HP80_OPTROM"] = true
----------------------------------------------------
-
-if (BUSES["HP80_OPTROM"]~=null) then
-	files {
-		MAME_DIR .. "src/devices/bus/hp80_optroms/hp80_optrom.cpp",
-		MAME_DIR .. "src/devices/bus/hp80_optroms/hp80_optrom.h",
-	}
-end
-
----------------------------------------------------
---
 --@src/devices/bus/hp80_io/hp80_io.h,BUSES["HP80_IO"] = true
 ---------------------------------------------------
 
@@ -3907,18 +3893,6 @@ if (BUSES["HP80_IO"]~=null) then
 		MAME_DIR .. "src/devices/bus/hp80_io/hp80_io.h",
 		MAME_DIR .. "src/devices/bus/hp80_io/82937.cpp",
 		MAME_DIR .. "src/devices/bus/hp80_io/82937.h",
-	}
-end
-
----------------------------------------------------
---
---@src/devices/bus/hp9825_optroms/hp9825_optrom.h,BUSES["HP9825_OPTROM"] = true
----------------------------------------------------
-
-if (BUSES["HP9825_OPTROM"]~=null) then
-	files {
-		MAME_DIR .. "src/devices/bus/hp9825_optroms/hp9825_optrom.cpp",
-		MAME_DIR .. "src/devices/bus/hp9825_optroms/hp9825_optrom.h",
 	}
 end
 

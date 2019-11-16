@@ -1466,6 +1466,8 @@ files {
 	MAME_DIR .. "src/mame/drivers/cps1.cpp",
 	MAME_DIR .. "src/mame/includes/cps1.h",
 	MAME_DIR .. "src/mame/video/cps1.cpp",
+	MAME_DIR .. "src/mame/drivers/cps1bl_5205.cpp",
+	MAME_DIR .. "src/mame/drivers/cps1bl_pic.cpp",
 	MAME_DIR .. "src/mame/drivers/kenseim.cpp",
 	MAME_DIR .. "src/mame/drivers/cps2.cpp",
 	MAME_DIR .. "src/mame/machine/cps2crypt.cpp",
@@ -1479,6 +1481,7 @@ files {
 	MAME_DIR .. "src/mame/includes/exedexes.h",
 	MAME_DIR .. "src/mame/video/exedexes.cpp",
 	MAME_DIR .. "src/mame/drivers/fcrash.cpp",
+	MAME_DIR .. "src/mame/includes/fcrash.h",
 	MAME_DIR .. "src/mame/drivers/gng.cpp",
 	MAME_DIR .. "src/mame/includes/gng.h",
 	MAME_DIR .. "src/mame/video/gng.cpp",
@@ -2615,13 +2618,13 @@ files {
 
 createMAMEProjects(_target, _subtarget, "maygay")
 files {
-	MAME_DIR .. "src/mame/drivers/maygay1b.cpp",
-	MAME_DIR .. "src/mame/includes/maygay1b.h",
-	MAME_DIR .. "src/mame/drivers/maygay1bsw.cpp",
-	MAME_DIR .. "src/mame/drivers/maygayv1.cpp",
-	MAME_DIR .. "src/mame/drivers/maygayep.cpp",
-	MAME_DIR .. "src/mame/drivers/maygaysw.cpp",
-	MAME_DIR .. "src/mame/drivers/mmm.cpp",
+--	MAME_DIR .. "src/mame/drivers/maygay1b.cpp",
+--	MAME_DIR .. "src/mame/includes/maygay1b.h",
+--	MAME_DIR .. "src/mame/drivers/maygay1bsw.cpp",
+--	MAME_DIR .. "src/mame/drivers/maygayv1.cpp",
+--	MAME_DIR .. "src/mame/drivers/maygayep.cpp",
+--	MAME_DIR .. "src/mame/drivers/maygaysw.cpp",
+--	MAME_DIR .. "src/mame/drivers/mmm.cpp",
 }
 
 createMAMEProjects(_target, _subtarget, "meadows")
@@ -4751,6 +4754,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/gotcha.cpp",
 	MAME_DIR .. "src/mame/includes/gotcha.h",
 	MAME_DIR .. "src/mame/video/gotcha.cpp",
+	MAME_DIR .. "src/mame/drivers/gsspade.cpp",
 	MAME_DIR .. "src/mame/drivers/gumbo.cpp",
 	MAME_DIR .. "src/mame/includes/gumbo.h",
 	MAME_DIR .. "src/mame/video/gumbo.cpp",

@@ -1,18 +1,20 @@
 // license:GPL-2.0+
 // copyright-holders:Couriersud
-/***************************************************************************
 
-    nltool.c
-
-    Simple tool to debug netlists outside MAME.
-
-****************************************************************************/
+// ***************************************************************************
+//
+//    nltool.cpp
+//
+//    Simple tool to debug netlists outside MAME.
+//
+// ***************************************************************************
 
 #include "netlist/plib/pmain.h"
 #include "netlist/devices/net_lib.h"
 #include "netlist/nl_errstr.h"
 #include "netlist/nl_parser.h"
 #include "netlist/nl_setup.h"
+#include "netlist/plib/pstrutil.h"
 #include "netlist/solver/nld_solver.h"
 #include "netlist/tools/nl_convert.h"
 
@@ -114,6 +116,18 @@ public:
 	int execute() override;
 	pstring usage() override;
 
+	template<typename... ARGS>
+	void poutprefix(const pstring &prefix, const pstring &fmt, ARGS&&... args)
+	{
+		pstring res = plib::pfmt(fmt)(std::forward<ARGS>(args)...);
+		auto lines(plib::psplit(res, "\n", false));
+		if (lines.size() == 0)
+			pout(prefix + "\n");
+		else
+			for (auto &l : lines)
+				pout(prefix + l + "\n");
+	}
+
 	int m_warnings;
 	int m_errors;
 private:
@@ -136,16 +150,16 @@ private:
 };
 
 static NETLIST_START(dummy)
-	/* Standard stuff */
+	// Standard stuff
 
 	CLOCK(clk, 1000) // 1000 Hz
 	SOLVER(Solver, 48000)
 
 NETLIST_END()
 
-/***************************************************************************
-    CORE IMPLEMENTATION
-***************************************************************************/
+// **************************************************************************
+//    CORE IMPLEMENTATION
+// **************************************************************************
 
 class netlist_data_folder_t : public netlist::source_data_t
 {
@@ -187,16 +201,14 @@ private:
 	tool_app_t &m_app;
 };
 
-class netlist_tool_t : public netlist::netlist_t
+class netlist_tool_t : public netlist::netlist_state_t
 {
 public:
 
 	netlist_tool_t(tool_app_t &app, const pstring &aname)
-	: netlist::netlist_t(aname, plib::make_unique<netlist_tool_callbacks_t>(app))
+	: netlist::netlist_state_t(aname, plib::make_unique<netlist_tool_callbacks_t>(app))
 	{
 	}
-
-	netlist::setup_t &setup() { return nlstate().setup(); }
 
 	void read_netlist(const pstring &filename, const pstring &name,
 			const std::vector<pstring> &logs,
@@ -231,7 +243,6 @@ public:
 		for (auto & log : logs)
 		{
 			pstring name = "log_" + log;
-			/*netlist_device_t *nc = */ setup().register_dev("LOG", name);
 			setup().register_link(name + ".I", log);
 		}
 	}
@@ -241,19 +252,19 @@ public:
 		run_state_manager().pre_save();
 		std::size_t size = 0;
 		for (auto const & s : run_state_manager().save_list())
-			size += s->m_dt.size * s->m_count;
+			size += s->dt().size() * s->count();
 
 		std::vector<char> buf(size);
 		char *p = buf.data();
 
 		for (auto const & s : run_state_manager().save_list())
 		{
-			std::size_t sz = s->m_dt.size * s->m_count;
-			if (s->m_dt.is_float || s->m_dt.is_integral)
-				std::copy(static_cast<char *>(s->m_ptr),
-						static_cast<char *>(s->m_ptr) + sz, p);
+			std::size_t sz = s->dt().size() * s->count();
+			if (s->dt().is_float() || s->dt().is_integral())
+				std::copy(static_cast<char *>(s->ptr()),
+						static_cast<char *>(s->ptr()) + sz, p);
 			else
-				log().fatal("found unsupported save element {1}\n", s->m_name);
+				log().fatal("found unsupported save element {1}\n", s->name());
 			p += sz;
 		}
 		return buf;
@@ -263,7 +274,7 @@ public:
 	{
 		std::size_t size = 0;
 		for (auto const & s : run_state_manager().save_list())
-			size += s->m_dt.size * s->m_count;
+			size += s->dt().size() * s->count();
 
 		if (buf.size() != size)
 			plib::pthrow<netlist::nl_exception>("Size different during load state.");
@@ -272,15 +283,15 @@ public:
 
 		for (auto const & s : run_state_manager().save_list())
 		{
-			std::size_t sz = s->m_dt.size * s->m_count;
-			if (s->m_dt.is_float || s->m_dt.is_integral)
-				std::copy(p, p + sz, static_cast<char *>(s->m_ptr));
+			std::size_t sz = s->dt().size() * s->count();
+			if (s->dt().is_float() || s->dt().is_integral())
+				std::copy(p, p + sz, static_cast<char *>(s->ptr()));
 			else
-				log().fatal("found unsupported save element {1}\n", s->m_name);
+				log().fatal("found unsupported save element {1}\n", s->name());
 			p += sz;
 		}
 		run_state_manager().post_load();
-		nlstate().rebuild_lists();
+		this->rebuild_lists();
 	}
 
 protected:
@@ -375,7 +386,7 @@ void tool_app_t::run()
 		auto t_guard(t.guard());
 		//plib::perftime_t<plib::exact_ticks> t;
 
-		nt.enable_stats(opt_stats());
+		nt.exec().enable_stats(opt_stats());
 
 		if (!opt_verb())
 			nt.log().verbose.set_enabled(false);
@@ -386,7 +397,7 @@ void tool_app_t::run()
 				opt_logs(),
 				m_defines, opt_rfolders(), opt_includes());
 
-		nt.reset();
+		nt.exec().reset();
 
 		inps = read_input(nt.setup(), opt_inp());
 		ttr = netlist::netlist_time::from_fp(opt_ttr());
@@ -397,7 +408,7 @@ void tool_app_t::run()
 
 	t.reset();
 
-	netlist::netlist_time nlt = nt.time();
+	netlist::netlist_time nlt = nt.exec().time();
 	{
 		auto t_guard(t.guard());
 
@@ -412,7 +423,7 @@ void tool_app_t::run()
 			std::vector<char> loadstate;
 			reader.read(loadstate);
 			nt.load_state(loadstate);
-			pout("Loaded state, run will continue at {1:.6f}\n", nt.time().as_double());
+			pout("Loaded state, run will continue at {1:.6f}\n", nt.exec().time().as_double());
 		}
 
 		unsigned pos = 0;
@@ -422,7 +433,7 @@ void tool_app_t::run()
 				&& inps[pos].m_time < ttr
 				&& inps[pos].m_time >= nlt)
 		{
-			nt.process_queue(inps[pos].m_time - nlt);
+			nt.exec().process_queue(inps[pos].m_time - nlt);
 			inps[pos].setparam();
 			nlt = inps[pos].m_time;
 			pos++;
@@ -431,7 +442,7 @@ void tool_app_t::run()
 		pout("runnning ...\n");
 
 		if (ttr > nlt)
-			nt.process_queue(ttr - nlt);
+			nt.exec().process_queue(ttr - nlt);
 		else
 		{
 			pout("end time {1:.6f} less than saved time {2:.6f}\n",
@@ -450,7 +461,7 @@ void tool_app_t::run()
 			plib::pbinary_writer writer(strm);
 			writer.write(savestate);
 		}
-		nt.stop();
+		nt.exec().stop();
 	}
 
 	auto emutime(t.as_seconds<nl_fptype>());
@@ -513,11 +524,11 @@ void tool_app_t::static_compile()
 
 	// need to reset ...
 
-	nt.reset();
+	nt.exec().reset();
 
 	std::map<pstring, pstring> mp;
 
-	nt.solver()->create_solver_code(mp);
+	nt.exec().solver()->create_solver_code(mp);
 
 	for (auto &e : mp)
 	{
@@ -525,8 +536,105 @@ void tool_app_t::static_compile()
 		sout << e.second;
 	}
 
-	nt.stop();
+	nt.exec().stop();
 
+}
+
+
+
+// "Description: The Swiss army knife for timing purposes\n"
+// "    which has a ton of applications.\n"
+// "DipAlias: GND,TRIG,OUT,RESET,VCC,DISCH,THRES,CONT\n"
+// "Package: DIP\n"
+// "NamingConvention: Naming conventions follow Texas Instruments datasheet\n"
+// "Limitations: Internal resistor network currently fixed to 5k\n"
+// "     more limitations\n"
+// "FunctionTable:\n"
+//
+
+struct doc_ext
+{
+	pstring id;
+	pstring title;
+	pstring description;
+	std::vector<pstring> pinalias;
+	pstring package;
+	pstring namingconventions;
+	pstring limitations;
+	pstring functiontable;
+	std::vector<pstring> example;
+};
+
+static doc_ext read_docsrc(const pstring &fname, const pstring &id)
+{
+	//printf("file %s\n", fname.c_str());
+	plib::putf8_reader r = plib::putf8_reader(std::ifstream(plib::filesystem::u8path(fname)));
+	if (r.stream().fail())
+		plib::pthrow<netlist::nl_exception>(netlist::MF_FILE_OPEN_ERROR(fname));
+	r.stream().imbue(std::locale::classic());
+	doc_ext ret;
+
+	pstring l;
+	if (!r.readline(l))
+		return ret;
+	do
+	{
+		l = plib::trim(l);
+		if (plib::startsWith(l, "//-"))
+		{
+			l = plib::trim(l.substr(3));
+			if (l != "")
+			{
+				auto a(plib::psplit(l, ":", true));
+				if ((a.size() < 1) || (a.size() > 2))
+					plib::pthrow<netlist::nl_exception>(l+" size mismatch");
+				pstring n(plib::trim(a[0]));
+				pstring v(a.size() < 2 ? "" : plib::trim(a[1]));
+				if (n == "Identifier")
+				{
+					ret.id = v;
+					if (!r.readline(l))
+						return (ret.id == id ? ret : doc_ext());
+				}
+				else
+				{
+					while (r.readline(l))
+					{
+						l = plib::ltrim(l);
+						if (!(plib::startsWith(l, "//-  ") || plib::startsWith(l, "//-\t"))
+							&& !(plib::rtrim(l) == "//-"))
+							break;
+						v = v + "\n" + l.substr(3);
+					}
+					if (n == "Title")
+						ret.title = plib::trim(v);
+					else if (n == "Pinalias")
+						ret.pinalias = plib::psplit(plib::trim(v),",",true);
+					else if (n == "Description")
+						ret.description = v;
+					else if (n == "Package")
+						ret.package = plib::trim(v);
+					else if (n == "NamingConvention")
+						ret.namingconventions = v;
+					else if (n == "Limitations")
+						ret.limitations = v;
+					else if (n == "FunctionTable")
+						ret.functiontable = v;
+					else if (n == "Example")
+					{
+						ret.example = plib::psplit(plib::trim(v),",",true);
+						if (ret.example.size() != 2 && ret.example.size() != 0)
+							plib::pthrow<netlist::nl_exception>("Example requires 2 parameters, but found {1}", ret.example.size());
+					}
+					else
+						plib::pthrow<netlist::nl_exception>(n);
+				}
+			}
+		}
+		else if (!r.readline(l))
+			return (ret.id == id ? ret : doc_ext());
+	} while (true);
+	//return ret;
 }
 
 void tool_app_t::mac_out(const pstring &s, const bool cont)
@@ -564,18 +672,24 @@ void tool_app_t::header_entry(const netlist::factory::element_t *e)
 		if (!plib::startsWith(s, "@"))
 			vs += ", p" + plib::replace_all(plib::replace_all(s, "+", ""), ".", "_");
 	mac_out("#define " + e->name() + "(name" + vs + ")");
-	mac_out("\tNET_REGISTER_DEV(" + e->name() +", name)");
+
+	vs = "";
 
 	for (const auto &s : v)
 	{
 		pstring r(plib::replace_all(plib::replace_all(plib::replace_all(s, "+", ""), ".", "_"), "@",""));
 		if (plib::startsWith(s, "+"))
-			mac_out("\tNET_CONNECT(name, " + r + ", p" + r + ")");
+			vs += ", p" + r;
 		else if (plib::startsWith(s, "@"))
-			mac_out("\tNET_CONNECT(name, " + r + ", " + r + ")");
+		{
+			// automatically connected
+			//mac_out("\tNET_CONNECT(name, " + r + ", " + r + ")");
+		}
 		else
-			mac_out("\tNETDEV_PARAMI(name, " + r + ", p" + r + ")");
+			vs += ", p" + r;
 	}
+
+	mac_out("\tNET_REGISTER_DEVEXT(" + e->name() +", name" + vs + ")", false);
 	mac_out("", false);
 }
 
@@ -620,12 +734,11 @@ void tool_app_t::create_header()
 	pout("#ifndef NLD_DEVINC_H\n");
 	pout("#define NLD_DEVINC_H\n");
 	pout("\n");
-	pout("#include \"nl_setup.h\"\n");
 	pout("#ifndef __PLIB_PREPROCESSOR__\n");
 	pout("\n");
-	pout("/* ----------------------------------------------------------------------------\n");
-	pout(" *  Netlist Macros\n");
-	pout(" * ---------------------------------------------------------------------------*/\n");
+	pout("// ----------------------------------------------------------------------------\n");
+	pout("//  Netlist Macros\n");
+	pout("// ---------------------------------------------------------------------------\n");
 	pout("\n");
 
 	pstring last_source("");
@@ -643,7 +756,7 @@ void tool_app_t::create_header()
 	}
 	pout("#endif // __PLIB_PREPROCESSOR__\n");
 	pout("#endif\n");
-	nt.stop();
+	nt.exec().stop();
 
 }
 
@@ -664,19 +777,20 @@ void tool_app_t::create_docheader()
 
 	pout("// license:GPL-2.0+\n");
 	pout("// copyright-holders:Couriersud\n");
-	pout("/* ----------------------------------------------------------------------------\n");
-	pout(" *  Automatically created file. DO NOT MODIFY.\n");
-	pout(" * ---------------------------------------------------------------------------*/\n");
-	pout("/*!\n");
-	pout(" * \\page devices Devices\n");
-	pout(" *\n");
-	pout(" * Below is a list of all the devices currently known to the system ...\n");
-	pout(" *\n");
+	pout("\n");
+	pout("// ----------------------------------------------------------------------------\n");
+	pout("//  Automatically created file. DO NOT MODIFY.\n");
+	pout("// ---------------------------------------------------------------------------\n");
+	pout("///\n");
+	pout("/// \\page devices Devices\n");
+	pout("///\n");
+	pout("/// Below is a list of all the devices currently known to the system ...\n");
+	pout("///\n");
 
 	for (auto &s : devs)
-		pout(" *         - \\subpage {1}\n", s);
+		pout("/// - @subpage {1}\n", s);
 
-	pout(" *\n");
+	pout("\n");
 
 	for (auto &e : nt.setup().factory())
 	{
@@ -687,13 +801,85 @@ void tool_app_t::create_docheader()
 		mac(e.get());
 		pout("//! [{1} synopsis]\n", e->name());
 	}
-	nt.stop();
+
+	poutprefix("", "");
+	poutprefix("///", "");
+	//poutprefix("///", " @file ");
+	poutprefix("///", " @page '' "); // FIXME: snippets and pages need to be separate files
+	poutprefix("", "");
+
+	for (auto &e : nt.setup().factory())
+	{
+		auto d(read_docsrc(e->sourcefile(), e->name()));
+
+		if (d.id != "")
+		{
+
+			poutprefix("///", "");
+			//poutprefix("///", "  @file {}", e->sourcefile());
+			poutprefix("///", "");
+			poutprefix("///", "  @page {} {}", d.id, d.title);
+			poutprefix("///", "");
+			poutprefix("///", "  {}", d.description);
+			poutprefix("///", "");
+			poutprefix("///", "  @section {}_1 Synopsis", d.id);
+			poutprefix("///", "");
+			poutprefix("///", "  @snippet devsyn.dox.h {} synopsis", d.id);
+			poutprefix("///", "");
+			poutprefix("///", "  @section {}_11 C Synopsis", d.id);
+			poutprefix("///", "");
+			poutprefix("///", "  @snippet devsyn.dox.h {} csynopsis", d.id);
+			poutprefix("///", "");
+			poutprefix("///", "  @section {}_2 Connection Diagram", d.id);
+			poutprefix("///", "");
+
+			if (d.pinalias.size() > 0)
+			{
+				poutprefix("///", "  <pre>");
+				if (d.package == "DIP")
+				{
+					auto & pins = d.pinalias;
+					//const int w = 8;
+					poutprefix("///", " {1:10} +--------+", " ");
+					for (std::size_t i=0; i<pins.size()/2; i++)
+					{
+						poutprefix("///", " {1:10} |{2:-2}    {3:2}| {4:-10}",
+							pins[i], i+1, pins.size()-i, pins[pins.size()-i-1]);
+					}
+					poutprefix("///", " {1:10} +--------+", " ");
+				}
+				poutprefix("///", "  </pre>");
+			}
+			poutprefix("///", "");
+			poutprefix("///", "  {}", d.namingconventions);
+			poutprefix("///", "");
+			poutprefix("///", "  @section {}_3 Function Table", d.id);
+			poutprefix("///", "");
+			if (d.functiontable == "")
+				poutprefix("///", "  Please refer to the datasheet.");
+			else
+				poutprefix("///", "  {}", d.functiontable);
+			poutprefix("///", "");
+			poutprefix("///", "  @section {}_4 Limitations", d.id);
+			poutprefix("///", "");
+			poutprefix("///", "  {}", d.limitations);
+			if (d.example.size() > 0)
+			{
+				poutprefix("///", "");
+				poutprefix("///", "  @section {}_5 Example", d.id);
+				poutprefix("///", "  @snippet {1} {2}", d.example[0], d.example[1]);
+				poutprefix("///", "");
+				poutprefix("", "");
+			}
+		}
+	}
+	nt.exec().stop();
 }
 
 
-/*-------------------------------------------------
-    listdevices - list all known devices
--------------------------------------------------*/
+// -------------------------------------------------
+//    listdevices - list all known devices
+// -------------------------------------------------
 
 void tool_app_t::listdevices()
 {
@@ -716,7 +902,7 @@ void tool_app_t::listdevices()
 		pstring out = plib::pfmt("{1:-20} {2}(<id>")(f->classname())(f->name());
 
 		f->macro_actions(nt.setup(), f->name() + "_lc");
-		auto d = f->Create(nt.nlstate(), f->name() + "_lc");
+		auto d = f->Create(nt.pool(), nt, f->name() + "_lc");
 		// get the list of terminals ...
 
 		std::vector<pstring> terms(nt.setup().get_terminals_for_device_name(d->name()));
@@ -742,9 +928,9 @@ void tool_app_t::listdevices()
 	}
 }
 
-/*-------------------------------------------------
-    convert - convert spice et al to netlist
--------------------------------------------------*/
+// -------------------------------------------------
+//    convert - convert spice et al to netlist
+// -------------------------------------------------
 
 void tool_app_t::convert()
 {
@@ -784,13 +970,13 @@ void tool_app_t::convert()
 		c.convert(contents);
 		result = c.result();
 	}
-	/* present result */
+	// present result
 	pout.write(result);
 }
 
-/*-------------------------------------------------
-    main - primary entry point
--------------------------------------------------*/
+// -------------------------------------------------
+//    main - primary entry point
+// -------------------------------------------------
 
 #if 0
 static const pstring pmf_verbose[] =
