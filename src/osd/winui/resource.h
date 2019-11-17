@@ -368,6 +368,7 @@
 #define IDC_FILTER_MECHANICAL           1254
 #define IDC_AUDIT_ICON                  1255
 #define IDC_SSBORDER                    1256
+#define IDC_LOWLATENCY                  1257
 #define IDC_BORDER                      1259
 #define IDC_ROM_DETAILS                 1261
 #define IDC_SICKFX                      1262
