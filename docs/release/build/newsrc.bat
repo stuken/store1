@@ -21,6 +21,7 @@ copy /Y %from%\src\emu\video.*                      %to%\src\emu
 
 md %to%\src\frontend\mame\ui
 copy /Y %from%\src\frontend\mame\audit.*            %to%\src\frontend\mame
+copy /Y %from%\src\frontend\mame\language.cpp       %to%\src\frontend\mame
 copy /Y %from%\src\frontend\mame\ui\datmenu.cpp     %to%\src\frontend\mame\ui
 copy /Y %from%\src\frontend\mame\ui\mainmenu.cpp    %to%\src\frontend\mame\ui
 copy /Y %from%\src\frontend\mame\ui\submenu.cpp     %to%\src\frontend\mame\ui
@@ -92,11 +93,3 @@ rem now save all our stuff to github
 copy %from%\*.bat                                   %to%\build
 xcopy /E /Y %from%\scripts                          %to%\scripts
 
-pause
-echo off
-cls
-echo.
-echo RAR up everything.
-echo.
-
-pause

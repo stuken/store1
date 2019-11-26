@@ -8,6 +8,7 @@ call clean.bat
 call clean.bat
 call clean.bat
 call clean.bat
+goto 64bit
 
 rem --- 32bit ---
 del arcade32.exe
@@ -15,6 +16,7 @@ del arcade32.sym
 call make32 -j4 %1 %2 %3
 if not exist arcade32.exe goto end
 
+:64bit
 rem --- 64bit ---
 del arcade64.exe
 del arcade64.sym

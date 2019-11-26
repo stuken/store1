@@ -2371,6 +2371,7 @@ static void BuildDataMap(void)
 	datamap_add(properties_datamap, IDC_SPEED,					DM_FLOAT,	OPTION_SPEED);
 	datamap_add(properties_datamap, IDC_SPEEDDISP,				DM_FLOAT,	OPTION_SPEED);
 	datamap_add(properties_datamap, IDC_REFRESHSPEED,			DM_BOOL,	OPTION_REFRESHSPEED);
+	datamap_add(properties_datamap, IDC_LOWLATENCY,				DM_BOOL,	OPTION_LOWLATENCY);
 	// core rotation options
 	datamap_add(properties_datamap, IDC_ROTATE,					DM_INT,		NULL);
 	// ror, rol, autoror, autorol handled by callback

@@ -697,7 +697,7 @@ const rgb_t *render_container::bcg_lookup_table(int texformat, u32 &out_length, 
 		case TEXFORMAT_RGB32:
 		case TEXFORMAT_ARGB32:
 		case TEXFORMAT_YUY16:
-			out_length = 256;
+			out_length = ARRAY_LENGTH(m_bcglookup256);
 			return m_bcglookup256;
 
 		default:
@@ -2022,11 +2022,10 @@ bool render_target::load_layout_file(const char *dirname, const internal_layout 
 	z_stream stream;
 	int zerr;
 
-	/* initialize the stream */
+	// initialize the stream
 	memset(&stream, 0, sizeof(stream));
 	stream.next_out = tempout.get();
 	stream.avail_out = layout_data.decompressed_size;
-
 
 	zerr = inflateInit(&stream);
 	if (zerr != Z_OK)
@@ -2035,12 +2034,12 @@ bool render_target::load_layout_file(const char *dirname, const internal_layout 
 		return false;
 	}
 
-	/* decompress this chunk */
+	// decompress this chunk
 	stream.next_in = (unsigned char *)layout_data.data;
 	stream.avail_in = layout_data.compressed_size;
 	zerr = inflate(&stream, Z_NO_FLUSH);
 
-	/* stop at the end of the stream */
+	// stop at the end of the stream
 	if (zerr == Z_STREAM_END)
 	{
 		// OK
@@ -2051,7 +2050,7 @@ bool render_target::load_layout_file(const char *dirname, const internal_layout 
 		return false;
 	}
 
-	/* clean up */
+	// clean up
 	zerr = inflateEnd(&stream);
 	if (zerr != Z_OK)
 	{
