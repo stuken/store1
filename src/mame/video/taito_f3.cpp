@@ -1829,11 +1829,11 @@ void taito_f3_state::get_line_ram_info(tilemap_t *tmap, int sx, int sy, int pos,
 		_y_zoom[y] = (line_zoom & 0xff) << 9;
 
 		/* Evaluate clipping */
-		if (pri & 0x0800 && m_game != LANDMAKR) // MAMEFX these 4 lines
+		if (pri & 0x0800 && (m_game != LANDMAKR) && (m_game != QUIZHUHU)) // MAMEFX these 5 lines [all MAMEFX patches here are courtesy of dink]
 		{
 			line_enable = 0;
 		}
-		else if (pri & 0x0330)
+		else if (pri & 0x0330 && (m_game != PBOBBLE4))
 		{
 			//fast path todo - remove line enable
 			calculate_clip(y, pri & 0x0330, &line_t->clip0[y], &line_t->clip1[y], &line_enable);
