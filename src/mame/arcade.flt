@@ -970,6 +970,7 @@ psikyo4.cpp
 psikyosh.cpp
 psychic5.cpp
 pturn.cpp
+pubtimed.cpp
 puckpkmn.cpp
 punchout.cpp
 pyson.cpp
@@ -1108,6 +1109,7 @@ shtzone.cpp
 shuuz.cpp
 sidearms.cpp
 sidepckt.cpp
+//sigma21.cpp      // skeleton, probably gambling
 //sigmab52.cpp     // poker
 sigmab98.cpp
 silkroad.cpp
@@ -1223,6 +1225,7 @@ suprridr.cpp
 suprslam.cpp
 //supstarf.cpp     // mechanical
 surpratk.cpp
+sweetland.cpp
 system1.cpp
 system16.cpp
 tagteam.cpp
@@ -1338,6 +1341,7 @@ unkhorse.cpp
 upscope.cpp
 //usbilliards.cpp  // ttl
 usgames.cpp
+v0bowl.cpp
 vamphalf.cpp
 vaportra.cpp
 vastar.cpp
