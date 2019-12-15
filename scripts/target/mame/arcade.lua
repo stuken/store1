@@ -344,7 +344,7 @@ VIDEOS["RAMDAC"] = true
 VIDEOS["SAA5050"] = true
 --VIDEOS["SDA5708"] = true
 VIDEOS["SCN2674"] = true
---VIDEOS["PWM_DISPLAY"] = true
+VIDEOS["PWM_DISPLAY"] = true
 --VIDEOS["SED1200"] = true
 --VIDEOS["SED1330"] = true
 --VIDEOS["SED1520"] = true
@@ -376,6 +376,7 @@ VIDEOS["VRENDER0"] = true
 
 MACHINES["ACORN_VIDC"] = true
 MACHINES["AKIKO"] = true
+MACHINES["ARM_IOMD"] = true
 MACHINES["AUTOCONFIG"] = true
 MACHINES["BUSMOUSE"] = true
 MACHINES["CR511B"] = true
@@ -1735,7 +1736,6 @@ files {
 	MAME_DIR .. "src/mame/drivers/vaportra.cpp",
 	MAME_DIR .. "src/mame/includes/vaportra.h",
 	MAME_DIR .. "src/mame/video/vaportra.cpp",
-	MAME_DIR .. "src/mame/drivers/wacky_gator.cpp",
 	MAME_DIR .. "src/mame/machine/deco_irq.cpp",
 	MAME_DIR .. "src/mame/machine/deco_irq.h",
 	MAME_DIR .. "src/mame/machine/deco102.cpp",
@@ -2224,6 +2224,8 @@ files {
 	MAME_DIR .. "src/mame/video/jalblend.h",
 	MAME_DIR .. "src/mame/video/ms1_tmap.cpp",
 	MAME_DIR .. "src/mame/video/ms1_tmap.h",
+	MAME_DIR .. "src/mame/video/ms32_sprite.cpp",
+	MAME_DIR .. "src/mame/video/ms32_sprite.h",
 }
 
 createMAMEProjects(_target, _subtarget, "jpm")
@@ -2775,6 +2777,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/baraduke.cpp",
 	MAME_DIR .. "src/mame/includes/baraduke.h",
 	MAME_DIR .. "src/mame/video/baraduke.cpp",
+	MAME_DIR .. "src/mame/drivers/cgang.cpp",
 	MAME_DIR .. "src/mame/drivers/cswat.cpp",
 	MAME_DIR .. "src/mame/drivers/dambustr.cpp",
 	MAME_DIR .. "src/mame/drivers/dkmb.cpp",
@@ -2897,6 +2900,7 @@ files {
 	MAME_DIR .. "src/mame/includes/turrett.h",
 	MAME_DIR .. "src/mame/audio/turrett.cpp",
 	MAME_DIR .. "src/mame/video/turrett.cpp",
+	MAME_DIR .. "src/mame/drivers/wacky_gator.cpp",
 	MAME_DIR .. "src/mame/drivers/warpwarp.cpp",
 	MAME_DIR .. "src/mame/includes/warpwarp.h",
 	MAME_DIR .. "src/mame/audio/geebee.cpp",
@@ -3585,6 +3589,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/raiden.cpp",
 	MAME_DIR .. "src/mame/includes/raiden.h",
 	MAME_DIR .. "src/mame/video/raiden.cpp",
+	MAME_DIR .. "src/mame/drivers/raiden_ms.cpp",
 	MAME_DIR .. "src/mame/drivers/raiden2.cpp",
 	MAME_DIR .. "src/mame/includes/raiden2.h",
 	MAME_DIR .. "src/mame/video/raiden2.cpp",
@@ -4579,6 +4584,7 @@ files {
 --	MAME_DIR .. "src/mame/drivers/zac_1.cpp",
 --	MAME_DIR .. "src/mame/drivers/zac_2.cpp",
 --	MAME_DIR .. "src/mame/drivers/zac_proto.cpp",
+--	MAME_DIR .. "src/mame/drivers/zpinball.cpp",
 }
 
 --------------------------------------------------
@@ -4656,6 +4662,7 @@ files {
 	MAME_DIR .. "src/mame/machine/cdislave.h",
 	MAME_DIR .. "src/mame/machine/cdicdic.cpp",
 	MAME_DIR .. "src/mame/machine/cdicdic.h",
+	MAME_DIR .. "src/mame/drivers/chameleonrx1.cpp",
 	MAME_DIR .. "src/mame/drivers/chance32.cpp",
 --	MAME_DIR .. "src/mame/drivers/changyu.cpp",
 --	MAME_DIR .. "src/mame/drivers/chexx.cpp",

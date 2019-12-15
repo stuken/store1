@@ -9922,6 +9922,9 @@ ccs2810                         //
 @source:ccs300.cpp
 ccs300                          //
 
+@source:cd100.cpp
+cd100b                          //
+
 @source:cd2650.cpp
 cd2650                          //
 
@@ -9987,6 +9990,9 @@ tsclass                         //
 @source:cfx9850.cpp
 cfx9850                         // Casio CFX-9850
 
+@source:cgang.cpp
+cgang
+
 @source:cgc7900.cpp
 cgc7900                         //
 
@@ -9999,6 +10005,9 @@ chaknpop                        // AO4 (c) 1983 Taito Corporation
 
 @source:cham24.cpp
 cham24                          // 2002
+
+@source:chameleonrx1.cpp
+chamrx1                         // 2003
 
 @source:champbas.cpp
 champbas                        // (c) 1983 Sega
@@ -33105,9 +33114,6 @@ madrace                         //
 zira                            //
 
 @source:play_3.cpp
-cobrapb                         //
-comeback                        //
-eballchps                       //
 fldragon                        //
 fldragona                       //
 ironball                        //
@@ -33963,6 +33969,9 @@ raident                         // (c) 1990 Seibu Kaihatsu + Liang HWA Electroni
 raidenu                         // (c) 1990 Seibu Kaihatsu + Fabtek license
 raidenua                        // (c) 1990 Seibu Kaihatsu + Fabtek license
 raidenub                        // (c) 1990 Seibu Kaihatsu + Fabtek license
+
+@source:raiden_ms.cpp
+raidenm                         // bootleg
 
 @source:raiden2.cpp
 raiden2                         // (c) 1993 Seibu Kaihatsu + Fabtek license
@@ -40977,6 +40986,7 @@ bombkicka                       // (c) 1998 Yun Sung
 magicbub                        // (c) Yun Sung
 magicbuba                       // (c) Yun Sung
 magicbubb                       // (c) Yun Sung
+magicbubc                       // (c) Yun Sung
 paprazzi                        // (c) 1996 Yun Sung
 shocking                        // (c) 1997 Yun Sung
 shockingk                       // (c) 1997 Yun Sung
@@ -41269,6 +41279,11 @@ zodiack                         // (c) 1983 Orca + Esco Trading Co license
 
 @source:zorba.cpp
 zorba                           //
+
+@source:zpinball.cpp
+cobrapb                         //
+comeback                        //
+eballchps                       //
 
 @source:zr107.cpp
 jetwave                         // GX678 (c)1996 Euro EAB
