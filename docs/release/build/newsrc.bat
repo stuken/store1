@@ -43,6 +43,7 @@ copy /Y %from%\src\mame\drivers\citycon.cpp         %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\cps1.cpp            %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\crimfght.cpp        %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\deniam.cpp          %to%\src\mame\drivers
+copy /Y %from%\src\mame\drivers\fcrash.cpp          %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\gberet.cpp          %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\gng.cpp             %to%\src\mame\drivers
 copy /Y %from%\src\mame\drivers\jailbrek.cpp        %to%\src\mame\drivers
@@ -70,6 +71,7 @@ copy /Y %from%\src\mame\video\namconb1.cpp          %to%\src\mame\video
 copy /Y %from%\src\mame\video\nemesis.cpp           %to%\src\mame\video
 copy /Y %from%\src\mame\video\neogeo.cpp            %to%\src\mame\video
 copy /Y %from%\src\mame\video\neogeo_spr.h          %to%\src\mame\video
+copy /Y %from%\src\mame\video\taito_f3.cpp          %to%\src\mame\video
 copy /Y %from%\src\mame\video\tc0100scn.cpp         %to%\src\mame\video
 
 
