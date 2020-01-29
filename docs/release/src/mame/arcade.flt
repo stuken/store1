@@ -324,6 +324,7 @@ destroyr.cpp
 dfruit.cpp
 dgpix.cpp
 dietgo.cpp
+dinoking.cpp
 discoboy.cpp
 divebomb.cpp
 diverboy.cpp
@@ -395,6 +396,7 @@ fastlane.cpp
 fcombat.cpp
 fcrash.cpp
 //feversoc.cpp     // fruit
+//ffantasy_ms.cpp    // skeleton
 fgoal.cpp
 finalizr.cpp
 //fireball.cpp     // mechanical
@@ -624,6 +626,7 @@ kncljoe.cpp
 koftball.cpp
 koikoi.cpp
 konamigq.cpp
+konamigs.cpp
 konamigv.cpp
 konamigx.cpp
 konamim2.cpp
@@ -739,6 +742,7 @@ meijinsn.cpp
 merit.cpp
 merit3xx.cpp
 meritm.cpp
+merits.cpp
 mermaid.cpp
 //metalmx.cpp      // check
 metlclsh.cpp
@@ -1123,6 +1127,7 @@ simple_st0016.cpp
 simpsons.cpp
 //skeetsht.cpp     // check
 skimaxx.cpp
+skopro.cpp
 skullxbo.cpp
 skyarmy.cpp
 skydiver.cpp
@@ -1264,6 +1269,7 @@ tattack.cpp
 taxidriv.cpp
 tbowl.cpp
 tceptor.cpp
+//teamjocs.cpp     // unknown skeleton
 //techno.cpp       // pinball
 tecmo.cpp
 tecmo16.cpp
