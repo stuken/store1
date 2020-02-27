@@ -74,8 +74,6 @@ astrocde.cpp
 astrof.cpp
 //astropc.cpp      // check
 asuka.cpp
-//atari_s1.cpp     // pinball
-//atari_s2.cpp     // pinball
 atarifb.cpp
 atarig1.cpp
 atarig42.cpp
@@ -85,6 +83,8 @@ atarisy1.cpp
 atarisy2.cpp
 atarisy4.cpp
 //atarittl.cpp     // ttl
+//atari_s1.cpp     // pinball
+//atari_s2.cpp     // pinball
 atetris.cpp
 //atlantis.cpp     // chd
 //atronic.cpp      // check
@@ -117,14 +117,14 @@ beezer.cpp
 berzerk.cpp
 bestleag.cpp
 bfcobra.cpp
+//bfmsys83.cpp     // fruit
+//bfmsys85.cpp     // fruit
 //bfm_ad5sw.cpp      // fruit
 //bfm_sc1.cpp      // fruit
 //bfm_sc2.cpp      // fruit
 //bfm_sc4.cpp      // fruit
 //bfm_sc5sw.cpp      // fruit
 //bfm_swp.cpp      // fruit
-//bfmsys83.cpp     // fruit
-//bfmsys85.cpp     // fruit
 //bgt.cpp          // fruit, skeleton
 big10.cpp
 bigevglf.cpp
@@ -307,9 +307,6 @@ ddragon.cpp
 ddragon3.cpp
 ddribble.cpp
 //ddz.cpp          // skeleton
-//de_2.cpp         // pinball
-//de_3.cpp         // pinball
-//de_3b.cpp        // pinball
 deadang.cpp
 dec0.cpp
 dec8.cpp
@@ -318,9 +315,14 @@ deco_mlc.cpp
 deco156.cpp
 deco32.cpp
 decocass.cpp
+deco_ld.cpp
+deco_mlc.cpp
 deniam.cpp
 //deshoros.cpp     // check
 destroyr.cpp
+//de_2.cpp         // pinball
+//de_3.cpp         // pinball
+//de_3b.cpp        // pinball
 dfruit.cpp
 dgpix.cpp
 dietgo.cpp
@@ -386,8 +388,8 @@ exterm.cpp
 //extrema.cpp      // check
 exzisus.cpp
 ez2d.cpp
-f1gp.cpp
 f-32.cpp
+f1gp.cpp
 famibox.cpp
 fantland.cpp
 fastfred.cpp
@@ -489,9 +491,9 @@ goodejan.cpp
 gotcha.cpp
 gottlieb.cpp
 gotya.cpp
+gpworld.cpp
 //gp_1.cpp          // pinball
 //gp_2.cpp          // pinball
-gpworld.cpp
 gradius3.cpp
 grchamp.cpp
 gridlee.cpp
@@ -543,19 +545,19 @@ hvyunit.cpp
 hyhoo.cpp
 hyperspt.cpp
 hyprduel.cpp
+//icecold.cpp      // mechanical
 //ice_bozopail.cpp // mechanical
 //ice_tbd.cpp      // mechanical
-//icecold.cpp      // mechanical
 //ichiban.cpp      // check
 //idsa.cpp         // pinball
-//igs_fear.cpp     // check
-//igs_m027.cpp     // check
-//igs_m036.cpp     // check
 igs009.cpp
 igs011.cpp
 igs017.cpp
 //igspc.cpp        // chd
 //igspoker.cpp     // poker
+//igs_fear.cpp     // check
+//igs_m027.cpp     // check
+//igs_m036.cpp     // check
 ikki.cpp
 imolagp.cpp
 //inder.cpp        // pinball
@@ -650,9 +652,9 @@ lasso.cpp
 lastbank.cpp
 lastduel.cpp
 lastfght.cpp
+lazercmd.cpp
 //laz_aftrshok.cpp // mechanical
 //laz_ribrac.cpp   // mechanical
-lazercmd.cpp
 lbeach.cpp
 //lckydraw.cpp     // pinball
 legionna.cpp
@@ -942,11 +944,11 @@ piratesh.cpp
 pitnrun.cpp
 pkscram.cpp
 pktgaldx.cpp
+playch10.cpp
+playmark.cpp
 //play_1.cpp       // pinball
 //play_2.cpp       // pinball
 //play_3.cpp       // pinball
-playch10.cpp
-playmark.cpp
 //pluto5.cpp       // fruit
 //plygonet.cpp     // check
 pntnpuzl.cpp
@@ -998,8 +1000,8 @@ r2dtank.cpp
 r2dx_v33.cpp
 rabbit.cpp
 raiden.cpp
-raiden_ms.cpp
 raiden2.cpp
+raiden_ms.cpp
 rallyx.cpp
 rampart.cpp
 //ramtek.cpp       // ttl
@@ -1191,8 +1193,6 @@ sspeedr.cpp
 ssrj.cpp
 sstrangr.cpp
 ssv.cpp
-//st_mp100.cpp     // pinball
-//st_mp200.cpp     // pinball
 stactics.cpp
 stadhero.cpp
 starcrus.cpp
@@ -1208,6 +1208,8 @@ stlforce.cpp
 strkzn.cpp
 stuntair.cpp
 stv.cpp
+//st_mp100.cpp     // pinball
+//st_mp200.cpp     // pinball
 su2000.cpp
 sub.cpp
 //subhuntr.cpp     // check
@@ -1240,14 +1242,6 @@ system16.cpp
 tagteam.cpp
 tail2nos.cpp
 //taito.cpp        // pinball
-taito_b.cpp
-taito_f2.cpp
-taito_f3.cpp
-taito_h.cpp
-taito_l.cpp
-//taito_o.cpp      // poker
-taito_x.cpp
-taito_z.cpp
 taitoair.cpp
 taitogn.cpp
 taitojc.cpp
@@ -1257,6 +1251,14 @@ taitosj.cpp
 taitotx.cpp
 taitotz.cpp
 //taitowlf.cpp     // check
+taito_b.cpp
+taito_f2.cpp
+taito_f3.cpp
+taito_h.cpp
+taito_l.cpp
+//taito_o.cpp      // poker
+taito_x.cpp
+taito_z.cpp
 tank8.cpp
 tankbatt.cpp
 tankbust.cpp
@@ -1393,8 +1395,8 @@ wecleman.cpp
 welltris.cpp
 wgp.cpp
 wheelfir.cpp
-//white_mod.cpp    // pinball
 //whitestar.cpp    // pinball
+//white_mod.cpp    // pinball
 //wico.cpp         // pinball
 //wildpkr.cpp      // poker
 williams.cpp
@@ -1429,11 +1431,11 @@ yiear.cpp
 yunsun16.cpp
 yunsung8.cpp
 //yuvomz80.cpp          // mechanical
+zac2650.cpp
+zaccaria.cpp
 //zac_1.cpp             // pinball
 //zac_2.cpp             // pinball
 //zac_proto.cpp         // pinball
-zac2650.cpp
-zaccaria.cpp
 zaxxon.cpp
 zerozone.cpp
 zn.cpp
