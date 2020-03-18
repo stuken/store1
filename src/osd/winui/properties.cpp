@@ -2874,7 +2874,7 @@ static void InitializeBIOSUI(HWND hWnd)
 			return;
 		}
 
-		if (g_nGame == FOLDER_OPTIONS) 		//Folder Options
+		if (g_nGame == FOLDER_OPTIONS)
 		{
 			gamedrv = &driver_list::driver(g_nFolderGame);
 
@@ -2886,9 +2886,9 @@ static void InitializeBIOSUI(HWND hWnd)
 			}
 			
 			(void)ComboBox_InsertString(hCtrl, i, TEXT("Default"));
-			(void)ComboBox_SetItemData(hCtrl, i++, "");
+			(void)ComboBox_SetItemData(hCtrl, i++, "default");
 
-			if (gamedrv->rom != NULL)
+			if (gamedrv->rom)
 			{
 				auto rom_entries = rom_build_entries(gamedrv->rom);
 				
@@ -2906,6 +2906,9 @@ static void InitializeBIOSUI(HWND hWnd)
 						(void)ComboBox_InsertString(hCtrl, i, t_s);
 						(void)ComboBox_SetItemData(hCtrl, i++, biosname);
 						free(t_s);
+
+						if (ROMENTRY_ISDEFAULT_BIOS(rom))
+							(void)ComboBox_SetItemData( hCtrl, 0, biosname);
 					}
 				}
 			}
