@@ -271,9 +271,25 @@ media_auditor::summary media_auditor::summarize(const char *name, std::ostream *
 		if (output)
 		{
 			if (name)
+			{
+				if (record.type() == media_type::DISK)
+					util::stream_format(*output, "%-12s: %s%s", name, record.name(), ".chd"); // MESSUI: include .chd for disks
+				else
+				if (record.type() == media_type::SAMPLE)
+					util::stream_format(*output, "%-12s: %s%s", name, record.name(), ".wav"); // MESSUI: include .wav for samples
+				else
 				util::stream_format(*output, "%-12s: %s", name, record.name());
+			}
 			else
-				util::stream_format(*output, "%s", record.name());
+			{
+				if (record.type() == media_type::DISK)
+					util::stream_format(*output, "%s%s", record.name(), ".chd"); // MESSUI: include .chd for disks
+				else
+				if (record.type() == media_type::SAMPLE)
+					util::stream_format(*output, "%s%s", record.name(), ".wav"); // MESSUI: include .wav for samples
+				else
+					util::stream_format(*output, "%s", record.name());
+			}
 			if (record.expected_length() > 0)
 				util::stream_format(*output, " (%d bytes)", record.expected_length());
 			*output << " - ";
@@ -356,7 +372,10 @@ media_auditor::summary media_auditor::winui_summarize(const char *name, std::ost
 		// output the game name, file name, and length (if applicable)
 		if (output)
 		{
-			util::stream_format(*output, "%-12s: %s", name, record.name());
+			if (record.type() == media_type::DISK)
+				util::stream_format(*output, "%-12s: %s%s", name, record.name(), ".chd");
+			else
+				util::stream_format(*output, "%-12s: %s", name, record.name());
 			if (record.expected_length() > 0)
 				util::stream_format(*output, " (%d bytes)", record.expected_length());
 			*output << " - ";
