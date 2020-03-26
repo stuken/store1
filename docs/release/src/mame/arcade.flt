@@ -1071,6 +1071,7 @@ sderby.cpp
 //sderby2.cpp      // check
 seabattl.cpp
 sealy.cpp
+//sealy_fr.cpp     // skeleton
 seattle.cpp
 segaatom.cpp
 segac2.cpp
@@ -1317,6 +1318,7 @@ trackfld.cpp
 travrusa.cpp
 triforce.cpp
 triplhnt.cpp
+//triviaquiz.cpp    // skeleton
 trivrus.cpp
 truco.cpp
 trucocl.cpp

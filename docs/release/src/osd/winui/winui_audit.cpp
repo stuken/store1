@@ -388,7 +388,7 @@ static void ProcessNextRom(void)
 
 	switch (retval)
 	{
-		case media_auditor::BEST_AVAILABLE: 	/* correct, incorrect or separate count? */
+		case media_auditor::BEST_AVAILABLE: /* correct, incorrect or separate count? */
 		case media_auditor::CORRECT:
 		case media_auditor::NONE_NEEDED:
 			roms_correct++;
