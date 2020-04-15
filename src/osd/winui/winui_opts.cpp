@@ -1883,8 +1883,11 @@ static void LoadOptionsAndInterface(void)
 	// parse INTERFACE.INI
 	std::string intername = std::string(GetGuiDir()).append(PATH_SEPARATOR).append(INTERFACE_INI_FILENAME).append(".ini");
 	LoadInterfaceFile(winui_opts, intername);
-	// parse MAME.INI
-	std::string filename = std::string(GetIniDir()).append(PATH_SEPARATOR).append(DEFAULT_INI_FILENAME).append(".ini");
+	// if .\mame.ini not exist, create a default one
+	std::string filename = std::string(DEFAULT_INI_FILENAME).append(".ini");
+	LoadOptionsStartup(core_opts, filename);
+	// parse the real MAME.INI, create it if it doesn't exist
+	filename = std::string(GetIniDir()).append(PATH_SEPARATOR).append(DEFAULT_INI_FILENAME).append(".ini");
 	LoadOptionsStartup(core_opts, filename);
 	// parse UI.INI
 	std::string uiname = std::string(GetIniDir()).append(PATH_SEPARATOR).append(INTERNAL_UI_INI_FILENAME).append(".ini");

@@ -47,7 +47,7 @@
 #define OPTION_SNAPSHOT_DIRECTORY   "snapshot_directory"
 #define OPTION_DIFF_DIRECTORY       "diff_directory"
 #define OPTION_COMMENT_DIRECTORY    "comment_directory"
-#define OPTION_VIDEO_DIRECTORY		"video_directory"
+#define OPTION_VIDEO_DIRECTORY      "video_directory"
 
 // core state/playback options
 #define OPTION_STATE                "state"
@@ -109,7 +109,7 @@
 #define OPTION_GAMMA                "gamma"
 #define OPTION_PAUSE_BRIGHTNESS     "pause_brightness"
 #define OPTION_EFFECT               "effect"
-#define OPTION_WIDESTRETCH			"widestretch"
+#define OPTION_WIDESTRETCH          "widestretch"
 
 // core vector options
 #define OPTION_BEAM_WIDTH_MIN       "beam_width_min"

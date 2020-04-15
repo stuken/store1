@@ -745,6 +745,7 @@ merit.cpp
 merit3xx.cpp
 meritm.cpp
 merits.cpp
+meritsdx.cpp
 mermaid.cpp
 //metalmx.cpp      // check
 metlclsh.cpp
@@ -1017,6 +1018,7 @@ redclash.cpp
 relief.cpp
 renegade.cpp
 retofinv.cpp
+//rfslots8085.cpp  // skeleton mechanical
 //rgum.cpp         // check
 rltennis.cpp
 rmhaihai.cpp
