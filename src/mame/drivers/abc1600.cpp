@@ -6,13 +6,13 @@
 
     How to create HDD image:
     ------------------------
-    chdman createhd -chs 615,4,17 -ss 512 -o necd5126a.chd
+    ./chdman createhd -chs 615,4,17 -ss 512 -o necd5126a.chd
+    ./chdman createhd -chs 1024,8,17 -ss 512 -o micr1325a.chd
 
     How to format HDD:
     ------------------
     mf(2,0)
     mf(2,0)
-    abcenix
     sas/format/format
     sa(40,0)
     y
@@ -34,8 +34,6 @@
 
     TODO:
 
-    - starting from MAME 0.151, the Z80 DMA reads 0x08 as the 257th byte to transfer from disk t0s14 thus failing a comparison @ 37cfa, leading to a watchdog reset
-      changing z80dma.cpp:480 to "done = (m_count == 0);" fixes this but isn't the real reason
     - segment/page RAM addresses are not correctly decoded, "sas/format/format" after abcenix is booted can't find the SASI interface because of this
         [:mac] ':3f' (08A98) MAC 7e4a2:0004a2 (SEGA 02f SEGD 09 PGA 09c PGD 8000 NONX 1 WP 0)
             should be
@@ -379,7 +377,7 @@ WRITE8_MEMBER( abc1600_state::fw0_w )
 
 	*/
 
-	if (LOG) logerror("FW0 %02x\n", data);
+	if (LOG) logerror("%s FW0 %02x\n", machine().describe_context(), data);
 
 	// drive select
 	floppy_image_device *floppy = nullptr;
@@ -416,7 +414,7 @@ WRITE8_MEMBER( abc1600_state::fw1_w )
 
 	*/
 
-	if (LOG) logerror("FW1 %02x\n", data);
+	if (LOG) logerror("%s FW1 %02x\n", machine().describe_context(), data);
 
 	// FDC master reset
 	if (!BIT(data, 0)) m_fdc->reset();

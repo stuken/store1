@@ -87,7 +87,7 @@ namespace solver
 
 			for (auto &p : net->core_terms())
 			{
-				log().debug("{1} {2} {3}\n", p->name(), net->name(), net->isRailNet());
+				log().debug("{1} {2} {3}\n", p->name(), net->name(), net->is_rail_net());
 				switch (p->type())
 				{
 					case detail::terminal_type::TERMINAL:
@@ -134,9 +134,9 @@ namespace solver
 			}
 		}
 		for (auto &d : step_devices)
-			m_step_funcs.push_back(nldelegate_ts(&core_device_t::timestep, d));
+			m_step_funcs.emplace_back(nldelegate_ts(&core_device_t::timestep, d));
 		for (auto &d : dynamic_devices)
-			m_dynamic_funcs.push_back(nldelegate_dyn(&core_device_t::update_terminals, d));
+			m_dynamic_funcs.emplace_back(nldelegate_dyn(&core_device_t::update_terminals, d));
 	}
 
 	void matrix_solver_t::sort_terms(matrix_sort_type_e sort)
@@ -219,11 +219,11 @@ namespace solver
 		// rebuild
 		for (auto &term : m_terms)
 		{
-			int *other = term.m_connected_net_idx.data();
+			//int *other = term.m_connected_net_idx.data();
 			for (std::size_t i = 0; i < term.count(); i++)
 				//FIXME: this is weird
-				if (other[i] != -1)
-					other[i] = get_net_idx(get_connected_net(term.terms()[i]));
+				if (term.m_connected_net_idx[i] != -1)
+					term.m_connected_net_idx[i] = get_net_idx(get_connected_net(term.terms()[i]));
 		}
 	}
 
@@ -453,29 +453,38 @@ namespace solver
 		++m_stat_vsolver_calls;
 		if (dynamic_device_count() != 0)
 		{
-			std::size_t this_resched(0);
+			bool this_resched(false);
 			std::size_t newton_loops = 0;
 			do
 			{
 				update_dynamic();
 				// Gauss-Seidel will revert to Gaussian elemination if steps exceeded.
 				this->m_stat_calculations++;
-				this_resched = this->vsolve_non_dynamic(true);
+				this->vsolve_non_dynamic();
+				this_resched = this->check_err();
+				this->store();
 				newton_loops++;
-			} while (this_resched > 1 && newton_loops < m_params.m_nr_loops);
+			} while (this_resched && newton_loops < m_params.m_nr_loops);
 
 			m_stat_newton_raphson += newton_loops;
 			// reschedule ....
-			if (this_resched > 1 && !m_Q_sync.net().is_queued())
+			if (this_resched && !m_Q_sync.net().is_queued())
 			{
 				log().warning(MW_NEWTON_LOOPS_EXCEEDED_ON_NET_1(this->name()));
+				// FIXME: test and enable - this is working better, though not optimal yet
+#if 0
+				// Don't store, the result can not be used
+				return netlist_time::from_fp(m_params.m_nr_recalc_delay());
+#else
 				m_Q_sync.net().toggle_and_push_to_queue(netlist_time::from_fp(m_params.m_nr_recalc_delay()));
+#endif
 			}
 		}
 		else
 		{
 			this->m_stat_calculations++;
-			this->vsolve_non_dynamic(false);
+			this->vsolve_non_dynamic();
+			this->store();
 		}
 
 		return compute_next_timestep(delta.as_fp<nl_fptype>());
@@ -554,7 +563,7 @@ namespace solver
 
 	void matrix_solver_t::add_term(std::size_t net_idx, terminal_t *term)
 	{
-		if (get_connected_net(term)->isRailNet())
+		if (get_connected_net(term)->is_rail_net())
 		{
 			m_rails_temp[net_idx].add_terminal(term, -1, false);
 		}
