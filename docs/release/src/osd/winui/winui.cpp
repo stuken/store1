@@ -346,27 +346,27 @@ static int *icon_index = NULL; 	/* for custom per-game icons */
 
 static const TBBUTTON tbb[] =
 {
-	{0, ID_VIEW_FOLDERS,    	TBSTATE_ENABLED, BTNS_CHECK,      {0, 0}, 0, 0},
-	{1, ID_VIEW_PICTURE_AREA,	TBSTATE_ENABLED, BTNS_CHECK,      {0, 0}, 0, 1},
-	{0, 0,                  	TBSTATE_ENABLED, BTNS_SEP,        {0, 0}, 0, 0},
-	{2, ID_VIEW_ICONS_LARGE,  	TBSTATE_ENABLED, BTNS_CHECKGROUP, {0, 0}, 0, 2},
-	{3, ID_VIEW_ICONS_SMALL, 	TBSTATE_ENABLED, BTNS_CHECKGROUP, {0, 0}, 0, 3},
-	{0, 0,                  	TBSTATE_ENABLED, BTNS_SEP,        {0, 0}, 0, 0},
-	{4, ID_ENABLE_INDENT,  		TBSTATE_ENABLED, BTNS_CHECK,      {0, 0}, 0, 12},
-	{0, 0,                  	TBSTATE_ENABLED, BTNS_SEP,        {0, 0}, 0, 0},
-	{6, ID_UPDATE_GAMELIST,  	TBSTATE_ENABLED, BTNS_BUTTON,     {0, 0}, 0, 4},
-	{0, 0,                    	TBSTATE_ENABLED, BTNS_SEP,        {0, 0}, 0, 0},
-	{7, ID_OPTIONS_INTERFACE,	TBSTATE_ENABLED, BTNS_BUTTON,     {0, 0}, 0, 5},
-	{8, ID_OPTIONS_DEFAULTS, 	TBSTATE_ENABLED, BTNS_BUTTON,     {0, 0}, 0, 6},
-	{0, 0,                   	TBSTATE_ENABLED, BTNS_SEP,        {0, 0}, 0, 0},
-	{9, ID_VIDEO_SNAP,			TBSTATE_ENABLED, BTNS_BUTTON,     {0, 0}, 0, 7},
-	{10,ID_PLAY_M1,   			TBSTATE_ENABLED, BTNS_BUTTON,     {0, 0}, 0, 8},
-	{0, 0,                    	TBSTATE_ENABLED, BTNS_SEP,        {0, 0}, 0, 0},
-	{11,ID_HELP_ABOUT,      	TBSTATE_ENABLED, BTNS_BUTTON,     {0, 0}, 0, 9},
-	{12,ID_HELP_CONTENTS,   	TBSTATE_ENABLED, BTNS_BUTTON,     {0, 0}, 0, 10},
-	{0, 0,                    	TBSTATE_ENABLED, BTNS_SEP,        {0, 0}, 0, 0},
-	{13,ID_MAME_HOMEPAGE,     	TBSTATE_ENABLED, BTNS_BUTTON,     {0, 0}, 0, 11},
-	{0, 0,                    	TBSTATE_ENABLED, BTNS_SEP,        {0, 0}, 0, 0}
+	{0, ID_VIEW_FOLDERS,        TBSTATE_ENABLED, BTNS_CHECK,      {0, 0}, 0, 0},
+	{1, ID_VIEW_PICTURE_AREA,   TBSTATE_ENABLED, BTNS_CHECK,      {0, 0}, 0, 1},
+	{0, 0,                      TBSTATE_ENABLED, BTNS_SEP,        {0, 0}, 0, 0},
+	{2, ID_VIEW_ICONS_LARGE,    TBSTATE_ENABLED, BTNS_CHECKGROUP, {0, 0}, 0, 2},
+	{3, ID_VIEW_ICONS_SMALL,    TBSTATE_ENABLED, BTNS_CHECKGROUP, {0, 0}, 0, 3},
+	{0, 0,                      TBSTATE_ENABLED, BTNS_SEP,        {0, 0}, 0, 0},
+	{4, ID_ENABLE_INDENT,       TBSTATE_ENABLED, BTNS_CHECK,      {0, 0}, 0, 12},
+	{0, 0,                      TBSTATE_ENABLED, BTNS_SEP,        {0, 0}, 0, 0},
+	{6, ID_UPDATE_GAMELIST,     TBSTATE_ENABLED, BTNS_BUTTON,     {0, 0}, 0, 4},
+	{0, 0,                      TBSTATE_ENABLED, BTNS_SEP,        {0, 0}, 0, 0},
+	{7, ID_OPTIONS_INTERFACE,   TBSTATE_ENABLED, BTNS_BUTTON,     {0, 0}, 0, 5},
+	{8, ID_OPTIONS_DEFAULTS,    TBSTATE_ENABLED, BTNS_BUTTON,     {0, 0}, 0, 6},
+	{0, 0,                      TBSTATE_ENABLED, BTNS_SEP,        {0, 0}, 0, 0},
+	{9, ID_VIDEO_SNAP,          TBSTATE_ENABLED, BTNS_BUTTON,     {0, 0}, 0, 7},
+	{10,ID_PLAY_M1,             TBSTATE_ENABLED, BTNS_BUTTON,     {0, 0}, 0, 8},
+	{0, 0,                      TBSTATE_ENABLED, BTNS_SEP,        {0, 0}, 0, 0},
+	{11,ID_HELP_ABOUT,          TBSTATE_ENABLED, BTNS_BUTTON,     {0, 0}, 0, 9},
+	{12,ID_HELP_CONTENTS,       TBSTATE_ENABLED, BTNS_BUTTON,     {0, 0}, 0, 10},
+	{0, 0,                      TBSTATE_ENABLED, BTNS_SEP,        {0, 0}, 0, 0},
+	{13,ID_MAME_HOMEPAGE,       TBSTATE_ENABLED, BTNS_BUTTON,     {0, 0}, 0, 11},
+	{0, 0,                      TBSTATE_ENABLED, BTNS_SEP,        {0, 0}, 0, 0}
 };
 
 static const wchar_t szTbStrings[NUM_TOOLTIPS][30] =
@@ -4343,7 +4343,6 @@ static void ToggleScreenShot(void)
 static void AdjustMetrics(void)
 {
 	TEXTMETRIC tm;
-	AREA area;
 
 	/* WM_SETTINGCHANGE also */
 	int xtraX = GetSystemMetrics(SM_CXFIXEDFRAME); 	/* Dialog frame width */
@@ -4382,21 +4381,21 @@ static void AdjustMetrics(void)
 		hWnd = GetWindow(hWnd, GW_HWNDNEXT);
 	}
 
-	GetWindowArea(&area);
-	int offX = area.x + area.width;
-	int offY = area.y + area.height;
+	AREA area;
+	GetWindowArea(&area); // read window size from ini
 
-	if (offX > maxX)
-	{
-		offX = maxX;
-		area.x = (offX - area.width > 0) ? (offX - area.width) : 0;
-	}
+	// Reposition the window so that the top or left side is in view.
+	// The width and height never change, even if they stretch off the screen.
+	if (area.x < 0)
+		area.x = 0;
+	if (area.y < 0)
+		area.y = 0;
 
-	if (offY > maxY)
-	{
-		offY = maxY;
-		area.y = (offY - area.height > 0) ? (offY - area.height) : 0;
-	}
+	// If the width or height is too small, or bigger than the screen, default them to the max screen size.
+	if ((area.width < 200) || (area.width > maxX))
+		area.width = maxX;
+	if ((area.height < 100) || (area.height > maxY))
+		area.height = maxY;
 
 	SetWindowArea(&area);
 	SetWindowPos(hMain, HWND_TOP, area.x, area.y, area.width, area.height, 0);

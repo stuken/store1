@@ -488,6 +488,7 @@ goindol.cpp
 gomoku.cpp
 good.cpp
 goodejan.cpp
+goori.cpp
 gotcha.cpp
 gottlieb.cpp
 gotya.cpp
@@ -618,6 +619,7 @@ kas89.cpp
 kchamp.cpp
 kenseim.cpp
 kickgoal.cpp
+kikikai.cpp
 kingdrby.cpp
 kingobox.cpp
 kingpin.cpp
@@ -745,12 +747,12 @@ merit.cpp
 merit3xx.cpp
 meritm.cpp
 merits.cpp
+meritsdx.cpp
 mermaid.cpp
 //metalmx.cpp      // check
 metlclsh.cpp
 metlfrzr.cpp
 metro.cpp
-mexico86.cpp
 //meyc8080.cpp     // poker
 //meyc8088.cpp     // fruit
 //mgames.cpp       // poker
@@ -1017,6 +1019,7 @@ redclash.cpp
 relief.cpp
 renegade.cpp
 retofinv.cpp
+//rfslots8085.cpp  // skeleton mechanical
 //rgum.cpp         // check
 rltennis.cpp
 rmhaihai.cpp
@@ -1201,6 +1204,7 @@ starfire.cpp
 //stargame.cpp     // pinball
 //starrider.cpp    // skeleton
 starshp1.cpp
+startouch.cpp
 starwars.cpp
 statriv2.cpp
 //stellafr.cpp     // fruit
