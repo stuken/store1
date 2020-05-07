@@ -668,7 +668,7 @@ lethalj.cpp
 liberate.cpp
 liberatr.cpp
 limenko.cpp
-lindbergh.cpp
+//lindbergh.cpp    // fatal memory handler error at start
 littlerb.cpp
 lkage.cpp
 lockon.cpp
