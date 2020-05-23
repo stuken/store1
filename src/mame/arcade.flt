@@ -22,20 +22,20 @@ ace.cpp            // ok
 //acesp.cpp        // fruit
 acommand.cpp       // ok
 actfancr.cpp       // ok
-adp.cpp            // ok
+//adp.cpp            // ok
 aeroboto.cpp       // ok
 aerofgt.cpp        // ok
 //age_candy.cpp    // mechanical
 airbustr.cpp
-airraid.cpp
+//airraid.cpp
 ajax.cpp
 akkaarrh.cpp
 albazc.cpp
-albazg.cpp
+//albazg.cpp
 aleck64.cpp
 //aleisttl.cpp     // ttl
-alg.cpp
-alien.cpp
+//alg.cpp
+//alien.cpp
 aliens.cpp
 alinvade.cpp
 //allied.cpp       // pinball
@@ -43,8 +43,8 @@ alpha68k.cpp
 alpha68k_i.cpp
 alpha68k_n.cpp
 //alvg.cpp         // pinball
-amaticmg.cpp
-ambush.cpp
+//amaticmg.cpp
+//ambush.cpp
 //amerihok.cpp     // check
 //ampoker2.cpp     // poker
 amspdwy.cpp
@@ -54,7 +54,7 @@ angelkds.cpp
 appoooh.cpp
 aquarium.cpp
 arabian.cpp
-arachnid.cpp
+//arachnid.cpp
 arcadecl.cpp
 argus.cpp
 //aristmk4.cpp     // fruit
@@ -69,7 +69,7 @@ asterix.cpp
 asteroid.cpp
 astinvad.cpp
 //astrafr.cpp      // fruit
-astrcorp.cpp
+//astrcorp.cpp
 astrocde.cpp
 astrof.cpp
 //astropc.cpp      // check
@@ -81,7 +81,7 @@ atarigt.cpp
 atarigx2.cpp
 atarisy1.cpp
 atarisy2.cpp
-atarisy4.cpp
+//atarisy4.cpp
 //atarittl.cpp     // ttl
 //atari_s1.cpp     // pinball
 //atari_s2.cpp     // pinball
@@ -91,7 +91,7 @@ atetris.cpp
 attckufo.cpp
 //atvtrack.cpp     // check
 avalnche.cpp
-avt.cpp
+//avt.cpp
 aztarac.cpp
 backfire.cpp
 badlands.cpp

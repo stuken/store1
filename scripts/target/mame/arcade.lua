@@ -1009,7 +1009,7 @@ files {
 
 createMAMEProjects(_target, _subtarget, "adp")
 files {
-	MAME_DIR .. "src/mame/drivers/adp.cpp",
+--	MAME_DIR .. "src/mame/drivers/adp.cpp",
 	MAME_DIR .. "src/mame/drivers/manohman.cpp",
 	MAME_DIR .. "src/mame/drivers/stellafr.cpp",
 }
@@ -1017,7 +1017,7 @@ files {
 createMAMEProjects(_target, _subtarget, "alba")
 files {
 	MAME_DIR .. "src/mame/drivers/albazc.cpp",
-	MAME_DIR .. "src/mame/drivers/albazg.cpp",
+--	MAME_DIR .. "src/mame/drivers/albazg.cpp",
 	MAME_DIR .. "src/mame/drivers/rmhaihai.cpp",
 }
 
@@ -1055,7 +1055,7 @@ files {
 
 createMAMEProjects(_target, _subtarget, "amiga")
 files {
-	MAME_DIR .. "src/mame/drivers/alg.cpp",
+--	MAME_DIR .. "src/mame/drivers/alg.cpp",
 	MAME_DIR .. "src/mame/drivers/amiga.cpp",
 	MAME_DIR .. "src/mame/machine/amiga.cpp",
 	MAME_DIR .. "src/mame/video/amiga.cpp",
@@ -1118,7 +1118,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/atarisy2.cpp",
 	MAME_DIR .. "src/mame/includes/atarisy2.h",
 	MAME_DIR .. "src/mame/video/atarisy2.cpp",
-	MAME_DIR .. "src/mame/drivers/atarisy4.cpp",
+--	MAME_DIR .. "src/mame/drivers/atarisy4.cpp",
 	MAME_DIR .. "src/mame/drivers/atarittl.cpp",
 	MAME_DIR .. "src/mame/machine/nl_gtrak10.cpp",
 	MAME_DIR .. "src/mame/machine/nl_gtrak10.h",
@@ -1470,7 +1470,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/1943.cpp",
 	MAME_DIR .. "src/mame/includes/1943.h",
 	MAME_DIR .. "src/mame/video/1943.cpp",
-	MAME_DIR .. "src/mame/drivers/alien.cpp",
+--	MAME_DIR .. "src/mame/drivers/alien.cpp",
 	MAME_DIR .. "src/mame/drivers/bionicc.cpp",
 	MAME_DIR .. "src/mame/drivers/supduck.cpp",
 	MAME_DIR .. "src/mame/video/tigeroad_spr.cpp",
@@ -3581,7 +3581,7 @@ files {
 
 createMAMEProjects(_target, _subtarget, "seibu")
 files {
-	MAME_DIR .. "src/mame/drivers/airraid.cpp",
+--	MAME_DIR .. "src/mame/drivers/airraid.cpp",
 	MAME_DIR .. "src/mame/drivers/bloodbro.cpp",
 	MAME_DIR .. "src/mame/includes/bloodbro.h",
 	MAME_DIR .. "src/mame/video/bloodbro.cpp",
@@ -4138,7 +4138,7 @@ files {
 
 createMAMEProjects(_target, _subtarget, "tecfri")
 files {
-	MAME_DIR .. "src/mame/drivers/ambush.cpp",
+--	MAME_DIR .. "src/mame/drivers/ambush.cpp",
 	MAME_DIR .. "src/mame/drivers/holeland.cpp",
 	MAME_DIR .. "src/mame/includes/holeland.h",
 	MAME_DIR .. "src/mame/video/holeland.cpp",
@@ -4644,7 +4644,7 @@ files {
 --	MAME_DIR .. "src/mame/drivers/acesp.cpp",
 --	MAME_DIR .. "src/mame/drivers/age_candy.cpp",
 	MAME_DIR .. "src/mame/drivers/alinvade.cpp",
-	MAME_DIR .. "src/mame/drivers/amaticmg.cpp",
+--	MAME_DIR .. "src/mame/drivers/amaticmg.cpp",
 --	MAME_DIR .. "src/mame/drivers/amerihok.cpp",
 --	MAME_DIR .. "src/mame/drivers/ampoker2.cpp",
 --	MAME_DIR .. "src/mame/includes/ampoker2.h",
@@ -4654,16 +4654,16 @@ files {
 	MAME_DIR .. "src/mame/video/amspdwy.cpp",
 --	MAME_DIR .. "src/mame/drivers/amusco.cpp",
 --	MAME_DIR .. "src/mame/drivers/anes.cpp",
-	MAME_DIR .. "src/mame/drivers/arachnid.cpp",
+--	MAME_DIR .. "src/mame/drivers/arachnid.cpp",
 	MAME_DIR .. "src/mame/drivers/artmagic.cpp",
 	MAME_DIR .. "src/mame/includes/artmagic.h",
 	MAME_DIR .. "src/mame/video/artmagic.cpp",
 --	MAME_DIR .. "src/mame/drivers/astrafr.cpp",
-	MAME_DIR .. "src/mame/drivers/astrcorp.cpp",
+--	MAME_DIR .. "src/mame/drivers/astrcorp.cpp",
 --	MAME_DIR .. "src/mame/drivers/astropc.cpp",
 --	MAME_DIR .. "src/mame/drivers/atronic.cpp",
 	MAME_DIR .. "src/mame/drivers/attckufo.cpp",
-	MAME_DIR .. "src/mame/drivers/avt.cpp",
+--	MAME_DIR .. "src/mame/drivers/avt.cpp",
 	MAME_DIR .. "src/mame/drivers/aztarac.cpp",
 	MAME_DIR .. "src/mame/includes/aztarac.h",
 	MAME_DIR .. "src/mame/audio/aztarac.cpp",
