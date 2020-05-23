@@ -264,6 +264,7 @@ cps1bl_pic.cpp
 cps2.cpp
 cps3.cpp
 cpzodiac.cpp
+//crazybal.cpp     // TTL
 crbaloon.cpp
 crgolf.cpp
 crimfght.cpp
@@ -344,6 +345,7 @@ dooyong.cpp
 dorachan.cpp
 dotrikun.cpp
 dragrace.cpp
+drdmania.cpp
 dreambal.cpp
 dreamwld.cpp
 drgnmst.cpp
@@ -583,6 +585,7 @@ jack.cpp
 jackal.cpp
 jackie.cpp
 //jackpool.cpp     // poker
+//jackpot.cpp      // mnw, not stated, probably junk
 jaguar.cpp
 jailbrek.cpp
 jalmah.cpp
