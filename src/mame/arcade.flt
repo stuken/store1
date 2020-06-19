@@ -1019,6 +1019,7 @@ re900.cpp
 realbrk.cpp
 redalert.cpp
 redclash.cpp
+regama.cpp
 relief.cpp
 renegade.cpp
 retofinv.cpp
@@ -1149,6 +1150,7 @@ slapshot.cpp
 //sleic.cpp        // pinball
 sliver.cpp
 //slotcarn.cpp     // fruit-poker
+smotor.cpp           // ok
 smsmcorp.cpp
 sms_bootleg.cpp
 snesb.cpp
