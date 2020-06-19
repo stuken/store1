@@ -1019,7 +1019,7 @@ re900.cpp
 realbrk.cpp
 redalert.cpp
 redclash.cpp
-regama.cpp
+//regama.cpp       // pinball
 relief.cpp
 renegade.cpp
 retofinv.cpp

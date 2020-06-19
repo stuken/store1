@@ -4411,7 +4411,7 @@ void m72_state::init_lohtb()
 {
 	install_protection_handler(lohtb_code, loht_crc);
 
-	m_maincpu->space(AS_IO).install_write_handler(0xc0, 0xc1, write16_delegate(*this, FUNC(m72_state::loht_sample_trigger_w)));
+	m_maincpu->space(AS_IO).install_write_handler(0xc0, 0xc1, write16s_delegate(*this, FUNC(m72_state::loht_sample_trigger_w)));
 
 	/* since we skip the startup tests, clear video RAM to prevent garbage on title screen */
 	memset(m_videoram[1], 0, 0x4000);
