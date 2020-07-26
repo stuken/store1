@@ -4182,7 +4182,7 @@ files {
 
 createMAMEProjects(_target, _subtarget, "tecfri")
 files {
---	MAME_DIR .. "src/mame/drivers/ambush.cpp",
+	MAME_DIR .. "src/mame/drivers/ambush.cpp",
 	MAME_DIR .. "src/mame/drivers/holeland.cpp",
 	MAME_DIR .. "src/mame/includes/holeland.h",
 	MAME_DIR .. "src/mame/video/holeland.cpp",

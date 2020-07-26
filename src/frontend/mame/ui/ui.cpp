@@ -169,7 +169,7 @@ mame_ui_manager::mame_ui_manager(running_machine &machine)
 	, m_mouse_arrow_texture(nullptr)
 	, m_mouse_show(false)
 	, m_show_time(false)	// MAMEFX
-	, m_target_font_height(0) {}
+	, m_target_font_height(0)
 	, m_has_warnings(false)
 { }
 
