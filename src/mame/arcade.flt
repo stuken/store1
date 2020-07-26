@@ -44,7 +44,7 @@ alpha68k_i.cpp
 alpha68k_n.cpp
 //alvg.cpp         // pinball
 //amaticmg.cpp
-//ambush.cpp
+ambush.cpp         // ok
 //amerihok.cpp     // check
 //ampoker2.cpp     // poker
 amspdwy.cpp
