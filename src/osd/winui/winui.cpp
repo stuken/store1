@@ -5566,3 +5566,15 @@ static HBITMAP CreateBitmapTransparent(HBITMAP hSource)
 	DeleteDC(hSrc);
 	return hNew;
 }
+
+char *core_strdup(const char *str)
+{
+	char *cpy = nullptr;
+	if (str != nullptr)
+	{
+		cpy = (char*) malloc(strlen(str)+1);
+		if (cpy != nullptr)
+			strcpy(cpy, str);
+	}
+	return cpy;
+}
