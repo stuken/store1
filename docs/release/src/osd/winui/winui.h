@@ -84,7 +84,7 @@
 #endif
 #define MAMENAME			"MAME"
 
-#define MAME_VERSION		"0.223"
+#define MAME_VERSION		"0.224"
 #define MAMEUIFX_VERSION	MAME_VERSION " (" __DATE__")"
 
 #define SEARCH_PROMPT		"<search here>"
@@ -203,17 +203,6 @@ void SetStatusBarTextF(int part_index, const char *fmt, ...);
 const char * GetSearchText(void);
 
 
-char *core_strdup(const char *str)
-{
-	char *cpy = nullptr;
-	if (str != nullptr)
-	{
-		cpy = (char*) malloc(strlen(str)+1);
-		if (cpy != nullptr)
-			strcpy(cpy, str);
-	}
-	return cpy;
-}
-
+char *core_strdup(const char *str);
 
 #endif
