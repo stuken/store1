@@ -597,7 +597,7 @@ static void RunMAME(int nGameIndex, const play_options *playopts)
 	// end played time
 	time(&end);
 	// free the structure
-	global_free(manager);
+	delete manager;
 	osd_output::pop(&winerror);
 	// Calc the duration
 	double elapsedtime = end - start;
