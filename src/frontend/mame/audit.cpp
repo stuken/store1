@@ -585,7 +585,7 @@ media_auditor::summary media_auditor::winui_summarize(const char *name, std::ost
 		case audit_substatus::NOT_FOUND:
 			if (output)
 			{
-				device_t *const shared_device = record.shared_device();
+				std::add_pointer_t<device_type> const shared_device = record.shared_device();
 				if (shared_device)
 					util::stream_format(*output, "NOT FOUND (%s)\n", shared_device->shortname());
 				else
