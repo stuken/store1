@@ -4022,12 +4022,17 @@ bool CommonFileDialog(common_file_dialog_proc cfd, char *filename, int filetype,
 			break;
 
 		case FILETYPE_EFFECT_FILES :
+		{
 			path = GetArtDir();
-			of.lpstrInitialDir = win_wstring_from_utf8(path);
+			char t[strlen(path)+1];
+			strcpy(t, path);
+			strtok(t, ";");
+			of.lpstrInitialDir = win_wstring_from_utf8(t);
 			of.lpstrFilter = TEXT("effects (*.png)\0*.png;\0");
 			of.lpstrDefExt = TEXT("png");
 			of.lpstrTitle  = TEXT("Select an overlay PNG effect file");
 			break;
+		}
 
 		case FILETYPE_SHADER_FILES :
 			path = GetGLSLDir();
@@ -4038,11 +4043,17 @@ bool CommonFileDialog(common_file_dialog_proc cfd, char *filename, int filetype,
 			break;
 
 		case FILETYPE_CHEAT_FILES :
-			of.lpstrInitialDir = last_directory;
+		{
+			path = GetCheatDir();
+			char t[strlen(path)+1];
+			strcpy(t, path);
+			strtok(t, ";");
+			of.lpstrInitialDir = win_wstring_from_utf8(t);
 			of.lpstrFilter = TEXT("cheats (*.7z,*.zip)\0*.7z;*.zip;\0");
 			of.lpstrDefExt = TEXT("7z");
 			of.lpstrTitle  = TEXT("Select a cheats archive file");
 			break;
+		}
 
 		case FILETYPE_BGFX_FILES :
 			char temp[MAX_PATH];

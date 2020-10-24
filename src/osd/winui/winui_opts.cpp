@@ -1033,6 +1033,16 @@ void SetArtDir(const char* path)
 	core_opts.set_value(OPTION_ARTPATH, path, OPTION_PRIORITY_CMDLINE);
 }
 
+const char* GetCheatDir(void)
+{
+	return core_opts.value(OPTION_CHEATPATH);
+}
+
+void SetCheatDir(const char* path)
+{
+	core_opts.set_value(OPTION_CHEATPATH, path, OPTION_PRIORITY_CMDLINE);
+}
+
 const char* GetFontDir(void)
 {
 	return core_opts.value(OPTION_FONTPATH);
