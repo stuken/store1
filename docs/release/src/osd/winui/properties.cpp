@@ -230,11 +230,11 @@ const DUALCOMBOSTR g_ComboBoxVideo[] =
 
 const DUALCOMBOSTR g_ComboBoxSound[] =
 {
-	{ TEXT("Auto"),         "auto"   },
-	{ TEXT("DirectSound"),  "dsound" },
-	{ TEXT("PortAudio"),    "portaudio" },
-//	{ TEXT("XAudio2"),      "xaudio2" },     // invalid option
-	{ TEXT("None"),         "none"   }
+	{ TEXT("Auto"),            "auto"   },
+	{ TEXT("DirectSound"),     "dsound" },
+	{ TEXT("PortAudio"),       "portaudio" },
+	{ TEXT("XAudio2 (Win10)"), "xaudio2" },     // win10 only
+	{ TEXT("None"),            "none"   }
 };
 
 const DUALCOMBOINT g_ComboBoxSampleRate[] =
@@ -309,6 +309,19 @@ const DUALCOMBOSTR g_ComboBoxGLSLFilter[] =
 	{ TEXT("Bilinear"), "1" },
 	{ TEXT("Bicubic"),  "2" }
 };
+
+const DUALCOMBOSTR g_ComboBoxBackend[] =
+{
+	{ TEXT("Auto"),                "auto" },
+	{ TEXT("DirectX9"),            "dx9"  },
+	{ TEXT("DirectX11"),           "dx11" },
+	{ TEXT("DirectX12 (Win10)"),   "dx12" },
+	{ TEXT("GLES"),                "gles" },
+	{ TEXT("GLSL"),                "glsl" },
+	{ TEXT("Metal (Win10)"),       "metal" },
+	{ TEXT("Vulkan (Win10)"),      "vulkan" },
+};
+
 /***************************************************************
  * Public functions
  ***************************************************************/
@@ -3503,7 +3516,7 @@ static void DisableVisualStyles(HWND hDlg)
 	SetWindowTheme(GetDlgItem(hDlg, IDC_VIEW), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_SIZES), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_REFRESH), L" ", L" ");
-	SetWindowTheme(GetDlgItem(hDlg, IDC_SWITCHRES), L" ", L" ");		
+	SetWindowTheme(GetDlgItem(hDlg, IDC_SWITCHRES), L" ", L" ");
 	/* OpenGL - BGFX */
 	SetWindowTheme(GetDlgItem(hDlg, IDC_GLSLPOW), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_GLSLTEXTURE), L" ", L" ");

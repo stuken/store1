@@ -40,6 +40,7 @@ static const DIRECTORYINFO g_directoryInfo[] =
 	{ "Bosses",                 GetBossesDir,       SetBossesDir,       true,  0 },
 	{ "Cabinets",               GetCabinetDir,      SetCabinetDir,      true,  0 },
 	{ "CHD Diffs",              GetDiffDir,         SetDiffDir,         false, 0 },
+	{ "Cheats",                 GetCheatDir,        SetCheatDir,        true, 0 },
 	{ "Config",                 GetCfgDir,          SetCfgDir,          false, 0 },
 	{ "Control Panels",         GetControlPanelDir, SetControlPanelDir, true,  0 },
 	{ "Controllers",            GetCtrlrDir,        SetCtrlrDir,        false, 0 },

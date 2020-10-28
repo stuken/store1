@@ -3516,7 +3516,7 @@ static void DisableVisualStyles(HWND hDlg)
 	SetWindowTheme(GetDlgItem(hDlg, IDC_VIEW), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_SIZES), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_REFRESH), L" ", L" ");
-	SetWindowTheme(GetDlgItem(hDlg, IDC_SWITCHRES), L" ", L" ");		
+	SetWindowTheme(GetDlgItem(hDlg, IDC_SWITCHRES), L" ", L" ");
 	/* OpenGL - BGFX */
 	SetWindowTheme(GetDlgItem(hDlg, IDC_GLSLPOW), L" ", L" ");
 	SetWindowTheme(GetDlgItem(hDlg, IDC_GLSLTEXTURE), L" ", L" ");

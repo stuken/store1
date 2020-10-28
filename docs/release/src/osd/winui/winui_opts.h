@@ -409,6 +409,8 @@ const char* GetManualsDir(void);
 void SetManualsDir(const char* path);
 const char* GetLanguageDir(void);
 void SetLanguageDir(const char* path);
+const char* GetCheatDir(void);
+void SetCheatDir(const char* path);
 void ResetGameOptions(int driver_index);
 int GetRomAuditResults(int driver_index);
 void SetRomAuditResults(int driver_index, int audit_results);

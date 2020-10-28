@@ -3151,8 +3151,7 @@ void cps2_state::cps2_render_sprites( screen_device &screen, bitmap_ind16 &bitma
 
 void cps_state::cps1_render_stars( screen_device &screen, bitmap_ind16 &bitmap, const rectangle &cliprect )
 {
-	int offs;
-	uint8_t *stars_rom = m_region_stars->base();
+	uint8_t const *const stars_rom = m_region_stars->base();
 
 	if (!stars_rom && (m_stars_enabled[0] || m_stars_enabled[1]))
 	{
@@ -3164,7 +3163,7 @@ void cps_state::cps1_render_stars( screen_device &screen, bitmap_ind16 &bitmap, 
 
 	if (m_stars_enabled[0])
 	{
-		for (offs = 0; offs < m_stars_rom_size / 2; offs++)
+		for (int offs = 0; offs < m_stars_rom_size / 2; offs++)
 		{
 			int col = stars_rom[8 * offs + 4];
 			if (col != 0x0f)
@@ -3182,14 +3181,14 @@ void cps_state::cps1_render_stars( screen_device &screen, bitmap_ind16 &bitmap, 
 				col = ((col & 0xe0) >> 1) + (screen.frame_number() / 16 & 0x0f);
 
 				if (cliprect.contains(sx, sy))
-					bitmap.pix16(sy, sx) = 0xa00 + col;
+					bitmap.pix(sy, sx) = 0xa00 + col;
 			}
 		}
 	}
 
 	if (m_stars_enabled[1])
 	{
-		for (offs = 0; offs < m_stars_rom_size / 2; offs++)
+		for (int offs = 0; offs < m_stars_rom_size / 2; offs++)
 		{
 			int col = stars_rom[8*offs];
 			if (col != 0x0f)
@@ -3207,7 +3206,7 @@ void cps_state::cps1_render_stars( screen_device &screen, bitmap_ind16 &bitmap, 
 				col = ((col & 0xe0) >> 1) + (screen.frame_number() / 16 & 0x0f);
 
 				if (cliprect.contains(sx, sy))
-					bitmap.pix16(sy, sx) = 0x800 + col;
+					bitmap.pix(sy, sx) = 0x800 + col;
 			}
 		}
 	}
