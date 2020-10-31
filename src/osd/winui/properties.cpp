@@ -113,6 +113,7 @@ static void InitializeControllerMappingUI(HWND hWnd);
 static void InitializeLanguageUI(HWND hWnd);
 static void InitializePluginsUI(HWND hWnd);
 static void InitializeGLSLFilterUI(HWND hWnd);
+static void InitializeBGFXBackendUI(HWND);
 static void UpdateOptions(HWND hDlg, datamap *map, windows_options &opts);
 static void UpdateProperties(HWND hDlg, datamap *map, windows_options &opts);
 static void PropToOptions(HWND hWnd, windows_options &opts);
@@ -310,7 +311,7 @@ const DUALCOMBOSTR g_ComboBoxGLSLFilter[] =
 	{ TEXT("Bicubic"),  "2" }
 };
 
-const DUALCOMBOSTR g_ComboBoxBackend[] =
+const DUALCOMBOSTR g_ComboBoxBGFXBackend[] =
 {
 	{ TEXT("Auto"),                "auto" },
 	{ TEXT("DirectX9"),            "dx9"  },
@@ -2421,6 +2422,9 @@ static void BuildDataMap(void)
 	datamap_add(properties_datamap, IDC_GLSLFILTER,				DM_STRING,	OSDOPTION_GLSL_FILTER);
 	datamap_add(properties_datamap, IDC_GLSLSYNC,				DM_BOOL,	OSDOPTION_GLSL_SYNC);
 	datamap_add(properties_datamap, IDC_BGFX_CHAINS,			DM_STRING,	OSDOPTION_BGFX_SCREEN_CHAINS);
+	datamap_add(properties_datamap, IDC_BGFX_BACKEND,			DM_STRING,	OSDOPTION_BGFX_BACKEND);
+
+	// opengl shaders
 	datamap_add(properties_datamap, IDC_MAME_SHADER0,			DM_STRING,	OSDOPTION_SHADER_MAME "0");
 	datamap_add(properties_datamap, IDC_MAME_SHADER1,			DM_STRING,	OSDOPTION_SHADER_MAME "1");
 	datamap_add(properties_datamap, IDC_MAME_SHADER2,			DM_STRING,	OSDOPTION_SHADER_MAME "2");
@@ -2622,6 +2626,7 @@ static void InitializeOptions(HWND hDlg)
 	InitializeLanguageUI(hDlg);
 	InitializePluginsUI(hDlg);
 	InitializeGLSLFilterUI(hDlg);
+	InitializeBGFXBackendUI(hDlg);
 }
 
 static void OptOnHScroll(HWND hWnd, HWND hWndCtl, UINT code, int pos)
@@ -3046,6 +3051,20 @@ static void InitializeGLSLFilterUI(HWND hWnd)
 		{
 			(void)ComboBox_InsertString(hCtrl, i, g_ComboBoxGLSLFilter[i].m_pText);
 			(void)ComboBox_SetItemData(hCtrl, i, g_ComboBoxGLSLFilter[i].m_pData);
+		}
+	}
+}
+
+static void InitializeBGFXBackendUI(HWND hWnd)
+{
+	HWND hCtrl = GetDlgItem(hWnd, IDC_BGFX_BACKEND);
+
+	if (hCtrl)
+	{
+		for (int i = 0; i < NUMBGFXBACKEND; i++)
+		{
+			ComboBox_InsertString(hCtrl, i, g_ComboBoxBGFXBackend[i].m_pText);
+			ComboBox_SetItemData(hCtrl, i, g_ComboBoxBGFXBackend[i].m_pData);
 		}
 	}
 }
