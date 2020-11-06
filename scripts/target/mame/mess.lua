@@ -345,6 +345,7 @@ VIDEOS["NT7534"] = true
 VIDEOS["HD44102"] = true
 VIDEOS["HD44352"] = true
 VIDEOS["HD44780"] = true
+VIDEOS["HD61202"] = true
 VIDEOS["HD61603"] = true
 VIDEOS["HD61830"] = true
 --VIDEOS["HD63484"] = true
@@ -365,6 +366,7 @@ VIDEOS["I82730"] = true
 VIDEOS["I8275"] = true
 VIDEOS["IMS_CVC"] = true
 VIDEOS["LC7582"] = true
+VIDEOS["LC7985"] = true
 --VIDEOS["M50458"] = true
 --VIDEOS["MB90082"] = true
 --VIDEOS["MB_VCU"] = true
@@ -800,6 +802,7 @@ BUSES["ADAMNET"] = true
 BUSES["APF"] = true
 BUSES["APRICOT_EXPANSION"] = true
 BUSES["APRICOT_KEYBOARD"] = true
+BUSES["AQUARIUS"] = true
 BUSES["AMIGA_KEYBOARD"] = true
 BUSES["ARCADIA"] = true
 BUSES["ASTROCADE"] = true
@@ -1347,6 +1350,7 @@ function linkProjects_mame_mess(_target, _subtarget)
 		"tasc",
 		"tatung",
 		"teamconc",
+		"tectoy",
 		"tektroni",
 		"telenova",
 		"telercas",
@@ -2762,6 +2766,7 @@ createMESSProjects(_target, _subtarget, "leapfrog")
 files {
 	MAME_DIR .. "src/mame/drivers/leapster.cpp",
 	MAME_DIR .. "src/mame/drivers/leapfrog_leappad.cpp",
+	MAME_DIR .. "src/mame/drivers/leapfrog_iquest.cpp",
 }
 
 createMESSProjects(_target, _subtarget, "lsi")
@@ -3478,6 +3483,8 @@ files {
 	MAME_DIR .. "src/mame/includes/megadriv.h",
 	MAME_DIR .. "src/mame/drivers/megadriv_rad.cpp",
 	MAME_DIR .. "src/mame/includes/megadriv_rad.h",
+	MAME_DIR .. "src/mame/drivers/megadriv_vt_hybrid.cpp",
+	MAME_DIR .. "src/mame/drivers/megadriv_sunplus_hybrid.cpp",
 	MAME_DIR .. "src/mame/drivers/segapico.cpp",
 	MAME_DIR .. "src/mame/drivers/sega_sawatte.cpp",
 	MAME_DIR .. "src/mame/drivers/sega_beena.cpp",
@@ -3780,6 +3787,11 @@ files {
 	MAME_DIR .. "src/mame/drivers/comquest.cpp",
 	MAME_DIR .. "src/mame/includes/comquest.h",
 	MAME_DIR .. "src/mame/video/comquest.cpp",
+}
+
+createMESSProjects(_target, _subtarget, "tectoy")
+files {
+	MAME_DIR .. "src/mame/drivers/pensebem.cpp",
 }
 
 createMESSProjects(_target, _subtarget, "tektroni")
@@ -4208,6 +4220,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/vsmileb.cpp",
 	MAME_DIR .. "src/mame/drivers/clickstart.cpp",
 	MAME_DIR .. "src/mame/drivers/storio.cpp",
+	MAME_DIR .. "src/mame/drivers/innotv_innotabmax.cpp",
 }
 
 createMESSProjects(_target, _subtarget, "wang")
@@ -4270,6 +4283,7 @@ createMESSProjects(_target, _subtarget, "yamaha")
 files {
 	MAME_DIR .. "src/mame/machine/mulcd.cpp",
 	MAME_DIR .. "src/mame/drivers/ymdx11.cpp",
+	MAME_DIR .. "src/mame/drivers/ymmu5.cpp",
 	MAME_DIR .. "src/mame/drivers/ymmu50.cpp",
 	MAME_DIR .. "src/mame/drivers/ymmu80.cpp",
 	MAME_DIR .. "src/mame/drivers/ymmu100.cpp",

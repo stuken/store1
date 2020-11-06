@@ -336,6 +336,7 @@ VIDEOS["I4100"] = true
 VIDEOS["I8275"] = true
 VIDEOS["JANGOU_BLITTER"] = true
 --VIDEOS["LC7582"] = true
+--VIDEOS["LC7985"] = true
 VIDEOS["M50458"] = true
 VIDEOS["MB90082"] = true
 VIDEOS["MB_VCU"] = true
@@ -5121,6 +5122,7 @@ files {
 --	MAME_DIR .. "src/mame/drivers/vpoker.cpp",
 	MAME_DIR .. "src/mame/drivers/vroulet.cpp",
 --	MAME_DIR .. "src/mame/drivers/wildpkr.cpp",
+--	MAME_DIR .. "src/mame/drivers/winbingo.cpp",
 --	MAME_DIR .. "src/mame/drivers/wms.cpp",
 --	MAME_DIR .. "src/mame/drivers/xtom3d.cpp",
 	MAME_DIR .. "src/mame/drivers/xyonix.cpp",
