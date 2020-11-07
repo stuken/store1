@@ -4035,7 +4035,7 @@ bool CommonFileDialog(common_file_dialog_proc cfd, char *filename, int filetype,
 		}
 
 		case FILETYPE_SHADER_FILES :
-			path = GetGLSLDir();
+			path = GetHLSLDir();   // GLSL shaders are kept in HLSL folder
 			of.lpstrInitialDir = win_wstring_from_utf8(path);
 			of.lpstrFilter = TEXT("shaders (*.vsh)\0*.vsh;\0");
 			of.lpstrDefExt = TEXT("vsh");

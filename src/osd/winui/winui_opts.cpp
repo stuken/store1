@@ -953,15 +953,15 @@ void SetCfgDir(const char* path)
 	core_opts.set_value(OPTION_CFG_DIRECTORY, path, OPTION_PRIORITY_CMDLINE);
 }
 
-const char* GetGLSLDir(void)
-{
-	return core_opts.value(OSDOPTION_GLSLPATH);
-}
+//const char* GetGLSLDir(void)
+//{
+//	return core_opts.value(OSDOPTION_GLSLPATH);
+//}
 
-void SetGLSLDir(const char* path)
-{
-	core_opts.set_value(OSDOPTION_GLSLPATH, path, OPTION_PRIORITY_CMDLINE);
-}
+//void SetGLSLDir(const char* path)
+//{
+//	core_opts.set_value(OSDOPTION_GLSLPATH, path, OPTION_PRIORITY_CMDLINE);
+//}
 
 const char* GetBGFXDir(void)
 {
@@ -1923,7 +1923,7 @@ void SetDirectories(windows_options &opts)
 	opts.set_value(WINOPTION_HLSLPATH, GetHLSLDir(), OPTION_PRIORITY_CMDLINE);
 	opts.set_value(OPTION_DIFF_DIRECTORY, GetDiffDir(), OPTION_PRIORITY_CMDLINE);
 	opts.set_value(OPTION_VIDEO_DIRECTORY, GetVideoDir(), OPTION_PRIORITY_CMDLINE);
-	opts.set_value(OSDOPTION_GLSLPATH, GetGLSLDir(), OPTION_PRIORITY_CMDLINE);
+//	opts.set_value(OSDOPTION_GLSLPATH, GetGLSLDir(), OPTION_PRIORITY_CMDLINE);
 	opts.set_value(OSDOPTION_BGFX_PATH, GetBGFXDir(), OPTION_PRIORITY_CMDLINE);
 	opts.set_value(OPTION_PLUGINSPATH, GetPluginsDir(), OPTION_PRIORITY_CMDLINE);
 	opts.set_value(OPTION_LANGUAGEPATH, GetLanguageDir(), OPTION_PRIORITY_CMDLINE);

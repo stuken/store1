@@ -51,7 +51,7 @@ static const DIRECTORYINFO g_directoryInfo[] =
 	{ "Folders",                GetFolderDir,       SetFolderDir,       false, 0 },
 	{ "Fonts",                  GetFontDir,         SetFontDir,         false, 0 },
 	{ "Game Overs",             GetGameOverDir,     SetGameOverDir,     true,  0 },
-	{ "GLSL shaders",           GetGLSLDir,         SetGLSLDir,         false, 0 },
+//	{ "GLSL shaders",           GetGLSLDir,         SetGLSLDir,         false, 0 },
 	{ "HLSL files",             GetHLSLDir,         SetHLSLDir,         false, 0 },
 	{ "How Tos",                GetHowToDir,        SetHowToDir,        true,  0 },
 	{ "Icons",                  GetIconsDir,        SetIconsDir,        false, 0 },
