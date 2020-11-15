@@ -166,7 +166,7 @@ intptr_t CALLBACK ResetDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 							break;
 					}
 				}
-		
+				[[fallthrough]];
 				// Nothing was selected but OK, just fall through
 				case IDCANCEL:
 					DeleteObject(hBrush);
