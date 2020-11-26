@@ -198,13 +198,13 @@ int GetGameNameIndex(const char *name)
 
 static int NumberOfScreens(const machine_config &config)
 {
-	screen_device_iterator scriter(config.root_device());
+	screen_device_enumerator scriter(config.root_device());
 	return scriter.count();
 }
 
 static bool isDriverVector(const machine_config &config)
 {
-	const screen_device *screen = screen_device_iterator(config.root_device()).first();
+	const screen_device *screen = screen_device_enumerator(config.root_device()).first();
 
 	if (screen != nullptr) 
 	{
@@ -284,7 +284,7 @@ static void InitDriversInfo(void)
 		gameinfo->usesTrackball = false;
 		gameinfo->usesLightGun = false;
 
-		for (device_t &device : device_iterator(config.root_device()))
+		for (device_t &device : device_enumerator(config.root_device()))
 		{
 			for (const rom_entry *region = rom_first_region(device); region; region = rom_next_region(region))
 			{
@@ -309,7 +309,7 @@ static void InitDriversInfo(void)
 			}
 		}
 
-		samples_device_iterator sampiter(config.root_device());
+		samples_device_enumerator sampiter(config.root_device());
 		gameinfo->usesSamples = sampiter.first() ? true : false;
 
 		if (gamedrv->ipt)
@@ -317,7 +317,7 @@ static void InitDriversInfo(void)
 			ioport_list portlist;
 			std::string errors;
 
-			for (device_t &cfg : device_iterator(config.root_device()))
+			for (device_t &cfg : device_enumerator(config.root_device()))
 				if (cfg.input_ports())
 					portlist.append(cfg, errors);
 

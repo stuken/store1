@@ -285,7 +285,7 @@ intptr_t CALLBACK GameAuditDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARA
 			strcat(buffer, "--------------------------------------\n");
 			strcat(details, buffer);
 
-			for (device_t &device : device_iterator(config.root_device()))
+			for (device_t &device : device_enumerator(config.root_device()))
 			{
 				for (const rom_entry *region = rom_first_region(device); region != nullptr; region = rom_next_region(region))
 				{
@@ -624,7 +624,7 @@ static const char * RetrieveCHDName(int romset)
 	const game_driver *game = &driver_list::driver(romset);
 	machine_config config(*game, MameUIGlobal());
 
-	for (device_t &device : device_iterator(config.root_device()))
+	for (device_t &device : device_enumerator(config.root_device()))
 	{
 		for (const rom_entry *region = rom_first_region(device); region != nullptr; region = rom_next_region(region))
 		{

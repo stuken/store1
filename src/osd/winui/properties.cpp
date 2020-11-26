@@ -487,7 +487,7 @@ void InitPropertyPage(HINSTANCE hInst, HWND hWnd, OPTIONS_TYPE opt_type, int fol
 static char *GameInfoCPU(int nIndex)
 {
 	machine_config config(driver_list::driver(nIndex), MameUIGlobal());
-	execute_interface_iterator cpuiter(config.root_device());
+	execute_interface_enumerator cpuiter(config.root_device());
 	std::unordered_set<std::string> exectags;
 	static char buffer[1024];
 
@@ -531,7 +531,7 @@ static char *GameInfoCPU(int nIndex)
 static char *GameInfoSound(int nIndex)
 {
 	machine_config config(driver_list::driver(nIndex), MameUIGlobal());
-	sound_interface_iterator sounditer(config.root_device());
+	sound_interface_enumerator sounditer(config.root_device());
 	std::unordered_set<std::string> soundtags;
 	static char buffer[1024];
 
@@ -595,7 +595,7 @@ static char *GameInfoScreen(int nIndex)
 	}
 	else
 	{
-		screen_device_iterator screeniter(config.root_device());
+		screen_device_enumerator screeniter(config.root_device());
 		int scrcount = screeniter.count();
 
 		if (scrcount == 0)

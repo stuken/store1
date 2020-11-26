@@ -649,7 +649,7 @@ static void CreateCPUFoldersIni(int parent_index)
 		machine_config config(driver_list::driver(jj), MameUIGlobal());
 
 		// enumerate through all devices
-		for (device_execute_interface &device : execute_interface_iterator(config.root_device()))
+		for (device_execute_interface &device : execute_interface_enumerator(config.root_device()))
 		{
 			// get the name
 			const char *cpu = device.device().name();
@@ -691,7 +691,7 @@ static void CreateSoundFoldersIni(int parent_index)
 		machine_config config(driver_list::driver(jj), MameUIGlobal());
 
 		// enumerate through all devices
-		for (device_sound_interface &device : sound_interface_iterator(config.root_device()))
+		for (device_sound_interface &device : sound_interface_enumerator(config.root_device()))
 		{
 			// get the name
 			const char *sound = device.device().name();
@@ -776,7 +776,7 @@ static void CreateResolutionFoldersIni(int parent_index)
 			}
 		}
 
-		const screen_device *screen = screen_device_iterator(config.root_device()).first();
+		const screen_device *screen = screen_device_enumerator(config.root_device()).first();
 
 		if (screen == nullptr)
 		{
@@ -838,7 +838,7 @@ static void CreateFPSFoldersIni(int parent_index)
 			continue;
 		}
 
-		const screen_device *screen = screen_device_iterator(config.root_device()).first();
+		const screen_device *screen = screen_device_enumerator(config.root_device()).first();
 
 		if (screen == nullptr)
 		{
@@ -893,7 +893,7 @@ void CreateDumpingFoldersIni(int parent_index)
 		if (!DriverUsesRoms(jj))
 			continue;
 
-		for (device_t &device : device_iterator(config.root_device()))
+		for (device_t &device : device_enumerator(config.root_device()))
 		{
 			for (const rom_entry *region = rom_first_region(device); region != nullptr; region = rom_next_region(region))
 			{
