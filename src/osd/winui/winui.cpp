@@ -806,37 +806,21 @@ HICON LoadIconFromFile(const char *iconname)
 	PBYTE bufferPtr;
 	util::archive_file::ptr zip;
 
-	std::string tmpStr = std::string(GetIconsDir()).append(PATH_SEPARATOR).append(iconname).append(".ico");
-	HANDLE hFind = winui_find_first_file_utf8(tmpStr.c_str(), &FindFileData);
-
-	if (hFind == INVALID_HANDLE_VALUE || (hIcon = winui_extract_icon_utf8(hInst, tmpStr.c_str(), 0)) == 0)
+	const std::string t = GetIconsDir();
+	char s[t.length()+1];
+	strcpy(s, t.c_str());
+	char* s1 = strtok(s, ";");
+	while (s1 && !hIcon)
 	{
-		tmpStr = std::string(GetIconsDir()).append(PATH_SEPARATOR).append("icons.zip");
-		std::string tmpIcoName = std::string(iconname).append(".ico");
+		std::string tmpStr = std::string(s1).append(PATH_SEPARATOR).append(iconname).append(".ico");
+		HANDLE hFind = winui_find_first_file_utf8(tmpStr.c_str(), &FindFileData);
 
-		if (util::archive_file::open_zip(tmpStr, zip) == util::archive_file::error::NONE)
+		if (hFind == INVALID_HANDLE_VALUE || (hIcon = winui_extract_icon_utf8(hInst, tmpStr.c_str(), 0)) == 0)
 		{
-			if (zip->search(tmpIcoName, false) >= 0)
-			{
-				bufferPtr = (PBYTE)malloc(zip->current_uncompressed_length());
+			tmpStr = std::string(s1).append(PATH_SEPARATOR).append("icons.zip");
+			std::string tmpIcoName = std::string(iconname).append(".ico");
 
-				if (bufferPtr)
-				{
-					if (zip->decompress(bufferPtr, zip->current_uncompressed_length()) == util::archive_file::error::NONE)
-						hIcon = FormatICOInMemoryToHICON(bufferPtr, zip->current_uncompressed_length());
-
-					free(bufferPtr);
-				}
-			}
-
-			zip.reset();
-		}
-		else
-		{
-			tmpStr = std::string(GetIconsDir()).append(PATH_SEPARATOR).append("icons.7z");
-			tmpIcoName = std::string(iconname).append(".ico");
-
-			if (util::archive_file::open_7z(tmpStr, zip) == util::archive_file::error::NONE)
+			if (util::archive_file::open_zip(tmpStr, zip) == util::archive_file::error::NONE)
 			{
 				if (zip->search(tmpIcoName, false) >= 0)
 				{
@@ -853,9 +837,32 @@ HICON LoadIconFromFile(const char *iconname)
 
 				zip.reset();
 			}
-		}
-	}
+			else
+			{
+				tmpStr = std::string(s1).append(PATH_SEPARATOR).append("icons.7z");
+				tmpIcoName = std::string(iconname).append(".ico");
 
+				if (util::archive_file::open_7z(tmpStr, zip) == util::archive_file::error::NONE)
+				{
+					if (zip->search(tmpIcoName, false) >= 0)
+					{
+						bufferPtr = (PBYTE)malloc(zip->current_uncompressed_length());
+
+						if (bufferPtr)
+						{
+							if (zip->decompress(bufferPtr, zip->current_uncompressed_length()) == util::archive_file::error::NONE)
+								hIcon = FormatICOInMemoryToHICON(bufferPtr, zip->current_uncompressed_length());
+
+							free(bufferPtr);
+						}
+					}
+
+					zip.reset();
+				}
+			}
+		}
+		s1 = strtok(NULL, ";");
+	}
 	return hIcon;
 }
 

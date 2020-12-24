@@ -54,7 +54,7 @@ static const DIRECTORYINFO g_directoryInfo[] =
 //	{ "GLSL shaders",           GetGLSLDir,         SetGLSLDir,         false, 0 },
 	{ "HLSL files",             GetHLSLDir,         SetHLSLDir,         false, 0 },
 	{ "How Tos",                GetHowToDir,        SetHowToDir,        true,  0 },
-	{ "Icons",                  GetIconsDir,        SetIconsDir,        false, 0 },
+	{ "Icons",                  GetIconsDir,        SetIconsDir,        true, 0 },
 	{ "Input Recordings",       GetInpDir,          SetInpDir,          false, 0 },
 	{ "Languages",              GetLanguageDir,     SetLanguageDir,     false, 0 },
 	{ "Logos",                  GetLogoDir,         SetLogoDir,         true,  0 },
