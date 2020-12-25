@@ -1030,6 +1030,7 @@ redclash.cpp
 relief.cpp
 renegade.cpp
 retofinv.cpp
+//rf51w14cg.cpp               // skeleton gambling
 //rfslots8085.cpp  // skeleton mechanical
 //rfslotspcpent.cpp          // mechanical
 //rgum.cpp         // check

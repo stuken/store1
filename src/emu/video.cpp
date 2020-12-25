@@ -331,8 +331,8 @@ void video_manager::save_snapshot(screen_device *screen, emu_file &file)
 	std::string text1 = std::string(emulator_info::get_appname()).append(" ").append(emulator_info::get_build_version());
 	std::string text2 = std::string(machine().system().manufacturer).append(" ").append(machine().system().type.fullname());
 	util::png_info pnginfo;
-	pnginfo.add_text("Software", text1.c_str());
-	pnginfo.add_text("System", text2.c_str());
+	pnginfo.add_text("Software", text1);
+	pnginfo.add_text("System", text2);
 
 	// now do the actual work
 	const rgb_t *palette = (screen != nullptr && screen->has_palette()) ? screen->palette().palette()->entry_list_adjusted() : nullptr;
@@ -350,10 +350,9 @@ void video_manager::save_snapshot(screen_device *screen, emu_file &file)
 
 void video_manager::save_active_screen_snapshots()
 {
-	// if we're native, then write one snapshot per visible screen
 	if (m_snap_native)
 	{
-		// write one snapshot per visible screen
+		// if we're native, then write one snapshot per visible screen
 		for (screen_device &screen : screen_device_enumerator(machine().root_device()))
 			if (machine().render().is_live(screen))
 			{
@@ -363,10 +362,9 @@ void video_manager::save_active_screen_snapshots()
 					save_snapshot(&screen, file);
 			}
 	}
-
-	// otherwise, just write a single snapshot
 	else
 	{
+		// otherwise, just write a single snapshot
 		emu_file file(machine().options().snapshot_directory(), OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS);
 		osd_file::error filerr = open_next(file, "png");
 		if (filerr == osd_file::error::NONE)
