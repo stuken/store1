@@ -247,6 +247,7 @@ cobra.cpp
 cocoloco.cpp
 coinmstr.cpp
 //coinmvga.cpp     // check
+//cointek.cpp        // skeleton
 combatsc.cpp
 comebaby.cpp
 commando.cpp
