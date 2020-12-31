@@ -72,7 +72,7 @@ extern const FOLDERDATA g_folderData[] =
 	{"All Games",       "allgames",          FOLDER_ALLGAMES,     IDI_FOLDER_ALLGAMES,      0,             0,            0, NULL,                       NULL,                    true },
 	{"Available",       "available",         FOLDER_AVAILABLE,    IDI_FOLDER_AVAILABLE,     F_AVAILABLE,   0,            0, NULL,                       FilterAvailable,         true },
 	{"BIOS",            "bios",              FOLDER_BIOS,         IDI_FOLDER_BIOS,          0,             0,            1, CreateBIOSFolders,          DriverIsBios,            true },
-	{"CHD",             "harddisk",          FOLDER_HARDDISK,     IDI_HARDDISK,             0,             0,            0, NULL,                       DriverIsHarddisk,        true },
+	{"CHD",             "harddisk",          FOLDER_HARDDISK,     IDI_FOLDER_HARDDISK,      0,             0,            0, NULL,                       DriverIsHarddisk,        true },
 	{"Clones",          "clones",            FOLDER_CLONES,       IDI_FOLDER_CLONES,        F_CLONES,      F_ORIGINALS,  0, NULL,                       DriverIsClone,           true },
 	{"CPU",             "cpu",               FOLDER_CPU,          IDI_FOLDER_CPU,           0,             0,            1, CreateCPUFolders },
 	{"Dumping Status",  "dumping",           FOLDER_DUMPING,      IDI_FOLDER_DUMP,          0,             0,            1, CreateDumpingFolders },
@@ -80,9 +80,9 @@ extern const FOLDERDATA g_folderData[] =
 	{"Imperfect",       "imperfect",         FOLDER_DEFICIENCY,   IDI_FOLDER_IMPERFECT,     0,             0,            0, CreateDeficiencyFolders },
 	{"Lightgun",        "lightgun",          FOLDER_LIGHTGUN,     IDI_FOLDER_LIGHTGUN,      0,             0,            0, NULL,                       DriverUsesLightGun,      true },
 	{"Manufacturer",    "manufacturer",      FOLDER_MANUFACTURER, IDI_FOLDER_MANUFACTURER,  0,             0,            0, CreateManufacturerFolders },
-	{"Mechanical",      "mechanical",        FOLDER_MECHANICAL,   IDI_MECHANICAL,           0,             0,            0, NULL,                       DriverIsMechanical,      true },
+	{"Mechanical",      "mechanical",        FOLDER_MECHANICAL,   IDI_FOLDER_MECHANICAL,    0,             0,            0, NULL,                       DriverIsMechanical,      true },
 	//{"Non Mechanical",  "nonmechanical",     FOLDER_NONMECHANICAL,IDI_FOLDER,               0,             0,            0, NULL,                       DriverIsMechanical,      FALSE },
-	{"Not Working",     "nonworking",        FOLDER_NONWORKING,   IDI_NONWORKING,           F_NONWORKING,  F_WORKING,    0, NULL,                       DriverIsBroken,          true },
+	{"Not Working",     "nonworking",        FOLDER_NONWORKING,   IDI_FOLDER_NONWORKING,    F_NONWORKING,  F_WORKING,    0, NULL,                       DriverIsBroken,          true },
 	{"Parents",         "originals",         FOLDER_ORIGINAL,     IDI_FOLDER_ORIGINALS,     F_ORIGINALS,   F_CLONES,     0, NULL,                       DriverIsClone,           false },
 	{"Raster",          "raster",            FOLDER_RASTER,       IDI_FOLDER_RASTER,        F_RASTER,      F_VECTOR,     0, NULL,                       DriverIsVector,          false },
 	{"Refresh",         "refresh",           FOLDER_FPS,          IDI_FOLDER_FPS,           0,             0,            1, CreateFPSFolders },
@@ -97,7 +97,7 @@ extern const FOLDERDATA g_folderData[] =
 	{"Unavailable",     "unavailable",       FOLDER_UNAVAILABLE,  IDI_FOLDER_UNAVAILABLE,   0,             F_AVAILABLE,  0, NULL,                       FilterAvailable,         false },
 	{"Vector",          "vector",            FOLDER_VECTOR,       IDI_FOLDER_VECTOR,        F_VECTOR,      F_RASTER,     0, NULL,                       DriverIsVector,          true },
 	{"Vertical",        "vertical",          FOLDER_VERTICAL,     IDI_FOLDER_VERTICAL,      F_VERTICAL,    F_HORIZONTAL, 0, NULL,                       DriverIsVertical,        true },
-	{"Working",         "working",           FOLDER_WORKING,      IDI_WORKING,              F_WORKING,     F_NONWORKING, 0, NULL,                       DriverIsBroken,          false },
+	{"Working",         "working",           FOLDER_WORKING,      IDI_FOLDER_WORKING,       F_WORKING,     F_NONWORKING, 0, NULL,                       DriverIsBroken,          false },
 	{"Year",            "year",              FOLDER_YEAR,         IDI_FOLDER_YEAR,          0,             0,            0, CreateYearFolders },
 	{ NULL }
 };
@@ -120,42 +120,42 @@ extern const FILTER_ITEM g_filterList[] =
 
 static const TREEICON treeIconNames[] =
 {
-	{ IDI_FOLDER_OPEN,         	"foldopen" },
-	{ IDI_FOLDER,              	"folder" },
-	{ IDI_FOLDER_AVAILABLE,    	"foldavail" },
-	{ IDI_FOLDER_MANUFACTURER, 	"foldmanu" },
-	{ IDI_FOLDER_UNAVAILABLE,  	"foldunav" },
-	{ IDI_FOLDER_YEAR,         	"foldyear" },
-	{ IDI_FOLDER_SOURCE,       	"foldsrc" },
-	{ IDI_FOLDER_HORIZONTAL,   	"horz" },
-	{ IDI_FOLDER_VERTICAL,     	"vert" },
-	{ IDI_MANUFACTURER,        	"manufact" },
-	{ IDI_WORKING,             	"working" },
-	{ IDI_NONWORKING,          	"nonwork" },
-	{ IDI_YEAR,                	"year" },
-	{ IDI_CHIP,                	"chip" },
-	{ IDI_BIOS,                	"bios" },
-	{ IDI_HARDDISK,            	"harddisk" },
-	{ IDI_MECHANICAL,           "mechanical" },
-	{ IDI_SOURCE,              	"source" },
-	{ IDI_MONITOR,             	"monitor" },
-	{ IDI_FOLDER_IMPERFECT,    	"foldimp" },
-	{ IDI_FOLDER_CPU,          	"foldcsb" },
-	{ IDI_FOLDER_SOUND,        	"foldcsb" },
-	{ IDI_FOLDER_BIOS,         	"foldcsb" },
-	{ IDI_FOLDER_ALLGAMES,     	"allgames" },
-	{ IDI_FOLDER_CLONES,       	"foldclone" },
-	{ IDI_FOLDER_ORIGINALS,    	"foldorig" },
-	{ IDI_FOLDER_RASTER,       	"foldrast" },
-	{ IDI_FOLDER_VECTOR,       	"foldvect" },
-	{ IDI_FOLDER_MONITOR,      	"multimon" },
-	{ IDI_FOLDER_FPS,      	   	"foldfps" },
-	{ IDI_FOLDER_RESOL,        	"foldres" },
-	{ IDI_FOLDER_LIGHTGUN,      "foldgun" },
-	{ IDI_FOLDER_TRACKBALL,     "foldball" },
-	{ IDI_FOLDER_SAVESTATE,     "savestate" },
-	{ IDI_FOLDER_DUMP,     		"foldcsb" },
-	{ IDI_FOLDER_SAMPLES,      	"foldsamp" }
+//	{ IDI_FOLDER_OPEN,         "foldopen" },
+	{ IDI_FOLDER,              "folder" },
+	{ IDI_FOLDER_ALLGAMES,     "allgames" },
+	{ IDI_FOLDER_AVAILABLE,    "foldavail" },
+	{ IDI_FOLDER_BIOS,         "foldcsb" },
+	{ IDI_FOLDER_CLONES,       "foldclone" },
+	{ IDI_FOLDER_CPU,          "foldcsb" },
+	{ IDI_FOLDER_DUMP,         "foldcsb" },
+	{ IDI_FOLDER_FPS,      	   "foldfps" },
+	{ IDI_FOLDER_HARDDISK,     "harddisk" },
+	{ IDI_FOLDER_HORIZONTAL,   "horz" },
+	{ IDI_FOLDER_IMPERFECT,    "foldimp" },
+	{ IDI_FOLDER_LIGHTGUN,     "foldgun" },
+	{ IDI_FOLDER_MANUFACTURER, "foldmanu" },
+	{ IDI_FOLDER_MECHANICAL,   "mechanical" },
+	{ IDI_FOLDER_MONITOR,      "multimon" },
+	{ IDI_FOLDER_NONWORKING,   "nonwork" },
+	{ IDI_FOLDER_ORIGINALS,    "foldorig" },
+	{ IDI_FOLDER_RASTER,       "foldrast" },
+	{ IDI_FOLDER_RESOL,        "foldres" },
+	{ IDI_FOLDER_SAMPLES,      "foldsamp" },
+	{ IDI_FOLDER_SAVESTATE,    "savestate" },
+	{ IDI_FOLDER_SOUND,        "foldcsb" },
+	{ IDI_FOLDER_SOURCE,       "foldsrc" },
+	{ IDI_SOURCE,              "source" },
+	{ IDI_FOLDER_TRACKBALL,    "foldball" },
+	{ IDI_FOLDER_UNAVAILABLE,  "foldunav" },
+	{ IDI_FOLDER_VECTOR,       "foldvect" },
+	{ IDI_FOLDER_VERTICAL,     "vert" },
+	{ IDI_FOLDER_WORKING,      "working" },
+	{ IDI_FOLDER_YEAR,         "foldyear" },
+	{ IDI_BIOS,                "bios" },
+	{ IDI_CHIP,                "chip" },
+	{ IDI_MANUFACTURER,        "manufact" },
+	{ IDI_MONITOR,             "monitor" },
+	{ IDI_YEAR,                "year" },
 };
 
 /***************************************************************************
@@ -649,7 +649,7 @@ static void CreateCPUFoldersIni(int parent_index)
 		machine_config config(driver_list::driver(jj), MameUIGlobal());
 
 		// enumerate through all devices
-		for (device_execute_interface &device : execute_interface_iterator(config.root_device()))
+		for (device_execute_interface &device : execute_interface_enumerator(config.root_device()))
 		{
 			// get the name
 			const char *cpu = device.device().name();
@@ -691,7 +691,7 @@ static void CreateSoundFoldersIni(int parent_index)
 		machine_config config(driver_list::driver(jj), MameUIGlobal());
 
 		// enumerate through all devices
-		for (device_sound_interface &device : sound_interface_iterator(config.root_device()))
+		for (device_sound_interface &device : sound_interface_enumerator(config.root_device()))
 		{
 			// get the name
 			const char *sound = device.device().name();
@@ -776,7 +776,7 @@ static void CreateResolutionFoldersIni(int parent_index)
 			}
 		}
 
-		const screen_device *screen = screen_device_iterator(config.root_device()).first();
+		const screen_device *screen = screen_device_enumerator(config.root_device()).first();
 
 		if (screen == nullptr)
 		{
@@ -838,7 +838,7 @@ static void CreateFPSFoldersIni(int parent_index)
 			continue;
 		}
 
-		const screen_device *screen = screen_device_iterator(config.root_device()).first();
+		const screen_device *screen = screen_device_enumerator(config.root_device()).first();
 
 		if (screen == nullptr)
 		{
@@ -893,7 +893,7 @@ void CreateDumpingFoldersIni(int parent_index)
 		if (!DriverUsesRoms(jj))
 			continue;
 
-		for (device_t &device : device_iterator(config.root_device()))
+		for (device_t &device : device_enumerator(config.root_device()))
 		{
 			for (const rom_entry *region = rom_first_region(device); region != nullptr; region = rom_next_region(region))
 			{

@@ -258,8 +258,8 @@ IDI_FOLDER_VERTICAL     ICON                    "res\\vert.ico"
 IDI_MANUFACTURER        ICON                    "res\\manufact.ico"
 IDI_FOLDER_YEAR         ICON                    "res\\foldyear.ico"
 IDI_FOLDER_SOURCE       ICON                    "res\\foldsrc.ico"
-IDI_WORKING             ICON                    "res\\working.ico"
-IDI_NONWORKING          ICON                    "res\\nonwork.ico"
+IDI_FOLDER_WORKING      ICON                    "res\\working.ico"
+IDI_FOLDER_NONWORKING   ICON                    "res\\nonwork.ico"
 IDI_YEAR                ICON                    "res\\year.ico"
 IDI_KEYBOARD            ICON                    "res\\keyboard.ico"
 IDI_JOYSTICK            ICON                    "res\\joystick.ico"
@@ -267,7 +267,7 @@ IDI_CHIP                ICON                    "res\\chip.ico"
 IDI_BIOS                ICON                    "res\\bios.ico"
 IDI_SOUND               ICON                    "res\\sound.ico"
 IDI_SOURCE              ICON                    "res\\source.ico"
-IDI_HARDDISK            ICON                    "res\\harddisk.ico"
+IDI_FOLDER_HARDDISK     ICON                    "res\\harddisk.ico"
 IDI_DISPLAY             ICON                    "res\\display.ico"
 IDI_AUDIT_PASS          ICON                    "res\\audit_pass.ico"
 IDI_MISC                ICON                    "res\\misc.ico"
@@ -283,7 +283,7 @@ IDI_FOLDER_DUMP         ICON                    "res\\foldcsb.ico"
 IDI_SYSTRAY             ICON                    "res\\mameui.ico"
 IDI_DEBUG               ICON                    "res\\debug.ico"
 IDI_MONITOR             ICON                    "res\\monitor.ico"
-IDI_MECHANICAL          ICON                    "res\\mechanical.ico"
+IDI_FOLDER_MECHANICAL   ICON                    "res\\mechanical.ico"
 IDI_FOLDER_ALLGAMES     ICON                    "res\\allgames.ico"
 IDI_FOLDER_CLONES       ICON                    "res\\foldclone.ico"
 IDI_FOLDER_ORIGINALS    ICON                    "res\\foldorig.ico"
@@ -567,11 +567,14 @@ BEGIN
     CONTROL         "Enable VBO",IDC_GLSLVBO,WC_BUTTON,BS_AUTOCHECKBOX | WS_TABSTOP,10,120,144,10,0
     CONTROL         "Enable PBO",IDC_GLSLPBO,WC_BUTTON,BS_AUTOCHECKBOX | WS_TABSTOP,10,132,144,10,0
     CONTROL         "Force synchrony between CPU and GPU (at your own risk)",IDC_GLSLSYNC,WC_BUTTON,BS_AUTOCHECKBOX | WS_TABSTOP,10,144,204,10,0
-    GROUPBOX        "BGFX screen chains",IDC_STATIC,4,162,212,48
-    EDITTEXT         IDC_BGFX_CHAINS,10,172,200,14,ES_LEFT | WS_BORDER
-    PUSHBUTTON      "Select chain",IDC_SELECT_BGFX,10,190,60,14,0,0
-    PUSHBUTTON      "Reset chain",IDC_RESET_BGFX,150,190,60,14,0,0
-	PUSHBUTTON      "Reset",IDC_PROP_RESET,4,282,98,14,0,0
+    GROUPBOX        "BGFX settings",IDC_STATIC,4,162,212,93
+    GROUPBOX        "Screen Chains",IDC_STATIC,10,172,200,48
+    EDITTEXT        IDC_BGFX_CHAINS,16,182,188,14,ES_LEFT | WS_BORDER
+    PUSHBUTTON      "Select chain",IDC_SELECT_BGFX,16,200,60,14,0,0
+    PUSHBUTTON      "Reset chain",IDC_RESET_BGFX,144,200,60,14,0,0
+    GROUPBOX        "Backend",IDC_STATIC,10,220,200,28
+    COMBOBOX        IDC_BGFX_BACKEND,16,230,78,62,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP,0
+    PUSHBUTTON      "Reset",IDC_PROP_RESET,4,282,98,14,0,0
     PUSHBUTTON      "Restore default options",IDC_USE_DEFAULT,118,282,98,14,0,0
 END
 

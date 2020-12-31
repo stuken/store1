@@ -150,7 +150,6 @@ void windows_osd_interface::extract_video_config()
 	video_config.windowed      = options().window();
 	video_config.prescale      = options().prescale();
 	video_config.filter        = options().filter();
-	video_config.keepaspect    = options().keep_aspect();
 	video_config.numscreens    = options().numscreens();
 
 	// if we are in debug mode, never go full screen
@@ -210,7 +209,7 @@ void windows_osd_interface::extract_video_config()
 		if ( video_config.glsl )
 		{
 			int i;
-			const char *glsl_dir = options().glsl_path();
+			const char *glsl_dir = options().screen_post_fx_dir(); //glsl_path();  // MAMEFX various changes here to add path to GLSL shaders (we use HLSL path)
 
 			video_config.glsl_filter = options().glsl_filter();
 
