@@ -260,6 +260,7 @@ cop01.cpp
 copsnrob.cpp
 corona.cpp
 cosmic.cpp
+cosmicg.cpp                  // ok
 //cowtipping.cpp     // skeleton
 cps1.cpp
 cps1bl_5205.cpp
@@ -329,6 +330,7 @@ destroyr.cpp
 //de_3b.cpp        // pinball
 dfruit.cpp
 dgpix.cpp
+diamondking.cpp
 dietgo.cpp
 dinoking.cpp
 discoboy.cpp
@@ -471,6 +473,7 @@ gauntlet.cpp
 gberet.cpp
 gcpinbal.cpp
 gei.cpp
+getaway.cpp
 ggconnie.cpp
 ghosteo.cpp
 giclassic.cpp
@@ -531,6 +534,7 @@ harddriv.cpp
 //hazelgr.cpp       // fruit
 hcastle.cpp
 headonb.cpp
+heromem.cpp
 hexion.cpp
 //hideseek.cpp     // check
 higemaru.cpp
@@ -555,6 +559,7 @@ hyperspt.cpp
 hyprduel.cpp
 //icecold.cpp      // mechanical
 //ice_bozopail.cpp // mechanical
+//ice_hhhippos.cpp              // mnw
 //ice_tbd.cpp      // mechanical
 //ichiban.cpp      // check
 //idsa.cpp         // pinball
@@ -649,6 +654,7 @@ konamim2.cpp
 //konmedal68k.cpp  // check
 kontest.cpp
 kopunch.cpp
+//kpontoon.cpp            // card game
 kpython.cpp
 ksayakyu.cpp
 ksys573.cpp
@@ -784,6 +790,7 @@ midzeus.cpp
 mikie.cpp
 //mil4000.cpp      // poker
 miniboy7.cpp
+miniguay.cpp
 minivadr.cpp
 minivideo.cpp
 mirage.cpp
@@ -1027,7 +1034,6 @@ re900.cpp
 realbrk.cpp
 redalert.cpp
 redclash.cpp
-//regama.cpp       // pinball
 relief.cpp
 renegade.cpp
 retofinv.cpp
@@ -1075,6 +1081,7 @@ saturn.cpp
 sauro.cpp
 savquest.cpp
 sbasketb.cpp
+sbmjb.cpp
 sbowling.cpp
 sbrkout.cpp
 sbugger.cpp

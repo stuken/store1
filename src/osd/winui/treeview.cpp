@@ -901,7 +901,7 @@ void CreateDumpingFoldersIni(int parent_index)
 				{
 					if (ROMREGION_ISROMDATA(region) || ROMREGION_ISDISKDATA(region))
 					{
-						util::hash_collection hashes(ROM_GETHASHDATA(rom));
+						util::hash_collection hashes(rom->hashdata());
 						
 						if (hashes.flag(util::hash_collection::FLAG_NO_DUMP))
 							bNoDump = true;
