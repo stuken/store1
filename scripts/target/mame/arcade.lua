@@ -1151,7 +1151,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/atarisy2.cpp",
 	MAME_DIR .. "src/mame/includes/atarisy2.h",
 	MAME_DIR .. "src/mame/video/atarisy2.cpp",
---	MAME_DIR .. "src/mame/drivers/atarisy4.cpp",
+	MAME_DIR .. "src/mame/drivers/atarisy4.cpp",
 	MAME_DIR .. "src/mame/drivers/atarittl.cpp",
 	MAME_DIR .. "src/mame/machine/nl_gtrak10.cpp",
 	MAME_DIR .. "src/mame/machine/nl_gtrak10.h",
