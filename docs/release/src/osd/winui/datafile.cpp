@@ -458,7 +458,7 @@ std::string load_driver_geninfo(const game_driver *drv, int drvindex)
 		{
 			for (const rom_entry *rom = rom_first_file(region); rom; rom = rom_next_file(rom))
 			{
-				util::hash_collection hashes(ROM_GETHASHDATA(rom));
+				util::hash_collection hashes(rom->hashdata());
 
 				if (g != -1)
 				{
@@ -470,7 +470,7 @@ std::string load_driver_geninfo(const game_driver *drv, int drvindex)
 						{
 							for (const rom_entry *prom = rom_first_file(pregion); prom; prom = rom_next_file(prom))
 							{
-								util::hash_collection phashes(ROM_GETHASHDATA(prom));
+								util::hash_collection phashes(prom->hashdata());
 
 								if (hashes == phashes)
 									break;
@@ -483,7 +483,7 @@ std::string load_driver_geninfo(const game_driver *drv, int drvindex)
 				buffer.append(name);
 				snprintf(name, WINUI_ARRAY_LENGTH(name), "%09d \t", rom_file_size(rom));
 				buffer.append(name);
-				snprintf(name, WINUI_ARRAY_LENGTH(name), "%-10s", ROMREGION_GETTAG(region));
+				snprintf(name, WINUI_ARRAY_LENGTH(name), "%-10s", region->name().c_str());
 				buffer.append(name).append("\n");
 			}
 		}
@@ -535,7 +535,7 @@ std::string load_driver_geninfo(const game_driver *drv, int drvindex)
 	}
 
 	char source_file[40], tmp[100];
-	std::string temp = core_filename_extract_base(drv->type.source(), false);
+	std::string temp = std::string(core_filename_extract_base(drv->type.source(), false));
 	strcpy(source_file, temp.c_str());
 	snprintf(tmp, WINUI_ARRAY_LENGTH(tmp), "\nGENERAL SOURCE INFO: %s\n", temp.c_str());
 	buffer.append(tmp);

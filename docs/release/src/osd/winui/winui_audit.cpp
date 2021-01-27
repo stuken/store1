@@ -293,7 +293,7 @@ intptr_t CALLBACK GameAuditDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARA
 					{
 						uint32_t crc = 0;
 
-						if (util::hash_collection(ROM_GETHASHDATA(rom)).crc(crc))
+						if (util::hash_collection(rom->hashdata()).crc(crc))
 							crctext = crc;
 						else
 							crctext = 0;

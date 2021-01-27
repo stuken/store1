@@ -43,6 +43,7 @@
 #include "ui/moptions.h"
 #include "ui/info.h"
 #include "romload.h"
+#include "corestr.h"
 
 // special Windows headers, after MAME ones
 #include <dinput.h>
@@ -84,7 +85,7 @@
 #endif
 #define MAMENAME			"MAME"
 
-#define MAME_VERSION		"0.227"
+#define MAME_VERSION		"0.228"
 #define MAMEUIFX_VERSION	MAME_VERSION " (" __DATE__")"
 
 #define SEARCH_PROMPT		"<search here>"
