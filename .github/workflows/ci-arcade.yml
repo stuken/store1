@@ -17,6 +17,7 @@ jobs:
     - name: Build
       env:
         MINGW64: "/mingw64"
+        SUBTARGET: "arcade"
         OSD: "winui"
         PTR64: "1"
       run: make -j2
