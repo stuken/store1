@@ -30,7 +30,7 @@ function maintargetosdoptions(_target,_subtarget)
 		}
 
 	configuration { "x64", "Release" }
-		targetname "arcade"
+		targetname "arcade64"
 
 	configuration { "x32", "Release" }
 		targetname "arcade32"
