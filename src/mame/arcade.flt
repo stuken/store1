@@ -1288,7 +1288,7 @@ taito_f2.cpp
 taito_f3.cpp
 taito_h.cpp
 taito_l.cpp
-//taito_o.cpp      // poker
+taito_o.cpp      // poker
 taito_x.cpp
 taito_z.cpp
 tank8.cpp
