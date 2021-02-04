@@ -14311,6 +14311,7 @@ galaxrf                         // bootleg (Recreativos Franco)
 galaxrfgg                       // bootleg (Recreativos Franco)
 galaxyx                         // bootleg
 galemp                          // (c) Taito do Brasil
+galkamika                       // bootleg (Video Game / Electrogame)
 galturbo                        // hack
 ghostmun                        //
 gmgalax                         // bootleg
@@ -14491,6 +14492,7 @@ froggerv                        // bootleg
 guttangt                        //
 hexpool                         // (c) 1986 Shinkia (Senko Kit)
 hexpoola                        // (c) 1986 Shinkia (Senko Kit)
+hunchbgb                        // bootleg
 hunchbkg                        // (c) 1983 Century
 hustlerb3                       // bootleg
 racknrol                        // (c) 1986 Status (Shinkia license) (Senko Kit)
@@ -16135,6 +16137,7 @@ us2pfball                       // US Games
 uspbball                        // US Games
 
 @source:hh_sm510.cpp
+auslalom                        // Elektronika
 bassmate                        // Telko
 exospace                        // Elektronika
 gnw_ball                        // Nintendo
@@ -32017,6 +32020,7 @@ ncd19                           // 1990 Network Computing Devices
 
 @source:ncd88k.cpp
 ncd19c                          //
+ncdmcx
 
 @source:ncdmips.cpp
 hmxpro                          // 1994 Network Computing Devices
@@ -33111,6 +33115,7 @@ abscam                          // hack
 acitya                          // (c) 1983 Epos Corporation
 alibaba                         // (c) 1982 Sega
 alibabab                        // Mustafa" and 40 Thieves (Ali Baba bootleg)
+baracuda                        // hack (Coinex)
 beastfp                         // (c) 1984 Epos Corporation
 bigbucks                        // (c) 1986 Dynasoft Inc.
 birdiy                          // (c) 1983 Mama Top
@@ -38520,6 +38525,7 @@ jak_nick                        //
 jak_sbfc                        //
 
 @source:spg2xx_jakks_sharp.cpp
+jsc_spid
 jsc_thom
 
 @source:spg2xx_jakks_tvtouch.cpp
@@ -41629,6 +41635,7 @@ p911j                           // 2001
 p911kc                          // 2001
 p911uc                          // 2001
 ppp2nd                          // 2001
+ppp2nda                         // 2001
 sogeki                          // 2001
 sscopefh                        // 2002
 sscopex                         // 2001
