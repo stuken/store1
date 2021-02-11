@@ -20,7 +20,7 @@ jobs:
         SUBTARGET: "arcade"
         OSD: "winui"
         PTR64: "1"
-      run: make -j2
+      run: make
     - name: Validate
       run: ./arcade64 -validate
     - uses: actions/upload-artifact@master
