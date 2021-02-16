@@ -215,14 +215,14 @@ void OptionsInit(void)
 const char * GetImageTabLongName(int tab_index)
 {
 	assert(tab_index >= 0);
-	assert(tab_index < WINUI_ARRAY_LENGTH(image_tabs_long_name));
+	assert(tab_index < std::size(image_tabs_long_name));
 	return image_tabs_long_name[tab_index];
 }
 
 const char * GetImageTabShortName(int tab_index)
 {
 	assert(tab_index >= 0);
-	assert(tab_index < WINUI_ARRAY_LENGTH(image_tabs_short_name));
+	assert(tab_index < std::size(image_tabs_short_name));
 	return image_tabs_short_name[tab_index];
 }
 
@@ -251,9 +251,9 @@ static void options_set_color(winui_options &opts, const char *name, COLORREF va
 	char value_str[32];
 
 	if (value == (COLORREF) - 1)
-		snprintf(value_str, WINUI_ARRAY_LENGTH(value_str), "%d", (int)value);
+		snprintf(value_str, std::size(value_str), "%d", (int)value);
 	else
-		snprintf(value_str, WINUI_ARRAY_LENGTH(value_str), "%d,%d,%d", (((int)value) >>  0) & 0xff,
+		snprintf(value_str, std::size(value_str), "%d,%d,%d", (((int)value) >>  0) & 0xff,
 			(((int)value) >>  8) & 0xff, (((int)value) >> 16) & 0xff);
 
 	opts.set_value(name, value_str, OPTION_PRIORITY_CMDLINE);
@@ -456,7 +456,7 @@ static void GetsShowFolderFlags(LPBITS bits)
 	char s[1024];
 	extern const FOLDERDATA g_folderData[];
 
-	snprintf(s, WINUI_ARRAY_LENGTH(s), "%s", winui_opts.value(MUIOPTION_HIDE_FOLDERS));
+	snprintf(s, std::size(s), "%s", winui_opts.value(MUIOPTION_HIDE_FOLDERS));
 	SetAllBits(bits, true);
 	char *token = strtok(s,", \t");
 
@@ -1365,7 +1365,7 @@ void GetTextPlayTime(int driver_index, char *buf)
 	temp = temp - 3600 * hour;
 	int minute = temp / 60;
 	int second = temp - 60 * minute;
-	snprintf(tmp, WINUI_ARRAY_LENGTH(tmp), "%d:%02d:%02d", hour, minute, second);
+	snprintf(tmp, std::size(tmp), "%d:%02d:%02d", hour, minute, second);
 	strcpy(buf, tmp);
 }
 
@@ -1380,7 +1380,7 @@ static int GetUIJoy(const char *option_name, int joycodeIndex)
 	int joycodes[4];
 
 	assert(0 <= joycodeIndex && joycodeIndex < 4);
-	ColumnDecodeStringWithCount(joycodes_string, joycodes, WINUI_ARRAY_LENGTH(joycodes));
+	ColumnDecodeStringWithCount(joycodes_string, joycodes, std::size(joycodes));
 	return joycodes[joycodeIndex];
 }
 
@@ -1391,9 +1391,9 @@ static void SetUIJoy(const char *option_name, int joycodeIndex, int val)
 	char buffer[1024];
 
 	assert(0 <= joycodeIndex && joycodeIndex < 4);
-	ColumnDecodeStringWithCount(joycodes_string, joycodes, WINUI_ARRAY_LENGTH(joycodes));
+	ColumnDecodeStringWithCount(joycodes_string, joycodes, std::size(joycodes));
 	joycodes[joycodeIndex] = val;
-	ColumnEncodeStringWithCount(joycodes, buffer, WINUI_ARRAY_LENGTH(joycodes));
+	ColumnEncodeStringWithCount(joycodes, buffer, std::size(joycodes));
 	winui_opts.set_value(option_name, buffer, OPTION_PRIORITY_CMDLINE);
 }
 
@@ -1525,12 +1525,12 @@ static void CusColorEncodeString(const COLORREF *value, char* str)
 {
 	char tmpStr[256];
 
-	snprintf(tmpStr, WINUI_ARRAY_LENGTH(tmpStr), "%d", (int)value[0]);
+	snprintf(tmpStr, std::size(tmpStr), "%d", (int)value[0]);
 	strcpy(str, tmpStr);
 
 	for (int i = 1; i < 16; i++)
 	{
-		snprintf(tmpStr, WINUI_ARRAY_LENGTH(tmpStr), ",%d", (int)value[i]);
+		snprintf(tmpStr, std::size(tmpStr), ",%d", (int)value[i]);
 		strcat(str, tmpStr);
 	}
 }
@@ -1560,12 +1560,12 @@ void ColumnEncodeStringWithCount(const int *value, char *str, int count)
 {
 	char buffer[256];
 
-	snprintf(buffer, WINUI_ARRAY_LENGTH(buffer),"%d", value[0]);
+	snprintf(buffer, std::size(buffer),"%d", value[0]);
 	strcpy(str, buffer);
 
     for (int i = 1; i < count; i++)
 	{
-		snprintf(buffer, WINUI_ARRAY_LENGTH(buffer), ",%d", value[i]);
+		snprintf(buffer, std::size(buffer), ",%d", value[i]);
 		strcat(str, buffer);
 	}
 }
@@ -1595,12 +1595,12 @@ static void SplitterEncodeString(const int *value, char* str)
 {
 	char tmpStr[256];
 
-	snprintf(tmpStr, WINUI_ARRAY_LENGTH(tmpStr), "%d", value[0]);
+	snprintf(tmpStr, std::size(tmpStr), "%d", value[0]);
 	strcpy(str, tmpStr);
 
 	for (int i = 1; i < GetSplitterCount(); i++)
 	{
-		snprintf(tmpStr, WINUI_ARRAY_LENGTH(tmpStr), ",%d", value[i]);
+		snprintf(tmpStr, std::size(tmpStr), ",%d", value[i]);
 		strcat(str, tmpStr);
 	}
 }
@@ -1666,7 +1666,7 @@ static void FontEncodeString(const LOGFONT *f, char *str)
 	if(!utf8_FaceName)
 		return;
 
-	snprintf(tmp, WINUI_ARRAY_LENGTH(tmp), "%li,%li,%li,%li,%li,%i,%i,%i,%i,%i,%i,%i,%i,%s",
+	snprintf(tmp, std::size(tmp), "%li,%li,%li,%li,%li,%i,%i,%i,%i,%i,%i,%i,%i,%s",
 		f->lfHeight,
 		f->lfWidth,
 		f->lfEscapement,
@@ -1710,7 +1710,7 @@ static void TabFlagsDecodeString(const char *str, int *data)
 {
 	char s[256];
 
-	snprintf(s, WINUI_ARRAY_LENGTH(s), "%s", str);
+	snprintf(s, std::size(s), "%s", str);
 	// simple way to set all tab bits "on"
 	*data = (1 << MAX_TAB_TYPES) - 1;
 	char *token = strtok(s,", \t");
