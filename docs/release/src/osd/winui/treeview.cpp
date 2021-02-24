@@ -611,7 +611,7 @@ static void CreateScreenFoldersIni(int parent_index)
 	for (int jj = 0; jj < driver_list::total(); jj++)
 	{
 		char screen[4];
-		snprintf(screen, WINUI_ARRAY_LENGTH(screen), "%d", DriverNumScreens(jj));
+		snprintf(screen, std::size(screen), "%d", DriverNumScreens(jj));
 
 		// look for an existant screen treefolder for this game
 		// (likely to be the previous one, so start at the end)
@@ -787,9 +787,9 @@ static void CreateResolutionFoldersIni(int parent_index)
 		const rectangle &visarea = screen->visible_area();
 
 		if (DriverIsVertical(jj))
-			snprintf(res, WINUI_ARRAY_LENGTH(res), "%d x %d (V)", visarea.width(), visarea.height());
+			snprintf(res, std::size(res), "%d x %d (V)", visarea.width(), visarea.height());
 		else
-			snprintf(res, WINUI_ARRAY_LENGTH(res), "%d x %d (H)", visarea.width(), visarea.height());
+			snprintf(res, std::size(res), "%d x %d (H)", visarea.width(), visarea.height());
 
 		// look for an existant resolution treefolder for this game
 		// (likely to be the previous one, so start at the end)
@@ -846,7 +846,7 @@ static void CreateFPSFoldersIni(int parent_index)
 			continue;
 		}
 
-		snprintf(fps, WINUI_ARRAY_LENGTH(fps), "%f Hz", ATTOSECONDS_TO_HZ(screen->refresh_attoseconds()));
+		snprintf(fps, std::size(fps), "%f Hz", ATTOSECONDS_TO_HZ(screen->refresh_attoseconds()));
 
 		// look for an existant refresh treefolder for this game
 		// (likely to be the previous one, so start at the end)
@@ -1028,7 +1028,7 @@ static void LoadExternalFolders(int parent_index, const char *fname, int id)
 	LPTREEFOLDER lpFolder = treeFolders[parent_index];
 
 	int current_id = lpFolder->m_nFolderId;
-	snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\%s", GetGuiDir(), fname);
+	snprintf(filename, std::size(filename), "%s\\%s", GetGuiDir(), fname);
 	FILE *f = fopen(filename, "r");
  
 	if (f == NULL)
@@ -1094,7 +1094,7 @@ static void SaveExternalFolders(int parent_index, const char *fname)
 	LPTREEFOLDER lpFolder = treeFolders[parent_index];
 	TREEFOLDER *folder_data;
 
-	snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\%s", GetGuiDir(), fname);
+	snprintf(filename, std::size(filename), "%s\\%s", GetGuiDir(), fname);
 	wchar_t *temp = win_wstring_from_utf8(GetGuiDir());
 	CreateDirectory(temp, NULL);
 	free(temp);
@@ -1575,7 +1575,7 @@ static int InitExtraFolders(void)
 	if (osd::directory::open(dir) == nullptr)
 		return 0;
 
-	snprintf(path, WINUI_ARRAY_LENGTH(path), "%s\\*.*", dir);
+	snprintf(path, std::size(path), "%s\\*.*", dir);
 	HANDLE hFind = winui_find_first_file_utf8(path, &FindFileData);
 
 	for (int i = 0; i < MAX_EXTRA_FOLDERS; i++)
@@ -1593,7 +1593,7 @@ static int InitExtraFolders(void)
 			char inifile[MAX_PATH];
 
 			memset(&inifile, 0, sizeof(inifile));
-			snprintf(inifile, WINUI_ARRAY_LENGTH(inifile), "%s\\%s", dir, file);
+			snprintf(inifile, std::size(inifile), "%s\\%s", dir, file);
 			FILE *readfile = fopen(inifile, "r");
 
 			if (readfile != NULL)
@@ -1720,7 +1720,7 @@ bool TryAddExtraFolderAndChildren(int parent_index)
 
 	int current_id = lpFolder->m_nFolderId;
 	int id = lpFolder->m_nFolderId - MAX_FOLDERS;
-	snprintf(fname, WINUI_ARRAY_LENGTH(fname), "%s\\%s.ini", GetFolderDir(), ExtraFolderData[id]->m_szTitle);
+	snprintf(fname, std::size(fname), "%s\\%s.ini", GetFolderDir(), ExtraFolderData[id]->m_szTitle);
 	FILE *f = fopen(fname, "r");
  
 	if (f == NULL)
@@ -1821,20 +1821,20 @@ static bool TryRenameCustomFolderIni(LPTREEFOLDER lpFolder, const char *old_name
 
 		if(lpParent)
 		{
-			snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\%s\\%s.ini", GetIniDir(), lpParent->m_lpTitle, old_name);
-			snprintf(new_filename, WINUI_ARRAY_LENGTH(new_filename), "%s\\%s\\%s.ini", GetIniDir(), lpParent->m_lpTitle, new_name);
+			snprintf(filename, std::size(filename), "%s\\%s\\%s.ini", GetIniDir(), lpParent->m_lpTitle, old_name);
+			snprintf(new_filename, std::size(new_filename), "%s\\%s\\%s.ini", GetIniDir(), lpParent->m_lpTitle, new_name);
 			winui_move_file_utf8(filename, new_filename);
 		}
 	}
 	else
 	{
 		//Rename the File, if it exists
-		snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\%s.ini", GetIniDir(), old_name);
-		snprintf(new_filename, WINUI_ARRAY_LENGTH(new_filename), "%s\\%s.ini", GetIniDir(), new_name);
+		snprintf(filename, std::size(filename), "%s\\%s.ini", GetIniDir(), old_name);
+		snprintf(new_filename, std::size(new_filename), "%s\\%s.ini", GetIniDir(), new_name);
 		winui_move_file_utf8(filename, new_filename);
 		//Rename the Directory, if it exists
-		snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\%s", GetIniDir(), old_name);
-		snprintf(new_filename, WINUI_ARRAY_LENGTH(new_filename), "%s\\%s", GetIniDir(), new_name);
+		snprintf(filename, std::size(filename), "%s\\%s", GetIniDir(), old_name);
+		snprintf(new_filename, std::size(new_filename), "%s\\%s", GetIniDir(), new_name);
 		winui_move_file_utf8(filename, new_filename);
 	}
 
@@ -1871,8 +1871,8 @@ bool TryRenameCustomFolder(LPTREEFOLDER lpFolder, const char *new_name)
 	}
 
 	// a parent extra folder was renamed, so rename the file
-	snprintf(new_filename, WINUI_ARRAY_LENGTH(new_filename), "%s\\%s.ini", GetFolderDir(), new_name);
-	snprintf(filename, WINUI_ARRAY_LENGTH(filename), "%s\\%s.ini", GetFolderDir(), lpFolder->m_lpTitle);
+	snprintf(new_filename, std::size(new_filename), "%s\\%s.ini", GetFolderDir(), new_name);
+	snprintf(filename, std::size(filename), "%s\\%s.ini", GetFolderDir(), lpFolder->m_lpTitle);
 	bool retval = winui_move_file_utf8(filename, new_filename);
 
 	if (retval)
@@ -1952,7 +1952,7 @@ bool TrySaveExtraFolder(LPTREEFOLDER lpFolder)
 		return false;
 	}
 
-	snprintf(fname, WINUI_ARRAY_LENGTH(fname), "%s\\%s.ini", GetFolderDir(), extra_folder->m_szTitle);
+	snprintf(fname, std::size(fname), "%s\\%s.ini", GetFolderDir(), extra_folder->m_szTitle);
 	wchar_t *temp = win_wstring_from_utf8(GetFolderDir());
 	CreateDirectory(temp, NULL);
 	free(temp);  	
@@ -2020,7 +2020,7 @@ int GetTreeViewIconIndex(int icon_id)
 	if (icon_id < 0)
 		return -icon_id;
 
-	for (int i = 0; i < WINUI_ARRAY_LENGTH(treeIconNames); i++)
+	for (int i = 0; i < std::size(treeIconNames); i++)
 	{
 		if (icon_id == treeIconNames[i].nResourceID)
 			return i;

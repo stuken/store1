@@ -145,6 +145,7 @@ blktiger.cpp
 blktiger_ms.cpp
 blmbycar.cpp
 blockade.cpp
+blockch.cpp
 blockhl.cpp
 blockout.cpp
 blocktax.cpp
@@ -474,6 +475,7 @@ gberet.cpp
 gcpinbal.cpp
 gei.cpp
 getaway.cpp
+//gfamily.cpp                   // skeleton, check later
 ggconnie.cpp
 ghosteo.cpp
 giclassic.cpp
@@ -953,6 +955,7 @@ phoenix.cpp
 photon.cpp
 photon2.cpp
 //photoply.cpp     // chd
+//photoplys.cpp                // unknown skeleton
 //photoplysx.cpp           // skeleton
 //piggypas.cpp     // mechanical
 //pinball2k.cpp    // pinball
@@ -972,6 +975,7 @@ playmark.cpp
 //play_3.cpp       // pinball
 //pluto5.cpp       // fruit
 //plygonet.cpp     // check
+//playcenter.cpp                   // unknown skeleton
 pntnpuzl.cpp
 pokechmp.cpp
 //poker72.cpp      // poker
@@ -1150,6 +1154,7 @@ sidepckt.cpp
 //sigmab52.cpp     // poker
 sigmab98.cpp
 silkroad.cpp
+//silverball.cpp                   // unknown skeleton
 silvmil.cpp
 simpl156.cpp
 simple_st0016.cpp
@@ -1287,7 +1292,7 @@ taito_f2.cpp
 taito_f3.cpp
 taito_h.cpp
 taito_l.cpp
-//taito_o.cpp      // poker
+taito_o.cpp      // poker
 taito_x.cpp
 taito_z.cpp
 tank8.cpp

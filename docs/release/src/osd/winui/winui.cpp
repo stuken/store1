@@ -1,5 +1,5 @@
 // license:BSD-3-Clause
-// copyright-holders:Chris Kirmse, Mike Haaland, René Single, Mamesick
+// copyright-holders:Chris Kirmse, Mike Haaland, Rene Single, Mamesick
 
 #include "winui.h"
 #include <fstream>
@@ -548,7 +548,7 @@ static void RunMAME(int nGameIndex, const play_options *playopts)
 	// prepare MAMEUIFX to run the game
 	ShowWindow(hMain, SW_HIDE);
 
-	for (int i = 0; i < WINUI_ARRAY_LENGTH(s_nPickers); i++)
+	for (int i = 0; i < std::size(s_nPickers); i++)
 		Picker_ClearIdle(GetDlgItem(hMain, s_nPickers[i]));
 
 	// Time the game run.
@@ -605,7 +605,7 @@ static void RunMAME(int nGameIndex, const play_options *playopts)
 	IncrementPlayTime(nGameIndex, elapsedtime);
 
 	// the emulation is complete; continue
-	for (int i = 0; i < WINUI_ARRAY_LENGTH(s_nPickers); i++)
+	for (int i = 0; i < std::size(s_nPickers); i++)
 		Picker_ResetIdle(GetDlgItem(hMain, s_nPickers[i]));
 }
 
@@ -1133,7 +1133,7 @@ static void SetMainTitle(void)
 {
 	char buffer[256];
 
-	snprintf(buffer, WINUI_ARRAY_LENGTH(buffer), "%s %s", MAMEUINAME, GetVersionString());
+	snprintf(buffer, std::size(buffer), "%s %s", MAMEUINAME, GetVersionString());
 	winui_set_window_text_utf8(hMain, buffer);
 }
 
@@ -1505,7 +1505,7 @@ static LRESULT CALLBACK MameWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 				if (lpNmHdr->hwndFrom == hTreeView)
 					return TreeViewNotify(lpNmHdr);
 
-				GetClassName(lpNmHdr->hwndFrom, szClass, WINUI_ARRAY_LENGTH(szClass));
+				GetClassName(lpNmHdr->hwndFrom, szClass, std::size(szClass));
 
 				if (!_tcscmp(szClass, WC_LISTVIEW))
 					return Picker_HandleNotify(lpNmHdr);
@@ -2126,9 +2126,9 @@ static char *GameInfoScreen(int driver_index)
 			char tmpbuf[256];
 
 			if (DriverIsVertical(driver_index))
-				snprintf(tmpbuf, WINUI_ARRAY_LENGTH(tmpbuf), "%d x %d (V) %f Hz", visarea.width(), visarea.height(), ATTOSECONDS_TO_HZ(screen->refresh_attoseconds()));
+				snprintf(tmpbuf, std::size(tmpbuf), "%d x %d (V) %f Hz", visarea.width(), visarea.height(), ATTOSECONDS_TO_HZ(screen->refresh_attoseconds()));
 			else
-				snprintf(tmpbuf, WINUI_ARRAY_LENGTH(tmpbuf), "%d x %d (H) %f Hz", visarea.width(), visarea.height(), ATTOSECONDS_TO_HZ(screen->refresh_attoseconds()));
+				snprintf(tmpbuf, std::size(tmpbuf), "%d x %d (H) %f Hz", visarea.width(), visarea.height(), ATTOSECONDS_TO_HZ(screen->refresh_attoseconds()));
 
 			strcat(scrtxt, tmpbuf);
 		}
@@ -2307,7 +2307,7 @@ static void EnableSelection(int nGame)
 	if( !t_description )
 		return;
 
-	_sntprintf(buf, WINUI_ARRAY_LENGTH(buf), g_szPlayGameString, t_description);
+	_sntprintf(buf, std::size(buf), g_szPlayGameString, t_description);
 
 	mmi.cbSize = sizeof(mmi);
 	mmi.fMask = MIIM_TYPE;
@@ -2994,7 +2994,7 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 		case ID_TOOLBAR_EDIT:
 		{
 			char buf[256];
-			winui_get_window_text_utf8(hWndCtl, buf, WINUI_ARRAY_LENGTH(buf));
+			winui_get_window_text_utf8(hWndCtl, buf, std::size(buf));
 
 			switch (codeNotify)
 			{
@@ -3330,7 +3330,7 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 				char* dir_one = strtok(path, ";");
 				while (dir_one && !found)
 				{
-					snprintf(viewzip, WINUI_ARRAY_LENGTH(viewzip), "%s\\%s.zip", dir_one, GetDriverGameName(nGame));
+					snprintf(viewzip, std::size(viewzip), "%s\\%s.zip", dir_one, GetDriverGameName(nGame));
 					t_s = win_wstring_from_utf8(viewzip);
 					if (t_s)
 					{
@@ -3359,7 +3359,7 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 			if (nGame >= 0)
 			{
 				char path[MAX_PATH];
-				snprintf(path, WINUI_ARRAY_LENGTH(path), "%s\\%s.mp4", GetVideoDir(), GetDriverGameName(nGame));
+				snprintf(path, std::size(path), "%s\\%s.mp4", GetVideoDir(), GetDriverGameName(nGame));
 				ShellExecuteCommon(hMain, path);
 			}
 			SetFocus(hWndList);
@@ -3372,7 +3372,7 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 			if (nGame >= 0)
 			{
 				char path[MAX_PATH];
-				snprintf(path, WINUI_ARRAY_LENGTH(path), "%s\\%s.pdf", GetManualsDir(), GetDriverGameName(nGame));
+				snprintf(path, std::size(path), "%s\\%s.pdf", GetManualsDir(), GetDriverGameName(nGame));
 				ShellExecuteCommon(hMain, path);
 			}
 			SetFocus(hWndList);
@@ -3414,7 +3414,7 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 						char command[MAX_PATH];
 						const char *game = GetDriverGameName(nGame);
 						int audit_result = GetRomAuditResults(nGame);
-						snprintf(command, WINUI_ARRAY_LENGTH(command), "m1fx.exe %s", game);
+						snprintf(command, std::size(command), "m1fx.exe %s", game);
 
 						if (IsAuditResultYes(audit_result))
 						{
@@ -3624,7 +3624,7 @@ const wchar_t *GamePicker_GetItemString(HWND hwndPicker, int nItem, int nColumn,
 
 		case COLUMN_PLAYED:
 			/* played count */
-			snprintf(playcount_buf, WINUI_ARRAY_LENGTH(playcount_buf), "%d",  GetPlayCount(nItem));
+			snprintf(playcount_buf, std::size(playcount_buf), "%d",  GetPlayCount(nItem));
 			utf8_s = playcount_buf;
 			break;
 
@@ -3942,7 +3942,7 @@ bool CommonFileDialog(common_file_dialog_proc cfd, char *filename, int filetype,
 
 	if (t_filename != NULL)
 	{
-		_sntprintf(t_filename_buffer, WINUI_ARRAY_LENGTH(t_filename_buffer), TEXT("%s"), t_filename);
+		_sntprintf(t_filename_buffer, std::size(t_filename_buffer), TEXT("%s"), t_filename);
 		free(t_filename);
 	}
 
@@ -3956,7 +3956,7 @@ bool CommonFileDialog(common_file_dialog_proc cfd, char *filename, int filetype,
 	of.nMaxCustFilter = 0;
 	of.nFilterIndex = 1;
 	of.lpstrFile = t_filename_buffer;
-	of.nMaxFile = WINUI_ARRAY_LENGTH(t_filename_buffer);
+	of.nMaxFile = std::size(t_filename_buffer);
 	of.lpstrFileTitle = NULL;
 	of.nMaxFileTitle = 0;
 	of.Flags  = OFN_EXPLORER | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY | OFN_ENABLEHOOK;
@@ -4064,7 +4064,7 @@ bool CommonFileDialog(common_file_dialog_proc cfd, char *filename, int filetype,
 
 		case FILETYPE_BGFX_FILES :
 			char temp[MAX_PATH];
-			snprintf(temp, WINUI_ARRAY_LENGTH(temp), "%s\\chains", GetBGFXDir());
+			snprintf(temp, std::size(temp), "%s\\chains", GetBGFXDir());
 			of.lpstrInitialDir = win_wstring_from_utf8(temp);
 			of.lpstrFilter = TEXT("chains (*.json)\0*.json;\0");
 			of.lpstrDefExt = TEXT("json");
@@ -4117,7 +4117,7 @@ void SetStatusBarTextF(int part_index, const char *fmt, ...)
 	va_list va;
 
 	va_start(va, fmt);
-	vsnprintf(buf, WINUI_ARRAY_LENGTH(buf), fmt, va);
+	vsnprintf(buf, std::size(buf), fmt, va);
 	va_end(va);
 	SetStatusBarText(part_index, buf);
 }
@@ -4382,7 +4382,7 @@ static void AdjustMetrics(void)
 	{
 		wchar_t szClass[128];
 
-		if (GetClassName(hWnd, szClass, WINUI_ARRAY_LENGTH(szClass)))
+		if (GetClassName(hWnd, szClass, std::size(szClass)))
 		{
 			if (!_tcscmp(szClass, WC_LISTVIEW))
 			{
@@ -4589,7 +4589,7 @@ static void UpdateMenu(HMENU hMenu)
 		if( !t_description )
 			return;
 
-		_sntprintf(buf, WINUI_ARRAY_LENGTH(buf), g_szPlayGameString, t_description);
+		_sntprintf(buf, std::size(buf), g_szPlayGameString, t_description);
 		memset(&mItem, 0, sizeof(MENUITEMINFO));
 		mItem.cbSize = sizeof(MENUITEMINFO);
 		mItem.fMask = MIIM_TYPE;
@@ -4847,7 +4847,7 @@ void InitBodyContextMenu(HMENU hBodyContextMenu)
 		return;
 
 	LPTREEFOLDER lpFolder = GetFolderByName(FOLDER_SOURCE, GetDriverFileName(Picker_GetSelectedItem(hWndList)));
-	_sntprintf(tmp, WINUI_ARRAY_LENGTH(tmp), TEXT("Properties for %s\tAlt+D"), lpFolder->m_lptTitle);
+	_sntprintf(tmp, std::size(tmp), TEXT("Properties for %s\tAlt+D"), lpFolder->m_lptTitle);
 
 	mii.fMask = MIIM_TYPE | MIIM_ID;
 	mii.fType = MFT_STRING;

@@ -46,7 +46,7 @@ void ErrorMessageBox(const char *fmt, ...)
 	va_list ptr;
 
 	va_start(ptr, fmt);
-	vsnprintf(buf, WINUI_ARRAY_LENGTH(buf), fmt, ptr);
+	vsnprintf(buf, std::size(buf), fmt, ptr);
 	winui_message_box_utf8(GetMainWindow(), buf, MAMEUINAME, MB_ICONERROR | MB_OK);
 	va_end(ptr);
 }
@@ -57,7 +57,7 @@ void dprintf(const char *fmt, ...)
 	char buf[1024];
 	va_list ptr;
 	va_start(ptr, fmt);
-	vsnprintf(buf, WINUI_ARRAY_LENGTH(buf), fmt, ptr);
+	vsnprintf(buf, std::size(buf), fmt, ptr);
 	winui_output_debug_string_utf8(buf);
 	va_end(ptr);
 }
@@ -570,7 +570,7 @@ int winui_get_window_text_utf8(HWND hWnd, char *buffer, size_t buffer_size)
 
 	t_buffer[0] = '\0';
 	// invoke the core Win32 API
-	GetWindowText(hWnd, t_buffer, ARRAY_LENGTH(t_buffer));
+	GetWindowText(hWnd, t_buffer, std::size(t_buffer));
 	char *utf8_buffer = win_utf8_from_wstring(t_buffer);
 
 	if (!utf8_buffer)

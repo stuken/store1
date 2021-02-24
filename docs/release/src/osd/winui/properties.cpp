@@ -423,18 +423,18 @@ void InitPropertyPage(HINSTANCE hInst, HWND hWnd, OPTIONS_TYPE opt_type, int fol
 	switch(opt_type)
 	{
 		case OPTIONS_GAME:
-			snprintf(tmp, WINUI_ARRAY_LENGTH(tmp), "Properties for %s", GetDriverGameTitle(g_nGame));
+			snprintf(tmp, std::size(tmp), "Properties for %s", GetDriverGameTitle(g_nGame));
 			break;
 
 		case OPTIONS_RASTER:
 		case OPTIONS_VECTOR:
 		case OPTIONS_VERTICAL:
 		case OPTIONS_HORIZONTAL:
-			snprintf(tmp, WINUI_ARRAY_LENGTH(tmp), "Properties for %s games", GetFolderNameByID(g_nFolder));
+			snprintf(tmp, std::size(tmp), "Properties for %s games", GetFolderNameByID(g_nFolder));
 			break;
 
 		case OPTIONS_SOURCE:
-			snprintf(tmp, WINUI_ARRAY_LENGTH(tmp), "Properties for %s driver games", GetDriverFileName(g_nGame));
+			snprintf(tmp, std::size(tmp), "Properties for %s driver games", GetDriverFileName(g_nGame));
 			break;
 
 		case OPTIONS_GLOBAL:
@@ -512,14 +512,14 @@ static char *GameInfoCPU(int nIndex)
 
 		if (count > 1)
 		{
-			snprintf(temp, WINUI_ARRAY_LENGTH(temp), "%d x ", count);
+			snprintf(temp, std::size(temp), "%d x ", count);
 			strcat(buffer, temp);
 		}
 
 		if (clock >= 1000000)
-			snprintf(temp, WINUI_ARRAY_LENGTH(temp), "%s %d.%06d MHz\r\n", name, clock / 1000000, clock % 1000000);
+			snprintf(temp, std::size(temp), "%s %d.%06d MHz\r\n", name, clock / 1000000, clock % 1000000);
 		else
-			snprintf(temp, WINUI_ARRAY_LENGTH(temp), "%s %d.%03d kHz\r\n", name, clock / 1000, clock % 1000);
+			snprintf(temp, std::size(temp), "%s %d.%03d kHz\r\n", name, clock / 1000, clock % 1000);
 
 		strcat(buffer, temp);
 	}
@@ -556,7 +556,7 @@ static char *GameInfoSound(int nIndex)
 
 		if (count > 1)
 		{
-			snprintf(temp, WINUI_ARRAY_LENGTH(temp), "%d x ", count);
+			snprintf(temp, std::size(temp), "%d x ", count);
 			strcat(buffer, temp);
 		}
 
@@ -565,9 +565,9 @@ static char *GameInfoSound(int nIndex)
 		if (clock)
 		{
 			if (clock >= 1000000)
-				snprintf(temp, WINUI_ARRAY_LENGTH(temp), " %d.%06d MHz", clock / 1000000, clock % 1000000);
+				snprintf(temp, std::size(temp), " %d.%06d MHz", clock / 1000000, clock % 1000000);
 			else
-				snprintf(temp, WINUI_ARRAY_LENGTH(temp), " %d.%03d kHz", clock / 1000, clock % 1000);
+				snprintf(temp, std::size(temp), " %d.%03d kHz", clock / 1000, clock % 1000);
 
 			strcat(buffer, temp);
 		}
@@ -608,9 +608,9 @@ static char *GameInfoScreen(int nIndex)
 				char tmpbuf[256];
 
 				if (DriverIsVertical(nIndex))
-					snprintf(tmpbuf, WINUI_ARRAY_LENGTH(tmpbuf), "%d x %d (V) %f Hz\r\n", visarea.width(), visarea.height(), ATTOSECONDS_TO_HZ(screen.refresh_attoseconds()));
+					snprintf(tmpbuf, std::size(tmpbuf), "%d x %d (V) %f Hz\r\n", visarea.width(), visarea.height(), ATTOSECONDS_TO_HZ(screen.refresh_attoseconds()));
 				else
-					snprintf(tmpbuf, WINUI_ARRAY_LENGTH(tmpbuf), "%d x %d (H) %f Hz\r\n", visarea.width(), visarea.height(), ATTOSECONDS_TO_HZ(screen.refresh_attoseconds()));
+					snprintf(tmpbuf, std::size(tmpbuf), "%d x %d (H) %f Hz\r\n", visarea.width(), visarea.height(), ATTOSECONDS_TO_HZ(screen.refresh_attoseconds()));
 
 				strcat(buffer, tmpbuf);
 			}
@@ -716,7 +716,7 @@ static char *GameInfoManufactured(int nIndex)
 	static char buffer[1024];
 
 	memset(&buffer, 0, sizeof(buffer));
-	snprintf(buffer, WINUI_ARRAY_LENGTH(buffer), "%s %s", GetDriverGameYear(nIndex), GetDriverGameManufacturer(nIndex));
+	snprintf(buffer, std::size(buffer), "%s %s", GetDriverGameYear(nIndex), GetDriverGameManufacturer(nIndex));
 	return buffer;
 }
 
@@ -740,7 +740,7 @@ static char *GameInfoTitle(OPTIONS_TYPE opt_type, int nIndex)
 	else if (OPTIONS_SOURCE == opt_type)
 		strcpy(buffer, "Driver options\r\nDefault options used by all games in the driver");
 	else
-		snprintf(buffer, WINUI_ARRAY_LENGTH(buffer), "%s - \"%s\"", GetDriverGameTitle(nIndex), GetDriverGameName(nIndex));
+		snprintf(buffer, std::size(buffer), "%s - \"%s\"", GetDriverGameTitle(nIndex), GetDriverGameName(nIndex));
 
 	return buffer;
 }
@@ -755,7 +755,7 @@ static char *GameInfoCloneOf(int nIndex)
 	if (DriverIsClone(nIndex))
 	{
 		int nParentIndex = GetParentIndex(&driver_list::driver(nIndex));
-		snprintf(buffer, WINUI_ARRAY_LENGTH(buffer), "%s - \"%s\"", GetDriverGameTitle(nParentIndex), GetDriverGameName(nParentIndex));
+		snprintf(buffer, std::size(buffer), "%s - \"%s\"", GetDriverGameTitle(nParentIndex), GetDriverGameName(nParentIndex));
 	}
 
 	return buffer;
@@ -791,7 +791,7 @@ static void UpdateSheetCaption(HWND hWnd)
 	hBrush = CreateSolidBrush(RGB(127, 127, 127));
 	FillRect(hDC, &rect, hBrush);
 	DeleteObject(hBrush);
-	int i = GetSheetPageTreeCurSelText(szText, WINUI_ARRAY_LENGTH(szText));
+	int i = GetSheetPageTreeCurSelText(szText, std::size(szText));
 
 	if (i > 0)
 	{
@@ -900,7 +900,7 @@ static void AdjustChildWindows(HWND hWnd)
 {
 	wchar_t szClass[128];
 
-	GetClassName(hWnd, szClass, WINUI_ARRAY_LENGTH(szClass));
+	GetClassName(hWnd, szClass, std::size(szClass));
 
 	if (!_tcscmp(szClass, WC_BUTTON))
 	{
@@ -1156,7 +1156,7 @@ intptr_t CALLBACK GamePropertiesDialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, 
 			hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_MAMEUI_ICON));
 			SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
 			hBrushDlg = CreateSolidBrush(RGB(240, 240, 240));
-			snprintf(tmp, WINUI_ARRAY_LENGTH(tmp), "Information for \"%s\"", GetDriverGameName(index));
+			snprintf(tmp, std::size(tmp), "Information for \"%s\"", GetDriverGameName(index));
 			winui_set_window_text_utf8(hDlg, tmp);
 			winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_PROP_TITLE), GetDriverGameTitle(index));
 			winui_set_window_text_utf8(GetDlgItem(hDlg, IDC_PROP_MANUFACTURED), GameInfoManufactured(index));
@@ -1453,7 +1453,7 @@ static intptr_t CALLBACK GameOptionsDialogProc(HWND hDlg, UINT uMsg, WPARAM wPar
 				default:
 					// use default behavior; try to get the result out of the datamap if
 					// appropriate
-					GetClassName(hWndCtrl, szClass, WINUI_ARRAY_LENGTH(szClass));
+					GetClassName(hWndCtrl, szClass, std::size(szClass));
 
 					if (!_tcscmp(szClass, WC_COMBOBOX))
 					{
@@ -1634,15 +1634,15 @@ static void PropToOptions(HWND hWnd, windows_options &opts)
 		int d = 0;
 		char aspect_option[32];
 
-		snprintf(aspect_option, WINUI_ARRAY_LENGTH(aspect_option), "aspect%d", GetSelectedScreen(hWnd));
+		snprintf(aspect_option, std::size(aspect_option), "aspect%d", GetSelectedScreen(hWnd));
 
 		if (Button_GetCheck(hCtrl3))
 			opts.set_value(aspect_option, "auto", OPTION_PRIORITY_CMDLINE);
 		else
 		{
-			Edit_GetText(hCtrl, buffer, WINUI_ARRAY_LENGTH(buffer));
+			Edit_GetText(hCtrl, buffer, std::size(buffer));
 			_stscanf(buffer, TEXT("%d"), &n);
-			Edit_GetText(hCtrl2, buffer, WINUI_ARRAY_LENGTH(buffer));
+			Edit_GetText(hCtrl2, buffer, std::size(buffer));
 			_stscanf(buffer, TEXT("%d"), &d);
 
 			if (n == 0 || d == 0)
@@ -1651,7 +1651,7 @@ static void PropToOptions(HWND hWnd, windows_options &opts)
 				d = 3;
 			}
 
-			snprintf(buffer2, WINUI_ARRAY_LENGTH(buffer2), "%d:%d", n, d);
+			snprintf(buffer2, std::size(buffer2), "%d:%d", n, d);
 			opts.set_value(aspect_option, buffer2, OPTION_PRIORITY_CMDLINE);
 		}
 	}
@@ -1670,9 +1670,9 @@ static void PropToOptions(HWND hWnd, windows_options &opts)
 			opts.set_value(OPTION_SNAPSIZE, "auto", OPTION_PRIORITY_CMDLINE);
 		else
 		{
-			Edit_GetText(hCtrl, buffer, WINUI_ARRAY_LENGTH(buffer));
+			Edit_GetText(hCtrl, buffer, std::size(buffer));
 			_stscanf(buffer, TEXT("%d"), &width);
-			Edit_GetText(hCtrl2, buffer, WINUI_ARRAY_LENGTH(buffer));
+			Edit_GetText(hCtrl2, buffer, std::size(buffer));
 			_stscanf(buffer, TEXT("%d"), &height);
 
 			if (width == 0 || height == 0)
@@ -1681,7 +1681,7 @@ static void PropToOptions(HWND hWnd, windows_options &opts)
 				height = 480;
 			}
 
-			snprintf(buffer2, WINUI_ARRAY_LENGTH(buffer2), "%dx%d", width, height);
+			snprintf(buffer2, std::size(buffer2), "%dx%d", width, height);
 			opts.set_value(OPTION_SNAPSIZE, buffer2, OPTION_PRIORITY_CMDLINE);
 		}
 	}
@@ -1769,7 +1769,7 @@ static void OptionsToProp(HWND hWnd, windows_options &opts)
 
 	if (hCtrl)
 	{
-		snprintf(aspect_option, WINUI_ARRAY_LENGTH(aspect_option), "aspect%d", GetSelectedScreen(hWnd));
+		snprintf(aspect_option, std::size(aspect_option), "aspect%d", GetSelectedScreen(hWnd));
 
 		if( strcmp(opts.value(aspect_option), "auto") == 0)
 		{
@@ -1792,13 +1792,13 @@ static void OptionsToProp(HWND hWnd, windows_options &opts)
 		int n = 0;
 		int d = 0;
 
-		snprintf(aspect_option, WINUI_ARRAY_LENGTH(aspect_option), "aspect%d", GetSelectedScreen(hWnd));
+		snprintf(aspect_option, std::size(aspect_option), "aspect%d", GetSelectedScreen(hWnd));
 
 		if (sscanf(opts.value(aspect_option), "%d:%d", &n, &d) == 2 && n != 0 && d != 0)
 		{
-			_sntprintf(buf, WINUI_ARRAY_LENGTH(buf), TEXT("%d"), n);
+			_sntprintf(buf, std::size(buf), TEXT("%d"), n);
 			Edit_SetText(hCtrl, buf);
-			_sntprintf(buf, WINUI_ARRAY_LENGTH(buf), TEXT("%d"), d);
+			_sntprintf(buf, std::size(buf), TEXT("%d"), d);
 			Edit_SetText(hCtrl2, buf);
 		}
 		else
@@ -1929,9 +1929,9 @@ static void OptionsToProp(HWND hWnd, windows_options &opts)
 
 		if (sscanf(opts.value(OPTION_SNAPSIZE), "%dx%d", &width, &height) == 2 && width != 0 && height != 0)
 		{
-			_sntprintf(buf, WINUI_ARRAY_LENGTH(buf), TEXT("%d"), width);
+			_sntprintf(buf, std::size(buf), TEXT("%d"), width);
 			Edit_SetText(hCtrl, buf);
-			_sntprintf(buf, WINUI_ARRAY_LENGTH(buf), TEXT("%d"), height);
+			_sntprintf(buf, std::size(buf), TEXT("%d"), height);
 			Edit_SetText(hCtrl2, buf);
 		}
 		else
@@ -2082,7 +2082,7 @@ static bool ScreenReadControl(datamap *map, HWND dialog, HWND control, windows_o
 	int selected_screen = GetSelectedScreen(dialog);
 	int screen_option_index = ComboBox_GetCurSel(control);
 	const char *screen_option_value = (const char*)ComboBox_GetItemData(control, screen_option_index);
-	snprintf(screen_option_name, WINUI_ARRAY_LENGTH(screen_option_name), "screen%d", selected_screen);
+	snprintf(screen_option_name, std::size(screen_option_name), "screen%d", selected_screen);
 	opts.set_value(screen_option_name, screen_option_value, OPTION_PRIORITY_CMDLINE);
 	return false;
 }
@@ -2110,7 +2110,7 @@ static bool ScreenPopulateControl(datamap *map, HWND dialog, HWND control, windo
 			wchar_t *t_device = win_wstring_from_utf8(device);
 			(void)ComboBox_InsertString(control, i + 1, t_device);
 			(void)ComboBox_SetItemData(control, i + 1, device);
-			snprintf(screen_option, WINUI_ARRAY_LENGTH(screen_option), "screen%d", GetSelectedScreen(dialog));
+			snprintf(screen_option, std::size(screen_option), "screen%d", GetSelectedScreen(dialog));
 			const char *option = opts.value(screen_option);
 
 			if (strcmp(option, device) == 0)
@@ -2136,7 +2136,7 @@ static bool ViewPopulateControl(datamap *map, HWND dialog, HWND control, windows
 	char view_option[32];
 
 	// determine the view option value
-	snprintf(view_option, WINUI_ARRAY_LENGTH(view_option), "view%d", GetSelectedScreen(dialog));
+	snprintf(view_option, std::size(view_option), "view%d", GetSelectedScreen(dialog));
 	const char *view = opts.value(view_option);
 
 	(void)ComboBox_ResetContent(control);
@@ -2177,7 +2177,7 @@ static bool DefaultInputPopulateControl(datamap *map, HWND dialog, HWND control,
 	(void)ComboBox_InsertString(control, index, TEXT("Default"));
 	(void)ComboBox_SetItemData(control, index, "");
 	index++;
-	snprintf(path, WINUI_ARRAY_LENGTH(path), "%s\\*.*", GetCtrlrDir());
+	snprintf(path, std::size(path), "%s\\*.*", GetCtrlrDir());
 	HANDLE hFind = winui_find_first_file_utf8(path, &FindFileData);
 
 	if (hFind != INVALID_HANDLE_VALUE)
@@ -2237,13 +2237,13 @@ static bool ResolutionReadControl(datamap *map, HWND dialog, HWND control, windo
 		int height = 0;
 		wchar_t buffer[256];
 
-		(void)ComboBox_GetText(sizes_control, buffer, WINUI_ARRAY_LENGTH(buffer) - 1);
+		(void)ComboBox_GetText(sizes_control, buffer, std::size(buffer) - 1);
 
 		if (_stscanf(buffer, TEXT("%d x %d"), &width, &height) == 2)
 		{
 			int refresh_index = ComboBox_GetCurSel(refresh_control);
 			int refresh_value = ComboBox_GetItemData(refresh_control, refresh_index);
-			snprintf(option_value, WINUI_ARRAY_LENGTH(option_value), "%dx%d@%d", width, height, refresh_value);
+			snprintf(option_value, std::size(option_value), "%dx%d@%d", width, height, refresh_value);
 		}
 		else
 			strcpy(option_value, "auto");
@@ -2293,7 +2293,7 @@ static bool ResolutionPopulateControl(datamap *map, HWND dialog, HWND control_, 
 		(void)ComboBox_SetItemData(refresh_control, refresh_index, 0);
 		refresh_index++;
 		// determine which screen we're using
-		snprintf(screen_option, WINUI_ARRAY_LENGTH(screen_option), "screen%d", GetSelectedScreen(dialog));
+		snprintf(screen_option, std::size(screen_option), "screen%d", GetSelectedScreen(dialog));
 		const char *screen = opts.value(screen_option);
 		wchar_t *t_screen = win_wstring_from_utf8(screen);
 		// retrieve screen information
@@ -2304,7 +2304,7 @@ static bool ResolutionPopulateControl(datamap *map, HWND dialog, HWND control_, 
 			if ((devmode.dmBitsPerPel == 32 ) // Only 32 bit depth supported by core
 				&& (devmode.dmDisplayFrequency == refresh || refresh == 0))
 			{
-				_sntprintf(buf, WINUI_ARRAY_LENGTH(buf), TEXT("%d x %d"), devmode.dmPelsWidth, devmode.dmPelsHeight);
+				_sntprintf(buf, std::size(buf), TEXT("%d x %d"), devmode.dmPelsWidth, devmode.dmPelsHeight);
 
 				if (ComboBox_FindString(sizes_control, 0, buf) == CB_ERR)
 				{
@@ -2320,7 +2320,7 @@ static bool ResolutionPopulateControl(datamap *map, HWND dialog, HWND control_, 
 			if (devmode.dmDisplayFrequency >= 10 )
 			{
 				// I have some devmode "vga" which specifes 1 Hz, which is probably bogus, so we filter it out
-				_sntprintf(buf, WINUI_ARRAY_LENGTH(buf), TEXT("%d Hz"), devmode.dmDisplayFrequency);
+				_sntprintf(buf, std::size(buf), TEXT("%d Hz"), devmode.dmDisplayFrequency);
 
 				if (ComboBox_FindString(refresh_control, 0, buf) == CB_ERR)
 				{
@@ -2354,7 +2354,7 @@ static void ResetDataMap(HWND hWnd)
 {
 	char screen_option[32];
 
-	snprintf(screen_option, WINUI_ARRAY_LENGTH(screen_option), "screen%d", GetSelectedScreen(hWnd));
+	snprintf(screen_option, std::size(screen_option), "screen%d", GetSelectedScreen(hWnd));
 
 	if (pCurrentOpts.value(screen_option) == NULL || (core_stricmp(pCurrentOpts.value(screen_option), "") == 0 )
 		|| (core_stricmp(pCurrentOpts.value(screen_option), "auto") == 0 ) )
@@ -3121,7 +3121,7 @@ static bool SelectMameShader(HWND hWnd, int slot)
 	int dialog = IDC_MAME_SHADER0 + slot;
 
 	*filename = 0;
-	snprintf(shader, WINUI_ARRAY_LENGTH(shader), "glsl_shader_mame%d", slot);
+	snprintf(shader, std::size(shader), "glsl_shader_mame%d", slot);
 
 	if (CommonFileDialog(GetOpenFileName, filename, FILETYPE_SHADER_FILES, false))
 	{
@@ -3152,7 +3152,7 @@ static bool ResetMameShader(HWND hWnd, int slot)
 	char option[32];
 	int dialog = IDC_MAME_SHADER0 + slot;
 
-	snprintf(option, WINUI_ARRAY_LENGTH(option), "glsl_shader_mame%d", slot);
+	snprintf(option, std::size(option), "glsl_shader_mame%d", slot);
 
 	if (strcmp(new_value, pCurrentOpts.value(option)))
 	{
@@ -3172,7 +3172,7 @@ static bool SelectScreenShader(HWND hWnd, int slot)
 	int dialog = IDC_SCREEN_SHADER0 + slot;
 
 	*filename = 0;
-	snprintf(shader, WINUI_ARRAY_LENGTH(shader), "glsl_shader_screen%d", slot);
+	snprintf(shader, std::size(shader), "glsl_shader_screen%d", slot);
 
 	if (CommonFileDialog(GetOpenFileName, filename, FILETYPE_SHADER_FILES, false))
 	{
@@ -3203,7 +3203,7 @@ static bool ResetScreenShader(HWND hWnd, int slot)
 	char option[32];
 	int dialog = IDC_SCREEN_SHADER0 + slot;
 
-	snprintf(option, WINUI_ARRAY_LENGTH(option), "glsl_shader_screen%d", slot);
+	snprintf(option, std::size(option), "glsl_shader_screen%d", slot);
 
 	if (strcmp(new_value, pCurrentOpts.value(option)))
 	{
@@ -3222,7 +3222,7 @@ static void UpdateMameShader(HWND hWnd, int slot, windows_options &opts)
 	if (hCtrl)
 	{
 		char option[32];
-		snprintf(option, WINUI_ARRAY_LENGTH(option), "glsl_shader_mame%d", slot);
+		snprintf(option, std::size(option), "glsl_shader_mame%d", slot);
 		const char* value = opts.value(option);
 
 		if (strcmp(value, "none") == 0)
@@ -3239,7 +3239,7 @@ static void UpdateScreenShader(HWND hWnd, int slot, windows_options &opts)
 	if (hCtrl)
 	{
 		char option[32];
-		snprintf(option, WINUI_ARRAY_LENGTH(option), "glsl_shader_screen%d", slot);
+		snprintf(option, std::size(option), "glsl_shader_screen%d", slot);
 		const char* value = opts.value(option);
 
 		if (strcmp(value, "none") == 0)
@@ -3305,7 +3305,7 @@ static bool ChangeJoystickMap(HWND hWnd)
 	bool changed = false;
 	char joymap[90];
 
-	winui_get_window_text_utf8(GetDlgItem(hWnd, IDC_JOYSTICKMAP), joymap, WINUI_ARRAY_LENGTH(joymap));
+	winui_get_window_text_utf8(GetDlgItem(hWnd, IDC_JOYSTICKMAP), joymap, std::size(joymap));
 
 	if (strcmp(joymap, pCurrentOpts.value(OPTION_JOYSTICK_MAP)))
 	{
@@ -3434,7 +3434,7 @@ static bool SelectPlugins(HWND hWnd)
 	if (!already_enabled)
 	{
 		char new_option[256];
-		snprintf(new_option, WINUI_ARRAY_LENGTH(new_option), "%s,%s", value, new_value);
+		snprintf(new_option, std::size(new_option), "%s,%s", value, new_value);
 		pCurrentOpts.set_value(OPTION_PLUGIN, new_option, OPTION_PRIORITY_CMDLINE);
 		winui_set_window_text_utf8(GetDlgItem(hWnd, IDC_PLUGIN), new_option);
 		changed = true;

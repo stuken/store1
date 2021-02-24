@@ -85,13 +85,10 @@
 #endif
 #define MAMENAME			"MAME"
 
-#define MAME_VERSION		"0.228"
+#define MAME_VERSION		"0.229"
 #define MAMEUIFX_VERSION	MAME_VERSION " (" __DATE__")"
 
 #define SEARCH_PROMPT		"<search here>"
-
-/* Highly useful macro for compile-time knowledge of an array size */
-#define WINUI_ARRAY_LENGTH(x)		(sizeof(x) / sizeof(x[0]))
 
 /* For future use? though here is the best place to define them */
 #define COLOR_WINXP			RGB(236, 233, 216)
@@ -138,7 +135,7 @@
 #define SPLITTER_WIDTH		4
 #define MIN_VIEW_WIDTH		10
 
-#define NUM_TOOLBUTTONS     WINUI_ARRAY_LENGTH(tbb)
+#define NUM_TOOLBUTTONS     std::size(tbb)
 #define NUM_TOOLTIPS 		(13)
 
 enum

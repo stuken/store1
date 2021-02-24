@@ -32,7 +32,6 @@
 
 // MAME/MAMEUI headers
 #include "winui.h"
-#define WINUI_ARRAY_LENGTH(x) (sizeof(x) / sizeof(x[0]))
 
 
 /****************************************************************************
@@ -325,11 +324,11 @@ std::string load_driver_geninfo(const game_driver *drv, int drvindex)
 		is_bios = true;
 
 	/* GAME INFORMATIONS */
-	snprintf(name, WINUI_ARRAY_LENGTH(name), "\nGAME: %s\n", drv->name);
+	snprintf(name, std::size(name), "\nGAME: %s\n", drv->name);
 	buffer.append(name);
-	snprintf(name, WINUI_ARRAY_LENGTH(name), "%s", drv->type.fullname());
+	snprintf(name, std::size(name), "%s", drv->type.fullname());
 	buffer.append(name);
-	snprintf(name, WINUI_ARRAY_LENGTH(name), " (%s %s)\n\nCPU:\n", drv->manufacturer, drv->year);
+	snprintf(name, std::size(name), " (%s %s)\n\nCPU:\n", drv->manufacturer, drv->year);
 	buffer.append(name);
 	/* iterate over CPUs */
 	execute_interface_enumerator cpuiter(config.root_device());
@@ -351,14 +350,14 @@ std::string load_driver_geninfo(const game_driver *drv, int drvindex)
 
 		if (count > 1)
 		{
-			snprintf(name, WINUI_ARRAY_LENGTH(name), "%d x ", count);
+			snprintf(name, std::size(name), "%d x ", count);
 			buffer.append(name);
 		}
 
 		if (clock >= 1000000)
-			snprintf(name, WINUI_ARRAY_LENGTH(name), "%s %d.%06d MHz\n", cpu_name, clock / 1000000, clock % 1000000);
+			snprintf(name, std::size(name), "%s %d.%06d MHz\n", cpu_name, clock / 1000000, clock % 1000000);
 		else
-			snprintf(name, WINUI_ARRAY_LENGTH(name), "%s %d.%03d kHz\n", cpu_name, clock / 1000, clock % 1000);
+			snprintf(name, std::size(name), "%s %d.%03d kHz\n", cpu_name, clock / 1000, clock % 1000);
 
 		buffer.append(name);
 	}
@@ -386,7 +385,7 @@ std::string load_driver_geninfo(const game_driver *drv, int drvindex)
 
 		if (count > 1)
 		{
-			snprintf(name, WINUI_ARRAY_LENGTH(name), "%d x ", count);
+			snprintf(name, std::size(name), "%d x ", count);
 			buffer.append(name);
 		}
 
@@ -395,9 +394,9 @@ std::string load_driver_geninfo(const game_driver *drv, int drvindex)
 		if (clock)
 		{
 			if (clock >= 1000000)
-				snprintf(name, WINUI_ARRAY_LENGTH(name), " %d.%06d MHz", clock / 1000000, clock % 1000000);
+				snprintf(name, std::size(name), " %d.%06d MHz", clock / 1000000, clock % 1000000);
 			else
-				snprintf(name, WINUI_ARRAY_LENGTH(name), " %d.%03d kHz", clock / 1000, clock % 1000);
+				snprintf(name, std::size(name), " %d.%03d kHz", clock / 1000, clock % 1000);
 
 			buffer.append(name);
 		}
@@ -411,9 +410,9 @@ std::string load_driver_geninfo(const game_driver *drv, int drvindex)
 		int channels = audioiter.count();
 
 		if(channels == 1)
-			snprintf(name, WINUI_ARRAY_LENGTH(name), "%d Channel\n", channels);
+			snprintf(name, std::size(name), "%d Channel\n", channels);
 		else
-			snprintf(name, WINUI_ARRAY_LENGTH(name), "%d Channels\n", channels);
+			snprintf(name, std::size(name), "%d Channels\n", channels);
 
 		buffer.append(name);
 	}
@@ -435,9 +434,9 @@ std::string load_driver_geninfo(const game_driver *drv, int drvindex)
 				const rectangle &visarea = screen.visible_area();
 
 				if (drv->flags & ORIENTATION_SWAP_XY)
-					snprintf(name, WINUI_ARRAY_LENGTH(name), "%d x %d (V) %f Hz", visarea.width(), visarea.height(), ATTOSECONDS_TO_HZ(screen.refresh_attoseconds()));
+					snprintf(name, std::size(name), "%d x %d (V) %f Hz", visarea.width(), visarea.height(), ATTOSECONDS_TO_HZ(screen.refresh_attoseconds()));
 				else
-					snprintf(name, WINUI_ARRAY_LENGTH(name), "%d x %d (H) %f Hz", visarea.width(), visarea.height(), ATTOSECONDS_TO_HZ(screen.refresh_attoseconds()));
+					snprintf(name, std::size(name), "%d x %d (H) %f Hz", visarea.width(), visarea.height(), ATTOSECONDS_TO_HZ(screen.refresh_attoseconds()));
 
 				buffer.append(name);
 			}
@@ -479,11 +478,11 @@ std::string load_driver_geninfo(const game_driver *drv, int drvindex)
 					}
 				}
 
-				snprintf(name, WINUI_ARRAY_LENGTH(name), "%-16s \t", ROM_GETNAME(rom));
+				snprintf(name, std::size(name), "%-16s \t", ROM_GETNAME(rom));
 				buffer.append(name);
-				snprintf(name, WINUI_ARRAY_LENGTH(name), "%09d \t", rom_file_size(rom));
+				snprintf(name, std::size(name), "%09d \t", rom_file_size(rom));
 				buffer.append(name);
-				snprintf(name, WINUI_ARRAY_LENGTH(name), "%-10s", region->name().c_str());
+				snprintf(name, std::size(name), "%-10s", region->name().c_str());
 				buffer.append(name).append("\n");
 			}
 		}
@@ -495,7 +494,7 @@ std::string load_driver_geninfo(const game_driver *drv, int drvindex)
 
 		if (sampiter.altbasename())
 		{
-			snprintf(name, WINUI_ARRAY_LENGTH(name), "\nSAMPLES (%s):\n", sampiter.altbasename());
+			snprintf(name, std::size(name), "\nSAMPLES (%s):\n", sampiter.altbasename());
 			buffer.append(name);
 		}
 
@@ -508,7 +507,7 @@ std::string load_driver_geninfo(const game_driver *drv, int drvindex)
 				continue;
 
 			// output the sample name
-			snprintf(name, WINUI_ARRAY_LENGTH(name), "%s.wav\n", samplename);
+			snprintf(name, std::size(name), "%s.wav\n", samplename);
 			buffer.append(name);
 		}
 	}
@@ -537,7 +536,7 @@ std::string load_driver_geninfo(const game_driver *drv, int drvindex)
 	char source_file[40], tmp[100];
 	std::string temp = std::string(core_filename_extract_base(drv->type.source(), false));
 	strcpy(source_file, temp.c_str());
-	snprintf(tmp, WINUI_ARRAY_LENGTH(tmp), "\nGENERAL SOURCE INFO: %s\n", temp.c_str());
+	snprintf(tmp, std::size(tmp), "\nGENERAL SOURCE INFO: %s\n", temp.c_str());
 	buffer.append(tmp);
 	buffer.append("\nGAMES SUPPORTED:\n");
 
@@ -557,19 +556,19 @@ std::string load_driver_geninfo(const game_driver *drv, int drvindex)
 bool validate_datfiles(void)
 {
 	bool result = true;
-	if (WINUI_ARRAY_LENGTH(m_gameInfo) < MAX_HFILES)
+	if (std::size(m_gameInfo) < MAX_HFILES)
 	{
 		printf("m_gameInfo needs to have at least MAX_HFILES members\n");
 		result = false;
 	}
 
-	if (WINUI_ARRAY_LENGTH(m_sourceInfo) < MAX_HFILES)
+	if (std::size(m_sourceInfo) < MAX_HFILES)
 	{
 		printf("m_sourceInfo needs to have at least MAX_HFILES members\n");
 		result = false;
 	}
 
-	if (WINUI_ARRAY_LENGTH(m_swInfo) < MAX_HFILES)
+	if (std::size(m_swInfo) < MAX_HFILES)
 	{
 		printf("m_swInfo needs to have at least MAX_HFILES members\n");
 		result = false;

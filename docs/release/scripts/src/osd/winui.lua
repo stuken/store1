@@ -30,7 +30,7 @@ function maintargetosdoptions(_target,_subtarget)
 		}
 
 	configuration { "x64", "Release" }
-		targetname "arcade"
+		targetname "arcade64"
 
 	configuration { "x32", "Release" }
 		targetname "arcade32"
@@ -240,7 +240,7 @@ project ("osd_" .. _OPTIONS["osd"])
 		MAME_DIR .. "src/osd/winui/directories.cpp",
 		MAME_DIR .. "src/osd/winui/directories.h",
 		MAME_DIR .. "src/osd/winui/dxdecode.cpp",
-		MAME_DIR .. "src/osd/winui/dxdecode.h",
+		MAME_DIR .. "src/osd/winui/emu_opts.cpp",
 		MAME_DIR .. "src/osd/winui/picker.cpp",
 		MAME_DIR .. "src/osd/winui/picker.h",
 		MAME_DIR .. "src/osd/winui/properties.cpp",
