@@ -18,10 +18,10 @@
 #include "machine/wd_fdc.h"
 #include "machine/i8251.h"
 #include "machine/msm58321.h"
-#include "sound/2612intf.h"
 #include "sound/cdda.h"
 #include "sound/rf5c68.h"
 #include "sound/spkrdev.h"
+#include "sound/ym2612.h"
 
 #include "bus/generic/carts.h"
 #include "bus/generic/slot.h"
@@ -167,7 +167,7 @@ protected:
 	required_device_array<upd71071_device, 2> m_dma;
 	optional_device<fmscsi_device> m_scsi;
 	required_device_array<floppy_connector, 2> m_flop;
-	DECLARE_FLOPPY_FORMATS(floppy_formats);
+	static void floppy_formats(format_registration &fr);
 
 	DECLARE_WRITE_LINE_MEMBER(towns_scsi_irq);
 	DECLARE_WRITE_LINE_MEMBER(towns_scsi_drq);
