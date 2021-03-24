@@ -3378,8 +3378,66 @@ static bool MameCommand(HWND hWnd, int id, HWND hWndCtl, UINT codeNotify)
 			SetFocus(hWndList);
 			return true;
 		}
-
-	case ID_NOTEPAD:
+#if 0
+		case ID_RC_CLEAN:   // ARCADE64 not ready yet
+		{
+			int nGame = Picker_GetSelectedItem(hwndList);
+			if (nGame >= 0)
+			{
+				// INI
+				string t = dir_get_value(7);
+				char buf7[t.size()+1];
+				strcpy(buf7, t.c_str());
+				char * t_dir = strtok(buf7, ";");
+				while (t_dir)
+				{
+					string t_path = string(t_dir) + PATH_SEPARATOR + driver_list::driver(nGame).name + ".ini";
+					printf("Deleting %s\n",t_path.c_str());
+					remove(t_path.c_str());
+					t_dir = strtok(NULL, ";");
+				}
+				// CFG
+				t = dir_get_value(14);
+				char buf14[t.size()+1];
+				strcpy(buf14, t.c_str());
+				t_dir = strtok(buf14, ";");
+				while (t_dir)
+				{
+					string t_path = string(t_dir) + PATH_SEPARATOR + driver_list::driver(nGame).name + ".cfg";
+					printf("Deleting %s\n",t_path.c_str());
+					remove(t_path.c_str());
+					t_dir = strtok(NULL, ";");
+				}
+				// NVRAM
+				t = dir_get_value(15);
+				char buf15[t.size()+1];
+				strcpy(buf15, t.c_str());
+				t_dir = strtok(buf15, ";");
+				while (t_dir)
+				{
+					string t_path = string("rd /s /q ") + string(t_dir) + PATH_SEPARATOR + driver_list::driver(nGame).name;
+					printf("Deleting %s\n",t_path.c_str());
+					system(t_path.c_str());
+					t_dir = strtok(NULL, ";");
+				}
+				// Save states
+				t = dir_get_value(17);
+				char buf17[t.size()+1];
+				strcpy(buf17, t.c_str());
+				t_dir = strtok(buf17, ";");
+				while (t_dir)
+				{
+					string t_path = string("rd /s /q ") + string(t_dir) + PATH_SEPARATOR + driver_list::driver(nGame).name;
+					printf("Deleting %s\n",t_path.c_str());
+					system(t_path.c_str());
+					t_dir = strtok(NULL, ";");
+				}
+			}
+			SetFocus(hwndList);
+		}
+		break;
+#endif
+		case ID_NOTEPAD:
 		{
 			int nGame = Picker_GetSelectedItem(hWndList);
 			if (nGame >= 0)

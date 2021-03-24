@@ -259,6 +259,7 @@ ec65.cpp
 ec7915.cpp
 einstein.cpp
 eispc.cpp
+elan_ep3a19a.cpp
 elan_eu3a05.cpp
 elan_eu3a14.cpp
 electron.cpp
@@ -543,6 +544,7 @@ m79152pc.cpp
 mac.cpp
 mac128.cpp
 macpci.cpp
+macpdm.cpp
 macprtb.cpp
 macpwrbk030.cpp
 macquadra700.cpp
@@ -630,6 +632,7 @@ monkey_king_3b.cpp
 monon_color.cpp
 monty.cpp
 mpc3000.cpp
+mpc60.cpp
 mpf1.cpp
 mps1230.cpp
 mpz80.cpp

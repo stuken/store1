@@ -820,6 +820,7 @@ uint8_t mac_state::mac_via_in_b()
 	}
 	else if (ADB_IS_CUDA)
 	{
+		logerror("%s cuda treq %d\n", machine().time().to_string(), m_cuda->get_treq());
 		val |= m_cuda->get_treq()<<3;
 	}
 
@@ -863,12 +864,8 @@ void mac_state::mac_via_out_a(uint8_t data)
 
 	set_scc_waitrequest((data & 0x80) >> 7);
 	m_screen_buffer = (data & 0x40) >> 6;
-#if NEW_SWIM
 	if (m_cur_floppy)
 		m_cur_floppy->ss_w((data & 0x20) >> 5);
-#else
-	sony_set_sel_line(m_fdc.target(), (data & 0x20) >> 5);
-#endif
 }
 
 void mac_state::mac_via_out_b(uint8_t data)
@@ -1117,11 +1114,6 @@ void mac_state::machine_reset()
 
 	m_rbv_vbltime = 0;
 
-	if (m_model >= MODEL_MAC_POWERMAC_6100 && m_model <= MODEL_MAC_POWERMAC_8100)
-	{
-		m_awacs->set_dma_base(m_maincpu->space(AS_PROGRAM), 0x10000, 0x12000);
-	}
-
 	// start 60.15 Hz timer for most systems
 	if (((m_model >= MODEL_MAC_IICI) && (m_model <= MODEL_MAC_IIVI)) || (m_model >= MODEL_MAC_LC))
 	{
@@ -1241,15 +1233,6 @@ uint32_t mac_state::mac_read_id()
 		case MODEL_MAC_LC_575:
 			return 0xa55a222e;
 
-		case MODEL_MAC_POWERMAC_6100:
-			return 0xa55a3011;
-
-		case MODEL_MAC_POWERMAC_7100:
-			return 0xa55a3012;
-
-		case MODEL_MAC_POWERMAC_8100:
-			return 0xa55a3013;
-
 		case MODEL_MAC_PBDUO_210:
 			return 0xa55a1004;
 
@@ -1278,6 +1261,8 @@ uint32_t mac_state::mac_read_id()
 			return 0;
 	}
 }
+
+#include "cpu/powerpc/ppc.h"
 
 void mac_state::mac_driver_init(model_t model)
 {
@@ -2448,24 +2433,6 @@ void mac_state::mac_tracetrap(const char *cpu_name_local, int addr, int trap)
 }
 #endif
 
-#if !NEW_SWIM
-void mac_state::phases_w(u8)
-{
-}
-
-void mac_state::sel35_w(int)
-{
-}
-
-void mac_state::devsel_w(u8)
-{
-}
-
-void mac_state::hdsel_w(int)
-{
-}
-#else
-
 void mac_state::phases_w(uint8_t phases)
 {
 	if(m_cur_floppy)
@@ -2493,5 +2460,3 @@ void mac_state::devsel_w(uint8_t devsel)
 void mac_state::hdsel_w(int hdsel)
 {
 }
-
-#endif

@@ -149,6 +149,8 @@ CPUS["FR"] = true
 CPUS["UPD78K"] = true
 CPUS["KS0164"] = true
 --CPUS["COPS1"] = true
+CPUS["MEG"] = true
+
 
 --------------------------------------------------
 -- specify available sound cores
@@ -293,6 +295,8 @@ SOUNDS["KS0164"] = true
 SOUNDS["TT5665"] = true
 --SOUNDS["RP2C33_SOUND"] = true
 --SOUNDS["UDA1344"] = true
+SOUNDS["SWP30"] = true
+SOUNDS["XT446"] = true
 
 --------------------------------------------------
 -- specify available video cores
@@ -709,6 +713,7 @@ MACHINES["STEPPERS"] = true
 --MACHINES["SWIM1"] = true
 --MACHINES["SWIM2"] = true
 --MACHINES["SWIM3"] = true
+--MACHINES["MAC_VIDEO_SONORA"] = true
 --MACHINES["DIABLO_HD"] = true
 MACHINES["PCI9050"] = true
 MACHINES["TMS1024"] = true
@@ -850,10 +855,9 @@ FORMATS["AMI_DSK"] = true
 FORMATS["SC3000_BIT"] = true
 FORMATS["WD177X_DSK"] = true
 FORMATS["NASLITE_DSK"] = true
-FORMATS["UPD765_DSK"] = true
-FORMATS["PC_DSK"] = true
 FORMATS["BASICDSK"] = true
 FORMATS["IBMXDF_DSK"] = true
+FORMATS["IPF_DSK"] = true
 
 --------------------------------------------------
 -- this is the list of driver libraries that

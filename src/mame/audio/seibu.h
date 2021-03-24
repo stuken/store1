@@ -80,7 +80,6 @@ protected:
 private:
 	void update_irq_lines(int param);
 	TIMER_CALLBACK_MEMBER(update_irq_synced);
-	TIMER_CALLBACK_MEMBER(ym_w_synced);
 
 	// device callbacks
 	devcb_write_line m_int_cb;
@@ -94,16 +93,21 @@ private:
 	uint8_t m_sub2main[2];
 	int m_main2sub_pending;
 	int m_sub2main_pending;
-	uint8_t m_rst10_irq;
-	uint8_t m_rst18_irq;
+	bool m_rst10_irq;
+	bool m_rst18_irq;
+	bool m_rst10_service;
+	bool m_rst18_service;
 
 	enum
 	{
 		VECTOR_INIT,
 		RST10_ASSERT,
 		RST10_CLEAR,
+		RST10_ACKNOWLEDGE,
+		RST10_EOI,
 		RST18_ASSERT,
-		RST18_CLEAR
+		RST18_ACKNOWLEDGE,
+		RST18_EOI
 	};
 };
 

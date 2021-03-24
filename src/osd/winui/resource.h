@@ -585,4 +585,5 @@
 #define ID_TOGGLE_TAB_CONTROL_PANEL     40154
 #define ID_TOGGLE_TAB_PCB               40155
 #define ID_TOGGLE_TAB_HISTORY           40156
+#define ID_RC_CLEAN                     40157
 #define IDC_STATIC                      1
