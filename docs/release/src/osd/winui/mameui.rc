@@ -131,27 +131,28 @@ IDR_CONTEXT_MENU MENU
 BEGIN
     POPUP "Context Menu"
     BEGIN
-        MENUITEM "Play\tAlt+O",                         ID_FILE_PLAY
+        MENUITEM "Play\tAlt+O",                           ID_FILE_PLAY
         MENUITEM SEPARATOR
-        MENUITEM "Record INP playback\tCtrl+F1",           ID_FILE_PLAY_RECORD
-        MENUITEM "Load savestate\tAlt+F7",              ID_FILE_LOADSTATE
+        MENUITEM "Record INP playback\tCtrl+F1",          ID_FILE_PLAY_RECORD
+        MENUITEM "Load savestate\tAlt+F7",                ID_FILE_LOADSTATE
         MENUITEM SEPARATOR
-        MENUITEM "Add to custom folder\tAlt+W",         ID_CONTEXT_ADD_CUSTOM
-        MENUITEM "Remove from this folder\tAlt+X",      ID_CONTEXT_REMOVE_CUSTOM
+        MENUITEM "Add to custom folder\tAlt+W",           ID_CONTEXT_ADD_CUSTOM
+        MENUITEM "Remove from this folder\tAlt+X",        ID_CONTEXT_REMOVE_CUSTOM
         MENUITEM SEPARATOR
-        MENUITEM "Information\tAlt+I",                  ID_GAME_INFO
-        MENUITEM "Audit\tAlt+A",                        ID_GAME_AUDIT
+        MENUITEM "Information\tAlt+I",                    ID_GAME_INFO
+        MENUITEM "Audit\tAlt+A",                          ID_GAME_AUDIT
         MENUITEM SEPARATOR
         MENUITEM "Reset played counts\tAlt+V",            ID_CONTEXT_RESET_PLAYCOUNT
-        MENUITEM "Reset played time\tAlt+Y",            ID_CONTEXT_RESET_PLAYTIME
+        MENUITEM "Reset played time\tAlt+Y",              ID_CONTEXT_RESET_PLAYTIME
         MENUITEM SEPARATOR
-        MENUITEM "Play ProgettoSnaps MP4 movie\tCtrl+M",ID_VIDEO_SNAP
-        MENUITEM "Read the PDF Manual",                 ID_MANUAL
-        MENUITEM "Open Info in Notepad",                ID_NOTEPAD
-        MENUITEM "Listen to music with M1FX\tAlt+M",    ID_PLAY_M1
+        MENUITEM "Play ProgettoSnaps MP4 movie\tCtrl+M",  ID_VIDEO_SNAP
+        MENUITEM "Read the PDF Manual",                   ID_MANUAL
+        MENUITEM "Open Info in Notepad",                  ID_NOTEPAD
+//        MENUITEM "Delete game settings",                  ID_RC_CLEAN
+        MENUITEM "Listen to music with M1FX\tAlt+M",      ID_PLAY_M1
         MENUITEM SEPARATOR
-        MENUITEM "Properties\tAlt+G",                   ID_GAME_PROPERTIES
-        MENUITEM "Properties for driver\tAlt+D",        ID_FOLDER_SOURCEPROPERTIES
+        MENUITEM "Properties\tAlt+G",                     ID_GAME_PROPERTIES
+        MENUITEM "Properties for driver\tAlt+D",          ID_FOLDER_SOURCEPROPERTIES
         MENUITEM SEPARATOR
         MENUITEM "View ZIP file content\tAlt+Z",          ID_VIEW_ZIP
     END
