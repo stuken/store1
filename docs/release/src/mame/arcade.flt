@@ -753,6 +753,7 @@ mcr3.cpp
 mcr68.cpp
 meadows.cpp
 //meadwttl.cpp     // ttl
+mechatt.cpp           // ok
 mediagx.cpp
 megadriv_acbl.cpp
 megaphx.cpp
