@@ -1303,7 +1303,7 @@ void taito_f3_state::init_alpha_blend_func()
 }
 
 #define UPDATE_PIXMAP_SP(pf_num) \
-	if (cx >= clip_als && cx < clip_ars && !(cx >= clip_bls && cx < clip_brs)) \
+	if (cx >= clip_als && cx < clip_ars-1 && !(cx >= clip_bls && cx < clip_brs)) \
 	{ \
 		sprite_pri = sprite[pf_num] & m_pval; \
 		if (sprite_pri) \
@@ -1319,14 +1319,14 @@ void taito_f3_state::init_alpha_blend_func()
 	}
 
 #define UPDATE_PIXMAP_LP(pf_num) \
-	if (cx >= m_clip_al[pf_num] && cx < m_clip_ar[pf_num] && !(cx >= m_clip_bl[pf_num] && cx < m_clip_br[pf_num])) \
+	if (cx >= m_clip_al[pf_num] && cx < m_clip_ar[pf_num]-1 && !(cx >= m_clip_bl[pf_num] && cx < m_clip_br[pf_num])) \
 	{ \
 		m_tval = *m_tsrc[pf_num]; \
 		if (m_tval & 0xf0) \
 			if ((this->*m_dpix_lp[pf_num][m_pval >> 4])(clut[*m_src[pf_num]])) { *dsti = m_dval; break; } \
 	}
 
-
+//MAMEFX note: lines 1306 and 1322 altered by dink (FBN dev) to fix MT 00147 (2021-05-06)
 /*============================================================================*/
 
 inline void taito_f3_state::draw_scanlines(
