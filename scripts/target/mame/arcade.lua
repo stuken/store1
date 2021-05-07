@@ -441,7 +441,6 @@ MACHINES["TTL74259"] = true
 MACHINES["TTL7474"] = true
 MACHINES["KBDC8042"] = true
 MACHINES["I8257"] = true
-MACHINES["AAKARTDEV"] = true
 --MACHINES["ACIA6850"] = true
 MACHINES["ADC0804"] = true
 MACHINES["ADC0808"] = true
@@ -1045,8 +1044,6 @@ files {
 	MAME_DIR .. "src/mame/drivers/ertictac.cpp",
 	MAME_DIR .. "src/mame/drivers/ssfindo.cpp",
 	MAME_DIR .. "src/mame/drivers/aristmk5.cpp",
-	MAME_DIR .. "src/mame/machine/archimds.cpp",
-	MAME_DIR .. "src/mame/includes/archimds.h",
 }
 
 createMAMEProjects(_target, _subtarget, "adp")
@@ -1569,6 +1566,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/mitchell.cpp",
 	MAME_DIR .. "src/mame/includes/mitchell.h",
 	MAME_DIR .. "src/mame/video/mitchell.cpp",
+	MAME_DIR .. "src/mame/drivers/psrockman.cpp",
 	MAME_DIR .. "src/mame/drivers/sf.cpp",
 	MAME_DIR .. "src/mame/drivers/sidearms.cpp",
 	MAME_DIR .. "src/mame/includes/sidearms.h",
@@ -2492,6 +2490,8 @@ files {
 	MAME_DIR .. "src/mame/drivers/hornet.cpp",
 	MAME_DIR .. "src/mame/machine/konppc.cpp",
 	MAME_DIR .. "src/mame/machine/konppc.h",
+	MAME_DIR .. "src/mame/machine/konami_gn676_lan.cpp",
+	MAME_DIR .. "src/mame/machine/konami_gn676_lan.h",
 	MAME_DIR .. "src/mame/drivers/hyperspt.cpp",
 	MAME_DIR .. "src/mame/includes/hyperspt.h",
 	MAME_DIR .. "src/mame/audio/hyprolyb.cpp",
@@ -5078,6 +5078,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/re900.cpp",
 --	MAME_DIR .. "src/mame/drivers/rf51w14cg.cpp",
 --	MAME_DIR .. "src/mame/drivers/rfslots8085.cpp",
+--	MAME_DIR .. "src/mame/drivers/rfslotsmcs48.cpp",
 --	MAME_DIR .. "src/mame/drivers/rfslotspcpent.cpp",
 --	MAME_DIR .. "src/mame/drivers/rgum.cpp",
 	MAME_DIR .. "src/mame/drivers/roul.cpp",

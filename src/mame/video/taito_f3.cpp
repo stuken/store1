@@ -1303,7 +1303,7 @@ void taito_f3_state::init_alpha_blend_func()
 }
 
 #define UPDATE_PIXMAP_SP(pf_num) \
-	if (cx >= clip_als && cx < clip_ars-1 && !(cx >= clip_bls && cx < clip_brs)) \
+	if (cx >= clip_als && cx < clip_ars && !(cx >= clip_bls && cx < clip_brs)) \
 	{ \
 		sprite_pri = sprite[pf_num] & m_pval; \
 		if (sprite_pri) \
@@ -1319,14 +1319,14 @@ void taito_f3_state::init_alpha_blend_func()
 	}
 
 #define UPDATE_PIXMAP_LP(pf_num) \
-	if (cx >= m_clip_al[pf_num] && cx < m_clip_ar[pf_num]-1 && !(cx >= m_clip_bl[pf_num] && cx < m_clip_br[pf_num])) \
+	if (cx >= m_clip_al[pf_num] && cx < m_clip_ar[pf_num] && !(cx >= m_clip_bl[pf_num] && cx < m_clip_br[pf_num])) \
 	{ \
 		m_tval = *m_tsrc[pf_num]; \
 		if (m_tval & 0xf0) \
 			if ((this->*m_dpix_lp[pf_num][m_pval >> 4])(clut[*m_src[pf_num]])) { *dsti = m_dval; break; } \
 	}
 
-//MAMEFX note: lines 1306 and 1322 altered by dink (FBN dev) to fix MT 00147 (2021-05-06)
+
 /*============================================================================*/
 
 inline void taito_f3_state::draw_scanlines(
@@ -1685,9 +1685,9 @@ void taito_f3_state::get_spritealphaclip_info()
 		line_t->spri[y] = spri;
 		line_t->sprite_alpha[y] = sprite_alpha;
 		line_t->clip0_l[y] = ((clip0_low & 0xff) | ((clip0_high & 0x1000) >> 4)) - 47;
-		line_t->clip0_r[y] = (((clip0_low & 0xff00) >> 8) | ((clip0_high & 0x2000) >> 5)) - 47;
+		line_t->clip0_r[y] = (((clip0_low & 0xff00) >> 8) | ((clip0_high & 0x2000) >> 5)) - 48;
 		line_t->clip1_l[y] = ((clip1_low & 0xff) | ((clip0_high & 0x4000) >> 6)) - 47;
-		line_t->clip1_r[y] = (((clip1_low & 0xff00) >> 8) | ((clip0_high & 0x8000) >> 7)) - 47;
+		line_t->clip1_r[y] = (((clip1_low & 0xff00) >> 8) | ((clip0_high & 0x8000) >> 7)) - 48;
 		if (line_t->clip0_l[y] < 0) line_t->clip0_l[y] = 0;
 		if (line_t->clip0_r[y] < 0) line_t->clip0_r[y] = 0;
 		if (line_t->clip1_l[y] < 0) line_t->clip1_l[y] = 0;
@@ -1830,11 +1830,9 @@ void taito_f3_state::get_line_ram_info(tilemap_t *tmap, int sx, int sy, int pos,
 		_y_zoom[y] = (line_zoom & 0xff) << 9;
 
 		/* Evaluate clipping */
-		if (pri & 0x0800 && (m_game != LANDMAKR) && (m_game != QUIZHUHU)) // MAMEFX these 5 lines [all MAMEFX patches here are courtesy of dink]
-		{
+		if (pri & 0x0800)
 			line_enable = 0;
-		}
-		else if (pri & 0x0330 && (m_game != PBOBBLE4))
+		else if (pri & 0x0330)
 		{
 			//fast path todo - remove line enable
 			calculate_clip(y, pri & 0x0330, &line_t->clip0[y], &line_t->clip1[y], &line_enable);
@@ -1975,9 +1973,6 @@ void taito_f3_state::get_vram_info(tilemap_t *vram_tilemap, tilemap_t *pixel_til
 			line_enable = 3;
 		else
 			line_enable = 1;
-
-		if (m_game == ARABIANM && line_enable) // MAMEFX these 2
-			line_enable = 1;	// kludge: arabianm missing cutscene text april.21.2017_dink
 
 		line_t->pri[y] = pri;
 
@@ -2239,17 +2234,11 @@ void taito_f3_state::scanline_draw(bitmap_rgb32 &bitmap, const rectangle &clipre
 				if (alpha_mode[i] == 2)
 				{
 					if (alpha_type == 1)
-					{  // MAMEFX these 10
-						if (m_alpha_level_2as == 0 && m_alpha_level_2ad == 255)
-						{
-							if (m_game == GSEEKER)  /* will display continue screen in gseeker (mt 00026) */
-							{
-								alpha_mode[i]=3; 
-								alpha_mode_flag[i] |= 0x80;
-							}
-							else 
-								alpha_mode[i]=0;
-						}
+					{
+						/* if (m_alpha_level_2as == 0   && m_alpha_level_2ad == 255)
+						 *     alpha_mode[i]=3; alpha_mode_flag[i] |= 0x80; }
+						 * will display continue screen in gseeker (mt 00026) */
+						if      (m_alpha_level_2as == 0   && m_alpha_level_2ad == 255) alpha_mode[i] = 0;
 						else if (m_alpha_level_2as == 255 && m_alpha_level_2ad ==   0) alpha_mode[i] = 1;
 					}
 					else if (alpha_type == 2)
