@@ -9257,7 +9257,6 @@ michkit1                        //
 michkitb                        //
 michnew                         //
 michstake                       //
-missamer                        //
 montana                         //
 newdixie                        //
 penalty                         //
@@ -9875,6 +9874,7 @@ can09                           //
 
 @source:canon_s80.cpp
 canons80                        //
+canonts3                        //
 
 @source:canyon.cpp
 canyon                          // 009493-009504    1977/10 [6502]
@@ -17445,6 +17445,7 @@ olympic                         //
 
 @source:joctronic.cpp
 bldyrolr                        //
+jpinball                        // (c) 1986 Joctronic
 punkywil                        //
 slalom03                        //
 walkyria                        //
@@ -23391,6 +23392,9 @@ mirage                          // (c) 1994 Mitchell
 @source:mirax.cpp
 mirax                           // (c) 1985 Current Technologies
 miraxa                          // (c) 1985 Current Technologies
+
+@source:missamer.cpp
+missamer                        // (c) 1984 Sirmo
 
 @source:missb2.cpp
 bublpong                        // bootleg on enhanced hardware
@@ -31606,6 +31610,7 @@ adillor                         // (c) 1997
 airco22b                        // (c) 1995
 alpinerc                        // (c) 1994
 alpinerd                        // (c) 1994
+alpinerjc                       // (c) 1994
 alpinesa                        // (c) 1996
 alpinr2a                        // (c) 1995
 alpinr2b                        // (c) 1995
@@ -36724,6 +36729,8 @@ sbowling                        // KB  (c) 1982 Taito Corporation
 
 @source:sbrain.cpp
 sbrain                          //
+sagafox                         //
+sagafoxf80                      //
 
 @source:sbrkout.cpp
 sbrkout                         // 033453-033455    1978/09 [6502]
@@ -40397,6 +40404,9 @@ tek4109a                        //
 
 @source:tek440x.cpp
 tek4404                         // (c) 1984 Tektronix
+
+@source:tekigw.cpp
+tek6130                         // Tektronix 6130
 
 @source:tekxp33x.cpp
 tekxp330                        //

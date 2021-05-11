@@ -799,6 +799,7 @@ minivadr.cpp
 minivideo.cpp
 mirage.cpp
 mirax.cpp
+//missamer.cpp            // Not working
 missb2.cpp
 missbamby.cpp
 missile.cpp
