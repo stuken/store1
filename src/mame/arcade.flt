@@ -552,7 +552,7 @@ hng64.cpp
 holeland.cpp
 homedata.cpp
 homerun.cpp
-hornet.cpp
+hornet.cpp                  // ok
 hotblock.cpp
 //hotstuff.cpp     // poker
 //hshavoc.cpp      // check
