@@ -296,6 +296,7 @@ d9final.cpp
 dacholer.cpp
 dai3wksi.cpp
 dambustr.cpp
+dangbar.cpp
 darius.cpp
 darkmist.cpp
 darkseal.cpp
@@ -552,7 +553,7 @@ hng64.cpp
 holeland.cpp
 homedata.cpp
 homerun.cpp
-hornet.cpp
+hornet.cpp                  // ok
 hotblock.cpp
 //hotstuff.cpp     // poker
 //hshavoc.cpp      // check
@@ -799,6 +800,7 @@ minivadr.cpp
 minivideo.cpp
 mirage.cpp
 mirax.cpp
+//missamer.cpp            // Not working
 missb2.cpp
 missbamby.cpp
 missile.cpp
@@ -1004,6 +1006,7 @@ progolf.cpp
 psikyo.cpp
 psikyo4.cpp
 psikyosh.cpp
+psrockman.cpp
 psychic5.cpp
 pturn.cpp
 pubtimed.cpp
@@ -1044,9 +1047,10 @@ relief.cpp
 renegade.cpp
 retofinv.cpp
 //rf51w14cg.cpp               // skeleton gambling
-//rfslots8085.cpp  // skeleton mechanical
-//rfslotspcpent.cpp          // mechanical
-//rgum.cpp         // check
+//rfslots8085.cpp             // skel mech
+//rfslotsmcs48.cpp            // skel mech
+//rfslotspcpent.cpp           // mechanical
+//rgum.cpp                    // check
 rltennis.cpp
 rmhaihai.cpp
 rockrage.cpp
