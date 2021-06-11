@@ -2567,15 +2567,19 @@ u8 apple2gs_state::c000_r(offs_t offset)
 			return ((m_gameio->sw2_r() || (m_kbspecial->read() & 0x06)) ? 0x80 : 0) | uFloatingBus7;
 
 		case 0x64:  // joy 1 X axis
+			if (!m_gameio->is_device_connected()) return 0x80 | uFloatingBus7;
 			return ((machine().time().as_double() < m_joystick_x1_time) ? 0x80 : 0) | uFloatingBus7;
 
 		case 0x65:  // joy 1 Y axis
+			if (!m_gameio->is_device_connected()) return 0x80 | uFloatingBus7;
 			return ((machine().time().as_double() < m_joystick_y1_time) ? 0x80 : 0) | uFloatingBus7;
 
 		case 0x66: // joy 2 X axis
+			if (!m_gameio->is_device_connected()) return 0x80 | uFloatingBus7;
 			return ((machine().time().as_double() < m_joystick_x2_time) ? 0x80 : 0) | uFloatingBus7;
 
 		case 0x67: // joy 2 Y axis
+			if (!m_gameio->is_device_connected()) return 0x80 | uFloatingBus7;
 			return ((machine().time().as_double() < m_joystick_y2_time) ? 0x80 : 0) | uFloatingBus7;
 
 		case 0x68: // STATEREG, synthesizes all the IIe state regs
@@ -4951,7 +4955,8 @@ void apple2gs_state::apple2gs(machine_config &config)
 	applefdintf_device::add_35(config, m_floppy[2]);
 	applefdintf_device::add_35(config, m_floppy[3]);
 
-	SOFTWARE_LIST(config, "flop35_list").set_original("apple2gs");
+	SOFTWARE_LIST(config, "flop35_list").set_original("apple2gs_flop_orig"); // Until we have clean cracks, use this as the default
+	SOFTWARE_LIST(config, "flop35_misc").set_compatible("apple2gs_flop_misc"); // Legacy software list pre-June 2021 and defaced cracks
 	SOFTWARE_LIST(config, "flop525_clean").set_compatible("apple2_flop_clcracked"); // No filter on clean cracks yet.
 	SOFTWARE_LIST(config, "flop525_orig").set_compatible("apple2_flop_orig").set_filter("A2GS");  // Filter list to compatible disks for this machine.
 	SOFTWARE_LIST(config, "flop525_misc").set_compatible("apple2_flop_misc");
