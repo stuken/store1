@@ -3597,6 +3597,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/segas18.cpp",
 	MAME_DIR .. "src/mame/includes/segas18.h",
 	MAME_DIR .. "src/mame/video/segas18.cpp",
+	MAME_DIR .. "src/mame/drivers/segas18_astormbl.cpp",
 	MAME_DIR .. "src/mame/drivers/segas24.cpp",
 	MAME_DIR .. "src/mame/includes/segas24.h",
 	MAME_DIR .. "src/mame/video/segas24.cpp",

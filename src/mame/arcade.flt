@@ -1126,6 +1126,7 @@ segaorun.cpp
 segas16a.cpp
 segas16b.cpp
 segas18.cpp
+segas18_astormbl.cpp
 segas24.cpp
 segas32.cpp
 //segasp.cpp       // check
