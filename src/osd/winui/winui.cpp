@@ -446,7 +446,6 @@ static int game_dragged = 0; 					/* which game started the drag */
 static HTREEITEM prev_drag_drop_target = NULL; 	/* which tree view item we're currently highlighting */
 static bool g_in_treeview_edit = false;
 static std::unique_ptr<srcdriver_data_type[]> sorted_srcdrivers;
-//static srcdriver_data_type *sorted_srcdrivers = NULL;
 
 /***************************************************************************
     Global variables
@@ -1159,8 +1158,6 @@ static void Win32UI_init(void)
 	icon_index = make_unique_clear<int[]>(driver_list::total());
 	// sorted list of source drivers by name
 	sorted_srcdrivers = make_unique_clear<srcdriver_data_type[]>(driver_list::total());
-	//sorted_srcdrivers = (srcdriver_data_type *) pool_malloc_lib(mameui_pool, sizeof(srcdriver_data_type) * driver_list::total());
-	//memset(sorted_srcdrivers, 0, sizeof(srcdriver_data_type) * driver_list::total());
 
 	for (int i = 0; i < driver_list::total(); i++)
 	{
