@@ -442,6 +442,7 @@ funkyjet.cpp
 funybubl.cpp
 fuukifg2.cpp
 fuukifg3.cpp
+//fwheel.cpp                     // skel
 //g627.cpp         // pinball
 gaelco.cpp
 gaelco2.cpp
@@ -455,6 +456,7 @@ galastrm.cpp
 galaxi.cpp
 galaxia.cpp
 galaxian.cpp
+galaxian_rockclim.cpp
 galaxold.cpp
 galgame.cpp
 galgames.cpp
@@ -974,12 +976,13 @@ pkscram.cpp
 pktgaldx.cpp
 playch10.cpp
 playmark.cpp
-//play_1.cpp       // pinball
-//play_2.cpp       // pinball
-//play_3.cpp       // pinball
-//pluto5.cpp       // fruit
-//plygonet.cpp     // check
-//playcenter.cpp                   // unknown skeleton
+//play_1.cpp                       // pinball
+//play_2.cpp                       // pinball
+//play_3.cpp                       // pinball
+//playcenter.cpp                   // skel
+//plsonic4.cpp                     // skel
+//pluto5.cpp                       // fruit
+//plygonet.cpp                     // fatal error
 pntnpuzl.cpp
 pokechmp.cpp
 //poker72.cpp      // poker
@@ -1095,8 +1098,9 @@ sbmjb.cpp
 sbowling.cpp
 sbrkout.cpp
 sbugger.cpp
-schick.cpp         // playable, bad gfx, no sound
-//scm_500.cpp      // mechanical
+//schexx4gen.cpp                        // mechanical
+schick.cpp                            // playable, just
+//scm_500.cpp                           // mechanical
 scobra.cpp
 scotrsht.cpp
 scramble.cpp
@@ -1122,6 +1126,7 @@ segaorun.cpp
 segas16a.cpp
 segas16b.cpp
 segas18.cpp
+segas18_astormbl.cpp
 segas24.cpp
 segas32.cpp
 //segasp.cpp       // check
@@ -1426,6 +1431,7 @@ voyager.cpp
 vp101.cpp
 //vpoker.cpp       // poker
 vroulet.cpp
+vsmjtria.cpp
 vsnes.cpp
 vulgus.cpp
 wacky_gator.cpp

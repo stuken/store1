@@ -99,7 +99,7 @@ static void PollGUIJoystick(void);
 static bool MameCommand(HWND hwnd,int id, HWND hwndCtl, UINT codeNotify);
 static void UpdateStatusBar(void);
 static bool TreeViewNotify(NMHDR *nm);
-static int CLIB_DECL SrcDriverDataCompareFunc(const void *arg1, const void *arg2);
+//static int CLIB_DECL SrcDriverDataCompareFunc(const void *arg1, const void *arg2);
 static void DisableSelection(void);
 static void EnableSelection(int nGame);
 static HICON GetSelectedPickItemIconSmall(void);
@@ -301,8 +301,6 @@ static bool in_emulation = false;
 static bool game_launched = false;
 /* idle work at startup */
 static bool idle_work = false;
-/* object pool in use */
-static object_pool *mameui_pool;
 static int game_index = 0;
 static int game_total = 0;
 static int oldpercent = 0;
@@ -342,7 +340,7 @@ static HDC hDC = NULL;
 static HIMAGELIST hLarge = NULL;
 static HIMAGELIST hSmall = NULL;
 static HICON hIcon = NULL;
-static int *icon_index = NULL; 	/* for custom per-game icons */
+static std::unique_ptr<int[]> icon_index; // for custom per-game icons
 
 static const TBBUTTON tbb[] =
 {
@@ -447,7 +445,7 @@ static HIMAGELIST himl_drag = NULL;
 static int game_dragged = 0; 					/* which game started the drag */
 static HTREEITEM prev_drag_drop_target = NULL; 	/* which tree view item we're currently highlighting */
 static bool g_in_treeview_edit = false;
-static srcdriver_data_type *sorted_srcdrivers = NULL;
+static std::unique_ptr<srcdriver_data_type[]> sorted_srcdrivers;
 
 /***************************************************************************
     Global variables
@@ -701,11 +699,6 @@ HWND GetTreeView(void)
 HWND GetProgressBar(void)
 {
 	return hProgress;
-}
-
-object_pool *GetMameUIMemoryPool(void)
-{
-	return mameui_pool;
 }
 
 void GetRealColumnOrder(int order[])
@@ -1106,28 +1099,29 @@ int GetParentRomSetIndex(const game_driver *driver)
 	return -1;
 }
 
+// ToDo: fix this
 int GetSrcDriverIndex(const char *name)
 {
-	srcdriver_data_type *srcdriver_index_info;
-	srcdriver_data_type key;
-	key.name = name;
+	//srcdriver_data_type *srcdriver_index_info;
+	//srcdriver_data_type key;
+	//key.name = name;
 
-	srcdriver_index_info = (srcdriver_data_type *)bsearch(&key, sorted_srcdrivers, driver_list::total(), sizeof(srcdriver_data_type), SrcDriverDataCompareFunc);
+	//srcdriver_index_info = (srcdriver_data_type *)bsearch(&key, sorted_srcdrivers, driver_list::total(), sizeof(srcdriver_data_type), SrcDriverDataCompareFunc);
 
-	if (srcdriver_index_info == NULL)
+	//if (srcdriver_index_info == NULL)
 		return -1;
 
-	return srcdriver_index_info->index;
+	//return srcdriver_index_info->index;
 }
 
 /***************************************************************************
     Internal functions
  ***************************************************************************/
 
-static int CLIB_DECL SrcDriverDataCompareFunc(const void *arg1, const void *arg2)
-{
-	return strcmp(((srcdriver_data_type *)arg1)->name, ((srcdriver_data_type *)arg2)->name);
-}
+//static int CLIB_DECL SrcDriverDataCompareFunc(const void *arg1, const void *arg2)
+//{
+//	return strcmp(((srcdriver_data_type *)arg1)->name, ((srcdriver_data_type *)arg2)->name);
+//}
 
 static void SetMainTitle(void)
 {
@@ -1135,12 +1129,6 @@ static void SetMainTitle(void)
 
 	snprintf(buffer, std::size(buffer), "%s %s", MAMEUINAME, GetVersionString());
 	winui_set_window_text_utf8(hMain, buffer);
-}
-
-static void memory_error(const char *message)
-{
-	ErrorMessageBox(message);
-	exit(-1);
 }
 
 static void Win32UI_init(void)
@@ -1166,14 +1154,10 @@ static void Win32UI_init(void)
 	SendMessage(hProgress, PBM_SETPOS, 10, 0);
 
 	srand((unsigned)time(NULL));
-	// create the memory pool
-	mameui_pool = pool_alloc_lib(memory_error);
 	// custom per-game icons
-	icon_index = (int*)pool_malloc_lib(mameui_pool, sizeof(int) * driver_list::total());
-	memset(icon_index, 0, sizeof(int) * driver_list::total());
+	icon_index = make_unique_clear<int[]>(driver_list::total());
 	// sorted list of source drivers by name
-	sorted_srcdrivers = (srcdriver_data_type *) pool_malloc_lib(mameui_pool, sizeof(srcdriver_data_type) * driver_list::total());
-	memset(sorted_srcdrivers, 0, sizeof(srcdriver_data_type) * driver_list::total());
+	sorted_srcdrivers = make_unique_clear<srcdriver_data_type[]>(driver_list::total());
 
 	for (int i = 0; i < driver_list::total(); i++)
 	{
@@ -1183,7 +1167,7 @@ static void Win32UI_init(void)
 		driver_name = NULL;
 	}
 
-	qsort(sorted_srcdrivers, driver_list::total(), sizeof(srcdriver_data_type), SrcDriverDataCompareFunc);
+	//qsort(sorted_srcdrivers, driver_list::total(), sizeof(srcdriver_data_type), SrcDriverDataCompareFunc);
 	/* initialize tab control */
 	memset(&opts, 0, sizeof(opts));
 	opts.pCallbacks = &s_tabviewCallbacks;
@@ -1372,8 +1356,6 @@ static void Win32UI_exit(void)
 	SaveGameDefaults();
 	FreeFolders();
 	FreeScreenShot();
-	pool_free_lib(mameui_pool);
-	mameui_pool = NULL;
 	DestroyWindow(hMain);
 }
 

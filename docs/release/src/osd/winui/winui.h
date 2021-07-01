@@ -27,7 +27,6 @@
 #include "drivenum.h"
 #include "options.h"
 #include "png.h"
-#include "pool.h"
 #include "sound\samples.h"
 #include "screen.h"
 #include "speaker.h"
@@ -85,7 +84,7 @@
 #endif
 #define MAMENAME			"MAME"
 
-#define MAME_VERSION		"0.232"
+#define MAME_VERSION		"0.233"
 #define MAMEUIFX_VERSION	MAME_VERSION " (" __DATE__")"
 
 #define SEARCH_PROMPT		"<search here>"
@@ -188,7 +187,6 @@ void MamePlayGame(void);
 int FindIconIndex(int nIconResource);
 int FindIconIndexByName(const char *icon_name);
 int GetSelectedPick(void);
-object_pool *GetMameUIMemoryPool(void);
 void UpdateListView(void);
 int GetMinimumScreenShotWindowWidth(void);
 // we maintain an array of drivers sorted by name, useful all around

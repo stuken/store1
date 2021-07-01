@@ -141,7 +141,7 @@ const options_entry winui_options::s_option_entries[] =
 
 static const options_entry filterOptions[] =
 {
-	{ "_filters",                           "0",        	OPTION_INTEGER, nullptr },
+	{ "_filters",                           "0",        	OPTION_STRING, nullptr },
 	{ nullptr }
 };
 
@@ -1894,10 +1894,10 @@ static void LoadOptionsAndInterface(void)
 	std::string intername = std::string(GetGuiDir()).append(PATH_SEPARATOR).append(INTERFACE_INI_FILENAME).append(".ini");
 	LoadInterfaceFile(winui_opts, intername);
 	// if .\mame.ini not exist, create a default one
-	std::string filename = std::string(DEFAULT_INI_FILENAME).append(".ini");
-	LoadOptionsStartup(core_opts, filename);
+	//std::string filename = std::string(DEFAULT_INI_FILENAME).append(".ini");
+	//LoadOptionsStartup(core_opts, filename);
 	// parse the real MAME.INI, create it if it doesn't exist
-	filename = std::string(GetIniDir()).append(PATH_SEPARATOR).append(DEFAULT_INI_FILENAME).append(".ini");
+	std::string filename = std::string(GetIniDir()).append(PATH_SEPARATOR).append(DEFAULT_INI_FILENAME).append(".ini");
 	LoadOptionsStartup(core_opts, filename);
 	// parse UI.INI
 	std::string uiname = std::string(GetIniDir()).append(PATH_SEPARATOR).append(INTERNAL_UI_INI_FILENAME).append(".ini");
