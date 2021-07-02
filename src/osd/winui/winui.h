@@ -192,7 +192,6 @@ int GetMinimumScreenShotWindowWidth(void);
 // we maintain an array of drivers sorted by name, useful all around
 int GetParentIndex(const game_driver *driver);
 int GetParentRomSetIndex(const game_driver *driver);
-int GetSrcDriverIndex(const char *name);
 // sets text in part of the status bar on the main window
 void SetStatusBarText(int part_index, const char *message);
 void SetStatusBarTextF(int part_index, const char *fmt, ...);

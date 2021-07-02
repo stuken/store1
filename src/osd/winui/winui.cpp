@@ -445,7 +445,6 @@ static HIMAGELIST himl_drag = NULL;
 static int game_dragged = 0; 					/* which game started the drag */
 static HTREEITEM prev_drag_drop_target = NULL; 	/* which tree view item we're currently highlighting */
 static bool g_in_treeview_edit = false;
-static std::unique_ptr<srcdriver_data_type[]> sorted_srcdrivers;
 
 /***************************************************************************
     Global variables
@@ -1099,29 +1098,10 @@ int GetParentRomSetIndex(const game_driver *driver)
 	return -1;
 }
 
-// ToDo: fix this
-int GetSrcDriverIndex(const char *name)
-{
-	//srcdriver_data_type *srcdriver_index_info;
-	//srcdriver_data_type key;
-	//key.name = name;
-
-	//srcdriver_index_info = (srcdriver_data_type *)bsearch(&key, sorted_srcdrivers, driver_list::total(), sizeof(srcdriver_data_type), SrcDriverDataCompareFunc);
-
-	//if (srcdriver_index_info == NULL)
-		return -1;
-
-	//return srcdriver_index_info->index;
-}
 
 /***************************************************************************
     Internal functions
  ***************************************************************************/
-
-//static int CLIB_DECL SrcDriverDataCompareFunc(const void *arg1, const void *arg2)
-//{
-//	return strcmp(((srcdriver_data_type *)arg1)->name, ((srcdriver_data_type *)arg2)->name);
-//}
 
 static void SetMainTitle(void)
 {
@@ -1156,18 +1136,7 @@ static void Win32UI_init(void)
 	srand((unsigned)time(NULL));
 	// custom per-game icons
 	icon_index = make_unique_clear<int[]>(driver_list::total());
-	// sorted list of source drivers by name
-	sorted_srcdrivers = make_unique_clear<srcdriver_data_type[]>(driver_list::total());
 
-	for (int i = 0; i < driver_list::total(); i++)
-	{
-		const char *driver_name = core_strdup(GetDriverFileName(i));
-		sorted_srcdrivers[i].name = driver_name;
-		sorted_srcdrivers[i].index = i;
-		driver_name = NULL;
-	}
-
-	//qsort(sorted_srcdrivers, driver_list::total(), sizeof(srcdriver_data_type), SrcDriverDataCompareFunc);
 	/* initialize tab control */
 	memset(&opts, 0, sizeof(opts));
 	opts.pCallbacks = &s_tabviewCallbacks;
