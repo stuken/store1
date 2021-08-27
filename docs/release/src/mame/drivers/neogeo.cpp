@@ -3000,7 +3000,7 @@ void mvs_led_state::sbp(machine_config &config)
 
     MULTI PLAY MODE:
     ================
-    The NeoGeo has three games which support MULTI PLAY MODE (Riding Hero / League Bowling / Trash Rally).
+    The NeoGeo has three games which support MULTI PLAY MODE (Riding Hero / League Bowling / Thrash Rally).
     This allows you to 'link' 4 games (MVS) / 2 games (AES) using in game 'Multi-Play' option. To establish
     a link between the carts you have to connect the carts to each other by a communicator cable. The communicator
     cable is a regular headphone cable with stereo pin jack. It has been reported that you can also 'link' MVS <-> AES.
@@ -3008,7 +3008,7 @@ void mvs_led_state::sbp(machine_config &config)
     All three games use a special PROG board for MULTI PLAY MODE support:
     . Riding Hero    (AES - NEO-AEG PROG-HERO   / MVS NEO-MVS PROG-HERO)
     . League Bowling (AES - NEO-AEG PROG-HERO   / MVS NEO-MVS PROG-HERO)
-    . Trash Rally    (AES - NEO-AEG PROG42G-COM / NEO-MVS PROG42G-COM)
+    . Thrash Rally   (AES - NEO-AEG PROG42G-COM / NEO-MVS PROG42G-COM)
 
     A HD6301V1P MCU on the above boards is used for establishing the 'link'. The MCU has a 4kb internal ROM which
     is not dumped.
@@ -12274,3 +12274,32 @@ GAME( 2005, lasthope,   neogeo,   neo304h,   neogeo,    mvs_led_state, empty_ini
 
 // NEOBITZ
 // Knight's Chance (c)2014 - MVS/AES
+
+
+
+
+ROM_START( samsh5pf )
+	ROM_REGION( 0x800000, "cslot1:maincpu", ROMREGION_BE|ROMREGION_16BIT )
+	ROM_LOAD16_WORD_SWAP( "272pf.p1", 0x000000, 0x800000, CRC(e3d18d3a) SHA1(25beacc2354bb8eff5c08900b954de877d3c4776) )
+
+	NEO_SFIX_128K( "272pf.s1", CRC(abb3baf9) SHA1(dc8072e8757dc525d9285b77a56fdedaf4d9330d) )
+
+	NEO_BIOS_AUDIO_128K( "272pf.m1", CRC(654e9236) SHA1(e13a1b4b73d43008565ee419c9714a220927d0bc) )
+
+	ROM_REGION( 0x1000000, "cslot1:ymsnd:adpcma", 0 )
+	ROM_LOAD( "272sp01.v1", 0x000000, 0x800000, CRC(3bf61586) SHA1(270fd58781b2b897a7365ccdf878c7e57048da35) )
+	ROM_LOAD( "272sp01.v2", 0x800000, 0x800000, CRC(95fe7646) SHA1(eec1a3a4dc5b5a960735147c29b976581a660628) )
+
+	ROM_REGION( 0x4000000, "cslot1:sprites", 0 )
+	ROM_LOAD16_BYTE( "272fe.c1", 0x0000000, 0x800000, CRC(ec9fda8d) SHA1(acc307e864d0ba15beb78a42edfa62941394ab9f) )
+	ROM_LOAD16_BYTE( "272fe.c2", 0x0000001, 0x800000, CRC(d2fc888d) SHA1(cffa2aed9581ac42db0672a25ae737885f4c2044) )
+	ROM_LOAD16_BYTE( "272fe.c3", 0x1000000, 0x800000, CRC(b0ea781b) SHA1(6e336952df4ec2d203a335e024ca85b912f7fa38) )
+	ROM_LOAD16_BYTE( "272fe.c4", 0x1000001, 0x800000, CRC(d34ac591) SHA1(dc429100fc26baaca70f6dbf9d1c4d837b85935e) )
+	ROM_LOAD16_BYTE( "272fe.c5", 0x2000000, 0x800000, CRC(1b5c1ea2) SHA1(7741344a640945770b9c97ccb3e30155874de9e8) )
+	ROM_LOAD16_BYTE( "272fe.c6", 0x2000001, 0x800000, CRC(deeaad58) SHA1(e718fb195af55c2df8a101cbb6b5a050c4cb14e3) )
+	ROM_LOAD16_BYTE( "272pf.c7", 0x3000000, 0x800000, CRC(af90afc8) SHA1(96957010046ed4493e18fc45582ce7a494b8f2b2) )
+	ROM_LOAD16_BYTE( "272pf.c8", 0x3000001, 0x800000, CRC(b14872da) SHA1(b043094f29305cdc8669feaf096ef4451778a408) )
+ROM_END
+
+GAME( 2020, samsh5pf,   samsh5sp, neobase, neogeo, mvs_led_state, empty_init, ROT0, "Yuki Enterprise / SNK Playmore", "Samurai Shodown V Perfect", MACHINE_SUPPORTS_SAVE )
+

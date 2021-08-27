@@ -161,7 +161,6 @@ function osdmodulesbuild()
 		"__STDC_LIMIT_MACROS",
 		"__STDC_FORMAT_MACROS",
 		"__STDC_CONSTANT_MACROS",
-		"IMGUI_DISABLE_OBSOLETE_FUNCTIONS",
 	}
 
 	files {

@@ -927,6 +927,7 @@ olibochu.cpp
 omegrace.cpp
 oneshot.cpp
 onetwo.cpp
+opercoin.cpp
 opwolf.cpp
 orbit.cpp
 othello.cpp
@@ -1032,6 +1033,7 @@ quizshow.cpp
 r2dtank.cpp
 r2dx_v33.cpp
 rabbit.cpp
+//radikaldarts.cpp                     // skel
 raiden.cpp
 raiden2.cpp
 raiden_ms.cpp
