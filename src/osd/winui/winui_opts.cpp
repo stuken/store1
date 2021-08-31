@@ -1737,12 +1737,11 @@ static void TabFlagsDecodeString(const char *str, int *data)
 
 static void LoadInterfaceFile(winui_options &opts, const std::string &filename)
 {
-	osd_file::error filerr;
 	emu_file file(OPEN_FLAG_READ);
 
-	filerr = file.open(filename);
+	std::error_condition filerr = file.open(filename);
 
-	if (filerr == osd_file::error::NONE)
+	if (!filerr)
 	{
 		opts.parse_ini_file((util::core_file&)file, OPTION_PRIORITY_CMDLINE, true, true);
 		file.close();
@@ -1753,12 +1752,11 @@ static void LoadInterfaceFile(winui_options &opts, const std::string &filename)
 
 static void LoadInternalUIFile(ui_options &opts, const std::string &filename)
 {
-	osd_file::error filerr;
 	emu_file file(OPEN_FLAG_READ);
 
-	filerr = file.open(filename);
+	std::error_condition filerr = file.open(filename);
 
-	if (filerr == osd_file::error::NONE)
+	if (!filerr)
 	{
 		opts.parse_ini_file((util::core_file&)file, OPTION_PRIORITY_CMDLINE, true, true);
 		file.close();
@@ -1769,12 +1767,11 @@ static void LoadInternalUIFile(ui_options &opts, const std::string &filename)
 
 static void LoadPluginsFile(plugin_options &opts, const std::string &filename)
 {
-	osd_file::error filerr;
 	emu_file file(OPEN_FLAG_READ);
 
-	filerr = file.open(filename);
+	std::error_condition filerr = file.open(filename);
 
-	if (filerr == osd_file::error::NONE)
+	if (!filerr)
 	{
 		try
 		{
@@ -1782,11 +1779,11 @@ static void LoadPluginsFile(plugin_options &opts, const std::string &filename)
 		}
 		catch (options_exception &)
 		{
-			filerr = osd_file::error::INVALID_DATA;
+			filerr = std::errc::invalid_argument;
 		}
 		file.close();
 	}
-	if (filerr != osd_file::error::NONE)
+	if (filerr)
 	{
 		plugin_options opts_temp;
 		SavePluginsFile(opts_temp, filename); // try save default values assuming directory exists
@@ -1795,12 +1792,11 @@ static void LoadPluginsFile(plugin_options &opts, const std::string &filename)
 
 static void LoadOptionsFile(windows_options &opts, const std::string &filename)
 {
-	osd_file::error filerr;
 	emu_file file(OPEN_FLAG_READ);
 
-	filerr = file.open(filename);
+	std::error_condition filerr = file.open(filename);
 
-	if (filerr == osd_file::error::NONE)
+	if (!filerr)
 	{
 		opts.parse_ini_file((util::core_file&)file, OPTION_PRIORITY_CMDLINE, true, true);
 		file.close();
@@ -1809,12 +1805,11 @@ static void LoadOptionsFile(windows_options &opts, const std::string &filename)
 
 static void LoadOptionsStartup(windows_options &opts, const std::string &filename)
 {
-	osd_file::error filerr;
 	emu_file file(OPEN_FLAG_READ);
 
-	filerr = file.open(filename);
+	std::error_condition filerr = file.open(filename);
 
-	if (filerr == osd_file::error::NONE)
+	if (!filerr)
 	{
 		opts.parse_ini_file((util::core_file&)file, OPTION_PRIORITY_CMDLINE, true, true);
 		file.close();
@@ -1825,12 +1820,11 @@ static void LoadOptionsStartup(windows_options &opts, const std::string &filenam
 
 static void SaveInterfaceFile(winui_options &opts, const std::string &filename)
 {
-	osd_file::error filerr;
 	emu_file file(OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS);
 
-	filerr = file.open(filename);
+	std::error_condition filerr = file.open(filename);
 
-	if (filerr == osd_file::error::NONE)
+	if (!filerr)
 	{
 		file.puts(opts.output_ini().c_str());
 		file.close();
@@ -1839,12 +1833,11 @@ static void SaveInterfaceFile(winui_options &opts, const std::string &filename)
 
 static void SaveInternalUIFile(ui_options &opts, const std::string &filename)
 {
-	osd_file::error filerr;
 	emu_file file(OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS);
 
-	filerr = file.open(filename);
+	std::error_condition filerr = file.open(filename);
 
-	if (filerr == osd_file::error::NONE)
+	if (!filerr)
 	{
 		file.puts(opts.output_ini().c_str());
 		file.close();
@@ -1862,12 +1855,11 @@ static void SavePluginsFile(plugin_options &opts, const std::string &filename)
 		opts.scan_directory(pluginpath,true);
 	}
 
-	osd_file::error filerr;
 	emu_file file(OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS);
 
-	filerr = file.open(filename);
+	std::error_condition filerr = file.open(filename);
 
-	if (filerr == osd_file::error::NONE)
+	if (!filerr)
 	{
 		file.puts(opts.output_ini().c_str());
 		file.close();
@@ -1876,12 +1868,11 @@ static void SavePluginsFile(plugin_options &opts, const std::string &filename)
 
 static void SaveOptionsFile(windows_options &opts, const std::string &filename)
 {
-	osd_file::error filerr;
 	emu_file file(OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS);
 
-	filerr = file.open(filename);
+	std::error_condition filerr = file.open(filename);
 
-	if (filerr == osd_file::error::NONE)
+	if (!filerr)
 	{
 		file.puts(opts.output_ini().c_str());
 		file.close();
