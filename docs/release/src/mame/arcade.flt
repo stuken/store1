@@ -607,7 +607,7 @@ jaguar.cpp
 jailbrek.cpp
 jalmah.cpp
 jangou.cpp
-jankenmn.cpp
+//jankenmn.cpp
 jantotsu.cpp
 jchan.cpp
 jclub2.cpp
@@ -616,7 +616,7 @@ jedi.cpp
 //joctronic.cpp    // mechanical
 //jokrwild.cpp     // poker
 jollyjgr.cpp
-jongkyo.cpp
+//jongkyo.cpp
 joystand.cpp
 //jp.cpp           // pinball
 //jpmimpct.cpp     // check
@@ -628,14 +628,14 @@ joystand.cpp
 //jpmsys5sw.cpp    // fruit
 //jpmsys7.cpp      // fruit
 jrpacman.cpp
-jubilee.cpp
+//jubilee.cpp
 //jungleyo.cpp     // check
 junofrst.cpp
 //jvh.cpp          // pinball
 kaneko16.cpp
 kangaroo.cpp
 karnov.cpp
-kas89.cpp
+//kas89.cpp
 kchamp.cpp
 kenseim.cpp
 kickgoal.cpp
@@ -658,6 +658,7 @@ konamim2.cpp
 //konendev.cpp     // fruit
 //kongs470.cpp                   // skel
 //konmedal.cpp     // check
+//konmedal020.cpp
 //konmedal68k.cpp  // check
 kontest.cpp
 kopunch.cpp
@@ -1047,6 +1048,7 @@ rbmk.cpp
 //rcorsair.cpp     // check
 re900.cpp
 realbrk.cpp
+//recel.cpp
 redalert.cpp
 redclash.cpp
 relief.cpp
@@ -1524,10 +1526,11 @@ zwackery.cpp
 -ng_mv2f
 -ng_mv4f
 //saturn.cpp
--saturn
--saturnjp
--saturneu
--vsaturn
 -hisaturn
+-saturn
+-saturneu
+-saturnjp
+-saturnkr
+-vsaturn
 //vectrex.cpp
 -vectrex

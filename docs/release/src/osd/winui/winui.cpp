@@ -812,7 +812,7 @@ HICON LoadIconFromFile(const char *iconname)
 			tmpStr = std::string(s1).append(PATH_SEPARATOR).append("icons.zip");
 			std::string tmpIcoName = std::string(iconname).append(".ico");
 
-			if (util::archive_file::open_zip(tmpStr, zip) == util::archive_file::error::NONE)
+			if (!util::archive_file::open_zip(tmpStr, zip))
 			{
 				if (zip->search(tmpIcoName, false) >= 0)
 				{
@@ -820,7 +820,7 @@ HICON LoadIconFromFile(const char *iconname)
 
 					if (bufferPtr)
 					{
-						if (zip->decompress(bufferPtr, zip->current_uncompressed_length()) == util::archive_file::error::NONE)
+						if (!zip->decompress(bufferPtr, zip->current_uncompressed_length()))
 							hIcon = FormatICOInMemoryToHICON(bufferPtr, zip->current_uncompressed_length());
 
 						free(bufferPtr);
@@ -834,7 +834,7 @@ HICON LoadIconFromFile(const char *iconname)
 				tmpStr = std::string(s1).append(PATH_SEPARATOR).append("icons.7z");
 				tmpIcoName = std::string(iconname).append(".ico");
 
-				if (util::archive_file::open_7z(tmpStr, zip) == util::archive_file::error::NONE)
+				if (!util::archive_file::open_7z(tmpStr, zip))
 				{
 					if (zip->search(tmpIcoName, false) >= 0)
 					{
@@ -842,7 +842,7 @@ HICON LoadIconFromFile(const char *iconname)
 
 						if (bufferPtr)
 						{
-							if (zip->decompress(bufferPtr, zip->current_uncompressed_length()) == util::archive_file::error::NONE)
+							if (!zip->decompress(bufferPtr, zip->current_uncompressed_length()))
 								hIcon = FormatICOInMemoryToHICON(bufferPtr, zip->current_uncompressed_length());
 
 							free(bufferPtr);
@@ -4144,7 +4144,6 @@ static void MamePlayBackGame(void)
 
 	if (CommonFileDialog(GetOpenFileName, filename, FILETYPE_INPUT_FILES, false))
 	{
-		osd_file::error filerr;
 		wchar_t *t_filename = win_wstring_from_utf8(filename);
 		wchar_t *tempname = PathFindFileName(t_filename);
 		char *fname = win_utf8_from_wstring(tempname);
@@ -4153,9 +4152,9 @@ static void MamePlayBackGame(void)
 		free(fname);
 
 		emu_file check(GetInpDir(), OPEN_FLAG_READ);
-		filerr = check.open(name);
+		std::error_condition filerr = check.open(name);
 
-		if (filerr != osd_file::error::NONE)
+		if (filerr)
 		{
 			ErrorMessageBox("Could not open '%s' as a valid input file.", name);
 			return;
