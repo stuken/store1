@@ -1214,6 +1214,7 @@ spdodgeb.cpp
 //spectra.cpp      // pinball
 speedatk.cpp
 speedbal.cpp
+speedbsk.cpp
 speedspn.cpp
 speglsht.cpp
 spiders.cpp
