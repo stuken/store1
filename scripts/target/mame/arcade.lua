@@ -1051,7 +1051,7 @@ createMAMEProjects(_target, _subtarget, "acorn")
 files {
 	MAME_DIR .. "src/mame/drivers/ertictac.cpp",
 	MAME_DIR .. "src/mame/drivers/ssfindo.cpp",
-	MAME_DIR .. "src/mame/drivers/aristmk5.cpp",
+--	MAME_DIR .. "src/mame/drivers/aristmk5.cpp",
 }
 
 createMAMEProjects(_target, _subtarget, "adp")
@@ -1072,7 +1072,7 @@ files {
 createMAMEProjects(_target, _subtarget, "alliedl")
 files {
 	MAME_DIR .. "src/mame/drivers/ace.cpp",
-	MAME_DIR .. "src/mame/drivers/aleisttl.cpp",
+--	MAME_DIR .. "src/mame/drivers/aleisttl.cpp",
 	MAME_DIR .. "src/mame/drivers/clayshoo.cpp",
 }
 
@@ -1117,8 +1117,8 @@ files {
 
 createMAMEProjects(_target, _subtarget, "aristocr")
 files {
-	MAME_DIR .. "src/mame/drivers/aristmk4.cpp",
-	MAME_DIR .. "src/mame/drivers/aristmk6.cpp",
+--	MAME_DIR .. "src/mame/drivers/aristmk4.cpp",
+--	MAME_DIR .. "src/mame/drivers/aristmk6.cpp",
 	MAME_DIR .. "src/mame/drivers/caswin.cpp",
 }
 
@@ -1166,7 +1166,7 @@ files {
 	MAME_DIR .. "src/mame/includes/atarisy2.h",
 	MAME_DIR .. "src/mame/video/atarisy2.cpp",
 	MAME_DIR .. "src/mame/drivers/atarisy4.cpp",
-	MAME_DIR .. "src/mame/drivers/atarittl.cpp",
+--	MAME_DIR .. "src/mame/drivers/atarittl.cpp",
 	MAME_DIR .. "src/mame/machine/nl_gtrak10.cpp",
 	MAME_DIR .. "src/mame/machine/nl_gtrak10.h",
 	MAME_DIR .. "src/mame/machine/nl_stuntcyc.cpp",
@@ -1441,8 +1441,8 @@ files {
 	MAME_DIR .. "src/mame/drivers/ohmygod.cpp",
 	MAME_DIR .. "src/mame/includes/ohmygod.h",
 	MAME_DIR .. "src/mame/video/ohmygod.cpp",
-	MAME_DIR .. "src/mame/drivers/patapata.cpp",
-	MAME_DIR .. "src/mame/drivers/bowltry.cpp",
+--	MAME_DIR .. "src/mame/drivers/patapata.cpp",
+--	MAME_DIR .. "src/mame/drivers/bowltry.cpp",
 }
 
 createMAMEProjects(_target, _subtarget, "barcrest")
@@ -1500,15 +1500,15 @@ files {
 --	MAME_DIR .. "src/mame/video/bfm_adr2.h",
 --	MAME_DIR .. "src/mame/video/bfm_adr2.cpp",
 --	MAME_DIR .. "src/mame/video/bfm_dm01.h",
-	MAME_DIR .. "src/mame/video/bfm_dm01.cpp",
+--	MAME_DIR .. "src/mame/video/bfm_dm01.cpp",
 }
 
 createMAMEProjects(_target, _subtarget, "bmc")
 files {
 	MAME_DIR .. "src/mame/drivers/bmcbowl.cpp",
-	MAME_DIR .. "src/mame/drivers/koftball.cpp",
+--	MAME_DIR .. "src/mame/drivers/koftball.cpp",
 	MAME_DIR .. "src/mame/drivers/popobear.cpp",
-	MAME_DIR .. "src/mame/drivers/bmcpokr.cpp",
+--	MAME_DIR .. "src/mame/drivers/bmcpokr.cpp",
 }
 
 createMAMEProjects(_target, _subtarget, "capcom")
@@ -1573,7 +1573,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/mitchell.cpp",
 	MAME_DIR .. "src/mame/includes/mitchell.h",
 	MAME_DIR .. "src/mame/video/mitchell.cpp",
-	MAME_DIR .. "src/mame/drivers/psrockman.cpp",
+--	MAME_DIR .. "src/mame/drivers/psrockman.cpp",
 	MAME_DIR .. "src/mame/drivers/sf.cpp",
 	MAME_DIR .. "src/mame/drivers/sidearms.cpp",
 	MAME_DIR .. "src/mame/includes/sidearms.h",
@@ -1593,8 +1593,8 @@ files {
 	MAME_DIR .. "src/mame/video/vulgus.cpp",
 	MAME_DIR .. "src/mame/machine/kabuki.cpp",
 	MAME_DIR .. "src/mame/machine/kabuki.h",
-	MAME_DIR .. "src/mame/drivers/tvcapcom.cpp",
-	MAME_DIR .. "src/mame/drivers/instantm.cpp",
+--	MAME_DIR .. "src/mame/drivers/tvcapcom.cpp",
+--	MAME_DIR .. "src/mame/drivers/instantm.cpp",
 }
 
 createMAMEProjects(_target, _subtarget, "ces")
@@ -2005,7 +2005,7 @@ files {
 
 createMAMEProjects(_target, _subtarget, "funworld")
 files {
-	MAME_DIR .. "src/mame/drivers/4roses.cpp",
+--	MAME_DIR .. "src/mame/drivers/4roses.cpp",
 	MAME_DIR .. "src/mame/drivers/funworld.cpp",
 	MAME_DIR .. "src/mame/includes/funworld.h",
 	MAME_DIR .. "src/mame/video/funworld.cpp",
@@ -2031,7 +2031,7 @@ files {
 
 createMAMEProjects(_target, _subtarget, "gaelco")
 files {
-	MAME_DIR .. "src/mame/drivers/atvtrack.cpp",
+--	MAME_DIR .. "src/mame/drivers/atvtrack.cpp",
 	MAME_DIR .. "src/mame/drivers/gaelco.cpp",
 	MAME_DIR .. "src/mame/includes/gaelco.h",
 	MAME_DIR .. "src/mame/video/gaelco.cpp",
@@ -2784,7 +2784,7 @@ createMAMEProjects(_target, _subtarget, "midcoin")
 files {
 	MAME_DIR .. "src/mame/drivers/wallc.cpp",
 	MAME_DIR .. "src/mame/drivers/wink.cpp",
-	MAME_DIR .. "src/mame/drivers/24cdjuke.cpp",
+--	MAME_DIR .. "src/mame/drivers/24cdjuke.cpp",
 }
 
 createMAMEProjects(_target, _subtarget, "midw8080")
@@ -2815,7 +2815,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/astrocde.cpp",
 	MAME_DIR .. "src/mame/includes/astrocde.h",
 	MAME_DIR .. "src/mame/video/astrocde.cpp",
-	MAME_DIR .. "src/mame/drivers/atlantis.cpp",
+--	MAME_DIR .. "src/mame/drivers/atlantis.cpp",
 	MAME_DIR .. "src/mame/drivers/balsente.cpp",
 	MAME_DIR .. "src/mame/includes/balsente.h",
 	MAME_DIR .. "src/mame/machine/balsente.cpp",
@@ -3609,7 +3609,7 @@ files {
 	MAME_DIR .. "src/mame/video/segaybd.cpp",
 	MAME_DIR .. "src/mame/includes/segaipt.h",
 	MAME_DIR .. "src/mame/drivers/sg1000a.cpp",
-	MAME_DIR .. "src/mame/drivers/speedbsk.cpp",
+--	MAME_DIR .. "src/mame/drivers/speedbsk.cpp",
 	MAME_DIR .. "src/mame/drivers/stactics.cpp",
 	MAME_DIR .. "src/mame/includes/stactics.h",
 	MAME_DIR .. "src/mame/video/stactics.cpp",
