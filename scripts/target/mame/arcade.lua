@@ -1500,7 +1500,7 @@ files {
 --	MAME_DIR .. "src/mame/video/bfm_adr2.h",
 --	MAME_DIR .. "src/mame/video/bfm_adr2.cpp",
 --	MAME_DIR .. "src/mame/video/bfm_dm01.h",
---	MAME_DIR .. "src/mame/video/bfm_dm01.cpp",
+	MAME_DIR .. "src/mame/video/bfm_dm01.cpp",   -- used by bfcobra
 }
 
 createMAMEProjects(_target, _subtarget, "bmc")
@@ -5123,6 +5123,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/sstrangr.cpp",
 	MAME_DIR .. "src/mame/drivers/startouch.cpp",
 	MAME_DIR .. "src/mame/drivers/statriv2.cpp",
+	MAME_DIR .. "src/mame/drivers/stop.cpp",
 	MAME_DIR .. "src/mame/drivers/strkzn.cpp",
 	MAME_DIR .. "src/mame/drivers/stuntair.cpp",
 	MAME_DIR .. "src/mame/drivers/su2000.cpp",
