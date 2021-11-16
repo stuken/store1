@@ -346,6 +346,7 @@ dkmb.cpp
 dkong.cpp
 //dlair.cpp        // laser-disk
 //dlair2.cpp       // laser-disk
+//dmainevent.cpp                       // skel
 dmndrby.cpp
 docastle.cpp
 dogfgt.cpp
@@ -559,7 +560,9 @@ homerun.cpp
 hornet.cpp                  // ok
 hotblock.cpp
 //hotstuff.cpp     // poker
+//houseball.cpp                        // mechanical
 //hshavoc.cpp      // check
+hshavoc.cpp
 hvyunit.cpp
 hyhoo.cpp
 hyperspt.cpp
@@ -1043,8 +1046,10 @@ rampart.cpp
 //ramtek.cpp       // ttl
 rastan.cpp
 rastersp.cpp
+//rawthrillspc.cpp                     // skel
 rbisland.cpp
 rbmk.cpp
+//rbowlorama.cpp                       // skel
 //rcorsair.cpp     // check
 re900.cpp
 realbrk.cpp
