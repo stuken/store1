@@ -22805,6 +22805,7 @@ jparkmb                         // MegaDrive-based hack
 mk3mdb                          // MegaDrive-based hack
 sbubsm                          // (c) 1996 Sun Mixing
 sonic2mb                        // MegaDrive-based hack
+sonic3mb                        // MegaDrive-based hack
 srmdb                           // MegaDrive-based hack
 ssf2mdb                         // MegaDrive-based hack
 topshoot                        // (c) 1995 Sun Mixing
@@ -31581,6 +31582,7 @@ nebulrayj                       // (c) 1994 (Japan)
 outfxies                        // (c) 1994 (World)
 outfxiesa                       // (c) 1994 (Korea?)
 outfxiesj                       // (c) 1994 (Japan)
+outfxiesja                      // (c) 1994 (Japan)
 ptblank                         // (c) 1994 (GN2 World)
 ptblanka                        // (c) 1994 (GN2 World) - Alternate labels, NRx-SPR0 (X=1 to 9)
 sws95                           // (c) 1995 (Japan)
