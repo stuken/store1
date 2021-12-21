@@ -61,8 +61,8 @@ static const nes_mmc mmc_list[] =
 	{ 26, KONAMI_VRC6 },
 	{ 27, UNL_CC21 },       // Mihunche, but previously used for World Hero
 	{ 28, UNL_ACTION53 },   // Multi-discrete PCB designed by Tepples for Action 53
-	{ 29, UNL_CUFROM },     // homebrew PCB used by Glider
-	{ 30, UNL_UNROM512 },   // UNROM 512 + Flash
+	{ 29, SEALIE_CUFROM },     // homebrew PCB used by Glider
+	{ 30, SEALIE_UNROM512 },   // UNROM 512 + Flash
 	{ 31, UNL_2A03PURITANS },   // PCB designed by infinitelives & rainwarrior for 2A03 Puritans Album
 	{ 32, IREM_G101 },
 	{ 33, TAITO_TC0190FMC },
@@ -444,7 +444,7 @@ static const nes_mmc mmc_list[] =
 	// 406 homebrew game Haradius Zero
 	// 407 VT03 PnP
 	// 408 Konami PnP
-	{ 409, UNL_DPCMCART },         // A Winner is You homebrew music cart
+	{ 409, SEALIE_DPCMCART },      // A Winner is You homebrew music cart
 	// 410 Unused or JY?
 	{ 411, BMC_A88S1 },
 	// 412 INTV 10-in-1 PnP 2nd edition
@@ -463,15 +463,14 @@ static const nes_mmc mmc_list[] =
 	// 425 Cube Tech PnP
 	// 426 PnP
 	// 427 PnP
-	// 428 a couple multicarts
+	{ 428, BMC_TF2740 },
 	// 429 Unused
 	// 430 Unused
 	{ 431, BMC_GN91B },
 	// 432 Realtec 8090
 	{ 433, BMC_NC20MB },
 	// 434 S-009
-	{ 435, NTDEC_2746 },
-	// 436...442 Unused
+	// 435...442 Unused
 	// 443 NC3000M multicart
 	// 444 NC7000M multicart
 	// 445...511 Unused
@@ -871,7 +870,7 @@ void nes_cart_slot_device::call_load_ines()
 			}
 			break;
 
-		case UNL_UNROM512:
+		case SEALIE_UNROM512:
 			// this mapper also uses mirroring flags differently
 			m_cart->set_four_screen_vram(false);
 			switch (local_options & 0x09)

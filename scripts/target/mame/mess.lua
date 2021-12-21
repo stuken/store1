@@ -325,6 +325,7 @@ SOUNDS["ROLANDPCM"] = true
 --SOUNDS["TT5665"] = true
 SOUNDS["RP2C33_SOUND"] = true
 SOUNDS["UDA1344"] = true
+SOUNDS["LYNX"] = true
 
 --------------------------------------------------
 -- specify available video cores
@@ -1283,6 +1284,7 @@ function linkProjects_mame_mess(_target, _subtarget)
 		"grundy",
 		"h01x",
 		"hartung",
+		"hds",
 		"heathkit",
 		"hec2hrp",
 		"hegener",
@@ -1912,8 +1914,6 @@ files {
 	MAME_DIR .. "src/mame/video/atarist.h",
 	MAME_DIR .. "src/mame/drivers/lynx.cpp",
 	MAME_DIR .. "src/mame/includes/lynx.h",
-	MAME_DIR .. "src/mame/audio/lynx.cpp",
-	MAME_DIR .. "src/mame/audio/lynx.h",
 	MAME_DIR .. "src/mame/machine/lynx.cpp",
 	MAME_DIR .. "src/mame/drivers/pofo.cpp",
 	MAME_DIR .. "src/mame/machine/pofo_kbd.cpp",
@@ -2567,6 +2567,13 @@ files {
 createMESSProjects(_target, _subtarget, "hartung")
 files {
 	MAME_DIR .. "src/mame/drivers/gmaster.cpp",
+}
+
+createMESSProjects(_target, _subtarget, "hds")
+files {
+	MAME_DIR .. "src/mame/drivers/hds200.cpp",
+	MAME_DIR .. "src/mame/machine/hds200_kbd.cpp",
+	MAME_DIR .. "src/mame/machine/hds200_kbd.h",
 }
 
 createMESSProjects(_target, _subtarget, "heathkit")
@@ -4525,7 +4532,6 @@ files {
 	MAME_DIR .. "src/mame/machine/basf7100_kbd.h",
 	MAME_DIR .. "src/mame/drivers/binbug.cpp",
 	MAME_DIR .. "src/mame/drivers/bert.cpp",
-	MAME_DIR .. "src/mame/drivers/besta.cpp",
 	MAME_DIR .. "src/mame/drivers/bitgraph.cpp",
 	MAME_DIR .. "src/mame/drivers/blit.cpp",
 	MAME_DIR .. "src/mame/drivers/bpmmicro.cpp",

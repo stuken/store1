@@ -255,6 +255,7 @@ combatsc.cpp
 comebaby.cpp
 commando.cpp
 compgolf.cpp
+//compucranes.cpp                      // mechanical
 contra.cpp
 coolpool.cpp
 coolridr.cpp
@@ -572,7 +573,6 @@ hyprduel.cpp
 //ice_bozopail.cpp // mechanical
 //ice_hhhippos.cpp              // mnw
 //ice_tbd.cpp      // mechanical
-//ichiban.cpp      // check
 //idsa.cpp         // pinball
 igs009.cpp
 igs011.cpp
@@ -676,6 +676,7 @@ kyugo.cpp
 labyrunr.cpp
 ladybug.cpp
 ladyfrog.cpp
+//lancelot.cpp                         // pinball
 laserbas.cpp
 laserbat.cpp
 lasso.cpp
