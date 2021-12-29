@@ -165,7 +165,7 @@ static const TREEICON treeIconNames[] =
 /* De-allocate all folder memory */
 void FreeFolders(void)
 {
-	if (treeFolders != NULL)
+	if (treeFolders)
 	{
 		if (numExtraFolders)
 		{
@@ -190,7 +190,7 @@ void FreeFolders(void)
 /* Reset folder filters */
 void ResetFilters(void)
 {
-	if (treeFolders != 0)
+	if (treeFolders)
 		for (int i = 0; i < (int)numFolders; i++)
 			treeFolders[i]->m_dwFlags &= ~F_MASK;
 }
