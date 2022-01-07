@@ -31234,12 +31234,19 @@ lhaunt_5                        // (c) 2003
 lhaunt_6                        // (c) 2003
 lhaunt_7                        // (c) 2003
 lhaunt_8                        // (c) 2003
+mfish                           // (c) 2002
+mfish_2                         // (c) 2002
+mfish_3                         // (c) 2002
+mfish_4                         // (c) 2002
+mfish_5                         // (c) 2002
+mfish_6                         // (c) 2002
+mfish_7                         // (c) 2002
+mfish_8                         // (c) 2002
+mfish_9                         // (c) 2002
+mfish_10                        // (c) 2002
 mfish_11                        // (c) 2002
 mfish_12                        // (c) 2002
 mfish_13                        // (c) 2002
-mfish_3                         // (c) 2002
-mfish_6                         // (c) 2002
-mfish_8                         // (c) 2002
 pirate_2                        // (c) 2005
 pirate_3                        // (c) 2005
 pirate_4                        // (c) 2005
@@ -31259,6 +31266,7 @@ resdnt_3                        // (c) 2004
 resdnt_6                        // (c) 2004
 resdnt_8                        // (c) 2004
 resdnt_9                        // (c) 2004
+rollfr                          // (c) 2003
 rollfr_2                        // (c) 2003
 rollfr_3                        // (c) 2003
 rollfr_4                        // (c) 2003
@@ -40246,6 +40254,7 @@ tagteam                         // TA-0007 (c) 1983 + Data East license
 sformula                        // [1989] V-System Co. (Japan)
 sformulaa                       // [1989] V-System Co. (Japan)
 tail2nos                        // [1989] V-System Co.
+tail2nosa                       // [1989] V-System Co.
 
 @source:taito.cpp
 cavnegro                        //
