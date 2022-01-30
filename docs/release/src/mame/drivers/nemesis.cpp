@@ -1549,19 +1549,11 @@ static INPUT_PORTS_START( bubsys )
 	/* "None" = coin slot B disabled */
 
 	PORT_START("DSW1")
-	PORT_DIPNAME( 0x03, 0x03, DEF_STR( Lives ) )        PORT_DIPLOCATION("SW2:1,2")
-	PORT_DIPSETTING(    0x03, "3" )
-	PORT_DIPSETTING(    0x02, "4" )
-	PORT_DIPSETTING(    0x01, "5" )
-	PORT_DIPSETTING(    0x00, "7" )
-	PORT_DIPNAME( 0x04, 0x00, DEF_STR( Cabinet ) )      PORT_DIPLOCATION("SW2:3")
-	PORT_DIPSETTING(    0x00, DEF_STR( Upright ) )
-	PORT_DIPSETTING(    0x04, DEF_STR( Cocktail ) )
-	PORT_DIPNAME( 0x18, 0x18, DEF_STR( Bonus_Life ) )   PORT_DIPLOCATION("SW2:4,5")
-	PORT_DIPSETTING(    0x18, "50k and every 100k" )
-	PORT_DIPSETTING(    0x10, "30k" )
-	PORT_DIPSETTING(    0x08, "50k" )
-	PORT_DIPSETTING(    0x00, "100k" )
+	PORT_DIPUNUSED_DIPLOC( 0x01, IP_ACTIVE_LOW, "SW2:1" )
+	PORT_DIPUNUSED_DIPLOC( 0x02, IP_ACTIVE_LOW, "SW2:2" )
+	PORT_DIPUNUSED_DIPLOC( 0x04, IP_ACTIVE_LOW, "SW2:3" )
+	PORT_DIPUNUSED_DIPLOC( 0x08, IP_ACTIVE_LOW, "SW2:4" )
+	PORT_DIPUNUSED_DIPLOC( 0x10, IP_ACTIVE_LOW, "SW2:5" )
 	PORT_DIPNAME( 0x60, 0x40, DEF_STR( Difficulty ) )   PORT_DIPLOCATION("SW2:6,7")
 	PORT_DIPSETTING(    0x60, DEF_STR( Easy ) )
 	PORT_DIPSETTING(    0x40, DEF_STR( Normal ) )
@@ -1575,11 +1567,51 @@ static INPUT_PORTS_START( bubsys )
 	PORT_DIPNAME( 0x01, 0x01, DEF_STR( Flip_Screen ) )  PORT_DIPLOCATION("SW3:1")
 	PORT_DIPSETTING(    0x01, DEF_STR( Off ) )
 	PORT_DIPSETTING(    0x00, DEF_STR( On ) )
+	PORT_DIPNAME( 0x02, 0x00, DEF_STR( Players ) )      PORT_DIPLOCATION("SW3:2")
+	PORT_DIPSETTING(    0x02, "1" )
+	PORT_DIPSETTING(    0x00, "2" )
+	PORT_SERVICE_DIPLOC( 0x04, IP_ACTIVE_LOW, "SW3:3" )
+	PORT_BIT( 0xf8, IP_ACTIVE_LOW, IPT_UNUSED )
+INPUT_PORTS_END
+
+static INPUT_PORTS_START( gradiusb )
+	PORT_INCLUDE( bubsys )
+
+	PORT_MODIFY("DSW1")
+	PORT_DIPNAME( 0x03, 0x03, DEF_STR( Lives ) )        PORT_DIPLOCATION("SW2:1,2")
+	PORT_DIPSETTING(    0x03, "3" )
+	PORT_DIPSETTING(    0x02, "4" )
+	PORT_DIPSETTING(    0x01, "5" )
+	PORT_DIPSETTING(    0x00, "7" )
+	PORT_DIPNAME( 0x04, 0x00, DEF_STR( Cabinet ) )      PORT_DIPLOCATION("SW2:3")
+	PORT_DIPSETTING(    0x00, DEF_STR( Upright ) )
+	PORT_DIPSETTING(    0x04, DEF_STR( Cocktail ) )
+	PORT_DIPNAME( 0x18, 0x10, DEF_STR( Bonus_Life ) )   PORT_DIPLOCATION("SW2:4,5")
+	PORT_DIPSETTING(    0x18, "20k and every 70k" )
+	PORT_DIPSETTING(    0x10, "30k and every 80k" )
+	PORT_DIPSETTING(    0x08, "20k only" )
+	PORT_DIPSETTING(    0x00, "30k only" )
+
+	PORT_MODIFY("TEST")
 	PORT_DIPNAME( 0x02, 0x02, "Upright Controls" )      PORT_DIPLOCATION("SW3:2")
 	PORT_DIPSETTING(    0x02, DEF_STR( Single ) )
 	PORT_DIPSETTING(    0x00, DEF_STR( Dual ) )
-	PORT_SERVICE_DIPLOC( 0x04, IP_ACTIVE_LOW, "SW3:3" )
-	PORT_BIT( 0xf8, IP_ACTIVE_LOW, IPT_UNUSED )
+INPUT_PORTS_END
+
+static INPUT_PORTS_START( twinbeeb )
+	PORT_INCLUDE( bubsys )
+
+	PORT_MODIFY("DSW1")
+	PORT_DIPNAME( 0x03, 0x02, DEF_STR( Lives ) )        PORT_DIPLOCATION("SW2:1,2")
+	PORT_DIPSETTING(    0x03, "2" )
+	PORT_DIPSETTING(    0x02, "3" )
+	PORT_DIPSETTING(    0x01, "4" )
+	PORT_DIPSETTING(    0x00, "7" )
+	PORT_DIPNAME( 0x18, 0x10, DEF_STR( Bonus_Life ) )   PORT_DIPLOCATION("SW2:4,5")
+	PORT_DIPSETTING(    0x18, "20k 100k" )
+	PORT_DIPSETTING(    0x10, "30k 120k" )
+	PORT_DIPSETTING(    0x08, "40k 140k" )
+	PORT_DIPSETTING(    0x00, "50k 160k" )
 INPUT_PORTS_END
 
 /******************************************************************************/
@@ -1771,14 +1803,16 @@ void nemesis_state::nemesis(machine_config &config)
 	GENERIC_LATCH_8(config, "soundlatch");
 
 	ay8910_device &ay1(AY8910(config, "ay1", 14318180/8));
-	ay1.set_flags(AY8910_LEGACY_OUTPUT);      // MAMEFX
+	ay1.set_flags(AY8910_LEGACY_OUTPUT | AY8910_SINGLE_OUTPUT);
 	ay1.port_a_read_callback().set(FUNC(nemesis_state::nemesis_portA_r));
-	ay1.add_route(ALL_OUTPUTS, "mono", 0.20);      // MAMEFX
+	ay1.add_route(ALL_OUTPUTS, "filter1", 0.20);
 
 	ay8910_device &ay2(AY8910(config, "ay2", 14318180/8));
 	ay2.port_a_write_callback().set(m_k005289, FUNC(k005289_device::control_A_w));
 	ay2.port_b_write_callback().set(m_k005289, FUNC(k005289_device::control_B_w));
-	ay2.add_route(ALL_OUTPUTS, "mono", 1.00);      // MAMEFX
+	ay2.add_route(0, "filter2", 1.00);
+	ay2.add_route(1, "filter3", 1.00);
+	ay2.add_route(2, "filter4", 1.00);
 
 	FILTER_RC(config, m_filter1);
 	m_filter1->add_route(ALL_OUTPUTS, "mono", 1.0);
@@ -1833,14 +1867,16 @@ void nemesis_state::gx400(machine_config &config)
 	GENERIC_LATCH_8(config, "soundlatch");
 
 	ay8910_device &ay1(AY8910(config, "ay1", 14318180/8));
-	ay1.set_flags(AY8910_LEGACY_OUTPUT);      // MAMEFX
+	ay1.set_flags(AY8910_LEGACY_OUTPUT | AY8910_SINGLE_OUTPUT);
 	ay1.port_a_read_callback().set(FUNC(nemesis_state::nemesis_portA_r));
-	ay1.add_route(ALL_OUTPUTS, "mono", 0.20);      // MAMEFX
+	ay1.add_route(ALL_OUTPUTS, "filter1", 0.20);
 
 	ay8910_device &ay2(AY8910(config, "ay2", 14318180/8));
 	ay2.port_a_write_callback().set(m_k005289, FUNC(k005289_device::control_A_w));
 	ay2.port_b_write_callback().set(m_k005289, FUNC(k005289_device::control_B_w));
-	ay2.add_route(ALL_OUTPUTS, "mono", 1.00);      // MAMEFX
+	ay2.add_route(0, "filter2", 1.00);
+	ay2.add_route(1, "filter3", 1.00);
+	ay2.add_route(2, "filter4", 1.00);
 
 	FILTER_RC(config, m_filter1);
 	m_filter1->add_route(ALL_OUTPUTS, "mono", 1.0);
@@ -2872,8 +2908,8 @@ Default = *
 |        5 |OFF|ON |   |   |   |   |   |   |
 |        7 |ON |ON |   |   |   |   |   |   |
 |----------|---|---|---|---|---|---|---|---|
-|CABINET     TABLE*|OFF|   |   |   |   |   |
-|          UPRIGHT |ON |   |   |   |   |   |
+|CABINET   UPRIGHT*|OFF|   |   |   |   |   |
+|            TABLE |ON |   |   |   |   |   |
 |------------------|---|---|---|---|---|---|
 |BONUS 1ST/2ND         |   |   |   |   |   |
 |          20000/70000 |OFF|OFF|   |   |   |
@@ -3121,9 +3157,9 @@ void nemesis_state::bubsys_twinbeeb_init()
 	bubsys_init();
 }
 
-GAME( 1985, bubsys,   0,         bubsys,    bubsys, nemesis_state, bubsys_init, ROT0,   "Konami", "Bubble System BIOS", MACHINE_IS_BIOS_ROOT )
-GAME( 1985, gradiusb, bubsys,    bubsys,    bubsys, nemesis_state, bubsys_init, ROT0,   "Konami", "Gradius (Bubble System)", MACHINE_UNEMULATED_PROTECTION )
-GAME( 1985, twinbeeb, bubsys,    bubsys,    bubsys, nemesis_state, bubsys_twinbeeb_init, ROT90,   "Konami", "TwinBee (Bubble System)", MACHINE_UNEMULATED_PROTECTION )
+GAME( 1985, bubsys,   0,         bubsys,    bubsys,   nemesis_state, bubsys_init, ROT0,   "Konami", "Bubble System BIOS", MACHINE_IS_BIOS_ROOT )
+GAME( 1985, gradiusb, bubsys,    bubsys,    gradiusb, nemesis_state, bubsys_init, ROT0,   "Konami", "Gradius (Bubble System)", MACHINE_UNEMULATED_PROTECTION )
+GAME( 1985, twinbeeb, bubsys,    bubsys,    twinbeeb, nemesis_state, bubsys_twinbeeb_init, ROT90,   "Konami", "TwinBee (Bubble System)", MACHINE_UNEMULATED_PROTECTION )
 // Bubble System RF2
 // Bubble System Galactic Warriors
 // Bubble System Attack Rush
