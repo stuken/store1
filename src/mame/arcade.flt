@@ -673,7 +673,6 @@ kopunch.cpp
 kpython.cpp
 ksayakyu.cpp
 ksys573.cpp
-kungfum2.cpp
 kungfur.cpp
 kurukuru.cpp
 kyugo.cpp
@@ -723,6 +722,7 @@ m52.cpp
 m57.cpp
 m58.cpp
 m62.cpp
+m62_bkungfu.cpp
 m63.cpp
 m72.cpp
 m79amb.cpp
@@ -923,9 +923,10 @@ nmk16.cpp
 //norautp.cpp      // poker
 //notechan.cpp     // check
 nova2001.cpp
-//nsg6809.cpp      // mechanical
-//nsm.cpp          // pinball
-//nsmpoker.cpp     // check
+//novadesitec.cpp                      // skeleton of unknown thing
+//nsg6809.cpp                          // mechanical
+//nsm.cpp                              // pinball
+//nsmpoker.cpp                         // check
 nss.cpp
 nwk-tr.cpp
 nycaptor.cpp
@@ -1467,7 +1468,6 @@ welltris.cpp
 wgp.cpp
 wheelfir.cpp
 //whitestar.cpp    // pinball
-//white_mod.cpp    // pinball
 //wico.cpp         // pinball
 //wildpkr.cpp      // poker
 williams.cpp
