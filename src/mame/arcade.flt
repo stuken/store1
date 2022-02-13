@@ -93,31 +93,31 @@ attckufo.cpp                           //
 avalnche.cpp                           //
 //avt.cpp                              //??
 aztarac.cpp                            //
-backfire.cpp
-badlands.cpp
-badlandsbl.cpp
-bagman.cpp
+backfire.cpp                           //
+badlands.cpp                           //
+//badlandsbl.cpp                       // inputs nw
+bagman.cpp                             //
 //bailey.cpp                           // check
-balsente.cpp
-bankp.cpp
+balsente.cpp                           //
+bankp.cpp                              //
 //banprestoms.cpp                      // medal game
-baraduke.cpp
-barata.cpp
+baraduke.cpp                           //
+//barata.cpp                           //??
 //barni.cpp                            // pinball
-bartop52.cpp
-batman.cpp
-battlane.cpp
-battlera.cpp
-battlex.cpp
-battlnts.cpp
-bbusters.cpp
-beaminv.cpp
-beathead.cpp
-beezer.cpp
-//belatra.cpp                          // check
-berzerk.cpp
-bestleag.cpp
-bfcobra.cpp
+bartop52.cpp                           //
+batman.cpp                             //
+battlane.cpp                           //
+battlera.cpp                           //
+battlex.cpp                            //
+battlnts.cpp                           //
+bbusters.cpp                           //
+beaminv.cpp                            //
+beathead.cpp                           //
+beezer.cpp                             //
+//belatra.cpp                          // fruit, skel
+berzerk.cpp                            //
+bestleag.cpp                           //
+bfcobra.cpp                            //
 //bfmsys83.cpp                         // fruit
 //bfmsys85.cpp                         // fruit
 //bfm_ad5sw.cpp                        // fruit
@@ -127,83 +127,83 @@ bfcobra.cpp
 //bfm_sc5sw.cpp                        // fruit
 //bfm_swp.cpp                          // fruit
 //bgt.cpp                              // fruit, skeleton
-big10.cpp
-bigevglf.cpp
+//big10.cpp                            // keno
+bigevglf.cpp                           //
 bigkarnk_ms.cpp
 bigstrkb.cpp
-//bingo.cpp                            // check
-//bingoc.cpp                           // check
-//bingoman.cpp                         // check
-//bingor.cpp                           // check
-//bingowav.cpp                         // check
-bionicc.cpp
-bishi.cpp
-bking.cpp
-blackt96.cpp
-bladestl.cpp
+//bingo.cpp                            // bingo
+//bingoc.cpp                           // bingo
+//bingoman.cpp                         // bingo
+//bingor.cpp                           // bingo
+//bingowav.cpp                         // bingo
+bionicc.cpp                            //
+bishi.cpp                              //
+bking.cpp                              //
+blackt96.cpp                           //
+bladestl.cpp                           //
 //blitz68k.cpp                         // fruit&poker
-blktiger.cpp
-blktiger_ms.cpp
-blmbycar.cpp
-blockade.cpp
-blockch.cpp
-blockhl.cpp
-blockout.cpp
-blocktax.cpp
-bloodbro.cpp
-bloodbro_ms.cpp
-blstroid.cpp
-blueprnt.cpp
-bmcbowl.cpp
+blktiger.cpp                           //
+//blktiger_ms.cpp                      // bad gfx
+blmbycar.cpp                           //
+blockade.cpp                           //
+//blockch.cpp                          // bat not working
+blockhl.cpp                            //
+blockout.cpp                           //
+//blocktax.cpp                         // black screen
+bloodbro.cpp                           //
+//bloodbro_ms.cpp                      // bad gfx
+blstroid.cpp                           //
+blueprnt.cpp                           //
+bmcbowl.cpp                            //
 //bmcpokr.cpp                          // poker, majong
-bnstars.cpp
-bntyhunt.cpp
-bogeyman.cpp
-bombjack.cpp
-boogwing.cpp
-bottom9.cpp
-//bowltry.cpp                          // check
-boxer.cpp
-brkthru.cpp
-bsktball.cpp
-btime.cpp
-btoads.cpp
-bublbobl.cpp
-buggychl.cpp
+//bnstars.cpp                          // majong
+//bntyhunt.cpp                         // chd, listed as mnw
+bogeyman.cpp                           //
+bombjack.cpp                           //
+boogwing.cpp                           //
+bottom9.cpp                            //
+//bowltry.cpp                          // mech skel
+//boxer.cpp                            // runs by itself, player has no control
+brkthru.cpp                            //
+bsktball.cpp                           //
+btime.cpp                              //
+btoads.cpp                             //
+bublbobl.cpp                           //
+buggychl.cpp                           //
 //buster.cpp                           // fruit
-bwidow.cpp
-bwing.cpp
-bzone.cpp
+bwidow.cpp                             //
+bwing.cpp                              //
 //by17.cpp                             // pinball
 //by35.cpp                             // pinball
 //by6803.cpp                           // pinball
 //by68701.cpp                          // pinball
-//byvid.cpp                            // pinball-video
+byvid.cpp                              // pinball-video
+bzone.cpp                              //
 cabal.cpp
 //cabaret.cpp                          // poker
 calchase.cpp
-calcune.cpp             //
-//calomega.cpp     // poker
+calcune.cpp
+//calomega.cpp                         // poker
 calorie.cpp
 canyon.cpp
 capbowl.cpp
-//capcom.cpp       // check
-//capr1.cpp        // check
-//caprcyc.cpp      // check
+//capcom.cpp                           // pinball
+//capr1.cpp                            // check
+//caprcyc.cpp                          // check
 cardline.cpp
 carjmbre.cpp
 carpolo.cpp
 carrera.cpp
-//castle.cpp       // check
+//castle.cpp                           // check
 caswin.cpp
 cave.cpp
 cavepc.cpp
-//cb2001.cpp       // fruit
+//cb2001.cpp                           // fruit
 cball.cpp
 cbasebal.cpp
 cbuster.cpp
 ccastles.cpp
-//cchance.cpp      // fruit
+//cchance.cpp                          // fruit
 cchasm.cpp
 cclimber.cpp
 cdi.cpp
@@ -219,20 +219,20 @@ champbwl.cpp
 chanbara.cpp
 chance32.cpp
 changela.cpp
-//changyu.cpp      // skeleton gambling
+//changyu.cpp                          // skeleton gambling
 cheekyms.cpp
-//chexx.cpp        // mechanical
-//chicago.cpp      // ttl
-//chihiro.cpp      // chd
+//chexx.cpp                            // mechanical
+//chicago.cpp                          // ttl
+//chihiro.cpp                          // chd
 chinagat.cpp
 chinsan.cpp
 chqflag.cpp
-//chsuper.cpp      // poker
+//chsuper.cpp                          // poker
 cidelsa.cpp
 cinemat.cpp
 circus.cpp
 circusc.cpp
-//cirsa820xxx.cpp      // skel-mech
+//cirsa820xxx.cpp                      // skel-mech
 //cirsa910510.cpp
 cischeat.cpp
 citycon.cpp
@@ -240,8 +240,8 @@ clayshoo.cpp
 cliffhgr.cpp
 cloak.cpp
 cloud9.cpp
-//clowndwn.cpp     // mechanical
-//clpoker.cpp      // poker
+//clowndwn.cpp                         // mechanical
+//clpoker.cpp                          // poker
 clshroad.cpp
 cmmb.cpp
 cninja.cpp
@@ -249,8 +249,8 @@ cntsteer.cpp
 cobra.cpp
 cocoloco.cpp
 coinmstr.cpp
-//coinmvga.cpp     // check
-//cointek.cpp        // skeleton
+//coinmvga.cpp                         // check
+//cointek.cpp                          // skeleton
 combatsc.cpp
 comebaby.cpp
 commando.cpp
@@ -260,33 +260,33 @@ contra.cpp
 coolpool.cpp
 coolridr.cpp
 cop01.cpp
-//cops.cpp         // check
+//cops.cpp                             // check
 copsnrob.cpp
 corona.cpp
 cosmic.cpp
-cosmicg.cpp                  // ok
-//cowtipping.cpp     // skeleton
+cosmicg.cpp                            // ok
+//cowtipping.cpp                       // skeleton
 cps1.cpp
 cps1bl_5205.cpp
 cps1bl_pic.cpp
 cps2.cpp
 cps3.cpp
 cpzodiac.cpp
-//crazybal.cpp     // TTL
+//crazybal.cpp                         // TTL
 crbaloon.cpp
 crgolf.cpp
 crimfght.cpp
-//cromptons.cpp    // mechanical
+//cromptons.cpp                        // mechanical
 crospang.cpp
 crospuzl.cpp
 crshrace.cpp
 crystal.cpp
-//csplayh5.cpp     // chd
+//csplayh5.cpp                         // chd
 cswat.cpp
 cubeqst.cpp
 cubo.cpp
 cultures.cpp
-//cupidon.cpp      // check
+//cupidon.cpp                          // check
 cv1k.cpp
 cvs.cpp
 cwheel.cpp
@@ -317,11 +317,11 @@ ddenlovr.cpp
 ddragon.cpp
 ddragon3.cpp
 ddribble.cpp
-//ddz.cpp          // skeleton
+//ddz.cpp                              // skeleton
 deadang.cpp
 dec0.cpp
 dec8.cpp
-deco_ld.cpp        // needed by combram3
+deco_ld.cpp                            // needed by combram3
 deco_mlc.cpp
 deco156.cpp
 deco32.cpp
@@ -329,11 +329,11 @@ decocass.cpp
 deco_ld.cpp
 deco_mlc.cpp
 deniam.cpp
-//deshoros.cpp     // check
+//deshoros.cpp                         // check
 destroyr.cpp
-//de_2.cpp         // pinball
-//de_3.cpp         // pinball
-//de_3b.cpp        // pinball
+//de_2.cpp                             // pinball
+//de_3.cpp                             // pinball
+//de_3b.cpp                            // pinball
 dfruit.cpp
 dgpix.cpp
 diamondking.cpp
@@ -346,8 +346,8 @@ djboy.cpp
 djmain.cpp
 dkmb.cpp
 dkong.cpp
-//dlair.cpp        // laser-disk
-//dlair2.cpp       // laser-disk
+//dlair.cpp                            // laser-disk
+//dlair2.cpp                           // laser-disk
 //dmainevent.cpp                       // skel
 dmndrby.cpp
 docastle.cpp
@@ -364,9 +364,9 @@ drgnmst.cpp
 dribling.cpp
 drmicro.cpp
 drtomy.cpp
-//drw80pkr.cpp     // poker
+//drw80pkr.cpp                         // poker
 dunhuang.cpp
-//dwarfd.cpp       // poker
+//dwarfd.cpp                           // poker
 dynadice.cpp
 dynamoah.cpp
 dynax.cpp
