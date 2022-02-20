@@ -333,7 +333,6 @@ deniam.cpp
 destroyr.cpp
 //de_2.cpp                             // pinball
 //de_3.cpp                             // pinball
-//de_3b.cpp                            // pinball
 dfruit.cpp
 dgpix.cpp
 diamondking.cpp
@@ -655,7 +654,7 @@ kinst.cpp
 klax.cpp
 kncljoe.cpp
 //koftball.cpp                         // no inputs
-koikoi.cpp
+//koikoi.cpp                           //??
 konamigq.cpp
 konamigs.cpp
 konamigv.cpp
@@ -671,6 +670,7 @@ kontest.cpp
 kopunch.cpp
 //kpontoon.cpp            // card game
 kpython.cpp
+krokha.cpp
 ksayakyu.cpp
 ksys573.cpp
 kungfur.cpp
@@ -923,7 +923,9 @@ nmk16.cpp
 //norautp.cpp      // poker
 //notechan.cpp     // check
 nova2001.cpp
-//novadesitec.cpp                      // skeleton of unknown thing
+//novadesitec_fr002.cpp                //??
+//novadesitec_fr004.cpp                //??
+//novadesitec_fr009.cpp                //??
 //nsg6809.cpp                          // mechanical
 //nsm.cpp                              // pinball
 //nsmpoker.cpp                         // check
@@ -997,6 +999,7 @@ playmark.cpp
 //plsonic4.cpp                     // skel
 //pluto5.cpp                       // fruit
 //plygonet.cpp                     // fatal error
+//pmc.cpp
 pntnpuzl.cpp
 pokechmp.cpp
 //poker72.cpp      // poker
@@ -1097,7 +1100,6 @@ rungun.cpp
 //s3.cpp           // pinball
 //s4.cpp           // pinball
 //s6.cpp           // pinball
-//s6a.cpp          // pinball
 //s7.cpp           // pinball
 //s8.cpp           // pinball
 //s8a.cpp          // pinball

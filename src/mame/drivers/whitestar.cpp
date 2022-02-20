@@ -23,7 +23,7 @@ Apollo 13                             5044    Hold FG, hit 2             DFG
 Independence Day                      5045    Hold FG. hit 1             DF
 X Files                               5046    Hold FG, hit 1 then Shift  DG
 Cut The Cheese Deluxe (Redemption)      --    1
-Titanic (Coin dropper)                  --    (unknown - diag says there's no coin inputs)
+Titanic (Coin dropper)                  --    (unknown)
 Wack-A-Doodle-Doo (Redemption)          --    1
 Lost World Jurassic Park              5053    Hold DEFG, hit 1 H A       DEFG (it can be difficult to start or end a ball)
 Star Wars Trilogy Special Edition     5056    Hold FG, hit 1             DG
@@ -61,7 +61,6 @@ Status:
 - Volume is quite low. On some machines it can be boosted by hitting NUM2 to get the volume menu, then hold NUM1 to max.
 
 ToDo:
-- NVRAM (it's there but doesn't save anything)
 - ATMEL ARM soundcard
 - Mechanical sounds
 - Outputs
@@ -312,6 +311,8 @@ void whitestar_state::whitestar(machine_config &config)
 	MC6809E(config, m_maincpu, 2000000);
 	m_maincpu->set_addrmap(AS_PROGRAM, &whitestar_state::whitestar_map);
 	m_maincpu->set_periodic_int(FUNC(whitestar_state::whitestar_firq_interrupt), attotime::from_hz(976));  // value taken from PinMAME
+
+	NVRAM(config, "nvram", nvram_device::DEFAULT_ALL_0);
 
 	/* sound hardware */
 	genpin_audio(config);
