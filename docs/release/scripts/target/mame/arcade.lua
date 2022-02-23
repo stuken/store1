@@ -803,7 +803,7 @@ BUSES["MIDI"] = true
 --BUSES["MSX_SLOT"] = true
 BUSES["NEOGEO"] = true
 BUSES["NEOGEO_CTRL"] = true
---BUSES["NES"] = true
+BUSES["NES_CTRL"] = true
 BUSES["NSCSI"] = true
 --BUSES["NUBUS"] = true
 --BUSES["O2"] = true
@@ -827,7 +827,7 @@ BUSES["SG1000_EXP"] = true
 BUSES["SGIKBD"] = true
 BUSES["SMS_CTRL"] = true
 BUSES["SMS_EXP"] = true
---BUSES["SNES"] = true
+BUSES["SNES_CTRL"] = true
 --BUSES["SPC1000"] = true
 BUSES["SUNKBD"] = true
 --BUSES["TI99PEB"] = true
@@ -919,7 +919,7 @@ function linkProjects_mame_arcade(_target, _subtarget)
 		"jpm",
 		"kaneko",
 		"konami",
-		"matic",
+--		"matic",
 --		"maygay",   -- not used in ARCADE
 		"meadows",
 		"merit",
@@ -935,6 +935,7 @@ function linkProjects_mame_arcade(_target, _subtarget)
 		"nintendo",
 		"nix",
 		"nmk",
+		"novadesitec",
 		"omori",
 		"olympia",
 		"orca",
@@ -1126,7 +1127,7 @@ files {
 
 createMAMEProjects(_target, _subtarget, "ascii")
 files {
-	MAME_DIR .. "src/mame/drivers/big10.cpp",
+--	MAME_DIR .. "src/mame/drivers/big10.cpp",
 	MAME_DIR .. "src/mame/drivers/forte2.cpp",
 	MAME_DIR .. "src/mame/drivers/pengadvb.cpp",
 	MAME_DIR .. "src/mame/drivers/sangho.cpp",
@@ -1183,7 +1184,7 @@ files {
 	MAME_DIR .. "src/mame/includes/badlands.h",
 	MAME_DIR .. "src/mame/machine/badlands.cpp",
 	MAME_DIR .. "src/mame/video/badlands.cpp",
-	MAME_DIR .. "src/mame/drivers/badlandsbl.cpp",
+--	MAME_DIR .. "src/mame/drivers/badlandsbl.cpp",
 	MAME_DIR .. "src/mame/drivers/bartop52.cpp",
 	MAME_DIR .. "src/mame/drivers/batman.cpp",
 	MAME_DIR .. "src/mame/includes/batman.h",
@@ -1194,7 +1195,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/blstroid.cpp",
 	MAME_DIR .. "src/mame/includes/blstroid.h",
 	MAME_DIR .. "src/mame/video/blstroid.cpp",
-	MAME_DIR .. "src/mame/drivers/boxer.cpp",
+--	MAME_DIR .. "src/mame/drivers/boxer.cpp",
 	MAME_DIR .. "src/mame/drivers/bsktball.cpp",
 	MAME_DIR .. "src/mame/includes/bsktball.h",
 	MAME_DIR .. "src/mame/machine/bsktball.cpp",
@@ -1526,7 +1527,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/blktiger.cpp",
 	MAME_DIR .. "src/mame/includes/blktiger.h",
 	MAME_DIR .. "src/mame/video/blktiger.cpp",
-	MAME_DIR .. "src/mame/drivers/blktiger_ms.cpp",
+--	MAME_DIR .. "src/mame/drivers/blktiger_ms.cpp",
 	MAME_DIR .. "src/mame/drivers/cbasebal.cpp",
 	MAME_DIR .. "src/mame/includes/cbasebal.h",
 	MAME_DIR .. "src/mame/video/cbasebal.cpp",
@@ -2201,7 +2202,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/m62.cpp",
 	MAME_DIR .. "src/mame/includes/m62.h",
 	MAME_DIR .. "src/mame/video/m62.cpp",
-	MAME_DIR .. "src/mame/drivers/kungfum2.cpp",
+	MAME_DIR .. "src/mame/drivers/m62_bkungfu.cpp",
 	MAME_DIR .. "src/mame/drivers/spartanxtec.cpp",
 	MAME_DIR .. "src/mame/drivers/m63.cpp",
 	MAME_DIR .. "src/mame/drivers/m72.cpp",
@@ -2274,7 +2275,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/blueprnt.cpp",
 	MAME_DIR .. "src/mame/includes/blueprnt.h",
 	MAME_DIR .. "src/mame/video/blueprnt.cpp",
-	MAME_DIR .. "src/mame/drivers/bnstars.cpp",
+--	MAME_DIR .. "src/mame/drivers/bnstars.cpp",
 	MAME_DIR .. "src/mame/drivers/cischeat.cpp",
 	MAME_DIR .. "src/mame/includes/cischeat.h",
 	MAME_DIR .. "src/mame/video/cischeat.cpp",
@@ -2526,6 +2527,8 @@ files {
 	MAME_DIR .. "src/mame/machine/k573fpga.h",
 	MAME_DIR .. "src/mame/machine/k573kara.cpp",
 	MAME_DIR .. "src/mame/machine/k573kara.h",
+	MAME_DIR .. "src/mame/machine/k573mcal.cpp",
+	MAME_DIR .. "src/mame/machine/k573mcal.h",
 	MAME_DIR .. "src/mame/machine/k573mcr.cpp",
 	MAME_DIR .. "src/mame/machine/k573mcr.h",
 	MAME_DIR .. "src/mame/machine/k573msu.cpp",
@@ -3257,6 +3260,13 @@ files {
 	MAME_DIR .. "src/mame/drivers/quizpani.cpp",
 	MAME_DIR .. "src/mame/includes/quizpani.h",
 	MAME_DIR .. "src/mame/video/quizpani.cpp",
+}
+
+createMAMEProjects(_target, _subtarget, "novadesitec")
+files {
+	MAME_DIR .. "src/mame/drivers/novadesitec_fr002.cpp",
+	MAME_DIR .. "src/mame/drivers/novadesitec_fr004.cpp",
+	MAME_DIR .. "src/mame/drivers/novadesitec_fr009.cpp",
 }
 
 createMAMEProjects(_target, _subtarget, "olympia")
@@ -4631,7 +4641,7 @@ files {
 --	MAME_DIR .. "src/mame/drivers/by35.cpp",
 --	MAME_DIR .. "src/mame/drivers/by6803.cpp",
 --	MAME_DIR .. "src/mame/drivers/by68701.cpp",
---	MAME_DIR .. "src/mame/drivers/byvid.cpp",
+	MAME_DIR .. "src/mame/drivers/byvid.cpp",
 --	MAME_DIR .. "src/mame/drivers/capcom.cpp",
 --	MAME_DIR .. "src/mame/drivers/de_2.cpp",
 --	MAME_DIR .. "src/mame/drivers/de_3.cpp",
@@ -4643,11 +4653,10 @@ files {
 --	MAME_DIR .. "src/mame/video/decodmd2.h",
 --	MAME_DIR .. "src/mame/video/decodmd3.cpp",
 --	MAME_DIR .. "src/mame/video/decodmd3.h",
---	MAME_DIR .. "src/mame/drivers/de_3b.cpp",
 --	MAME_DIR .. "src/mame/drivers/flicker.cpp",
 --	MAME_DIR .. "src/mame/drivers/g627.cpp",
 --	MAME_DIR .. "src/mame/drivers/gp_1.cpp",
---	MAME_DIR .. "src/mame/machine/genpin.cpp",
+	MAME_DIR .. "src/mame/machine/genpin.cpp",
 --	MAME_DIR .. "src/mame/machine/genpin.h",
 --	MAME_DIR .. "src/mame/drivers/gp_2.cpp",
 --	MAME_DIR .. "src/mame/drivers/gts1.cpp",
@@ -4694,7 +4703,6 @@ files {
 --	MAME_DIR .. "src/mame/drivers/s3.cpp",
 --	MAME_DIR .. "src/mame/drivers/s4.cpp",
 --	MAME_DIR .. "src/mame/drivers/s6.cpp",
---	MAME_DIR .. "src/mame/drivers/s6a.cpp",
 --	MAME_DIR .. "src/mame/drivers/s7.cpp",
 --	MAME_DIR .. "src/mame/drivers/s8.cpp",
 --	MAME_DIR .. "src/mame/drivers/s8a.cpp",
@@ -4712,7 +4720,6 @@ files {
 --	MAME_DIR .. "src/mame/drivers/techno.cpp",
 --	MAME_DIR .. "src/mame/drivers/vd.cpp",
 --	MAME_DIR .. "src/mame/drivers/whitestar.cpp",
---	MAME_DIR .. "src/mame/drivers/white_mod.cpp",
 --	MAME_DIR .. "src/mame/drivers/wico.cpp",
 --	MAME_DIR .. "src/mame/drivers/wms_shuffle.cpp",
 --	MAME_DIR .. "src/mame/drivers/wpc_95.cpp",
@@ -4805,7 +4812,7 @@ files {
 --	MAME_DIR .. "src/mame/drivers/bingoman.cpp",
 --	MAME_DIR .. "src/mame/drivers/bingor.cpp",
 --	MAME_DIR .. "src/mame/drivers/blitz68k.cpp",
-	MAME_DIR .. "src/mame/drivers/blocktax.cpp",
+--	MAME_DIR .. "src/mame/drivers/blocktax.cpp",
 --	MAME_DIR .. "src/mame/drivers/buster.cpp",
 --	MAME_DIR .. "src/mame/drivers/calomega.cpp",
 --	MAME_DIR .. "src/mame/includes/calomega.h",
@@ -4847,7 +4854,7 @@ files {
 --	MAME_DIR .. "src/mame/drivers/crazybal.cpp",
 --	MAME_DIR .. "src/mame/drivers/cromptons.cpp",
 --	MAME_DIR .. "src/mame/drivers/cupidon.cpp",
-	MAME_DIR .. "src/mame/drivers/bntyhunt.cpp",
+--	MAME_DIR .. "src/mame/drivers/bntyhunt.cpp",
 	MAME_DIR .. "src/mame/drivers/coolpool.cpp",
 	MAME_DIR .. "src/mame/includes/coolpool.h",
 	MAME_DIR .. "src/mame/drivers/megaphx.cpp",
@@ -4972,7 +4979,8 @@ files {
 --	MAME_DIR .. "src/mame/drivers/jungleyo.cpp",
 --	MAME_DIR .. "src/mame/drivers/kas89.cpp",
 	MAME_DIR .. "src/mame/drivers/kingpin.cpp",
-	MAME_DIR .. "src/mame/drivers/koikoi.cpp",
+--	MAME_DIR .. "src/mame/drivers/koikoi.cpp",
+	MAME_DIR .. "src/mame/drivers/krokha.cpp",
 	MAME_DIR .. "src/mame/drivers/kurukuru.cpp",
 	MAME_DIR .. "src/mame/drivers/kyugo.cpp",
 	MAME_DIR .. "src/mame/includes/kyugo.h",
@@ -5043,6 +5051,7 @@ files {
 --	MAME_DIR .. "src/mame/includes/norautp.h",
 --	MAME_DIR .. "src/mame/audio/norautp.cpp",
 --	MAME_DIR .. "src/mame/drivers/notechan.cpp",
+--	MAME_DIR .. "src/mame/drivers/novadesitec.cpp",
 --	MAME_DIR .. "src/mame/drivers/nsg6809.cpp",
 --	MAME_DIR .. "src/mame/drivers/nsmpoker.cpp",
 	MAME_DIR .. "src/mame/drivers/odyssey.cpp",
@@ -5066,6 +5075,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/pkscram.cpp",
 --	MAME_DIR .. "src/mame/drivers/playcenter.cpp",
 --	MAME_DIR .. "src/mame/drivers/plsonic4.cpp",
+--	MAME_DIR .. "src/mame/drivers/pmc.cpp",
 	MAME_DIR .. "src/mame/drivers/pntnpuzl.cpp",
 	MAME_DIR .. "src/mame/drivers/policetr.cpp",
 	MAME_DIR .. "src/mame/includes/policetr.h",
