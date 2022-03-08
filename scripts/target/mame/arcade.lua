@@ -2275,7 +2275,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/blueprnt.cpp",
 	MAME_DIR .. "src/mame/includes/blueprnt.h",
 	MAME_DIR .. "src/mame/video/blueprnt.cpp",
---	MAME_DIR .. "src/mame/drivers/bnstars.cpp",
+	MAME_DIR .. "src/mame/drivers/bnstars.cpp",
 	MAME_DIR .. "src/mame/drivers/cischeat.cpp",
 	MAME_DIR .. "src/mame/includes/cischeat.h",
 	MAME_DIR .. "src/mame/video/cischeat.cpp",
@@ -3714,7 +3714,7 @@ files {
 
 createMAMEProjects(_target, _subtarget, "seibu")
 files {
---	MAME_DIR .. "src/mame/drivers/airraid.cpp",
+	MAME_DIR .. "src/mame/drivers/airraid.cpp",
 --	MAME_DIR .. "src/mame/drivers/banprestoms.cpp",
 	MAME_DIR .. "src/mame/drivers/bloodbro.cpp",
 	MAME_DIR .. "src/mame/includes/bloodbro.h",

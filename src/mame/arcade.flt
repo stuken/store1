@@ -27,7 +27,7 @@ aeroboto.cpp                           //
 aerofgt.cpp                            //
 //age_candy.cpp                        // mechanical
 airbustr.cpp                           //
-//airraid.cpp                          //??
+airraid.cpp                            // for failgate
 ajax.cpp                               //
 akkaarrh.cpp                           //
 albazc.cpp                             //
@@ -156,7 +156,7 @@ blstroid.cpp                           //
 blueprnt.cpp                           //
 bmcbowl.cpp                            //
 //bmcpokr.cpp                          // poker, majong
-//bnstars.cpp                          // majong
+bnstars.cpp                            // needed by ms32.cpp
 //bntyhunt.cpp                         // chd, listed as mnw
 bogeyman.cpp                           //
 bombjack.cpp                           //
