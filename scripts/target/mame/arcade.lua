@@ -459,6 +459,7 @@ MACHINES["AM79C90"] = true
 --MACHINES["AM9513"] = true
 MACHINES["AM9517A"] = true
 MACHINES["AMIGAFDC"] = true
+MACHINES["AMIGA_COPPER"] = true
 --MACHINES["APPLEPIC"] = true
 MACHINES["AT_KEYBC"] = true
 MACHINES["AT28C16"] = true
@@ -4576,8 +4577,6 @@ files {
 	MAME_DIR .. "src/mame/includes/taotaido.h",
 	MAME_DIR .. "src/mame/video/taotaido.cpp",
 	MAME_DIR .. "src/mame/drivers/welltris.cpp",
-	MAME_DIR .. "src/mame/includes/welltris.h",
-	MAME_DIR .. "src/mame/video/welltris.cpp",
 }
 
 createMAMEProjects(_target, _subtarget, "wing")
@@ -5149,8 +5148,6 @@ files {
 --	MAME_DIR .. "src/mame/drivers/tecnodar.cpp",
 --	MAME_DIR .. "src/mame/drivers/thayers.cpp",
 	MAME_DIR .. "src/mame/drivers/thedeep.cpp",
-	MAME_DIR .. "src/mame/includes/thedeep.h",
-	MAME_DIR .. "src/mame/video/thedeep.cpp",
 	MAME_DIR .. "src/mame/drivers/tickee.cpp",
 --	MAME_DIR .. "src/mame/drivers/tmspoker.cpp",
 	MAME_DIR .. "src/mame/drivers/truco.cpp",
@@ -5159,6 +5156,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/trucocl.cpp",
 	MAME_DIR .. "src/mame/includes/trucocl.h",
 	MAME_DIR .. "src/mame/video/trucocl.cpp",
+	MAME_DIR .. "src/mame/drivers/truesys.cpp",
 	MAME_DIR .. "src/mame/drivers/trvmadns.cpp",
 	MAME_DIR .. "src/mame/drivers/trvquest.cpp",
 	MAME_DIR .. "src/mame/drivers/ttchamp.cpp",
