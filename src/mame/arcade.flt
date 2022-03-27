@@ -1365,7 +1365,7 @@ tickee.cpp
 tigeroad.cpp
 timelimt.cpp
 timeplt.cpp
-//timetrv.cpp      // check
+timetrv.cpp                            // chd, known to work, mooglyguy
 tmaster.cpp
 tmmjprd.cpp
 tmnt.cpp
