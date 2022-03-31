@@ -264,7 +264,9 @@ cop01.cpp
 copsnrob.cpp
 corona.cpp
 cosmic.cpp
+<<<<<<< HEAD
 cosmicg.cpp                            // ok
+//cosmos_playc8f.cpp                   // skel
 //cowtipping.cpp                       // skeleton
 cps1.cpp
 cps1bl_5205.cpp
