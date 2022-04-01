@@ -120,6 +120,7 @@ CPUS["UNSP"] = true
 CPUS["HCD62121"] = true
 CPUS["PPS4"] = true
 --CPUS["PPS41"] = true
+--CPUS["B5000"] = true
 CPUS["UPD7725"] = true
 CPUS["HD61700"] = true
 CPUS["LC8670"] = true
@@ -138,7 +139,7 @@ CPUS["HMCS40"] = true
 --CPUS["E0C6200"] = true
 --CPUS["MELPS4"] = true
 --CPUS["HPHYBRID"] = true
---CPUS["SM510"] = true
+CPUS["SM510"] = true
 CPUS["ST62XX"] = true
 CPUS["DSPP"] = true
 CPUS["HPC"] = true
@@ -459,6 +460,7 @@ MACHINES["AM79C90"] = true
 --MACHINES["AM9513"] = true
 MACHINES["AM9517A"] = true
 MACHINES["AMIGAFDC"] = true
+MACHINES["AMIGA_COPPER"] = true
 --MACHINES["APPLEPIC"] = true
 MACHINES["AT_KEYBC"] = true
 MACHINES["AT28C16"] = true
@@ -540,6 +542,7 @@ MACHINES["LC89510"] = true
 MACHINES["LDPR8210"] = true
 MACHINES["LDSTUB"] = true
 MACHINES["LDV1000"] = true
+MACHINES["LDV4200HLE"] = true
 MACHINES["LDP1000"] = true
 MACHINES["LDP1450"] = true
 MACHINES["LDVP931"] = true
@@ -1525,8 +1528,6 @@ files {
 	MAME_DIR .. "src/mame/video/tigeroad_spr.cpp",
 	MAME_DIR .. "src/mame/video/tigeroad_spr.h",
 	MAME_DIR .. "src/mame/drivers/blktiger.cpp",
-	MAME_DIR .. "src/mame/includes/blktiger.h",
-	MAME_DIR .. "src/mame/video/blktiger.cpp",
 --	MAME_DIR .. "src/mame/drivers/blktiger_ms.cpp",
 	MAME_DIR .. "src/mame/drivers/cbasebal.cpp",
 	MAME_DIR .. "src/mame/includes/cbasebal.h",
@@ -1569,8 +1570,6 @@ files {
 	MAME_DIR .. "src/mame/includes/lwings.h",
 	MAME_DIR .. "src/mame/video/lwings.cpp",
 	MAME_DIR .. "src/mame/drivers/mitchell.cpp",
-	MAME_DIR .. "src/mame/includes/mitchell.h",
-	MAME_DIR .. "src/mame/video/mitchell.cpp",
 --	MAME_DIR .. "src/mame/drivers/psrockman.cpp",
 	MAME_DIR .. "src/mame/drivers/sf.cpp",
 	MAME_DIR .. "src/mame/drivers/sidearms.cpp",
@@ -1875,8 +1874,6 @@ files {
 	MAME_DIR .. "src/mame/includes/dynax.h",
 	MAME_DIR .. "src/mame/video/dynax.cpp",
 	MAME_DIR .. "src/mame/drivers/hnayayoi.cpp",
-	MAME_DIR .. "src/mame/includes/hnayayoi.h",
-	MAME_DIR .. "src/mame/video/hnayayoi.cpp",
 	MAME_DIR .. "src/mame/drivers/realbrk.cpp",
 	MAME_DIR .. "src/mame/includes/realbrk.h",
 	MAME_DIR .. "src/mame/video/realbrk.cpp",
@@ -2246,8 +2243,6 @@ files {
 createMAMEProjects(_target, _subtarget, "itech")
 files {
 	MAME_DIR .. "src/mame/drivers/capbowl.cpp",
-	MAME_DIR .. "src/mame/includes/capbowl.h",
-	MAME_DIR .. "src/mame/video/capbowl.cpp",
 	MAME_DIR .. "src/mame/drivers/itech8.cpp",
 	MAME_DIR .. "src/mame/includes/itech8.h",
 	MAME_DIR .. "src/mame/machine/itech8.cpp",
@@ -2275,7 +2270,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/blueprnt.cpp",
 	MAME_DIR .. "src/mame/includes/blueprnt.h",
 	MAME_DIR .. "src/mame/video/blueprnt.cpp",
---	MAME_DIR .. "src/mame/drivers/bnstars.cpp",
+	MAME_DIR .. "src/mame/drivers/bnstars.cpp",
 	MAME_DIR .. "src/mame/drivers/cischeat.cpp",
 	MAME_DIR .. "src/mame/includes/cischeat.h",
 	MAME_DIR .. "src/mame/video/cischeat.cpp",
@@ -2446,8 +2441,6 @@ files {
 	MAME_DIR .. "src/mame/includes/fastfred.h",
 	MAME_DIR .. "src/mame/video/fastfred.cpp",
 	MAME_DIR .. "src/mame/drivers/fastlane.cpp",
-	MAME_DIR .. "src/mame/includes/fastlane.h",
-	MAME_DIR .. "src/mame/video/fastlane.cpp",
 	MAME_DIR .. "src/mame/drivers/finalizr.cpp",
 	MAME_DIR .. "src/mame/includes/finalizr.h",
 	MAME_DIR .. "src/mame/video/finalizr.cpp",
@@ -2455,8 +2448,6 @@ files {
 	MAME_DIR .. "src/mame/machine/midikbd.cpp",
 	MAME_DIR .. "src/mame/machine/midikbd.h",
 	MAME_DIR .. "src/mame/drivers/flkatck.cpp",
-	MAME_DIR .. "src/mame/includes/flkatck.h",
-	MAME_DIR .. "src/mame/video/flkatck.cpp",
 	MAME_DIR .. "src/mame/drivers/gberet.cpp",
 	MAME_DIR .. "src/mame/includes/gberet.h",
 	MAME_DIR .. "src/mame/video/gberet.cpp",
@@ -2549,8 +2540,6 @@ files {
 	MAME_DIR .. "src/mame/includes/mainevt.h",
 	MAME_DIR .. "src/mame/video/mainevt.cpp",
 	MAME_DIR .. "src/mame/drivers/megazone.cpp",
-	MAME_DIR .. "src/mame/includes/megazone.h",
-	MAME_DIR .. "src/mame/video/megazone.cpp",
 	MAME_DIR .. "src/mame/drivers/mikie.cpp",
 	MAME_DIR .. "src/mame/includes/mikie.h",
 	MAME_DIR .. "src/mame/video/mikie.cpp",
@@ -3714,7 +3703,7 @@ files {
 
 createMAMEProjects(_target, _subtarget, "seibu")
 files {
---	MAME_DIR .. "src/mame/drivers/airraid.cpp",
+	MAME_DIR .. "src/mame/drivers/airraid.cpp",
 --	MAME_DIR .. "src/mame/drivers/banprestoms.cpp",
 	MAME_DIR .. "src/mame/drivers/bloodbro.cpp",
 	MAME_DIR .. "src/mame/includes/bloodbro.h",
@@ -3937,8 +3926,6 @@ createMAMEProjects(_target, _subtarget, "suna")
 files {
 	MAME_DIR .. "src/mame/drivers/go2000.cpp",
 	MAME_DIR .. "src/mame/drivers/goindol.cpp",
-	MAME_DIR .. "src/mame/includes/goindol.h",
-	MAME_DIR .. "src/mame/video/goindol.cpp",
 	MAME_DIR .. "src/mame/drivers/suna8.cpp",
 	MAME_DIR .. "src/mame/includes/suna8.h",
 	MAME_DIR .. "src/mame/audio/suna8.cpp",
@@ -4379,11 +4366,7 @@ files {
 	MAME_DIR .. "src/mame/includes/tehkanwc.h",
 	MAME_DIR .. "src/mame/video/tehkanwc.cpp",
 	MAME_DIR .. "src/mame/drivers/wc90.cpp",
-	MAME_DIR .. "src/mame/includes/wc90.h",
-	MAME_DIR .. "src/mame/video/wc90.cpp",
 	MAME_DIR .. "src/mame/drivers/wc90b.cpp",
-	MAME_DIR .. "src/mame/includes/wc90b.h",
-	MAME_DIR .. "src/mame/video/wc90b.cpp",
 }
 
 createMAMEProjects(_target, _subtarget, "terminal")
@@ -4500,8 +4483,6 @@ files {
 	MAME_DIR .. "src/mame/includes/nova2001.h",
 	MAME_DIR .. "src/mame/video/nova2001.cpp",
 	MAME_DIR .. "src/mame/drivers/xxmissio.cpp",
-	MAME_DIR .. "src/mame/includes/xxmissio.h",
-	MAME_DIR .. "src/mame/video/xxmissio.cpp",
 }
 
 createMAMEProjects(_target, _subtarget, "valadon")
@@ -4570,14 +4551,10 @@ files {
 	MAME_DIR .. "src/mame/includes/suprslam.h",
 	MAME_DIR .. "src/mame/video/suprslam.cpp",
 	MAME_DIR .. "src/mame/drivers/tail2nos.cpp",
-	MAME_DIR .. "src/mame/includes/tail2nos.h",
-	MAME_DIR .. "src/mame/video/tail2nos.cpp",
 	MAME_DIR .. "src/mame/drivers/taotaido.cpp",
 	MAME_DIR .. "src/mame/includes/taotaido.h",
 	MAME_DIR .. "src/mame/video/taotaido.cpp",
 	MAME_DIR .. "src/mame/drivers/welltris.cpp",
-	MAME_DIR .. "src/mame/includes/welltris.h",
-	MAME_DIR .. "src/mame/video/welltris.cpp",
 }
 
 createMAMEProjects(_target, _subtarget, "wing")
@@ -4599,8 +4576,6 @@ files {
 	MAME_DIR .. "src/mame/includes/paradise.h",
 	MAME_DIR .. "src/mame/video/paradise.cpp",
 	MAME_DIR .. "src/mame/drivers/yunsung8.cpp",
-	MAME_DIR .. "src/mame/includes/yunsung8.h",
-	MAME_DIR .. "src/mame/video/yunsung8.cpp",
 	MAME_DIR .. "src/mame/drivers/yunsun16.cpp",
 	MAME_DIR .. "src/mame/includes/yunsun16.h",
 	MAME_DIR .. "src/mame/video/yunsun16.cpp",
@@ -4850,6 +4825,7 @@ files {
 --	MAME_DIR .. "src/mame/drivers/cointek.cpp",
 	MAME_DIR .. "src/mame/drivers/comebaby.cpp",
 --	MAME_DIR .. "src/mame/drivers/compucranes.cpp",
+--	MAME_DIR .. "src/mame/drivers/cosmos_playc8f.cpp",
 --	MAME_DIR .. "src/mame/drivers/cowtipping.cpp",
 --	MAME_DIR .. "src/mame/drivers/crazybal.cpp",
 --	MAME_DIR .. "src/mame/drivers/cromptons.cpp",
@@ -5149,8 +5125,6 @@ files {
 --	MAME_DIR .. "src/mame/drivers/tecnodar.cpp",
 --	MAME_DIR .. "src/mame/drivers/thayers.cpp",
 	MAME_DIR .. "src/mame/drivers/thedeep.cpp",
-	MAME_DIR .. "src/mame/includes/thedeep.h",
-	MAME_DIR .. "src/mame/video/thedeep.cpp",
 	MAME_DIR .. "src/mame/drivers/tickee.cpp",
 --	MAME_DIR .. "src/mame/drivers/tmspoker.cpp",
 	MAME_DIR .. "src/mame/drivers/truco.cpp",
@@ -5159,6 +5133,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/trucocl.cpp",
 	MAME_DIR .. "src/mame/includes/trucocl.h",
 	MAME_DIR .. "src/mame/video/trucocl.cpp",
+	MAME_DIR .. "src/mame/drivers/truesys.cpp",
 	MAME_DIR .. "src/mame/drivers/trvmadns.cpp",
 	MAME_DIR .. "src/mame/drivers/trvquest.cpp",
 	MAME_DIR .. "src/mame/drivers/ttchamp.cpp",

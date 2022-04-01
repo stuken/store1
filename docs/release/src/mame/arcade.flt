@@ -27,7 +27,7 @@ aeroboto.cpp                           //
 aerofgt.cpp                            //
 //age_candy.cpp                        // mechanical
 airbustr.cpp                           //
-//airraid.cpp                          //??
+airraid.cpp                            // for failgate
 ajax.cpp                               //
 akkaarrh.cpp                           //
 albazc.cpp                             //
@@ -156,7 +156,7 @@ blstroid.cpp                           //
 blueprnt.cpp                           //
 bmcbowl.cpp                            //
 //bmcpokr.cpp                          // poker, majong
-//bnstars.cpp                          // majong
+bnstars.cpp                            // needed by ms32.cpp
 //bntyhunt.cpp                         // chd, listed as mnw
 bogeyman.cpp                           //
 bombjack.cpp                           //
@@ -264,7 +264,9 @@ cop01.cpp
 copsnrob.cpp
 corona.cpp
 cosmic.cpp
+<<<<<<< HEAD
 cosmicg.cpp                            // ok
+//cosmos_playc8f.cpp                   // skel
 //cowtipping.cpp                       // skeleton
 cps1.cpp
 cps1bl_5205.cpp
@@ -1365,7 +1367,7 @@ tickee.cpp
 tigeroad.cpp
 timelimt.cpp
 timeplt.cpp
-//timetrv.cpp      // check
+timetrv.cpp                            // chd, known to work, mooglyguy
 tmaster.cpp
 tmmjprd.cpp
 tmnt.cpp
@@ -1392,6 +1394,7 @@ triplhnt.cpp
 trivrus.cpp
 truco.cpp
 trucocl.cpp
+truesys.cpp
 trvmadns.cpp
 trvquest.cpp
 tryout.cpp
