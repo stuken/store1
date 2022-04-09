@@ -129,8 +129,8 @@ bfcobra.cpp                            //
 //bgt.cpp                              // fruit, skeleton
 //big10.cpp                            // keno
 bigevglf.cpp                           //
-bigkarnk_ms.cpp
-bigstrkb.cpp
+bigkarnk_ms.cpp                        //
+bigstrkb.cpp                           //
 //bingo.cpp                            // bingo
 //bingoc.cpp                           // bingo
 //bingoman.cpp                         // bingo
@@ -177,59 +177,59 @@ bwing.cpp                              //
 //by35.cpp                             // pinball
 //by6803.cpp                           // pinball
 //by68701.cpp                          // pinball
-byvid.cpp                              // pinball-video
+byvid.cpp                              //
 bzone.cpp                              //
-cabal.cpp
+cabal.cpp                              //
 //cabaret.cpp                          // poker
-calchase.cpp
-calcune.cpp
+calchase.cpp                           // calchase: BOOT to start game
+calcune.cpp                            //
 //calomega.cpp                         // poker
-calorie.cpp
-canyon.cpp
-capbowl.cpp
+calorie.cpp                            //
+canyon.cpp                             //
+capbowl.cpp                            //
 //capcom.cpp                           // pinball
-//capr1.cpp                            // check
-//caprcyc.cpp                          // check
-cardline.cpp
-carjmbre.cpp
-carpolo.cpp
-carrera.cpp
-//castle.cpp                           // check
-caswin.cpp
-cave.cpp
-cavepc.cpp
+//capr1.cpp                            // mnw
+//caprcyc.cpp                          // mnw
+//cardline.cpp                         // poker
+carjmbre.cpp                           //
+carpolo.cpp                            //
+carrera.cpp                            //
+//castle.cpp                           // mnw
+caswin.cpp                             //
+cave.cpp                               //
+cavepc.cpp                             // chd untested
 //cb2001.cpp                           // fruit
-cball.cpp
-cbasebal.cpp
-cbuster.cpp
-ccastles.cpp
+//cball.cpp                            // bad gfx
+cbasebal.cpp                           //
+cbuster.cpp                            //
+ccastles.cpp                           //
 //cchance.cpp                          // fruit
-cchasm.cpp
-cclimber.cpp
-cdi.cpp
-cedar_magnet.cpp
-centiped.cpp
-cesclass.cpp
-cgang.cpp
-chaknpop.cpp
-cham24.cpp
-chameleonrx1.cpp
-champbas.cpp
-champbwl.cpp
-chanbara.cpp
-chance32.cpp
-changela.cpp
+cchasm.cpp                             //
+cclimber.cpp                           //
+cdi.cpp                                //
+cedar_magnet.cpp                       //
+centiped.cpp                           //
+cesclass.cpp                           //
+cgang.cpp                              //
+chaknpop.cpp                           //
+cham24.cpp                             //
+chameleonrx1.cpp                       // chd untested
+champbas.cpp                           //
+champbwl.cpp                           //
+chanbara.cpp                           //
+//chance32.cpp                         // poker
+changela.cpp                           //
 //changyu.cpp                          // skeleton gambling
-cheekyms.cpp
+cheekyms.cpp                           //
 //chexx.cpp                            // mechanical
 //chicago.cpp                          // ttl
 //chihiro.cpp                          // chd
-chinagat.cpp
-chinsan.cpp
-chqflag.cpp
+chinagat.cpp                           //
+//chinsan.cpp                          // mahjong
+chqflag.cpp                            //
 //chsuper.cpp                          // poker
-cidelsa.cpp
-cinemat.cpp
+cidelsa.cpp                            //
+cinemat.cpp                            //
 circus.cpp
 circusc.cpp
 //cirsa820xxx.cpp                      // skel-mech
@@ -264,15 +264,14 @@ cop01.cpp
 copsnrob.cpp
 corona.cpp
 cosmic.cpp
-<<<<<<< HEAD
 cosmicg.cpp                            // ok
 //cosmos_playc8f.cpp                   // skel
 //cowtipping.cpp                       // skeleton
-cps1.cpp
+cps1.cpp                               //
 cps1bl_5205.cpp
 cps1bl_pic.cpp
-cps2.cpp
-cps3.cpp
+cps2.cpp                               //
+cps3.cpp                               //
 cpzodiac.cpp
 //crazybal.cpp                         // TTL
 crbaloon.cpp
