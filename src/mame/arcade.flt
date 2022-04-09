@@ -695,6 +695,7 @@ lbeach.cpp
 legionna.cpp
 leland.cpp
 lemmings.cpp
+lependu.cpp
 lethal.cpp
 lethalj.cpp
 //lgp.cpp          // check
@@ -1103,7 +1104,6 @@ rungun.cpp
 //s6.cpp           // pinball
 //s7.cpp           // pinball
 //s8.cpp           // pinball
-//s8a.cpp          // pinball
 //s9.cpp           // pinball
 safarir.cpp
 //sam.cpp          // pinball
