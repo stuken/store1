@@ -152,7 +152,7 @@ MIG RAM page 2 $CE02 is the speaker/slot bitfield and $CE03 is the paddle/accele
 #include "bus/rs232/rs232.h"
 
 #include "screen.h"
-#include "softlist.h"
+#include "softlist_dev.h"
 #include "speaker.h"
 
 #include "formats/ap2_dsk.h"
@@ -2320,6 +2320,7 @@ void apple2e_state::c000_w(offs_t offset, u8 data)
 				else if (m_accel_unlocked)
 				{
 					// disable acceleration
+					m_accel_fast = false;
 					accel_normal_speed();
 				}
 			}
@@ -2328,6 +2329,7 @@ void apple2e_state::c000_w(offs_t offset, u8 data)
 		case 0x5b: // Zip full speed
 			if (m_accel_unlocked)
 			{
+				m_accel_fast = true;
 				accel_full_speed();
 			}
 			break;

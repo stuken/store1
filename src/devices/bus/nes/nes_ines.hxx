@@ -123,7 +123,7 @@ static const nes_mmc mmc_list[] =
 	{ 88, NAMCOT_34X3 },
 	{ 89, SUNSOFT_2 },
 	{ 90, JYCOMPANY_A },
-	{ 91, UNL_MK2 },
+	{ 91, UNL_JY830623C },
 	{ 92, JALECO_JF19 },
 	{ 93, SUNSOFT_2 },
 	{ 94, STD_UN1ROM },
@@ -268,7 +268,7 @@ static const nes_mmc mmc_list[] =
 	{ 232, CAMERICA_BF9096 },
 	{ 233, BMC_42IN1RESET },
 	{ 234, AVE_MAXI15 },
-	{ 235, BMC_GOLD150 },   // 235 Golden Game x-in-1 - Unsupported
+	{ 235, BMC_GOLD260 },   // 235 Golden Game x-in-1 games
 	{ 236, BMC_70IN1 },
 	{ 237, BMC_TELETUBBIES },
 	{ 238, UNL_603_5052 },
@@ -284,9 +284,9 @@ static const nes_mmc mmc_list[] =
 	// 248 Unused
 	{ 249, WAIXING_SECURITY },
 	{ 250, NITRA_TDA },
-	// 251 Shen Hua Jian Yun III?? - Unsupported
+	// 251 Unused
 	{ 252, WAIXING_SGZ },
-	// 253 Super 8-in-1 99 King Fighter?? - Unsupported
+	{ 253, HENGG_SHJY3 },
 	{ 254, BTL_PIKACHUY2K },
 	{ 255, BMC_72IN1 },         // duplicate of mapper 225
 
@@ -372,7 +372,7 @@ static const nes_mmc mmc_list[] =
 	{ 334, BMC_5IN1_1993 },
 	{ 335, BMC_CTC09 },
 	{ 336, BMC_K3046 },
-	// { 337, BMC_CTC_12IN1 }, not in nes.xml
+	{ 337, BMC_CTC_12IN1 },
 	{ 338, BMC_SA005A },
 	{ 339, BMC_K3006 },
 	{ 340, BMC_K3036 },
@@ -385,11 +385,11 @@ static const nes_mmc mmc_list[] =
 	{ 347, KAISER_KS7030 },        // Doki Doki Panic alt FDS conversion
 	{ 348, BMC_830118C },
 	{ 349, BMC_G146 },
-	// { 350, BMC_891227 }, not in nes.xml
+	{ 350, BMC_891227 },
 	{ 351, BMC_TECHLINE9IN1 },
 	{ 352, KAISER_KS106C },        // 4-in-1
 	{ 353, BMC_810305C },          // Super Mario Family multicart
-	// 354 250-in-1 multicart with FDS Bubble Bobble
+	{ 354, BMC_FAM250 },
 	// 355 Hwang Shinwei 3-D Block etc, currently has unemulated PIC16C54
 	{ 356, BMC_JY208 },
 	// 357 Bit Corp 4-in-1 (ID 4602)
@@ -436,7 +436,7 @@ static const nes_mmc mmc_list[] =
 	// 398 JY-048 multicart, not in nes.xml?
 	{ 399, BATMAP_000 },           // homebrew game Star Versus
 	// 400 retroUSB (Sealie?) 8-bit XMAS 2017
-	// 401 Super 19-in-1 VIP 19, not in nes.xml?
+	{ 401, BMC_KC885 },
 	// 402 22-in-1 Olympic Games, not in nes.xml?
 	// 403 Tetris Family 19-in-1 that only works on Famiclones with 6502's BCD mode
 	{ 404, BMC_JY012005 },
@@ -445,7 +445,7 @@ static const nes_mmc mmc_list[] =
 	// 407 VT03 PnP
 	// 408 Konami PnP
 	{ 409, SEALIE_DPCMCART },      // A Winner is You homebrew music cart
-	// 410 Unused or JY?
+	{ 410, BMC_JY302 },
 	{ 411, BMC_A88S1 },
 	// 412 INTV 10-in-1 PnP 2nd edition
 	{ 413, BATMAP_SRRX },          // homebrew game Super Russian Roulette
@@ -464,16 +464,32 @@ static const nes_mmc mmc_list[] =
 	// 426 PnP
 	// 427 PnP
 	{ 428, BMC_TF2740 },
-	// 429 Unused
-	// 430 Unused
+	// 429 Milowork FCFC1 flash cartridge
+	// 430 MMC3-based 831031C/T-308 multicart
 	{ 431, BMC_GN91B },
 	// 432 Realtec 8090
 	{ 433, BMC_NC20MB },
-	// 434 S-009
-	// 435...442 Unused
+	{ 434, BMC_S009 },
+	// 435 F-1002 multicart
+	// 436 VT02 PnP
+	{ 437, BMC_TH2348 },
+	{ 438, BMC_K3071 },
+	// 439 YS2309 multicart
+	// 440 Dongda Sonic REC-9388 educational computer
+	// 441 841026C and 850335C multicarts
+	// 442 "Golden Key" educational computer 
 	// 443 NC3000M multicart
 	// 444 NC7000M multicart
-	// 445...511 Unused
+	// 445 DG574B MMC3-compatible multicart
+	// 446 Mindkids SMD172B_FPGA board
+	// 447 VRC4-based KL-06 multicart
+	// 448 VRC4-based 830768C multicart
+	// 449 Super Games King multicart
+	// 450 VRC2-based YY841157C multicart
+	// 451 homebrew Haratyler HP/MP
+	{ 452, BMC_DS927 },
+	// 453 Realtec 8042
+	// 454...511 Unused
 	// 512 probably the correct MMC3 clone for chuugokt in nes.xml
 	{ 513, SACHEN_SA9602B },
 	// 514 seems to be for skaraok, currently set to UNKNOWN in nes.xml
@@ -516,7 +532,7 @@ static const nes_mmc mmc_list[] =
 	// 552 TAITO_X1_017, this is a correction of mapper 82. We should drop 82 and only support the accurate dumps of 552?
 	{ 553, SACHEN_3013 },          // Dong Dong Nao 1
 	{ 554, KAISER_KS7010 },        // Akumajo Dracula FDS conversion
-	// 555 retroUSB re-release of 1991 Nintendo Campus Challenge
+	{ 555, STD_EVENT2 },
 	// 556 JY-215 multicart
 	{ 557, UNL_LG25 },             // Moero TwinBee FDS conversion
 	// 558 some games on YC-03-09 board (related to mappers 162-164)
@@ -940,6 +956,10 @@ void nes_cart_slot_device::call_load_ines()
 				m_cart->set_vrc_lines(0, 1, 0);
 			break;
 
+		case KONAMI_VRC7:
+			m_cart->set_vrc_lines((crc_hack || submapper == 2) ? 4 : 3, 0, 0);
+			break;
+
 		case IREM_G101:
 			if (crc_hack && !submapper)
 				m_cart->set_mirroring(PPU_MIRROR_HIGH); // Major League has hardwired mirroring
@@ -959,6 +979,11 @@ void nes_cart_slot_device::call_load_ines()
 				m_cart->set_mirroring(PPU_MIRROR_VERT); // only hardwired mirroring makes different mappers 89 & 93
 			else
 				m_cart->set_pcb_ctrl_mirror(true);
+			break;
+
+		case CONY_BOARD:
+			if (submapper == 0 || submapper == 2)
+				pcb_id = CONY1K_BOARD;
 			break;
 
 		case UNL_LH28_LH54:
@@ -1307,6 +1332,11 @@ const char * nes_cart_slot_device::get_default_card_ines(get_default_card_softwa
 		case BTL_MARIOBABY:
 			if (crc_hack)
 				pcb_id = BTL_AISENSHINICOL;    // Mapper 42 is used for 2 diff boards
+			break;
+
+		case CONY_BOARD:
+			if (submapper == 0 || submapper == 2)
+				pcb_id = CONY1K_BOARD;         // Mapper 83 is used for 3 diff boards
 			break;
 
 		case UNL_LH28_LH54:                            // Mapper 108 is used for 4 diff boards

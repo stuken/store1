@@ -172,6 +172,7 @@
 #include "formats/camplynx_dsk.h"
 
 #include "screen.h"
+#include "softlist_dev.h"
 #include "speaker.h"
 
 
@@ -226,7 +227,7 @@ private:
 	u8 m_port80 = 0U;
 	u8 m_bankdata = 0U;
 	u8 m_wbyte = 0U;
-	u8 *m_p_ram;
+	u8 *m_p_ram = nullptr;
 	bool m_is_128k = 0;
 	required_device<palette_device> m_palette;
 	required_device<z80_device> m_maincpu;

@@ -201,8 +201,7 @@ private:
 	template <typename DeviceClass>
 	static std::unique_ptr<device_t> create_device(device_type_impl_base const &type, machine_config const &mconfig, char const *tag, device_t *owner, u32 clock)
 	{
-		//return std::make_unique<DeviceClass>(mconfig, tag, owner, clock);
-		return make_unique_clear<DeviceClass>(mconfig, tag, owner, clock);
+		return std::make_unique<DeviceClass>(mconfig, tag, owner, clock);
 	}
 
 	template <typename DriverClass>
@@ -211,7 +210,7 @@ private:
 		assert(!owner);
 		assert(!clock);
 
-		return make_unique_clear<DriverClass>(mconfig, type, tag);
+		return std::make_unique<DriverClass>(mconfig, type, tag);
 	}
 
 	create_func const m_creator;
@@ -300,8 +299,7 @@ public:
 	template <typename... Params>
 	std::unique_ptr<DeviceClass> create(machine_config &mconfig, char const *tag, device_t *owner, Params &&... args) const
 	{
-		//return std::make_unique<DeviceClass>(mconfig, tag, owner, std::forward<Params>(args)...);
-		return make_unique_clear<DeviceClass>(mconfig, tag, owner, std::forward<Params>(args)...);
+		return std::make_unique<DeviceClass>(mconfig, tag, owner, std::forward<Params>(args)...);
 	}
 
 	template <typename... Params> DeviceClass &operator()(machine_config &mconfig, char const *tag, Params &&... args) const;
@@ -707,10 +705,10 @@ public:
 	u64 attotime_to_clocks(const attotime &duration) const noexcept;
 
 	// timer interfaces
-	emu_timer *timer_alloc(device_timer_id id = 0, void *ptr = nullptr);
-	void timer_set(const attotime &duration, device_timer_id id = 0, int param = 0, void *ptr = nullptr);
-	void synchronize(device_timer_id id = 0, int param = 0, void *ptr = nullptr) { timer_set(attotime::zero, id, param, ptr); }
-	void timer_expired(emu_timer &timer, device_timer_id id, int param, void *ptr) { device_timer(timer, id, param, ptr); }
+	emu_timer *timer_alloc(device_timer_id id = 0);
+	void timer_set(const attotime &duration, device_timer_id id = 0, int param = 0);
+	void synchronize(device_timer_id id = 0, int param = 0) { timer_set(attotime::zero, id, param); }
+	void timer_expired(emu_timer &timer, device_timer_id id, int param) { device_timer(timer, id, param); }
 
 	/// \brief Register data for save states
 	///
@@ -978,7 +976,7 @@ protected:
 
 	virtual void device_clock_changed();
 	virtual void device_debug_setup();
-	virtual void device_timer(emu_timer &timer, device_timer_id id, int param, void *ptr);
+	virtual void device_timer(emu_timer &timer, device_timer_id id, int param);
 
 	//------------------- end derived class overrides
 

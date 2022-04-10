@@ -37,6 +37,7 @@
 #include "machine/m3002.h"
 #include "machine/pckeybrd.h"
 #include "machine/ram.h"
+#include "softlist_dev.h"
 
 
 class europc_pc_state : public driver_device
@@ -75,7 +76,7 @@ private:
 
 	uint8_t m_jim_data[16];
 	uint8_t m_jim_state;
-	isa8_aga_device::mode_t m_jim_mode;
+	isa8_aga_device::mode_t m_jim_mode{};
 	int m_port61; // bit 0,1 must be 0 for startup; reset?
 
 	void europc_io(address_map &map);

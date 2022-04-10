@@ -631,7 +631,7 @@ void thunderx_state::scontra(machine_config &config)
 	KONAMI(config, m_maincpu, XTAL(24'000'000)/2/4); /* 052001 (verified on pcb) */
 	m_maincpu->set_addrmap(AS_PROGRAM, &thunderx_state::scontra_map);
 
-	Z80(config, m_audiocpu, XTAL(3'579'545)*2); /* verified on pcb */    // MAMEFX
+	Z80(config, m_audiocpu, XTAL(3'579'545)); /* verified on pcb */
 	m_audiocpu->set_addrmap(AS_PROGRAM, &thunderx_state::scontra_sound_map);
 
 	ADDRESS_MAP_BANK(config, m_bank5800).set_map(&thunderx_state::scontra_bank5800_map).set_options(ENDIANNESS_BIG, 8, 12, 0x800);
@@ -640,7 +640,7 @@ void thunderx_state::scontra(machine_config &config)
 
 	/* video hardware */
 	screen_device &screen(SCREEN(config, "screen", SCREEN_TYPE_RASTER));
-	screen.set_refresh_hz(57); /* verified on pcb */          // MAMEFX
+	screen.set_refresh_hz(59); /* verified on pcb */
 	screen.set_vblank_time(ATTOSECONDS_IN_USEC(0));
 	screen.set_size(64*8, 32*8);
 	screen.set_visarea(12*8, (64-12)*8-1, 2*8, 30*8-1); /* verified on scontra and thunderx PCBs */

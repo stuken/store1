@@ -47,7 +47,8 @@ public:
 		m_screen(*this, "screen"),
 		m_palette(*this, "palette"),
 		m_upd71059c(*this, "upd71059c"),
-		m_mainbank(*this, "mainbank")
+		m_mainbank(*this, "mainbank"),
+		m_dsw(*this, "DSW")
 	{ }
 
 	void m92(machine_config &config);
@@ -86,6 +87,7 @@ private:
 	required_device<pic8259_device> m_upd71059c;
 
 	optional_memory_bank m_mainbank;
+	required_ioport m_dsw;
 
 	emu_timer *m_spritebuffer_timer;
 	uint32_t m_raster_irq_position;
@@ -130,7 +132,7 @@ private:
 	void ppan_portmap(address_map &map);
 	void sound_map(address_map &map);
 
-	virtual void device_timer(emu_timer &timer, device_timer_id id, int param, void *ptr) override;
+	virtual void device_timer(emu_timer &timer, device_timer_id id, int param) override;
 };
 
 #endif // MAME_INCLUDES_M92_H

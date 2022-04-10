@@ -93,6 +93,7 @@
 #include "emu.h"
 #include "emuopts.h"
 #include "config.h"
+#include "fileio.h"
 #include "xmlfile.h"
 #include "profiler.h"
 #include "ui/uimain.h"
@@ -712,6 +713,20 @@ ioport_field::ioport_field(ioport_port &port, ioport_type type, ioport_value def
 	}
 }
 
+
+//-------------------------------------------------
+//  ~ioport_field - destructor
+//-------------------------------------------------
+
+ioport_field::~ioport_field()
+{
+}
+
+
+//-------------------------------------------------
+//  set_value - programmatically set field value
+//-------------------------------------------------
+
 void ioport_field::set_value(ioport_value value)
 {
 	if (is_analog())
@@ -722,11 +737,15 @@ void ioport_field::set_value(ioport_value value)
 
 
 //-------------------------------------------------
-//  ~ioport_field - destructor
+//  clear_value - clear programmatic override
 //-------------------------------------------------
 
-ioport_field::~ioport_field()
+void ioport_field::clear_value()
 {
+	if (is_analog())
+		live().analog->clear_value();
+	else
+		m_digital_value = false;
 }
 
 
@@ -1716,8 +1735,6 @@ ioport_manager::ioport_manager(running_machine &machine)
 	, m_safe_to_read(false)
 	, m_last_frame_time(attotime::zero)
 	, m_last_delta_nsec(0)
-	, m_record_file(machine.options().input_directory(), OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS)
-	, m_playback_file(machine.options().input_directory(), OPEN_FLAG_READ)
 	, m_playback_accumulated_speed(0)
 	, m_playback_accumulated_frames(0)
 	, m_deselected_card_config()
@@ -2793,7 +2810,8 @@ time_t ioport_manager::playback_init()
 		return 0;
 
 	// open the playback file
-	std::error_condition const filerr = m_playback_file.open(filename);
+	m_playback_file = std::make_unique<emu_file>(machine().options().input_directory(), OPEN_FLAG_READ);
+	std::error_condition const filerr = m_playback_file->open(filename);
 
 	// return an explicit error if file isn't found in given path
 	if (filerr == std::errc::no_such_file_or_directory)
@@ -2805,7 +2823,7 @@ time_t ioport_manager::playback_init()
 
 	// read the header and verify that it is a modern version; if not, print an error
 	inp_header header;
-	if (!header.read(m_playback_file))
+	if (!header.read(*m_playback_file))
 		fatalerror("Input file is corrupt or invalid (missing header)\n");
 	if (!header.check_magic())
 		fatalerror("Input file invalid or in an older, unsupported format\n");
@@ -2825,7 +2843,7 @@ time_t ioport_manager::playback_init()
 		osd_printf_info("Input file is for machine '%s', not for current machine '%s'\n", sysname, machine().system().name);
 
 	// enable compression
-	m_playback_stream = util::zlib_read(m_playback_file, 16386);
+	m_playback_stream = util::zlib_read(*m_playback_file, 16386);
 	return basetime;
 }
 
@@ -2841,7 +2859,7 @@ void ioport_manager::playback_end(const char *message)
 	{
 		// close the file
 		m_playback_stream.reset();
-		m_playback_file.close();
+		m_playback_file.reset();
 
 		// pop a message
 		if (message != nullptr)
@@ -2963,7 +2981,8 @@ void ioport_manager::record_init()
 		return;
 
 	// open the record file
-	std::error_condition const filerr = m_record_file.open(filename);
+	m_record_file = std::make_unique<emu_file>(machine().options().input_directory(), OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS);
+	std::error_condition const filerr = m_record_file->open(filename);
 	if (filerr)
 		throw emu_fatalerror("ioport_manager::record_init: Failed to open file for recording (%s:%d %s)", filerr.category().name(), filerr.value(), filerr.message());
 
@@ -2980,10 +2999,10 @@ void ioport_manager::record_init()
 	header.set_appdesc(util::string_format("%s %s", emulator_info::get_appname(), emulator_info::get_build_version()));
 
 	// write it
-	header.write(m_record_file);
+	header.write(*m_record_file);
 
 	// enable compression
-	m_record_stream = util::zlib_write(m_record_file, 6, 16384);
+	m_record_stream = util::zlib_write(*m_record_file, 6, 16384);
 }
 
 
@@ -2998,7 +3017,7 @@ void ioport_manager::record_end(const char *message)
 	{
 		// close the file
 		m_record_stream.reset(); // TODO: check for errors flushing the last compressed block before doing this
-		m_record_file.close();
+		m_record_file.reset();
 
 		// pop a message
 		if (message != nullptr)
@@ -3330,6 +3349,7 @@ analog_field::analog_field(ioport_field &field)
 		m_adjdefvalue(field.defvalue() & field.mask()),
 		m_adjmin(field.minval() & field.mask()),
 		m_adjmax(field.maxval() & field.mask()),
+		m_adjoverride(field.defvalue() & field.mask()),
 		m_sensitivity(field.sensitivity()),
 		m_reverse(field.analog_reverse()),
 		m_delta(field.delta()),
@@ -3337,7 +3357,6 @@ analog_field::analog_field(ioport_field &field)
 		m_accum(0),
 		m_previous(0),
 		m_previousanalog(0),
-		m_prog_analog_value(0),
 		m_minimum(INPUT_ABSOLUTE_MIN),
 		m_maximum(INPUT_ABSOLUTE_MAX),
 		m_center(0),
@@ -3353,7 +3372,7 @@ analog_field::analog_field(ioport_field &field)
 		m_single_scale(false),
 		m_interpolate(false),
 		m_lastdigital(false),
-		m_was_written(false)
+		m_use_adjoverride(false)
 {
 	// compute the shift amount and number of bits
 	for (ioport_value mask = field.mask(); !(mask & 1); mask >>= 1)
@@ -3593,15 +3612,27 @@ s32 analog_field::apply_settings(s32 value) const
 
 
 //-------------------------------------------------
-//  set_value - take a new value to be used
-//  at next frame update
+//  set_value - override the value that will be
+//  read from the field
 //-------------------------------------------------
 
 void analog_field::set_value(s32 value)
 {
-	m_was_written = true;
-	m_prog_analog_value = value;
+	m_use_adjoverride = true;
+	m_adjoverride = std::clamp(value, m_adjmin, m_adjmax);
 }
+
+
+//-------------------------------------------------
+//  clear_value - clear programmatic override
+//-------------------------------------------------
+
+void analog_field::clear_value()
+{
+	m_use_adjoverride = false;
+	m_adjoverride = m_adjdefvalue;
+}
+
 
 //-------------------------------------------------
 //  frame_update - update the internals of a
@@ -3620,13 +3651,6 @@ void analog_field::frame_update(running_machine &machine)
 	// get the new raw analog value and its type
 	input_item_class itemclass;
 	s32 rawvalue = machine.input().seq_axis_value(m_field.seq(SEQ_TYPE_STANDARD), itemclass);
-
-	// use programmatically set value if available
-	if (m_was_written)
-	{
-		m_was_written = false;
-		rawvalue = m_prog_analog_value;
-	}
 
 	// if we got an absolute input, it overrides everything else
 	if (itemclass == ITEM_CLASS_ABSOLUTE)
@@ -3772,6 +3796,13 @@ void analog_field::read(ioport_value &result)
 	// do nothing if we're not enabled
 	if (!m_field.enabled())
 		return;
+
+	// if set programmatically, only use the override value
+	if (m_use_adjoverride)
+	{
+		result = m_adjoverride;
+		return;
+	}
 
 	// start with the raw value
 	s32 value = m_accum;

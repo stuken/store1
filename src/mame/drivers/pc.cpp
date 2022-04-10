@@ -31,7 +31,7 @@ Driver file for IBM PC, IBM PC XT, and related machines.
 #include "bus/isa/isa_cards.h"
 #include "bus/pc_kbd/keyboards.h"
 #include "bus/pc_kbd/pc_kbdc.h"
-#include "softlist.h"
+#include "softlist_dev.h"
 
 /******************************************************* Generic PC with CGA ***/
 
@@ -86,7 +86,7 @@ private:
 
 	u8 unk_r();
 
-	double m_turbo_off_speed;
+	double m_turbo_off_speed = 0;
 
 	static void cfg_dual_720K(device_t *device);
 	static void cfg_single_360K(device_t *device);

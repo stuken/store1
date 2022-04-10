@@ -92,7 +92,6 @@ function addprojectflags()
 	if _OPTIONS["gcc"]~=nil and string.find(_OPTIONS["gcc"], "gcc") then
 		buildoptions_cpp {
 			"-Wsuggest-override",
-			"-flifetime-dse=1",
 		}
 	end
 end
@@ -1032,7 +1031,7 @@ end
 
 		local version = str_to_version(_OPTIONS["gcc_version"])
 		if string.find(_OPTIONS["gcc"], "clang") or string.find(_OPTIONS["gcc"], "asmjs") or string.find(_OPTIONS["gcc"], "android") then
-			if (version < 60000) then
+			if version < 60000 then
 				print("Clang version 6.0 or later needed")
 				os.exit(-1)
 			end
@@ -1061,25 +1060,29 @@ end
 				}
 			end
 		else
-			if (version < 70000) then
+			if version < 70000 then
 				print("GCC version 7.0 or later needed")
 				os.exit(-1)
 			end
+			buildoptions_cpp {
+				"-Wimplicit-fallthrough",
+			}
+			buildoptions_objcpp {
+				"-Wimplicit-fallthrough",
+			}
+			buildoptions {
+				"-Wno-unused-result", -- needed for fgets,fread on linux
+				-- array bounds checking seems to be buggy in 4.8.1 (try it on video/stvvdp1.c and video/model1.c without -Wno-array-bounds)
+				"-Wno-array-bounds",
+				"-Wno-error=attributes", -- GCC fails to recognize some uses of [[maybe_unused]]
+			}
+			if version < 100000 then
 				buildoptions_cpp {
-					"-Wimplicit-fallthrough",
+					"-flifetime-dse=1", -- GCC 9 takes issue with Sol's get<std::optional<T> >() otherwise
 				}
-				buildoptions_objcpp {
-					"-Wimplicit-fallthrough",
-				}
+			end
+			if version >= 80000 then
 				buildoptions {
-					"-Wno-unused-result", -- needed for fgets,fread on linux
-					-- array bounds checking seems to be buggy in 4.8.1 (try it on video/stvvdp1.c and video/model1.c without -Wno-array-bounds)
-					"-Wno-array-bounds",
-					"-Wno-error=attributes", -- GCC fails to recognize some uses of [[maybe_unused]]
-				}
-			if (version >= 80000) then
-				buildoptions {
-					"-Wno-format-overflow", -- try machine/bfm_sc45_helper.cpp in GCC 8.0.1, among others
 					"-Wno-stringop-truncation", -- ImGui again
 					"-Wno-stringop-overflow",   -- formats/victor9k_dsk.cpp bugs the compiler
 				}
@@ -1087,17 +1090,10 @@ end
 					"-Wno-class-memaccess", -- many instances in ImGui and BGFX
 				}
 			end
-			if (version >= 100000) then
-				buildoptions {
-					"-Wno-return-local-addr", -- sqlite3.c in GCC 10
-				}
-			end
-			if (version >= 110000) then
+			if version >= 110000 then
 				buildoptions {
 					"-Wno-nonnull",                 -- luaengine.cpp lambdas do not need "this" captured but GCC 11.1 erroneously insists
 					"-Wno-stringop-overread",       -- machine/bbc.cpp in GCC 11.1
-					"-Wno-misleading-indentation",  -- sqlite3.c in GCC 11.1
-					"-Wno-maybe-uninitialized"      -- expat in GCC 11.1
 				}
 			end
 		end
@@ -1163,6 +1159,7 @@ configuration { "asmjs" }
 		"-s USE_SDL=2",
 		"-s USE_SDL_TTF=2",
 		"--memory-init-file 0",
+		"-s DEFAULT_LIBRARY_FUNCS_TO_INCLUDE=\"['\\$$ERRNO_CODES']\"",
 		"-s EXPORTED_FUNCTIONS=\"['_main', '_malloc', '__ZN15running_machine30emscripten_get_running_machineEv', '__ZN15running_machine17emscripten_get_uiEv', '__ZN15running_machine20emscripten_get_soundEv', '__ZN15mame_ui_manager12set_show_fpsEb', '__ZNK15mame_ui_manager8show_fpsEv', '__ZN13sound_manager4muteEbh', '_SDL_PauseAudio', '_SDL_SendKeyboardKey', '__ZN15running_machine15emscripten_saveEPKc', '__ZN15running_machine15emscripten_loadEPKc', '__ZN15running_machine21emscripten_hard_resetEv', '__ZN15running_machine21emscripten_soft_resetEv', '__ZN15running_machine15emscripten_exitEv']\"",
 		"-s EXPORTED_RUNTIME_METHODS=\"['cwrap']\"",
 		"-s ERROR_ON_UNDEFINED_SYMBOLS=0",
@@ -1225,7 +1222,7 @@ configuration { "android-arm64" }
 		"-Wno-asm-operand-widths",
 	}
 
-configuration { "linux-*"}
+configuration { "linux-*" }
 		links {
 			"dl",
 			"rt",
