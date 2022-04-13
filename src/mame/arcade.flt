@@ -230,52 +230,52 @@ chqflag.cpp                            //
 //chsuper.cpp                          // poker
 cidelsa.cpp                            //
 cinemat.cpp                            //
-circus.cpp
-circusc.cpp
+circus.cpp                             //
+circusc.cpp                            //
 //cirsa820xxx.cpp                      // skel-mech
-//cirsa910510.cpp
-cischeat.cpp
-citycon.cpp
-clayshoo.cpp
-cliffhgr.cpp
-cloak.cpp
-cloud9.cpp
-//clowndwn.cpp                         // mechanical
+//cirsa910510.cpp                      // skel-mech
+cischeat.cpp                           //
+citycon.cpp                            //
+clayshoo.cpp                           //
+cliffhgr.cpp                           // chd untested
+cloak.cpp                              //
+cloud9.cpp                             //
+//clowndwn.cpp                         // MNW, mechanical
 //clpoker.cpp                          // poker
-clshroad.cpp
-cmmb.cpp
-cninja.cpp
-cntsteer.cpp
-cobra.cpp
-cocoloco.cpp
-coinmstr.cpp
-//coinmvga.cpp                         // check
+clshroad.cpp                           //
+//cmmb.cpp                             // no inputs
+cninja.cpp                             //
+cntsteer.cpp                           //
+cobra.cpp                              // chd untested
+cocoloco.cpp                           //
+coinmstr.cpp                           //
+//coinmvga.cpp                         // MNW
 //cointek.cpp                          // skeleton
-combatsc.cpp
-comebaby.cpp
-commando.cpp
-compgolf.cpp
-//compucranes.cpp                      // mechanical
-contra.cpp
-coolpool.cpp
-coolridr.cpp
-cop01.cpp
-//cops.cpp                             // check
-copsnrob.cpp
-corona.cpp
-cosmic.cpp
-cosmicg.cpp                            // ok
-//cosmos_playc8f.cpp                   // skel
+combatsc.cpp                           //
+comebaby.cpp                           // chd untested
+commando.cpp                           //
+compgolf.cpp                           //
+//compucranes.cpp                      // MNW, mechanical
+contra.cpp                             //
+coolpool.cpp                           //
+coolridr.cpp                           //
+cop01.cpp                              //
+//cops.cpp                             // undumped chds
+copsnrob.cpp                           //
+corona.cpp                             //
+cosmic.cpp                             //
+cosmicg.cpp                            //
+//cosmos_playc8f.cpp                   // skel-mech
 //cowtipping.cpp                       // skeleton
 cps1.cpp                               //
-cps1bl_5205.cpp
-cps1bl_pic.cpp
+cps1bl_5205.cpp                        //
+cps1bl_pic.cpp                         //
 cps2.cpp                               //
 cps3.cpp                               //
-cpzodiac.cpp
-//crazybal.cpp                         // TTL
-crbaloon.cpp
-crgolf.cpp
+//cpzodiac.cpp                         // MNW, mech
+//crazybal.cpp                         // MNW, TTL
+crbaloon.cpp                           //
+crgolf.cpp                             //
 crimfght.cpp
 //cromptons.cpp                        // mechanical
 crospang.cpp
