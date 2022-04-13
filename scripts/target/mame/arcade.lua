@@ -1783,8 +1783,6 @@ files {
 	MAME_DIR .. "src/mame/video/metlclsh.cpp",
 	MAME_DIR .. "src/mame/drivers/mirage.cpp",
 	MAME_DIR .. "src/mame/drivers/pcktgal.cpp",
-	MAME_DIR .. "src/mame/includes/pcktgal.h",
-	MAME_DIR .. "src/mame/video/pcktgal.cpp",
 	MAME_DIR .. "src/mame/drivers/pktgaldx.cpp",
 	MAME_DIR .. "src/mame/includes/pktgaldx.h",
 	MAME_DIR .. "src/mame/video/pktgaldx.cpp",
@@ -2516,8 +2514,6 @@ files {
 	MAME_DIR .. "src/mame/machine/zs01.cpp",
 	MAME_DIR .. "src/mame/machine/zs01.h",
 	MAME_DIR .. "src/mame/drivers/labyrunr.cpp",
-	MAME_DIR .. "src/mame/includes/labyrunr.h",
-	MAME_DIR .. "src/mame/video/labyrunr.cpp",
 	MAME_DIR .. "src/mame/drivers/lethal.cpp",
 	MAME_DIR .. "src/mame/includes/lethal.h",
 	MAME_DIR .. "src/mame/video/lethal.cpp",
@@ -3047,8 +3043,6 @@ files {
 createMAMEProjects(_target, _subtarget, "nasco")
 files {
 	MAME_DIR .. "src/mame/drivers/crgolf.cpp",
-	MAME_DIR .. "src/mame/includes/crgolf.h",
-	MAME_DIR .. "src/mame/video/crgolf.cpp",
 	MAME_DIR .. "src/mame/drivers/himesiki.cpp",
 	MAME_DIR .. "src/mame/drivers/suprgolf.cpp",
 }
@@ -3410,8 +3404,6 @@ files {
 createMAMEProjects(_target, _subtarget, "sega")
 files {
 	MAME_DIR .. "src/mame/drivers/angelkds.cpp",
-	MAME_DIR .. "src/mame/includes/angelkds.h",
-	MAME_DIR .. "src/mame/video/angelkds.cpp",
 	MAME_DIR .. "src/mame/drivers/bingoc.cpp",
 	MAME_DIR .. "src/mame/drivers/blockade.cpp",
 	MAME_DIR .. "src/mame/drivers/calorie.cpp",
@@ -5066,6 +5058,7 @@ files {
 --	MAME_DIR .. "src/mame/drivers/special_gambl.cpp",
 	MAME_DIR .. "src/mame/audio/special.cpp",
 	MAME_DIR .. "src/mame/audio/special.h",
+	MAME_DIR .. "src/mame/drivers/spdamjes.cpp",
 	MAME_DIR .. "src/mame/drivers/spool99.cpp",
 	MAME_DIR .. "src/mame/drivers/sprcros2.cpp",
 	MAME_DIR .. "src/mame/drivers/ssingles.cpp",
