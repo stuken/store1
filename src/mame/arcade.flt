@@ -956,6 +956,7 @@ pacman.cpp
 pandoras.cpp
 //pangofun.cpp     // check
 panicr.cpp
+paokaipc.cpp
 paradise.cpp
 paranoia.cpp
 parodius.cpp
