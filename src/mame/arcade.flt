@@ -83,6 +83,7 @@ atarisy1.cpp                           //
 atarisy2.cpp                           //
 atarisy4.cpp                           //
 //atarittl.cpp                         // ttl
+//atari_4x4.cpp                        // pinball
 //atari_s1.cpp                         // pinball
 //atari_s2.cpp                         // pinball
 atetris.cpp                            //
@@ -95,6 +96,7 @@ avt.cpp                                //
 aztarac.cpp                            //
 backfire.cpp                           //
 badlands.cpp                           //
+//badlands_ms.cpp
 //badlandsbl.cpp                       // inputs nw
 bagman.cpp                             //
 //bailey.cpp                           // black screen
@@ -327,8 +329,6 @@ deco_mlc.cpp
 deco156.cpp
 deco32.cpp
 decocass.cpp
-deco_ld.cpp
-deco_mlc.cpp
 deniam.cpp
 //deshoros.cpp                         // check
 destroyr.cpp
@@ -567,7 +567,6 @@ hotblock.cpp
 //hotstuff.cpp                         // poker
 //houseball.cpp                        // mechanical
 //hshavoc.cpp                          // check
-hshavoc.cpp
 hvyunit.cpp
 hyhoo.cpp
 hyperspt.cpp
@@ -1203,6 +1202,7 @@ skykid.cpp
 skylncr.cpp
 skyraid.cpp
 slapfght.cpp
+slapfght_ms.cpp
 slapshot.cpp
 //sleic.cpp        // pinball
 sliver.cpp

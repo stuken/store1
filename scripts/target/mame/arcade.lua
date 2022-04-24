@@ -1062,7 +1062,7 @@ files {
 
 createMAMEProjects(_target, _subtarget, "adp")
 files {
---	MAME_DIR .. "src/mame/drivers/adp.cpp",
+	MAME_DIR .. "src/mame/drivers/adp.cpp",
 	MAME_DIR .. "src/mame/drivers/manohman.cpp",
 	MAME_DIR .. "src/mame/drivers/stellafr.cpp",
 }
@@ -1070,7 +1070,7 @@ files {
 createMAMEProjects(_target, _subtarget, "alba")
 files {
 	MAME_DIR .. "src/mame/drivers/albazc.cpp",
---	MAME_DIR .. "src/mame/drivers/albazg.cpp",
+	MAME_DIR .. "src/mame/drivers/albazg.cpp",
 	MAME_DIR .. "src/mame/drivers/rmhaihai.cpp",
 	MAME_DIR .. "src/mame/drivers/vsmjtria.cpp",
 }
@@ -1188,6 +1188,7 @@ files {
 	MAME_DIR .. "src/mame/machine/badlands.cpp",
 	MAME_DIR .. "src/mame/video/badlands.cpp",
 --	MAME_DIR .. "src/mame/drivers/badlandsbl.cpp",
+--	MAME_DIR .. "src/mame/drivers/badlands_ms.cpp",
 	MAME_DIR .. "src/mame/drivers/bartop52.cpp",
 	MAME_DIR .. "src/mame/drivers/batman.cpp",
 	MAME_DIR .. "src/mame/includes/batman.h",
@@ -1442,7 +1443,7 @@ files {
 createMAMEProjects(_target, _subtarget, "atlus")
 files {
 	MAME_DIR .. "src/mame/drivers/ohmygod.cpp",
---	MAME_DIR .. "src/mame/drivers/patapata.cpp",
+	MAME_DIR .. "src/mame/drivers/patapata.cpp",
 --	MAME_DIR .. "src/mame/drivers/bowltry.cpp",
 }
 
@@ -2772,7 +2773,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/astrocde.cpp",
 	MAME_DIR .. "src/mame/includes/astrocde.h",
 	MAME_DIR .. "src/mame/video/astrocde.cpp",
---	MAME_DIR .. "src/mame/drivers/atlantis.cpp",
+	MAME_DIR .. "src/mame/drivers/atlantis.cpp",
 	MAME_DIR .. "src/mame/drivers/balsente.cpp",
 	MAME_DIR .. "src/mame/includes/balsente.h",
 	MAME_DIR .. "src/mame/machine/balsente.cpp",
@@ -3668,7 +3669,7 @@ files {
 createMAMEProjects(_target, _subtarget, "seibu")
 files {
 	MAME_DIR .. "src/mame/drivers/airraid.cpp",
---	MAME_DIR .. "src/mame/drivers/banprestoms.cpp",
+	MAME_DIR .. "src/mame/drivers/banprestoms.cpp",
 	MAME_DIR .. "src/mame/drivers/bloodbro.cpp",
 	MAME_DIR .. "src/mame/includes/bloodbro.h",
 	MAME_DIR .. "src/mame/video/bloodbro.cpp",
@@ -4346,6 +4347,7 @@ files {
 	MAME_DIR .. "src/mame/includes/slapfght.h",
 	MAME_DIR .. "src/mame/machine/slapfght.cpp",
 	MAME_DIR .. "src/mame/video/slapfght.cpp",
+	MAME_DIR .. "src/mame/drivers/slapfght_ms.cpp",
 	MAME_DIR .. "src/mame/drivers/snowbros.cpp",
 	MAME_DIR .. "src/mame/includes/snowbros.h",
 	MAME_DIR .. "src/mame/video/snowbros.cpp",
@@ -4722,7 +4724,7 @@ files {
 --	MAME_DIR .. "src/mame/drivers/astropc.cpp",
 --	MAME_DIR .. "src/mame/drivers/atronic.cpp",
 	MAME_DIR .. "src/mame/drivers/attckufo.cpp",
---	MAME_DIR .. "src/mame/drivers/avt.cpp",
+	MAME_DIR .. "src/mame/drivers/avt.cpp",
 	MAME_DIR .. "src/mame/drivers/aztarac.cpp",
 	MAME_DIR .. "src/mame/includes/aztarac.h",
 	MAME_DIR .. "src/mame/audio/aztarac.cpp",
@@ -4892,7 +4894,7 @@ files {
 --	MAME_DIR .. "src/mame/drivers/itgamble.cpp",
 --	MAME_DIR .. "src/mame/drivers/jackpool.cpp",
 --	MAME_DIR .. "src/mame/drivers/jackpot.cpp",
---	MAME_DIR .. "src/mame/drivers/jankenmn.cpp",
+	MAME_DIR .. "src/mame/drivers/jankenmn.cpp",
 --	MAME_DIR .. "src/mame/drivers/jokrwild.cpp",
 --	MAME_DIR .. "src/mame/drivers/jongkyo.cpp",
 	MAME_DIR .. "src/mame/drivers/joystand.cpp",
@@ -4900,7 +4902,7 @@ files {
 --	MAME_DIR .. "src/mame/drivers/jungleyo.cpp",
 --	MAME_DIR .. "src/mame/drivers/kas89.cpp",
 	MAME_DIR .. "src/mame/drivers/kingpin.cpp",
---	MAME_DIR .. "src/mame/drivers/koikoi.cpp",
+	MAME_DIR .. "src/mame/drivers/koikoi.cpp",
 	MAME_DIR .. "src/mame/drivers/krokha.cpp",
 	MAME_DIR .. "src/mame/drivers/kurukuru.cpp",
 	MAME_DIR .. "src/mame/drivers/kyugo.cpp",
