@@ -96,7 +96,7 @@ avt.cpp                                //
 aztarac.cpp                            //
 backfire.cpp                           //
 badlands.cpp                           //
-//badlands_ms.cpp
+//badlands_ms.cpp                      // black screen
 //badlandsbl.cpp                       // inputs nw
 bagman.cpp                             //
 //bailey.cpp                           // black screen
@@ -324,53 +324,53 @@ ddribble.cpp                           //
 deadang.cpp                            //
 dec0.cpp                               //
 dec8.cpp                               //
-deco_ld.cpp                            // needed by combram3
-deco_mlc.cpp
-deco156.cpp
-deco32.cpp
-decocass.cpp
-deniam.cpp
-//deshoros.cpp                         // check
-destroyr.cpp
+deco_ld.cpp                            // not working, but parent of combram3
+deco_mlc.cpp                           //
+deco156.cpp                            //
+deco32.cpp                             //
+decocass.cpp                           //
+deniam.cpp                             //
+//deshoros.cpp                         // black screen
+destroyr.cpp                           //
 //de_2.cpp                             // pinball
 //de_3.cpp                             // pinball
-dfruit.cpp
-dgpix.cpp
-diamondking.cpp
-dietgo.cpp
-dinoking.cpp
-discoboy.cpp
-divebomb.cpp
-diverboy.cpp
-djboy.cpp
-djmain.cpp
-dkmb.cpp
-dkong.cpp
-//dlair.cpp                            // laser-disk
-//dlair2.cpp                           // laser-disk
-//dmainevent.cpp                       // skel
-dmndrby.cpp
-docastle.cpp
-dogfgt.cpp
-dominob.cpp
-dooyong.cpp
-dorachan.cpp
-dotrikun.cpp
-dragrace.cpp
-drdmania.cpp
-dreambal.cpp
-dreamwld.cpp
-drgnmst.cpp
-dribling.cpp
-drmicro.cpp
-drtomy.cpp
+dfruit.cpp                             //
+dgpix.cpp                              //
+//diamondking.cpp                      // no screen
+dietgo.cpp                             //
+//dinoking.cpp                         // no screen
+discoboy.cpp                           //
+divebomb.cpp                           //
+diverboy.cpp                           //
+djboy.cpp                              //
+djmain.cpp                             // chd untested
+dkmb.cpp                               // hang at atart
+dkong.cpp                              //
+//dlair.cpp                            // not working, laser-disk
+//dlair2.cpp                           // black screen, laser-disk
+//dmainevent.cpp                       // no screen
+dmndrby.cpp                            //
+docastle.cpp                           //
+dogfgt.cpp                             //
+dominob.cpp                            //
+dooyong.cpp                            //
+dorachan.cpp                           //
+dotrikun.cpp                           //
+dragrace.cpp                           //
+//drdmania.cpp                         // MNW
+//dreambal.cpp                         // fruit
+dreamwld.cpp                           //
+drgnmst.cpp                            //
+dribling.cpp                           //
+drmicro.cpp                            //
+drtomy.cpp                             //
 //drw80pkr.cpp                         // poker
-dunhuang.cpp
+//dunhuang.cpp                         // mahjong
 //dwarfd.cpp                           // poker
-dynadice.cpp
-dynamoah.cpp
-dynax.cpp
-dynduke.cpp
+dynadice.cpp                           //
+//dynamoah.cpp                         // no screen
+dynax.cpp                              // 99% mahjong
+dynduke.cpp                            //
 //ecoinf1.cpp                          // fruit
 //ecoinf2.cpp                          // fruit
 //ecoinf3.cpp                          // fruit
