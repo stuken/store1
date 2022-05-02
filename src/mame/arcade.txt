@@ -729,15 +729,15 @@ m72.cpp
 m79amb.cpp
 m90.cpp
 m92.cpp
-//macp.cpp         // pinball
+//macp.cpp                             // pinball
 macrossp.cpp
 macs.cpp
 madalien.cpp
 madmotor.cpp
-//magic10.cpp      // poker
-//magicard.cpp     // poker
-//magicfly.cpp     // poker
-//magictg.cpp      // check
+//magic10.cpp                          // poker
+//magicard.cpp                         // poker
+//magicfly.cpp                         // poker
+//magictg.cpp                          // check
 magmax.cpp
 magreel.cpp
 magtouch.cpp
@@ -745,30 +745,30 @@ mainevt.cpp
 mainsnk.cpp
 majorpkr.cpp
 malzak.cpp
-//manohman.cpp     // check
+//manohman.cpp                         // check
 mappy.cpp
 marineb.cpp
 marinedt.cpp
 mario.cpp
 markham.cpp
-//marywu.cpp       // check
+//marywu.cpp                           // check
 mastboy.cpp
 mastboyo.cpp
 matmania.cpp
-//matrix.cpp         // fruit
+//matrix.cpp                           // fruit
 maxaflex.cpp
-//maygay1bsw.cpp     // fruit
-//maygayep.cpp     // fruit
-//maygaysw.cpp     // fruit
-//maygayv1.cpp     // fruit
+//maygay1bsw.cpp                       // fruit
+//maygayep.cpp                         // fruit
+//maygayew.cpp
+//maygayv1.cpp                         // fruit
 mazerbla.cpp
 mcatadv.cpp
 mcr.cpp
 mcr3.cpp
 mcr68.cpp
 meadows.cpp
-//meadwttl.cpp     // ttl
-mechatt.cpp           // ok
+//meadwttl.cpp                         // ttl
+mechatt.cpp                            // ok
 mediagx.cpp
 megadriv_acbl.cpp
 megaphx.cpp
@@ -777,27 +777,27 @@ megasys1.cpp
 megatech.cpp
 megazone.cpp
 meijinsn.cpp
-//menghong.cpp     // gambling
-//mephistp.cpp     // pinball
+//menghong.cpp                         // gambling
+//mephistp.cpp                         // pinball
 merit.cpp
 merit3xx.cpp
 meritm.cpp
 merits.cpp
 meritsdx.cpp
 mermaid.cpp
-//metalmx.cpp      // check
+//metalmx.cpp                          // check
 metlclsh.cpp
 metlfrzr.cpp
 metro.cpp
-//meyc8080.cpp     // poker
-//meyc8088.cpp     // fruit
-//mgames.cpp       // poker
-//mgavegas.cpp     // check
+//meyc8080.cpp                         // poker
+//meyc8088.cpp                         // fruit
+//mgames.cpp                           // poker
+//mgavegas.cpp                         // check
 mgolf.cpp
 mhavoc.cpp
 micro3d.cpp
-//microdar.cpp     // mechanical
-//micropin.cpp     // pinball
+//microdar.cpp                         // mechanical
+//micropin.cpp                         // pinball
 midas.cpp
 midqslvr.cpp
 midtunit.cpp
@@ -807,14 +807,14 @@ midxunit.cpp
 midyunit.cpp
 midzeus.cpp
 mikie.cpp
-//mil4000.cpp      // poker
+//mil4000.cpp                          // poker
 miniboy7.cpp
 miniguay.cpp
 minivadr.cpp
 minivideo.cpp
 mirage.cpp
 mirax.cpp
-//missamer.cpp            // Not working
+//missamer.cpp                         // Not working
 missb2.cpp
 missbamby.cpp
 missile.cpp
@@ -907,11 +907,11 @@ neogeo.cpp
 //neomania.cpp                         // skel
 neopcb.cpp
 neoprint.cpp
-//neptunp2.cpp    // check
+//neptunp2.cpp
 news.cpp
-//nexus3d.cpp     // check
-//nibble.cpp      // check
-//nichild.cpp     // check (black screen)
+//nexus3d.cpp
+//nibble.cpp
+//nichild.cpp
 nightgal.cpp
 nightmare.cpp
 ninjakd2.cpp
@@ -1207,7 +1207,7 @@ slapshot.cpp
 //sleic.cpp        // pinball
 sliver.cpp
 //slotcarn.cpp     // fruit-poker
-smotor.cpp           //
+smotor.cpp                             //
 smsmcorp.cpp
 sms_bootleg.cpp
 snesb.cpp
@@ -1239,7 +1239,7 @@ spiders.cpp
 //spinb.cpp        // pinball
 //spirit76.cpp     // pinball
 splash.cpp
-splash_ms.cpp      // adult
+splash_ms.cpp                          // adult
 //splus.cpp        // fruit
 //spoker.cpp       // poker
 spool99.cpp
@@ -1329,7 +1329,7 @@ taito_f2.cpp
 taito_f3.cpp
 taito_h.cpp
 taito_l.cpp
-taito_o.cpp      // poker
+taito_o.cpp                            // poker
 taito_x.cpp
 taito_z.cpp
 tank8.cpp
