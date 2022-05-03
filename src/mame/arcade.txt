@@ -6,7 +6,7 @@
 2mindril.cpp                           //
 30test.cpp                             //
 39in1.cpp                              //
-//3do.cpp                              // chd
+//3do.cpp                              // MNW, chd
 3x3puzzl.cpp                           //
 40love.cpp                             //
 //4enlinea.cpp                         // mnw, hang at start
@@ -33,7 +33,7 @@ akkaarrh.cpp                           //
 albazc.cpp                             //
 albazg.cpp                             // weird jp gambling
 aleck64.cpp                            //
-//aleisttl.cpp                         // ttl
+//aleisttl.cpp                         // black screen
 //alg.cpp                              // bad gfx, mnw
 //alien.cpp                            // black screen
 aliens.cpp                             //
@@ -82,7 +82,7 @@ atarigx2.cpp                           //
 atarisy1.cpp                           //
 atarisy2.cpp                           //
 atarisy4.cpp                           //
-//atarittl.cpp                         // ttl
+//atarittl.cpp                         // no inputs or black screen
 //atari_4x4.cpp                        // pinball
 //atari_s1.cpp                         // pinball
 //atari_s2.cpp                         // pinball
@@ -224,7 +224,7 @@ changela.cpp                           //
 //changyu.cpp                          // skeleton gambling
 cheekyms.cpp                           //
 //chexx.cpp                            // mechanical
-//chicago.cpp                          // ttl
+//chicago.cpp                          // black screen
 //chihiro.cpp                          // chd
 chinagat.cpp                           //
 //chinsan.cpp                          // mahjong
@@ -275,7 +275,7 @@ cps1bl_pic.cpp                         //
 cps2.cpp                               //
 cps3.cpp                               //
 //cpzodiac.cpp                         // MNW, mech
-//crazybal.cpp                         // MNW, TTL
+//crazybal.cpp                         // black screen
 crbaloon.cpp                           //
 crgolf.cpp                             //
 crimfght.cpp                           //
@@ -377,7 +377,7 @@ dynduke.cpp                            //
 //ecoinfr.cpp                          // fruit
 efdt.cpp                               //
 egghunt.cpp                            //
-//electra.cpp                          // ttl
+//electra.cpp                          // black screen
 embargo.cpp                            //
 enigma2.cpp                            //
 eolith.cpp                             //
@@ -395,7 +395,7 @@ exedexes.cpp                           //
 exerion.cpp                            //
 exidy.cpp                              //
 exidy440.cpp                           //
-//exidyttl.cpp                         // ttl
+//exidyttl.cpp                         // black screen
 expro02.cpp                            //
 exprraid.cpp                           //
 exterm.cpp                             //
@@ -415,58 +415,58 @@ fcrash.cpp                             //
 //feversoc.cpp                         // fruit
 //ffantasy_ms.cpp                      // black screen
 fgoal.cpp                              //
-finalizr.cpp
+finalizr.cpp                           //
 //fireball.cpp                         // mechanical
-firebeat.cpp
-firefox.cpp
-firetrap.cpp
-firetrk.cpp
-fitfight.cpp
+firebeat.cpp                           // chd, untested
+firefox.cpp                            // chd, untested
+firetrap.cpp                           //
+firetrk.cpp                            //
+fitfight.cpp                           //
 //flicker.cpp                          // pinball
-//flashbeats.cpp                       // not working
-flipjack.cpp
-flkatck.cpp
-flower.cpp
-flstory.cpp
-flyball.cpp
-foodf.cpp
-forte2.cpp
+//flashbeats.cpp                       // no screen
+flipjack.cpp                           // video pinball
+flkatck.cpp                            //
+flower.cpp                             //
+flstory.cpp                            //
+flyball.cpp                            //
+foodf.cpp                              //
+forte2.cpp                             //
 //fortecar.cpp                         // poker
-freekick.cpp
+freekick.cpp                           //
 //fresh.cpp                            // fruit
-//freeway.cpp                          // black screen; driver has no info about this system
-fromanc2.cpp
-fromance.cpp
-fruitpc.cpp
+//freeway.cpp                          // black screen
+//fromanc2.cpp                         // mahjong
+//fromance.cpp                         // mahjong
+//fruitpc.cpp                          // cannot find boot device
 //funeball.cpp                         // mechanical
-//fungames.cpp                         // ttl
-funkball.cpp
-funkybee.cpp
-funkyjet.cpp
+//fungames.cpp                         // black screen
+funkball.cpp                           //
+funkybee.cpp                           //
+funkyjet.cpp                           //
 //funtech.cpp                          // poker
 //funworld.cpp                         // poker
-funybubl.cpp
-fuukifg2.cpp
-fuukifg3.cpp
+funybubl.cpp                           //
+fuukifg2.cpp                           //
+fuukifg3.cpp                           //
 //fwheel.cpp                           // skel
 //g627.cpp                             // pinball
-gaelco.cpp
-gaelco2.cpp
-gaelco3d.cpp
-gaelcof3.cpp
-gaelcopc.cpp
-gaiden.cpp
-//gal3.cpp                             // check
-galaga.cpp
-galastrm.cpp
-galaxi.cpp
-galaxia.cpp
-galaxian.cpp
-galaxian_rockclim.cpp
-galaxold.cpp
-galgame.cpp
-galgames.cpp
-galivan.cpp
+gaelco.cpp                             //
+gaelco2.cpp                            //
+gaelco3d.cpp                           //
+//gaelcof3.cpp                         // no screen
+//gaelcopc.cpp                         // skel, black screen, some chd
+gaiden.cpp                             //
+//gal3.cpp                             // black screen
+galaga.cpp                             //
+galastrm.cpp                           //
+//galaxi.cpp                           // gambling
+galaxia.cpp                            //
+galaxian.cpp                           //
+galaxian_rockclim.cpp                  //
+galaxold.cpp                           //
+//galgame.cpp                          // cannot start game
+galgames.cpp                           //
+galivan.cpp                            //
 galpani2.cpp
 galpani3.cpp
 galpanic.cpp
@@ -767,7 +767,7 @@ mcr.cpp
 mcr3.cpp
 mcr68.cpp
 meadows.cpp
-//meadwttl.cpp                         // ttl
+//meadwttl.cpp                         // black screen
 mechatt.cpp                            // ok
 mediagx.cpp
 megadriv_acbl.cpp
@@ -831,7 +831,7 @@ model3.cpp
 mogura.cpp
 mole.cpp
 momoko.cpp
-//monacogp.cpp     // ttl
+//monacogp.cpp                         // black screen
 monzagp.cpp
 moo.cpp
 mosaic.cpp
@@ -1024,7 +1024,7 @@ prehisle.cpp
 //proconn.cpp      // fruit
 progolf.cpp
 //psattack.cpp     // skeleton
-//pse.cpp          // ttl
+//pse.cpp                              // black screen
 psikyo.cpp
 psikyo4.cpp
 psikyosh.cpp
@@ -1056,7 +1056,7 @@ raiden2.cpp
 raiden_ms.cpp
 rallyx.cpp
 rampart.cpp
-//ramtek.cpp       // ttl
+//ramtek.cpp                           // black screen
 rastan.cpp
 rastersp.cpp
 //rawthrillspc.cpp                     // skel
@@ -1151,7 +1151,7 @@ segas18_astormbl.cpp
 segas24.cpp
 segas32.cpp
 //segasp.cpp       // check
-//segattl.cpp      // ttl
+//segattl.cpp                          // black screen
 //segaufo.cpp      // mechanical
 segaxbd.cpp
 segaybd.cpp
@@ -1320,7 +1320,7 @@ taitogn.cpp
 taitojc.cpp
 taitopjc.cpp
 taitosj.cpp
-//taitottl.cpp     // ttl
+//taitottl.cpp                         // black screen
 taitotx.cpp
 taitotz.cpp
 //taitowlf.cpp     // check
@@ -1427,7 +1427,7 @@ unico.cpp
 unkhorse.cpp
 //unkpoker.cpp     // not working poker
 upscope.cpp
-//usbilliards.cpp  // ttl
+//usbilliards.cpp                      // black screen
 usgames.cpp
 v0bowl.cpp
 vamphalf.cpp
