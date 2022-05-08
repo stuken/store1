@@ -467,58 +467,58 @@ galaxold.cpp                           //
 //galgame.cpp                          // cannot start game
 galgames.cpp                           //
 galivan.cpp                            //
-galpani2.cpp
-galpani3.cpp
-galpanic.cpp
+galpani2.cpp                           //
+galpani3.cpp                           //
+galpanic.cpp                           //
 galpanic_ms.cpp                        //
-galspnbl.cpp
+galspnbl.cpp                           //
 //gambl186.cpp                         // check
 //gamecstl.cpp                         // chd
 //gamemasters.cpp                      // mechanical
-gameplan.cpp
+gameplan.cpp                           //
 //gammagic.cpp                         // check
 //gamtor.cpp                           // check
-gaplus.cpp
-gatron.cpp
-gauntlet.cpp
-gberet.cpp
-gcpinbal.cpp
-gei.cpp
-getaway.cpp
+gaplus.cpp                             //
+gatron.cpp                             //
+gauntlet.cpp                           //
+gberet.cpp                             //
+gcpinbal.cpp                           //
+gei.cpp                                //
+getaway.cpp                            //
 //gfamily.cpp                          // skeleton, check later
-ggconnie.cpp
-ghosteo.cpp
-giclassic.cpp
-gijoe.cpp
-ginganin.cpp
+ggconnie.cpp                           //
+ghosteo.cpp                            //
+//giclassic.cpp                        // crashes
+gijoe.cpp                              //
+ginganin.cpp                           //
 //gkigt.cpp                            // check
-gladiatr.cpp
-glass.cpp
+gladiatr.cpp                           //
+glass.cpp                              //
 //globalfr.cpp                         // mechanical
 //globalvr.cpp                         // chd
-gluck2.cpp
-gng.cpp
-go2000.cpp
+//gluck2.cpp                           // poker
+gng.cpp                                //
+go2000.cpp                             //
 goal92.cpp
-goindol.cpp
+goindol.cpp                            //
 //gokidetor.cpp                        // check
 //goldart.cpp                          // mechanical
 //goldngam.cpp                         // poker
 //goldnpkr.cpp                         // poker
 //goldstar.cpp                         // fruit
-gomoku.cpp
-good.cpp
-goodejan.cpp
-goori.cpp
-gotcha.cpp
-gottlieb.cpp
-gotya.cpp
-gpworld.cpp
+gomoku.cpp                             //
+good.cpp                               //
+goodejan.cpp                           //
+goori.cpp                              //
+gotcha.cpp                             //
+gottlieb.cpp                           //
+gotya.cpp                              //
+//gpworld.cpp                          // stuck warming up
 //gp_1.cpp                             // pinball
 //gp_2.cpp                             // pinball
-gradius3.cpp
-grchamp.cpp
-gridlee.cpp
+gradius3.cpp                           //
+grchamp.cpp                            //
+gridlee.cpp                            //
 groundfx.cpp
 gsspade.cpp
 gstream.cpp
