@@ -571,61 +571,61 @@ hvyunit.cpp                            //
 hyhoo.cpp                              //
 hyperspt.cpp                           //
 hyprduel.cpp                           //
-//icecold.cpp                          // mechanical
-//ice_bozopail.cpp                     // mechanical
-//ice_hhhippos.cpp                     // mnw
-//ice_tbd.cpp                          // mechanical
+//icecold.cpp                          // mech, works
+//ice_bozopail.cpp                     // no screen
+//ice_hhhippos.cpp                     // no screen
+//ice_tbd.cpp                          // no screen
 //idsa.cpp                             // pinball
-igs009.cpp
-igs011.cpp
-igs017.cpp
-//igspc.cpp                            // chd
+igs009.cpp                             //
+igs011.cpp                             //
+igs017.cpp                             //
+//igspc.cpp                            // chd mnw
 //igspoker.cpp                         // poker
-//igs_fear.cpp                         // check
-//igs_m027.cpp                         // check
-//igs_m036.cpp                         // check
-ikki.cpp
-imolagp.cpp
+//igs_fear.cpp                         // black screen
+//igs_m027.cpp                         // white screen
+//igs_m036.cpp                         // black screen
+ikki.cpp                               //
+imolagp.cpp                            //
 //inder.cpp                            // pinball
 //inderp.cpp                           // pinball
-//instantm.cpp                         // mechanical
-//intrscti.cpp                         // check
-inufuku.cpp
-invqix.cpp
-iqblock.cpp
-irobot.cpp
-ironhors.cpp
-//island.cpp                           // mechanical
-//istellar.cpp                         // check, mnw
-istrebiteli.cpp
-iteagle.cpp
-itech32.cpp
-itech8.cpp
+//instantm.cpp                         // no screen
+//intrscti.cpp                         // hang just after start
+inufuku.cpp                            //
+invqix.cpp                             //
+iqblock.cpp                            //
+irobot.cpp                             //
+ironhors.cpp                           //
+//island.cpp                           // no screen
+//istellar.cpp                         // hang just after start, chd
+istrebiteli.cpp                        //
+iteagle.cpp                            // chd untested
+itech32.cpp                            //
+itech8.cpp                             //
 //itgambl2.cpp                         // fruit
 //itgambl3.cpp                         // fruit
 //itgamble.cpp                         // fruit
-jack.cpp
-jackal.cpp
-jackie.cpp
+jack.cpp                               //
+jackal.cpp                             //
+//jackie.cpp                           // fruit
 //jackpool.cpp                         // poker
-//jackpot.cpp                          // mnw, not stated, probably junk
-jaguar.cpp
-jailbrek.cpp
-jalmah.cpp
-jangou.cpp
+//jackpot.cpp                          // hang just after start
+jaguar.cpp                             //
+jailbrek.cpp                           //
+jalmah.cpp                             //
+jangou.cpp                             //
 jankenmn.cpp                           //
-jantotsu.cpp
-jchan.cpp
-jclub2.cpp
-jedi.cpp
+//jantotsu.cpp                         // mahjong
+jchan.cpp                              //
+//jclub2.cpp                           // gambling
+jedi.cpp                               //
 //jeutel.cpp                           // pinball
-//joctronic.cpp                        // mechanical
+//joctronic.cpp                        // pinball
 //jokrwild.cpp                         // poker
-jollyjgr.cpp
+jollyjgr.cpp                           //
 //jongkyo.cpp                          // bad colours, mahjong
-joystand.cpp
+joystand.cpp                           //
 //jp.cpp                               // pinball
-//jpmimpct.cpp                         // check
+jpmimpct.cpp                           //
 //jpmimpctsw.cpp                       // fruit
 //jpmmps.cpp                           // fruit
 //jpms80.cpp                           // fruit
@@ -633,48 +633,48 @@ joystand.cpp
 //jpmsys5.cpp                          // fruit
 //jpmsys5sw.cpp                        // fruit
 //jpmsys7.cpp                          // fruit
-jrpacman.cpp
+jrpacman.cpp                           //
 //jubilee.cpp                          // poker
-//jungleyo.cpp                         // check
-junofrst.cpp
+//jungleyo.cpp                         // exception at start
+junofrst.cpp                           //
 //jvh.cpp                              // pinball
-kaneko16.cpp
-kangaroo.cpp
-karnov.cpp
+kaneko16.cpp                           //
+kangaroo.cpp                           //
+karnov.cpp                             //
 //kas89.cpp                            // alarm at start, gambling
-kchamp.cpp
-kenseim.cpp
-kickgoal.cpp
-kikikai.cpp
-kingdrby.cpp
-kingobox.cpp
-kingpin.cpp
-kinst.cpp
+kchamp.cpp                             //
+kenseim.cpp                            // controls are terrible
+kickgoal.cpp                           //
+kikikai.cpp                            //
+//kingdrby.cpp                         // gambling
+kingobox.cpp                           //
+kingpin.cpp                            //
+kinst.cpp                              //
 //kissproto.cpp                        // pinball
-klax.cpp
-kncljoe.cpp
-//koftball.cpp                         // no inputs
+klax.cpp                               //
+kncljoe.cpp                            //
+koftball.cpp                           // weird inputs
 koikoi.cpp                             //
-konamigq.cpp
-konamigs.cpp
-konamigv.cpp
-konamigx.cpp
-konamim2.cpp
-//konblands.cpp                        // not working; check back later
+konamigq.cpp                           // chd untested
+konamigs.cpp                           // chd untested
+konamigv.cpp                           // chd untested
+konamigx.cpp                           //
+konamim2.cpp                           // chd untested
+//konblands.cpp                        // no inputs
 //konendev.cpp                         // fruit
-//kongs470.cpp                         // skel
-//konmedal.cpp                         // check
-//konmedal020.cpp
-//konmedal68k.cpp                      // check
-kontest.cpp
-kopunch.cpp
-//kpontoon.cpp                         // card game
-kpython.cpp
-krokha.cpp
-ksayakyu.cpp
-ksys573.cpp
-kungfur.cpp
-kurukuru.cpp
+//kongs470.cpp                         // no screen
+konmedal.cpp                           //
+//konmedal020.cpp                      // gets stuck while booting
+konmedal68k.cpp                        //
+//kontest.cpp                          // stuck at crosshatch
+//kopunch.cpp                          // gets stuck when 1 pressed
+//kpontoon.cpp                         // ingame stack overflow
+//kpython.cpp                          // chd mnw
+krokha.cpp                             //
+ksayakyu.cpp                           //
+ksys573.cpp                            // chd untested
+//kungfur.cpp                          // mech, works
+kurukuru.cpp                           //
 kyugo.cpp
 labyrunr.cpp
 ladybug.cpp

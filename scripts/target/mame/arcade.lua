@@ -1510,7 +1510,7 @@ files {
 createMAMEProjects(_target, _subtarget, "bmc")
 files {
 	MAME_DIR .. "src/mame/drivers/bmcbowl.cpp",
---	MAME_DIR .. "src/mame/drivers/koftball.cpp",
+	MAME_DIR .. "src/mame/drivers/koftball.cpp",
 	MAME_DIR .. "src/mame/drivers/popobear.cpp",
 --	MAME_DIR .. "src/mame/drivers/bmcpokr.cpp",
 }
@@ -2481,9 +2481,9 @@ files {
 	MAME_DIR .. "src/mame/video/3dom2_te.h",
 --	MAME_DIR .. "src/mame/drivers/konblands.cpp",
 --	MAME_DIR .. "src/mame/drivers/kongs470.cpp",
---	MAME_DIR .. "src/mame/drivers/konmedal.cpp",
+	MAME_DIR .. "src/mame/drivers/konmedal.cpp",
 --	MAME_DIR .. "src/mame/drivers/konmedal020.cpp",
---	MAME_DIR .. "src/mame/drivers/konmedal68k.cpp",
+	MAME_DIR .. "src/mame/drivers/konmedal68k.cpp",
 	MAME_DIR .. "src/mame/drivers/kontest.cpp",
 --	MAME_DIR .. "src/mame/drivers/konendev.cpp",
 --	MAME_DIR .. "src/mame/drivers/kpontoon.cpp",
