@@ -564,6 +564,7 @@ homedata.cpp                           //
 homerun.cpp                            //
 hornet.cpp                             //
 hotblock.cpp                           //
+//hotchili.cpp                         // fruit
 //hotstuff.cpp                         // poker
 //houseball.cpp                        // no screen
 //hshavoc.cpp                          // black screen
@@ -675,39 +676,39 @@ ksayakyu.cpp                           //
 ksys573.cpp                            // chd untested
 //kungfur.cpp                          // mech, works
 kurukuru.cpp                           //
-kyugo.cpp
-labyrunr.cpp
-ladybug.cpp
-ladyfrog.cpp
+kyugo.cpp                              //
+labyrunr.cpp                           //
+ladybug.cpp                            //
+ladyfrog.cpp                           //
 //lancelot.cpp                         // pinball
-laserbas.cpp
-laserbat.cpp
-lasso.cpp
-lastbank.cpp
-lastduel.cpp
-lastfght.cpp
-lazercmd.cpp
-//laz_aftrshok.cpp                     // mechanical
-//laz_ribrac.cpp                       // mechanical
-lbeach.cpp
+laserbas.cpp                           //
+laserbat.cpp                           //
+lasso.cpp                              //
+lastbank.cpp                           //
+lastduel.cpp                           //
+lastfght.cpp                           //
+lazercmd.cpp                           //
+//laz_aftrshok.cpp                     // no screen
+//laz_ribrac.cpp                       // no screen
+lbeach.cpp                             //
 //lckydraw.cpp                         // pinball
-legionna.cpp
-leland.cpp
-lemmings.cpp
-lependu.cpp
-lethal.cpp
-lethalj.cpp
-//lgp.cpp                              // check
-liberate.cpp
-liberatr.cpp
-limenko.cpp
-//lindbergh.cpp                        // fatal memory handler error at start
-littlerb.cpp
-lkage.cpp
-lockon.cpp
-looping.cpp
-lordgun.cpp
-lsasquad.cpp
+legionna.cpp                           //
+leland.cpp                             //
+lemmings.cpp                           //
+lependu.cpp                            //
+lethal.cpp                             //
+lethalj.cpp                            //
+//lgp.cpp                              // black screen
+liberate.cpp                           //
+liberatr.cpp                           //
+limenko.cpp                            //
+//lindbergh.cpp                        // no screen, most have chd, very slow
+littlerb.cpp                           //
+lkage.cpp                              //
+lockon.cpp                             //
+looping.cpp                            //
+lordgun.cpp                            //
+lsasquad.cpp                           //
 //ltcasino.cpp                         // gambling
 //ltd.cpp                              // pinball
 //luckgrln.cpp                         // gambling
@@ -715,68 +716,68 @@ lsasquad.cpp
 //lucky74.cpp                          // poker
 //luckybal.cpp                         // gambling
 //lvcards.cpp                          // poker
-lwings.cpp
-m10.cpp
-m107.cpp
-m14.cpp
-m52.cpp
-m57.cpp
-m58.cpp
-m62.cpp
-m62_bkungfu.cpp
-m63.cpp
-m72.cpp
-m79amb.cpp
-m90.cpp
-m92.cpp
+lwings.cpp                             //
+m10.cpp                                //
+m107.cpp                               //
+m14.cpp                                //
+m52.cpp                                //
+m57.cpp                                //
+m58.cpp                                //
+m62.cpp                                //
+m62_bkungfu.cpp                        //
+m63.cpp                                //
+m72.cpp                                //
+m79amb.cpp                             //
+m90.cpp                                //
+m92.cpp                                //
 //macp.cpp                             // pinball
-macrossp.cpp
-macs.cpp
-madalien.cpp
-madmotor.cpp
+macrossp.cpp                           //
+//macs.cpp                             // mahjong
+madalien.cpp                           //
+madmotor.cpp                           //
 //magic10.cpp                          // poker
 //magicard.cpp                         // poker
 //magicfly.cpp                         // poker
-//magictg.cpp                          // check
-magmax.cpp
-magreel.cpp
-magtouch.cpp
-mainevt.cpp
-mainsnk.cpp
-majorpkr.cpp
-malzak.cpp
-//manohman.cpp                         // check
-mappy.cpp
-marineb.cpp
-marinedt.cpp
-mario.cpp
-markham.cpp
-//marywu.cpp                           // check
-mastboy.cpp
-mastboyo.cpp
-matmania.cpp
+//magictg.cpp                          // black screen
+magmax.cpp                             //
+//magreel.cpp                          // no screen
+magtouch.cpp                           //
+mainevt.cpp                            //
+mainsnk.cpp                            //
+//majorpkr.cpp                         // poker
+malzak.cpp                             //
+//manohman.cpp                         // no screen
+mappy.cpp                              //
+marineb.cpp                            //
+marinedt.cpp                           //
+mario.cpp                              //
+markham.cpp                            //
+//marywu.cpp                           // hang just after start
+mastboy.cpp                            //
+mastboyo.cpp                           //
+matmania.cpp                           //
 //matrix.cpp                           // fruit
-maxaflex.cpp
+maxaflex.cpp                           //
 //maygay1bsw.cpp                       // fruit
 //maygayep.cpp                         // fruit
-//maygayew.cpp
+//maygayew.cpp                         // no screen
 //maygayv1.cpp                         // fruit
-mazerbla.cpp
-mcatadv.cpp
-mcr.cpp
-mcr3.cpp
-mcr68.cpp
-meadows.cpp
+mazerbla.cpp                           //
+mcatadv.cpp                            //
+mcr.cpp                                //
+mcr3.cpp                               //
+mcr68.cpp                              //
+meadows.cpp                            //
 //meadwttl.cpp                         // black screen
-mechatt.cpp                            // ok
-mediagx.cpp
-megadriv_acbl.cpp
-megaphx.cpp
-megaplay.cpp
-megasys1.cpp
-megatech.cpp
-megazone.cpp
-meijinsn.cpp
+mechatt.cpp                            //
+mediagx.cpp                            // chd untested, slow
+megadriv_acbl.cpp                      //
+megaphx.cpp                            //
+megaplay.cpp                           //
+megasys1.cpp                           //
+megatech.cpp                           //
+megazone.cpp                           //
+meijinsn.cpp                           //
 //menghong.cpp                         // gambling
 //mephistp.cpp                         // pinball
 merit.cpp
@@ -1054,6 +1055,7 @@ rabbit.cpp
 raiden.cpp
 raiden2.cpp
 raiden_ms.cpp
+//rallypnt.cpp                         // no screen
 rallyx.cpp
 rampart.cpp
 //ramtek.cpp                           // black screen
