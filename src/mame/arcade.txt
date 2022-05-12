@@ -780,109 +780,109 @@ megazone.cpp                           //
 meijinsn.cpp                           //
 //menghong.cpp                         // gambling
 //mephistp.cpp                         // pinball
-merit.cpp
-merit3xx.cpp
-meritm.cpp
-merits.cpp
-meritsdx.cpp
-mermaid.cpp
-//metalmx.cpp                          // check
-metlclsh.cpp
-metlfrzr.cpp
-metro.cpp
+merit.cpp                              // mostly gambling
+//merit3xx.cpp                         // black screen
+meritm.cpp                             // mostly gambling
+//merits.cpp                           // no screen
+//meritsdx.cpp                         // no screen
+mermaid.cpp                            //
+//metalmx.cpp                          // gets stuck at start
+metlclsh.cpp                           //
+metlfrzr.cpp                           //
+metro.cpp                              //
 //meyc8080.cpp                         // poker
 //meyc8088.cpp                         // fruit
 //mgames.cpp                           // poker
-//mgavegas.cpp                         // check
-mgolf.cpp
-mhavoc.cpp
-micro3d.cpp
-//microdar.cpp                         // mechanical
+//mgavegas.cpp                         // no inputs
+mgolf.cpp                              //
+mhavoc.cpp                             //
+micro3d.cpp                            //
+//microdar.cpp                         // no screen
 //micropin.cpp                         // pinball
-midas.cpp
-midqslvr.cpp
-midtunit.cpp
-midvunit.cpp
-midwunit.cpp
-midxunit.cpp
-midyunit.cpp
-midzeus.cpp
-mikie.cpp
+midas.cpp                              //
+//midqslvr.cpp                         // black screen, most use chd
+midtunit.cpp                           //
+midvunit.cpp                           //
+midwunit.cpp                           //
+midxunit.cpp                           //
+midyunit.cpp                           //
+midzeus.cpp                            //
+mikie.cpp                              //
 //mil4000.cpp                          // poker
-miniboy7.cpp
-miniguay.cpp
-minivadr.cpp
-minivideo.cpp
-mirage.cpp
-mirax.cpp
-//missamer.cpp                         // Not working
-missb2.cpp
-missbamby.cpp
-missile.cpp
-mitchell.cpp
-mjkjidai.cpp
-mjsenpu.cpp
-mjsister.cpp
-mlanding.cpp
-mmagic.cpp
-//mmm.cpp          // mechanical
-model1.cpp
-model2.cpp
-model3.cpp
-mogura.cpp
-mole.cpp
-momoko.cpp
+//miniboy7.cpp                         // poker
+//miniguay.cpp                         // no screen
+minivadr.cpp                           //
+//minivideo.cpp                        // black screen
+mirage.cpp                             //
+mirax.cpp                              //
+//missamer.cpp                         // no inputs
+missb2.cpp                             //
+//missbamby.cpp                        // no screen
+missile.cpp                            //
+mitchell.cpp                           //
+//mjkjidai.cpp                         // mahjong
+//mjsenpu.cpp                          // mahjong
+//mjsister.cpp                         // mahjong
+mlanding.cpp                           //
+mmagic.cpp                             //
+//mmm.cpp                              // no screen
+//model1.cpp                           // netmerc random crash
+model2.cpp                             //
+model3.cpp                             //
+mogura.cpp                             //
+mole.cpp                               //
+momoko.cpp                             //
 //monacogp.cpp                         // black screen
-monzagp.cpp
-moo.cpp
-mosaic.cpp
-mouser.cpp
-//mpu12wbk.cpp     // fruit
-//mpu2.cpp         // fruit
-//mpu3.cpp         // fruit
-//mpu4.cpp         // fruit
-//mpu4avan.cpp     // fruit
-//mpu4bwb.cpp      // fruit
-//mpu4concept.cpp  // fruit
-//mpu4crystal.cpp  // fruit
-//mpu4dealem.cpp   // fruit
-//mpu4empire.cpp   // fruit
-//mpu4mdm.cpp      // fruit
-//mpu4misc.cpp     // fruit
-//mpu4mod2sw.cpp   // fruit
-//mpu4mod4yam.cpp  // fruit
-//mpu4plasma.cpp   // fruit
-//mpu4sw.cpp       // fruit
-//mpu4union.cpp    // fruit
-//mpu4vid.cpp      // fruit
-//mpu5sw.cpp         // fruit
-//mquake.cpp       // test rom
-mrdo.cpp
-mrflea.cpp
-//mrgame.cpp       // pinball
-mrjong.cpp
-ms32.cpp
-msisaac.cpp
-//mtouchxl.cpp     // chd
-mugsmash.cpp
-//multfish.cpp     // fruit
-//multfish_boot.cpp // fruit
-multigam.cpp
-munchmo.cpp
-//murogem.cpp      // poker
-//murogmbl.cpp     // poker
-mustache.cpp
-mw18w.cpp
-mw8080bw.cpp
-mwarr.cpp
-//mwsub.cpp        // mechanical
-mystston.cpp
-mystwarr.cpp
-n8080.cpp
-namcofl.cpp
-namcona1.cpp
-namconb1.cpp
-namcond1.cpp
+monzagp.cpp                            //
+moo.cpp                                //
+mosaic.cpp                             //
+mouser.cpp                             //
+//mpu12wbk.cpp                         // fruit
+//mpu2.cpp                             // fruit
+//mpu3.cpp                             // fruit
+//mpu4.cpp                             // fruit
+//mpu4avan.cpp                         // fruit
+//mpu4bwb.cpp                          // fruit
+//mpu4concept.cpp                      // fruit
+//mpu4crystal.cpp                      // fruit
+//mpu4dealem.cpp                       // fruit
+//mpu4empire.cpp                       // fruit
+//mpu4mdm.cpp                          // fruit
+//mpu4misc.cpp                         // fruit
+//mpu4mod2sw.cpp                       // fruit
+//mpu4mod4yam.cpp                      // fruit
+//mpu4plasma.cpp                       // fruit
+//mpu4sw.cpp                           // fruit
+//mpu4union.cpp                        // fruit
+//mpu4vid.cpp                          // fruit
+//mpu5sw.cpp                           // fruit
+//mquake.cpp                           // not a game
+mrdo.cpp                               //
+mrflea.cpp                             //
+//mrgame.cpp                           // pinball
+mrjong.cpp                             //
+ms32.cpp                               //
+msisaac.cpp                            //
+//mtouchxl.cpp                         // chd
+mugsmash.cpp                           //
+//multfish.cpp                         // fruit
+//multfish_boot.cpp                    // fruit
+multigam.cpp                           //
+munchmo.cpp                            //
+//murogem.cpp                          // poker
+//murogmbl.cpp                         // poker
+mustache.cpp                           //
+//mw18w.cpp                            // mech, works
+mw8080bw.cpp                           //
+mwarr.cpp                              //
+//mwsub.cpp                            // mech, works
+mystston.cpp                           //
+mystwarr.cpp                           //
+n8080.cpp                              //
+namcofl.cpp                            //
+namcona1.cpp                           //
+namconb1.cpp                           //
+namcond1.cpp                           //
 //namcops2.cpp     // check
 namcos1.cpp
 //namcos10.cpp     // check
