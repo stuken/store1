@@ -883,110 +883,110 @@ namcofl.cpp                            //
 namcona1.cpp                           //
 namconb1.cpp                           //
 namcond1.cpp                           //
-//namcops2.cpp     // check
-namcos1.cpp
-//namcos10.cpp     // check
-namcos11.cpp
-namcos12.cpp
-namcos1b.cpp
-namcos2.cpp
-namcos21.cpp
-namcos21_c67.cpp
-namcos21_de.cpp
-namcos22.cpp
-//namcos23.cpp     // check
-namcos86.cpp
-naomi.cpp
-naughtyb.cpp
-nbmj8688.cpp
-nbmj8891.cpp
-nbmj8900.cpp
-nbmj8991.cpp
-nbmj9195.cpp
-nemesis.cpp
-neogeo.cpp
-//neomania.cpp                         // skel
-neopcb.cpp
-neoprint.cpp
-//neptunp2.cpp
-news.cpp
-//nexus3d.cpp
-//nibble.cpp
-//nichild.cpp
-nightgal.cpp
-nightmare.cpp
-ninjakd2.cpp
-ninjaw.cpp
-nitedrvr.cpp
-niyanpai.cpp
-nmg5.cpp
-nmk16.cpp
-//nmkmedal.cpp     // mechanical
-//norautp.cpp      // poker
-//notechan.cpp     // check
-nova2001.cpp
-//novadesitec_fr002.cpp                // black screen, fills up log
-//novadesitec_fr004.cpp                // black screen, fills up log
-//novadesitec_fr009.cpp                // black screen, fills up log
-//nsg6809.cpp                          // mechanical
+//namcops2.cpp                         // chd, mnw
+namcos1.cpp                            //
+//namcos1b.cpp                         // black screen
+//namcos10.cpp                         // mnw
+namcos11.cpp                           //
+namcos12.cpp                           //
+namcos2.cpp                            //
+namcos21.cpp                           //
+namcos21_c67.cpp                       //
+namcos21_de.cpp                        //
+namcos22.cpp                           //
+//namcos23.cpp                         // mnw
+namcos86.cpp                           //
+naomi.cpp                              //
+naughtyb.cpp                           //
+nbmj8688.cpp                           //
+nbmj8891.cpp                           //
+//nbmj8900.cpp                         // mahjong
+//nbmj8991.cpp                         // mahjong
+nbmj9195.cpp                           //
+nemesis.cpp                            //
+neogeo.cpp                             //
+//neomania.cpp                         // chd, mnw
+neopcb.cpp                             //
+//neoprint.cpp                         // gets stuck on some screen
+//neptunp2.cpp                         // no screen
+news.cpp                               //
+//nexus3d.cpp                          // black screen
+//nibble.cpp                           // corrupt frozen screen
+//nichild.cpp                          // hang at start
+//nightgal.cpp                         // mahjong
+nightmare.cpp                          //
+ninjakd2.cpp                           //
+ninjaw.cpp                             //
+nitedrvr.cpp                           //
+//niyanpai.cpp                         // majong
+nmg5.cpp                               //
+nmk16.cpp                              //
+//nmkmedal.cpp                         // no screen
+//norautp.cpp                          // poker
+//notechan.cpp                         // black screen
+nova2001.cpp                           //
+//novadesitec_fr002.cpp                // black screen
+//novadesitec_fr004.cpp                // black screen
+//novadesitec_fr009.cpp                // black screen
+//nsg6809.cpp                          // no screen
 //nsm.cpp                              // pinball
-//nsmpoker.cpp                         // check
-nss.cpp
-nwk-tr.cpp
-nycaptor.cpp
-nyny.cpp
-odyssey.cpp
-offtwall.cpp
-ohmygod.cpp                            //ok
-ojankohs.cpp
-olibochu.cpp
-omegrace.cpp
-oneshot.cpp
-onetwo.cpp
-opercoin.cpp
-opwolf.cpp
-orbit.cpp
-othello.cpp
-othunder.cpp
-otomedius.cpp
-overdriv.cpp
-pachifev.cpp
-pacland.cpp
-pacman.cpp
-pandoras.cpp
-//pangofun.cpp     // check
-panicr.cpp
-paokaipc.cpp
-paradise.cpp
-paranoia.cpp
-parodius.cpp
-pasha2.cpp
-pass.cpp
-pastelg.cpp
-patapata.cpp
-pbaction.cpp
-pcat_dyn.cpp
-pcat_nit.cpp
-pcktgal.cpp
-pcxt.cpp
-pengadvb.cpp
-pengo.cpp
-//peplus.cpp       // fruit
-//peyper.cpp       // pinball
-pgm.cpp
-pgm2.cpp
-//pgm3.cpp         // chd
-phoenix.cpp
-photon.cpp
-photon2.cpp
-//photoply.cpp     // chd
-//photoplys.cpp                // unknown skeleton
-//photoplysx.cpp           // skeleton
-//piggypas.cpp     // mechanical
-//pinball2k.cpp    // pinball
-pingpong.cpp
-pinkiri8.cpp
-pipedrm.cpp
+//nsmpoker.cpp                         // corrupt frozen screen
+nss.cpp                                //
+nwk-tr.cpp                             //
+nycaptor.cpp                           //
+nyny.cpp                               //
+//odyssey.cpp                          // black screen
+offtwall.cpp                           //
+ohmygod.cpp                            //
+//ojankohs.cpp                         // mahjong
+olibochu.cpp                           //
+omegrace.cpp                           //
+oneshot.cpp                            //
+onetwo.cpp                             //
+//opercoin.cpp                         // no screen
+opwolf.cpp                             //
+orbit.cpp                              //
+othello.cpp                            //
+othunder.cpp                           //
+//otomedius.cpp                        // chd, mnw
+overdriv.cpp                           //
+pachifev.cpp                           //
+pacland.cpp                            //
+pacman.cpp                             //
+pandoras.cpp                           //
+//pangofun.cpp                         // missing floppy
+panicr.cpp                             //
+//paokaipc.cpp                         // black screen
+paradise.cpp                           //
+paranoia.cpp                           //
+parodius.cpp                           //
+pasha2.cpp                             //
+pass.cpp                               //
+//pastelg.cpp                          // poker, mahjong
+patapata.cpp                           //
+pbaction.cpp                           //
+//pcat_dyn.cpp                         // impossible to control
+//pcat_nit.cpp                         // impossible to control
+pcktgal.cpp                            //
+pcxt.cpp                               //
+pengadvb.cpp                           //
+pengo.cpp                              //
+//peplus.cpp                           // fruit
+//peyper.cpp                           // pinball
+pgm.cpp                                //
+pgm2.cpp                               //
+//pgm3.cpp                             // chd, mnw
+phoenix.cpp                            //
+photon.cpp                             //
+photon2.cpp                            //
+//photoply.cpp                         // chd, mnw
+//photoplys.cpp                        // chd, mnw
+//photoplysx.cpp                       // chd, mnw
+//piggypas.cpp                         // mech
+//pinball2k.cpp                        // pinball
+pingpong.cpp                           //
+//pinkiri8.cpp                         // mahjong, bad gfx
+pipedrm.cpp                            //
 pipeline.cpp
 pirates.cpp
 piratesh.cpp
