@@ -918,7 +918,7 @@ nightmare.cpp                          //
 ninjakd2.cpp                           //
 ninjaw.cpp                             //
 nitedrvr.cpp                           //
-//niyanpai.cpp                         // majong
+//niyanpai.cpp                         // mahjong
 nmg5.cpp                               //
 nmk16.cpp                              //
 //nmkmedal.cpp                         // no screen
@@ -987,110 +987,110 @@ photon2.cpp                            //
 pingpong.cpp                           //
 //pinkiri8.cpp                         // mahjong, bad gfx
 pipedrm.cpp                            //
-pipeline.cpp
-pirates.cpp
-piratesh.cpp
-pitnrun.cpp
-pkscram.cpp
-pktgaldx.cpp
-playch10.cpp
-playmark.cpp
-//play_1.cpp                       // pinball
-//play_2.cpp                       // pinball
-//play_3.cpp                       // pinball
-//playcenter.cpp                   // skel
-//plsonic4.cpp                     // skel
-//pluto5.cpp                       // fruit
-//plygonet.cpp                     // fatal error
+pipeline.cpp                           //
+pirates.cpp                            //
+piratesh.cpp                           //
+pitnrun.cpp                            //
+pkscram.cpp                            //
+pktgaldx.cpp                           //
+playch10.cpp                           //
+playmark.cpp                           //
+//play_1.cpp                           // pinball
+//play_2.cpp                           // pinball
+//play_3.cpp                           // pinball
+//playcenter.cpp                       // chd, mnw
+//plsonic4.cpp                         // stuck on romcheck screen
+//pluto5.cpp                           // fruit
+//plygonet.cpp                         // fatal error
 //pmc.cpp                              // no screen
-pntnpuzl.cpp
-pokechmp.cpp
-//poker72.cpp      // poker
-pokerout.cpp
-polepos.cpp
-policetr.cpp
-polyplay.cpp
-pong.cpp
-poolshrk.cpp
-pooyan.cpp
-popeye.cpp
-popobear.cpp                           //ok
-popper.cpp
-portrait.cpp
-//potgoldu.cpp     // check
-powerbal.cpp
-powerins.cpp
-ppmast93.cpp
-prehisle.cpp
-//proconn.cpp      // fruit
-progolf.cpp
-//psattack.cpp     // skeleton
+//pntnpuzl.cpp                         // game ends immediately then freezes
+pokechmp.cpp                           //
+//poker72.cpp                          // poker
+//pokerout.cpp                         // black screen
+polepos.cpp                            //
+policetr.cpp                           //
+polyplay.cpp                           //
+pong.cpp                               //
+poolshrk.cpp                           //
+pooyan.cpp                             //
+popeye.cpp                             //
+popobear.cpp                           //
+popper.cpp                             //
+portrait.cpp                           //
+//potgoldu.cpp                         // black screen
+powerbal.cpp                           //
+powerins.cpp                           //
+ppmast93.cpp                           //
+prehisle.cpp                           //
+//proconn.cpp                          // fruit
+progolf.cpp                            //
+//psattack.cpp                         // chd, mnw
 //pse.cpp                              // black screen
-psikyo.cpp
-psikyo4.cpp
-psikyosh.cpp
-//psrockman.cpp                        // skel
-psychic5.cpp
-pturn.cpp
-pubtimed.cpp
-puckpkmn.cpp
-punchout.cpp
-pzletime.cpp
-qdrmfgp.cpp
-qix.cpp
-quakeat.cpp
-quantum.cpp
-quasar.cpp
-queen.cpp
-quickpick5.cpp
-quizdna.cpp
-quizo.cpp
-quizpani.cpp
-//quizpun2.cpp     // check
-quizshow.cpp
-r2dtank.cpp
-r2dx_v33.cpp
-rabbit.cpp
-//radikaldarts.cpp                     // skel
-raiden.cpp
-raiden2.cpp
-raiden_ms.cpp
+psikyo.cpp                             //
+psikyo4.cpp                            //
+psikyosh.cpp                           //
+//psrockman.cpp                        // no screen
+psychic5.cpp                           //
+pturn.cpp                              //
+//pubtimed.cpp                         // no screen
+puckpkmn.cpp                           //
+punchout.cpp                           //
+pzletime.cpp                           //
+qdrmfgp.cpp                            // chd untested
+qix.cpp                                //
+//quakeat.cpp                          // black screen
+quantum.cpp                            //
+quasar.cpp                             //
+//queen.cpp                            // black screen
+quickpick5.cpp                         //
+quizdna.cpp                            //
+quizo.cpp                              //
+quizpani.cpp                           //
+quizpun2.cpp                           //
+//quizshow.cpp                         // hangs when quiz starts
+r2dtank.cpp                            //
+r2dx_v33.cpp                           //
+rabbit.cpp                             //
+//radikaldarts.cpp                     // chd, mnw
+raiden.cpp                             //
+raiden2.cpp                            //
+raiden_ms.cpp                          //
 //rallypnt.cpp                         // no screen
-rallyx.cpp
-rampart.cpp
+rallyx.cpp                             //
+rampart.cpp                            //
 //ramtek.cpp                           // black screen
-rastan.cpp
-rastersp.cpp
-//rawthrillspc.cpp                     // skel
-rbisland.cpp
-rbmk.cpp
-//rbowlorama.cpp                       // skel
-//rcorsair.cpp     // check
-re900.cpp
-realbrk.cpp
+rastan.cpp                             //
+rastersp.cpp                           //
+//rawthrillspc.cpp                     // chd, mnw
+rbisland.cpp                           //
+//rbmk.cpp                             // one is mahjong, others mnw
+//rbowlorama.cpp                       // black screen
+//rcorsair.cpp                         // black screen
+//re900.cpp                            // gambling
+realbrk.cpp                            //
 //recel.cpp                            // pinball
-redalert.cpp
-redclash.cpp
-relief.cpp
-renegade.cpp
-retofinv.cpp
-//rf51w14cg.cpp               // skeleton gambling
-//rfslots8085.cpp             // skel mech
-//rfslotsmcs48.cpp            // skel mech
-//rfslotspcpent.cpp           // mechanical
-//rgum.cpp                    // check
-rltennis.cpp
-rmhaihai.cpp
-rockrage.cpp
-rocnrope.cpp
-rohga.cpp
-rollerg.cpp
-//rollext.cpp      // check
-rollrace.cpp
-ron.cpp
-rotaryf.cpp
-roul.cpp
-route16.cpp
+redalert.cpp                           //
+redclash.cpp                           //
+relief.cpp                             //
+renegade.cpp                           //
+retofinv.cpp                           //
+//rf51w14cg.cpp                        // no screen
+//rfslots8085.cpp                      // no screen
+//rfslotsmcs48.cpp                     // no screen
+//rfslotspcpent.cpp                    // black screen
+//rgum.cpp                             // mnw
+rltennis.cpp                           //
+//rmhaihai.cpp                         // mahjong
+rockrage.cpp                           //
+rocnrope.cpp                           //
+rohga.cpp                              //
+rollerg.cpp                            //
+//rollext.cpp                          // black screen
+rollrace.cpp                           //
+//ron.cpp                              // mahjong
+rotaryf.cpp                            //
+//roul.cpp                             // gambling
+route16.cpp                            //
 //rowamet.cpp      // pinball
 royalmah.cpp
 rpunch.cpp

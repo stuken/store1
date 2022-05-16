@@ -5001,7 +5001,7 @@ files {
 --	MAME_DIR .. "src/mame/drivers/proconn.cpp",
 --	MAME_DIR .. "src/mame/drivers/pse.cpp",
 	MAME_DIR .. "src/mame/drivers/quizo.cpp",
---	MAME_DIR .. "src/mame/drivers/quizpun2.cpp",
+	MAME_DIR .. "src/mame/drivers/quizpun2.cpp",
 --	MAME_DIR .. "src/mame/drivers/radikaldarts.cpp",
 --	MAME_DIR .. "src/mame/drivers/rawthrillspc.cpp",
 	MAME_DIR .. "src/mame/drivers/rbmk.cpp",
