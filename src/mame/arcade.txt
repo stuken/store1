@@ -1380,7 +1380,7 @@ toaplan1.cpp                           //
 toaplan2.cpp                           //
 toki.cpp                               //
 toki_ms.cpp                            //
-//tomcat.cpp                           // inputs unusable
+tomcat.cpp                             // inputs unusable, but needed by tomcatsw
 tonton.cpp                             //
 toobin.cpp                             //
 topspeed.cpp                           //
@@ -1403,91 +1403,91 @@ trvquest.cpp                           //
 tryout.cpp                             //
 tsamurai.cpp                           //
 ttchamp.cpp                            //
-tubep.cpp
-tugboat.cpp
+tubep.cpp                              //
+tugboat.cpp                            //
 tumbleb.cpp                            //
-tunhunt.cpp
-turbo.cpp
-turrett.cpp
-tutankhm.cpp
-//tvcapcom.cpp                         // skeleton
-tvg01.cpp
+tunhunt.cpp                            //
+turbo.cpp                              //
+turrett.cpp                            // chd untested
+tutankhm.cpp                           //
+//tvcapcom.cpp                         // black screen
+tvg01.cpp                              //
 twin16.cpp                             //
-//twinbskt.cpp                         // skeleton
-twincobr.cpp
-twinkle.cpp
-twins.cpp
-tx1.cpp
-uapce.cpp
-ultraman.cpp
-ultratnk.cpp
-ultrsprt.cpp
-umipoker.cpp
-undrfire.cpp
-//unianapc.cpp                         // chd
-unico.cpp
-unkhorse.cpp
-//unkpoker.cpp                         // not working poker
-upscope.cpp
+//twinbskt.cpp                         // no screen
+twincobr.cpp                           //
+twinkle.cpp                            // chd untested
+twins.cpp                              //
+tx1.cpp                                //
+//uapce.cpp                            // no inputs
+ultraman.cpp                           //
+ultratnk.cpp                           //
+ultrsprt.cpp                           //
+//umipoker.cpp                         // poker
+undrfire.cpp                           //
+//unianapc.cpp                         // chd, mnw
+unico.cpp                              //
+unkhorse.cpp                           //
+//unkpoker.cpp                         // poker, mnw
+upscope.cpp                            //
 //usbilliards.cpp                      // black screen
-usgames.cpp
-v0bowl.cpp
-vamphalf.cpp
-vaportra.cpp
-vastar.cpp
-vball.cpp
-vcombat.cpp
+usgames.cpp                            //
+//v0bowl.cpp                           // black screen
+vamphalf.cpp                           //
+vaportra.cpp                           //
+vastar.cpp                             //
+vball.cpp                              //
+//vcombat.cpp                          // missing gfx
 //vd.cpp                               // pinball
-vectrex.cpp
-vega.cpp
-vegaeo.cpp
-vegas.cpp
-vendetta.cpp
-vertigo.cpp
-vicdual.cpp
-victory.cpp
+vectrex.cpp                            //
+//vega.cpp                             // mnw
+vegaeo.cpp                             //
+vegas.cpp                              // chd untested
+vendetta.cpp                           //
+vertigo.cpp                            //
+vicdual.cpp                            //
+victory.cpp                            //
 //video21.cpp                          // gambling
-videopin.cpp
+videopin.cpp                           //
 //videopkr.cpp                         // poker
 //videosaa.cpp                         // gambling skeletons
-vigilant.cpp
-vindictr.cpp
-viper.cpp
-//vlc.cpp                              // check
-//vlc34010.cpp                         // skel
-volfied.cpp
-voyager.cpp
-vp101.cpp
+vigilant.cpp                           //
+vindictr.cpp                           //
+//viper.cpp                            // chd, mnw
+//vlc.cpp                              // green screen
+//vlc34010.cpp                         // black screen
+volfied.cpp                            //
+//voyager.cpp                          // chd, mnw
+//vp101.cpp                            // chd, mnw
 //vpoker.cpp                           // poker
-vroulet.cpp
-vsmjtria.cpp
-vsnes.cpp
-vulgus.cpp
-wacky_gator.cpp
-wallc.cpp
-wardner.cpp
-warpsped.cpp
-warpwarp.cpp
-warriorb.cpp
-wc90.cpp
-wc90b.cpp
-wecleman.cpp
-welltris.cpp
-wgp.cpp
-wheelfir.cpp
+vroulet.cpp                            //
+//vsmjtria.cpp                         // mahjong
+vsnes.cpp                              //
+vulgus.cpp                             //
+//wacky_gator.cpp                      // mech, works
+wallc.cpp                              //
+wardner.cpp                            //
+warpsped.cpp                           //
+warpwarp.cpp                           //
+warriorb.cpp                           //
+wc90.cpp                               //
+wc90b.cpp                              //
+wecleman.cpp                           //
+welltris.cpp                           //
+wgp.cpp                                // bad text colours
+wheelfir.cpp                           //
 //whitestar.cpp                        // pinball
 //wico.cpp                             // pinball
 //wildpkr.cpp                          // poker
-williams.cpp
-//winbingo.cpp                         // skeleton
-wink.cpp
-wiping.cpp
-witch.cpp
-wiz.cpp
-wmg.cpp
+williams.cpp                           //
+//winbingo.cpp                         // black screen
+wink.cpp                               //
+wiping.cpp                             //
+witch.cpp                              //
+wiz.cpp                                //
+//wmg.cpp                              // regressed
 //wms.cpp                              // fruit
 //wms_shuffle.cpp                      // pinball
-wolfpack.cpp
+wolfpack.cpp                           //
 //wpc_95.cpp                           // pinball
 //wpc_an.cpp                           // pinball
 //wpc_dcs.cpp                          // pinball
@@ -1495,35 +1495,35 @@ wolfpack.cpp
 //wpc_flip1.cpp                        // pinball
 //wpc_flip2.cpp                        // pinball
 //wpc_s.cpp                            // pinball
-wrally.cpp
-wwfsstar.cpp
-wyvernf0.cpp
-xain.cpp
-xexex.cpp
-xmen.cpp
-xorworld.cpp
-xtheball.cpp
-//xtom3d.cpp                           // check
-xxmissio.cpp
-xybots.cpp
-xyonix.cpp
-y2.cpp
-yiear.cpp
-yunsun16.cpp
-yunsung8.cpp
-//yuvomz80.cpp                         // mechanical
-zac2650.cpp
-zaccaria.cpp
+wrally.cpp                             //
+wwfsstar.cpp                           //
+wyvernf0.cpp                           //
+xain.cpp                               //
+xexex.cpp                              //
+xmen.cpp                               //
+xorworld.cpp                           //
+xtheball.cpp                           //
+//xtom3d.cpp                           // boot failure
+xxmissio.cpp                           //
+xybots.cpp                             //
+xyonix.cpp                             //
+//y2.cpp                               // black screen
+yiear.cpp                              //
+yunsun16.cpp                           //
+yunsung8.cpp                           //
+//yuvomz80.cpp                         // no screen
+zac2650.cpp                            //
+zaccaria.cpp                           //
 //zac_1.cpp                            // pinball
 //zac_2.cpp                            // pinball
 //zac_proto.cpp                        // pinball
-zaxxon.cpp
-zerozone.cpp
-zn.cpp
-zodiack.cpp
+zaxxon.cpp                             //
+zerozone.cpp                           //
+zn.cpp                                 //
+zodiack.cpp                            //
 //zpinball.cpp                         // pinball
-zr107.cpp
-zwackery.cpp
+zr107.cpp                              //
+zwackery.cpp                           //
 //exceptions + to add - to remove from imported list
 //3do.cpp
 -3do
