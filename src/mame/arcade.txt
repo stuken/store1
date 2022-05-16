@@ -1195,110 +1195,110 @@ simple_st0016.cpp                      //
 simpsons.cpp                           //
 //skeetsht.cpp                         // mnw
 skimaxx.cpp                            //
-skopro.cpp
-skullxbo.cpp
-skyarmy.cpp
-skydiver.cpp
-skyfox.cpp
-skykid.cpp
-skylncr.cpp
-skyraid.cpp
-slapfght.cpp
-slapfght_ms.cpp
-slapshot.cpp
-//sleic.cpp        // pinball
-sliver.cpp
-//slotcarn.cpp     // fruit-poker
+//skopro.cpp                           // chd, mnw
+skullxbo.cpp                           //
+skyarmy.cpp                            //
+skydiver.cpp                           //
+skyfox.cpp                             //
+skykid.cpp                             //
+skylncr.cpp                            //
+skyraid.cpp                            //
+slapfght.cpp                           //
+//slapfght_ms.cpp                      // stuck on ramcheck
+slapshot.cpp                           //
+//sleic.cpp                            // pinball
+sliver.cpp                             // adult
+//slotcarn.cpp                         // fruit-poker
 smotor.cpp                             //
-smsmcorp.cpp
-sms_bootleg.cpp
-snesb.cpp
-snesb51.cpp
-snk.cpp
-snk6502.cpp
-snk68.cpp
-snookr10.cpp
-snowbros.cpp
-solomon.cpp
-sonson.cpp
-sothello.cpp
-spacefb.cpp
-spaceg.cpp
-spartanxtec.cpp
-spbactn.cpp
-spcforce.cpp
-spdamjes.cpp
-spdheat.cpp
-spdodgeb.cpp
-//special_gambl.cpp  // gambling
-//spectra.cpp      // pinball
-speedatk.cpp
-speedbal.cpp
-//speedbsk.cpp                         // mechanical
-speedspn.cpp
-speglsht.cpp
-spiders.cpp
-//spinb.cpp        // pinball
-//spirit76.cpp     // pinball
-splash.cpp
+//sms_bootleg.cpp                      // console, mnw
+smsmcorp.cpp                           //
+snesb.cpp                              //
+snesb51.cpp                            //
+snk.cpp                                //
+snk6502.cpp                            //
+snk68.cpp                              //
+//snookr10.cpp                         // poker
+snowbros.cpp                           //
+solomon.cpp                            //
+sonson.cpp                             //
+sothello.cpp                           //
+spacefb.cpp                            //
+spaceg.cpp                             //
+spartanxtec.cpp                        //
+spbactn.cpp                            //
+spcforce.cpp                           //
+//spdamjes.cpp                         // no screen
+spdheat.cpp                            //
+spdodgeb.cpp                           //
+//special_gambl.cpp                    // gambling
+//spectra.cpp                          // pinball
+speedatk.cpp                           //
+speedbal.cpp                           //
+//speedbsk.cpp                         // mech, works
+speedspn.cpp                           //
+speglsht.cpp                           //
+spiders.cpp                            //
+//spinb.cpp                            // pinball
+//spirit76.cpp                         // pinball
+splash.cpp                             //
 splash_ms.cpp                          // adult
-//splus.cpp        // fruit
-//spoker.cpp       // poker
-spool99.cpp
-sprcros2.cpp
-sprint2.cpp
-sprint4.cpp
-sprint8.cpp
-spy.cpp
-spyhuntertec.cpp
-srmp2.cpp
-srmp5.cpp
-srmp6.cpp
-srumbler.cpp
-ssfindo.cpp
-sshangha.cpp
-sshot.cpp
-ssingles.cpp
-sslam.cpp
-ssozumo.cpp
-sspeedr.cpp
-ssrj.cpp
-sstrangr.cpp
-ssv.cpp
-stactics.cpp
-stadhero.cpp
-starcrus.cpp
-starfire.cpp
-//stargame.cpp     // pinball
-//starrider.cpp    // skeleton
-starshp1.cpp
-startouch.cpp
-starwars.cpp
-statriv2.cpp
-//stellafr.cpp     // fruit
-stfight.cpp
-stlforce.cpp
-stop.cpp
-strkzn.cpp
-stuntair.cpp
-stv.cpp
-//st_mp100.cpp     // pinball
-//st_mp200.cpp     // pinball
-su2000.cpp
-sub.cpp
-//subhuntr.cpp     // check
-subs.cpp
-//subsino.cpp      // fruit/poker
-subsino2.cpp
-//summit.cpp       // fruit
-//sumt8035.cpp     // mechanical
-suna16.cpp
-suna8.cpp
-supbtime.cpp
-supdrapo.cpp
-supduck.cpp
-superchs.cpp
-//supercrd.cpp     // fruit
+//splus.cpp                            // fruit
+//spoker.cpp                           // poker
+//spool99.cpp                          // poker
+sprcros2.cpp                           //
+sprint2.cpp                            //
+sprint4.cpp                            //
+sprint8.cpp                            //
+spy.cpp                                //
+spyhuntertec.cpp                       //
+//srmp2.cpp                            // mahjong
+//srmp5.cpp                            // black screen
+//srmp6.cpp                            // mahjong
+srumbler.cpp                           //
+ssfindo.cpp                            //
+sshangha.cpp                           //
+sshot.cpp                              //
+ssingles.cpp                           //
+sslam.cpp                              //
+ssozumo.cpp                            //
+sspeedr.cpp                            //
+ssrj.cpp                               //
+sstrangr.cpp                           //
+ssv.cpp                                //
+stactics.cpp                           //
+stadhero.cpp                           //
+starcrus.cpp                           //
+starfire.cpp                           //
+//stargame.cpp                         // pinball
+//starrider.cpp                        // no screen
+starshp1.cpp                           //
+//startouch.cpp                        // chd, mnw
+starwars.cpp                           //
+statriv2.cpp                           //
+//stellafr.cpp                         // fruit
+stfight.cpp                            //
+stlforce.cpp                           //
+//stop.cpp                             // no screen
+//strkzn.cpp                           // no screen
+stuntair.cpp                           //
+stv.cpp                                //
+//st_mp100.cpp                         // pinball
+//st_mp200.cpp                         // pinball
+//su2000.cpp                           // mnw
+sub.cpp                                //
+//subhuntr.cpp                         // hang at start
+subs.cpp                               //
+//subsino.cpp                          // fruit/poker
+subsino2.cpp                           //
+//summit.cpp                           // fruit
+//sumt8035.cpp                         // no screen
+suna16.cpp                             //
+suna8.cpp                              //
+supbtime.cpp                           //
+//supdrapo.cpp                         // poker
+supduck.cpp                            //
+superchs.cpp                           //
+//supercrd.cpp                         // fruit
 //superdq.cpp      // check
 superga2.cpp
 superqix.cpp
@@ -1405,7 +1405,7 @@ tsamurai.cpp
 ttchamp.cpp
 tubep.cpp
 tugboat.cpp
-tumbleb.cpp
+tumbleb.cpp                            //
 tunhunt.cpp
 turbo.cpp
 turrett.cpp
