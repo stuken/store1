@@ -1091,110 +1091,110 @@ rollrace.cpp                           //
 rotaryf.cpp                            //
 //roul.cpp                             // gambling
 route16.cpp                            //
-//rowamet.cpp      // pinball
-royalmah.cpp
-rpunch.cpp
-rulechan.cpp
-runaway.cpp
-rungun.cpp
-//s11.cpp          // pinball
-//s11a.cpp         // pinball
-//s11b.cpp         // pinball
-//s11c.cpp         // pinball
-//s3.cpp           // pinball
-//s4.cpp           // pinball
-//s6.cpp           // pinball
-//s7.cpp           // pinball
-//s8.cpp           // pinball
-//s9.cpp           // pinball
-safarir.cpp
-//sam.cpp          // pinball
-sandscrp.cpp
-sangho.cpp
-//sanremmg.cpp     // check
-sanremo.cpp
-saturn.cpp
-sauro.cpp
-savquest.cpp
-sbasketb.cpp
-sbmjb.cpp
-sbowling.cpp
-sbrkout.cpp
-sbugger.cpp
-//schexx4gen.cpp                        // mechanical
-schick.cpp                            // playable, just
-//scm_500.cpp                           // mechanical
-scobra.cpp
-scotrsht.cpp
-scramble.cpp
-scregg.cpp
-scyclone.cpp
-sderby.cpp
-//sderby2.cpp      // check
-seabattl.cpp
-sealy.cpp
-//sealy_fr.cpp     // skeleton
-seattle.cpp
-segaatom.cpp
-segac2.cpp
-//segacoin.cpp     // check
-segae.cpp
-segag80r.cpp
-segag80v.cpp
-segahang.cpp
-segajw.cpp
-//segald.cpp       // check
-//segam1.cpp       // check
-segaorun.cpp
-segas16a.cpp
-segas16b.cpp
-segas18.cpp
-segas18_astormbl.cpp
-segas24.cpp
-segas32.cpp
-//segasp.cpp       // check
+//rowamet.cpp                          // pinball
+//royalmah.cpp                         // mahjong
+rpunch.cpp                             //
+//rulechan.cpp                         // mnw
+runaway.cpp                            //
+rungun.cpp                             //
+//s11.cpp                              // pinball
+//s11a.cpp                             // pinball
+//s11b.cpp                             // pinball
+//s11c.cpp                             // pinball
+//s3.cpp                               // pinball
+//s4.cpp                               // pinball
+//s6.cpp                               // pinball
+//s7.cpp                               // pinball
+//s8.cpp                               // pinball
+//s9.cpp                               // pinball
+safarir.cpp                            //
+//sam.cpp                              // pinball
+sandscrp.cpp                           //
+sangho.cpp                             //
+//sanremmg.cpp                         // black screen
+//sanremo.cpp                          // gambling
+//saturn.cpp                           // no arcade games
+sauro.cpp                              // 
+//savquest.cpp                         // chd, mnw
+sbasketb.cpp                           //
+//sbmjb.cpp                            // mnw
+sbowling.cpp                           //
+sbrkout.cpp                            //
+sbugger.cpp                            //
+//schexx4gen.cpp                       // no screen
+schick.cpp                             //
+//scm_500.cpp                          // no screen
+scobra.cpp                             //
+scotrsht.cpp                           //
+scramble.cpp                           //
+scregg.cpp                             //
+scyclone.cpp                           //
+sderby.cpp                             //
+//sderby2.cpp                          // black screen
+seabattl.cpp                           //
+//sealy.cpp                            // black screen
+//sealy_fr.cpp                         // chd, mnw
+seattle.cpp                            //
+//segaatom.cpp                         // black screen
+segac2.cpp                             //
+//segacoin.cpp                         // no screen
+segae.cpp                              //
+segag80r.cpp                           //
+segag80v.cpp                           //
+segahang.cpp                           //
+//segajw.cpp                           // poker
+//segald.cpp                           // black screen
+//segam1.cpp                           // mnw
+segaorun.cpp                           //
+segas16a.cpp                           //
+segas16b.cpp                           //
+segas18.cpp                            //
+segas18_astormbl.cpp                   //
+segas24.cpp                            //
+segas32.cpp                            //
+//segasp.cpp                           // mnw, some chd
 //segattl.cpp                          // black screen
-//segaufo.cpp      // mechanical
-segaxbd.cpp
-segaybd.cpp
-seibucats.cpp
-seibuspi.cpp
-seicross.cpp
-seicupbl.cpp
-sengokmj.cpp
-senjyo.cpp
-seta.cpp
-seta2.cpp
-sf.cpp
-//sfbonus.cpp      // fruit
-//sfcbox.cpp       // check
-sfkick.cpp
-sg1000a.cpp
-shadfrce.cpp
-shangha3.cpp
-shanghai.cpp
-shangkid.cpp
-shaolins.cpp
-shisen.cpp
-//shootaway2.cpp   // check
-shootout.cpp
-shougi.cpp
-shtzone.cpp
-shuuz.cpp
-sidearms.cpp
-sidepckt.cpp
-//sigma21.cpp      // skeleton, probably gambling
-//sigmab31.cpp     // gambling
-//sigmab52.cpp     // poker
-sigmab98.cpp
-silkroad.cpp
-//silverball.cpp                   // unknown skeleton
-silvmil.cpp
-simpl156.cpp
-simple_st0016.cpp
-simpsons.cpp
-//skeetsht.cpp     // check
-skimaxx.cpp
+//segaufo.cpp                          // mech, works
+segaxbd.cpp                            //
+segaybd.cpp                            //
+//seibucats.cpp                        // chd, mnw
+seibuspi.cpp                           //
+seicross.cpp                           //
+seicupbl.cpp                           //
+//sengokmj.cpp                         // mahjong
+senjyo.cpp                             //
+seta.cpp                               //
+seta2.cpp                              //
+sf.cpp                                 //
+//sfbonus.cpp                          // fruit
+//sfcbox.cpp                           // mnw
+sfkick.cpp                             //
+sg1000a.cpp                            //
+shadfrce.cpp                           //
+shangha3.cpp                           //
+shanghai.cpp                           //
+shangkid.cpp                           //
+shaolins.cpp                           //
+shisen.cpp                             //
+//shootaway2.cpp                       // black screen
+shootout.cpp                           //
+shougi.cpp                             //
+//shtzone.cpp                          // console, mnw
+shuuz.cpp                              //
+sidearms.cpp                           //
+sidepckt.cpp                           //
+//sigma21.cpp                          // black screen
+//sigmab31.cpp                         // gambling
+//sigmab52.cpp                         // poker
+sigmab98.cpp                           //
+silkroad.cpp                           //
+//silverball.cpp                       // chd, mnw
+silvmil.cpp                            //
+simpl156.cpp                           //
+simple_st0016.cpp                      //
+simpsons.cpp                           //
+//skeetsht.cpp                         // mnw
+skimaxx.cpp                            //
 skopro.cpp
 skullxbo.cpp
 skyarmy.cpp
@@ -1313,7 +1313,7 @@ suprslam.cpp
 surpratk.cpp
 sweetland.cpp
 system1.cpp
-system16.cpp
+system16.cpp                           //
 tagteam.cpp
 tail2nos.cpp
 //taito.cpp        // pinball
@@ -1326,10 +1326,10 @@ taitosj.cpp
 taitotx.cpp
 taitotz.cpp
 //taitowlf.cpp     // check
-taito_b.cpp
+taito_b.cpp                            //
 taito_f2.cpp
 taito_f3.cpp
-taito_h.cpp
+taito_h.cpp                            //
 taito_l.cpp
 taito_o.cpp                            // poker
 taito_x.cpp
