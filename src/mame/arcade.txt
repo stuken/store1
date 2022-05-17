@@ -344,7 +344,7 @@ divebomb.cpp                           //
 diverboy.cpp                           //
 djboy.cpp                              //
 djmain.cpp                             // chd untested
-dkmb.cpp                               // hang at atart
+//dkmb.cpp                             // hang at atart
 dkong.cpp                              //
 //dlair.cpp                            // not working, laser-disk
 //dlair2.cpp                           // black screen, laser-disk
