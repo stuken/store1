@@ -87,7 +87,7 @@ atarisy4.cpp                           //
 //atari_s1.cpp                         // pinball
 //atari_s2.cpp                         // pinball
 atetris.cpp                            //
-atlantis.cpp                           // chd, untested
+atlantis.cpp                           // chd untested
 //atronic.cpp                          // hang at start
 attckufo.cpp                           //
 //atvtrack.cpp                         // black screen
@@ -159,7 +159,7 @@ blueprnt.cpp                           //
 bmcbowl.cpp                            //
 //bmcpokr.cpp                          // poker, majong
 bnstars.cpp                            // needed by ms32.cpp
-//bntyhunt.cpp                         // chd, listed as mnw
+//bntyhunt.cpp                         // chd, mnw
 bogeyman.cpp                           //
 bombjack.cpp                           //
 boogwing.cpp                           //
@@ -225,7 +225,7 @@ changela.cpp                           //
 cheekyms.cpp                           //
 //chexx.cpp                            // mech
 //chicago.cpp                          // black screen
-//chihiro.cpp                          // chd
+//chihiro.cpp                          // chd, mnw
 chinagat.cpp                           //
 //chinsan.cpp                          // mahjong
 chqflag.cpp                            //
@@ -284,7 +284,7 @@ crospang.cpp                           //
 //crospuzl.cpp                         // hang at start
 crshrace.cpp                           //
 crystal.cpp                            //
-csplayh5.cpp                           // chd, untested
+csplayh5.cpp                           // chd untested
 //cswat.cpp                            // bad gfx, weird game
 cubeqst.cpp                            //
 cubo.cpp                               //
@@ -417,8 +417,8 @@ fcrash.cpp                             //
 fgoal.cpp                              //
 finalizr.cpp                           //
 //fireball.cpp                         // mech, works
-firebeat.cpp                           // chd, untested
-firefox.cpp                            // chd, untested
+firebeat.cpp                           // chd untested
+firefox.cpp                            // chd untested
 firetrap.cpp                           //
 firetrk.cpp                            //
 fitfight.cpp                           //
@@ -580,7 +580,7 @@ hyprduel.cpp                           //
 igs009.cpp                             //
 igs011.cpp                             //
 igs017.cpp                             //
-//igspc.cpp                            // chd mnw
+//igspc.cpp                            // chd, mnw
 //igspoker.cpp                         // poker
 //igs_fear.cpp                         // black screen
 //igs_m027.cpp                         // white screen
@@ -670,7 +670,7 @@ konmedal68k.cpp                        //
 //kontest.cpp                          // stuck at crosshatch
 //kopunch.cpp                          // gets stuck when 1 pressed
 //kpontoon.cpp                         // ingame stack overflow
-//kpython.cpp                          // chd mnw
+//kpython.cpp                          // chd, mnw
 krokha.cpp                             //
 ksayakyu.cpp                           //
 ksys573.cpp                            // chd untested
@@ -863,7 +863,7 @@ mrflea.cpp                             //
 mrjong.cpp                             //
 ms32.cpp                               //
 msisaac.cpp                            //
-//mtouchxl.cpp                         // chd
+//mtouchxl.cpp                         // chd, some mnw, some untested
 mugsmash.cpp                           //
 //multfish.cpp                         // fruit
 //multfish_boot.cpp                    // fruit
