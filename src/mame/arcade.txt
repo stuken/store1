@@ -1484,7 +1484,7 @@ wink.cpp                               //
 wiping.cpp                             //
 witch.cpp                              //
 wiz.cpp                                //
-//wmg.cpp                              // regressed
+wmg.cpp                                //
 //wms.cpp                              // fruit
 //wms_shuffle.cpp                      // pinball
 wolfpack.cpp                           //
