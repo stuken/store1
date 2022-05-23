@@ -647,7 +647,7 @@ kchamp.cpp                             //
 kenseim.cpp                            // controls are terrible
 kickgoal.cpp                           //
 kikikai.cpp                            //
-//kingdrby.cpp                         // gambling
+//kingdrby.cpp                         // gambling, cowrace freezes mame
 kingobox.cpp                           //
 kingpin.cpp                            //
 kinst.cpp                              //
@@ -828,7 +828,7 @@ mmagic.cpp                             //
 //mmm.cpp                              // no screen
 model1.cpp                             // netmerc crashes, removed
 model2.cpp                             //
-model3.cpp                             //
+model3.cpp                             // numerous removed due to crashing
 mogura.cpp                             //
 mole.cpp                               //
 momoko.cpp                             //
@@ -1560,3 +1560,12 @@ zwackery.cpp                           //
 -vectrex
 //model1.cpp
 -netmerc
+//model3.cpp
+-vf3tb
+-lostwsga
+-lostwsgp
+-vs29815
+-vs29915
+-vs29915a
+-vs29915j
+-oceanhun
