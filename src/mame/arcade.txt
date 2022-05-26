@@ -1418,7 +1418,7 @@ twincobr.cpp                           //
 twinkle.cpp                            // chd untested
 twins.cpp                              //
 tx1.cpp                                //
-//uapce.cpp                            // no inputs
+uapce.cpp                              //
 ultraman.cpp                           //
 ultratnk.cpp                           //
 ultrsprt.cpp                           //

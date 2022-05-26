@@ -3298,7 +3298,7 @@ files {
 	MAME_DIR .. "src/mame/drivers/ggconnie.cpp",
 	MAME_DIR .. "src/mame/drivers/paranoia.cpp",
 	MAME_DIR .. "src/mame/drivers/tourvis.cpp",
---	MAME_DIR .. "src/mame/drivers/uapce.cpp",
+	MAME_DIR .. "src/mame/drivers/uapce.cpp",
 	MAME_DIR .. "src/mame/machine/pcecommn.cpp",
 	MAME_DIR .. "src/mame/machine/pcecommn.h",
 }
