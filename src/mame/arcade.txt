@@ -473,7 +473,6 @@ galpanic.cpp                           //
 galpanic_ms.cpp                        //
 galspnbl.cpp                           //
 //gambl186.cpp                         // mnw
-//gamecstl.cpp                         // chd, mnw
 //gamemasters.cpp                      // no screen
 gameplan.cpp                           //
 //gammagic.cpp                         // chd, mnw
@@ -748,6 +747,7 @@ mainsnk.cpp                            //
 malzak.cpp                             //
 //manohman.cpp                         // no screen
 mappy.cpp                              //
+marblmd2.cpp                           //
 marineb.cpp                            //
 marinedt.cpp                           //
 mario.cpp                              //
@@ -1114,7 +1114,7 @@ sangho.cpp                             //
 //sanremmg.cpp                         // black screen
 //sanremo.cpp                          // gambling
 //saturn.cpp                           // no arcade games
-sauro.cpp                              // 
+sauro.cpp                              //
 //savquest.cpp                         // chd, mnw
 sbasketb.cpp                           //
 //sbmjb.cpp                            // mnw
@@ -1193,6 +1193,7 @@ silvmil.cpp                            //
 simpl156.cpp                           //
 simple_st0016.cpp                      //
 simpsons.cpp                           //
+//sis630.cpp                           // chd, mnw
 //skeetsht.cpp                         // mnw
 skimaxx.cpp                            //
 //skopro.cpp                           // chd, mnw

@@ -2146,7 +2146,8 @@ arkanoidjbl2                    // bootleg (Beta)
 arkanoidu                       // A75 (c) 1986 Taito America Corporation + Romstar license (US)
 arkanoiduo                      // A75 (c) 1986 Taito America Corporation + Romstar license (US)
 arkatayt                        // bootleg
-arkatour                        // ??? (c) 1987 Taito America Corporation + Romstar license (US)
+arkatour                        // A75 (c) 1987 Taito America Corporation + Romstar license (US)
+arkatour2                       // A75 (c) 1987 Taito America Corporation + Romstar license (US)
 arkbloc2                        // bootleg
 arkbloc3                        // bootleg
 arkblock                        // bootleg
@@ -14953,10 +14954,6 @@ gambl186d                       // EGD
 @source:gamecom.cpp
 gamecom                         // Tiger Game.com
 
-@source:gamecstl.cpp
-gamecst2                        // MAME based bootleg, version 2.613
-gamecstl                        // MAME based bootleg
-
 @source:gamecube.cpp
 gcjp                            // (c) 2001 Nintendo
 gcus                            // (c) 2001 Nintendo
@@ -16590,6 +16587,7 @@ atakaast                        // Elektronika
 auslalom                        // Elektronika
 bassmate                        // Telko
 biathlon                        // Elektronika
+ecircus                         // Elektronika
 ehockey                         // Elektronika
 gnw_ball                        // Nintendo
 gnw_bfight                      // Nintendo
@@ -16795,6 +16793,7 @@ mbdtower                        // Milton Bradley
 mdndclab                        // Mattel
 merlin                          // Parker Bros
 merlina                         // Parker Bros
+mmarvin                         // Entex
 mmerlin                         // Parker Bros
 monkeysee                       // Tandy Corporation
 palmf31                         // Canon
@@ -20866,6 +20865,9 @@ superpacm                       // (c) 1982 Midway
 todruaga                        // (c) 1984
 todruagao                       // (c) 1984
 todruagas                       // (c) 1984 pcb manufactured by Sidam
+
+@source:marblmd2.cpp
+marblmd2
 
 @source:marineb.cpp
 bcruzm12                        // (c) 1983 Sigma Ent. Inc.
@@ -37780,6 +37782,7 @@ westdrm                         //
 astrofl                         // 834-5803 (c) 1986
 fantzn2                         // (c) 1988
 hangonjr                        // (c) 1985
+megrescu                        // (c) 1987
 opaopa                          // (c) 1987
 opaopan                         // (c) 1987
 ridleofp                        // (c) 1986 Sega / Nasco
@@ -38980,6 +38983,11 @@ simpsons2pa                     // GX072 (c) 1991 (Asia)
 simpsons2pj                     // GX072 (c) 1991 (Japan)
 simpsons4pa                     // GX072 (c) 1991 (Asia)
 simpsons4pe                     // GX072 (c) 1991 (World)
+
+@source:sis630.cpp
+gamecst2                        // MAME based bootleg, version 2.613
+gamecstl                        // MAME based bootleg
+shutms11						// (c) 2000
 
 @source:sitcom.cpp
 sitcom                          //

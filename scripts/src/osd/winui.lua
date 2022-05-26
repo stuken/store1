@@ -61,6 +61,8 @@ function maintargetosdoptions(_target,_subtarget)
 		"ole32",
 		"shell32",
 		"uxtheme",
+		"uuid",
+		"shlwapi",
 	}
 
 	override_resources = true;
