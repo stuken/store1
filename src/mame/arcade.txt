@@ -125,7 +125,7 @@ bfcobra.cpp                            //
 //bfm_ad5sw.cpp                        // fruit
 //bfm_sc1.cpp                          // fruit
 //bfm_sc2.cpp                          // fruit
-//bfm_sc4.cpp                          // fruit
+//bfm_sc4.cpp                          // fruit, some crash
 //bfm_sc5sw.cpp                        // fruit
 //bfm_swp.cpp                          // fruit
 //bgt.cpp                              // fruit, skeleton
@@ -133,7 +133,7 @@ bfcobra.cpp                            //
 bigevglf.cpp                           //
 bigkarnk_ms.cpp                        //
 bigstrkb.cpp                           //
-//bingo.cpp                            // bingo
+//bingo.cpp                            // skel, mech, some freeze mame
 //bingoc.cpp                           // bingo
 //bingoman.cpp                         // bingo
 //bingor.cpp                           // bingo
@@ -417,7 +417,7 @@ fcrash.cpp                             //
 fgoal.cpp                              //
 finalizr.cpp                           //
 //fireball.cpp                         // mech, works
-firebeat.cpp                           // chd untested
+//firebeat.cpp                         // chd, crash
 firefox.cpp                            // chd untested
 firetrap.cpp                           //
 firetrk.cpp                            //
@@ -631,7 +631,7 @@ jpmimpct.cpp                           //
 //jpms80.cpp                           // fruit
 //jpmsru.cpp                           // fruit
 //jpmsys5.cpp                          // fruit
-//jpmsys5sw.cpp                        // fruit
+//jpmsys5sw.cpp                        // fruit, some crash
 //jpmsys7.cpp                          // fruit
 jrpacman.cpp                           //
 //jubilee.cpp                          // poker
@@ -646,7 +646,7 @@ kchamp.cpp                             //
 kenseim.cpp                            // controls are terrible
 kickgoal.cpp                           //
 kikikai.cpp                            //
-//kingdrby.cpp                         // gambling, cowrace freezes mame
+//kingdrby.cpp                         // gambling
 kingobox.cpp                           //
 kingpin.cpp                            //
 kinst.cpp                              //
@@ -849,7 +849,7 @@ mouser.cpp                             //
 //mpu4empire.cpp                       // fruit
 //mpu4mdm.cpp                          // fruit
 //mpu4misc.cpp                         // fruit
-//mpu4mod2sw.cpp                       // fruit
+//mpu4mod2sw.cpp                       // fruit, some crash
 //mpu4mod4yam.cpp                      // fruit
 //mpu4plasma.cpp                       // fruit
 //mpu4sw.cpp                           // fruit
@@ -1392,7 +1392,7 @@ toypop.cpp                             //
 tp84.cpp                               //
 trackfld.cpp                           //
 travrusa.cpp                           //
-//triforce.cpp                         // chd, mnw
+//triforce.cpp                         // chd, mnw. Some freeze mame.
 //triplhnt.cpp                         // mech, works
 //triviaquiz.cpp                       // skeleton
 trivrus.cpp                            //
@@ -1559,14 +1559,19 @@ zwackery.cpp                           //
 //-vsaturn
 //vectrex.cpp
 -vectrex
+//These freeze or crash
+//docastle.cpp
+-asoccer
+-idsoccera
+-idsoccert
 //model1.cpp
 -netmerc
 //model3.cpp
 -vf3tb
 -lostwsga
 -lostwsgp
+-oceanhun
 -vs29815
 -vs29915
 -vs29915a
 -vs29915j
--oceanhun
