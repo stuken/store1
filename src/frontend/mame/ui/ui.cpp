@@ -2249,4 +2249,3 @@ void ui_colors::refresh(const ui_options &options)
 	m_dipsw_color = options.dipsw_color();
 	m_slider_color = options.slider_color();
 }
-

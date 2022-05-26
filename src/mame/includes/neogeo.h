@@ -108,7 +108,6 @@ protected:
 	void neogeo_stereo(machine_config &config);
 
 	void base_main_map(address_map &map);
-//>>>>>>> upstream/master
 	void audio_io_map(address_map &map);
 	void audio_map(address_map &map);
 
