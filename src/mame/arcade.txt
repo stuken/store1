@@ -796,6 +796,7 @@ metro.cpp                              //
 //mgavegas.cpp                         // no inputs
 mgolf.cpp                              //
 mhavoc.cpp                             //
+miconkit.cpp                           //
 micro3d.cpp                            //
 //microdar.cpp                         // no screen
 //micropin.cpp                         // pinball
