@@ -286,6 +286,7 @@ crshrace.cpp                           //
 crystal.cpp                            //
 csplayh5.cpp                           // chd untested
 //cswat.cpp                            // bad gfx, weird game
+//cucaracha.cpp                        // no screen
 cubeqst.cpp                            //
 cubo.cpp                               //
 //cultures.cpp                         // mahjong
@@ -500,7 +501,6 @@ gng.cpp                                //
 go2000.cpp                             //
 goal92.cpp                             //
 goindol.cpp                            //
-//gokidetor.cpp                        // no screen
 //goldart.cpp                          // no inputs
 //goldngam.cpp                         // poker
 //goldnpkr.cpp                         // poker
@@ -1383,6 +1383,7 @@ toaplan2.cpp                           //
 toki.cpp                               //
 toki_ms.cpp                            //
 tomcat.cpp                             // inputs unusable, but needed by tomcatsw
+//tomsadvs.cpp                         // no screen
 tonton.cpp                             //
 toobin.cpp                             //
 topspeed.cpp                           //
@@ -1558,6 +1559,8 @@ zwackery.cpp                           //
 //-saturnjp
 //-saturnkr
 //-vsaturn
+//sis630
+-shutms11
 //vectrex.cpp
 -vectrex
 //These freeze or crash
