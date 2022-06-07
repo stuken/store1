@@ -434,8 +434,9 @@ foodf.cpp                              //
 forte2.cpp                             //
 //fortecar.cpp                         // poker
 freekick.cpp                           //
-//fresh.cpp                            // fruit
 //freeway.cpp                          // black screen
+//frenzyxprss.cpp                      // chd, mnw
+//fresh.cpp                            // fruit
 //fromanc2.cpp                         // mahjong
 //fromance.cpp                         // mahjong
 //fruitpc.cpp                          // cannot find boot device
@@ -1145,14 +1146,15 @@ segag80v.cpp                           //
 segahang.cpp                           //
 //segajw.cpp                           // poker
 //segald.cpp                           // black screen
-//segam1.cpp                           // mnw
 segaorun.cpp                           //
 segas16a.cpp                           //
 segas16b.cpp                           //
+segas16b_isgsm.cpp                     //
 segas18.cpp                            //
 segas18_astormbl.cpp                   //
 segas24.cpp                            //
 segas32.cpp                            //
+//segasm1.cpp                          // tinker mnw, others crash
 //segasp.cpp                           // mnw, some chd
 //segattl.cpp                          // black screen
 //segaufo.cpp                          // mech, works
