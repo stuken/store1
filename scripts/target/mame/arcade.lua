@@ -750,6 +750,7 @@ MACHINES["AIC565"] = true
 MACHINES["AIC580"] = true
 MACHINES["AIC6250"] = true
 MACHINES["VRENDER0"] = true
+MACHINES["AT_MB"] = true
 
 --------------------------------------------------
 -- specify available bus cores
@@ -1469,13 +1470,21 @@ files {
 --	MAME_DIR .. "src/mame/drivers/mpu4mdm.cpp",
 --	MAME_DIR .. "src/mame/drivers/mpu4misc.cpp",
 --	MAME_DIR .. "src/mame/drivers/mpu4mod2sw.cpp",
+--	MAME_DIR .. "src/mame/drivers/mpu4mod4oki.cpp",
 --	MAME_DIR .. "src/mame/drivers/mpu4mod4yam.cpp",
 --	MAME_DIR .. "src/mame/drivers/mpu4plasma.cpp",
 --	MAME_DIR .. "src/mame/drivers/mpu4sw.cpp",
 --	MAME_DIR .. "src/mame/drivers/mpu4union.cpp",
+--	MAME_DIR .. "src/mame/drivers/mpu4unsorted.cpp",
 --	MAME_DIR .. "src/mame/drivers/mpu4vid.cpp",
 --	MAME_DIR .. "src/mame/drivers/mpu5.cpp",
 --	MAME_DIR .. "src/mame/drivers/mpu5sw.cpp",
+--	MAME_DIR .. "src/mame/machine/mpu4_characteriser_pal.cpp",
+--	MAME_DIR .. "src/mame/machine/mpu4_characteriser_pal.h",
+--	MAME_DIR .. "src/mame/machine/mpu4_characteriser_pal_bwb.cpp",
+--	MAME_DIR .. "src/mame/machine/mpu4_characteriser_pal_bwb.h",
+--	MAME_DIR .. "src/mame/machine/mpu4_characteriser_bootleg.cpp",
+--	MAME_DIR .. "src/mame/machine/mpu4_characteriser_bootleg.h",
 }
 
 createMAMEProjects(_target, _subtarget, "bfm")
@@ -2728,8 +2737,6 @@ files {
 --	MAME_DIR .. "src/mame/drivers/meritsdx.cpp",
 --	MAME_DIR .. "src/mame/drivers/mtouchxl.cpp",
 --	MAME_DIR .. "src/mame/drivers/pubtimed.cpp",
-	MAME_DIR .. "src/mame/machine/at.h",
-	MAME_DIR .. "src/mame/machine/at.cpp",
 }
 
 createMAMEProjects(_target, _subtarget, "metro")
@@ -4680,7 +4687,7 @@ files {
 --	MAME_DIR .. "src/mame/machine/3do.cpp",
 --	MAME_DIR .. "src/mame/drivers/4enlinea.cpp",
 	MAME_DIR .. "src/mame/drivers/4enraya.cpp",
---	MAME_DIR .. "src/mame/drivers/5clown.cpp",
+	MAME_DIR .. "src/mame/drivers/5clown.cpp",
 --	MAME_DIR .. "src/mame/drivers/a1supply.cpp",
 --	MAME_DIR .. "src/mame/drivers/acefruit.cpp",
 --	MAME_DIR .. "src/mame/drivers/aces1.cpp",

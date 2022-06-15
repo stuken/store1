@@ -831,18 +831,17 @@ mmagic.cpp                             //
 model1.cpp                             // netmerc crashes, removed
 model2.cpp                             //
 model3.cpp                             // numerous removed due to crashing
-mogura.cpp                             //
-mole.cpp                               //
-momoko.cpp                             //
+mogura.cpp
+mole.cpp
+momoko.cpp
 //monacogp.cpp                         // black screen
-monzagp.cpp                            //
-moo.cpp                                //
-mosaic.cpp                             //
-mouser.cpp                             //
+monzagp.cpp
+moo.cpp
+mosaic.cpp
+mouser.cpp
 //mpu12wbk.cpp                         // fruit
 //mpu2.cpp                             // fruit
 //mpu3.cpp                             // fruit
-//mpu4.cpp                             // fruit
 //mpu4avan.cpp                         // fruit
 //mpu4bwb.cpp                          // fruit
 //mpu4concept.cpp                      // fruit
@@ -852,37 +851,38 @@ mouser.cpp                             //
 //mpu4mdm.cpp                          // fruit
 //mpu4misc.cpp                         // fruit
 //mpu4mod2sw.cpp                       // fruit, some crash
+//mpu4mod4oki.cpp                      // fruit
 //mpu4mod4yam.cpp                      // fruit
 //mpu4plasma.cpp                       // fruit
-//mpu4sw.cpp                           // fruit
 //mpu4union.cpp                        // fruit
+//mpu4unsorted.cpp                     // fruit
 //mpu4vid.cpp                          // fruit
 //mpu5sw.cpp                           // fruit
 //mquake.cpp                           // not a game
-mrdo.cpp                               //
-mrflea.cpp                             //
+mrdo.cpp
+mrflea.cpp
 //mrgame.cpp                           // pinball
-mrjong.cpp                             //
-ms32.cpp                               //
-msisaac.cpp                            //
+mrjong.cpp
+ms32.cpp
+msisaac.cpp
 //mtouchxl.cpp                         // chd, some mnw, some untested
-mugsmash.cpp                           //
+mugsmash.cpp
 //multfish.cpp                         // fruit
 //multfish_boot.cpp                    // fruit
-multigam.cpp                           //
-munchmo.cpp                            //
+multigam.cpp
+munchmo.cpp
 //murogem.cpp                          // poker
 //murogmbl.cpp                         // poker
-mustache.cpp                           //
+mustache.cpp
 //mw18w.cpp                            // mech, works
-mw8080bw.cpp                           //
-mwarr.cpp                              //
+mw8080bw.cpp
+mwarr.cpp
 //mwsub.cpp                            // mech, works
-mystston.cpp                           //
-mystwarr.cpp                           //
-n8080.cpp                              //
-namcofl.cpp                            //
-namcona1.cpp                           //
+mystston.cpp
+mystwarr.cpp
+n8080.cpp
+namcofl.cpp
+namcona1.cpp
 namconb1.cpp                           //
 namcond1.cpp                           //
 //namcops2.cpp                         // chd, mnw

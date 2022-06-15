@@ -1851,8 +1851,7 @@ static void SavePluginsFile(plugin_options &opts, const std::string &filename)
 
 	while (iter.next(pluginpath))
 	{
-		osd_subst_env(pluginpath,pluginpath);
-		opts.scan_directory(pluginpath,true);
+		opts.scan_directory(osd_subst_env(pluginpath),true);
 	}
 
 	emu_file file(OPEN_FLAG_WRITE | OPEN_FLAG_CREATE | OPEN_FLAG_CREATE_PATHS);
