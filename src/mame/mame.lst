@@ -40108,7 +40108,7 @@ st_ohla                         //
 st_vulkn                        //
 
 @source:stfight.cpp
-//cshootert                       // (c) 1987 Taito // parent not enabled
+cshootert                       // (c) 1987 Taito
 empcity                         // (c) 1986 Seibu Kaihatsu (bootleg?)
 empcityfr                       // (c) 1986 Seibu Kaihatsu (Norad license)
 empcityi                        // (c) 1986 Seibu Kaihatsu (Eurobed license)

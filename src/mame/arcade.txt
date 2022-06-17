@@ -1585,7 +1585,14 @@ zwackery.cpp
 //These do not work
 //acefruit.cpp
 -starspnr
+//airraid.cpp
+-airraid
+-cshooter
+//igs017.cpp
+-spkrform                              // works, but parent sp306us does not
 //rbmk.cpp
 -rbspm
 -sc2in1
 -magslot
+//stfight
+-cshootert
