@@ -133,7 +133,7 @@ big10.cpp                              // keno
 bigevglf.cpp
 bigkarnk_ms.cpp
 bigstrkb.cpp
-//bingo.cpp                            // skel, mech, some freeze mame
+//bingo.cpp                            // no screen, some freeze mame
 //bingoc.cpp                           // bingo, not playable
 //bingoman.cpp                         // bingo, black screen
 //bingor.cpp                           // bingo, mnw
@@ -164,7 +164,7 @@ bogeyman.cpp
 bombjack.cpp
 boogwing.cpp
 bottom9.cpp
-//bowltry.cpp                          // mech skel
+//bowltry.cpp                          // black screen
 //boxer.cpp                            // runs by itself, player has no control
 brkthru.cpp
 bsktball.cpp
@@ -403,7 +403,7 @@ exprraid.cpp
 exterm.cpp
 //extrema.cpp                          // fruit, no screen
 exzisus.cpp
-//ez2d.cpp                             // skel, chd
+//ez2d.cpp                             // mnw, chd
 f-32.cpp
 f1gp.cpp
 //falgas_m89.cpp                       // no screen
@@ -1114,7 +1114,7 @@ safarir.cpp
 sandscrp.cpp
 sangho.cpp
 //sanremmg.cpp                         // black screen
-//sanremo.cpp                          // gambling***
+sanremo.cpp                            // gambling, one works, one not
 //saturn.cpp                           // no arcade games
 sauro.cpp
 //savquest.cpp                         // chd, mnw
@@ -1145,7 +1145,7 @@ segae.cpp
 segag80r.cpp
 segag80v.cpp
 segahang.cpp
-//segajw.cpp                           // poker***
+segajw.cpp                             // poker
 //segald.cpp                           // black screen
 segaorun.cpp
 segas16a.cpp
@@ -1165,12 +1165,12 @@ segaybd.cpp
 seibuspi.cpp
 seicross.cpp
 seicupbl.cpp
-//sengokmj.cpp                         // mahjong***
+sengokmj.cpp                           // mahjong
 senjyo.cpp
 seta.cpp
 seta2.cpp
 sf.cpp
-//sfbonus.cpp                          // fruit***
+sfbonus.cpp                            // fruit
 //sfcbox.cpp                           // mnw
 sfkick.cpp
 sg1000a.cpp
@@ -1188,8 +1188,8 @@ shuuz.cpp
 sidearms.cpp
 sidepckt.cpp
 //sigma21.cpp                          // black screen
-//sigmab31.cpp                         // gambling***
-//sigmab52.cpp                         // poker***
+//sigmab31.cpp                         // gambling, no screen
+//sigmab52.cpp                         // poker, mnw
 sigmab98.cpp
 silkroad.cpp
 //silverball.cpp                       // chd, mnw
@@ -1213,7 +1213,7 @@ slapfght.cpp
 slapshot.cpp
 //sleic.cpp                            // pinball
 sliver.cpp                             // adult
-//slotcarn.cpp                         // fruit-poker***
+//slotcarn.cpp                         // fruit-poker, bad gfx
 smotor.cpp
 //sms_bootleg.cpp                      // console, mnw
 smsmcorp.cpp
@@ -1222,7 +1222,7 @@ snesb51.cpp
 snk.cpp
 snk6502.cpp
 snk68.cpp
-//snookr10.cpp                         // poker***
+snookr10.cpp                           // poker
 snowbros.cpp
 solomon.cpp
 sonson.cpp
@@ -1235,7 +1235,7 @@ spcforce.cpp
 //spdamjes.cpp                         // no screen
 spdheat.cpp
 spdodgeb.cpp
-//special_gambl.cpp                    // gambling***
+special_gambl.cpp                      // gambling, how to use?
 //spectra.cpp                          // pinball
 speedatk.cpp
 speedbal.cpp
@@ -1247,18 +1247,18 @@ spiders.cpp
 //spirit76.cpp                         // pinball
 splash.cpp
 splash_ms.cpp                          // adult
-//splus.cpp                            // fruit***
-//spoker.cpp                           // poker***
-//spool99.cpp                          // poker***
+//splus.cpp                            // fruit, mech, mnw
+//spoker.cpp                           // poker, mnw
+//spool99.cpp                          // poker, mnw
 sprcros2.cpp
 sprint2.cpp
 sprint4.cpp
 sprint8.cpp
 spy.cpp
 spyhuntertec.cpp
-//srmp2.cpp                            // mahjong***
+srmp2.cpp                              // mahjong
 //srmp5.cpp                            // black screen
-//srmp6.cpp                            // mahjong***
+srmp6.cpp                              // mahjong
 srumbler.cpp
 ssfindo.cpp
 sshangha.cpp
@@ -1280,7 +1280,7 @@ starshp1.cpp
 //startouch.cpp                        // chd, mnw
 starwars.cpp
 statriv2.cpp
-//stellafr.cpp                         // fruit***
+//stellafr.cpp                         // fruit, no screen
 stfight.cpp
 stlforce.cpp
 //stop.cpp                             // no screen
@@ -1293,17 +1293,17 @@ stv.cpp
 sub.cpp
 //subhuntr.cpp                         // hang at start
 subs.cpp
-//subsino.cpp                          // fruit/poker***
+//subsino.cpp                          // fruit/poker
 subsino2.cpp
-//summit.cpp                           // fruit***
+//summit.cpp                           // fruit, how to use?
 //sumt8035.cpp                         // no screen
 suna16.cpp
 suna8.cpp
 supbtime.cpp
-//supdrapo.cpp                         // poker***
+supdrapo.cpp                           // poker
 supduck.cpp
 superchs.cpp
-//supercrd.cpp                         // fruit***
+//supercrd.cpp                         // fruit, mnw
 //superdq.cpp                          // black screen
 superga2.cpp
 superqix.cpp
@@ -1327,7 +1327,7 @@ taito_f2.cpp
 taito_f3.cpp
 taito_h.cpp
 taito_l.cpp
-taito_o.cpp                            // poker***
+taito_o.cpp                            // poker
 taito_x.cpp
 taito_z.cpp
 taitoair.cpp
@@ -1363,7 +1363,7 @@ terracre.cpp
 tetrisp2.cpp
 //tgtpanic.cpp                         // hangs on boot screen
 //thayers.cpp                          // chd missing, mnw
-//thedealr.cpp                         // poker***
+thedealr.cpp                           // poker
 thedeep.cpp
 thepit.cpp
 thief.cpp
@@ -1377,7 +1377,7 @@ timelimt.cpp
 timeplt.cpp
 timetrv.cpp                            // chd untested
 tmaster.cpp
-//tmmjprd.cpp                          // mahjong***
+tmmjprd.cpp                            // mahjong
 tmnt.cpp
 //tmspoker.cpp                         // black screen
 tnzs.cpp
@@ -1399,7 +1399,7 @@ trackfld.cpp
 travrusa.cpp
 //triforce.cpp                         // chd, mnw. Some freeze mame.
 //triplhnt.cpp                         // mech, works
-//triviaquiz.cpp                       // skeleton***
+triviaquiz.cpp
 trivrus.cpp
 truco.cpp
 trucocl.cpp
@@ -1428,12 +1428,12 @@ uapce.cpp
 ultraman.cpp
 ultratnk.cpp
 ultrsprt.cpp
-//umipoker.cpp                         // poker***
+umipoker.cpp                           // poker
 undrfire.cpp
 //unianapc.cpp                         // chd, mnw
 unico.cpp
 unkhorse.cpp
-//unkpoker.cpp                         // poker, mnw***
+//unkpoker.cpp                         // poker, mnw
 upscope.cpp
 //usbilliards.cpp                      // black screen
 usgames.cpp
@@ -1452,10 +1452,10 @@ vendetta.cpp
 vertigo.cpp
 vicdual.cpp
 victory.cpp
-//video21.cpp                          // gambling***
+video21.cpp                            // gambling
 videopin.cpp
-//videopkr.cpp                         // poker***
-//videosaa.cpp                         // gambling skeletons***
+videopkr.cpp                           // poker
+//videosaa.cpp                         // gambling, mnw
 vigilant.cpp
 vindictr.cpp
 //viper.cpp                            // chd, mnw
@@ -1464,9 +1464,9 @@ vindictr.cpp
 volfied.cpp
 //voyager.cpp                          // chd, mnw
 //vp101.cpp                            // chd, mnw
-//vpoker.cpp                           // poker***
+//vpoker.cpp                           // poker, mnw
 vroulet.cpp
-//vsmjtria.cpp                         // mahjong***
+vsmjtria.cpp                           // mahjong
 vsnes.cpp
 vulgus.cpp
 //wacky_gator.cpp                      // mech, works
@@ -1483,7 +1483,7 @@ wgp.cpp                                // bad text colours
 wheelfir.cpp
 //whitestar.cpp                        // pinball
 //wico.cpp                             // pinball
-//wildpkr.cpp                          // poker***
+//wildpkr.cpp                          // poker, mnw
 williams.cpp
 //winbingo.cpp                         // black screen
 wink.cpp
@@ -1491,7 +1491,7 @@ wiping.cpp
 witch.cpp
 wiz.cpp
 wmg.cpp
-//wms.cpp                              // fruit***
+//wms.cpp                              // fruit, black screen
 //wms_shuffle.cpp                      // pinball
 wolfpack.cpp
 //wpc_95.cpp                           // pinball
