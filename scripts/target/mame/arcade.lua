@@ -2552,7 +2552,7 @@ files {
 	MAME_DIR .. "src/mame/includes/pingpong.h",
 	MAME_DIR .. "src/mame/video/pingpong.cpp",
 	MAME_DIR .. "src/mame/drivers/piratesh.cpp",
---	MAME_DIR .. "src/mame/drivers/plygonet.cpp",
+	MAME_DIR .. "src/mame/drivers/plygonet.cpp",
 	MAME_DIR .. "src/mame/drivers/pooyan.cpp",
 	MAME_DIR .. "src/mame/includes/pooyan.h",
 	MAME_DIR .. "src/mame/video/pooyan.cpp",

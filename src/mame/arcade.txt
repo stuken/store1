@@ -1003,7 +1003,7 @@ playmark.cpp
 //playcenter.cpp                       // chd, mnw
 //plsonic4.cpp                         // stuck on romcheck screen
 //pluto5.cpp                           // fruit, no screen
-//plygonet.cpp                         // fatal error
+plygonet.cpp
 //pmc.cpp                              // no screen
 //pntnpuzl.cpp                         // game ends immediately then freezes
 pokechmp.cpp
