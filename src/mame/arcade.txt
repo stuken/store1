@@ -1248,7 +1248,7 @@ spiders.cpp
 splash.cpp
 splash_ms.cpp                          // adult
 //splus.cpp                            // fruit, mech, mnw
-//spoker.cpp                           // poker, mnw
+spoker.cpp                             // poker, some mnw
 //spool99.cpp                          // poker, mnw
 sprcros2.cpp
 sprint2.cpp
