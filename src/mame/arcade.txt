@@ -1281,6 +1281,7 @@ seibu/wiz.cpp
 seta/albazc.cpp
 seta/hanaawas.cpp
 seta/jclub2.cpp          // gambling
+seta/kiwame.cpp           // mahjong
 seta/macs.cpp          // mahjong
 seta/seta.cpp
 seta/seta2.cpp
