@@ -1114,6 +1114,7 @@ pinball/byvid.cpp          // combo pinball&video
 //pinball/micropin.cpp          // pinball
 //pinball/missamer.cpp          // no inputs
 //pinball/mrgame.cpp          // pinball
+//pinball/newcanasta.cpp          //to be checked
 //pinball/nsm.cpp          // pinball
 //pinball/peyper.cpp          // pinball
 //pinball/play_1.cpp          // pinball
@@ -1281,7 +1282,7 @@ seibu/wiz.cpp
 seta/albazc.cpp
 seta/hanaawas.cpp
 seta/jclub2.cpp          // gambling
-seta/kiwame.cpp           // mahjong
+seta/kiwame.cpp          // mahjong
 seta/macs.cpp          // mahjong
 seta/seta.cpp
 seta/seta2.cpp
