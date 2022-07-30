@@ -84,7 +84,7 @@
 #endif
 #define MAMENAME			"MAME"
 
-#define MAME_VERSION		"0.245"
+#define MAME_VERSION		"0.246.0"
 #define MAMEUIFX_VERSION	MAME_VERSION " (" __DATE__")"
 
 #define SEARCH_PROMPT		"<search here>"
@@ -99,9 +99,9 @@
 
 #define MM_PLAY_GAME		(WM_APP + 15000)
 
-#define JOYGUI_MS 			100
+#define JOYGUI_MS			100
 
-#define JOYGUI_TIMER 		1
+#define JOYGUI_TIMER		1
 #define SCREENSHOT_TIMER	2
 
 /* Max size of a sub-menu */
@@ -135,7 +135,7 @@
 #define MIN_VIEW_WIDTH		10
 
 #define NUM_TOOLBUTTONS     std::size(tbb)
-#define NUM_TOOLTIPS 		(13)
+#define NUM_TOOLTIPS		(13)
 
 enum
 {
