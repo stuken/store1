@@ -107,7 +107,7 @@ BEGIN
         MENUITEM "Custom filters\tCtrl+F",              ID_CONTEXT_FILTERS
         MENUITEM "Customize fields\tCtrl+C",             ID_CUSTOMIZE_FIELDS
         MENUITEM SEPARATOR
-        MENUITEM "Audit all games\tCtrl+A",                ID_FILE_AUDIT
+        MENUITEM "Audit all games",                ID_FILE_AUDIT
         MENUITEM "Refresh games list\tF5",               ID_UPDATE_GAMELIST
         MENUITEM SEPARATOR
         MENUITEM "Save current games list\tAlt+F8",        ID_FILE_GAMELIST

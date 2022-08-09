@@ -1290,7 +1290,7 @@ seta/simple_st0016.cpp
 seta/speedatk.cpp
 seta/speglsht.cpp
 seta/srmp2.cpp          // mahjong
-//seta/srmp5.cpp          // black screen
+seta/srmp5.cpp          // mahjong
 seta/srmp6.cpp          // mahjong
 seta/ssv.cpp
 seta/thedealr.cpp          // poker
