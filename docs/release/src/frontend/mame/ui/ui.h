@@ -24,11 +24,11 @@
 #include <any>
 #include <cassert>
 #include <ctime>
-#include <map>
 #include <set>
 #include <string_view>
 #include <typeindex>
 #include <typeinfo>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -192,11 +192,6 @@ public:
 	void start_save_state();
 	void start_load_state();
 
-	// config callbacks
-	void config_load_s(config_type cfg_type, util::xml::data_node const *parentnode);
-	void config_save_s(config_type cfg_type, util::xml::data_node *parentnode);
-	void config_apply(void);
-
 	// slider controls
 	std::vector<ui::menu_item>&  get_slider_list(void);
 
@@ -236,7 +231,7 @@ public:
 private:
 	using handler_callback_func = delegate<uint32_t (render_container &)>;
 	using device_feature_set = std::set<std::pair<std::string, std::string> >;
-	using session_data_map = std::map<std::type_index, std::any>;
+	using session_data_map = std::unordered_map<std::type_index, std::any>;
 
 	// instance variables
 	std::unique_ptr<render_font> m_font;
@@ -313,7 +308,6 @@ private:
 #endif
 
 	std::vector<std::unique_ptr<slider_state>> m_sliders;
-	std::vector<std::unique_ptr<slider_state>> m_sliders_saved;
 };
 
 

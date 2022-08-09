@@ -204,8 +204,6 @@ void mame_ui_manager::init()
 	ui::system_list::instance().cache_data(options());
 
 	// initialize the other UI bits
-	ui_gfx_init(machine());
-
 	m_ui_colors.refresh(options());
 
 	// update font row info from setting
@@ -555,7 +553,7 @@ void mame_ui_manager::display_startup_screens(bool first_time)
 			if (!mandatory_images.empty() && show_mandatory_fileman)
 			{
 				std::ostringstream warning;
-				warning << _("This driver requires images to be loaded in the following device(s): ");
+				warning << _("This system requires media images to be mounted for the following device(s): ");
 
 				output_joined_collection(mandatory_images,
 						[&warning](const std::reference_wrapper<const std::string> &img)    { warning << "\"" << img.get() << "\""; },
@@ -2196,7 +2194,7 @@ void mame_ui_manager::save_main_option()
 			return;
 		}
 	}
-	popup_time(3, "%s", _("\n    Configuration saved    \n\n"));
+	popup_time(3, "%s", _("\n    Settings saved    \n\n"));
 }
 
 void mame_ui_manager::menu_reset()
@@ -2251,4 +2249,3 @@ void ui_colors::refresh(const ui_options &options)
 	m_dipsw_color = options.dipsw_color();
 	m_slider_color = options.slider_color();
 }
-

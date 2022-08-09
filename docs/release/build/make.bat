@@ -1,10 +1,13 @@
-@if exist scripts\minimaws\minimaws.sqlite3 del scripts\minimaws\minimaws.sqlite3
 @echo off
 del arcade64.sym
+del build\generated\resource\mamevers.rc
 :start
-del C:\ARCADE\build\generated\resource\mamevers.rc
 del arcade64.exe
 if exist arcade64.exe goto start
-make64 -j6 %1 %2 %3
+copy /Y src\mame\arcade.flt src\mame\arcade.bak
+copy /Y src\mame\arcade.txt src\mame\arcade.flt
+touch src\mame\arcade.flt
+call mk.bat
+call make64 -j6 %1 %2 %3
+copy /Y src\mame\arcade.bak src\mame\arcade.flt
 copy /Y arcade64.exe arcade.exe
-

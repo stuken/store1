@@ -1,7 +1,7 @@
 What is ARCADE64?
 =================
 ARCADE64 has an inbuilt front-end allowing you to run selected arcade games from a list.
-Only working games are included. Gambling games, pinball games, and mechanical games are excluded.
+Only working games are included. Pinball games and mechanical games are excluded.
 It runs on Windows 7 or later.
 
 
@@ -19,7 +19,7 @@ make OSD=winui
 Where can I find out more?
 ==========================
 
-* [Official MAME Development Team Site](http://mamedev.org/) (includes binary downloads for MAME and MESS, wiki, forums, and more)
+* [Official MAME Development Team Site](http://mamedev.org/)
 * [ARCADE64 site] https://arcade.mameworld.info/
 * [ARCADE64 forum] https://www.1emulation.com/forums/forum/127-arcade/
 

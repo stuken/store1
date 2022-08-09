@@ -107,7 +107,7 @@ BEGIN
         MENUITEM "Custom filters\tCtrl+F",              ID_CONTEXT_FILTERS
         MENUITEM "Customize fields\tCtrl+C",             ID_CUSTOMIZE_FIELDS
         MENUITEM SEPARATOR
-        MENUITEM "Audit all games\tCtrl+A",                ID_FILE_AUDIT
+        MENUITEM "Audit all games\tAlt+A",                ID_FILE_AUDIT
         MENUITEM "Refresh games list\tF5",               ID_UPDATE_GAMELIST
         MENUITEM SEPARATOR
         MENUITEM "Save current games list\tAlt+F8",        ID_FILE_GAMELIST
@@ -941,7 +941,6 @@ BEGIN
     "5",            ID_OPTIONS_LIST_COLOR,      VIRTKEY, CONTROL, NOINVERT
     "6",            ID_OPTIONS_HISTORY_COLOR,   VIRTKEY, CONTROL, NOINVERT
     "A",            ID_GAME_AUDIT,              VIRTKEY, ALT, NOINVERT
-    "A",            ID_FILE_AUDIT,              VIRTKEY, CONTROL, NOINVERT
     "B",            ID_VIEW_PAGETAB,            VIRTKEY, ALT, NOINVERT
     "C",            ID_CUSTOMIZE_FIELDS,        VIRTKEY, CONTROL, NOINVERT
     "D",            ID_OPTIONS_DIR,             VIRTKEY, CONTROL, NOINVERT
