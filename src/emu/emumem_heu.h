@@ -21,7 +21,6 @@ public:
 
 	uX read(offs_t offset, uX mem_mask) const override;
 	std::pair<uX, u16> read_flags(offs_t offset, uX mem_mask) const override;
-	u16 lookup_flags(offs_t offset, uX mem_mask) const override;
 
 	std::string name() const override;
 
@@ -64,7 +63,6 @@ public:
 
 	void write(offs_t offset, uX data, uX mem_mask) const override;
 	u16 write_flags(offs_t offset, uX data, uX mem_mask) const override;
-	u16 lookup_flags(offs_t offset, uX mem_mask) const override;
 
 	std::string name() const override;
 
