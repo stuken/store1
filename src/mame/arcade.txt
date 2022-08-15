@@ -122,6 +122,7 @@ atari/xybots.cpp
 atlus/ohmygod.cpp
 atlus/patapata.cpp
 //atlus/rallypnt.cpp          // no screen
+//barcrest/mpu1.cpp          //to be checked
 //barcrest/mpu2.cpp          // fruit, no screen
 //barcrest/mpu3.cpp          // fruit, mech
 //barcrest/mpu4avan.cpp          // fruit, mech
@@ -1114,7 +1115,7 @@ pinball/byvid.cpp          // combo pinball&video
 //pinball/micropin.cpp          // pinball
 //pinball/missamer.cpp          // no inputs
 //pinball/mrgame.cpp          // pinball
-//pinball/newcanasta.cpp          //to be checked
+//pinball/newcanasta.cpp          //pinball
 //pinball/nsm.cpp          // pinball
 //pinball/peyper.cpp          // pinball
 //pinball/play_1.cpp          // pinball
