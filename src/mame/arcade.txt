@@ -72,6 +72,7 @@ atari/foodf.cpp
 atari/gauntlet.cpp
 //atari/gumrally.cpp          // no screen
 atari/harddriv.cpp
+//atari/hitparade.cpp          //to be checked
 atari/irobot.cpp
 atari/jaguar.cpp
 atari/jedi.cpp
@@ -613,6 +614,7 @@ misc/alinvade.cpp
 //misc/amerihok.cpp          // mech, works
 //misc/ampoker2.cpp          // poker, need setup
 misc/amspdwy.cpp
+//misc/amstarz80.cpp          //to be checked
 misc/amusco.cpp          // poker
 //misc/anes.cpp          // black screen
 //misc/arachnid.cpp          // mech, seems to work, W=enter
