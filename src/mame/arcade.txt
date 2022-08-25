@@ -311,6 +311,7 @@ f32/silvmil.cpp
 //funworld/photoplys.cpp          // chd, mnw
 //funworld/photoplysx.cpp          // chd, mnw
 funworld/snookr10.cpp          // poker
+funworld/supercrd.cpp
 fuuki/fuukifg2.cpp
 fuuki/fuukifg3.cpp
 //gaelco/atvtrack.cpp          // black screen
@@ -348,6 +349,14 @@ gametron/gotya.cpp
 gametron/sbugger.cpp
 gottlieb/exterm.cpp
 gottlieb/gottlieb.cpp
+ice/chexx.cpp
+ice/frenzyxprss.cpp
+ice/ice_bozopail.cpp
+ice/ice_hhhippos.cpp
+ice/ice_tbd.cpp
+ice/lethalj.cpp
+ice/schexx4gen.cpp
+ice/vp101.cpp
 //igs/cabaret.cpp          // poker, black screen after dealing
 igs/dunhuang.cpp          // mahjong
 igs/funtech.cpp          // poker
@@ -492,6 +501,7 @@ konami/konmedal68k.cpp
 //konami/kontest.cpp          // stuck at crosshatch
 //konami/kpontoon.cpp          // ingame stack overflow
 //konami/kpython.cpp          // chd, mnw
+//konami/kpython2.cpp          //to be checked
 konami/ksys573.cpp          // chd untested
 konami/labyrunr.cpp
 konami/lethal.cpp
@@ -647,7 +657,6 @@ misc/cb2001.cpp          // fruit
 misc/chameleonrx1.cpp          // chd untested
 misc/chance32.cpp          // poker
 //misc/changyu.cpp          // black screen
-//misc/chexx.cpp          // mech
 //misc/chicago.cpp          // black screen
 //misc/chsuper.cpp          // poker, need setup
 //misc/clowndwn.cpp          // no screen
@@ -708,7 +717,6 @@ misc/flower.cpp
 misc/fortecar.cpp          // poker
 misc/freekick.cpp
 //misc/freeway.cpp          // black screen
-//misc/frenzyxprss.cpp          // chd, mnw
 //misc/fresh.cpp          // fruit, reels don't roll
 //misc/funeball.cpp          // no screen
 //misc/fungames.cpp          // black screen
@@ -742,9 +750,6 @@ misc/hotblock.cpp
 misc/hotchili.cpp          // fruit
 //misc/hotstuff.cpp          // poker, no inputs
 //misc/houseball.cpp          // no screen
-//misc/ice_bozopail.cpp          // no screen
-//misc/ice_hhhippos.cpp          // no screen
-//misc/ice_tbd.cpp          // no screen
 misc/imolagp.cpp
 //misc/intrscti.cpp          // hang just after start
 //misc/island.cpp          // no screen
@@ -769,7 +774,6 @@ misc/laserbas.cpp
 //misc/laz_aftrshok.cpp          // no screen
 //misc/laz_ribrac.cpp          // no screen
 misc/lependu.cpp
-misc/lethalj.cpp
 misc/limenko.cpp
 misc/ltcasino.cpp          // gambling
 //misc/luckybal.cpp          // gambling, how to use?
@@ -853,7 +857,6 @@ misc/re900.cpp          // gambling
 //misc/sanremmg.cpp          // black screen
 misc/sanremo.cpp          // gambling, one works, one not
 //misc/savquest.cpp          // chd, mnw
-//misc/schexx4gen.cpp          // no screen
 //misc/scm_500.cpp          // no screen
 //misc/sealy.cpp          // black screen
 //misc/sealy_fr.cpp          // chd, mnw
@@ -882,7 +885,6 @@ misc/stuntair.cpp
 //misc/su2000.cpp          // mnw
 //misc/summit.cpp          // fruit, how to use?
 //misc/sumt8035.cpp          // no screen
-//misc/supercrd.cpp          // fruit, mnw
 misc/supertnk.cpp
 misc/tapatune.cpp
 misc/tattack.cpp
@@ -916,7 +918,6 @@ misc/video21.cpp          // gambling
 //misc/vlc.cpp          // green screen
 //misc/vlc34010.cpp          // black screen
 //misc/voyager.cpp          // chd, mnw
-//misc/vp101.cpp          // chd, mnw
 //misc/vpoker.cpp          // poker, mnw
 misc/vroulet.cpp
 //misc/wildpkr.cpp          // poker, mnw
@@ -1458,20 +1459,20 @@ technos/tagteam.cpp
 technos/vball.cpp
 technos/wwfsstar.cpp
 technos/xain.cpp
-tehkan/bombjack.cpp
-tehkan/gaiden.cpp
-tehkan/lvcards.cpp          // poker
-tehkan/pbaction.cpp
-tehkan/senjyo.cpp
-tehkan/solomon.cpp
-tehkan/spbactn.cpp
-tehkan/tbowl.cpp
-tehkan/tecmo.cpp
-tehkan/tecmo16.cpp
-tehkan/tecmosys.cpp
-tehkan/tehkanwc.cpp
-tehkan/wc90.cpp
-tehkan/wc90b.cpp
+tecmo/bombjack.cpp
+tecmo/gaiden.cpp
+tecmo/lvcards.cpp
+tecmo/pbaction.cpp
+tecmo/senjyo.cpp
+tecmo/solomon.cpp
+tecmo/spbactn.cpp
+tecmo/tbowl.cpp
+tecmo/tecmo.cpp
+tecmo/tecmo16.cpp
+tecmo/tecmosys.cpp
+tecmo/tehkanwc.cpp
+tecmo/wc90.cpp
+tecmo/wc90b.cpp
 thepit/thepit.cpp
 thepit/timelimt.cpp
 toaplan/mjsister.cpp          // mahjong
