@@ -72,7 +72,7 @@ atari/foodf.cpp
 atari/gauntlet.cpp
 //atari/gumrally.cpp          // no screen
 atari/harddriv.cpp
-//atari/hitparade.cpp          //to be checked
+//atari/hitparade.cpp          // mechanical
 atari/irobot.cpp
 atari/jaguar.cpp
 atari/jedi.cpp
@@ -123,7 +123,7 @@ atari/xybots.cpp
 atlus/ohmygod.cpp
 atlus/patapata.cpp
 //atlus/rallypnt.cpp          // no screen
-//barcrest/mpu1.cpp          //to be checked
+//barcrest/mpu1.cpp          // fruit, mech
 //barcrest/mpu2.cpp          // fruit, no screen
 //barcrest/mpu3.cpp          // fruit, mech
 //barcrest/mpu4avan.cpp          // fruit, mech
@@ -501,7 +501,7 @@ konami/konmedal68k.cpp
 //konami/kontest.cpp          // stuck at crosshatch
 //konami/kpontoon.cpp          // ingame stack overflow
 //konami/kpython.cpp          // chd, mnw
-//konami/kpython2.cpp          //to be checked
+//konami/kpython2.cpp          // skel chd
 konami/ksys573.cpp          // chd untested
 konami/labyrunr.cpp
 konami/lethal.cpp
@@ -624,7 +624,7 @@ misc/alinvade.cpp
 //misc/amerihok.cpp          // mech, works
 //misc/ampoker2.cpp          // poker, need setup
 misc/amspdwy.cpp
-//misc/amstarz80.cpp          //to be checked
+//misc/amstarz80.cpp          // black screen
 misc/amusco.cpp          // poker
 //misc/anes.cpp          // black screen
 //misc/arachnid.cpp          // mech, seems to work, W=enter
