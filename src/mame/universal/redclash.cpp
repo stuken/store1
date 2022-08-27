@@ -30,7 +30,6 @@ TODO:
 
 #include "cpu/z80/z80.h"
 #include "machine/74259.h"
-//#include "sound/sn76496.h"
 #include "screen.h"
 #include "speaker.h"
 
@@ -58,7 +57,7 @@ WRITE_LINE_MEMBER(redclash_state::sound_w)
 
 template <unsigned S> WRITE_LINE_MEMBER(redclash_state::sample_w)
 {
-	if (m_allow && state)
+	if (m_allow && state && m_samples)
 		m_samples->start(S, S);
 }
 
@@ -387,6 +386,7 @@ void redclash_state::zerohour(machine_config &config)
 void redclash_state::redclash(machine_config &config)
 {
 	zerohour(config);
+	config.device_remove("samples");
 
 	m_maincpu->set_addrmap(AS_PROGRAM, &redclash_state::redclash_map);
 
@@ -598,9 +598,9 @@ void redclash_state::init_redclash()
 }
 
 
-GAME( 1980, zerohour,   0,        zerohour, zerohour, redclash_state, init_redclash, ROT270, "Universal",                   "Zero Hour (set 1)",      MACHINE_NO_SOUND | MACHINE_WRONG_COLORS | MACHINE_IMPERFECT_GRAPHICS | MACHINE_SUPPORTS_SAVE )
-GAME( 1980, zerohoura,  zerohour, zerohour, zerohour, redclash_state, init_redclash, ROT270, "Universal",                   "Zero Hour (set 2)",      MACHINE_NO_SOUND | MACHINE_WRONG_COLORS | MACHINE_IMPERFECT_GRAPHICS | MACHINE_SUPPORTS_SAVE )
-GAME( 1980, zerohouri,  zerohour, zerohour, zerohour, redclash_state, init_redclash, ROT270, "bootleg (Inder SA)",          "Zero Hour (Inder)",      MACHINE_NO_SOUND | MACHINE_WRONG_COLORS | MACHINE_IMPERFECT_GRAPHICS | MACHINE_SUPPORTS_SAVE )
+GAME( 1980, zerohour,   0,        zerohour, zerohour, redclash_state, init_redclash, ROT270, "Universal",                   "Zero Hour (set 1)",      MACHINE_WRONG_COLORS | MACHINE_IMPERFECT_GRAPHICS | MACHINE_SUPPORTS_SAVE )
+GAME( 1980, zerohoura,  zerohour, zerohour, zerohour, redclash_state, init_redclash, ROT270, "Universal",                   "Zero Hour (set 2)",      MACHINE_WRONG_COLORS | MACHINE_IMPERFECT_GRAPHICS | MACHINE_SUPPORTS_SAVE )
+GAME( 1980, zerohouri,  zerohour, zerohour, zerohour, redclash_state, init_redclash, ROT270, "bootleg (Inder SA)",          "Zero Hour (Inder)",      MACHINE_WRONG_COLORS | MACHINE_IMPERFECT_GRAPHICS | MACHINE_SUPPORTS_SAVE )
 
 GAME( 1981, redclash,   0,        redclash, redclash, redclash_state, init_redclash, ROT270, "Kaneko",                      "Red Clash",                 MACHINE_NO_SOUND | MACHINE_WRONG_COLORS | MACHINE_IMPERFECT_GRAPHICS | MACHINE_SUPPORTS_SAVE )
 GAME( 1981, redclasht,  redclash, redclash, redclash, redclash_state, init_redclash, ROT270, "Kaneko (Tehkan license)",     "Red Clash (Tehkan, set 1)", MACHINE_NO_SOUND | MACHINE_WRONG_COLORS | MACHINE_IMPERFECT_GRAPHICS | MACHINE_SUPPORTS_SAVE )

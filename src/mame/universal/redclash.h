@@ -69,7 +69,7 @@ private:
 	required_device<palette_device> m_palette;
 	required_device<gfxdecode_device> m_gfxdecode;
 	required_device<zerohour_stars_device> m_stars;
-	required_device<samples_device> m_samples;
+	optional_device<samples_device> m_samples;
 
 	tilemap_t   *m_fg_tilemap = nullptr;
 	bool m_allow = false;
