@@ -17,8 +17,11 @@ TODO:
   scrolling at the same speed as the stars, it's used in canyon parts and during the
   big ufo explosion
 - redclash canyon level, a gap sometimes appears on the right side, maybe BTANB
-- replace zerohour samples with netlist audio (schematics available but bad quality)
-- add redclash samples or netlist audio (eg. player shot sound, explosions)
+- replace samples with netlist audio (schematics available for zerohour)
+- zerohour should play a beep when an orange asteroid is shot (not sure if it's
+  worth simulating this, netlist would auto solve this problem)
+- does redclash have more triggered sounds? according to a pcb video, it only
+  has the player shot sound, no explosions (not counting the beeper)
 - redclash beeper frequency range should be higher, but it can't be solved with a
   simple multiply calculation. Besides, anything more than right now and ears will
   be destroyed, so maybe the sound is softer(filtered)
@@ -37,6 +40,7 @@ BTANB:
 #include "cpu/z80/z80.h"
 #include "machine/74259.h"
 #include "machine/clock.h"
+#include "sound/dac.h"
 #include "sound/spkrdev.h"
 #include "sound/samples.h"
 #include "video/resnet.h"
@@ -77,7 +81,6 @@ protected:
 	virtual void video_start() override;
 
 	void videoram_w(offs_t offset, u8 data);
-	DECLARE_WRITE_LINE_MEMBER(flipscreen_w);
 	void irqack_w(u8 data) { m_maincpu->set_input_line(0, CLEAR_LINE); }
 	void star_reset_w(u8 data);
 	template <unsigned N> DECLARE_WRITE_LINE_MEMBER(star_w);
@@ -100,10 +103,11 @@ protected:
 	required_device<palette_device> m_palette;
 	required_device<gfxdecode_device> m_gfxdecode;
 	required_device<zerohour_stars_device> m_stars;
-	optional_device<samples_device> m_samples;
+	required_device<samples_device> m_samples;
 
 	tilemap_t *m_fg_tilemap = nullptr;
 	int m_sound_on = 0;
+	int m_sample_asteroid = 0;
 	int m_gfxbank = 0; // redclash only
 };
 
@@ -128,6 +132,7 @@ private:
 	DECLARE_WRITE_LINE_MEMBER(gfxbank_w);
 	void background_w(u8 data);
 	void beeper_w(u8 data);
+	DECLARE_WRITE_LINE_MEMBER(redclash_sample_w);
 
 	void redclash_map(address_map &map);
 
@@ -154,6 +159,7 @@ void zerohour_state::init_zerohour()
 void zerohour_state::machine_start()
 {
 	save_item(NAME(m_sound_on));
+	save_item(NAME(m_sample_asteroid));
 }
 
 void redclash_state::machine_start()
@@ -271,11 +277,6 @@ void redclash_state::background_w(u8 data)
 	// redclash background layer
 	// 0x70: normal, 0xc3: white, 0x92: white+green, 0xf4: white+red/black
 	m_background = data;
-}
-
-WRITE_LINE_MEMBER(zerohour_state::flipscreen_w)
-{
-	flip_screen_set(state);
 }
 
 template <unsigned N> WRITE_LINE_MEMBER(zerohour_state::star_w)
@@ -442,17 +443,23 @@ u32 redclash_state::screen_update(screen_device &screen, bitmap_ind16 &bitmap, c
 static const char *const zerohour_sample_names[] =
 {
 	"*zerohour",
-	"zh0",
-	"zh1",
-	"zh2",
-	"zh3",
-	"zh4",
-	"zh5",
-	"zh6",
-	"zh7",
-	"zh8",
-	"zh9",
-	"zh10",
+	"shoot",
+	"asteroid_hit_1",
+	"asteroid_hit_2",
+	"enemy_descend",
+	"shield_hit",
+	"player_dies",
+	"enemy_fire",
+	"bonus_warn",
+	"thrust",
+	"coin",
+	nullptr
+};
+
+static const char *const redclash_sample_names[] =
+{
+	"*redclash",
+	"shoot",
 	nullptr
 };
 
@@ -472,10 +479,35 @@ WRITE_LINE_MEMBER(redclash_state::sound_enable_w)
 
 template <unsigned N> WRITE_LINE_MEMBER(zerohour_state::sample_w)
 {
+	int sample = N;
+
+	// asteroid hit sample alternates on each trigger
+	if (state && N == 1)
+	{
+		sample += m_sample_asteroid & 1;
+		m_sample_asteroid ^= 1;
+	}
+
+	// trigger 2 appears to be a modifier for asteroid hit, white noise is masked with pulse wave
+	if (N == 2)
+	{
+		// TODO
+		return;
+	}
+
 	if (m_sound_on && state)
-		m_samples->start(N, N);
+		m_samples->start(N, sample);
+
+	// thrust sound is level-triggered
 	else if (N == 8)
 		m_samples->stop(N);
+}
+
+WRITE_LINE_MEMBER(redclash_state::redclash_sample_w)
+{
+	// only one sample
+	if (m_sound_on && state)
+		m_samples->start(0, 0);
 }
 
 void redclash_state::beeper_w(u8 data)
@@ -770,7 +802,7 @@ void zerohour_state::base(machine_config &config)
 	m_outlatch[1]->q_out_cb<0>().set(FUNC(zerohour_state::star_w<0>));
 	m_outlatch[1]->q_out_cb<5>().set(FUNC(zerohour_state::star_w<1>));
 	m_outlatch[1]->q_out_cb<6>().set(FUNC(zerohour_state::star_w<2>));
-	m_outlatch[1]->q_out_cb<7>().set(FUNC(zerohour_state::flipscreen_w));
+	m_outlatch[1]->q_out_cb<7>().set(FUNC(zerohour_state::flip_screen_set));
 
 	// video hardware
 	screen_device &screen(SCREEN(config, "screen", SCREEN_TYPE_RASTER));
@@ -801,13 +833,14 @@ void zerohour_state::zerohour(machine_config &config)
 
 	m_outlatch[1]->q_out_cb<1>().set(FUNC(zerohour_state::sample_w<8>));
 	m_outlatch[1]->q_out_cb<2>().set(FUNC(zerohour_state::sound_enable_w));
-	m_outlatch[1]->q_out_cb<3>().set(FUNC(zerohour_state::sample_w<9>));
-	m_outlatch[1]->q_out_cb<4>().set(FUNC(zerohour_state::sample_w<10>));
+	m_outlatch[1]->q_out_cb<3>().set("dac", FUNC(dac_1bit_device::write));
+	m_outlatch[1]->q_out_cb<4>().set(FUNC(zerohour_state::sample_w<9>));
 
 	SPEAKER(config, "mono").front_center();
+	DAC_1BIT(config, "dac").add_route(ALL_OUTPUTS, "mono", 0.25);
 
 	SAMPLES(config, m_samples);
-	m_samples->set_channels(11);
+	m_samples->set_channels(10);
 	m_samples->set_samples_names(zerohour_sample_names);
 	m_samples->add_route(ALL_OUTPUTS, "mono", 0.5);
 }
@@ -822,14 +855,20 @@ void redclash_state::redclash(machine_config &config)
 	m_stars->has_va_bit(false);
 
 	// sound hardware
+	m_outlatch[0]->q_out_cb<0>().set(FUNC(redclash_state::redclash_sample_w));
 	m_outlatch[1]->q_out_cb<2>().set(FUNC(redclash_state::sound_enable_w));
 
 	SPEAKER(config, "mono").front_center();
-	SPEAKER_SOUND(config, m_beep).add_route(ALL_OUTPUTS, "mono", 0.25);
+	SPEAKER_SOUND(config, m_beep).add_route(ALL_OUTPUTS, "mono", 0.2);
 
 	CLOCK(config, m_beep_clock, 0);
 	m_beep_clock->signal_handler().set(m_beep, FUNC(speaker_sound_device::level_w));
-	m_beep_clock->set_duty_cycle(0.25);
+	m_beep_clock->set_duty_cycle(0.2);
+
+	SAMPLES(config, m_samples);
+	m_samples->set_channels(1);
+	m_samples->set_samples_names(redclash_sample_names);
+	m_samples->add_route(ALL_OUTPUTS, "mono", 0.5);
 }
 
 
