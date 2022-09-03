@@ -1197,6 +1197,7 @@ sega/coolridr.cpp
 sega/dc_atomiswave.cpp
 sega/deniam.cpp
 sega/dotrikun.cpp
+sega/eshockey.cpp
 sega/flashbeats.cpp
 sega/fwheel.cpp
 sega/gpworld.cpp
@@ -1494,8 +1495,9 @@ universal/docastle.cpp
 universal/getaway.cpp
 universal/ladybug.cpp
 universal/mrdo.cpp
-universal/redclash.cpp
+universal/sraider.cpp
 universal/superdq.cpp
+universal/zerohour.cpp
 upl/mouser.cpp
 upl/ninjakd2.cpp
 upl/nova2001.cpp
