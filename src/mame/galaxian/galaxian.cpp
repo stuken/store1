@@ -2533,6 +2533,8 @@ void galaxian_state::jumpbug_map(address_map &map)
 	map(0x7007, 0x7007).mirror(0x07f8).w(FUNC(galaxian_state::galaxian_flip_screen_y_w));
 	map(0x8000, 0xafff).rom();
 	map(0xb000, 0xbfff).r(FUNC(galaxian_state::jumpbug_protection_r));
+	map(0x6800,0x6807).mirror(0x07f8).w("cust",FUNC(galaxian_sound_device::sound_w));  // MAMEFX
+	map(0x7800,0x7800).mirror(0x07ff).w("cust",FUNC(galaxian_sound_device::pitch_w));  // MAMEFX
 }
 
 
@@ -7891,6 +7893,8 @@ void galaxian_state::jumpbug(machine_config &config)
 
 	// sound hardware
 	AY8910(config, m_ay8910[0], GALAXIAN_PIXEL_CLOCK/3/2/2).add_route(ALL_OUTPUTS, "speaker", 0.5); // matches PCB video - unconfirmed
+
+	GALAXIAN_SOUND(config, "cust", 0);  // MAMEFX
 }
 
 
