@@ -626,6 +626,7 @@ misc/alinvade.cpp
 misc/amspdwy.cpp
 //misc/amstarz80.cpp          // black screen
 misc/amusco.cpp          // poker
+//misc/amuzy.cpp          //to be checked
 //misc/anes.cpp          // black screen
 //misc/arachnid.cpp          // mech, seems to work, W=enter
 misc/artmagic.cpp
