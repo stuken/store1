@@ -22,7 +22,7 @@ machine_manager::machine_manager(emu_options& options, osd_interface& osd)
 machine_manager::~machine_manager()
 {
 }
-
+#if 0
 void machine_manager::start_http_server()
 {
 	m_http = std::make_unique<http_manager>(options().http(), options().http_port(), options().http_root());
@@ -33,3 +33,4 @@ http_manager *machine_manager::http()
 {
   return m_http.get();
 }
+#endif
