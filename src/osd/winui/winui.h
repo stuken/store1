@@ -43,6 +43,7 @@
 #include "ui/info.h"
 #include "romload.h"
 #include "corestr.h"
+#include "path.h"
 
 // special Windows headers, after MAME ones
 #include <dinput.h>
