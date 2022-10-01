@@ -1140,8 +1140,6 @@ void mystwarr_state::gaiapols(machine_config &config)
 	m_maincpu->set_vblank_int("screen", FUNC(mystwarr_state::ddd_interrupt));
 	config.device_remove("scantimer");
 
-	config.device_remove("k053252");        // MAMEFX
-	K053252(config, m_k053252, 16000000/2); // MAMEFX
 	m_k053252->set_offsets(40, 16);
 
 	K054000(config, "k054000", 0);
