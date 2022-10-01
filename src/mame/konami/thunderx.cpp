@@ -640,7 +640,7 @@ void thunderx_state::scontra(machine_config &config)
 
 	/* video hardware */
 	screen_device &screen(SCREEN(config, "screen", SCREEN_TYPE_RASTER));
-	screen.set_refresh_hz(59); /* verified on pcb */
+	screen.set_refresh_hz(59.17); /* verified on pcb */
 	screen.set_vblank_time(ATTOSECONDS_IN_USEC(0));
 	screen.set_size(64*8, 32*8);
 	screen.set_visarea(12*8, (64-12)*8-1, 2*8, 30*8-1); /* verified on scontra and thunderx PCBs */
@@ -690,8 +690,6 @@ void thunderx_state::thunderx(machine_config &config)
 	m_maincpu->set_addrmap(AS_PROGRAM, &thunderx_state::thunderx_map);
 	m_maincpu->line().set(FUNC(thunderx_state::banking_callback));
 
-	config.device_remove("audiocpu");    // MAMEFX
-	Z80(config, m_audiocpu, XTAL(3'579'545)); /* verified on pcb */    // MAMEFX
 	m_audiocpu->set_addrmap(AS_PROGRAM, &thunderx_state::thunderx_sound_map);
 
 	m_bank5800->set_map(&thunderx_state::thunderx_bank5800_map).set_addr_width(13);

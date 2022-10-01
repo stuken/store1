@@ -1083,7 +1083,7 @@ void mystwarr_state::metamrph(machine_config &config)
 	m_maincpu->set_addrmap(AS_PROGRAM, &mystwarr_state::metamrph_map);
 	subdevice<timer_device>("scantimer")->set_callback(FUNC(mystwarr_state::metamrph_interrupt));
 
-	m_k053252->set_offsets(24, 16+1);  // MAMEFX
+	m_k053252->set_offsets(24, 15);
 
 	K053250(config, m_k053250_1, 0, m_palette, m_screen, -7, 0);
 
