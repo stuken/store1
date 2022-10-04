@@ -15,6 +15,7 @@
 #include "hashfile.h"
 
 #include "corestr.h"
+#include "path.h"
 
 #include <stack>
 
@@ -220,10 +221,10 @@ const options_entry emu_options::s_option_entries[] =
 	{ OPTION_PLUGIN,                                     nullptr,     core_options::option_type::STRING,     "list of plugins to enable" },
 	{ OPTION_NO_PLUGIN,                                  nullptr,     core_options::option_type::STRING,     "list of plugins to disable" },
 
-	{ nullptr,                                           nullptr,     core_options::option_type::HEADER,     "HTTP SERVER OPTIONS" },
-	{ OPTION_HTTP,                                       "0",         core_options::option_type::BOOLEAN,    "enable HTTP server" },
-	{ OPTION_HTTP_PORT,                                  "8080",      core_options::option_type::INTEGER,    "HTTP server port" },
-	{ OPTION_HTTP_ROOT,                                  "web",       core_options::option_type::STRING,     "HTTP server document root" },
+//	{ nullptr,                                           nullptr,     core_options::option_type::HEADER,     "HTTP SERVER OPTIONS" },
+//	{ OPTION_HTTP,                                       "0",         core_options::option_type::BOOLEAN,    "enable HTTP server" },
+//	{ OPTION_HTTP_PORT,                                  "8080",      core_options::option_type::INTEGER,    "HTTP server port" },
+//	{ OPTION_HTTP_ROOT,                                  "web",       core_options::option_type::STRING,     "HTTP server document root" },
 
 	{ nullptr }
 };
@@ -925,9 +926,12 @@ emu_options::software_options emu_options::evaluate_initial_softlist_options(con
 								// we need to find a mountable image slot, but we need to ensure it is a slot
 								// for which we have not already distributed a part to
 								device_image_interface *image = software_list_device::find_mountable_image(
-									config,
-									swpart,
-									[&results](const device_image_interface &candidate) { return results.image.count(candidate.instance_name()) == 0; });
+										config,
+										swpart,
+										[&results] (const device_image_interface &candidate)
+										{
+											return results.image.count(candidate.instance_name()) == 0;
+										});
 
 								// did we find a slot to put this part into?
 								if (image != nullptr)

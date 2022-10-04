@@ -274,7 +274,7 @@ GFX:                Custom 145     ( 80 pin PQFP)
 #include "emu.h"
 #include "namconb1.h"
 
-#include "cpu/m68000/m68000.h"
+#include "cpu/m68000/m68020.h"
 #include "sound/c352.h"
 
 #include "speaker.h"
@@ -312,8 +312,7 @@ TIMER_DEVICE_CALLBACK_MEMBER(namconb1_state::scantimer)
 
 	if (scanline == posirq_scanline)
 	{
-		//m_screen->update_partial(posirq_scanline - 1); // MAMEFX
-		m_screen->update_partial(m_update_to_line_before_posirq ? posirq_scanline-1 : posirq_scanline);  // new code from Haze, is it better?
+		m_screen->update_partial(m_update_to_line_before_posirq ? posirq_scanline-1 : posirq_scanline);
 
 		if (m_pos_irq_level != 0)
 			m_maincpu->set_input_line(m_pos_irq_level, ASSERT_LINE);

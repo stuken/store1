@@ -53,6 +53,8 @@ if (BUSES["A800"]~=null) then
 		MAME_DIR .. "src/devices/bus/a800/rom.h",
 		MAME_DIR .. "src/devices/bus/a800/oss.cpp",
 		MAME_DIR .. "src/devices/bus/a800/oss.h",
+		MAME_DIR .. "src/devices/bus/a800/rtime8.cpp",
+		MAME_DIR .. "src/devices/bus/a800/rtime8.h",
 		MAME_DIR .. "src/devices/bus/a800/sparta.cpp",
 		MAME_DIR .. "src/devices/bus/a800/sparta.h",
 	}
@@ -1022,6 +1024,8 @@ if (BUSES["CBMIEC"]~=null) then
 		MAME_DIR .. "src/devices/bus/cbmiec/fd2000.h",
 		MAME_DIR .. "src/devices/bus/cbmiec/interpod.cpp",
 		MAME_DIR .. "src/devices/bus/cbmiec/interpod.h",
+		MAME_DIR .. "src/devices/bus/cbmiec/mps1200.cpp",
+		MAME_DIR .. "src/devices/bus/cbmiec/mps1200.h",
 		MAME_DIR .. "src/devices/bus/cbmiec/serialbox.cpp",
 		MAME_DIR .. "src/devices/bus/cbmiec/serialbox.h",
 		MAME_DIR .. "src/devices/bus/cbmiec/vic1515.cpp",
@@ -3130,6 +3134,8 @@ if (BUSES["NES_CTRL"]~=null) then
 		MAME_DIR .. "src/devices/bus/nes_ctrl/powerpad.h",
 		MAME_DIR .. "src/devices/bus/nes_ctrl/rob.cpp",
 		MAME_DIR .. "src/devices/bus/nes_ctrl/rob.h",
+		MAME_DIR .. "src/devices/bus/nes_ctrl/sharpcass.cpp",
+		MAME_DIR .. "src/devices/bus/nes_ctrl/sharpcass.h",
 		MAME_DIR .. "src/devices/bus/nes_ctrl/snesadapter.cpp",
 		MAME_DIR .. "src/devices/bus/nes_ctrl/snesadapter.h",
 		MAME_DIR .. "src/devices/bus/nes_ctrl/suborkey.cpp",
@@ -3269,6 +3275,23 @@ if (BUSES["MEGADRIVE"]~=null) then
 		MAME_DIR .. "src/devices/bus/megadrive/svp.h",
 	}
 end
+
+---------------------------------------------------
+--
+--@src/devices/bus/mononcol/slot.h,BUSES["MONONCOL"] = true
+---------------------------------------------------
+
+if (BUSES["MONONCOL"]~=null) then
+	files {
+		MAME_DIR .. "src/devices/bus/mononcol/slot.cpp",
+		MAME_DIR .. "src/devices/bus/mononcol/slot.h",
+		MAME_DIR .. "src/devices/bus/mononcol/carts.cpp",
+		MAME_DIR .. "src/devices/bus/mononcol/carts.h",
+		MAME_DIR .. "src/devices/bus/mononcol/rom.cpp",
+		MAME_DIR .. "src/devices/bus/mononcol/rom.h",
+	}
+end
+
 
 ---------------------------------------------------
 --
@@ -3661,17 +3684,49 @@ end
 
 ---------------------------------------------------
 --
---@src/devices/bus/gameboy/gb_slot.h,BUSES["GAMEBOY"] = true
+--@src/devices/bus/gameboy/slot.h,BUSES["GAMEBOY"] = true
 ---------------------------------------------------
 
 if (BUSES["GAMEBOY"]~=null) then
 	files {
-		MAME_DIR .. "src/devices/bus/gameboy/gb_slot.cpp",
-		MAME_DIR .. "src/devices/bus/gameboy/gb_slot.h",
-		MAME_DIR .. "src/devices/bus/gameboy/rom.cpp",
-		MAME_DIR .. "src/devices/bus/gameboy/rom.h",
+		MAME_DIR .. "src/devices/bus/gameboy/camera.cpp",
+		MAME_DIR .. "src/devices/bus/gameboy/camera.h",
+		MAME_DIR .. "src/devices/bus/gameboy/cartbase.cpp",
+		MAME_DIR .. "src/devices/bus/gameboy/cartbase.h",
+		MAME_DIR .. "src/devices/bus/gameboy/cartbase.ipp",
+		MAME_DIR .. "src/devices/bus/gameboy/cartheader.h",
+		MAME_DIR .. "src/devices/bus/gameboy/carts.cpp",
+		MAME_DIR .. "src/devices/bus/gameboy/carts.h",
+		MAME_DIR .. "src/devices/bus/gameboy/gbck003.cpp",
+		MAME_DIR .. "src/devices/bus/gameboy/gbck003.h",
+		MAME_DIR .. "src/devices/bus/gameboy/gbslot.cpp",
+		MAME_DIR .. "src/devices/bus/gameboy/gbslot.h",
+		MAME_DIR .. "src/devices/bus/gameboy/gbxfile.cpp",
+		MAME_DIR .. "src/devices/bus/gameboy/gbxfile.h",
+		MAME_DIR .. "src/devices/bus/gameboy/huc1.cpp",
+		MAME_DIR .. "src/devices/bus/gameboy/huc1.h",
+		MAME_DIR .. "src/devices/bus/gameboy/huc3.cpp",
+		MAME_DIR .. "src/devices/bus/gameboy/huc3.h",
 		MAME_DIR .. "src/devices/bus/gameboy/mbc.cpp",
 		MAME_DIR .. "src/devices/bus/gameboy/mbc.h",
+		MAME_DIR .. "src/devices/bus/gameboy/mbc2.cpp",
+		MAME_DIR .. "src/devices/bus/gameboy/mbc2.h",
+		MAME_DIR .. "src/devices/bus/gameboy/mbc6.cpp",
+		MAME_DIR .. "src/devices/bus/gameboy/mbc6.h",
+		MAME_DIR .. "src/devices/bus/gameboy/mbc7.cpp",
+		MAME_DIR .. "src/devices/bus/gameboy/mbc7.h",
+		MAME_DIR .. "src/devices/bus/gameboy/mdslot.cpp",
+		MAME_DIR .. "src/devices/bus/gameboy/mdslot.h",
+		MAME_DIR .. "src/devices/bus/gameboy/mmm01.cpp",
+		MAME_DIR .. "src/devices/bus/gameboy/mmm01.h",
+		MAME_DIR .. "src/devices/bus/gameboy/rom.cpp",
+		MAME_DIR .. "src/devices/bus/gameboy/rom.h",
+		MAME_DIR .. "src/devices/bus/gameboy/slmulti.cpp",
+		MAME_DIR .. "src/devices/bus/gameboy/slmulti.h",
+		MAME_DIR .. "src/devices/bus/gameboy/slot.cpp",
+		MAME_DIR .. "src/devices/bus/gameboy/slot.h",
+		MAME_DIR .. "src/devices/bus/gameboy/tama5.cpp",
+		MAME_DIR .. "src/devices/bus/gameboy/tama5.h",
 	}
 end
 
@@ -4901,6 +4956,8 @@ if (BUSES["PCE_CTRL"]~=null) then
 		MAME_DIR .. "src/devices/bus/pce_ctrl/joypad6.h",
 		MAME_DIR .. "src/devices/bus/pce_ctrl/multitap.cpp",
 		MAME_DIR .. "src/devices/bus/pce_ctrl/multitap.h",
+		MAME_DIR .. "src/devices/bus/pce_ctrl/pachinko.cpp",
+		MAME_DIR .. "src/devices/bus/pce_ctrl/pachinko.h",
 	}
 end
 
@@ -4923,3 +4980,18 @@ if (BUSES["PC8801"]~=null) then
 		MAME_DIR .. "src/devices/bus/pc8801/jmbx1.h",
 	}
 end
+
+---------------------------------------------------
+--
+--@src/devices/bus/mtu130/board.h,BUSES["MTU130"] = true
+---------------------------------------------------
+
+if (BUSES["MTU130"]~=null) then
+	files {
+		MAME_DIR .. "src/devices/bus/mtu130/board.cpp",
+		MAME_DIR .. "src/devices/bus/mtu130/board.h",
+		MAME_DIR .. "src/devices/bus/mtu130/datamover.cpp",
+		MAME_DIR .. "src/devices/bus/mtu130/datamover.h",
+	}
+ end
+

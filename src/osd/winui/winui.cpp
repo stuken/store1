@@ -591,7 +591,7 @@ static void RunMAME(int nGameIndex, const play_options *playopts)
 	// load interface language
 	load_translation(mame_opts);
 	// start LUA engine & http server
-	manager->start_http_server();
+	//manager->start_http_server();
 	manager->start_luaengine();
 
 	// set any specified play options

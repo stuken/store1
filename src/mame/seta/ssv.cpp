@@ -2640,7 +2640,7 @@ void ssv_state::drifto94(machine_config &config)
 	NVRAM(config, "nvram", nvram_device::DEFAULT_ALL_0);
 
 	/* video hardware */
-	m_screen->set_visarea(0, (0xcd-0x25)*2-1, 0, (0x101-0x13)-1+2);    // MAMEFX
+	m_screen->set_visarea(0, (0xcd-0x25)*2-1, 0, (0x101-0x13)-1);
 }
 
 void gdfs_state::gdfs(machine_config &config)

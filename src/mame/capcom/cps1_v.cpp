@@ -1866,6 +1866,7 @@ static const struct CPS1config cps1_config_table[]=
 	{"sf2rb2",      CPS_B_21_DEF, mapper_S9263B, 0x36 },
 	{"sf2rb3",      CPS_B_21_DEF, mapper_S9263B, 0x36 },
 	{"sf2red",      CPS_B_21_DEF, mapper_S9263B, 0x36 },
+	{"sf2reda",     CPS_B_21_DEF, mapper_S9263B, 0x36 },
 	{"sf2redp2",    CPS_B_21_DEF, mapper_S9263B, 0x36 },
 	{"sf2v004",     CPS_B_21_DEF, mapper_S9263B, 0x36 },
 	{"sf2acc",      CPS_B_21_DEF, mapper_S9263B, 0x36 },
@@ -2644,9 +2645,9 @@ void cps_state::cps1_build_palette( const uint16_t* const palette_base )
 				// component is set to 0 it should reduce brightness to 1/3
 
 				bright = 0x0f + ((palette >> 12) << 1);
-
-				// MAMEFX start
-				// New code to get rid of grey squares
+#if 0
+				// MAMEFX start - commented out 2022-10-01, mame-code seems to be ok now, but keep old code just in case
+				// Code to get rid of grey squares
 				r = (palette >> 8) & 0x0f;
 				g = (palette >> 4) & 0x0f;
 				b = palette & 0x0f;
@@ -2654,6 +2655,10 @@ void cps_state::cps1_build_palette( const uint16_t* const palette_base )
 				g = (g > 1) ? g * 0x11 * bright / 0x2d : 0;
 				b = (b > 1) ? b * 0x11 * bright / 0x2d : 0;
 				// MAMEFX end
+#endif
+				r = ((palette >> 8) & 0x0f) * 0x11 * bright / 0x2d;
+				g = ((palette >> 4) & 0x0f) * 0x11 * bright / 0x2d;
+				b = ((palette >> 0) & 0x0f) * 0x11 * bright / 0x2d;
 
 				m_palette->set_pen_color(0x200 * page + offset, rgb_t(r, g, b));
 			}
@@ -3067,30 +3072,22 @@ uint32_t cps_state::screen_update_cps1(screen_device &screen, bitmap_ind16 &bitm
 	m_bg_tilemap[2]->set_scrolly(0, m_scroll3y);
 
 
-	/* Blank screen */
-	if (m_cps_version == 1)
-	{
+	/* Blank screen */   // MAMEFX - always black
+//	if (m_cps_version == 1)
+//	{
 		// CPS1 games use pen 0xbff as background color; this is used in 3wonders,
 		// mtwins (explosion during attract), mercs (intermission).
-		if ((strcmp(machine().system().name, "mtwins") == 0) ||
-			(strcmp(machine().system().name, "chikij") == 0) ||
-			(strcmp(machine().system().name, "mercs") == 0) ||
-			(strcmp(machine().system().name, "mercsu") == 0) ||
-			(strcmp(machine().system().name, "mercsur1") == 0) ||
-			(strcmp(machine().system().name, "mercsj") == 0))
-			bitmap.fill(0xbff, cliprect);
-		else
-			bitmap.fill(m_palette->black_pen(), cliprect);
-	}
-	else
-	{
+//		bitmap.fill(0xbff, cliprect);
+//	}
+//	else
+//	{
 		// CPS2 apparently always forces the background to black. Several games would
 		// show a blue screen during boot if we used the same code as CPS1.
 		// Maybe Capcom changed the background handling due to the problems that
 		// it caused on several monitors (because the background extended into the
 		// blanking area instead of going black, causing the monitor to clip).
 		bitmap.fill(m_palette->black_pen(), cliprect);
-	}
+//	}
 
 	if (m_region_stars)
 	{
