@@ -138,7 +138,7 @@ barcrest/mpu4dealem.cpp          // fruit
 //barcrest/mpu4mod4oki.cpp          // fruit, mech
 //barcrest/mpu4mod4yam.cpp          // fruit, mech
 //barcrest/mpu4plasma.cpp          // fruit, mech
-//barcrest/mpu4redpoint.cpp          //to be checked
+//barcrest/mpu4redpoint.cpp          //fruit, mech
 //barcrest/mpu4union.cpp          // fruit, mech
 //barcrest/mpu4unsorted.cpp          // fruit, mech
 //barcrest/mpu4vid.cpp          // fruit, mnw
@@ -383,7 +383,7 @@ igs/spoker.cpp          // poker, some mnw
 igt/videopkr.cpp          // poker
 irem/m10.cpp
 irem/m107.cpp
-//irem/m119.cpp          //to be checked
+//irem/m119.cpp          // quits by itself at start, no message
 irem/m14.cpp
 irem/m52.cpp
 irem/m57.cpp
@@ -407,7 +407,7 @@ itech/itech8.cpp
 jaleco/acommand.cpp
 jaleco/aeroboto.cpp
 jaleco/argus.cpp
-//jaleco/armchamp.cpp          //to be checked
+//jaleco/armchamp.cpp          // mnw
 jaleco/bestleag.cpp
 jaleco/bigstrkb.cpp
 jaleco/blueprnt.cpp
@@ -811,7 +811,7 @@ misc/mpu12wbk.cpp          // fruit
 //misc/multfish_boot.cpp          // fruit, mnw
 misc/murogem.cpp          // poker
 misc/murogmbl.cpp          // poker
-//misc/musclem.cpp          //to be checked
+misc/musclem.cpp
 //misc/neomania.cpp          // chd, mnw
 //misc/neoprint.cpp          // gets stuck on some screen
 misc/news.cpp          //
@@ -1259,7 +1259,7 @@ sega/timetrv.cpp          // chd untested
 //sega/triforce.cpp          // chd, mnw. Some freeze mame.
 sega/turbo.cpp
 sega/vicdual.cpp
-//sega/winclub.cpp          //to be checked
+//sega/winclub.cpp          // black screen
 //sega/y2.cpp          // black screen
 sega/zaxxon.cpp
 seibu/airraid.cpp          // for failgate
