@@ -112,7 +112,7 @@ atari/thunderj.cpp
 atari/tomcat.cpp          // inputs unusable, but needed by tomcatsw
 atari/toobin.cpp
 atari/tourtabl.cpp
-//atari/triplhnt.cpp          // mech, works
+atari/triplhnt.cpp          // have to turn off service mode before it can be played
 atari/tunhunt.cpp
 atari/ultratnk.cpp
 atari/videopin.cpp
