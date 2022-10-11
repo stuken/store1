@@ -133,7 +133,7 @@
 	uint32_t *dst = (uint32_t *)&m_cclock[PMOFFSET];            \
 	for (int i = 0; i < width; i++)                             \
 	{                                                           \
-		uint16_t ch = RDVIDEO(space,i) << 3;                      \
+		uint16_t ch = RDVIDEO(space,i) << 3;                    \
 		if (ch & 0x400)                                         \
 		{                                                       \
 			ch = RDCHGEN(space,(ch & 0x3f8) + m_w.chbasl);  \
@@ -454,6 +454,12 @@ void antic_device::device_reset()
 
 	memset(m_cclock, 0, sizeof(m_cclock));
 	memset(m_pmbits, 0, sizeof(m_pmbits));
+
+	// TODO: we shouldn't need this variable but rather rely on screen().vpos()
+	m_scanline  = 0;
+
+	m_chand     = 0xff;
+	m_chxor     = 0x00;
 }
 
 
@@ -1184,8 +1190,11 @@ uint8_t antic_device::read(offs_t offset)
 		break;
 	case 10: /* WSYNC read */
 		// TODO: strobe signal, should happen on write only?
-		m_maincpu->spin_until_trigger(TRIGGER_HSYNC);
-		m_w.wsync = 1;
+		if (!machine().side_effects_disabled())
+		{
+			m_maincpu->spin_until_trigger(TRIGGER_HSYNC);
+			m_w.wsync = 1;
+		}
 		data = m_r.antic0a;
 		break;
 	case 11: /* vert counter (scanline / 2) */

@@ -756,6 +756,7 @@ siemens/pg685.cpp
 sinclair/atm.cpp
 sinclair/elwro800.cpp
 sinclair/pentagon.cpp
+sinclair/pentevo.cpp
 sinclair/ql.cpp
 sinclair/scorpion.cpp
 sinclair/spec128.cpp
@@ -821,6 +822,7 @@ skeleton/digiblast.cpp
 skeleton/digijet.cpp
 skeleton/digilog320.cpp
 skeleton/digilog400.cpp
+skeleton/digitech_gsp5.cpp
 skeleton/dim68k.cpp
 skeleton/dm7000.cpp
 skeleton/dmv.cpp
