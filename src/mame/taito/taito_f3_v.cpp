@@ -1822,6 +1822,13 @@ void taito_f3_state::get_line_ram_info(tilemap_t *tmap, int sx, int sy, int pos,
 			line_enable = 2;
 		else if (pri & 0x8000) //alpha2
 			line_enable = 3;
+		/*special case when the blend mode is "normal" but the 6200 area is used, Might be missing a flag*/
+		else if ((pri & 0x3000) && (m_line_ram[0x6230/2] != 0) && (pos == 2) &&
+				(((m_line_ram[(0x6200/2) + y] >> 4) & 0xf) != 0xb) &&
+				(m_line_ram[(0x6200/2) + y] != 0x7777) && (m_game == EACTION2))
+		{
+			line_enable = 0x22;
+		}
 		else
 			line_enable = 1;
 
@@ -1830,8 +1837,10 @@ void taito_f3_state::get_line_ram_info(tilemap_t *tmap, int sx, int sy, int pos,
 		_y_zoom[y] = (line_zoom & 0xff) << 9;
 
 		/* Evaluate clipping */
-		if (pri & 0x0800)
-			line_enable = 0;
+		if (pri & 0x0800 && m_game != LANDMAKR) // MAMEFX - LANDMAKR possibly for MT00950??
+		{
+ 			line_enable = 0;
+		}
 		else if (pri & 0x0330)
 		{
 			//fast path todo - remove line enable
@@ -1903,6 +1912,8 @@ void taito_f3_state::get_line_ram_info(tilemap_t *tmap, int sx, int sy, int pos,
 
 			/* check tile status */
 			visible_tile_check(line_t, y, x_index_fx, y_index, pf_data_n);
+			
+			if ((pos == 1) && (((m_line_ram[(0x6200/2) + y] >> 4) & 0xf) > 0xb) && (m_game == EACTION2)) line_t->alpha_mode[y] = 0x22;  /* from shmupmame */
 
 			/* If clipping enabled for this line have to disable 'all opaque' optimisation */
 			if (line_t->clip0[y] != 0x7fff0000 || line_t->clip1[y] != 0)
@@ -1973,6 +1984,9 @@ void taito_f3_state::get_vram_info(tilemap_t *vram_tilemap, tilemap_t *pixel_til
 			line_enable = 3;
 		else
 			line_enable = 1;
+
+		if (m_game == ARABIANM && line_enable)
+			line_enable = 1; // MAMEFX - fix for MT02733: missing cutscene text april.21.2017_dink
 
 		line_t->pri[y] = pri;
 
@@ -2235,11 +2249,19 @@ void taito_f3_state::scanline_draw(bitmap_rgb32 &bitmap, const rectangle &clipre
 				{
 					if (alpha_type == 1)
 					{
-						/* if (m_alpha_level_2as == 0   && m_alpha_level_2ad == 255)
-						 *     alpha_mode[i]=3; alpha_mode_flag[i] |= 0x80; }
-						 * will display continue screen in gseeker (mt 00026) */
-						if      (m_alpha_level_2as == 0   && m_alpha_level_2ad == 255) alpha_mode[i] = 0;
-						else if (m_alpha_level_2as == 255 && m_alpha_level_2ad ==   0) alpha_mode[i] = 1;
+						if (m_alpha_level_2as == 0 && m_alpha_level_2ad == 255)
+						{
+							if (m_game == GSEEKER) // MAMEFX fix for MT00026 (continue screen)
+							{
+								alpha_mode[i] = 3;
+								alpha_mode_flag[i] |= 0x80;
+							}
+							else 
+								alpha_mode[i] = 0;
+						}
+						else
+						if (m_alpha_level_2as == 255 && m_alpha_level_2ad == 0)
+							alpha_mode[i] = 1;
 					}
 					else if (alpha_type == 2)
 					{
